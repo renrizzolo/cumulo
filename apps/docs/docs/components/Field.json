@@ -1,0 +1,63 @@
+{
+  "name": "Field",
+  "path": "../../packages/core/src/field/Field.tsx",
+  "fileName": "Field.tsx",
+  "props": {
+    "isInvalid": {
+      "defaultValue": null,
+      "description": "",
+      "name": "isInvalid",
+      "parent": {
+        "fileName": "intento/packages/core/src/field/Field.tsx",
+        "name": "FieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/field/Field.tsx",
+          "name": "FieldProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

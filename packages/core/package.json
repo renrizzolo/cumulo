@@ -2,6 +2,7 @@
   "name": "@cumulo/core",
   "version": "0.1.0",
   "description": "Core design tokens, theme contracts, and base utilities for Cumulo UI",
+  "style": "./src/theme.css",
   "files": [
     "dist"
   ],
@@ -17,25 +18,28 @@
       },
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./theme.css": "./src/theme.css"
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "tsdown --watch",
-    "build": "tsdown",
+    "theme": "node scripts/generate-theme.ts",
+    "dev": "node scripts/generate-theme.ts && tsdown --watch",
+    "build": "node scripts/generate-theme.ts && tsdown",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "@cumulo/css": "workspace:*"
   },
   "devDependencies": {
+    "@types/react": "^19.0.0",
     "tsdown": "^0.22.14",
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "react": "^19.2.8"
   },
   "peerDependenciesMeta": {
     "react": {

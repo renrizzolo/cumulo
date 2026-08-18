@@ -1,31 +1,50 @@
-import Layout, { CodeBlock, TokenTable } from "../components/MDXLayout.tsx";
+import Layout, { CodeBlock, TokenTable } from '../components/MDXLayout.tsx';
 export default Layout;
 export { CodeBlock, TokenTable };
 
-# @cumulo/core Tokens
+# @cumulo/core Tokens & CSS-First Theming
 
-Design tokens and theme contracts defining Cumulo's ethereal, modern cloud aesthetic.
+Dynamic surfaces, mathematical OKLCH color seeding, and bleeding-edge CSS capabilities.
 
-## Colors & Surfaces
+## Dynamic Surface System
+
+Surfaces define contextual CSS custom properties so that nested interactive elements (inputs, cards, hover states) automatically deepen and darken relative to their container hierarchy.
 
 <TokenTable
   type="text"
   items={[
-    { name: "vars.color.bg", description: "Main canvas background" },
+    { name: 'vars.surface.bg.DEFAULT', description: 'Current surface background (--surface-bg)' },
     {
-      name: "vars.color.bgSurface",
-      description: "Card and panel surface background",
+      name: 'vars.surface.bg.next',
+      description: 'Next nested surface background for inputs & hovers (--surface-bg-next)',
     },
-    { name: "vars.color.fg", description: "Primary text color" },
+    { name: 'vars.surface.fg', description: 'Contextual foreground text (--surface-fg)' },
+    { name: 'vars.surface.border', description: 'Surface container border (--surface-border)' },
     {
-      name: "vars.color.fgMuted",
-      description: "Secondary / subdued text color",
+      name: 'vars.surface.secondary.DEFAULT',
+      description: 'Secondary interactive element background (--surface-secondary)',
     },
-    { name: "vars.color.border", description: "Standard element border" },
-    { name: "vars.color.primary", description: "Brand accent color" },
     {
-      name: "vars.color.primaryFg",
-      description: "Foreground color on primary brand",
+      name: 'vars.surface.primary.DEFAULT',
+      description: 'Primary branded surface background (--surface-primary)',
+    },
+  ]}
+/>
+
+## Mathematical OKLCH Color Seeding
+
+Themes are seeded from base variables (`--color-primary-base`, `--color-success-base`, etc.) and dynamically calculate full 50–900 stepped palettes live in CSS using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
+
+<TokenTable
+  type="text"
+  items={[
+    { name: 'vars.seed.primary', description: 'Base primary seed color (--color-primary-base)' },
+    { name: 'vars.seed.success', description: 'Base success seed color (--color-success-base)' },
+    { name: 'vars.seed.warning', description: 'Base warning seed color (--color-warning-base)' },
+    { name: 'vars.seed.error', description: 'Base error seed color (--color-error-base)' },
+    {
+      name: "vars.primary['50'] ... ['900']",
+      description: 'Dynamically computed stepped OKLCH primary scale',
     },
   ]}
 />
@@ -35,13 +54,13 @@ Design tokens and theme contracts defining Cumulo's ethereal, modern cloud aesth
 <TokenTable
   type="space"
   items={[
-    { name: "vars.space.none", value: "0px" },
-    { name: "vars.space.xs", value: "8px" },
-    { name: "vars.space.sm", value: "12px" },
-    { name: "vars.space.md", value: "16px" },
-    { name: "vars.space.lg", value: "24px" },
-    { name: "vars.space.xl", value: "32px" },
-    { name: "vars.space.2xl", value: "48px" },
+    { name: 'vars.spacing.none', value: '0px' },
+    { name: 'vars.spacing.xs', value: '8px' },
+    { name: 'vars.spacing.sm', value: '12px' },
+    { name: 'vars.spacing.md', value: '16px' },
+    { name: 'vars.spacing.lg', value: '24px' },
+    { name: 'vars.spacing.xl', value: '32px' },
+    { name: "vars.spacing['2xl']", value: '48px' },
   ]}
 />
 
@@ -50,35 +69,22 @@ Design tokens and theme contracts defining Cumulo's ethereal, modern cloud aesth
 <TokenTable
   type="radii"
   items={[
-    { name: "vars.radii.sm", value: "4px" },
-    { name: "vars.radii.md", value: "8px" },
-    { name: "vars.radii.lg", value: "12px" },
-    { name: "vars.radii.xl", value: "16px" },
-    { name: "vars.radii.full", value: "9999px" },
+    { name: 'vars.radius.sm', value: '2px' },
+    { name: 'vars.radius.md', value: '6px' },
+    { name: 'vars.radius.lg', value: '8px' },
+    { name: 'vars.radius.xl', value: '12px' },
+    { name: "vars.radius['2xl']", value: '16px' },
+    { name: 'vars.radius.full', value: '9999px' },
   ]}
 />
 
-## Elevation & Cloud Shadows
+## Elevation & Shadows
 
 <TokenTable
   type="shadow"
   items={[
-    { name: "vars.shadow.xs", description: "Subtle item elevation" },
-    { name: "vars.shadow.sm", description: "Standard button / card shadow" },
-    { name: "vars.shadow.md", description: "Raised card shadow" },
-    { name: "vars.shadow.lg", description: "Floating dropdown / modal shadow" },
-    { name: "vars.shadow.glow", description: "Brand accent glow halo" },
+    { name: "vars.shadow['0']", description: 'Flat surface shadow (--theme-shadow-0)' },
+    { name: "vars.shadow['1']", description: 'Card / elevated surface shadow (--theme-shadow-1)' },
+    { name: "vars.shadow['2']", description: 'Floating overlay / modal shadow (--theme-shadow-2)' },
   ]}
 />
-
-## Built-in Themes
-
-Cumulo Core ships with three out-of-the-box themes:
-
-- **`lightTheme`**: Crisp, high-contrast light mode for clean readability.
-- **`darkTheme`**: Deep slate dark mode with subdued borders and glowing accents.
-- **`cloudTheme`**: Signature translucent mist palette with soft glassmorphism.
-
-```tsx
-import { lightTheme, darkTheme, cloudTheme } from "@cumulo/core";
-```

@@ -1,0 +1,105 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const cssPath = path.join(__dirname, '../src/theme.css');
+const rawCss = fs.readFileSync(cssPath, 'utf-8');
+
+// 1. Extract all CSS custom property declarations (--var-name: ...)
+const varRegex = /(--[a-zA-Z0-9_-]+)\s*:/g;
+const declaredVars = new Set<string>();
+
+let match;
+while ((match = varRegex.exec(rawCss)) !== null) {
+  declaredVars.add(match[1]);
+}
+
+const sortedVars = Array.from(declaredVars).sort();
+
+function kebabToCamel(str: string): string {
+  return str.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
+}
+
+function setNestedPath(obj: Record<string, any>, pathSegments: string[], value: string) {
+  let current = obj;
+  for (let i = 0; i < pathSegments.length - 1; i++) {
+    const key = kebabToCamel(pathSegments[i]);
+    if (typeof current[key] === 'string') {
+      current[key] = { DEFAULT: current[key] };
+    } else if (!current[key]) {
+      current[key] = {};
+    }
+    current = current[key];
+  }
+  const lastKey = kebabToCamel(pathSegments[pathSegments.length - 1]);
+  if (typeof current[lastKey] === 'object' && current[lastKey] !== null) {
+    current[lastKey].DEFAULT = value;
+  } else {
+    current[lastKey] = value;
+  }
+}
+
+/**
+ * Dynamically converts a flat list of CSS variables into a nested JavaScript object tree.
+ * Example:
+ *   --surface-bg-next     -> tree.surface.bgNext = 'var(--surface-bg-next)'
+ *   --theme-radius-md     -> tree.radius.md = 'var(--theme-radius-md)'
+ *   --theme-primary-50    -> tree.primary['50'] = 'var(--theme-primary-50)'
+ *   --color-primary-base  -> tree.seed.primaryBase = 'var(--color-primary-base)'
+ */
+function buildTreeFromVars(vars: string[]) {
+  const tree: Record<string, any> = {};
+
+  for (const v of vars) {
+    const raw = v.replace(/^--/, '');
+    let parts = raw.split('-');
+
+    // Normalize group prefix
+    if (parts[0] === 'theme') {
+      parts = parts.slice(1);
+    } else if (parts[0] === 'color' && parts[parts.length - 1] === 'base') {
+      parts = ['seed', parts[1]];
+    }
+
+    if (parts.length === 0) continue;
+
+    setNestedPath(tree, parts, `var(${v})`);
+  }
+
+  return tree;
+}
+
+const contractTree = buildTreeFromVars(sortedVars);
+
+// 2. Generate tokens/themeTokens.ts
+const tokensPath = path.join(__dirname, '../src/tokens/themeTokens.ts');
+let tokensContent = `// Auto-generated from src/theme.css by scripts/generate-theme.ts\n\n`;
+tokensContent += `export const themeTokens = [\n`;
+for (const v of sortedVars) {
+  tokensContent += `  '${v}',\n`;
+}
+tokensContent += `] as const;\n\n`;
+tokensContent += `export type ThemeToken = (typeof themeTokens)[number];\n\n`;
+tokensContent += `export const themeVars = {\n`;
+for (const v of sortedVars) {
+  tokensContent += `  '${v}': 'var(${v})',\n`;
+}
+tokensContent += `} as const;\n`;
+
+fs.writeFileSync(tokensPath, tokensContent);
+
+// 3. Generate contract.ts completely derived from the CSS object tree
+const contractPath = path.join(__dirname, '../src/contract.ts');
+const contractContent = `// Auto-generated from src/theme.css by scripts/generate-theme.ts
+export const vars = ${JSON.stringify(contractTree, null, 2)} as const;
+
+export const themeContract = vars;
+`;
+
+fs.writeFileSync(contractPath, contractContent);
+console.log(
+  `Extracted ${sortedVars.length} CSS variables from theme.css and generated contract.ts & themeTokens.ts dynamically.`,
+);

@@ -3,6 +3,6 @@
   "reporters": [
     "...",
     "@renr/parcel-reporter-rsc-router",
-    // "@renr/parcel-reporter-docgen"
+    "@renr/parcel-reporter-docgen"
   ]
 }

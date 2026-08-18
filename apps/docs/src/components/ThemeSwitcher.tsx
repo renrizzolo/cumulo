@@ -1,7 +1,11 @@
 'use client';
 
 import React from 'react';
-import { useTheme } from '../appProvider.js';
+import { useTheme, type Theme } from '../appProvider.js';
+
+function isTheme(val: string): val is Theme {
+  return val === 'light' || val === 'dark' || val === 'cloud';
+}
 
 export function ThemeSwitcher() {
   const { theme, setTheme } = useTheme();
@@ -11,7 +15,11 @@ export function ThemeSwitcher() {
       <span style={{ fontSize: '13px', color: 'var(--docs-muted)' }}>Theme:</span>
       <select
         value={theme}
-        onChange={(e) => setTheme(e.target.value as any)}
+        onChange={(e) => {
+          if (isTheme(e.target.value)) {
+            setTheme(e.target.value);
+          }
+        }}
         style={{
           padding: '4px 8px',
           borderRadius: '6px',

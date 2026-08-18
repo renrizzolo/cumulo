@@ -831,10 +831,10 @@
       },
       "shortPropTypeName": null
     },
-    "__@iterator@214901": {
+    "__@iterator@80934": {
       "defaultValue": null,
       "description": "Iterator",
-      "name": "__@iterator@214901",
+      "name": "__@iterator@80934",
       "parent": {
         "fileName": "intento/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
         "name": "Array"
@@ -851,10 +851,10 @@
       },
       "shortPropTypeName": null
     },
-    "__@unscopables@214903": {
+    "__@unscopables@80936": {
       "defaultValue": null,
       "description": "Is an object whose properties have the value 'true'\nwhen they will be absent when used in a 'with' statement.",
-      "name": "__@unscopables@214903",
+      "name": "__@unscopables@80936",
       "parent": {
         "fileName": "intento/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
         "name": "Array"

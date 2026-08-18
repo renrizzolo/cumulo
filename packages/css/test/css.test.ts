@@ -5,6 +5,7 @@ import {
   createGlobalTheme,
   create,
   style,
+  recipe,
   keyframes,
   cx,
   props,
@@ -119,11 +120,76 @@ describe('@cumulo/css', () => {
     const isHidden = false;
     const isActive = true;
     expect(
-      cx('base', isHidden && 'hidden', isActive && 'active', { disabled: true, loading: false }),
+      cx('base', isHidden && 'hidden', isActive && 'active', {
+        disabled: true,
+        loading: false,
+      }),
     ).toBe('base active disabled');
 
     const result = props(s1, { style: { zIndex: 10 } });
     expect(result.className).toBe(s1.className);
     expect(result.style).toEqual({ zIndex: 10 });
+  });
+
+  it('creates zero-runtime recipes with variants, defaultVariants, and compoundVariants', () => {
+    const button = recipe({
+      base: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        fontWeight: 500,
+      },
+      variants: {
+        variant: {
+          primary: { background: 'blue', color: 'white' },
+          secondary: { background: 'gray', color: 'black' },
+          outline: { background: 'transparent', borderColor: 'gray' },
+        },
+        size: {
+          small: { height: 32, padding: '0 8px' },
+          medium: { height: 40, padding: '0 16px' },
+        },
+        fullWidth: {
+          true: { width: '100%' },
+          false: { width: 'auto' },
+        },
+      },
+      compoundVariants: [
+        {
+          variants: { variant: 'outline', size: 'small' },
+          style: { borderWidth: 1 },
+        },
+      ],
+      defaultVariants: {
+        variant: 'primary',
+        size: 'medium',
+      },
+    });
+
+    // Default resolution
+    const defaultClasses = button();
+    expect(defaultClasses).toContain(button.classNames.base);
+    expect(defaultClasses).toContain(button.classNames.variants.variant.primary);
+    expect(defaultClasses).toContain(button.classNames.variants.size.medium);
+
+    // Custom variants
+    const customClasses = button({
+      variant: 'secondary',
+      size: 'small',
+      fullWidth: true,
+    });
+    expect(customClasses).toContain(button.classNames.base);
+    expect(customClasses).toContain(button.classNames.variants.variant.secondary);
+    expect(customClasses).toContain(button.classNames.variants.size.small);
+    expect(customClasses).toContain(button.classNames.variants.fullWidth.true);
+
+    // Compound variant match
+    const compoundClasses = button({ variant: 'outline', size: 'small' });
+    expect(compoundClasses).toContain(button.classNames.compoundVariants[0]?.className);
+
+    // Check CSS output is in stylesheet
+    const sheetCss = getSheetCss();
+    expect(sheetCss).toContain('font-weight:500');
+    expect(sheetCss).toContain('background:blue');
+    expect(sheetCss).toContain('border-width:1px');
   });
 });

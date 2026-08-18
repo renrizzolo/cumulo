@@ -1,18 +1,13 @@
 import React from 'react';
 
-export function CodeBlock({
-  children,
-  className,
-  code,
-  language,
-  ...props
-}: {
+export interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement> {
   children?: React.ReactNode;
   className?: string;
   code?: string;
   language?: string;
-  [key: string]: any;
-}) {
+}
+
+export function CodeBlock({ children, className, code, language, ...props }: CodeBlockProps) {
   const content = code || (typeof children === 'string' ? children : children);
   const lang = language || (className ? className.replace(/language-/, '') : '');
 

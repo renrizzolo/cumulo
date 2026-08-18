@@ -1,5 +1,13 @@
 import type { ClassValue, CompiledStyle, CreatedTheme, CSSProperties } from './types.js';
 
+function isCompiledStyleOrTheme(val: object): val is CompiledStyle | CreatedTheme {
+  return 'className' in val && typeof (val as { className: unknown }).className === 'string';
+}
+
+function hasStyleProp(val: object): val is { style?: CSSProperties } {
+  return 'style' in val && !('className' in val);
+}
+
 function toClassName(value: ClassValue): string {
   if (!value) return '';
 
@@ -12,16 +20,14 @@ function toClassName(value: ClassValue): string {
       return value.map(toClassName).filter(Boolean).join(' ');
     }
 
-    if (
-      'className' in value &&
-      typeof (value as CompiledStyle | CreatedTheme).className === 'string'
-    ) {
-      return (value as CompiledStyle | CreatedTheme).className;
+    if (isCompiledStyleOrTheme(value)) {
+      return value.className;
     }
 
     const classes: string[] = [];
-    for (const key of Object.keys(value)) {
-      if ((value as Record<string, boolean | undefined | null>)[key]) {
+    const record = value as Record<string, boolean | undefined | null>;
+    for (const key of Object.keys(record)) {
+      if (record[key]) {
         classes.push(key);
       }
     }
@@ -56,14 +62,8 @@ export function props(...inputs: (ClassValue | { style?: CSSProperties })[]): {
   let inlineStyle: CSSProperties | undefined;
 
   for (const input of inputs) {
-    if (
-      input &&
-      typeof input === 'object' &&
-      'style' in input &&
-      !('className' in input) &&
-      (input as any).style
-    ) {
-      inlineStyle = { ...inlineStyle, ...(input as any).style };
+    if (input && typeof input === 'object' && hasStyleProp(input) && input.style) {
+      inlineStyle = { ...inlineStyle, ...input.style };
     } else {
       classInputs.push(input as ClassValue);
     }

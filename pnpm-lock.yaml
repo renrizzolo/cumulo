@@ -11,36 +11,15 @@ importers:
       '@changesets/cli':
         specifier: ^3.0.0
         version: 3.0.0
-      '@parcel/packager-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4)
-      '@parcel/transformer-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4)
       '@types/node':
         specifier: ^22.13.9
         version: 22.20.1
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.2.18
-      '@types/react-dom':
-        specifier: ^19.0.4
-        version: 19.2.4(@types/react@19.2.18)
       oxfmt:
         specifier: ^0.63.0
         version: 0.63.0
       oxlint:
         specifier: ^1.78.0
         version: 1.78.0
-      react:
-        specifier: ^19.0.0
-        version: 19.2.8
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.2.8(react@19.2.8)
-      tsdown:
-        specifier: ^0.22.14
-        version: 0.22.14(typescript@5.9.3)
       typescript:
         specifier: ^5.8.2
         version: 5.9.3
@@ -66,13 +45,13 @@ importers:
         specifier: ^1.0.0-alpha.7
         version: 1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
-        specifier: ^19.0.0
+        specifier: ^19.2.8
         version: 19.2.8
       react-dom:
-        specifier: ^19.0.0
+        specifier: ^19.2.8
         version: 19.2.8(react@19.2.8)
       react-server-dom-parcel:
-        specifier: ^19.2.6
+        specifier: ^19.2.8
         version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
     devDependencies:
       '@parcel/packager-react-static':
@@ -88,10 +67,10 @@ importers:
         specifier: ^1.0.0-alpha.12
         version: 1.0.0-alpha.12(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@types/react':
-        specifier: ^19.0.10
+        specifier: ^19.2.18
         version: 19.2.18
       '@types/react-dom':
-        specifier: ^19.0.4
+        specifier: ^19.2.4
         version: 19.2.4(@types/react@19.2.18)
       parcel:
         specifier: ^2.16.4
@@ -106,9 +85,12 @@ importers:
         specifier: workspace:*
         version: link:../css
       react:
-        specifier: ^19.0.0
+        specifier: ^19.2.8
         version: 19.2.8
     devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.18
       tsdown:
         specifier: ^0.22.14
         version: 0.22.14(typescript@5.9.3)
@@ -122,6 +104,9 @@ importers:
         specifier: ^19.0.0
         version: 19.2.8
     devDependencies:
+      '@types/react':
+        specifier: ^19.0.0
+        version: 19.2.18
       tsdown:
         specifier: ^0.22.14
         version: 0.22.14(typescript@5.9.3)
@@ -2666,16 +2651,6 @@ snapshots:
     transitivePeerDependencies:
       - napi-wasm
 
-  '@parcel/cache@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/core': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/logger': 2.16.4
-      '@parcel/utils': 2.16.4
-      lmdb: 2.8.5
-    transitivePeerDependencies:
-      - napi-wasm
-
   '@parcel/codeframe@2.16.4':
     dependencies:
       chalk: 4.1.2
@@ -2722,37 +2697,6 @@ snapshots:
       '@parcel/transformer-raw': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/transformer-react-refresh-wrap': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/transformer-svg': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - napi-wasm
-
-  '@parcel/core@2.16.4':
-    dependencies:
-      '@mischnic/json-sourcemap': 0.1.1
-      '@parcel/cache': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/events': 2.16.4
-      '@parcel/feature-flags': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/graph': 3.6.4
-      '@parcel/logger': 2.16.4
-      '@parcel/package-manager': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/profiler': 2.16.4
-      '@parcel/rust': 2.16.4
-      '@parcel/source-map': 2.1.1
-      '@parcel/types': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/utils': 2.16.4
-      '@parcel/workers': 2.16.4(@parcel/core@2.16.4)
-      base-x: 3.0.11
-      browserslist: 4.28.8
-      clone: 2.1.2
-      dotenv: 16.6.1
-      dotenv-expand: 11.0.7
-      json5: 2.2.3
-      msgpackr: 1.12.1
-      nullthrows: 1.1.1
-      semver: 7.8.5
     transitivePeerDependencies:
       - '@swc/helpers'
       - napi-wasm
@@ -2811,18 +2755,6 @@ snapshots:
     transitivePeerDependencies:
       - napi-wasm
 
-  '@parcel/fs@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/core': 2.16.4
-      '@parcel/feature-flags': 2.16.4
-      '@parcel/rust': 2.16.4
-      '@parcel/types-internal': 2.16.4
-      '@parcel/utils': 2.16.4
-      '@parcel/watcher': 2.6.0
-      '@parcel/workers': 2.16.4(@parcel/core@2.16.4)
-    transitivePeerDependencies:
-      - napi-wasm
-
   '@parcel/graph@3.6.4':
     dependencies:
       '@parcel/feature-flags': 2.16.4
@@ -2851,19 +2783,6 @@ snapshots:
       '@mischnic/json-sourcemap': 0.1.1
       '@parcel/diagnostic': 2.16.4
       '@parcel/fs': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/rust': 2.16.4
-      '@parcel/utils': 2.16.4
-      nullthrows: 1.1.1
-      semver: 7.8.5
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
-  '@parcel/node-resolver-core@3.7.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@mischnic/json-sourcemap': 0.1.1
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
       '@parcel/rust': 2.16.4
       '@parcel/utils': 2.16.4
       nullthrows: 1.1.1
@@ -2943,22 +2862,6 @@ snapshots:
       - '@swc/helpers'
       - napi-wasm
 
-  '@parcel/package-manager@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/core': 2.16.4
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/logger': 2.16.4
-      '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4)
-      '@parcel/types': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/utils': 2.16.4
-      '@parcel/workers': 2.16.4(@parcel/core@2.16.4)
-      '@swc/core': 1.16.0(@swc/helpers@0.5.23)
-      semver: 7.8.5
-    transitivePeerDependencies:
-      - '@swc/helpers'
-      - napi-wasm
-
   '@parcel/packager-css@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
@@ -3015,19 +2918,6 @@ snapshots:
       - '@parcel/core'
       - napi-wasm
 
-  '@parcel/packager-react-static@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4)
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/rust': 2.16.4
-      '@parcel/types': 2.16.4(@parcel/core@2.16.4)
-      '@parcel/utils': 2.16.4
-      nullthrows: 1.1.1
-      rsc-html-stream: 0.0.6
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
   '@parcel/packager-svg@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -3048,13 +2938,6 @@ snapshots:
   '@parcel/plugin@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/types': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
-  '@parcel/plugin@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/types': 2.16.4(@parcel/core@2.16.4)
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
@@ -3312,13 +3195,6 @@ snapshots:
       - '@parcel/core'
       - napi-wasm
 
-  '@parcel/transformer-react-static@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4)
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
   '@parcel/transformer-svg@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
@@ -3339,14 +3215,6 @@ snapshots:
     dependencies:
       '@parcel/types-internal': 2.16.4
       '@parcel/workers': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
-  '@parcel/types@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/types-internal': 2.16.4
-      '@parcel/workers': 2.16.4(@parcel/core@2.16.4)
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
@@ -3423,18 +3291,6 @@ snapshots:
   '@parcel/workers@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/core': 2.16.4(@swc/helpers@0.5.23)
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/logger': 2.16.4
-      '@parcel/profiler': 2.16.4
-      '@parcel/types-internal': 2.16.4
-      '@parcel/utils': 2.16.4
-      nullthrows: 1.1.1
-    transitivePeerDependencies:
-      - napi-wasm
-
-  '@parcel/workers@2.16.4(@parcel/core@2.16.4)':
-    dependencies:
-      '@parcel/core': 2.16.4
       '@parcel/diagnostic': 2.16.4
       '@parcel/logger': 2.16.4
       '@parcel/profiler': 2.16.4

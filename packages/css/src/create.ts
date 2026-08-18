@@ -57,7 +57,7 @@ export function camelToKebab(str: string): string {
   return str.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
 }
 
-function formatValue(prop: string, value: any): string {
+function formatValue(prop: string, value: unknown): string {
   if (typeof value === 'number' && value !== 0 && !UNITLESS_PROPERTIES.has(prop)) {
     return `${value}px`;
   }
@@ -66,8 +66,8 @@ function formatValue(prop: string, value: any): string {
 
 function serializeProperties(properties: CSSProperties): string {
   const declarations: string[] = [];
-  for (const key of Object.keys(properties)) {
-    const val = (properties as any)[key];
+  const entries = Object.entries(properties);
+  for (const [key, val] of entries) {
     if (val !== undefined && val !== null && typeof val !== 'object') {
       declarations.push(`${camelToKebab(key)}:${formatValue(key, val)};`);
     }
@@ -86,11 +86,11 @@ export function compileStyleRule(
   }
 
   // Handle pseudo-classes & pseudo-elements directly on rule
-  for (const key of Object.keys(rule)) {
+  const ruleEntries = Object.entries(rule);
+  for (const [key, subRule] of ruleEntries) {
     if (key.startsWith(':') || key.startsWith('&')) {
-      const subRule = (rule as any)[key];
       if (typeof subRule === 'object' && subRule !== null) {
-        const decls = serializeProperties(subRule);
+        const decls = serializeProperties(subRule as CSSProperties);
         if (decls) {
           const selector = key.startsWith('&')
             ? key.replace(/&/g, `.${className}`)
@@ -164,9 +164,12 @@ export function create<T extends StyleDefinitions>(
   definitions: T,
   prefix = 'c',
 ): CompiledStyles<T> {
-  const result: any = {};
-  for (const key of Object.keys(definitions)) {
-    result[key] = style(definitions[key]!, `${prefix}-${key}`);
+  const result = {} as Record<keyof T, CompiledStyle>;
+  for (const key of Object.keys(definitions) as (keyof T)[]) {
+    const def = definitions[key];
+    if (def) {
+      result[key] = style(def, `${prefix}-${String(key)}`);
+    }
   }
-  return result;
+  return result as CompiledStyles<T>;
 }

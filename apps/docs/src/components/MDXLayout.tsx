@@ -22,13 +22,8 @@ export default function MDXLayout({
   const title = currentPage?.tableOfContents?.[0]?.title;
 
   return (
-    <AppLayout
-      title={title}
-      currentPage={currentPage}
-    >
-      <div className="docs-content">
-        {children}
-      </div>
+    <AppLayout title={title} currentPage={currentPage}>
+      <div className="docs-content">{children}</div>
     </AppLayout>
   );
 }

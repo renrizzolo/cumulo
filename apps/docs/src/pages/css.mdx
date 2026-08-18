@@ -1,4 +1,4 @@
-import MDXLayout, { CodeBlock } from "../components/MDXLayout.tsx";
+import MDXLayout, { CodeBlock } from '../components/MDXLayout.tsx';
 
 # @cumulo/css
 
@@ -9,8 +9,8 @@ A lightweight, type-safe CSS framework inspired by StyleX and Vanilla Extract wi
 Define scoped, type-safe CSS styles with pseudo-classes, media queries, and tokens:
 
 ```tsx
-import { style, create } from "@cumulo/css";
-import { vars } from "@cumulo/core";
+import { style, create } from '@cumulo/css';
+import { vars } from '@cumulo/core';
 
 // Single style definition
 export const card = style({
@@ -19,11 +19,11 @@ export const card = style({
   borderRadius: vars.radii.md,
   border: `1px solid ${vars.color.border}`,
   boxShadow: vars.shadow.sm,
-  ":hover": {
+  ':hover': {
     boxShadow: vars.shadow.md,
   },
-  "@media": {
-    "(max-width: 640px)": {
+  '@media': {
+    '(max-width: 640px)': {
       padding: vars.space.sm,
     },
   },
@@ -32,21 +32,66 @@ export const card = style({
 // Multi-rule definition (StyleX style)
 export const buttonStyles = create({
   base: {
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: vars.radii.sm,
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: vars.radius.sm,
     fontWeight: 600,
   },
   primary: {
-    backgroundColor: vars.color.primary,
-    color: vars.color.primaryFg,
+    backgroundColor: vars.primary.DEFAULT,
+    color: vars.primary.fg,
   },
   outline: {
-    border: `1px solid ${vars.color.border}`,
-    backgroundColor: "transparent",
+    border: `1px solid ${vars.surface.border}`,
+    backgroundColor: 'transparent',
   },
 });
+```
+
+## 2. Zero-Runtime Recipe Variants (`recipe`)
+
+Create type-safe variant engines (like Vanilla Extract recipes or CVA) with zero runtime CSS injection:
+
+```tsx
+import { recipe, type RecipeVariants } from '@cumulo/css';
+import { vars } from '@cumulo/core';
+
+export const button = recipe({
+  base: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: 500,
+    borderRadius: vars.radius.md,
+  },
+  variants: {
+    variant: {
+      primary: { backgroundColor: vars.primary.DEFAULT, color: vars.primary.fg },
+      secondary: { backgroundColor: vars.surface.secondary.DEFAULT, color: vars.surface.fg },
+      outline: { backgroundColor: 'transparent', borderColor: vars.surface.border },
+    },
+    size: {
+      small: { height: vars.size.small, padding: '0 12px' },
+      base: { height: vars.size.base, padding: '0 16px' },
+    },
+  },
+  compoundVariants: [
+    {
+      variants: { variant: 'outline', size: 'small' },
+      style: { borderWidth: 1 },
+    },
+  ],
+  defaultVariants: {
+    variant: 'primary',
+    size: 'base',
+  },
+});
+
+export type ButtonVariants = RecipeVariants<typeof button>;
+
+// Usage:
+const className = button({ variant: 'secondary', size: 'small' });
 ```
 
 ## 2. Theme Contracts (`createThemeContract` & `createTheme`)
@@ -54,7 +99,7 @@ export const buttonStyles = create({
 Theme contracts define strongly typed CSS custom properties that can be mapped to various themes:
 
 ```tsx
-import { createThemeContract, createTheme } from "@cumulo/css";
+import { createThemeContract, createTheme } from '@cumulo/css';
 
 // 1. Define the contract
 export const colorContract = createThemeContract({
@@ -64,24 +109,24 @@ export const colorContract = createThemeContract({
 
 // 2. Create themes matching the contract
 export const lightTheme = createTheme(colorContract, {
-  brand: "#6366f1",
-  surface: "#ffffff",
+  brand: '#6366f1',
+  surface: '#ffffff',
 });
 
 export const darkTheme = createTheme(colorContract, {
-  brand: "#818cf8",
-  surface: "#0f172a",
+  brand: '#818cf8',
+  surface: '#0f172a',
 });
 ```
 
 ## 3. Animations (`keyframes`)
 
 ```tsx
-import { keyframes, style } from "@cumulo/css";
+import { keyframes, style } from '@cumulo/css';
 
 export const spin = keyframes({
-  from: { transform: "rotate(0deg)" },
-  to: { transform: "rotate(360deg)" },
+  from: { transform: 'rotate(0deg)' },
+  to: { transform: 'rotate(360deg)' },
 });
 
 export const spinner = style({
@@ -92,14 +137,10 @@ export const spinner = style({
 ## 4. Merging Classes (`cx` & `props`)
 
 ```tsx
-import { cx, props } from "@cumulo/css";
+import { cx, props } from '@cumulo/css';
 
 // Returns merged class string
-const className = cx(
-  buttonStyles.base,
-  isPrimary && buttonStyles.primary,
-  "custom-class",
-);
+const className = cx(buttonStyles.base, isPrimary && buttonStyles.primary, 'custom-class');
 
 // Returns { className, style } for JSX spreading
 const elementProps = props(buttonStyles.base, { style: { marginTop: 8 } });

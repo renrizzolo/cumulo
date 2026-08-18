@@ -1,0 +1,735 @@
+@layer base {
+  :root,
+  [data-theme='default'],
+  [data-theme] {
+    /* Shadow base */
+    --shadow-color: light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5));
+    --theme-shadow-0: 0 1px 2px 0 var(--shadow-color);
+    --theme-shadow-1: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
+    --theme-shadow-2: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
+
+    /* Radius tokens */
+    --theme-radius-none: 0px;
+    --theme-radius-sm: 0.125rem;
+    --theme-radius-md: 0.375rem;
+    --theme-radius-lg: 0.5rem;
+    --theme-radius-xl: 0.75rem;
+    --theme-radius-2xl: 1rem;
+    --theme-radius-full: 9999px;
+
+    /* Common component sizes */
+    --theme-size-small: 2rem;
+    --theme-size-base: 2.5rem;
+    --theme-size-large: 3rem;
+
+    /* Common spacing */
+    --theme-spacing-none: 0px;
+    --theme-spacing-3xs: 0.125rem;
+    --theme-spacing-2xs: 0.25rem;
+    --theme-spacing-xs: 0.5rem;
+    --theme-spacing-sm: 0.75rem;
+    --theme-spacing-md: 1rem;
+    --theme-spacing-lg: 1.5rem;
+    --theme-spacing-xl: 2rem;
+    --theme-spacing-2xl: 3rem;
+
+    /* Transitions & Motion */
+    --theme-duration-snappy: 55ms;
+    --theme-duration-fast: 125ms;
+    --theme-duration-normal: 235ms;
+    --theme-duration-slow: 400ms;
+    --theme-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Typography */
+    --theme-font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --theme-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Font size scale */
+    --theme-font-size-2xs: 0.6875rem;
+    --theme-font-size-xs: 0.75rem;
+    --theme-font-size-sm: 0.875rem;
+    --theme-font-size-base: 1rem;
+    --theme-font-size-md: 1.125rem;
+    --theme-font-size-lg: 1.25rem;
+    --theme-font-size-xl: 1.5rem;
+    --theme-font-size-2xl: 1.875rem;
+    --theme-font-size-3xl: 2.25rem;
+    --theme-font-size-4xl: 3rem;
+
+    /* Font weight scale */
+    --theme-font-weight-normal: 400;
+    --theme-font-weight-medium: 500;
+    --theme-font-weight-semibold: 600;
+    --theme-font-weight-bold: 700;
+
+    /* Line height scale */
+    --theme-line-height-none: 1;
+    --theme-line-height-tight: 1.25;
+    --theme-line-height-normal: 1.5;
+    --theme-line-height-relaxed: 1.75;
+
+    /* Base canvas and text colors */
+    --theme-bg-0: light-dark(#ffffff, #030712);
+    --theme-bg-1: light-dark(
+      color-mix(in oklch, var(--theme-bg-0), black 1.5%),
+      color-mix(in oklch, var(--theme-bg-0), white 8%)
+    );
+    --theme-bg-2: light-dark(
+      color-mix(in oklch, var(--theme-bg-0), black 5%),
+      color-mix(in oklch, var(--theme-bg-0), white 14%)
+    );
+
+    --theme-fg: light-dark(#0f172a, #f8fafc);
+    --theme-muted: light-dark(#475569, #94a3b8);
+    --theme-subtle: light-dark(#94a3b8, #64748b);
+    --theme-border: light-dark(
+      color-mix(in oklch, var(--theme-bg-0), black 12%),
+      color-mix(in oklch, var(--theme-bg-0), white 17%)
+    );
+
+    /* Seed colors for intent scales */
+    --color-primary-base: #2563eb;
+    --color-success-base: #009b50;
+    --color-warning-base: #e79212;
+    --color-error-base: #d10d27;
+    --color-info-base: #0284c7;
+    --color-grey-base: #96938e;
+
+    /* Global palette tuning */
+    --theme-chroma-scale: 1;
+    --theme-contrast-scale: 1;
+
+    /* Step progress t (0.04 to 0.95) */
+    --theme-step-50-t: 0.04;
+    --theme-step-100-t: 0.08;
+    --theme-step-200-t: 0.16;
+    --theme-step-300-t: 0.28;
+    --theme-step-400-t: 0.4;
+    --theme-step-500-t: 0.55;
+    --theme-step-600-t: 0.65;
+    --theme-step-700-t: 0.78;
+    --theme-step-800-t: 0.88;
+    --theme-step-900-t: 0.95;
+
+    /* OKLCH / LCH modifiers */
+    --theme-step-50-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-50-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-50-c: calc(sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-50-h: 12;
+
+    --theme-step-100-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-100-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-100-c: calc(sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-100-h: 8;
+
+    --theme-step-200-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-200-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-200-c: calc(sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-200-h: 4;
+
+    --theme-step-300-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-300-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-300-c: calc(sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-300-h: 0;
+
+    --theme-step-400-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-400-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-400-c: calc(sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-400-h: 0;
+
+    --theme-step-500-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-500-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-500-c: calc(sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-500-h: 0;
+
+    --theme-step-600-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-600-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-600-c: calc(sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-600-h: 0;
+
+    --theme-step-700-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-700-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-700-c: calc(sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-700-h: -4;
+
+    --theme-step-800-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-800-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-800-c: calc(sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-800-h: -8;
+
+    --theme-step-900-l-light: calc(
+      0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-900-l-dark: calc(
+      0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale))
+    );
+    --theme-step-900-c: calc(sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale));
+    --theme-step-900-h: -12;
+
+    /* Primary Scale 50-900 */
+    --theme-primary-50: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c))
+          calc(h + var(--theme-step-50-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c))
+          calc(h + var(--theme-step-50-h))
+      )
+    );
+    --theme-primary-100: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-100-l-light)
+          calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-100-l-dark)
+          calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h))
+      )
+    );
+    --theme-primary-200: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-200-l-light)
+          calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-200-l-dark)
+          calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h))
+      )
+    );
+    --theme-primary-300: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-300-l-light)
+          calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-300-l-dark)
+          calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h))
+      )
+    );
+    --theme-primary-400: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-400-l-light)
+          calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-400-l-dark)
+          calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h))
+      )
+    );
+    --theme-primary-500: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-500-l-light)
+          calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-500-l-dark)
+          calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h))
+      )
+    );
+    --theme-primary-600: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-600-l-light)
+          calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-600-l-dark)
+          calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h))
+      )
+    );
+    --theme-primary-700: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-700-l-light)
+          calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-700-l-dark)
+          calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h))
+      )
+    );
+    --theme-primary-800: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-800-l-light)
+          calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-800-l-dark)
+          calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h))
+      )
+    );
+    --theme-primary-900: light-dark(
+      oklch(
+        from var(--color-primary-base) var(--theme-step-900-l-light)
+          calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h))
+      ),
+      oklch(
+        from var(--color-primary-base) var(--theme-step-900-l-dark)
+          calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h))
+      )
+    );
+
+    /* Success Scale 50-900 */
+    --theme-success-50: light-dark(
+      oklch(
+        from var(--color-success-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c))
+          calc(h - var(--theme-step-50-h))
+      ),
+      oklch(
+        from var(--color-success-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c))
+          calc(h - var(--theme-step-50-h))
+      )
+    );
+    --theme-success-500: light-dark(
+      oklch(
+        from var(--color-success-base) var(--theme-step-500-l-light)
+          calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h))
+      ),
+      oklch(
+        from var(--color-success-base) var(--theme-step-500-l-dark)
+          calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h))
+      )
+    );
+    --theme-success-600: light-dark(
+      oklch(
+        from var(--color-success-base) var(--theme-step-600-l-light)
+          calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h))
+      ),
+      oklch(
+        from var(--color-success-base) var(--theme-step-600-l-dark)
+          calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h))
+      )
+    );
+    --theme-success-700: light-dark(
+      oklch(
+        from var(--color-success-base) var(--theme-step-700-l-light)
+          calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h))
+      ),
+      oklch(
+        from var(--color-success-base) var(--theme-step-700-l-dark)
+          calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h))
+      )
+    );
+
+    /* Warning Scale */
+    --theme-warning-50: light-dark(
+      oklch(
+        from var(--color-warning-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c))
+          calc(h + var(--theme-step-50-h))
+      ),
+      oklch(
+        from var(--color-warning-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c))
+          calc(h + var(--theme-step-50-h))
+      )
+    );
+    --theme-warning-600: light-dark(
+      oklch(
+        from var(--color-warning-base) var(--theme-step-600-l-light)
+          calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h))
+      ),
+      oklch(
+        from var(--color-warning-base) var(--theme-step-600-l-dark)
+          calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h))
+      )
+    );
+    --theme-warning-700: light-dark(
+      oklch(
+        from var(--color-warning-base) var(--theme-step-700-l-light)
+          calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h))
+      ),
+      oklch(
+        from var(--color-warning-base) var(--theme-step-700-l-dark)
+          calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h))
+      )
+    );
+
+    /* Error / Danger Scale */
+    --theme-error-50: light-dark(
+      oklch(
+        from var(--color-error-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c))
+          calc(h - var(--theme-step-50-h))
+      ),
+      oklch(
+        from var(--color-error-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c))
+          calc(h - var(--theme-step-50-h))
+      )
+    );
+    --theme-error-600: light-dark(
+      oklch(
+        from var(--color-error-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c))
+          calc(h - var(--theme-step-600-h))
+      ),
+      oklch(
+        from var(--color-error-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c))
+          calc(h - var(--theme-step-600-h))
+      )
+    );
+    --theme-error-700: light-dark(
+      oklch(
+        from var(--color-error-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c))
+          calc(h - var(--theme-step-700-h))
+      ),
+      oklch(
+        from var(--color-error-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c))
+          calc(h - var(--theme-step-700-h))
+      )
+    );
+
+    /* Info Scale */
+    --theme-info-50: light-dark(
+      oklch(
+        from var(--color-info-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c))
+          calc(h + var(--theme-step-50-h))
+      ),
+      oklch(
+        from var(--color-info-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c))
+          calc(h + var(--theme-step-50-h))
+      )
+    );
+    --theme-info-600: light-dark(
+      oklch(
+        from var(--color-info-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c))
+          calc(h + var(--theme-step-600-h))
+      ),
+      oklch(
+        from var(--color-info-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c))
+          calc(h + var(--theme-step-600-h))
+      )
+    );
+    --theme-info-700: light-dark(
+      oklch(
+        from var(--color-info-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c))
+          calc(h + var(--theme-step-700-h))
+      ),
+      oklch(
+        from var(--color-info-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c))
+          calc(h + var(--theme-step-700-h))
+      )
+    );
+
+    /* Grey Scale */
+    --theme-grey-50: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-50-l-light)
+          calc(c * var(--theme-step-50-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-50-l-dark)
+          calc(c * var(--theme-step-50-c) * 0.1) h
+      )
+    );
+    --theme-grey-100: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-100-l-light)
+          calc(c * var(--theme-step-100-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-100-l-dark)
+          calc(c * var(--theme-step-100-c) * 0.1) h
+      )
+    );
+    --theme-grey-200: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-200-l-light)
+          calc(c * var(--theme-step-200-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-200-l-dark)
+          calc(c * var(--theme-step-200-c) * 0.1) h
+      )
+    );
+    --theme-grey-300: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-300-l-light)
+          calc(c * var(--theme-step-300-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-300-l-dark)
+          calc(c * var(--theme-step-300-c) * 0.1) h
+      )
+    );
+    --theme-grey-400: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-400-l-light)
+          calc(c * var(--theme-step-400-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-400-l-dark)
+          calc(c * var(--theme-step-400-c) * 0.1) h
+      )
+    );
+    --theme-grey-500: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-500-l-light)
+          calc(c * var(--theme-step-500-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-500-l-dark)
+          calc(c * var(--theme-step-500-c) * 0.1) h
+      )
+    );
+    --theme-grey-600: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-600-l-light)
+          calc(c * var(--theme-step-600-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-600-l-dark)
+          calc(c * var(--theme-step-600-c) * 0.1) h
+      )
+    );
+    --theme-grey-700: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-700-l-light)
+          calc(c * var(--theme-step-700-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-700-l-dark)
+          calc(c * var(--theme-step-700-c) * 0.1) h
+      )
+    );
+    --theme-grey-800: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-800-l-light)
+          calc(c * var(--theme-step-800-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-800-l-dark)
+          calc(c * var(--theme-step-800-c) * 0.1) h
+      )
+    );
+    --theme-grey-900: light-dark(
+      oklch(
+        from var(--color-grey-base) var(--theme-step-900-l-light)
+          calc(c * var(--theme-step-900-c) * 0.1) h
+      ),
+      oklch(
+        from var(--color-grey-base) var(--theme-step-900-l-dark)
+          calc(c * var(--theme-step-900-c) * 0.1) h
+      )
+    );
+
+    /* Semantic Intents mappings */
+    --theme-primary: var(--theme-primary-600);
+    --theme-primary-hover: var(--theme-primary-700);
+    --theme-primary-focus: var(--theme-primary-400);
+    --theme-primary-fg: #ffffff;
+    --theme-primary-border: transparent;
+    --theme-primary-subtle: var(--theme-primary-50);
+
+    --theme-surface-primary: var(--theme-primary-600);
+
+    --theme-success-bg: var(--theme-success-600);
+    --theme-success-hover: var(--theme-success-700);
+    --theme-success-fg: #ffffff;
+    --theme-success-secondary-bg: var(--theme-success-50);
+    --theme-success-secondary-bg-hover: light-dark(
+      var(--theme-success-100, var(--theme-success-50)),
+      var(--theme-success-200, var(--theme-success-50))
+    );
+    --theme-success-secondary-fg: var(--theme-success-700);
+    --theme-success-secondary-border: light-dark(
+      var(--theme-success-200, var(--theme-success-50)),
+      var(--theme-success-300, var(--theme-success-50))
+    );
+
+    --theme-warning-bg: var(--theme-warning-600);
+    --theme-warning-hover: var(--theme-warning-700);
+    --theme-warning-fg: #ffffff;
+    --theme-warning-secondary-bg: var(--theme-warning-50);
+    --theme-warning-secondary-bg-hover: light-dark(
+      var(--theme-warning-100, var(--theme-warning-50)),
+      var(--theme-warning-200, var(--theme-warning-50))
+    );
+    --theme-warning-secondary-fg: var(--theme-warning-700);
+    --theme-warning-secondary-border: light-dark(
+      var(--theme-warning-200, var(--theme-warning-50)),
+      var(--theme-warning-300, var(--theme-warning-50))
+    );
+
+    --theme-error-bg: var(--theme-error-600);
+    --theme-error-hover: var(--theme-error-700);
+    --theme-error-fg: #ffffff;
+    --theme-error-secondary-bg: var(--theme-error-50);
+    --theme-error-secondary-bg-hover: light-dark(
+      var(--theme-error-100, var(--theme-error-50)),
+      var(--theme-error-200, var(--theme-error-50))
+    );
+    --theme-error-secondary-fg: var(--theme-error-700);
+    --theme-error-secondary-border: light-dark(
+      var(--theme-error-200, var(--theme-error-50)),
+      var(--theme-error-300, var(--theme-error-50))
+    );
+
+    --theme-info-bg: var(--theme-info-600);
+    --theme-info-hover: var(--theme-info-700);
+    --theme-info-fg: #ffffff;
+    --theme-info-secondary-bg: var(--theme-info-50);
+    --theme-info-secondary-bg-hover: light-dark(
+      var(--theme-info-100, var(--theme-info-50)),
+      var(--theme-info-200, var(--theme-info-50))
+    );
+    --theme-info-secondary-fg: var(--theme-info-700);
+    --theme-info-secondary-border: light-dark(
+      var(--theme-info-200, var(--theme-info-50)),
+      var(--theme-info-300, var(--theme-info-50))
+    );
+  }
+
+  /* Progressive Enhancement: contrast-color support */
+  @supports (color: contrast-color(white)) {
+    :root,
+    [data-theme='default'],
+    [data-theme] {
+      --theme-primary-fg: contrast-color(var(--theme-primary));
+      --theme-success-fg: contrast-color(var(--theme-success-bg));
+      --theme-warning-fg: contrast-color(var(--theme-warning-bg));
+      --theme-error-fg: contrast-color(var(--theme-error-bg));
+      --theme-info-fg: contrast-color(var(--theme-info-bg));
+    }
+  }
+
+  @supports (color: color-contrast(white vs white, black)) {
+    :root,
+    [data-theme='default'],
+    [data-theme] {
+      --theme-primary-fg: color-contrast(var(--theme-primary) vs white, black);
+      --theme-success-fg: color-contrast(var(--theme-success-bg) vs white, black);
+      --theme-warning-fg: color-contrast(var(--theme-warning-bg) vs white, black);
+      --theme-error-fg: color-contrast(var(--theme-error-bg) vs white, black);
+      --theme-info-fg: color-contrast(var(--theme-info-bg) vs white, black);
+    }
+  }
+}
+
+@layer components {
+  /* Base surface levels */
+  :root,
+  .surface-0 {
+    --surface-bg: var(--theme-bg-0);
+    --surface-bg-next: var(--theme-bg-1);
+    --surface-fg: var(--theme-fg);
+    --surface-muted: var(--theme-muted);
+    --surface-subtle: var(--theme-subtle);
+    --surface-border: var(--theme-border);
+    --surface-primary: var(--theme-surface-primary);
+    --surface-primary-hover: var(--theme-primary-hover);
+    --surface-primary-fg: var(--theme-primary-fg);
+    --surface-primary-border: var(--theme-primary-border);
+    --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
+    --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
+    --surface-secondary-fg: var(--theme-fg);
+    --surface-secondary-border: light-dark(var(--theme-grey-200), var(--theme-grey-300));
+    --surface-shadow: var(--theme-shadow-0);
+  }
+
+  .surface-1 {
+    --surface-bg: var(--theme-bg-1);
+    --surface-bg-next: var(--theme-bg-2);
+    --surface-fg: var(--theme-fg);
+    --surface-muted: var(--theme-muted);
+    --surface-subtle: var(--theme-subtle);
+    --surface-border: var(--theme-border);
+    --surface-primary: var(--theme-surface-primary);
+    --surface-primary-hover: var(--theme-primary-hover);
+    --surface-primary-fg: var(--theme-primary-fg);
+    --surface-primary-border: var(--theme-primary-border);
+    --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
+    --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
+    --surface-secondary-fg: var(--theme-fg);
+    --surface-secondary-border: light-dark(var(--theme-grey-200), var(--theme-grey-300));
+    --surface-shadow: var(--theme-shadow-1);
+  }
+
+  .surface-2 {
+    --surface-bg: var(--theme-bg-2);
+    --surface-bg-next: var(--theme-bg-2);
+    --surface-fg: var(--theme-fg);
+    --surface-muted: var(--theme-muted);
+    --surface-subtle: var(--theme-subtle);
+    --surface-border: var(--theme-border);
+    --surface-primary: var(--theme-surface-primary);
+    --surface-primary-hover: var(--theme-primary-hover);
+    --surface-primary-fg: var(--theme-primary-fg);
+    --surface-primary-border: var(--theme-primary-border);
+    --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
+    --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
+    --surface-secondary-fg: var(--theme-fg);
+    --surface-secondary-border: light-dark(var(--theme-grey-200), var(--theme-grey-300));
+    --surface-shadow: var(--theme-shadow-2);
+  }
+
+  .surface-primary {
+    --surface-bg: var(--theme-surface-primary);
+    --surface-bg-next: color-mix(in lch, var(--theme-surface-primary), black 10%);
+    --surface-fg: var(--theme-primary-fg);
+    --surface-muted: color-mix(in lch, var(--theme-primary-fg), transparent 30%);
+    --surface-subtle: color-mix(in lch, var(--theme-primary-fg), transparent 50%);
+    --surface-border: color-mix(in lch, var(--theme-surface-primary), black 20%);
+    --surface-secondary: color-mix(in lch, var(--theme-surface-primary), black 10%);
+    --surface-secondary-hover: color-mix(in lch, var(--theme-surface-primary), black 20%);
+    --surface-secondary-fg: var(--theme-primary-fg);
+    --surface-secondary-border: color-mix(in lch, var(--theme-surface-primary), black 25%);
+  }
+
+  @supports (color: contrast-color(white)) {
+    .surface-primary {
+      --surface-fg: contrast-color(var(--surface-bg));
+      --surface-muted: color-mix(in lch, var(--surface-fg), transparent 30%);
+    }
+  }
+
+  @supports (color: color-contrast(white vs white, black)) {
+    .surface-primary {
+      --surface-fg: color-contrast(var(--surface-bg) vs white, black);
+      --surface-muted: color-mix(in lch, var(--surface-fg), transparent 30%);
+    }
+  }
+}
+
+html {
+  color-scheme: light dark;
+  font-family: var(--theme-font-sans);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--surface-bg);
+  color: var(--surface-fg);
+}

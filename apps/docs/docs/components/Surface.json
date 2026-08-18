@@ -1,0 +1,114 @@
+{
+  "name": "Surface",
+  "path": "../../packages/core/src/components/Surface.tsx",
+  "fileName": "Surface.tsx",
+  "props": {
+    "level": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "",
+      "name": "level",
+      "parent": {
+        "fileName": "intento/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "0 | 1 | 2 | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "0"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "2"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "variant",
+      "parent": {
+        "fileName": "intento/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"primary\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"primary\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

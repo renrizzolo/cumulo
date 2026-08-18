@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-import { RouterProvider } from "@renr/parcel-rsc-router";
-import { flatRoutes } from "../routes";
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { RouterProvider } from '@renr/parcel-rsc-router';
+import { flatRoutes } from '../routes';
 
-type Theme = "light" | "dark" | "cloud";
+export type Theme = 'light' | 'dark' | 'cloud';
 
 interface ThemeContextValue {
   theme: Theme;
@@ -12,22 +12,20 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  theme: "light",
+  theme: 'light',
   setTheme: () => {},
 });
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (
     <RouterProvider routes={flatRoutes}>
-      <ThemeContext.Provider value={{ theme, setTheme }}>
-        {children}
-      </ThemeContext.Provider>
+      <ThemeContext.Provider value={{ theme, setTheme }}>{children}</ThemeContext.Provider>
     </RouterProvider>
   );
 }

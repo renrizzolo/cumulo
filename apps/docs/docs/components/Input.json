@@ -1,0 +1,109 @@
+{
+  "name": "Input",
+  "path": "../../packages/core/src/components/Input.tsx",
+  "fileName": "Input.tsx",
+  "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLInputElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "intent",
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/components/Input.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"error\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": {
+        "value": "base"
+      },
+      "description": "",
+      "name": "size",
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/components/Input.tsx",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"inherit\" | ComponentSize | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"small\""
+          },
+          {
+            "value": "\"large\""
+          },
+          {
+            "value": "\"base\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

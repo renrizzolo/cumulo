@@ -7,17 +7,17 @@ function walkTokens<T extends NullableTokens>(
   path: string[] = [],
   callback: (path: string[]) => string,
 ): MapTokensToVars<T> {
-  const result: any = {};
+  const result: Record<string, unknown> = {};
   for (const key of Object.keys(tokens)) {
     const value = tokens[key];
     const currentPath = [...path, key];
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      result[key] = walkTokens(value, currentPath, callback);
+      result[key] = walkTokens(value as NullableTokens, currentPath, callback);
     } else {
       result[key] = callback(currentPath);
     }
   }
-  return result;
+  return result as MapTokensToVars<T>;
 }
 
 function pathToVarName(path: string[], prefix = 'c'): string {
@@ -37,7 +37,7 @@ export function createThemeContract<T extends NullableTokens>(
   return walkTokens(contract, [], (path) => `var(${pathToVarName(path, prefix)})`);
 }
 
-function flattenValues<T extends Record<string, any>>(
+function flattenValues<T extends Record<string, unknown>>(
   values: T,
   path: string[] = [],
   prefix = 'c',
@@ -47,7 +47,7 @@ function flattenValues<T extends Record<string, any>>(
     const value = values[key];
     const currentPath = [...path, key];
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      Object.assign(result, flattenValues(value, currentPath, prefix));
+      Object.assign(result, flattenValues(value as Record<string, unknown>, currentPath, prefix));
     } else if (value !== undefined && value !== null) {
       result[pathToVarName(currentPath, prefix)] = String(value);
     }
@@ -63,7 +63,7 @@ export function createTheme<T extends NullableTokens>(
   values: MapTokensToValues<T>,
   prefix = 'c',
 ): CreatedTheme {
-  const flattened = flattenValues(values, [], prefix);
+  const flattened = flattenValues(values as Record<string, unknown>, [], prefix);
   const cssBody = Object.entries(flattened)
     .map(([varName, val]) => `${varName}:${val};`)
     .join('');
@@ -84,6 +84,23 @@ export function createTheme<T extends NullableTokens>(
 }
 
 /**
+ * Injects raw CSS variables or styles at a global selector (e.g. ':root' or '[data-theme="dark"]').
+ */
+export function createGlobalStyles(
+  selector: string,
+  styles: Record<string, string>,
+): { css: string; vars: Record<string, string> } {
+  const cssBody = Object.entries(styles)
+    .map(([varName, val]) => `${varName}:${val};`)
+    .join('');
+
+  const css = `${selector}{${cssBody}}`;
+  sheet.insertRule(css);
+
+  return { css, vars: styles };
+}
+
+/**
  * Creates a global theme attached to a specific CSS selector (e.g. ':root' or '[data-theme="dark"]').
  */
 export function createGlobalTheme<T extends NullableTokens>(
@@ -92,15 +109,8 @@ export function createGlobalTheme<T extends NullableTokens>(
   values: MapTokensToValues<T>,
   prefix = 'c',
 ): { css: string; vars: Record<string, string> } {
-  const flattened = flattenValues(values, [], prefix);
-  const cssBody = Object.entries(flattened)
-    .map(([varName, val]) => `${varName}:${val};`)
-    .join('');
-
-  const css = `${selector}{${cssBody}}`;
-  sheet.insertRule(css);
-
-  return { css, vars: flattened };
+  const flattened = flattenValues(values as Record<string, unknown>, [], prefix);
+  return createGlobalStyles(selector, flattened);
 }
 
 /**
@@ -111,5 +121,5 @@ export function assignVars<T extends NullableTokens>(
   values: Partial<MapTokensToValues<T>>,
   prefix = 'c',
 ): Record<string, string> {
-  return flattenValues(values, [], prefix);
+  return flattenValues(values as Record<string, unknown>, [], prefix);
 }

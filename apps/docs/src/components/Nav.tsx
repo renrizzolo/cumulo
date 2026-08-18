@@ -35,7 +35,7 @@ export function Nav({ currentPage }: { currentPage?: PageProps['currentPage'] })
           return (
             <Link
               key={route.path}
-              to={route.path as any}
+              to={route.path}
               className={`docs-nav-link ${isActive ? 'active' : ''}`}
             >
               {label}
