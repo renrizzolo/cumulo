@@ -1,0 +1,11 @@
+node_modules
+.pnpm-store
+dist
+build
+.parcel-cache
+.turbo
+*.log
+.DS_Store
+docgen
+docs/components
+coverage

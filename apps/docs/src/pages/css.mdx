@@ -1,0 +1,107 @@
+import MDXLayout, { CodeBlock } from "../components/MDXLayout.tsx";
+
+# @cumulo/css
+
+A lightweight, type-safe CSS framework inspired by StyleX and Vanilla Extract with **zero runtime dependencies**.
+
+## 1. Creating Style Rules (`style` / `create`)
+
+Define scoped, type-safe CSS styles with pseudo-classes, media queries, and tokens:
+
+```tsx
+import { style, create } from "@cumulo/css";
+import { vars } from "@cumulo/core";
+
+// Single style definition
+export const card = style({
+  padding: vars.space.lg,
+  backgroundColor: vars.color.bgSurface,
+  borderRadius: vars.radii.md,
+  border: `1px solid ${vars.color.border}`,
+  boxShadow: vars.shadow.sm,
+  ":hover": {
+    boxShadow: vars.shadow.md,
+  },
+  "@media": {
+    "(max-width: 640px)": {
+      padding: vars.space.sm,
+    },
+  },
+});
+
+// Multi-rule definition (StyleX style)
+export const buttonStyles = create({
+  base: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: vars.radii.sm,
+    fontWeight: 600,
+  },
+  primary: {
+    backgroundColor: vars.color.primary,
+    color: vars.color.primaryFg,
+  },
+  outline: {
+    border: `1px solid ${vars.color.border}`,
+    backgroundColor: "transparent",
+  },
+});
+```
+
+## 2. Theme Contracts (`createThemeContract` & `createTheme`)
+
+Theme contracts define strongly typed CSS custom properties that can be mapped to various themes:
+
+```tsx
+import { createThemeContract, createTheme } from "@cumulo/css";
+
+// 1. Define the contract
+export const colorContract = createThemeContract({
+  brand: null,
+  surface: null,
+});
+
+// 2. Create themes matching the contract
+export const lightTheme = createTheme(colorContract, {
+  brand: "#6366f1",
+  surface: "#ffffff",
+});
+
+export const darkTheme = createTheme(colorContract, {
+  brand: "#818cf8",
+  surface: "#0f172a",
+});
+```
+
+## 3. Animations (`keyframes`)
+
+```tsx
+import { keyframes, style } from "@cumulo/css";
+
+export const spin = keyframes({
+  from: { transform: "rotate(0deg)" },
+  to: { transform: "rotate(360deg)" },
+});
+
+export const spinner = style({
+  animation: `${spin} 1s linear infinite`,
+});
+```
+
+## 4. Merging Classes (`cx` & `props`)
+
+```tsx
+import { cx, props } from "@cumulo/css";
+
+// Returns merged class string
+const className = cx(
+  buttonStyles.base,
+  isPrimary && buttonStyles.primary,
+  "custom-class",
+);
+
+// Returns { className, style } for JSX spreading
+const elementProps = props(buttonStyles.base, { style: { marginTop: 8 } });
+<button {...elementProps}>Click</button>;
+```

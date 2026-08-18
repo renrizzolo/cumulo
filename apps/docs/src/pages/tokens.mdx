@@ -1,0 +1,84 @@
+import Layout, { CodeBlock, TokenTable } from "../components/MDXLayout.tsx";
+export default Layout;
+export { CodeBlock, TokenTable };
+
+# @cumulo/core Tokens
+
+Design tokens and theme contracts defining Cumulo's ethereal, modern cloud aesthetic.
+
+## Colors & Surfaces
+
+<TokenTable
+  type="text"
+  items={[
+    { name: "vars.color.bg", description: "Main canvas background" },
+    {
+      name: "vars.color.bgSurface",
+      description: "Card and panel surface background",
+    },
+    { name: "vars.color.fg", description: "Primary text color" },
+    {
+      name: "vars.color.fgMuted",
+      description: "Secondary / subdued text color",
+    },
+    { name: "vars.color.border", description: "Standard element border" },
+    { name: "vars.color.primary", description: "Brand accent color" },
+    {
+      name: "vars.color.primaryFg",
+      description: "Foreground color on primary brand",
+    },
+  ]}
+/>
+
+## Spacing Scale
+
+<TokenTable
+  type="space"
+  items={[
+    { name: "vars.space.none", value: "0px" },
+    { name: "vars.space.xs", value: "8px" },
+    { name: "vars.space.sm", value: "12px" },
+    { name: "vars.space.md", value: "16px" },
+    { name: "vars.space.lg", value: "24px" },
+    { name: "vars.space.xl", value: "32px" },
+    { name: "vars.space.2xl", value: "48px" },
+  ]}
+/>
+
+## Border Radii
+
+<TokenTable
+  type="radii"
+  items={[
+    { name: "vars.radii.sm", value: "4px" },
+    { name: "vars.radii.md", value: "8px" },
+    { name: "vars.radii.lg", value: "12px" },
+    { name: "vars.radii.xl", value: "16px" },
+    { name: "vars.radii.full", value: "9999px" },
+  ]}
+/>
+
+## Elevation & Cloud Shadows
+
+<TokenTable
+  type="shadow"
+  items={[
+    { name: "vars.shadow.xs", description: "Subtle item elevation" },
+    { name: "vars.shadow.sm", description: "Standard button / card shadow" },
+    { name: "vars.shadow.md", description: "Raised card shadow" },
+    { name: "vars.shadow.lg", description: "Floating dropdown / modal shadow" },
+    { name: "vars.shadow.glow", description: "Brand accent glow halo" },
+  ]}
+/>
+
+## Built-in Themes
+
+Cumulo Core ships with three out-of-the-box themes:
+
+- **`lightTheme`**: Crisp, high-contrast light mode for clean readability.
+- **`darkTheme`**: Deep slate dark mode with subdued borders and glowing accents.
+- **`cloudTheme`**: Signature translucent mist palette with soft glassmorphism.
+
+```tsx
+import { lightTheme, darkTheme, cloudTheme } from "@cumulo/core";
+```

@@ -1,0 +1,42 @@
+{
+  "name": "@cumulo/docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "parcel --no-cache",
+    "build": "parcel build --no-cache",
+    "start": "npx http-server ./dist",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cumulo/core": "workspace:*",
+    "@cumulo/css": "workspace:*",
+    "@parcel/config-default": "^2.16.4",
+    "@parcel/rsc": "^2.16.4",
+    "@renr/parcel-rsc-router": "^1.0.0-alpha.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-server-dom-parcel": "^19.2.6"
+  },
+  "devDependencies": {
+    "@parcel/packager-react-static": "2.16.4",
+    "@parcel/transformer-react-static": "2.16.4",
+    "@renr/parcel-reporter-docgen": "^0.0.1-alpha.3",
+    "@renr/parcel-reporter-rsc-router": "^1.0.0-alpha.12",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "parcel": "^2.16.4",
+    "typescript": "^5.8.2"
+  },
+  "@renr/parcel-reporter-docgen": {
+    "source": "../../packages/*/src/**/*.{ts,tsx}",
+    "output": "docs/components"
+  },
+  "targets": {
+    "react-static": {
+      "source": "src/pages/**/*",
+      "context": "react-server"
+    }
+  }
+}
