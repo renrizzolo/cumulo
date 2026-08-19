@@ -1,6 +1,6 @@
 {
   "name": "sheet",
-  "path": "../../packages/css/src/sheet.ts",
+  "path": "packages/css/src/sheet.ts",
   "fileName": "sheet.ts",
   "props": {}
 }

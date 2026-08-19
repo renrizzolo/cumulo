@@ -1,0 +1,6 @@
+{
+  "name": "extractor",
+  "path": "packages/unplugin/src/core/extractor.ts",
+  "fileName": "extractor.ts",
+  "props": {}
+}

@@ -1,0 +1,87 @@
+{
+  "name": "esbuild",
+  "path": "../../packages/unplugin/src/esbuild.ts",
+  "fileName": "esbuild.ts",
+  "props": {
+    "include": {
+      "defaultValue": null,
+      "description": "Filter which files to process.\nDefaults to include files importing `@cumulo/css` or `@cumulo/core`.",
+      "name": "include",
+      "parent": {
+        "fileName": "intento/packages/unplugin/src/types.ts",
+        "name": "CumuloPluginOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/unplugin/src/types.ts",
+          "name": "CumuloPluginOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(string | RegExp)[] | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "exclude": {
+      "defaultValue": null,
+      "description": "Filter which files to exclude.",
+      "name": "exclude",
+      "parent": {
+        "fileName": "intento/packages/unplugin/src/types.ts",
+        "name": "CumuloPluginOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/unplugin/src/types.ts",
+          "name": "CumuloPluginOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "(string | RegExp)[] | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "virtualModuleId": {
+      "defaultValue": null,
+      "description": "Virtual CSS module prefix/name.\nDefault: 'virtual:cumulo.css'",
+      "name": "virtualModuleId",
+      "parent": {
+        "fileName": "intento/packages/unplugin/src/types.ts",
+        "name": "CumuloPluginOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/unplugin/src/types.ts",
+          "name": "CumuloPluginOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "injectStyles": {
+      "defaultValue": null,
+      "description": "Whether to inject styles automatically in development.\nDefault: true",
+      "name": "injectStyles",
+      "parent": {
+        "fileName": "intento/packages/unplugin/src/types.ts",
+        "name": "CumuloPluginOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/unplugin/src/types.ts",
+          "name": "CumuloPluginOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

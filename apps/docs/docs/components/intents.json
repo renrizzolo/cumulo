@@ -647,10 +647,10 @@
       },
       "shortPropTypeName": null
     },
-    "__@iterator@79568": {
+    "__@iterator@132439": {
       "defaultValue": null,
       "description": "Iterator of values in the array.",
-      "name": "__@iterator@79568",
+      "name": "__@iterator@132439",
       "parent": {
         "fileName": "intento/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
         "name": "ReadonlyArray"
@@ -667,10 +667,10 @@
       },
       "shortPropTypeName": null
     },
-    "__@unscopables@79570": {
+    "__@unscopables@132441": {
       "defaultValue": null,
       "description": "Is an object whose properties have the value 'true'\nwhen they will be absent when used in a 'with' statement.",
-      "name": "__@unscopables@79570",
+      "name": "__@unscopables@132441",
       "parent": {
         "fileName": "intento/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
         "name": "ReadonlyArray"

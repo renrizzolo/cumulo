@@ -1075,10 +1075,10 @@
       },
       "shortPropTypeName": null
     },
-    "__@iterator@81549": {
+    "__@iterator@134420": {
       "defaultValue": null,
       "description": "Iterator",
-      "name": "__@iterator@81549",
+      "name": "__@iterator@134420",
       "parent": {
         "fileName": "intento/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
         "name": "String"

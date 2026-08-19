@@ -1,6 +1,6 @@
 {
   "name": "Button",
-  "path": "../../packages/core/src/components/Button.tsx",
+  "path": "packages/core/src/components/Button.tsx",
   "fileName": "Button.tsx",
   "props": {
     "variant": {

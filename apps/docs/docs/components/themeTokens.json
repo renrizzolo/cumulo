@@ -1,6 +1,6 @@
 {
   "name": "themeTokens",
-  "path": "../../packages/core/src/tokens/themeTokens.ts",
+  "path": "packages/core/src/tokens/themeTokens.ts",
   "fileName": "themeTokens.ts",
   "props": {}
 }

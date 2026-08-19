@@ -1,6 +1,6 @@
 {
   "name": "Badge",
-  "path": "../../packages/core/src/components/Badge.tsx",
+  "path": "packages/core/src/components/Badge.tsx",
   "fileName": "Badge.tsx",
   "props": {
     "variant": {
