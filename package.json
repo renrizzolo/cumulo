@@ -18,11 +18,23 @@
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.0",
+    "@parcel/packager-react-static": "2.16.4",
+    "@parcel/transformer-react-static": "2.16.4",
     "@types/node": "^22.13.9",
     "oxfmt": "^0.63.0",
     "oxlint": "^1.78.0",
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
+  },
+  "@renr/parcel-reporter-docgen": {
+    "source": "packages/*/src/**/*.{ts,tsx}",
+    "output": "apps/docs/docs/components"
+  },
+  "targets": {
+    "react-static": {
+      "source": "apps/docs/src/pages/**/*.{tsx,mdx}",
+      "context": "react-server"
+    }
   },
   "packageManager": "pnpm@10.13.1"
 }
