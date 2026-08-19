@@ -26,15 +26,18 @@
     "typescript": "^5.8.2",
     "vitest": "^3.0.7"
   },
+  "packageManager": "pnpm@10.13.1",
   "@renr/parcel-reporter-docgen": {
     "source": "packages/*/src/**/*.{ts,tsx}",
     "output": "apps/docs/docs/components"
+  },
+  "@renr/parcel-reporter-rsc-router": {
+    "output": "apps/docs/routes.ts"
   },
   "targets": {
     "react-static": {
       "source": "apps/docs/src/pages/**/*.{tsx,mdx}",
       "context": "react-server"
     }
-  },
-  "packageManager": "pnpm@10.13.1"
+  }
 }

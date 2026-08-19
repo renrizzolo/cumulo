@@ -73,8 +73,8 @@ importers:
         specifier: ^0.0.1-alpha.4
         version: 0.0.1-alpha.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(typescript@5.9.3)
       '@renr/parcel-reporter-rsc-router':
-        specifier: ^1.0.0-alpha.12
-        version: 1.0.0-alpha.12(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        specifier: ^1.0.0-alpha.13
+        version: 1.0.0-alpha.13(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -1116,8 +1116,8 @@ packages:
   '@renr/parcel-reporter-docgen@0.0.1-alpha.4':
     resolution: {integrity: sha512-Wm0G4GQGPfexlOgJsDxjrmED/2VmM2mfswcrpvy/N5IztHGD/hMs/DwpQ36jtJbnWRtHyEi3OV2N4TLlrVa29w==}
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.12':
-    resolution: {integrity: sha512-Ckyslrk+SaEIp5HsY5Ga+LIKOSs3e2Mh7b0clbJSx6VBX064IzoxK6wuTqVhKoR0GCrTykjK+gCdthXkwLKJDQ==}
+  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.13':
+    resolution: {integrity: sha512-+oI7i8Bq3V7G9rw+KvP+9RO1grl8T1NcGSOgcyVIu0twRRToHhhoeQAbhGoSVvuYWBrGtfU+fODdC3VNQI2SFg==}
     peerDependencies:
       '@renr/parcel-rsc-router': 1.0.0-alpha.7
 
@@ -3545,7 +3545,7 @@ snapshots:
       - napi-wasm
       - typescript
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.12(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
+  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.13(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
