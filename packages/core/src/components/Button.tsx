@@ -25,10 +25,10 @@ export const buttonRecipe = recipe(
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'transparent',
-      cursor: 'pointer',
       outline: 'none',
       userSelect: 'none',
-      transition: `all ${vars.duration.fast} ${vars.ease.default}`,
+      transition: `all ${vars.duration.slow} ${vars.ease.default}`,
+      willChange: 'transform',
       ':disabled': {
         opacity: 0.5,
         cursor: 'not-allowed',

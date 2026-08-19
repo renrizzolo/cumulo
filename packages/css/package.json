@@ -2,15 +2,18 @@
   "name": "@cumulo/css",
   "version": "0.1.0",
   "description": "Lightweight, zero-dependency type-safe CSS framework inspired by StyleX and Vanilla Extract",
+  "source": "./src/index.ts",
   "files": [
     "dist"
   ],
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "exports": {
     ".": {
+      "source": "./src/index.ts",
       "types": {
         "import": "./dist/index.d.mts",
         "require": "./dist/index.d.cts"
