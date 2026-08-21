@@ -9,7 +9,8 @@ export default defineConfig({
     'src/esbuild.ts',
     'src/parcel.ts',
   ],
-  format: ['esm', 'cjs'],
+  format: ['esm'],
   dts: true,
   clean: false,
+  exports: true,
 });

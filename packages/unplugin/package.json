@@ -3,58 +3,15 @@
   "version": "0.1.0",
   "description": "Universal build plugin for Cumulo CSS with support for Vite, Webpack, Rollup, esbuild, and Parcel",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "types": "./dist/index.d.cts",
   "exports": {
-    ".": {
-      "types": {
-        "import": "./dist/index.d.mts",
-        "require": "./dist/index.d.cts"
-      },
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
-    },
-    "./vite": {
-      "types": {
-        "import": "./dist/vite.d.mts",
-        "require": "./dist/vite.d.cts"
-      },
-      "import": "./dist/vite.mjs",
-      "require": "./dist/vite.cjs"
-    },
-    "./webpack": {
-      "types": {
-        "import": "./dist/webpack.d.mts",
-        "require": "./dist/webpack.d.cts"
-      },
-      "import": "./dist/webpack.mjs",
-      "require": "./dist/webpack.cjs"
-    },
-    "./rollup": {
-      "types": {
-        "import": "./dist/rollup.d.mts",
-        "require": "./dist/rollup.d.cts"
-      },
-      "import": "./dist/rollup.mjs",
-      "require": "./dist/rollup.cjs"
-    },
-    "./esbuild": {
-      "types": {
-        "import": "./dist/esbuild.d.mts",
-        "require": "./dist/esbuild.d.cts"
-      },
-      "import": "./dist/esbuild.mjs",
-      "require": "./dist/esbuild.cjs"
-    },
-    "./parcel": {
-      "types": {
-        "import": "./dist/parcel.d.mts",
-        "require": "./dist/parcel.d.cts"
-      },
-      "import": "./dist/parcel.mjs",
-      "require": "./dist/parcel.cjs"
-    }
+    ".": "./dist/index.mjs",
+    "./esbuild": "./dist/esbuild.mjs",
+    "./parcel": "./dist/parcel.mjs",
+    "./rollup": "./dist/rollup.mjs",
+    "./vite": "./dist/vite.mjs",
+    "./webpack": "./dist/webpack.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"
@@ -82,5 +39,9 @@
     "@parcel/plugin": {
       "optional": true
     }
+  },
+  "inlinedDependencies": {
+    "@types/estree": "1.0.9",
+    "rollup": "4.62.4"
   }
 }
