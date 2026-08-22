@@ -3,9 +3,32 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    environment: 'node',
-    globals: true,
-    environmentMatchGlobs: [['packages/core/**', 'jsdom']],
+    projects: [
+      {
+        test: {
+          name: 'core',
+          include: ['packages/core/**/*.test.{ts,tsx}'],
+          environment: 'jsdom',
+          globals: true,
+        },
+      },
+      {
+        test: {
+          name: 'css',
+          include: ['packages/css/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+        },
+      },
+      {
+        test: {
+          name: 'unplugin',
+          include: ['packages/unplugin/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+        },
+      },
+    ],
   },
   resolve: {
     alias: {
