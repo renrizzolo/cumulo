@@ -5,18 +5,18 @@
 // Do not edit it manually.
 // You should also exclude it from your linting/formatting rules.
 
-import type { App, RouteData, RouteNode } from '@renr/parcel-rsc-router';
+import type { App, RouteData, RouteNode } from "@renr/parcel-rsc-router";
 
-declare module '@renr/parcel-rsc-router' {
+declare module "@renr/parcel-rsc-router" {
   namespace App {
     interface Routes {
-      '/': { slug: 'index'; path: '/'; rsc: '/index.rsc'; html: '/index.html' };
-      '/css': { slug: 'css'; path: '/css'; rsc: '/css.rsc'; html: '/css.html' };
-      '/tokens': {
-        slug: 'tokens';
-        path: '/tokens';
-        rsc: '/tokens.rsc';
-        html: '/tokens.html';
+      "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
+      "/css": { slug: "css"; path: "/css"; rsc: "/css.rsc"; html: "/css.html" };
+      "/tokens": {
+        slug: "tokens";
+        path: "/tokens";
+        rsc: "/tokens.rsc";
+        html: "/tokens.html";
       };
     }
   }
@@ -24,43 +24,43 @@ declare module '@renr/parcel-rsc-router' {
 
 export const flatRoutes = [
   {
-    path: '/',
-    slug: 'index',
-    rsc: '/index.rsc',
-    html: '/index.html',
+    path: "/",
+    slug: "index",
+    rsc: "/index.rsc",
+    html: "/index.html",
   },
   {
-    path: '/css',
-    slug: 'css',
-    rsc: '/css.rsc',
-    html: '/css.html',
+    path: "/css",
+    slug: "css",
+    rsc: "/css.rsc",
+    html: "/css.html",
   },
   {
-    path: '/tokens',
-    slug: 'tokens',
-    rsc: '/tokens.rsc',
-    html: '/tokens.html',
+    path: "/tokens",
+    slug: "tokens",
+    rsc: "/tokens.rsc",
+    html: "/tokens.html",
   },
 ] as const satisfies RouteData[];
 
 export const routeTree = {
-  path: '/',
-  slug: 'index',
-  html: '/index.html',
-  rsc: '/index.rsc',
+  path: "/",
+  slug: "index",
+  html: "/index.html",
+  rsc: "/index.rsc",
   children: [
     {
-      path: '/css',
-      slug: 'css',
-      html: '/css.html',
-      rsc: '/css.rsc',
+      path: "/css",
+      slug: "css",
+      html: "/css.html",
+      rsc: "/css.rsc",
       children: [],
     },
     {
-      path: '/tokens',
-      slug: 'tokens',
-      html: '/tokens.html',
-      rsc: '/tokens.rsc',
+      path: "/tokens",
+      slug: "tokens",
+      html: "/tokens.html",
+      rsc: "/tokens.rsc",
       children: [],
     },
   ],
@@ -68,24 +68,24 @@ export const routeTree = {
 
 // lookup routes by PageProps url
 export const routesByPage = {
-  '/index.html': {
-    path: '/',
-    slug: 'index',
-    rsc: '/index.rsc',
-    html: '/index.html',
+  "/index.html": {
+    path: "/",
+    slug: "index",
+    rsc: "/index.rsc",
+    html: "/index.html",
   },
-  '/css.html': {
-    path: '/css',
-    slug: 'css',
-    rsc: '/css.rsc',
-    html: '/css.html',
+  "/css.html": {
+    path: "/css",
+    slug: "css",
+    rsc: "/css.rsc",
+    html: "/css.html",
   },
-  '/tokens.html': {
-    path: '/tokens',
-    slug: 'tokens',
-    rsc: '/tokens.rsc',
-    html: '/tokens.html',
+  "/tokens.html": {
+    path: "/tokens",
+    slug: "tokens",
+    rsc: "/tokens.rsc",
+    html: "/tokens.html",
   },
 } satisfies {
-  [Key in keyof App.Routes as App.Routes[Key]['html']]: App.Routes[Key];
+  [Key in keyof App.Routes as App.Routes[Key]["html"]]: App.Routes[Key];
 };
