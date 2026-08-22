@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@parcel/fs':
+    hash: 79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5
+    path: patches/@parcel__fs.patch
+
 importers:
 
   .:
@@ -3134,7 +3139,7 @@ snapshots:
   '@parcel/cache@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/core': 2.16.4(@swc/helpers@0.5.23)
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/logger': 2.16.4
       '@parcel/utils': 2.16.4
       lmdb: 2.8.5
@@ -3144,7 +3149,7 @@ snapshots:
   '@parcel/cache@2.16.4(@parcel/core@2.16.4)':
     dependencies:
       '@parcel/core': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4)
       '@parcel/logger': 2.16.4
       '@parcel/utils': 2.16.4
       lmdb: 2.8.5
@@ -3208,7 +3213,7 @@ snapshots:
       '@parcel/diagnostic': 2.16.4
       '@parcel/events': 2.16.4
       '@parcel/feature-flags': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4)
       '@parcel/graph': 3.6.4
       '@parcel/logger': 2.16.4
       '@parcel/package-manager': 2.16.4(@parcel/core@2.16.4)
@@ -3239,7 +3244,7 @@ snapshots:
       '@parcel/diagnostic': 2.16.4
       '@parcel/events': 2.16.4
       '@parcel/feature-flags': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/graph': 3.6.4
       '@parcel/logger': 2.16.4
       '@parcel/package-manager': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)
@@ -3274,7 +3279,7 @@ snapshots:
 
   '@parcel/feature-flags@2.16.4': {}
 
-  '@parcel/fs@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
+  '@parcel/fs@2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/core': 2.16.4(@swc/helpers@0.5.23)
       '@parcel/feature-flags': 2.16.4
@@ -3286,7 +3291,7 @@ snapshots:
     transitivePeerDependencies:
       - napi-wasm
 
-  '@parcel/fs@2.16.4(@parcel/core@2.16.4)':
+  '@parcel/fs@2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4)':
     dependencies:
       '@parcel/core': 2.16.4
       '@parcel/feature-flags': 2.16.4
@@ -3325,7 +3330,7 @@ snapshots:
     dependencies:
       '@mischnic/json-sourcemap': 0.1.1
       '@parcel/diagnostic': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/rust': 2.16.4
       '@parcel/utils': 2.16.4
       nullthrows: 1.1.1
@@ -3338,7 +3343,7 @@ snapshots:
     dependencies:
       '@mischnic/json-sourcemap': 0.1.1
       '@parcel/diagnostic': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4)
       '@parcel/rust': 2.16.4
       '@parcel/utils': 2.16.4
       nullthrows: 1.1.1
@@ -3406,7 +3411,7 @@ snapshots:
     dependencies:
       '@parcel/core': 2.16.4(@swc/helpers@0.5.23)
       '@parcel/diagnostic': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/logger': 2.16.4
       '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/types': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -3422,7 +3427,7 @@ snapshots:
     dependencies:
       '@parcel/core': 2.16.4
       '@parcel/diagnostic': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4)
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4)
       '@parcel/logger': 2.16.4
       '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4)
       '@parcel/types': 2.16.4(@parcel/core@2.16.4)
@@ -4763,7 +4768,7 @@ snapshots:
       '@parcel/diagnostic': 2.16.4
       '@parcel/events': 2.16.4
       '@parcel/feature-flags': 2.16.4
-      '@parcel/fs': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/fs': 2.16.4(patch_hash=79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/logger': 2.16.4
       '@parcel/package-manager': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)
       '@parcel/reporter-cli': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
