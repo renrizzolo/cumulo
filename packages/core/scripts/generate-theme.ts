@@ -1,10 +1,29 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { FormatConfig } from 'oxfmt';
 import { format } from 'oxfmt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+function isFormatConfig(value: unknown): value is FormatConfig {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+// Load root oxfmt configuration if present
+const rootConfigPath = path.resolve(__dirname, '../../../.oxfmtrc.json');
+let oxfmtConfig: FormatConfig | undefined;
+if (fs.existsSync(rootConfigPath)) {
+  try {
+    const parsed: unknown = JSON.parse(fs.readFileSync(rootConfigPath, 'utf-8'));
+    if (isFormatConfig(parsed)) {
+      oxfmtConfig = parsed;
+    }
+  } catch {
+    // fallback to default formatting options
+  }
+}
 
 const cssPath = path.join(__dirname, '../src/theme.css');
 const rawCss = fs.readFileSync(cssPath, 'utf-8');
@@ -24,20 +43,29 @@ function kebabToCamel(str: string): string {
   return str.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
 }
 
-function setNestedPath(obj: Record<string, any>, pathSegments: string[], value: string) {
-  let current = obj;
+type NestedTree = { [key: string]: string | NestedTree };
+
+function setNestedPath(obj: NestedTree, pathSegments: string[], value: string) {
+  let current: NestedTree = obj;
   for (let i = 0; i < pathSegments.length - 1; i++) {
     const key = kebabToCamel(pathSegments[i]);
-    if (typeof current[key] === 'string') {
-      current[key] = { DEFAULT: current[key] };
-    } else if (!current[key]) {
-      current[key] = {};
+    const existing = current[key];
+    if (typeof existing === 'string') {
+      const next: NestedTree = { DEFAULT: existing };
+      current[key] = next;
+      current = next;
+    } else if (typeof existing === 'object' && existing !== null) {
+      current = existing;
+    } else {
+      const next: NestedTree = {};
+      current[key] = next;
+      current = next;
     }
-    current = current[key];
   }
   const lastKey = kebabToCamel(pathSegments[pathSegments.length - 1]);
-  if (typeof current[lastKey] === 'object' && current[lastKey] !== null) {
-    current[lastKey].DEFAULT = value;
+  const lastExisting = current[lastKey];
+  if (typeof lastExisting === 'object' && lastExisting !== null) {
+    lastExisting.DEFAULT = value;
   } else {
     current[lastKey] = value;
   }
@@ -52,7 +80,7 @@ function setNestedPath(obj: Record<string, any>, pathSegments: string[], value: 
  *   --color-primary-base  -> tree.seed.primaryBase = 'var(--color-primary-base)'
  */
 function buildTreeFromVars(vars: string[]) {
-  const tree: Record<string, any> = {};
+  const tree: NestedTree = {};
 
   for (const v of vars) {
     const raw = v.replace(/^--/, '');
@@ -90,8 +118,7 @@ for (const v of sortedVars) {
 }
 tokensContent += `} as const;\n`;
 
-// TODO - not picking up root oxfmt config?
-fs.writeFileSync(tokensPath, (await format('tokens.ts', tokensContent)).code);
+fs.writeFileSync(tokensPath, (await format(tokensPath, tokensContent, oxfmtConfig)).code);
 
 // 3. Generate contract.ts completely derived from the CSS object tree
 const contractPath = path.join(__dirname, '../src/contract.ts');
@@ -101,7 +128,7 @@ export const vars = ${JSON.stringify(contractTree, null, 2)} as const;
 export const themeContract = vars;
 `;
 
-fs.writeFileSync(contractPath, (await format('contract.ts', contractContent)).code);
+fs.writeFileSync(contractPath, (await format(contractPath, contractContent, oxfmtConfig)).code);
 console.log(
   `Extracted ${sortedVars.length} CSS variables from theme.css and generated contract.ts & themeTokens.ts dynamically.`,
 );
