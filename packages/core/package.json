@@ -27,8 +27,12 @@
     "@cumulo/css": "workspace:*"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
     "@tsdown/css": "^0.22.14",
     "@types/react": "^19.0.0",
+    "jsdom": "^29.1.1",
     "tsdown": "^0.22.14",
     "typescript": "^5.8.2"
   },

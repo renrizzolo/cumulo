@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { format } from 'oxfmt';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -89,7 +90,8 @@ for (const v of sortedVars) {
 }
 tokensContent += `} as const;\n`;
 
-fs.writeFileSync(tokensPath, tokensContent);
+// TODO - not picking up root oxfmt config?
+fs.writeFileSync(tokensPath, (await format('tokens.ts', tokensContent)).code);
 
 // 3. Generate contract.ts completely derived from the CSS object tree
 const contractPath = path.join(__dirname, '../src/contract.ts');
@@ -99,7 +101,7 @@ export const vars = ${JSON.stringify(contractTree, null, 2)} as const;
 export const themeContract = vars;
 `;
 
-fs.writeFileSync(contractPath, contractContent);
+fs.writeFileSync(contractPath, (await format('contract.ts', contractContent)).code);
 console.log(
   `Extracted ${sortedVars.length} CSS variables from theme.css and generated contract.ts & themeTokens.ts dynamically.`,
 );

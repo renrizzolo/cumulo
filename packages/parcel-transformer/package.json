@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "Parcel transformer for Cumulo CSS static extraction",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "exports": {
     ".": {
@@ -29,7 +31,5 @@
   },
   "engines": {
     "parcel": ">=2.0.0"
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs"
+  }
 }
