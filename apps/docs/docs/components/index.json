@@ -109,10 +109,11 @@
         "name": "Ref<HTMLDivElement> | undefined"
       },
       "shortPropTypeName": "Union"
-    }
-  }
-}
-: "grey",
+    },
+    "grey": {
+      "defaultValue": null,
+      "description": "",
+      "name": "grey",
       "parent": {
         "fileName": "cumulo/packages/core/src/themes/index.ts",
         "name": "ThemeSeedOptions"
