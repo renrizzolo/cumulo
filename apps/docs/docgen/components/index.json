@@ -1,48 +1,8 @@
 {
-  "name": "Card",
-  "path": "../../packages/core/src/components/Card.tsx",
-  "fileName": "Card.tsx",
+  "name": "index",
+  "path": "packages/core/src/components/index.ts",
+  "fileName": "index.ts",
   "props": {
-    "padding": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "padding",
-      "parent": {
-        "fileName": "intento/packages/core/src/components/Card.tsx",
-        "name": "CardProps"
-      },
-      "declarations": [
-        {
-          "fileName": "intento/packages/core/src/components/Card.tsx",
-          "name": "CardProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "level": {
       "defaultValue": {
         "value": "1"
@@ -50,19 +10,19 @@
       "description": "",
       "name": "level",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Surface.tsx",
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
         "name": "SurfaceProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Surface.tsx",
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
           "name": "SurfaceProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | 1 | 2 | undefined",
+        "raw": "0 | 2 | 1 | undefined",
         "value": [
           {
             "value": "undefined"
@@ -71,10 +31,10 @@
             "value": "0"
           },
           {
-            "value": "1"
+            "value": "2"
           },
           {
-            "value": "2"
+            "value": "1"
           }
         ]
       },
@@ -87,28 +47,28 @@
       "description": "",
       "name": "variant",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Surface.tsx",
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
         "name": "SurfaceProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Surface.tsx",
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
           "name": "SurfaceProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           }
         ]
       },
@@ -119,12 +79,12 @@
       "description": "",
       "name": "className",
       "parent": {
-        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
         "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
           "name": "HTMLAttributes"
         }
       ],
@@ -140,7 +100,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
           "name": "TypeLiteral"
         }
       ],

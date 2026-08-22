@@ -1,0 +1,74 @@
+attempts to fix some issues with parcel dev server crashing on Windows
+diff --git a/lib/index.js b/lib/index.js
+index a07c1d6c9c2b1b1620033d39c0cf24ee65a4201e..3b6779cfa0bac72c8d6e9b53d69c395e2ef51533 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -1113,15 +1113,20 @@ class $2a386c23470d420c$export$c4e0ef2ab73c21e7 {
+             if (!failed) try {
+                 await (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).promises.rename(tmpFilePath, filePath);
+             } catch (e) {
+-                // This is adapted from fs-write-stream-atomic. Apparently
+-                // Windows doesn't like renaming when the target already exists.
+-                if (process.platform === 'win32' && e.syscall && e.syscall === 'rename' && e.code && e.code === 'EPERM') {
+-                    let [hashTmp, hashTarget] = await Promise.all([
+-                        (0, $5X5qb$parcelutils.hashFile)(this, tmpFilePath),
+-                        (0, $5X5qb$parcelutils.hashFile)(this, filePath)
+-                    ]);
+-                    await this.unlink(tmpFilePath);
+-                    if (hashTmp != hashTarget) throw e;
++                if (process.platform === 'win32' && e.syscall && e.syscall === 'rename' && (e.code === 'EPERM' || e.code === 'EBUSY')) {
++                    try {
++                        await (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).promises.copyFile(tmpFilePath, filePath);
++                        await this.unlink(tmpFilePath);
++                    } catch (fallbackError) {
++                        let [hashTmp, hashTarget] = await Promise.all([
++                            (0, $5X5qb$parcelutils.hashFile)(this, tmpFilePath),
++                            (0, $5X5qb$parcelutils.hashFile)(this, filePath)
++                        ]).catch(() => [null, null]);
++                        await this.unlink(tmpFilePath).catch(() => {});
++                        if (hashTmp === null || hashTmp !== hashTarget) throw e;
++                    }
++                } else {
++                    throw e;
+                 }
+             }
+         };
+@@ -1137,16 +1142,35 @@ class $2a386c23470d420c$export$c4e0ef2ab73c21e7 {
+                 }
+             }
+         });
+-        writeStream.once('error', ()=>{
++        writeStream.once('error', (err)=>{
+             failed = true;
+-            (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).unlinkSync(tmpFilePath);
++            console.error("@parcel/fs WriteStream error:", err);
++            try {
++                (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).unlinkSync(tmpFilePath);
++            } catch (e) {
++                // Ignore ENOENT or other errors during cleanup
++            }
+         });
+         return writeStream;
+     }
+     async writeFile(filePath, contents, options) {
+         let tmpFilePath = $2a386c23470d420c$var$getTempFilePath(filePath);
+         await (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).promises.writeFile(tmpFilePath, contents, options);
+-        await (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).promises.rename(tmpFilePath, filePath);
++        try {
++            await (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).promises.rename(tmpFilePath, filePath);
++        } catch (e) {
++            if (process.platform === 'win32' && e.syscall && e.syscall === 'rename' && (e.code === 'EPERM' || e.code === 'EBUSY')) {
++                try {
++                    await (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).promises.copyFile(tmpFilePath, filePath);
++                    await this.unlink(tmpFilePath);
++                } catch (fallbackError) {
++                    await this.unlink(tmpFilePath).catch(() => {});
++                    throw e;
++                }
++            } else {
++                throw e;
++            }
++        }
+     }
+     readFileSync(filePath, encoding) {
+         if (encoding != null) return (0, (/*@__PURE__*/$parcel$interopDefault($07c33d31980d7367$exports))).readFileSync(filePath, encoding);

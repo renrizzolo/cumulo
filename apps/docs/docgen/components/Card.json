@@ -1,8 +1,48 @@
 {
-  "name": "index",
-  "path": "packages/core/src/components/index.ts",
-  "fileName": "index.ts",
+  "name": "Card",
+  "path": "packages/core/src/components/Card.tsx",
+  "fileName": "Card.tsx",
   "props": {
+    "padding": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "padding",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "level": {
       "defaultValue": {
         "value": "1"
@@ -10,12 +50,12 @@
       "description": "",
       "name": "level",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Surface.tsx",
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
         "name": "SurfaceProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Surface.tsx",
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
           "name": "SurfaceProps"
         }
       ],
@@ -47,12 +87,12 @@
       "description": "",
       "name": "variant",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Surface.tsx",
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
         "name": "SurfaceProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Surface.tsx",
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
           "name": "SurfaceProps"
         }
       ],
@@ -79,12 +119,12 @@
       "description": "",
       "name": "className",
       "parent": {
-        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
         "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
           "name": "HTMLAttributes"
         }
       ],
@@ -100,7 +140,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
           "name": "TypeLiteral"
         }
       ],

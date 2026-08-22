@@ -6,6 +6,4 @@ build
 .turbo
 *.log
 .DS_Store
-docgen
-docs/components
-coverage
+

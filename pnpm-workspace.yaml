@@ -1,3 +1,16 @@
 packages:
   - 'packages/*'
   - 'apps/*'
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@swc/core': true
+  esbuild: true
+  lmdb: true
+  msgpackr-extract: true
+
+minimumReleaseAgeExclude:
+  - '@renr/parcel-reporter-rsc-router@1.0.0-alpha.14'
+
+patchedDependencies:
+  '@parcel/fs': patches/@parcel__fs.patch

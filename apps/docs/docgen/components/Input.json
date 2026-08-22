@@ -1,6 +1,6 @@
 {
   "name": "Input",
-  "path": "../../packages/core/src/components/Input.tsx",
+  "path": "packages/core/src/components/Input.tsx",
   "fileName": "Input.tsx",
   "props": {
     "className": {
@@ -8,12 +8,12 @@
       "description": "",
       "name": "className",
       "parent": {
-        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
         "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
           "name": "HTMLAttributes"
         }
       ],
@@ -29,7 +29,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
           "name": "TypeLiteral"
         }
       ],
@@ -47,23 +47,23 @@
       "name": "intent",
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Input.tsx",
+          "fileName": "cumulo/packages/core/src/components/Input.tsx",
           "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"error\" | undefined",
+        "raw": "\"error\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           }
         ]
       },
@@ -77,7 +77,7 @@
       "name": "size",
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Input.tsx",
+          "fileName": "cumulo/packages/core/src/components/Input.tsx",
           "name": "TypeLiteral"
         }
       ],

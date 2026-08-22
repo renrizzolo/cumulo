@@ -10,12 +10,12 @@
       "description": "",
       "name": "variant",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -50,12 +50,12 @@
       "description": "",
       "name": "intent",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -93,12 +93,12 @@
       "description": "",
       "name": "size",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -130,19 +130,19 @@
       "description": "",
       "name": "width",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"full\" | \"square\" | undefined",
+        "raw": "\"auto\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -152,9 +152,6 @@
           },
           {
             "value": "\"full\""
-          },
-          {
-            "value": "\"square\""
           }
         ]
       },
@@ -167,12 +164,12 @@
       "description": "",
       "name": "shape",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -199,12 +196,12 @@
       "description": "",
       "name": "disabled",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -219,12 +216,12 @@
       "description": "",
       "name": "icon",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -241,12 +238,12 @@
       "description": "",
       "name": "iconPosition",
       "parent": {
-        "fileName": "intento/packages/core/src/components/Button.tsx",
+        "fileName": "cumulo/packages/core/src/components/Button.tsx",
         "name": "ButtonProps"
       },
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/components/Button.tsx",
+          "fileName": "cumulo/packages/core/src/components/Button.tsx",
           "name": "ButtonProps"
         }
       ],
@@ -273,12 +270,12 @@
       "description": "",
       "name": "className",
       "parent": {
-        "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
         "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "intento/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
           "name": "HTMLAttributes"
         }
       ],
@@ -294,7 +291,7 @@
       "name": "ref",
       "declarations": [
         {
-          "fileName": "intento/packages/core/src/ElementProps.ts",
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
           "name": "TypeLiteral"
         }
       ],
