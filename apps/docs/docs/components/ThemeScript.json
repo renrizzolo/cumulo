@@ -1,0 +1,82 @@
+{
+  "name": "ThemeScript",
+  "path": "packages/core/src/theme/ThemeScript.tsx",
+  "fileName": "ThemeScript.tsx",
+  "props": {
+    "storageKey": {
+      "defaultValue": null,
+      "description": "",
+      "name": "storageKey",
+      "parent": {
+        "fileName": "intento/packages/core/src/theme/ThemeScript.tsx",
+        "name": "ThemeScriptOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/theme/ThemeScript.tsx",
+          "name": "ThemeScriptOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultTheme": {
+      "defaultValue": null,
+      "description": "",
+      "name": "defaultTheme",
+      "parent": {
+        "fileName": "intento/packages/core/src/theme/ThemeScript.tsx",
+        "name": "ThemeScriptOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/theme/ThemeScript.tsx",
+          "name": "ThemeScriptOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "Theme | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"light\""
+          },
+          {
+            "value": "\"dark\""
+          },
+          {
+            "value": "\"system\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "nonce": {
+      "defaultValue": null,
+      "description": "",
+      "name": "nonce",
+      "parent": {
+        "fileName": "intento/packages/core/src/theme/ThemeScript.tsx",
+        "name": "ThemeScriptOptions"
+      },
+      "declarations": [
+        {
+          "fileName": "intento/packages/core/src/theme/ThemeScript.tsx",
+          "name": "ThemeScriptOptions"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

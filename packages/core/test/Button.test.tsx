@@ -49,10 +49,15 @@ describe('Button component', () => {
     expect(large).toContain(buttonRecipe.classNames.variants.size.large);
   });
 
-  it('supports width and shape variants', () => {
+  it('supports width and shape variants including square for icon buttons', () => {
     const fullRound = buttonRecipe({ width: 'full', shape: 'round' });
     expect(fullRound).toContain(buttonRecipe.classNames.variants.width.full);
     expect(fullRound).toContain(buttonRecipe.classNames.variants.shape.round);
+
+    const squareSmall = buttonRecipe({ width: 'square', size: 'small' });
+    expect(squareSmall).toContain(buttonRecipe.classNames.variants.width.square);
+    expect(squareSmall).toContain(buttonRecipe.classNames.variants.size.small);
+    expect(buttonRecipe.classNames.compoundVariants.length).toBeGreaterThan(0);
   });
 
   it('instantiates Button element with proper props and children', () => {
@@ -68,5 +73,10 @@ describe('Button component', () => {
     expect(elem.props.disabled).toBe(true);
     expect(elem.props.children).toBe('Delete');
     expect(elem.props.className).toBe('test-btn');
+  });
+
+  it('supports iconOnly prop resolving to square button', () => {
+    const elem = <Button iconOnly size="small" aria-label="Action" />;
+    expect(elem.props.iconOnly).toBe(true);
   });
 });

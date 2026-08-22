@@ -3,3 +3,10 @@ export { Button, buttonRecipe, type ButtonProps, type ButtonVariants } from './B
 export { Card, cardRecipe, type CardProps } from './Card.js';
 export { Input, inputRecipe, type InputProps, type InputVariants } from './Input.js';
 export { Badge, badgeRecipe, type BadgeProps, type BadgeVariants } from './Badge.js';
+export {
+  ThemeToggle,
+  SunIcon,
+  MoonIcon,
+  SystemIcon,
+  type ThemeToggleProps,
+} from './ThemeToggle.js';
