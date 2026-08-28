@@ -1,4 +1,6 @@
-import MDXLayout, { CodeBlock } from '../components/MDXLayout.tsx';
+import Layout, { CodeBlock } from '../components/MDXLayout.tsx';
+export default Layout;
+export { CodeBlock };
 
 # @cumulo/css
 
@@ -14,17 +16,17 @@ import { vars } from '@cumulo/core';
 
 // Single style definition
 export const card = style({
-  padding: vars.space.lg,
-  backgroundColor: vars.color.bgSurface,
-  borderRadius: vars.radii.md,
-  border: `1px solid ${vars.color.border}`,
-  boxShadow: vars.shadow.sm,
+  padding: vars.spacing.lg,
+  backgroundColor: vars.surface.bg.DEFAULT,
+  borderRadius: vars.radius.md,
+  border: `1px solid ${vars.surface.border}`,
+  boxShadow: vars.shadow['1'],
   ':hover': {
-    boxShadow: vars.shadow.md,
+    boxShadow: vars.shadow['2'],
   },
   '@media': {
     '(max-width: 640px)': {
-      padding: vars.space.sm,
+      padding: vars.spacing.sm,
     },
   },
 });
@@ -94,7 +96,7 @@ export type ButtonVariants = RecipeVariants<typeof button>;
 const className = button({ variant: 'secondary', size: 'small' });
 ```
 
-## 2. Theme Contracts (`createThemeContract` & `createTheme`)
+## 3. Theme Contracts (`createThemeContract` & `createTheme`)
 
 Theme contracts define strongly typed CSS custom properties that can be mapped to various themes:
 
@@ -119,7 +121,7 @@ export const darkTheme = createTheme(colorContract, {
 });
 ```
 
-## 3. Animations (`keyframes`)
+## 4. Animations (`keyframes`)
 
 ```tsx
 import { keyframes, style } from '@cumulo/css';
@@ -134,7 +136,7 @@ export const spinner = style({
 });
 ```
 
-## 4. Merging Classes (`cx` & `props`)
+## 5. Merging Classes (`cx` & `props`)
 
 ```tsx
 import { cx, props } from '@cumulo/css';

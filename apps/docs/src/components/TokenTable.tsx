@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, Code, Text } from '@cumulo/core';
 
 export interface TokenItem {
   name: string;
@@ -12,67 +13,76 @@ export function TokenTable({
 }: {
   items: TokenItem[];
   type?: 'color' | 'space' | 'radii' | 'shadow' | 'text';
-}) {
+}): React.JSX.Element {
   return (
     <div style={{ overflowX: 'auto', margin: '20px 0' }}>
-      <table className="docs-table">
-        <thead>
-          <tr>
-            <th style={{ width: '40%' }}>Token</th>
-            <th>Value / Description</th>
-            {type !== 'text' && <th style={{ width: '120px' }}>Preview</th>}
-          </tr>
-        </thead>
-        <tbody>
+      <Table variant="bordered">
+        <Table.Header>
+          <Table.Row>
+            <Table.Head style={{ width: '40%' }}>Token</Table.Head>
+            <Table.Head>Value / Description</Table.Head>
+            {type !== 'text' && <Table.Head style={{ width: '120px' }}>Preview</Table.Head>}
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
           {items.map((item) => (
-            <tr key={item.name}>
-              <td>
-                <code>{item.name}</code>
-              </td>
-              <td>{item.description || item.value}</td>
+            <Table.Row key={item.name} interactive>
+              <Table.Cell>
+                <Code variant="primary">{item.name}</Code>
+              </Table.Cell>
+              <Table.Cell>
+                <Text type="body" size="sm">
+                  {item.description || item.value}
+                </Text>
+              </Table.Cell>
               {type === 'space' && (
-                <td aria-label={item.value}>
+                <Table.Cell aria-label={item.value}>
                   <div
                     style={{
                       height: '12px',
                       width: item.value || '8px',
                       maxWidth: '100px',
-                      backgroundColor: 'var(--docs-brand)',
+                      backgroundColor: 'var(--theme-primary, #6366f1)',
                       borderRadius: '2px',
                     }}
                   />
-                </td>
+                </Table.Cell>
               )}
               {type === 'radii' && (
-                <td aria-label={item.value}>
+                <Table.Cell aria-label={item.value}>
                   <div
                     style={{
                       width: '28px',
                       height: '28px',
-                      border: '2px solid var(--docs-brand)',
+                      border: '2px solid var(--theme-primary, #6366f1)',
                       borderRadius: item.value || '0px',
-                      background: 'var(--docs-brand-subtle)',
+                      backgroundColor: 'var(--theme-primary-subtle, rgba(99, 102, 241, 0.15))',
                     }}
                   />
-                </td>
+                </Table.Cell>
               )}
               {type === 'shadow' && (
-                <td aria-label={item.value}>
+                <Table.Cell aria-label={item.value}>
                   <div
                     style={{
                       width: '28px',
                       height: '28px',
                       borderRadius: '6px',
-                      background: 'var(--docs-bg)',
-                      border: '1px solid var(--docs-border)',
+                      backgroundColor: 'var(--surface-bg)',
+                      border: '1px solid var(--surface-border)',
+                      boxShadow: item.description?.includes('shadow-0')
+                        ? 'var(--theme-shadow-0)'
+                        : item.description?.includes('shadow-1')
+                          ? 'var(--theme-shadow-1)'
+                          : 'var(--theme-shadow-2)',
                     }}
                   />
-                </td>
+                </Table.Cell>
               )}
-            </tr>
+            </Table.Row>
           ))}
-        </tbody>
-      </table>
+        </Table.Body>
+      </Table>
     </div>
   );
 }
