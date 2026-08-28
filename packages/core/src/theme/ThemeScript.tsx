@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { DEFAULT_THEME_STORAGE_KEY, DEFAULT_THEME, type Theme } from './theme.js';
 
