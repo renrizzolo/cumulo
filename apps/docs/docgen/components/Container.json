@@ -1,74 +1,92 @@
 {
-  "name": "index",
-  "path": "packages/core/src/components/index.ts",
-  "fileName": "index.ts",
+  "name": "Container",
+  "path": "packages/core/src/components/Container.tsx",
+  "fileName": "Container.tsx",
   "props": {
-    "level": {
+    "size": {
       "defaultValue": {
-        "value": "1"
+        "value": "lg"
       },
       "description": "",
-      "name": "level",
+      "name": "size",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
+        "fileName": "cumulo/packages/core/src/components/Container.tsx",
+        "name": "ContainerProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
+          "fileName": "cumulo/packages/core/src/components/Container.tsx",
+          "name": "ContainerProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | 1 | 2 | undefined",
+        "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "0"
+            "value": "\"sm\""
           },
           {
-            "value": "1"
+            "value": "\"md\""
           },
           {
-            "value": "2"
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"full\""
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "variant": {
+    "padding": {
       "defaultValue": {
-        "value": "default"
+        "value": "md"
       },
       "description": "",
-      "name": "variant",
+      "name": "padding",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
+        "fileName": "cumulo/packages/core/src/components/Container.tsx",
+        "name": "ContainerProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
+          "fileName": "cumulo/packages/core/src/components/Container.tsx",
+          "name": "ContainerProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"none\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"xl\""
           }
         ]
       },

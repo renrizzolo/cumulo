@@ -62,7 +62,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | 2 | 1 | undefined",
+        "raw": "0 | 1 | 2 | undefined",
         "value": [
           {
             "value": "undefined"
@@ -71,10 +71,10 @@
             "value": "0"
           },
           {
-            "value": "2"
+            "value": "1"
           },
           {
-            "value": "1"
+            "value": "2"
           }
         ]
       },
@@ -99,16 +99,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
+        "raw": "\"default\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           }
         ]
       },
