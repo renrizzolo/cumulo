@@ -79,15 +79,7 @@ export function Nav({
         }}
       >
         <span>{item.label}</span>
-        {item.badge ? (
-          <Badge variant="outline" size="small">
-            {item.badge}
-          </Badge>
-        ) : isActive ? (
-          <Badge variant="primary" intent="primary" size="small">
-            Active
-          </Badge>
-        ) : null}
+        {item.badge ? <Badge variant="outline">{item.badge}</Badge> : null}
       </Link>
     );
   };

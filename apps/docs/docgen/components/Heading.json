@@ -72,10 +72,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
+        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -85,9 +88,6 @@
           },
           {
             "value": "\"lg\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"xl\""
@@ -124,19 +124,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"bold\""
           },
           {
             "value": "\"medium\""
           },
           {
             "value": "\"normal\""
-          },
-          {
-            "value": "\"bold\""
           },
           {
             "value": "\"semibold\""
@@ -164,19 +164,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"default\" | \"primary\" | \"muted\" | undefined",
+        "raw": "\"primary\" | \"inherit\" | \"default\" | \"muted\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"primary\""
           },
           {
             "value": "\"inherit\""
           },
           {
             "value": "\"default\""
-          },
-          {
-            "value": "\"primary\""
           },
           {
             "value": "\"muted\""

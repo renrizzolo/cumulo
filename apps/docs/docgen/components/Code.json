@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"subtle\" | \"ghost\" | undefined",
+        "raw": "\"primary\" | \"ghost\" | \"subtle\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -31,10 +31,10 @@
             "value": "\"primary\""
           },
           {
-            "value": "\"subtle\""
+            "value": "\"ghost\""
           },
           {
-            "value": "\"ghost\""
+            "value": "\"subtle\""
           }
         ]
       },

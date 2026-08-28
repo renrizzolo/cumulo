@@ -22,19 +22,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
+        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"row\""
           },
           {
             "value": "\"column\""
           },
           {
             "value": "\"column-reverse\""
-          },
-          {
-            "value": "\"row\""
           },
           {
             "value": "\"row-reverse\""
@@ -62,10 +62,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"2xs\" | \"xs\" | \"xl\" | \"2xl\" | \"3xs\" | undefined",
+        "raw": "\"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"2xs\" | \"xl\" | \"2xl\" | \"3xs\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"none\""
@@ -81,9 +84,6 @@
           },
           {
             "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"xl\""
@@ -117,16 +117,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"baseline\" | \"stretch\" | \"center\" | \"end\" | \"start\" | undefined",
+        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"baseline\""
-          },
-          {
-            "value": "\"stretch\""
           },
           {
             "value": "\"center\""
@@ -136,6 +130,12 @@
           },
           {
             "value": "\"start\""
+          },
+          {
+            "value": "\"baseline\""
+          },
+          {
+            "value": "\"stretch\""
           }
         ]
       },
