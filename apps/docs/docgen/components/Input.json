@@ -54,16 +54,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           }
         ]
       },
@@ -93,10 +93,13 @@
             "value": "\"inherit\""
           },
           {
+            "value": "\"large\""
+          },
+          {
             "value": "\"small\""
           },
           {
-            "value": "\"large\""
+            "value": "\"xSmall\""
           },
           {
             "value": "\"base\""

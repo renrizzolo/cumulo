@@ -142,7 +142,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"full\" | undefined",
+        "raw": "\"auto\" | \"full\" | \"square\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -152,6 +152,9 @@
           },
           {
             "value": "\"full\""
+          },
+          {
+            "value": "\"square\""
           }
         ]
       },

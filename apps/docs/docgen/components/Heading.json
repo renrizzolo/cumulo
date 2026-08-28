@@ -1,169 +1,185 @@
 {
-  "name": "Badge",
-  "path": "packages/core/src/components/Badge.tsx",
-  "fileName": "Badge.tsx",
+  "name": "Heading",
+  "path": "packages/core/src/components/Heading.tsx",
+  "fileName": "Heading.tsx",
   "props": {
-    "variant": {
-      "defaultValue": null,
+    "as": {
+      "defaultValue": {
+        "value": "h2"
+      },
       "description": "",
-      "name": "variant",
+      "name": "as",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-        "name": "BadgeProps"
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-          "name": "BadgeProps"
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "BaseVariant | undefined",
+        "raw": "HeadingLevel | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"h1\""
           },
           {
-            "value": "\"secondary\""
+            "value": "\"h2\""
           },
           {
-            "value": "\"outline\""
+            "value": "\"h3\""
           },
           {
-            "value": "\"ghost\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "intent": {
-      "defaultValue": null,
-      "description": "",
-      "name": "intent",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-        "name": "BadgeProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-          "name": "BadgeProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "Intent | undefined",
-        "value": [
-          {
-            "value": "undefined"
+            "value": "\"h4\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"h5\""
           },
           {
-            "value": "\"success\""
+            "value": "\"h6\""
           },
           {
-            "value": "\"warning\""
+            "value": "\"div\""
           },
           {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"info\""
+            "value": "\"span\""
           }
         ]
       },
       "shortPropTypeName": null
     },
     "size": {
-      "defaultValue": {
-        "value": "xSmall"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "size",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-        "name": "BadgeProps"
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-          "name": "BadgeProps"
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "ComponentSize | undefined",
+        "raw": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"small\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"xSmall\""
+            "value": "\"md\""
           },
           {
-            "value": "\"large\""
+            "value": "\"lg\""
           },
           {
-            "value": "\"base\""
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"3xl\""
+          },
+          {
+            "value": "\"4xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "weight": {
+      "defaultValue": {
+        "value": "bold"
+      },
+      "description": "",
+      "name": "weight",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"normal\""
+          },
+          {
+            "value": "\"bold\""
+          },
+          {
+            "value": "\"semibold\""
           }
         ]
       },
       "shortPropTypeName": null
     },
     "color": {
-      "defaultValue": null,
+      "defaultValue": {
+        "value": "default"
+      },
       "description": "",
       "name": "color",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-        "name": "BadgeProps"
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Badge.tsx",
-          "name": "BadgeProps"
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "BadgeColor | undefined",
+        "raw": "\"inherit\" | \"default\" | \"primary\" | \"muted\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"beige\""
+            "value": "\"inherit\""
           },
           {
-            "value": "\"blue\""
+            "value": "\"default\""
           },
           {
-            "value": "\"green\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"pink\""
-          },
-          {
-            "value": "\"purple\""
-          },
-          {
-            "value": "\"yellow\""
-          },
-          {
-            "value": "\"sky\""
+            "value": "\"muted\""
           }
         ]
       },
@@ -201,9 +217,9 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLSpanElement> | undefined"
+        "name": "Ref<HTMLElement> | undefined"
       },
-      "shortPropTypeName": "Union"
+      "shortPropTypeName": null
     }
   }
 }

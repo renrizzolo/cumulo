@@ -1,74 +1,83 @@
 {
-  "name": "index",
-  "path": "packages/core/src/components/index.ts",
-  "fileName": "index.ts",
+  "name": "Divider",
+  "path": "packages/core/src/components/Divider.tsx",
+  "fileName": "Divider.tsx",
   "props": {
-    "level": {
+    "orientation": {
       "defaultValue": {
-        "value": "1"
+        "value": "horizontal"
       },
       "description": "",
-      "name": "level",
+      "name": "orientation",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
+        "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+        "name": "DividerProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
+          "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+          "name": "DividerProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "0 | 1 | 2 | undefined",
+        "raw": "\"horizontal\" | \"vertical\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "0"
+            "value": "\"horizontal\""
           },
           {
-            "value": "1"
-          },
-          {
-            "value": "2"
+            "value": "\"vertical\""
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "variant": {
+    "spacing": {
       "defaultValue": {
-        "value": "default"
+        "value": "none"
       },
       "description": "",
-      "name": "variant",
+      "name": "spacing",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
+        "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+        "name": "DividerProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
+          "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+          "name": "DividerProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"none\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"xl\""
           }
         ]
       },
@@ -106,7 +115,7 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLDivElement> | undefined"
+        "name": "Ref<HTMLHRElement> | undefined"
       },
       "shortPropTypeName": "Union"
     }
