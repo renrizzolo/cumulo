@@ -1,0 +1,43 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Text, VStack } from '@cumulo/core';
+import textDoc from '../../../docgen/components/Text.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Text
+
+Text renders contextual typography with semantic presets (`body`, `label`, `display`, `lead`, `caption`, `code`) or fine-grained size, weight, and tone overrides.
+
+```tsx
+import { Text } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Contextual Text Presets"
+  description="Semantic types automatically configure element, font size, line height, and weight."
+  code={`<VStack gap="sm">
+  <Text type="display">Display Headline</Text>
+  <Text type="lead">Lead paragraph providing high-level introductory context.</Text>
+  <Text type="body">Standard body copy styled with relaxed line height and neutral foreground color.</Text>
+  <Text type="label">Interactive Button / Input Label</Text>
+  <Text type="caption">Secondary metadata or timestamp caption</Text>
+</VStack>`}
+>
+  <VStack gap="sm">
+    <Text type="display">Display Headline</Text>
+    <Text type="lead">Lead paragraph providing high-level introductory context.</Text>
+    <Text type="body">
+      Standard body copy styled with relaxed line height and neutral foreground color.
+    </Text>
+    <Text type="label">Interactive Button / Input Label</Text>
+    <Text type="caption">Secondary metadata or timestamp caption</Text>
+  </VStack>
+</ComponentPreview>
+
+---
+
+## Component API
+
+<PropsTable data={textDoc} />

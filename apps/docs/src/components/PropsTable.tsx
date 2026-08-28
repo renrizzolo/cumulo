@@ -21,11 +21,11 @@ export interface DocgenData {
   path?: string;
   fileName?: string;
   description?: string;
-  props: Record<string, DocgenProp>;
+  props?: Record<string, DocgenProp>;
 }
 
 export interface PropsTableProps {
-  data: DocgenData;
+  data?: DocgenData | null;
   excludeProps?: string[];
 }
 
@@ -57,7 +57,7 @@ export function PropsTable({
   data,
   excludeProps = ['ref', 'className', 'style'],
 }: PropsTableProps): React.JSX.Element {
-  const propKeys = Object.keys(data.props || {}).filter((key) => !excludeProps.includes(key));
+  const propKeys = Object.keys(data?.props || {}).filter((key) => !excludeProps.includes(key));
 
   if (propKeys.length === 0) {
     return (
@@ -79,7 +79,8 @@ export function PropsTable({
       </Table.Header>
       <Table.Body>
         {propKeys.map((key) => {
-          const prop = data.props[key];
+          const prop = data?.props?.[key];
+          if (!prop) return null;
           const defaultValue = prop.defaultValue?.value;
           const cleanDefault = defaultValue?.replace(/^["']|["']$/g, '');
 

@@ -1,0 +1,47 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Divider, VStack, HStack, Text } from '@cumulo/core';
+import dividerDoc from '../../../docgen/components/Divider.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Divider
+
+Dividers provide clean horizontal or vertical visual separators between layout sections.
+
+```tsx
+import { Divider } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Horizontal and Vertical Dividers"
+  description="Semantic separator with tokenized surface border colors."
+  code={`<VStack gap="md">
+  <Text type="body">Content section above</Text>
+  <Divider orientation="horizontal" spacing="sm" />
+  <Text type="body">Content section below</Text>
+  <HStack gap="md" align="center" style={{ height: '32px' }}>
+    <Text type="label">Left Item</Text>
+    <Divider orientation="vertical" />
+    <Text type="label">Right Item</Text>
+  </HStack>
+</VStack>`}
+>
+  <VStack gap="md">
+    <Text type="body">Content section above</Text>
+    <Divider orientation="horizontal" spacing="sm" />
+    <Text type="body">Content section below</Text>
+    <HStack gap="md" align="center" style={{ height: '32px' }}>
+      <Text type="label">Left Item</Text>
+      <Divider orientation="vertical" />
+      <Text type="label">Right Item</Text>
+    </HStack>
+  </VStack>
+</ComponentPreview>
+
+---
+
+## Component API
+
+<PropsTable data={dividerDoc} />

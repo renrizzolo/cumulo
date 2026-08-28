@@ -1,0 +1,59 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Container, Card, Text, VStack } from '@cumulo/core';
+import containerDoc from '../../../docgen/components/Container.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Container
+
+Containers constrain content width to standard responsive breakpoints and center layouts horizontally.
+
+```tsx
+import { Container } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Constrained Container"
+  description="Containers provide sm, md, lg, xl, and full max-width bounds."
+  code={`<VStack gap="sm">
+  <Container size="sm" padding="sm" style={{ border: '1px dashed var(--theme-primary)', borderRadius: '4px', textAlign: 'center' }}>
+    <Text type="caption">Small Container (max 640px)</Text>
+  </Container>
+  <Container size="md" padding="sm" style={{ border: '1px dashed var(--theme-primary)', borderRadius: '4px', textAlign: 'center' }}>
+    <Text type="caption">Medium Container (max 768px)</Text>
+  </Container>
+</VStack>`}
+>
+  <VStack gap="sm">
+    <Container
+      size="sm"
+      padding="sm"
+      style={{
+        border: '1px dashed var(--theme-primary, #6366f1)',
+        borderRadius: '4px',
+        textAlign: 'center',
+      }}
+    >
+      <Text type="caption">Small Container (max 640px)</Text>
+    </Container>
+    <Container
+      size="md"
+      padding="sm"
+      style={{
+        border: '1px dashed var(--theme-primary, #6366f1)',
+        borderRadius: '4px',
+        textAlign: 'center',
+      }}
+    >
+      <Text type="caption">Medium Container (max 768px)</Text>
+    </Container>
+  </VStack>
+</ComponentPreview>
+
+---
+
+## Component API
+
+<PropsTable data={containerDoc} />

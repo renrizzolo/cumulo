@@ -1,0 +1,53 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Surface, VStack, HStack, Heading, Text, Badge } from '@cumulo/core';
+import surfaceDoc from '../../../docgen/components/Surface.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Surface
+
+Surfaces form the foundational layering system of Cumulo. They establish contextual CSS variables (`--surface-bg`, `--surface-bg-next`, `--surface-fg`, `--surface-border`) so nested elements automatically adapt their visual depth.
+
+```tsx
+import { Surface } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Contextual Surface Hierarchy"
+  description="Observe how nested surfaces transition from Level 0 to Level 2."
+  code={`<Surface level={0} style={{ padding: '24px' }}>
+  <VStack gap="md">
+    <Text type="label">Level 0: Canvas</Text>
+    <Surface level={1} style={{ padding: '20px' }}>
+      <VStack gap="md">
+        <Text type="label">Level 1: Card / Container</Text>
+        <Surface level={2} style={{ padding: '16px' }}>
+          <Text type="label">Level 2: Modal / Popover</Text>
+        </Surface>
+      </VStack>
+    </Surface>
+  </VStack>
+</Surface>`}
+>
+  <Surface level={0} style={{ padding: '24px' }}>
+    <VStack gap="md">
+      <Text type="label">Level 0: Canvas</Text>
+      <Surface level={1} style={{ padding: '20px' }}>
+        <VStack gap="md">
+          <Text type="label">Level 1: Card / Container</Text>
+          <Surface level={2} style={{ padding: '16px' }}>
+            <Text type="label">Level 2: Modal / Popover</Text>
+          </Surface>
+        </VStack>
+      </Surface>
+    </VStack>
+  </Surface>
+</ComponentPreview>
+
+---
+
+## Component API
+
+<PropsTable data={surfaceDoc} />

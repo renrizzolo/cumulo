@@ -11,6 +11,90 @@ declare module "@renr/parcel-rsc-router" {
   namespace App {
     interface Routes {
       "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
+      "/components/badge": {
+        slug: "badge";
+        path: "/components/badge";
+        rsc: "/components/badge.rsc";
+        html: "/components/badge.html";
+      };
+      "/components/button": {
+        slug: "button";
+        path: "/components/button";
+        rsc: "/components/button.rsc";
+        html: "/components/button.html";
+      };
+      "/components/card": {
+        slug: "card";
+        path: "/components/card";
+        rsc: "/components/card.rsc";
+        html: "/components/card.html";
+      };
+      "/components/code": {
+        slug: "code";
+        path: "/components/code";
+        rsc: "/components/code.rsc";
+        html: "/components/code.html";
+      };
+      "/components/container": {
+        slug: "container";
+        path: "/components/container";
+        rsc: "/components/container.rsc";
+        html: "/components/container.html";
+      };
+      "/components/divider": {
+        slug: "divider";
+        path: "/components/divider";
+        rsc: "/components/divider.rsc";
+        html: "/components/divider.html";
+      };
+      "/components/field": {
+        slug: "field";
+        path: "/components/field";
+        rsc: "/components/field.rsc";
+        html: "/components/field.html";
+      };
+      "/components/heading": {
+        slug: "heading";
+        path: "/components/heading";
+        rsc: "/components/heading.rsc";
+        html: "/components/heading.html";
+      };
+      "/components/input": {
+        slug: "input";
+        path: "/components/input";
+        rsc: "/components/input.rsc";
+        html: "/components/input.html";
+      };
+      "/components/stack": {
+        slug: "stack";
+        path: "/components/stack";
+        rsc: "/components/stack.rsc";
+        html: "/components/stack.html";
+      };
+      "/components/surface": {
+        slug: "surface";
+        path: "/components/surface";
+        rsc: "/components/surface.rsc";
+        html: "/components/surface.html";
+      };
+      "/components/table": {
+        slug: "table";
+        path: "/components/table";
+        rsc: "/components/table.rsc";
+        html: "/components/table.html";
+      };
+      "/components/text": {
+        slug: "text";
+        path: "/components/text";
+        rsc: "/components/text.rsc";
+        html: "/components/text.html";
+      };
+      "/components/theme-toggle": {
+        slug: "theme-toggle";
+        path: "/components/theme-toggle";
+        rsc: "/components/theme-toggle.rsc";
+        html: "/components/theme-toggle.html";
+      };
       "/css": { slug: "css"; path: "/css"; rsc: "/css.rsc"; html: "/css.html" };
       "/tokens": {
         slug: "tokens";
@@ -28,6 +112,90 @@ export const flatRoutes = [
     slug: "index",
     rsc: "/index.rsc",
     html: "/index.html",
+  },
+  {
+    path: "/components/badge",
+    slug: "badge",
+    rsc: "/components/badge.rsc",
+    html: "/components/badge.html",
+  },
+  {
+    path: "/components/button",
+    slug: "button",
+    rsc: "/components/button.rsc",
+    html: "/components/button.html",
+  },
+  {
+    path: "/components/card",
+    slug: "card",
+    rsc: "/components/card.rsc",
+    html: "/components/card.html",
+  },
+  {
+    path: "/components/code",
+    slug: "code",
+    rsc: "/components/code.rsc",
+    html: "/components/code.html",
+  },
+  {
+    path: "/components/container",
+    slug: "container",
+    rsc: "/components/container.rsc",
+    html: "/components/container.html",
+  },
+  {
+    path: "/components/divider",
+    slug: "divider",
+    rsc: "/components/divider.rsc",
+    html: "/components/divider.html",
+  },
+  {
+    path: "/components/field",
+    slug: "field",
+    rsc: "/components/field.rsc",
+    html: "/components/field.html",
+  },
+  {
+    path: "/components/heading",
+    slug: "heading",
+    rsc: "/components/heading.rsc",
+    html: "/components/heading.html",
+  },
+  {
+    path: "/components/input",
+    slug: "input",
+    rsc: "/components/input.rsc",
+    html: "/components/input.html",
+  },
+  {
+    path: "/components/stack",
+    slug: "stack",
+    rsc: "/components/stack.rsc",
+    html: "/components/stack.html",
+  },
+  {
+    path: "/components/surface",
+    slug: "surface",
+    rsc: "/components/surface.rsc",
+    html: "/components/surface.html",
+  },
+  {
+    path: "/components/table",
+    slug: "table",
+    rsc: "/components/table.rsc",
+    html: "/components/table.html",
+  },
+  {
+    path: "/components/text",
+    slug: "text",
+    rsc: "/components/text.rsc",
+    html: "/components/text.html",
+  },
+  {
+    path: "/components/theme-toggle",
+    slug: "theme-toggle",
+    rsc: "/components/theme-toggle.rsc",
+    html: "/components/theme-toggle.html",
   },
   {
     path: "/css",
@@ -49,6 +217,104 @@ export const routeTree = {
   html: "/index.html",
   rsc: "/index.rsc",
   children: [
+    {
+      path: "/components/badge",
+      slug: "badge",
+      html: "/components/badge.html",
+      rsc: "/components/badge.rsc",
+      children: [],
+    },
+    {
+      path: "/components/button",
+      slug: "button",
+      html: "/components/button.html",
+      rsc: "/components/button.rsc",
+      children: [],
+    },
+    {
+      path: "/components/card",
+      slug: "card",
+      html: "/components/card.html",
+      rsc: "/components/card.rsc",
+      children: [],
+    },
+    {
+      path: "/components/code",
+      slug: "code",
+      html: "/components/code.html",
+      rsc: "/components/code.rsc",
+      children: [],
+    },
+    {
+      path: "/components/container",
+      slug: "container",
+      html: "/components/container.html",
+      rsc: "/components/container.rsc",
+      children: [],
+    },
+    {
+      path: "/components/divider",
+      slug: "divider",
+      html: "/components/divider.html",
+      rsc: "/components/divider.rsc",
+      children: [],
+    },
+    {
+      path: "/components/field",
+      slug: "field",
+      html: "/components/field.html",
+      rsc: "/components/field.rsc",
+      children: [],
+    },
+    {
+      path: "/components/heading",
+      slug: "heading",
+      html: "/components/heading.html",
+      rsc: "/components/heading.rsc",
+      children: [],
+    },
+    {
+      path: "/components/input",
+      slug: "input",
+      html: "/components/input.html",
+      rsc: "/components/input.rsc",
+      children: [],
+    },
+    {
+      path: "/components/stack",
+      slug: "stack",
+      html: "/components/stack.html",
+      rsc: "/components/stack.rsc",
+      children: [],
+    },
+    {
+      path: "/components/surface",
+      slug: "surface",
+      html: "/components/surface.html",
+      rsc: "/components/surface.rsc",
+      children: [],
+    },
+    {
+      path: "/components/table",
+      slug: "table",
+      html: "/components/table.html",
+      rsc: "/components/table.rsc",
+      children: [],
+    },
+    {
+      path: "/components/text",
+      slug: "text",
+      html: "/components/text.html",
+      rsc: "/components/text.rsc",
+      children: [],
+    },
+    {
+      path: "/components/theme-toggle",
+      slug: "theme-toggle",
+      html: "/components/theme-toggle.html",
+      rsc: "/components/theme-toggle.rsc",
+      children: [],
+    },
     {
       path: "/css",
       slug: "css",
@@ -73,6 +339,90 @@ export const routesByPage = {
     slug: "index",
     rsc: "/index.rsc",
     html: "/index.html",
+  },
+  "/components/badge.html": {
+    path: "/components/badge",
+    slug: "badge",
+    rsc: "/components/badge.rsc",
+    html: "/components/badge.html",
+  },
+  "/components/button.html": {
+    path: "/components/button",
+    slug: "button",
+    rsc: "/components/button.rsc",
+    html: "/components/button.html",
+  },
+  "/components/card.html": {
+    path: "/components/card",
+    slug: "card",
+    rsc: "/components/card.rsc",
+    html: "/components/card.html",
+  },
+  "/components/code.html": {
+    path: "/components/code",
+    slug: "code",
+    rsc: "/components/code.rsc",
+    html: "/components/code.html",
+  },
+  "/components/container.html": {
+    path: "/components/container",
+    slug: "container",
+    rsc: "/components/container.rsc",
+    html: "/components/container.html",
+  },
+  "/components/divider.html": {
+    path: "/components/divider",
+    slug: "divider",
+    rsc: "/components/divider.rsc",
+    html: "/components/divider.html",
+  },
+  "/components/field.html": {
+    path: "/components/field",
+    slug: "field",
+    rsc: "/components/field.rsc",
+    html: "/components/field.html",
+  },
+  "/components/heading.html": {
+    path: "/components/heading",
+    slug: "heading",
+    rsc: "/components/heading.rsc",
+    html: "/components/heading.html",
+  },
+  "/components/input.html": {
+    path: "/components/input",
+    slug: "input",
+    rsc: "/components/input.rsc",
+    html: "/components/input.html",
+  },
+  "/components/stack.html": {
+    path: "/components/stack",
+    slug: "stack",
+    rsc: "/components/stack.rsc",
+    html: "/components/stack.html",
+  },
+  "/components/surface.html": {
+    path: "/components/surface",
+    slug: "surface",
+    rsc: "/components/surface.rsc",
+    html: "/components/surface.html",
+  },
+  "/components/table.html": {
+    path: "/components/table",
+    slug: "table",
+    rsc: "/components/table.rsc",
+    html: "/components/table.html",
+  },
+  "/components/text.html": {
+    path: "/components/text",
+    slug: "text",
+    rsc: "/components/text.rsc",
+    html: "/components/text.html",
+  },
+  "/components/theme-toggle.html": {
+    path: "/components/theme-toggle",
+    slug: "theme-toggle",
+    rsc: "/components/theme-toggle.rsc",
+    html: "/components/theme-toggle.html",
   },
   "/css.html": {
     path: "/css",

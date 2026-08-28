@@ -1,6 +1,5 @@
 import { InteractivePlayground } from '../components/InteractivePlayground.tsx';
-import MDXLayout, { CodeBlock, PropsTable, ComponentPreview } from '../components/MDXLayout.tsx';
-import { ColorTokens } from '../components/ColorTokens.tsx';
+import MDXLayout, { CodeBlock, ComponentPreview } from '../components/MDXLayout.tsx';
 import {
   Button,
   Badge,
@@ -12,13 +11,8 @@ import {
   Text,
   Heading,
   Surface,
+  Table,
 } from '@cumulo/core';
-import buttonDoc from '../../docgen/components/Button.json';
-import badgeDoc from '../../docgen/components/Badge.json';
-import themeToggleDoc from '../../docgen/components/ThemeToggle.json';
-import cardDoc from '../../docgen/components/Card.json';
-import inputDoc from '../../docgen/components/Input.json';
-import surfaceDoc from '../../docgen/components/Surface.json';
 
 # Cumulo UI
 
@@ -47,173 +41,200 @@ Experience real-time OKLCH color seeding and nested surface depth adaptation:
 
 ---
 
-## Colors
+## Component Catalog
 
-<ColorTokens />
+Explore individual component documentation, interactive stories, and TypeScript prop definitions in the sidebar:
 
-## Component Documentation & Building Blocks
-
-Explore the storybook-style interactive component previews and prop specifications generated directly from TypeScript definitions.
-
-### Button
-
-Buttons trigger actions or events with multiple variant types, semantic intents, and sizes.
-
-<ComponentPreview
-  title="Button Variations"
-  description="Explore primary, secondary, outline, and ghost variants across intents."
-  code={`<HStack gap="sm" wrap="wrap" align="center">
-  <Button variant="primary">Primary</Button>
-  <Button variant="secondary">Secondary</Button>
-  <Button variant="outline" intent="success">Outline Success</Button>
-  <Button variant="ghost" intent="error">Ghost Error</Button>
-  <Button size="small" variant="primary" shape="round">Round Small</Button>
-</HStack>`}
->
-  <HStack gap="sm" wrap="wrap" align="center">
-    <Button variant="primary">Primary</Button>
-    <Button variant="secondary">Secondary</Button>
-    <Button variant="outline" intent="success">
-      Outline Success
-    </Button>
-    <Button variant="ghost" intent="error">
-      Ghost Error
-    </Button>
-    <Button size="small" variant="primary" shape="round">
-      Round Small
-    </Button>
-    <Button intent="success">success</Button>
-    <Button intent="error">error</Button>
-    <Button variant="secondary" intent="success">
-        success
-    </Button>
-    <Button variant="secondary" intent="error">
-        error
-    </Button>
-    <Button variant="outline" intent="success">
-        success
-    </Button>
-    <Button variant="outline" intent="error">
-        error
-    </Button>
-    <Button variant="ghost" intent="success">
-        success
-    </Button>
-    <Button variant="ghost" intent="error">
-        error
-    </Button>
-
-  </HStack>
-</ComponentPreview>
-
-<PropsTable data={buttonDoc} />
-
----
-
-### Badge
-
-Badges highlight status, tags, counts, and metadata.
-
-<ComponentPreview
-  title="Badge States"
-  description="Badges inherit intent colors and support small, base, and large sizes."
-  code={`<HStack gap="sm" wrap="wrap" align="center">
-  <Badge variant="primary">Primary</Badge>
-  <Badge variant="secondary">Active</Badge>
-  <Badge variant="outline" intent="warning">Warning</Badge>
-  <Badge variant="ghost" intent="error">Error</Badge>
-  <Badge variant="primary" intent="info" size="large">Large Info</Badge>
-</HStack>`}
->
-  <VStack gap="sm">
-    <HStack gap="sm" wrap="wrap" align="center">
-      <Badge variant="primary">Primary</Badge>
-      <Badge variant="secondary">Secondary</Badge>
-      <Badge variant="outline" intent="warning">
-        Warning
-      </Badge>
-      <Badge variant="ghost" intent="error">
-        Error
-      </Badge>
-      <Badge variant="primary" intent="info">
-        Info
-      </Badge>
-    </HStack>
-    <HStack gap="sm" wrap="wrap" align="center">
-      <Badge>default</Badge>
-      <Badge color="yellow">yellow</Badge>
-      <Badge color="blue">blue</Badge>
-      <Badge color="green">green</Badge>
-      <Badge color="beige">beige</Badge>
-      <Badge color="pink">pink</Badge>
-      <Badge color="purple">purple</Badge>
-      <Badge color="sky">sky</Badge>
-    </HStack>
-  </VStack>
-</ComponentPreview>
-
-<PropsTable data={badgeDoc} />
-
----
-
-### ThemeToggle
-
-Smart theme toggle supporting 2-state toggle and 3-state cycling (light / dark / system) with zero hydration flicker.
-
-<ComponentPreview
-  title="Theme Toggle Modes"
-  description="Supports toggle mode and 3-state cycle mode."
-  code={`<HStack gap="md" align="center">
-  <ThemeToggle size="base" variant="outline" mode="toggle" />
-  <ThemeToggle size="base" variant="secondary" mode="cycle" showLabel />
-</HStack>`}
->
-  <HStack gap="md" align="center">
-    <ThemeToggle size="base" variant="outline" mode="toggle" />
-    <ThemeToggle size="base" variant="secondary" mode="cycle" showLabel />
-  </HStack>
-</ComponentPreview>
-
-<PropsTable data={themeToggleDoc} />
-
----
-
-### Surface & Card
-
-Surfaces provide elevation and container boundaries with automatic nested background darkening.
-
-<ComponentPreview
-  title="Card Hierarchy"
-  description="Cards wrap Surfaces with tokenized padding and elevation levels."
-  code={`<VStack gap="md">
-  <Card level={1} padding="md">
-    <Heading as="h5" size="sm">Level 1 Card</Heading>
-    <Text type="caption" color="muted">Default container surface</Text>
-  </Card>
-  <Card level={2} padding="md">
-    <Heading as="h5" size="sm">Level 2 Elevated Card</Heading>
-    <Text type="caption" color="muted">Modal or elevated popover surface</Text>
-  </Card>
-</VStack>`}
->
-  <VStack gap="md">
-    <Card level={1} padding="md">
-      <Heading as="h5" size="sm">
-        Level 1 Card
-      </Heading>
-      <Text type="caption" color="muted">
-        Default container surface
-      </Text>
-    </Card>
-    <Card level={2} padding="md">
-      <Heading as="h5" size="sm">
-        Level 2 Elevated Card
-      </Heading>
-      <Text type="caption" color="muted">
-        Modal or elevated popover surface
-      </Text>
-    </Card>
-  </VStack>
-</ComponentPreview>
-
-<PropsTable data={cardDoc} />
+<Table variant="bordered">
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>Component</Table.Head>
+      <Table.Head>Category</Table.Head>
+      <Table.Head>Description</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/button">Button</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="primary">Action</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Trigger actions across variants, intents, and sizes.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/badge">Badge</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="secondary">Feedback</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Highlight status, tags, and counts.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/card">Card</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="outline">Surfaces</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Elevated surface container with tokenized padding.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/input">Input</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="primary">Forms</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Form input with auto-adapting surface background.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/field">Field</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="outline">Compound</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Accessible form field orchestration across subcomponents.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/surface">Surface</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="secondary">Layout</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Contextual depth and background adaptation.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/stack">Stack</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="secondary">Layout</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Flexbox layout with direction, gap, align, and wrap.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/container">Container</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="secondary">Layout</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Max-width responsive layout constraint.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/heading">Heading</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="outline">Typography</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Semantic heading levels with typographic scale tokens.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/text">Text</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="outline">Typography</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Contextual body, label, display, lead, and caption copy.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/code">Code</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="outline">Typography</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Inline monospace tokens with surface styling.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/divider">Divider</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="secondary">Layout</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Horizontal and vertical visual separators.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/table">Table</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="outline">Data</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Compound table component with interactive hover states.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row interactive>
+      <Table.Cell>
+        <a href="/components/theme-toggle">ThemeToggle</a>
+      </Table.Cell>
+      <Table.Cell>
+        <Badge variant="primary">Theme</Badge>
+      </Table.Cell>
+      <Table.Cell>
+        <Text type="body" size="sm">
+          Smart light/dark/system toggle with hydration matching.
+        </Text>
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
