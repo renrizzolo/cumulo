@@ -1,3 +1,5 @@
+'use client';
+
 import { cx, style } from '@cumulo/css';
 import React, { useCallback } from 'react';
 import type { Theme } from '../theme/theme.js';
@@ -93,7 +95,7 @@ export function ThemeToggle({
   shape = 'round',
   mode = 'toggle',
   size = 'small',
-  width = 'square',
+  width,
   cycle,
   showLabel = false,
   labelMap,

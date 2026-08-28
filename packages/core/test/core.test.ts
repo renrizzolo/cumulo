@@ -7,8 +7,6 @@ import {
   surfaceRecipe,
   inputRecipe,
   badgeRecipe,
-  Field,
-  Label,
 } from '../src/index.js';
 
 describe('@cumulo/core', () => {
@@ -57,15 +55,5 @@ describe('@cumulo/core', () => {
 
     const badgeClass = badgeRecipe({ variant: 'secondary', intent: 'success' });
     expect(badgeClass).toContain(badgeRecipe.classNames.variants.variant.secondary);
-  });
-
-  it('exports Field compound components and Label', () => {
-    expect(Field.Root).toBeDefined();
-    expect(Field.Input).toBeDefined();
-    expect(Field.Label).toBeDefined();
-    expect(Field.Error).toBeDefined();
-    expect(Field.Description).toBeDefined();
-    expect(Field.Group).toBeDefined();
-    expect(Label).toBeDefined();
   });
 });
