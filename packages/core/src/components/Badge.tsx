@@ -1,9 +1,9 @@
 import React from 'react';
-import { recipe, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { ElementProps } from '../ElementProps.js';
+import { type ElementProps } from '../ElementProps.js';
 import {
-  allIntentStyles,
+  staticIntentStyles,
   sizes,
   type BaseVariant,
   type Intent,
@@ -12,7 +12,7 @@ import {
 
 export const badgeRecipe = recipe(
   {
-    extend: [allIntentStyles, sizes],
+    extend: [staticIntentStyles, sizes],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -21,8 +21,42 @@ export const badgeRecipe = recipe(
       borderRadius: vars.radius.full,
       lineHeight: vars.line.height.none,
       userSelect: 'none',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: 'transparent',
     },
-    variants: {},
+    variants: {
+      color: {
+        yellow: {
+          backgroundColor: vars.yellow.bg,
+          color: vars.yellow.fg,
+        },
+        blue: {
+          backgroundColor: vars.blue.bg,
+          color: vars.blue.fg,
+        },
+        green: {
+          backgroundColor: vars.green.bg,
+          color: vars.green.fg,
+        },
+        beige: {
+          backgroundColor: vars.beige.bg,
+          color: vars.beige.fg,
+        },
+        pink: {
+          backgroundColor: vars.pink.bg,
+          color: vars.pink.fg,
+        },
+        purple: {
+          backgroundColor: vars.purple.bg,
+          color: vars.purple.fg,
+        },
+        sky: {
+          backgroundColor: vars.sky.bg,
+          color: vars.sky.fg,
+        },
+      },
+    },
     defaultVariants: {
       variant: 'primary',
       intent: 'primary',
@@ -34,26 +68,30 @@ export const badgeRecipe = recipe(
 
 export type BadgeVariants = RecipeVariants<typeof badgeRecipe>;
 
+export type BadgeColor = 'yellow' | 'blue' | 'green' | 'beige' | 'pink' | 'purple' | 'sky';
+
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
   variant?: BaseVariant;
   intent?: Intent;
   size?: ComponentSize;
+  color?: BadgeColor;
   children?: React.ReactNode;
 }
 
 export function Badge({
-  variant = 'primary',
-  intent = 'primary',
-  size = 'small',
+  variant,
+  intent,
+  size = 'xSmall',
+  color,
   className,
   children,
   ref,
   ...props
-}: BadgeProps) {
-  const classes = badgeRecipe({ variant, intent, size });
+}: BadgeProps): React.JSX.Element {
+  const classes = badgeRecipe({ variant, intent, color, size });
 
   return (
-    <span ref={ref} className={`${classes} ${className || ''}`.trim()} {...props}>
+    <span ref={ref} className={cx(classes, className)} {...props}>
       {children}
     </span>
   );

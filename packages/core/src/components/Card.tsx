@@ -1,5 +1,5 @@
 import React from 'react';
-import { recipe } from '@cumulo/css';
+import { recipe, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { Surface, SurfaceProps } from './Surface.js';
 
@@ -44,7 +44,7 @@ export function Card({
       ref={ref}
       level={level}
       variant={variant}
-      className={`${cardClasses} ${className || ''}`.trim()}
+      className={cx(cardClasses, className)}
       {...props}
     >
       {children}

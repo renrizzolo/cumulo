@@ -1,74 +1,40 @@
 {
-  "name": "index",
-  "path": "packages/core/src/components/index.ts",
-  "fileName": "index.ts",
+  "name": "Code",
+  "path": "packages/core/src/components/Code.tsx",
+  "fileName": "Code.tsx",
   "props": {
-    "level": {
-      "defaultValue": {
-        "value": "1"
-      },
-      "description": "",
-      "name": "level",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "0 | 1 | 2 | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "0"
-          },
-          {
-            "value": "1"
-          },
-          {
-            "value": "2"
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "variant": {
       "defaultValue": {
-        "value": "default"
+        "value": "subtle"
       },
       "description": "",
       "name": "variant",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
+        "fileName": "cumulo/packages/core/src/components/Code.tsx",
+        "name": "CodeProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
+          "fileName": "cumulo/packages/core/src/components/Code.tsx",
+          "name": "CodeProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"subtle\" | \"ghost\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"subtle\""
+          },
+          {
+            "value": "\"ghost\""
           }
         ]
       },
@@ -106,9 +72,9 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLDivElement> | undefined"
+        "name": "Ref<HTMLElement> | undefined"
       },
-      "shortPropTypeName": "Union"
+      "shortPropTypeName": null
     }
   }
 }
