@@ -19,13 +19,7 @@ export interface LabelProps extends ElementProps<HTMLLabelElement> {
 
 export function Label({ className, children, htmlFor, id, ref, ...props }: LabelProps) {
   return (
-    <label
-      ref={ref}
-      id={id}
-      htmlFor={htmlFor}
-      className={cx(labelStyle, className)}
-      {...props}
-    >
+    <label ref={ref} id={id} htmlFor={htmlFor} className={cx(labelStyle, className)} {...props}>
       {children}
     </label>
   );
