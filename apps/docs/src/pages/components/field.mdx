@@ -1,0 +1,60 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Field, VStack } from '@cumulo/core';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Field
+
+Field coordinates form labels, inputs, error messages, and descriptions with automatic accessibility wiring (`aria-labelledby`, `aria-describedby`, `aria-invalid`, `htmlFor`).
+
+```tsx
+import { Field } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Accessible Form Field"
+  description="Subcomponents dynamically wire IDs, descriptions, and error states across context."
+  code={`<VStack gap="lg" style={{ maxWidth: '380px' }}>
+  <Field.Root name="username">
+    <Field.Label>Username</Field.Label>
+    <Field.Description>Enter your unique monorepo handle.</Field.Description>
+    <Field.Input placeholder="e.g. alex" />
+  </Field.Root>
+
+  <Field.Root name="email" isInvalid>
+    <Field.Label>Work Email</Field.Label>
+    <Field.Input defaultValue="invalid-email" />
+    <Field.Error>Please enter a valid work email address.</Field.Error>
+  </Field.Root>
+</VStack>`}
+>
+  <VStack gap="lg" style={{ maxWidth: '380px' }}>
+    <Field.Root name="username">
+      <Field.Label>Username</Field.Label>
+      <Field.Description>Enter your unique monorepo handle.</Field.Description>
+      <Field.Input placeholder="e.g. alex" />
+    </Field.Root>
+
+    <Field.Root name="email" isInvalid>
+      <Field.Label>Work Email</Field.Label>
+      <Field.Input defaultValue="invalid-email" />
+      <Field.Error>Please enter a valid work email address.</Field.Error>
+    </Field.Root>
+
+  </VStack>
+</ComponentPreview>
+
+---
+
+## Anatomy
+
+```tsx
+<Field.Root name="fieldName">
+  <Field.Label>Label</Field.Label>
+  <Field.Description>Help text</Field.Description>
+  <Field.Input />
+  <Field.Error>Validation message</Field.Error>
+</Field.Root>
+```

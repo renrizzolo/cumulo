@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useId, useRef } from 'react';
 
 const dismissibleStack = new Map<string, () => void>();

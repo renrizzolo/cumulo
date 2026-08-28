@@ -1,14 +1,97 @@
 import React from 'react';
 import type { PageProps } from '@parcel/rsc';
-import { Link } from '@renr/parcel-rsc-router';
+import { Link, type RoutePath } from '@renr/parcel-rsc-router';
 import { Surface, VStack, HStack, Heading, Text, Badge, Divider } from '@cumulo/core';
-import { flatRoutes } from '../../routes.js';
+
+interface NavItem {
+  label: string;
+  path: RoutePath;
+  htmlPath: string;
+  badge?: string;
+}
+
+const DOC_PAGES: NavItem[] = [
+  { label: 'Overview', path: '/', htmlPath: '/index.html' },
+  { label: '@cumulo/css Engine', path: '/css', htmlPath: '/css.html' },
+  { label: '@cumulo/core Tokens', path: '/tokens', htmlPath: '/tokens.html' },
+];
+
+const COMPONENT_PAGES: NavItem[] = [
+  { label: 'Badge', path: '/components/badge', htmlPath: '/components/badge.html' },
+  { label: 'Button', path: '/components/button', htmlPath: '/components/button.html' },
+  { label: 'Card', path: '/components/card', htmlPath: '/components/card.html' },
+  { label: 'Code', path: '/components/code', htmlPath: '/components/code.html' },
+  { label: 'Container', path: '/components/container', htmlPath: '/components/container.html' },
+  { label: 'Divider', path: '/components/divider', htmlPath: '/components/divider.html' },
+  {
+    label: 'Field',
+    path: '/components/field',
+    htmlPath: '/components/field.html',
+    badge: 'Compound',
+  },
+  { label: 'Heading', path: '/components/heading', htmlPath: '/components/heading.html' },
+  { label: 'Input', path: '/components/input', htmlPath: '/components/input.html' },
+  { label: 'Stack', path: '/components/stack', htmlPath: '/components/stack.html' },
+  {
+    label: 'Surface',
+    path: '/components/surface',
+    htmlPath: '/components/surface.html',
+    badge: 'Core',
+  },
+  { label: 'Table', path: '/components/table', htmlPath: '/components/table.html' },
+  { label: 'Text', path: '/components/text', htmlPath: '/components/text.html' },
+  {
+    label: 'ThemeToggle',
+    path: '/components/theme-toggle',
+    htmlPath: '/components/theme-toggle.html',
+  },
+];
 
 export function Nav({
   currentPage,
 }: {
   currentPage?: PageProps['currentPage'];
 }): React.JSX.Element {
+  const currentUrl = currentPage?.url || '';
+
+  const renderLink = (item: NavItem) => {
+    const isActive =
+      currentUrl === item.htmlPath ||
+      currentUrl === item.path ||
+      (item.path === '/' && (currentUrl === '/index.html' || currentUrl === '/'));
+
+    return (
+      <Link
+        key={item.path}
+        to={item.path}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '6px 12px',
+          borderRadius: 'var(--theme-radius-md, 6px)',
+          color: isActive ? 'var(--theme-primary, #6366f1)' : 'var(--surface-fg)',
+          backgroundColor: isActive ? 'var(--surface-bg-next)' : 'transparent',
+          fontWeight: isActive ? 600 : 400,
+          fontSize: '13px',
+          textDecoration: 'none',
+          transition: 'background-color 0.15s ease, color 0.15s ease',
+        }}
+      >
+        <span>{item.label}</span>
+        {item.badge ? (
+          <Badge variant="outline" size="small">
+            {item.badge}
+          </Badge>
+        ) : isActive ? (
+          <Badge variant="primary" intent="primary" size="small">
+            Active
+          </Badge>
+        ) : null}
+      </Link>
+    );
+  };
+
   return (
     <Surface
       level={1}
@@ -20,15 +103,16 @@ export function Nav({
         borderTop: 'none',
         borderBottom: 'none',
         borderLeft: 'none',
-        padding: '24px 20px',
+        padding: '24px 16px',
         display: 'flex',
         flexDirection: 'column',
-        gap: '24px',
+        gap: '20px',
         boxSizing: 'border-box',
+        overflowY: 'auto',
       }}
     >
       {/* Brand Header */}
-      <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Link to="/" style={{ textDecoration: 'none', color: 'inherit', paddingLeft: '8px' }}>
         <HStack gap="sm" align="center">
           <span style={{ fontSize: '24px' }}>📦</span>
           <VStack gap="3xs">
@@ -44,8 +128,8 @@ export function Nav({
 
       <Divider orientation="horizontal" />
 
-      {/* Navigation Sections */}
-      <VStack gap="sm">
+      {/* Overview & Guides */}
+      <VStack gap="xs">
         <Text
           type="label"
           size="xs"
@@ -58,49 +142,36 @@ export function Nav({
         >
           Documentation
         </Text>
+        <VStack gap="3xs">{DOC_PAGES.map(renderLink)}</VStack>
+      </VStack>
 
-        <VStack gap="2xs">
-          {flatRoutes.map((route) => {
-            const isActive = currentPage?.url === route.html;
-            const label =
-              route.slug === 'index'
-                ? 'Overview'
-                : route.slug === 'css'
-                  ? '@cumulo/css Engine'
-                  : '@cumulo/core Tokens';
-
-            return (
-              <Link
-                key={route.path}
-                to={route.path}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  padding: '8px 12px',
-                  borderRadius: 'var(--theme-radius-md, 6px)',
-                  color: isActive ? 'var(--theme-primary, #6366f1)' : 'var(--surface-fg)',
-                  backgroundColor: isActive ? 'var(--surface-bg-next)' : 'transparent',
-                  fontWeight: isActive ? 600 : 500,
-                  fontSize: '14px',
-                  textDecoration: 'none',
-                  transition: 'background-color 0.15s ease, color 0.15s ease',
-                }}
-              >
-                <span>{label}</span>
-                {isActive && (
-                  <Badge variant="primary" intent="primary" size="small">
-                    Active
-                  </Badge>
-                )}
-              </Link>
-            );
-          })}
-        </VStack>
+      {/* Components Section */}
+      <VStack gap="xs">
+        <HStack
+          justify="between"
+          align="center"
+          style={{ paddingLeft: '8px', paddingRight: '8px' }}
+        >
+          <Text
+            type="label"
+            size="xs"
+            color="muted"
+            style={{
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+            }}
+          >
+            Components
+          </Text>
+          <Badge variant="secondary" size="small">
+            {COMPONENT_PAGES.length}
+          </Badge>
+        </HStack>
+        <VStack gap="3xs">{COMPONENT_PAGES.map(renderLink)}</VStack>
       </VStack>
 
       {/* Footer Info */}
-      <VStack gap="3xs" style={{ marginTop: 'auto', paddingLeft: '8px' }}>
+      <VStack gap="3xs" style={{ marginTop: 'auto', paddingLeft: '8px', paddingTop: '16px' }}>
         <Text type="caption" color="muted">
           Cumulo Monorepo
         </Text>

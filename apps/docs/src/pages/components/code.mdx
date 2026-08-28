@@ -1,0 +1,37 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Code, HStack, Text } from '@cumulo/core';
+import codeDoc from '../../../docgen/components/Code.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Code
+
+Code renders inline monospace tokens with subtle background surfaces and borders.
+
+```tsx
+import { Code } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Inline Code Variants"
+  description="Subtle, primary, and ghost inline code tags."
+  code={`<HStack gap="sm" align="center" wrap="wrap">
+  <Code variant="subtle">const theme = 'light';</Code>
+  <Code variant="primary">@cumulo/core</Code>
+  <Code variant="ghost">border-radius: 8px;</Code>
+</HStack>`}
+>
+  <HStack gap="sm" align="center" wrap="wrap">
+    <Code variant="subtle">const theme = 'light';</Code>
+    <Code variant="primary">@cumulo/core</Code>
+    <Code variant="ghost">border-radius: 8px;</Code>
+  </HStack>
+</ComponentPreview>
+
+---
+
+## Component API
+
+<PropsTable data={codeDoc} />

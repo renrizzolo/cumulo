@@ -1,0 +1,80 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Badge, HStack } from '@cumulo/core';
+import badgeDoc from '../../../docgen/components/Badge.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Badge
+
+Badges highlight status, metadata, tags, or count indicators across application surfaces.
+
+```tsx
+import { Badge } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Badge States"
+  description="Badges inherit intent colors and support small, base, and large sizes."
+  code={`<HStack gap="sm" wrap="wrap" align="center">
+  <Badge variant="primary" intent="primary">Primary</Badge>
+  <Badge variant="secondary" intent="success">Active</Badge>
+  <Badge variant="outline" intent="warning">Pending</Badge>
+  <Badge variant="ghost" intent="error">Failed</Badge>
+  <Badge variant="primary" intent="info" size="large">Beta 2.0</Badge>
+</HStack>`}
+>
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Badge variant="primary" intent="primary">
+      Primary
+    </Badge>
+    <Badge variant="secondary" intent="success">
+      Active
+    </Badge>
+    <Badge variant="outline" intent="warning">
+      Pending
+    </Badge>
+    <Badge variant="ghost" intent="error">
+      Failed
+    </Badge>
+    <Badge variant="primary" intent="info" size="large">
+      Beta 2.0
+    </Badge>
+  </HStack>
+</ComponentPreview>
+
+---
+
+## Variants & Intents
+
+<ComponentPreview
+  title="Badge Variants Across Intents"
+  code={`<HStack gap="sm" wrap="wrap">
+  <Badge variant="primary" intent="success">Primary Success</Badge>
+  <Badge variant="secondary" intent="warning">Secondary Warning</Badge>
+  <Badge variant="outline" intent="error">Outline Error</Badge>
+  <Badge variant="ghost" intent="info">Ghost Info</Badge>
+</HStack>`}
+>
+  <HStack gap="sm" wrap="wrap">
+    <Badge variant="primary" intent="success">
+      Primary Success
+    </Badge>
+    <Badge variant="secondary" intent="warning">
+      Secondary Warning
+    </Badge>
+    <Badge variant="outline" intent="error">
+      Outline Error
+    </Badge>
+    <Badge variant="ghost" intent="info">
+      Ghost Info
+    </Badge>
+  </HStack>
+</ComponentPreview>
+
+---
+
+## Component API
+
+<PropsTable data={badgeDoc} />
