@@ -99,16 +99,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           }
         ]
       },

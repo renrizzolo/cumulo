@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useCallback, useId, useEffect } from 'react';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
@@ -182,11 +184,7 @@ export function FieldDescription({
   }, [registerPart, id]);
 
   return (
-    <p
-      id={id}
-      className={cx(fieldDescriptionStyle, className)}
-      {...props}
-    >
+    <p id={id} className={cx(fieldDescriptionStyle, className)} {...props}>
       {children}
     </p>
   );
