@@ -1,5 +1,5 @@
 import React from 'react';
-import { recipe, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { ElementProps } from '../ElementProps.js';
 
@@ -60,7 +60,7 @@ export function Surface({
   return (
     <div
       ref={ref}
-      className={`${surfaceClass} ${recipeClasses} ${className || ''}`.trim()}
+      className={cx(surfaceClass, recipeClasses, className)}
       {...props}
     >
       {children}

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useId, useEffect } from 'react';
-import { style } from '@cumulo/css';
+import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { ElementProps } from '../ElementProps.js';
+import type { ElementProps } from '../ElementProps.js';
 import { Input, type InputProps } from '../components/Input.js';
 import { Label, type LabelProps } from './Label.js';
 
@@ -107,7 +107,7 @@ export function FieldRoot({
 
   return (
     <FieldContext.Provider value={contextValue}>
-      <div ref={ref} className={`${fieldRootStyle.className} ${className || ''}`.trim()} {...props}>
+      <div ref={ref} className={cx(fieldRootStyle, className)} {...props}>
         {children}
       </div>
     </FieldContext.Provider>
@@ -162,7 +162,7 @@ export function FieldInput({
 
 export function FieldGroup({ children, className, ...props }: FieldProps) {
   return (
-    <div className={`${fieldGroupStyle.className} ${className || ''}`.trim()} {...props}>
+    <div className={cx(fieldGroupStyle, className)} {...props}>
       {children}
     </div>
   );
@@ -184,7 +184,7 @@ export function FieldDescription({
   return (
     <p
       id={id}
-      className={`${fieldDescriptionStyle.className} ${className || ''}`.trim()}
+      className={cx(fieldDescriptionStyle, className)}
       {...props}
     >
       {children}
@@ -205,7 +205,7 @@ export function FieldError({ children, id: providedId, className, ...props }: Fi
   }, [registerPart, id]);
 
   return (
-    <p id={id} className={`${fieldErrorStyle.className} ${className || ''}`.trim()} {...props}>
+    <p id={id} className={cx(fieldErrorStyle, className)} {...props}>
       {children}
     </p>
   );

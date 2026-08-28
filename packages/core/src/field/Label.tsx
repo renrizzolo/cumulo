@@ -1,6 +1,6 @@
 import React from 'react';
-import { ElementProps } from '../ElementProps.js';
-import { style } from '@cumulo/css';
+import type { ElementProps } from '../ElementProps.js';
+import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 
 const labelStyle = style({
@@ -23,7 +23,7 @@ export function Label({ className, children, htmlFor, id, ref, ...props }: Label
       ref={ref}
       id={id}
       htmlFor={htmlFor}
-      className={`${labelStyle.className} ${className || ''}`.trim()}
+      className={cx(labelStyle, className)}
       {...props}
     >
       {children}
