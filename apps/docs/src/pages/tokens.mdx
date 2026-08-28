@@ -55,6 +55,8 @@ Themes are seeded from base variables (`--color-primary-base`, `--color-success-
   type="space"
   items={[
     { name: 'vars.spacing.none', value: '0px' },
+    { name: 'vars.spacing["3xs"]', value: '2px' },
+    { name: 'vars.spacing["2xs"]', value: '4px' },
     { name: 'vars.spacing.xs', value: '8px' },
     { name: 'vars.spacing.sm', value: '12px' },
     { name: 'vars.spacing.md', value: '16px' },
@@ -69,12 +71,31 @@ Themes are seeded from base variables (`--color-primary-base`, `--color-success-
 <TokenTable
   type="radii"
   items={[
+    { name: 'vars.radius.none', value: '0px' },
     { name: 'vars.radius.sm', value: '2px' },
     { name: 'vars.radius.md', value: '6px' },
     { name: 'vars.radius.lg', value: '8px' },
     { name: 'vars.radius.xl', value: '12px' },
     { name: "vars.radius['2xl']", value: '16px' },
     { name: 'vars.radius.full', value: '9999px' },
+  ]}
+/>
+
+## Typography Scale
+
+<TokenTable
+  type="text"
+  items={[
+    { name: 'vars.font.size["2xs"]', description: '10px font size' },
+    { name: 'vars.font.size.xs', description: '12px font size' },
+    { name: 'vars.font.size.sm', description: '14px font size' },
+    { name: 'vars.font.size.base', description: '16px font size' },
+    { name: 'vars.font.size.md', description: '18px font size' },
+    { name: 'vars.font.size.lg', description: '20px font size' },
+    { name: 'vars.font.size.xl', description: '24px font size' },
+    { name: 'vars.font.size["2xl"]', description: '30px font size' },
+    { name: 'vars.font.size["3xl"]', description: '36px font size' },
+    { name: 'vars.font.size["4xl"]', description: '48px font size' },
   ]}
 />
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { PageProps } from '@parcel/rsc';
-import { ThemeScript } from '@cumulo/core';
+import { ThemeScript, Surface, Container } from '@cumulo/core';
 import { Nav } from './components/Nav.js';
 import { AppProvider } from './appProvider.js';
 import { ThemeSwitcher } from './components/ThemeSwitcher.js';
@@ -15,7 +15,7 @@ export default function Layout({
   children: React.ReactNode;
   title?: string;
   currentPage?: PageProps['currentPage'];
-}) {
+}): React.JSX.Element {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -28,16 +28,45 @@ export default function Layout({
       </head>
 
       <AppProvider>
-        <body>
-          <div className="docs-shell">
+        <body style={{ margin: 0, padding: 0, minHeight: '100vh' }}>
+          <Surface
+            level={0}
+            style={{
+              display: 'flex',
+              minHeight: '100vh',
+              width: '100%',
+              borderRadius: 0,
+              borderWidth: 0,
+            }}
+          >
             <Nav currentPage={currentPage} />
-            <main className="docs-main">
-              <div className="docs-header">
+            <main
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                minWidth: 0,
+              }}
+            >
+              <Surface
+                level={0}
+                style={{
+                  padding: '16px 32px',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  borderTop: 'none',
+                  borderLeft: 'none',
+                  borderRight: 'none',
+                  borderRadius: 0,
+                }}
+              >
                 <ThemeSwitcher />
-              </div>
-              {children}
+              </Surface>
+              <Container size="xl" padding="lg" style={{ paddingBottom: '80px' }}>
+                {children}
+              </Container>
             </main>
-          </div>
+          </Surface>
         </body>
       </AppProvider>
     </html>

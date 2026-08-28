@@ -1,19 +1,36 @@
 import { InteractivePlayground } from '../components/InteractivePlayground.tsx';
-import MDXLayout, { CodeBlock } from '../components/MDXLayout.tsx';
+import MDXLayout, { CodeBlock, PropsTable, ComponentPreview } from '../components/MDXLayout.tsx';
+import { ColorTokens } from '../components/ColorTokens.tsx';
+import {
+  Button,
+  Badge,
+  Card,
+  Input,
+  ThemeToggle,
+  HStack,
+  VStack,
+  Text,
+  Heading,
+  Surface,
+} from '@cumulo/core';
+import buttonDoc from '../../docgen/components/Button.json';
+import badgeDoc from '../../docgen/components/Badge.json';
+import themeToggleDoc from '../../docgen/components/ThemeToggle.json';
+import cardDoc from '../../docgen/components/Card.json';
+import inputDoc from '../../docgen/components/Input.json';
+import surfaceDoc from '../../docgen/components/Surface.json';
 
 # Cumulo UI
 
-A modern, dependency-free React component library and lightweight CSS engine inspired by StyleX and Vanilla Extract.
+A modern, dependency-free React 19 component library and lightweight CSS engine inspired by StyleX and Vanilla Extract. _Cumulo_ (Italian for _pile_ or _hoard_) represents an accumulation of composable primitives and design tokens.
 
 ## Architecture Highlights
 
-- **100% Dependency-Free**: Zero runtime third-party dependencies. Built purely on React 19 primitives and modern CSS.
+- **100% Dependency-Free**: Zero third-party runtime dependencies. Built purely on React 19 primitives and modern CSS capabilities.
 - **@cumulo/css Engine**: A fast, ~2kB type-safe CSS framework with theme contracts, scoped style rules, keyframes, and deterministic hashing.
-- **React Server Components**: Statically pre-rendered pages built with Parcel RSC router and client hydration.
-
-## Interactive Component Demonstration
-
-<InteractivePlayground />
+- **Dynamic Surface System**: Contextual depth propagation where nested interactive elements automatically deepen via `--surface-bg-next`.
+- **Mathematical OKLCH Color Seeding**: Live color gamut computation directly in CSS using trigonometric chroma curves and `light-dark()`.
+- **React Server Components**: Statically pre-rendered pages built with Parcel RSC router and selective client hydration.
 
 ## Quick Installation
 
@@ -21,3 +38,182 @@ A modern, dependency-free React component library and lightweight CSS engine ins
 # Install @cumulo/css and @cumulo/core
 pnpm add @cumulo/css @cumulo/core
 ```
+
+## Interactive Surface Playground
+
+Experience real-time OKLCH color seeding and nested surface depth adaptation:
+
+<InteractivePlayground />
+
+---
+
+## Colors
+
+<ColorTokens />
+
+## Component Documentation & Building Blocks
+
+Explore the storybook-style interactive component previews and prop specifications generated directly from TypeScript definitions.
+
+### Button
+
+Buttons trigger actions or events with multiple variant types, semantic intents, and sizes.
+
+<ComponentPreview
+  title="Button Variations"
+  description="Explore primary, secondary, outline, and ghost variants across intents."
+  code={`<HStack gap="sm" wrap="wrap" align="center">
+  <Button variant="primary">Primary</Button>
+  <Button variant="secondary">Secondary</Button>
+  <Button variant="outline" intent="success">Outline Success</Button>
+  <Button variant="ghost" intent="error">Ghost Error</Button>
+  <Button size="small" variant="primary" shape="round">Round Small</Button>
+</HStack>`}
+>
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Button variant="primary">Primary</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline" intent="success">
+      Outline Success
+    </Button>
+    <Button variant="ghost" intent="error">
+      Ghost Error
+    </Button>
+    <Button size="small" variant="primary" shape="round">
+      Round Small
+    </Button>
+    <Button intent="success">success</Button>
+    <Button intent="error">error</Button>
+    <Button variant="secondary" intent="success">
+        success
+    </Button>
+    <Button variant="secondary" intent="error">
+        error
+    </Button>
+    <Button variant="outline" intent="success">
+        success
+    </Button>
+    <Button variant="outline" intent="error">
+        error
+    </Button>
+    <Button variant="ghost" intent="success">
+        success
+    </Button>
+    <Button variant="ghost" intent="error">
+        error
+    </Button>
+
+  </HStack>
+</ComponentPreview>
+
+<PropsTable data={buttonDoc} />
+
+---
+
+### Badge
+
+Badges highlight status, tags, counts, and metadata.
+
+<ComponentPreview
+  title="Badge States"
+  description="Badges inherit intent colors and support small, base, and large sizes."
+  code={`<HStack gap="sm" wrap="wrap" align="center">
+  <Badge variant="primary">Primary</Badge>
+  <Badge variant="secondary">Active</Badge>
+  <Badge variant="outline" intent="warning">Warning</Badge>
+  <Badge variant="ghost" intent="error">Error</Badge>
+  <Badge variant="primary" intent="info" size="large">Large Info</Badge>
+</HStack>`}
+>
+  <VStack gap="sm">
+    <HStack gap="sm" wrap="wrap" align="center">
+      <Badge variant="primary">Primary</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="outline" intent="warning">
+        Warning
+      </Badge>
+      <Badge variant="ghost" intent="error">
+        Error
+      </Badge>
+      <Badge variant="primary" intent="info">
+        Info
+      </Badge>
+    </HStack>
+    <HStack gap="sm" wrap="wrap" align="center">
+      <Badge>default</Badge>
+      <Badge color="yellow">yellow</Badge>
+      <Badge color="blue">blue</Badge>
+      <Badge color="green">green</Badge>
+      <Badge color="beige">beige</Badge>
+      <Badge color="pink">pink</Badge>
+      <Badge color="purple">purple</Badge>
+      <Badge color="sky">sky</Badge>
+    </HStack>
+  </VStack>
+</ComponentPreview>
+
+<PropsTable data={badgeDoc} />
+
+---
+
+### ThemeToggle
+
+Smart theme toggle supporting 2-state toggle and 3-state cycling (light / dark / system) with zero hydration flicker.
+
+<ComponentPreview
+  title="Theme Toggle Modes"
+  description="Supports toggle mode and 3-state cycle mode."
+  code={`<HStack gap="md" align="center">
+  <ThemeToggle size="base" variant="outline" mode="toggle" />
+  <ThemeToggle size="base" variant="secondary" mode="cycle" showLabel />
+</HStack>`}
+>
+  <HStack gap="md" align="center">
+    <ThemeToggle size="base" variant="outline" mode="toggle" />
+    <ThemeToggle size="base" variant="secondary" mode="cycle" showLabel />
+  </HStack>
+</ComponentPreview>
+
+<PropsTable data={themeToggleDoc} />
+
+---
+
+### Surface & Card
+
+Surfaces provide elevation and container boundaries with automatic nested background darkening.
+
+<ComponentPreview
+  title="Card Hierarchy"
+  description="Cards wrap Surfaces with tokenized padding and elevation levels."
+  code={`<VStack gap="md">
+  <Card level={1} padding="md">
+    <Heading as="h5" size="sm">Level 1 Card</Heading>
+    <Text type="caption" color="muted">Default container surface</Text>
+  </Card>
+  <Card level={2} padding="md">
+    <Heading as="h5" size="sm">Level 2 Elevated Card</Heading>
+    <Text type="caption" color="muted">Modal or elevated popover surface</Text>
+  </Card>
+</VStack>`}
+>
+  <VStack gap="md">
+    <Card level={1} padding="md">
+      <Heading as="h5" size="sm">
+        Level 1 Card
+      </Heading>
+      <Text type="caption" color="muted">
+        Default container surface
+      </Text>
+    </Card>
+    <Card level={2} padding="md">
+      <Heading as="h5" size="sm">
+        Level 2 Elevated Card
+      </Heading>
+      <Text type="caption" color="muted">
+        Modal or elevated popover surface
+      </Text>
+    </Card>
+  </VStack>
+</ComponentPreview>
+
+<PropsTable data={cardDoc} />
