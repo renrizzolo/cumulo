@@ -182,11 +182,7 @@ export function FieldDescription({
   }, [registerPart, id]);
 
   return (
-    <p
-      id={id}
-      className={cx(fieldDescriptionStyle, className)}
-      {...props}
-    >
+    <p id={id} className={cx(fieldDescriptionStyle, className)} {...props}>
       {children}
     </p>
   );

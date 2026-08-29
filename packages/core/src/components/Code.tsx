@@ -60,11 +60,7 @@ export function Code({
   const classes = codeRecipe({ variant });
 
   return (
-    <code
-      ref={ref}
-      className={cx(classes, className)}
-      {...props}
-    >
+    <code ref={ref} className={cx(classes, className)} {...props}>
       {children}
     </code>
   );

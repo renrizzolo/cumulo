@@ -56,11 +56,6 @@ export function Divider({
   const classes = dividerRecipe({ orientation, spacing });
 
   return (
-    <hr
-      ref={ref}
-      aria-orientation={orientation}
-      className={cx(classes, className)}
-      {...props}
-    />
+    <hr ref={ref} aria-orientation={orientation} className={cx(classes, className)} {...props} />
   );
 }
