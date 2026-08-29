@@ -1,19 +1,55 @@
 import path from 'node:path';
 import { createJiti } from 'jiti';
+import type { CumuloPluginOptions } from '../types.js';
 
-const jiti = createJiti(process.cwd(), {
+const isStylesheet = (file?: string): boolean =>
+  Boolean(file && /\.(css|scss|sass|less|styl)$/.test(file));
+
+/**
+ * we can't/don't want to transform css imports
+ */
+const stripCssImports = (source: string): string =>
+  source
+    .replace(/import\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/g, '')
+    .replace(/import\s+[^;]+from\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/g, '');
+
+const baseJiti = createJiti(process.cwd(), {
   interopDefault: true,
   moduleCache: false,
   jsx: true,
 });
 
-import type { CumuloPluginOptions } from '../types.js';
+const jiti = createJiti(process.cwd(), {
+  interopDefault: true,
+  moduleCache: false,
+  jsx: true,
+  transform(opts) {
+    if (isStylesheet(opts.filename)) {
+      return { code: 'module.exports = {};' };
+    }
+    const cleanSource = opts.source ? stripCssImports(opts.source) : opts.source;
+    const code = baseJiti.transform({ ...opts, source: cleanSource });
+    return { code };
+  },
+});
 
 function matchesPattern(id: string, patterns?: (string | RegExp)[]): boolean {
   if (!patterns || patterns.length === 0) return false;
   return patterns.some((pattern) =>
     typeof pattern === 'string' ? id.includes(pattern) : pattern.test(id),
   );
+}
+
+function logExtractionWarning(filePath: string, action: string, err: unknown): void {
+  const isDev = process.env.NODE_ENV !== 'production';
+  if (isDev || process.env.DEBUG_CUMULO) {
+    const errorDetails = err instanceof Error ? (err.stack ?? err.message) : String(err);
+    console.warn(
+      `\n⚠️  [@cumulo/unplugin] Failed to ${action} "${filePath}".\n` +
+        `Styles defined in this file might not be extracted.\n` +
+        `${errorDetails}\n`,
+    );
+  }
 }
 
 /**
@@ -65,10 +101,8 @@ export async function extractCssFromFile(filePath: string): Promise<string> {
     await jiti.import(absolutePath);
 
     return cumuloCss.sheet.getCss();
-  } catch (err) {
-    if (process.env.DEBUG_CUMULO || process.env.NODE_ENV === 'test') {
-      console.warn(`[@cumulo/unplugin] Could not evaluate ${absolutePath}:`, err);
-    }
+  } catch (err: unknown) {
+    logExtractionWarning(absolutePath, 'evaluate file', err);
     return '';
   }
 }
@@ -79,8 +113,8 @@ export async function extractCssFromFile(filePath: string): Promise<string> {
 export async function extractCssFromCode(code: string, id: string): Promise<string> {
   const absolutePath = path.isAbsolute(id) ? id : path.resolve(process.cwd(), id);
 
-  // Strip .css imports before eval so Node/Jiti doesn't fail on stylesheet assets
-  const cleanCode = code.replace(/import\s+['"][^'"]+\.css['"];?/g, '');
+  // Strip direct .css imports before eval as an additional safeguard
+  const cleanCode = stripCssImports(code);
 
   try {
     const cumuloCss = (await jiti.import('@cumulo/css')) as typeof import('@cumulo/css');
@@ -91,10 +125,8 @@ export async function extractCssFromCode(code: string, id: string): Promise<stri
     });
 
     return cumuloCss.sheet.getCss();
-  } catch (err) {
-    if (process.env.DEBUG_CUMULO) {
-      console.warn(`[@cumulo/unplugin] Could not evalModule ${absolutePath}:`, err);
-    }
+  } catch (err: unknown) {
+    logExtractionWarning(absolutePath, 'evalModule code', err);
     return '';
   }
 }
