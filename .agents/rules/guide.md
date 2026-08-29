@@ -76,4 +76,6 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
   - Use `style({ ... })` for static, element-specific styles.
   - Use `recipe({ base, variants, defaultVariants, extend }, debugName)` for components with multi-dimensional variants (e.g. `variant`, `intent`, `size`, `shape`, `width`).
   - Use `cx()` for merging class names cleanly.
+  - Don't use arbitrary style props
+  - Prefer using or creating core components where something doesn't exist when iterating on documentation or other apps/sites.
 - **Recipe Composition**: Combine shared variant styles (such as `allIntentStyles`, `sizes`) via the recipe's `extend` option.

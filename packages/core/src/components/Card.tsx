@@ -12,6 +12,7 @@ export const cardRecipe = recipe(
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       boxShadow: vars.shadow['0'],
+      overflow: 'hidden',
     },
     variants: {
       padding: {
