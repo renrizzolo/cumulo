@@ -1,4 +1,5 @@
-import { getSingletonHighlighter, type BundledLanguage, type BundledTheme } from 'shiki';
+import { getSingletonHighlighter, type BundledLanguage } from 'shiki';
+import { cumuloTheme } from './shikiTheme';
 
 const supportedLangs: BundledLanguage[] = [
   'javascript',
@@ -14,13 +15,11 @@ const supportedLangs: BundledLanguage[] = [
   'mdx',
 ];
 
-const supportedThemes: BundledTheme[] = ['github-dark'];
-
 export async function highlightCode(code: string, lang = 'tsx'): Promise<string | null> {
   try {
     const highlighter = await getSingletonHighlighter({
       langs: supportedLangs,
-      themes: supportedThemes,
+      themes: [cumuloTheme],
     });
 
     const isSupported = (supportedLangs as readonly string[]).includes(lang);
@@ -28,7 +27,7 @@ export async function highlightCode(code: string, lang = 'tsx'): Promise<string 
 
     return highlighter.codeToHtml(code, {
       lang: resolvedLang,
-      theme: 'github-dark',
+      theme: cumuloTheme,
     });
   } catch (err: unknown) {
     console.error('Error highlighting code:', err);

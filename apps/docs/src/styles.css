@@ -5,3 +5,37 @@
   --color-primary-base: #d97706;
   --color-grey-base: #78716c;
 }
+
+:root {
+  /* Shiki CSS variables theme */
+  --shiki-foreground: var(--surface-fg);
+  --shiki-background: transparent;
+  --shiki-token-comment: var(--theme-muted);
+  --shiki-token-keyword: var(--theme-purple-fg);
+  --shiki-token-string: var(--theme-green-fg);
+  --shiki-token-function: var(--theme-blue-fg);
+  --shiki-token-constant: var(--theme-yellow-fg);
+  --shiki-token-parameter: var(--theme-sky-fg);
+  --shiki-token-punctuation: var(--theme-subtle);
+  --shiki-token-string-expression: var(--theme-pink-fg);
+  --shiki-token-link: var(--theme-info-600);
+  --shiki-token-inserted: var(--theme-success-600);
+  --shiki-token-deleted: var(--theme-error-600);
+  --shiki-token-changed: var(--theme-warning-600);
+}
+
+pre.shiki {
+  margin: 0;
+  padding: 0;
+  background-color: transparent !important;
+  font-family: var(--theme-font-mono);
+  font-size: var(--theme-font-size-xs);
+  line-height: var(--theme-line-height-relaxed);
+  overflow-x: auto;
+}
+
+pre.shiki code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}

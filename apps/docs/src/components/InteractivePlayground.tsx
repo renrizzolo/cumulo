@@ -34,7 +34,7 @@ const surfaceLevel1Style = style({
 
 const surfaceLevel2Style = style({
   padding: vars.spacing.sm,
-  borderRadius: vars.radius.sm,
+  borderRadius: vars.radius.md,
 });
 
 const inputMediumWrapperStyle = style({

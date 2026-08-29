@@ -104,7 +104,7 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   radius: [
     { name: 'vars.radius.none', variable: '--theme-radius-none', value: '0px', category: 'radius' },
     {
-      name: 'vars.radius.sm',
+      name: 'vars.radius.md',
       variable: '--theme-radius-sm',
       value: '0.125rem (2px)',
       category: 'radius',
@@ -319,7 +319,7 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
 const previewBarStyle = style({
   height: '16px',
   backgroundColor: vars.primary.DEFAULT,
-  borderRadius: vars.radius.sm,
+  borderRadius: vars.radius.md,
 });
 
 const previewBoxStyle = style({
@@ -334,7 +334,7 @@ const previewBoxStyle = style({
 const colorSwatchStyle = style({
   height: '24px',
   width: '24px',
-  borderRadius: vars.radius.sm,
+  borderRadius: vars.radius.md,
   borderWidth: 1,
   borderStyle: 'solid',
   borderColor: vars.surface.border,

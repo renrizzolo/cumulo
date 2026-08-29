@@ -2,31 +2,23 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 import { Surface, type SurfaceProps } from './Surface.js';
 
 export const cardRecipe = recipe(
   {
+    extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
     base: {
-      borderRadius: vars.radius.lg,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       boxShadow: vars.shadow['0'],
-      overflow: 'hidden',
     },
-    variants: {
-      padding: {
-        none: { padding: vars.spacing.none },
-        xs: { padding: vars.spacing.xs },
-        sm: { padding: vars.spacing.sm },
-        md: { padding: vars.spacing.md },
-        lg: { padding: vars.spacing.lg },
-        xl: { padding: vars.spacing.xl },
-        '2xl': { padding: vars.spacing['2xl'] },
-      },
-    },
+    variants: {},
     defaultVariants: {
       padding: 'md',
+      overflow: 'hidden',
+      radius: 'lg',
     },
   },
   'card',
@@ -38,6 +30,9 @@ export interface CardProps extends ElementProps<HTMLDivElement> {
   level?: SurfaceProps['level'];
   variant?: SurfaceProps['variant'];
   padding?: CardVariants['padding'];
+  overflow?: CardVariants['overflow'];
+  flex?: CardVariants['flex'];
+  radius?: CardVariants['radius'];
   children?: React.ReactNode;
 }
 
@@ -45,12 +40,15 @@ export function Card({
   level = 1,
   variant = 'default',
   padding = 'md',
+  overflow = 'hidden',
+  flex,
+  radius,
   className,
   children,
   ref,
   ...props
 }: CardProps): React.JSX.Element {
-  const classes = cardRecipe({ padding });
+  const classes = cardRecipe({ padding, overflow, flex, radius });
 
   return (
     <Surface

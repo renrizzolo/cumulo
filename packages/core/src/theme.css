@@ -100,7 +100,6 @@
 
     /* Radius tokens */
     --theme-radius-none: 0px;
-    --theme-radius-sm: 0.125rem;
     --theme-radius-md: 0.375rem;
     --theme-radius-lg: 0.5rem;
     --theme-radius-xl: 0.75rem;
@@ -1044,8 +1043,8 @@
     --surface-primary-hover: var(--theme-primary-hover);
     --surface-primary-fg: var(--theme-primary-fg);
     --surface-primary-border: var(--theme-primary-border);
-    --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
-    --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
+    --surface-secondary: light-dark(var(--theme-grey-100), var(--theme-grey-200));
+    --surface-secondary-hover: light-dark(var(--theme-grey-200), var(--theme-grey-300));
     --surface-secondary-fg: var(--theme-fg);
     --surface-secondary-border: var(--theme-border);
     --surface-shadow: var(--theme-shadow-2);

@@ -123,6 +123,131 @@
       },
       "shortPropTypeName": null
     },
+    "overflow": {
+      "defaultValue": {
+        "value": "hidden"
+      },
+      "description": "",
+      "name": "overflow",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"hidden\""
+          },
+          {
+            "value": "\"scroll\""
+          },
+          {
+            "value": "\"visible\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "1 | \"initial\" | \"auto\" | \"none\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"none\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "radius": {
+      "defaultValue": null,
+      "description": "",
+      "name": "radius",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Card.tsx",
+        "name": "CardProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Card.tsx",
+          "name": "CardProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"full\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "className": {
       "defaultValue": null,
       "description": "",

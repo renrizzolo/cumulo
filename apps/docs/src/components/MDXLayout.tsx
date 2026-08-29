@@ -1,4 +1,4 @@
-import { Code, Divider, Heading, Table, Text } from '@cumulo/core';
+import { Code, Divider, Flow, Heading, Table, Text } from '@cumulo/core';
 import type { PageProps } from '@parcel/rsc';
 import React, { type ReactNode } from 'react';
 import AppLayout from '../Layout';
@@ -47,7 +47,7 @@ export default function MDXLayout({
 
   return (
     <AppLayout title={title} currentPage={currentPage}>
-      {children}
+      <Flow>{children}</Flow>
     </AppLayout>
   );
 }

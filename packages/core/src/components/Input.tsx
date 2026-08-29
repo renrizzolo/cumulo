@@ -12,7 +12,6 @@ export const inputRecipe = recipe(
       width: '100%',
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      backgroundColor: vars.surface.bg.DEFAULT,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
@@ -23,11 +22,7 @@ export const inputRecipe = recipe(
       '::placeholder': {
         color: vars.surface.subtle,
       },
-      ':hover': {
-        backgroundColor: vars.surface.bg.next,
-      },
       ':focus-visible': {
-        backgroundColor: vars.surface.bg.next,
         borderColor: vars.primary.DEFAULT,
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },

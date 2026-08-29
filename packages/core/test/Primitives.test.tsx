@@ -24,11 +24,13 @@ describe('Layout and Typography Recipes', () => {
         gap: 'md',
         align: 'center',
         justify: 'between',
+        flex: 1,
       });
       expect(classes).toContain(stackRecipe.classNames.variants.direction.row);
       expect(classes).toContain(stackRecipe.classNames.variants.gap.md);
       expect(classes).toContain(stackRecipe.classNames.variants.align.center);
       expect(classes).toContain(stackRecipe.classNames.variants.justify.between);
+      expect(classes).toContain(stackRecipe.classNames.variants.flex['1']);
     });
   });
 
