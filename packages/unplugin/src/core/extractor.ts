@@ -81,12 +81,19 @@ export function shouldProcessFile(
   if (options?.include && matchesPattern(id, options.include)) {
     return true;
   }
+  // don't process virtual modules
+  if (id.startsWith('\0') || id.includes('\x00')) {
+    return false;
+  }
+  // don't process node_modules except @cumulo
   if (id.includes('node_modules') && !id.includes('@cumulo')) {
     return false;
   }
+  // don't process virtual cumulo files
   if (id.endsWith('.cumulo.css') || id.includes('virtual:cumulo')) {
     return false;
   }
+  // only process jsx/tsx/mjs/cjs files
   if (!/\.(tsx?|jsx?|mjs|cjs)$/.test(id)) {
     return false;
   }
