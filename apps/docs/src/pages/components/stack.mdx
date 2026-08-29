@@ -1,12 +1,12 @@
 import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { Stack, HStack, VStack, Card, Badge, Text } from '@cumulo/core';
+import { Stack, HStack, VStack, Button, Badge } from '@cumulo/core';
 import stackDoc from '../../../docgen/components/Stack.json';
 export default Layout;
 export { CodeBlock, PropsTable, ComponentPreview };
 
 # Stack
 
-Stack manages flexible layouts along horizontal or vertical axes with tokenized gaps, alignment, and wrapping.
+Flexbox layout primitive providing horizontal (HStack) and vertical (VStack) arrangement with token spacing.
 
 ```tsx
 import { Stack, HStack, VStack } from '@cumulo/core';
@@ -15,40 +15,30 @@ import { Stack, HStack, VStack } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview
-  title="Horizontal and Vertical Stacks"
-  description="Composable flexbox layouts adhering to Cumulo spacing tokens."
   code={`<VStack gap="md">
   <HStack gap="sm" align="center">
-    <Badge variant="primary">Badge 1</Badge>
-    <Badge variant="secondary">Badge 2</Badge>
-    <Badge variant="outline">Badge 3</Badge>
+    <Button variant="primary">Item 1</Button>
+    <Button variant="secondary">Item 2</Button>
+    <Button variant="outline">Item 3</Button>
   </HStack>
-  <HStack gap="lg" justify="between" style={{ backgroundColor: 'var(--surface-bg-next)', padding: '12px', borderRadius: '6px' }}>
-    <Text type="label">Left Item</Text>
-    <Text type="label" color="muted">Right Item</Text>
+  <HStack gap="lg" align="center">
+    <Badge variant="primary">Wide Gap 1</Badge>
+    <Badge variant="secondary">Wide Gap 2</Badge>
   </HStack>
 </VStack>`}
 >
   <VStack gap="md">
     <HStack gap="sm" align="center">
-      <Badge variant="primary">Badge 1</Badge>
-      <Badge variant="secondary">Badge 2</Badge>
-      <Badge variant="outline">Badge 3</Badge>
+      <Button variant="primary">Item 1</Button>
+      <Button variant="secondary">Item 2</Button>
+      <Button variant="outline">Item 3</Button>
     </HStack>
-    <HStack
-      gap="lg"
-      justify="between"
-      style={{ backgroundColor: 'var(--surface-bg-next)', padding: '12px', borderRadius: '6px' }}
-    >
-      <Text type="label">Left Item</Text>
-      <Text type="label" color="muted">
-        Right Item
-      </Text>
+    <HStack gap="lg" align="center">
+      <Badge variant="primary">Wide Gap 1</Badge>
+      <Badge variant="secondary">Wide Gap 2</Badge>
     </HStack>
   </VStack>
 </ComponentPreview>
-
----
 
 ## Component API
 

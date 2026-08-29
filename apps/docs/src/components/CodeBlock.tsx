@@ -1,5 +1,8 @@
-import React from 'react';
-import { Card, Badge } from '@cumulo/core';
+'use client';
+
+import React, { useState, useCallback } from 'react';
+import { style, cx } from '@cumulo/css';
+import { Button, vars } from '@cumulo/core';
 
 export interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement> {
   children?: React.ReactNode;
@@ -8,50 +11,83 @@ export interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement> {
   language?: string;
 }
 
+const codeBlockContainerStyle = style({
+  position: 'relative',
+  margin: `${vars.spacing.sm} 0 ${vars.spacing.lg}`,
+  borderRadius: vars.radius.lg,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: vars.surface.border,
+  backgroundColor: vars.surface.bg.next,
+  overflow: 'hidden',
+});
+
+const copyButtonWrapperStyle = style({
+  position: 'absolute',
+  top: vars.spacing.xs,
+  right: vars.spacing.xs,
+  zIndex: 1,
+});
+
+const copyButtonStyle = style({
+  padding: `2px ${vars.spacing.xs}`,
+  height: '22px',
+  fontSize: '11px',
+  opacity: 0.8,
+  backgroundColor: vars.surface.bg.DEFAULT,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: vars.surface.border,
+});
+
+const preStyle = style({
+  margin: 0,
+  padding: `${vars.spacing.md} ${vars.spacing.lg}`,
+  paddingRight: '64px',
+  overflowX: 'auto',
+  fontSize: vars.font.size.sm,
+  lineHeight: vars.line.height.relaxed,
+  fontFamily: vars.font.mono,
+  color: vars.surface.fg,
+  backgroundColor: 'transparent',
+});
+
 export function CodeBlock({
   children,
   className,
   code,
-  language,
+  language: _language,
   ...props
 }: CodeBlockProps): React.JSX.Element {
-  const content = code || (typeof children === 'string' ? children : children);
-  const lang = language || (className ? className.replace(/language-/, '') : '');
+  const content = code || (typeof children === 'string' ? children : String(children || ''));
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(content);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard fallback
+    }
+  }, [content]);
 
   return (
-    <Card
-      level={2}
-      padding="none"
-      style={{
-        position: 'relative',
-        margin: '20px 0',
-        overflow: 'hidden',
-      }}
-    >
-      {lang && (
-        <div style={{ position: 'absolute', top: '10px', right: '12px', zIndex: 1 }}>
-          <Badge variant="secondary" size="small">
-            {lang}
-          </Badge>
-        </div>
-      )}
-      <pre
-        className={className}
-        style={{
-          margin: 0,
-          padding: '16px 20px',
-          overflowX: 'auto',
-          fontSize: '13px',
-          lineHeight: 1.6,
-          fontFamily: 'var(--theme-font-mono, monospace)',
-          backgroundColor: 'transparent',
-        }}
-        {...props}
-      >
+    <div className={codeBlockContainerStyle.className}>
+      <div className={copyButtonWrapperStyle.className}>
+        <Button
+          size="small"
+          variant="ghost"
+          onClick={handleCopy}
+          aria-label="Copy code snippet"
+          className={copyButtonStyle.className}
+        >
+          {copied ? 'Copied!' : 'Copy'}
+        </Button>
+      </div>
+      <pre className={cx(preStyle.className, className)} {...props}>
         <code>{content}</code>
       </pre>
-    </Card>
+    </div>
   );
 }
-
-export default CodeBlock;

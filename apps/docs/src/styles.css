@@ -1,12 +1,7 @@
 @import 'npm:@cumulo/core/theme.css';
 
-/**
- * Custom Theme Showcase: 'hoard'
- *
- * Demonstrates overriding CSS variables from @cumulo/core (seed colors, surfaces)
- * "Cumulo" originates from the Italian for hoard/pile/accumulation.
- */
-[data-theme='hoard'] {
+/* TODO complete the theme overrides */
+[data-theme='docs'] {
   --color-primary-base: #d97706;
   --color-grey-base: #78716c;
 }

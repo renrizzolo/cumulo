@@ -1,6 +1,7 @@
 import type { PageProps } from '@parcel/rsc';
 import React, { type ReactNode } from 'react';
-import { Heading, Text, Code, Divider, Table } from '@cumulo/core';
+import { style, cx } from '@cumulo/css';
+import { Heading, Text, Code, Table, vars } from '@cumulo/core';
 import AppLayout from '../Layout.js';
 import { CodeBlock } from './CodeBlock.js';
 import { TokenTable } from './TokenTable.js';
@@ -9,33 +10,65 @@ import { ComponentPreview } from './ComponentPreview.js';
 
 export { CodeBlock, TokenTable, PropsTable, ComponentPreview };
 
+const mdxContainerStyle = style({
+  maxWidth: '820px',
+  width: '100%',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+});
+
+const h1Style = style({
+  margin: `0 0 ${vars.spacing.md}`,
+  letterSpacing: '-0.025em',
+});
+
+const h2Style = style({
+  margin: `${vars.spacing['2xl']} 0 ${vars.spacing.md}`,
+  letterSpacing: '-0.02em',
+});
+
+const h3Style = style({
+  margin: `${vars.spacing.xl} 0 ${vars.spacing.xs}`,
+  letterSpacing: '-0.015em',
+});
+
+const h4Style = style({
+  margin: `${vars.spacing.lg} 0 ${vars.spacing['2xs']}`,
+});
+
+const pStyle = style({
+  margin: `0 0 ${vars.spacing.md}`,
+  lineHeight: vars.line.height.relaxed,
+  fontSize: '15px',
+});
+
+const hrSpacerStyle = style({
+  height: vars.spacing.md,
+});
+
 export const components = {
-  h1: (props: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h1" size="3xl" style={{ margin: '28px 0 16px' }} {...props} />
+  h1: ({ className, ...props }: React.ComponentProps<typeof Heading>) => (
+    <Heading as="h1" size="3xl" className={cx(h1Style.className, className)} {...props} />
   ),
-  h2: (props: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h2" size="2xl" style={{ margin: '36px 0 16px' }} {...props} />
+  h2: ({ className, ...props }: React.ComponentProps<typeof Heading>) => (
+    <Heading as="h2" size="2xl" className={cx(h2Style.className, className)} {...props} />
   ),
-  h3: (props: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h3" size="xl" style={{ margin: '24px 0 12px' }} {...props} />
+  h3: ({ className, ...props }: React.ComponentProps<typeof Heading>) => (
+    <Heading as="h3" size="xl" className={cx(h3Style.className, className)} {...props} />
   ),
-  h4: (props: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h4" size="lg" style={{ margin: '20px 0 8px' }} {...props} />
+  h4: ({ className, ...props }: React.ComponentProps<typeof Heading>) => (
+    <Heading as="h4" size="lg" className={cx(h4Style.className, className)} {...props} />
   ),
-  p: (props: React.ComponentProps<typeof Text>) => (
-    <Text type="body" style={{ margin: '0 0 16px', lineHeight: 1.7 }} {...props} />
+  p: ({ className, ...props }: React.ComponentProps<typeof Text>) => (
+    <Text as="p" type="body" className={cx(pStyle.className, className)} {...props} />
   ),
-  code: (props: React.ComponentProps<typeof Code>) => <Code variant="subtle" {...props} />,
-  pre: CodeBlock,
-  hr: (props: React.ComponentProps<typeof Divider>) => (
-    <Divider orientation="horizontal" spacing="lg" {...props} />
+  code: ({ className, ...props }: React.ComponentProps<typeof Code>) => (
+    <Code variant="subtle" className={className} {...props} />
   ),
-  table: Table.Root,
-  thead: Table.Header,
-  tbody: Table.Body,
-  tr: Table.Row,
-  th: Table.Head,
-  td: Table.Cell,
+  table: ({ className, ...props }: React.ComponentProps<typeof Table>) => (
+    <Table variant="bordered" className={className} {...props} />
+  ),
+  hr: () => <div className={hrSpacerStyle.className} />,
   CodeBlock,
   TokenTable,
   PropsTable,
@@ -53,7 +86,7 @@ export default function MDXLayout({
 
   return (
     <AppLayout title={title} currentPage={currentPage}>
-      <div>{children}</div>
+      <div className={mdxContainerStyle.className}>{children}</div>
     </AppLayout>
   );
 }

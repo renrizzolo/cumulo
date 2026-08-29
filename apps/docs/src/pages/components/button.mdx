@@ -1,5 +1,5 @@
 import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { Button, HStack, VStack, Badge } from '@cumulo/core';
+import { Button, HStack } from '@cumulo/core';
 import buttonDoc from '../../../docgen/components/Button.json';
 export default Layout;
 export { CodeBlock, PropsTable, ComponentPreview };
@@ -15,8 +15,6 @@ import { Button } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview
-  title="Button Story"
-  description="Explore primary, secondary, outline, and ghost variants across intents."
   code={`<HStack gap="sm" wrap="wrap" align="center">
   <Button variant="primary">Primary</Button>
   <Button variant="secondary">Secondary</Button>
@@ -40,14 +38,11 @@ import { Button } from '@cumulo/core';
   </HStack>
 </ComponentPreview>
 
----
+## Visual Variants
 
-## Variants
-
-Cumulo buttons support four core visual styles: `primary`, `secondary`, `outline`, and `ghost`.
+Cumulo buttons support four core visual variants: `primary`, `secondary`, `outline`, and `ghost`.
 
 <ComponentPreview
-  title="Visual Variants"
   code={`<HStack gap="sm" wrap="wrap">
   <Button variant="primary">Primary</Button>
   <Button variant="secondary">Secondary</Button>
@@ -63,14 +58,11 @@ Cumulo buttons support four core visual styles: `primary`, `secondary`, `outline
   </HStack>
 </ComponentPreview>
 
----
-
 ## Semantic Intents
 
-Buttons map across system intents (`primary`, `success`, `warning`, `error`, `info`).
+Buttons automatically adapt their styling according to system intents (`primary`, `success`, `warning`, `error`, `info`).
 
 <ComponentPreview
-  title="Intents"
   code={`<HStack gap="sm" wrap="wrap">
   <Button variant="primary" intent="primary">Primary</Button>
   <Button variant="primary" intent="success">Success</Button>
@@ -98,14 +90,11 @@ Buttons map across system intents (`primary`, `success`, `warning`, `error`, `in
   </HStack>
 </ComponentPreview>
 
----
-
 ## Sizes & Shapes
 
 Buttons offer `small`, `base`, and `large` sizes, with `default` and `round` shapes.
 
 <ComponentPreview
-  title="Sizes & Shapes"
   code={`<HStack gap="sm" align="center" wrap="wrap">
   <Button size="small">Small</Button>
   <Button size="base">Base</Button>
@@ -126,8 +115,6 @@ Buttons offer `small`, `base`, and `large` sizes, with `default` and `round` sha
     </Button>
   </HStack>
 </ComponentPreview>
-
----
 
 ## Component API
 

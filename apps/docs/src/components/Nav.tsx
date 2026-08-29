@@ -1,7 +1,8 @@
 import React from 'react';
 import type { PageProps } from '@parcel/rsc';
+import { style, cx } from '@cumulo/css';
 import { Link, type RoutePath } from '@renr/parcel-rsc-router';
-import { Surface, VStack, HStack, Heading, Text, Badge, Divider } from '@cumulo/core';
+import { Surface, VStack, HStack, Heading, Text, Badge, vars } from '@cumulo/core';
 
 interface NavItem {
   label: string;
@@ -9,6 +10,73 @@ interface NavItem {
   htmlPath: string;
   badge?: string;
 }
+
+const navContainerStyle = style({
+  width: '270px',
+  minWidth: '270px',
+  minHeight: '100vh',
+  borderRadius: 0,
+  borderTop: 'none',
+  borderBottom: 'none',
+  borderLeft: 'none',
+  padding: `${vars.spacing.lg} ${vars.spacing.sm}`,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.spacing.lg,
+  boxSizing: 'border-box',
+  overflowY: 'auto',
+});
+
+const brandLinkStyle = style({
+  textDecoration: 'none',
+  color: 'inherit',
+  paddingLeft: vars.spacing.xs,
+});
+
+const brandIconStyle = style({
+  fontSize: '24px',
+});
+
+const sectionHeadingStyle = style({
+  textTransform: 'uppercase',
+  letterSpacing: '0.06em',
+  paddingLeft: vars.spacing.xs,
+  fontSize: '11px',
+  fontWeight: 600,
+});
+
+const sectionHeaderHStackStyle = style({
+  paddingLeft: vars.spacing.xs,
+  paddingRight: vars.spacing.xs,
+});
+
+const navItemStyle = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: `7px ${vars.spacing.sm}`,
+  borderRadius: vars.radius.md,
+  color: vars.surface.fg,
+  fontWeight: vars.font.weight.normal,
+  fontSize: vars.font.size.sm,
+  textDecoration: 'none',
+  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
+  ':hover': {
+    backgroundColor: vars.surface.bg.next,
+  },
+});
+
+const navItemActiveStyle = style({
+  color: vars.primary.DEFAULT,
+  backgroundColor: vars.surface.bg.next,
+  fontWeight: vars.font.weight.semibold,
+});
+
+const footerStyle = style({
+  marginTop: 'auto',
+  paddingLeft: vars.spacing.xs,
+  paddingTop: vars.spacing.md,
+});
 
 const DOC_PAGES: NavItem[] = [
   { label: 'Overview', path: '/', htmlPath: '/index.html' },
@@ -29,6 +97,7 @@ const COMPONENT_PAGES: NavItem[] = [
     htmlPath: '/components/field.html',
     badge: 'Compound',
   },
+  { label: 'Flow', path: '/components/flow', htmlPath: '/components/flow.html' },
   { label: 'Heading', path: '/components/heading', htmlPath: '/components/heading.html' },
   { label: 'Input', path: '/components/input', htmlPath: '/components/input.html' },
   { label: 'Stack', path: '/components/stack', htmlPath: '/components/stack.html' },
@@ -64,19 +133,7 @@ export function Nav({
       <Link
         key={item.path}
         to={item.path}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '6px 12px',
-          borderRadius: 'var(--theme-radius-md, 6px)',
-          color: isActive ? 'var(--theme-primary, #6366f1)' : 'var(--surface-fg)',
-          backgroundColor: isActive ? 'var(--surface-bg-next)' : 'transparent',
-          fontWeight: isActive ? 600 : 400,
-          fontSize: '13px',
-          textDecoration: 'none',
-          transition: 'background-color 0.15s ease, color 0.15s ease',
-        }}
+        className={cx(navItemStyle.className, isActive && navItemActiveStyle.className)}
       >
         <span>{item.label}</span>
         {item.badge ? <Badge variant="outline">{item.badge}</Badge> : null}
@@ -85,30 +142,13 @@ export function Nav({
   };
 
   return (
-    <Surface
-      level={1}
-      style={{
-        width: '260px',
-        minWidth: '260px',
-        minHeight: '100vh',
-        borderRadius: 0,
-        borderTop: 'none',
-        borderBottom: 'none',
-        borderLeft: 'none',
-        padding: '24px 16px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-        boxSizing: 'border-box',
-        overflowY: 'auto',
-      }}
-    >
+    <Surface level={1} className={navContainerStyle.className}>
       {/* Brand Header */}
-      <Link to="/" style={{ textDecoration: 'none', color: 'inherit', paddingLeft: '8px' }}>
+      <Link to="/" className={brandLinkStyle.className}>
         <HStack gap="sm" align="center">
-          <span style={{ fontSize: '24px' }}>📦</span>
+          <span className={brandIconStyle.className}>📦</span>
           <VStack gap="3xs">
-            <Heading as="h3" size="lg">
+            <Heading as="h3" size="md">
               Cumulo UI
             </Heading>
             <Text type="caption" color="muted">
@@ -118,20 +158,9 @@ export function Nav({
         </HStack>
       </Link>
 
-      <Divider orientation="horizontal" />
-
       {/* Overview & Guides */}
       <VStack gap="xs">
-        <Text
-          type="label"
-          size="xs"
-          color="muted"
-          style={{
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em',
-            paddingLeft: '8px',
-          }}
-        >
+        <Text type="label" size="xs" color="muted" className={sectionHeadingStyle.className}>
           Documentation
         </Text>
         <VStack gap="3xs">{DOC_PAGES.map(renderLink)}</VStack>
@@ -139,40 +168,24 @@ export function Nav({
 
       {/* Components Section */}
       <VStack gap="xs">
-        <HStack
-          justify="between"
-          align="center"
-          style={{ paddingLeft: '8px', paddingRight: '8px' }}
-        >
-          <Text
-            type="label"
-            size="xs"
-            color="muted"
-            style={{
-              textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-            }}
-          >
+        <HStack justify="between" align="center" className={sectionHeaderHStackStyle.className}>
+          <Text type="label" size="xs" color="muted" className={sectionHeadingStyle.className}>
             Components
           </Text>
-          <Badge variant="secondary" size="small">
-            {COMPONENT_PAGES.length}
-          </Badge>
+          <Badge variant="secondary">{COMPONENT_PAGES.length}</Badge>
         </HStack>
         <VStack gap="3xs">{COMPONENT_PAGES.map(renderLink)}</VStack>
       </VStack>
 
       {/* Footer Info */}
-      <VStack gap="3xs" style={{ marginTop: 'auto', paddingLeft: '8px', paddingTop: '16px' }}>
+      <VStack gap="3xs" className={footerStyle.className}>
         <Text type="caption" color="muted">
           Cumulo Monorepo
         </Text>
         <Text type="caption" color="muted">
-          v0.1.0 • Pure React 19
+          v0.1.0 • React 19
         </Text>
       </VStack>
     </Surface>
   );
 }
-
-export default Nav;

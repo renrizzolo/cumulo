@@ -1,12 +1,12 @@
 import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { Container, Card, Text, VStack } from '@cumulo/core';
+import { Container, Surface, Text } from '@cumulo/core';
 import containerDoc from '../../../docgen/components/Container.json';
 export default Layout;
 export { CodeBlock, PropsTable, ComponentPreview };
 
 # Container
 
-Containers constrain content width to standard responsive breakpoints and center layouts horizontally.
+Centers content horizontally with maximum width boundaries and standard padding.
 
 ```tsx
 import { Container } from '@cumulo/core';
@@ -15,44 +15,18 @@ import { Container } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview
-  title="Constrained Container"
-  description="Containers provide sm, md, lg, xl, and full max-width bounds."
-  code={`<VStack gap="sm">
-  <Container size="sm" padding="sm" style={{ border: '1px dashed var(--theme-primary)', borderRadius: '4px', textAlign: 'center' }}>
-    <Text type="caption">Small Container (max 640px)</Text>
-  </Container>
-  <Container size="md" padding="sm" style={{ border: '1px dashed var(--theme-primary)', borderRadius: '4px', textAlign: 'center' }}>
-    <Text type="caption">Medium Container (max 768px)</Text>
-  </Container>
-</VStack>`}
+  code={`<Container size="md" padding="md">
+  <Surface level={1} padding="md">
+    <Text>Container size="md" with Surface Level 1</Text>
+  </Surface>
+</Container>`}
 >
-  <VStack gap="sm">
-    <Container
-      size="sm"
-      padding="sm"
-      style={{
-        border: '1px dashed var(--theme-primary, #6366f1)',
-        borderRadius: '4px',
-        textAlign: 'center',
-      }}
-    >
-      <Text type="caption">Small Container (max 640px)</Text>
-    </Container>
-    <Container
-      size="md"
-      padding="sm"
-      style={{
-        border: '1px dashed var(--theme-primary, #6366f1)',
-        borderRadius: '4px',
-        textAlign: 'center',
-      }}
-    >
-      <Text type="caption">Medium Container (max 768px)</Text>
-    </Container>
-  </VStack>
+  <Container size="md" padding="md">
+    <Surface level={1} padding="md">
+      <Text>Container size="md" with Surface Level 1</Text>
+    </Surface>
+  </Container>
 </ComponentPreview>
-
----
 
 ## Component API
 

@@ -16,13 +16,13 @@ import { Badge } from '@cumulo/core';
 
 <ComponentPreview
   title="Badge States"
-  description="Badges inherit intent colors and support small, base, and large sizes."
+  description="Badges inherit intent and color definitions seamlessly across surfaces."
   code={`<HStack gap="sm" wrap="wrap" align="center">
   <Badge variant="primary" intent="primary">Primary</Badge>
   <Badge variant="secondary" intent="success">Active</Badge>
   <Badge variant="outline" intent="warning">Pending</Badge>
   <Badge variant="ghost" intent="error">Failed</Badge>
-  <Badge variant="primary" intent="info" size="large">Beta 2.0</Badge>
+  <Badge variant="primary" intent="info">Beta 2.0</Badge>
 </HStack>`}
 >
   <HStack gap="sm" wrap="wrap" align="center">
@@ -38,13 +38,11 @@ import { Badge } from '@cumulo/core';
     <Badge variant="ghost" intent="error">
       Failed
     </Badge>
-    <Badge variant="primary" intent="info" size="large">
+    <Badge variant="primary" intent="info">
       Beta 2.0
     </Badge>
   </HStack>
 </ComponentPreview>
-
----
 
 ## Variants & Intents
 
@@ -73,7 +71,30 @@ import { Badge } from '@cumulo/core';
   </HStack>
 </ComponentPreview>
 
----
+## Color Presets
+
+<ComponentPreview
+  title="Named Color Badges"
+  code={`<HStack gap="sm" wrap="wrap">
+  <Badge color="yellow">Yellow</Badge>
+  <Badge color="green">Green</Badge>
+  <Badge color="blue">Blue</Badge>
+  <Badge color="purple">Purple</Badge>
+  <Badge color="pink">Pink</Badge>
+  <Badge color="beige">Beige</Badge>
+  <Badge color="sky">Sky</Badge>
+</HStack>`}
+>
+  <HStack gap="sm" wrap="wrap">
+    <Badge color="yellow">Yellow</Badge>
+    <Badge color="green">Green</Badge>
+    <Badge color="blue">Blue</Badge>
+    <Badge color="purple">Purple</Badge>
+    <Badge color="pink">Pink</Badge>
+    <Badge color="beige">Beige</Badge>
+    <Badge color="sky">Sky</Badge>
+  </HStack>
+</ComponentPreview>
 
 ## Component API
 

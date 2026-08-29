@@ -90,7 +90,7 @@ export function PropsTable({
                 <HStack gap="xs" align="center">
                   <Code variant="primary">{prop.name}</Code>
                   {prop.required ? (
-                    <Badge variant="primary" intent="error" size="small">
+                    <Badge variant="primary" intent="error">
                       required
                     </Badge>
                   ) : null}
@@ -101,13 +101,13 @@ export function PropsTable({
                 {cleanDefault ? (
                   <Code variant="ghost">{cleanDefault}</Code>
                 ) : (
-                  <Text type="caption" color="muted">
+                  <Text as="span" type="caption" color="muted">
                     —
                   </Text>
                 )}
               </Table.Cell>
               <Table.Cell>
-                <Text type="body" size="sm">
+                <Text as="span" type="body" size="sm">
                   {prop.description || '—'}
                 </Text>
               </Table.Cell>
@@ -118,5 +118,3 @@ export function PropsTable({
     </Table>
   );
 }
-
-export default PropsTable;

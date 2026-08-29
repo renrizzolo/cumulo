@@ -1,0 +1,44 @@
+{
+  "name": "Field",
+  "path": "packages/core/src/field/Field.tsx",
+  "fileName": "Field.tsx",
+  "props": {
+    "intent": {
+      "name": "intent",
+      "required": false,
+      "description": "Semantic intent propagated to child label, input, and descriptions.",
+      "defaultValue": { "value": "primary" },
+      "type": {
+        "name": "enum",
+        "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+        "value": [
+          { "value": "\"primary\"" },
+          { "value": "\"success\"" },
+          { "value": "\"warning\"" },
+          { "value": "\"error\"" },
+          { "value": "\"info\"" }
+        ]
+      }
+    },
+    "isInvalid": {
+      "name": "isInvalid",
+      "required": false,
+      "description": "Sets invalid validation state and connects aria-invalid to the input.",
+      "defaultValue": { "value": "false" },
+      "type": { "name": "boolean" }
+    },
+    "disabled": {
+      "name": "disabled",
+      "required": false,
+      "description": "Disables interaction across the field subcomponents.",
+      "defaultValue": { "value": "false" },
+      "type": { "name": "boolean" }
+    },
+    "id": {
+      "name": "id",
+      "required": false,
+      "description": "Base identifier shared between label htmlFor and input id.",
+      "type": { "name": "string" }
+    }
+  }
+}

@@ -1,12 +1,12 @@
 import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { Input, VStack, HStack, Text } from '@cumulo/core';
+import { Input, Container, VStack } from '@cumulo/core';
 import inputDoc from '../../../docgen/components/Input.json';
 export default Layout;
 export { CodeBlock, PropsTable, ComponentPreview };
 
 # Input
 
-Text inputs enable users to enter and edit text strings, credentials, and values.
+Text input field with variant, intent, and sizing support.
 
 ```tsx
 import { Input } from '@cumulo/core';
@@ -15,26 +15,24 @@ import { Input } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview
-  title="Input Variants & States"
-  description="Inputs automatically adapt background colors based on their containing surface."
-  code={`<VStack gap="md" style={{ maxWidth: '360px' }}>
-  <Input placeholder="Default input..." />
-  <Input intent="success" defaultValue="Valid input value" />
-  <Input intent="error" defaultValue="Invalid input value" />
-  <Input size="small" placeholder="Small input..." />
-  <Input disabled placeholder="Disabled input..." />
-</VStack>`}
->
-  <VStack gap="md" style={{ maxWidth: '360px' }}>
-    <Input placeholder="Default input..." />
+  code={`<Container size="sm" padding="none">
+  <VStack gap="md">
+    <Input placeholder="Default Input" />
     <Input intent="success" defaultValue="Valid input value" />
     <Input intent="error" defaultValue="Invalid input value" />
-    <Input size="small" placeholder="Small input..." />
-    <Input disabled placeholder="Disabled input..." />
+    <Input size="small" placeholder="Small Input" />
   </VStack>
+</Container>`}
+>
+  <Container size="sm" padding="none">
+    <VStack gap="md">
+      <Input placeholder="Default Input" />
+      <Input intent="success" defaultValue="Valid input value" />
+      <Input intent="error" defaultValue="Invalid input value" />
+      <Input size="small" placeholder="Small Input" />
+    </VStack>
+  </Container>
 </ComponentPreview>
-
----
 
 ## Component API
 

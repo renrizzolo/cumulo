@@ -1,11 +1,47 @@
 import React from 'react';
 import type { PageProps } from '@parcel/rsc';
-import { ThemeScript, Surface, Container } from '@cumulo/core';
-import { Nav } from './components/Nav.js';
-import { AppProvider } from './appProvider.js';
-import { ThemeSwitcher } from './components/ThemeSwitcher.js';
-import './client.js';
+import { HStack, VStack, ThemeScript, vars, Container } from '@cumulo/core';
+import { style } from '@cumulo/css';
+import { Nav } from './components/Nav';
+import { AppProvider } from './appProvider';
+import { ThemeSwitcher } from './components/ThemeSwitcher';
 import './styles.css';
+
+const bodyStyle = style(
+  {
+    margin: 0,
+    padding: vars.spacing.md,
+    minHeight: '100vh',
+    backgroundColor: vars.surface.bg.DEFAULT,
+    color: vars.surface.fg,
+  },
+  'layout-body',
+);
+
+const topHeaderStyle = style(
+  {
+    padding: `${vars.spacing.md} ${vars.spacing['2xl']}`,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: vars.surface.border,
+    borderRadius: 0,
+  },
+  'layout-top-header',
+);
+
+const contentWrapperStyle = style(
+  {
+    flex: 1,
+    padding: `${vars.spacing['2xl']} ${vars.spacing['2xl']} 120px`,
+    boxSizing: 'border-box',
+  },
+  'layout-content-wrapper',
+);
 
 export default function Layout({
   children,
@@ -28,45 +64,21 @@ export default function Layout({
       </head>
 
       <AppProvider>
-        <body style={{ margin: 0, padding: 0, minHeight: '100vh' }}>
-          <Surface
-            level={0}
-            style={{
-              display: 'flex',
-              minHeight: '100vh',
-              width: '100%',
-              borderRadius: 0,
-              borderWidth: 0,
-            }}
-          >
+        <body className={bodyStyle.className}>
+          <HStack align="stretch" style={{ minHeight: '100vh', width: '100%' }}>
             <Nav currentPage={currentPage} />
-            <main
-              style={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                minWidth: 0,
-              }}
-            >
-              <Surface
-                level={0}
-                style={{
-                  padding: '16px 32px',
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                  borderTop: 'none',
-                  borderLeft: 'none',
-                  borderRight: 'none',
-                  borderRadius: 0,
-                }}
-              >
+            <VStack style={{ flex: 1, minWidth: 0 }}>
+              {/* Top Navigation Bar */}
+              <div className={topHeaderStyle.className}>
                 <ThemeSwitcher />
-              </Surface>
-              <Container size="xl" padding="lg" style={{ paddingBottom: '80px' }}>
-                {children}
-              </Container>
-            </main>
-          </Surface>
+              </div>
+
+              {/* Main Content Area */}
+              <main className={contentWrapperStyle.className}>
+                <Container size="xl">{children}</Container>
+              </main>
+            </VStack>
+          </HStack>
         </body>
       </AppProvider>
     </html>
