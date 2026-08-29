@@ -81,7 +81,7 @@ export function ComponentPreview({
   title,
   description,
   code,
-  defaultLevel = 1,
+  defaultLevel = 0,
   children,
 }: ComponentPreviewProps): React.JSX.Element {
   const [level, setLevel] = useState<0 | 1 | 2>(defaultLevel);
