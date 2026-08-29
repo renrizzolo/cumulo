@@ -229,3 +229,10 @@ export function FieldLabel({
     </Label>
   );
 }
+
+FieldRoot.displayName = 'Field.Root';
+FieldInput.displayName = 'Field.Input';
+FieldLabel.displayName = 'Field.Label';
+FieldError.displayName = 'Field.Error';
+FieldDescription.displayName = 'Field.Description';
+FieldGroup.displayName = 'Field.Group';
