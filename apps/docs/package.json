@@ -28,6 +28,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "parcel": "^2.16.4",
+    "shiki": "^4.4.3",
     "typescript": "^5.8.2"
   },
   "@renr/parcel-reporter-docgen": {
@@ -37,7 +38,10 @@
   "targets": {
     "react-static": {
       "source": "src/pages/**/*",
-      "context": "react-server"
+      "context": "react-server",
+      "includeNodeModules": {
+        "shiki": false
+      }
     }
   }
 }

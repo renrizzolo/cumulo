@@ -21,8 +21,10 @@
   "devDependencies": {
     "@changesets/cli": "^3.0.1",
     "@parcel/packager-react-static": "2.16.4",
+    "@parcel/runtime-rsc": "2.16.4",
     "@parcel/transformer-react-static": "2.16.4",
     "@types/node": "^24",
+    "buffer": "^6.0.3",
     "oxfmt": "^0.64.0",
     "oxlint": "^1.79.0",
     "react-server-dom-parcel": "^19.2.8",

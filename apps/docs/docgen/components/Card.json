@@ -59,16 +59,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
+        "raw": "\"default\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           }
         ]
       },
@@ -93,16 +93,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"xs\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""

@@ -17,13 +17,17 @@ import { Badge } from '@cumulo/core';
 <ComponentPreview
   title="Badge States"
   description="Badges inherit intent and color definitions seamlessly across surfaces."
-  code={`<HStack gap="sm" wrap="wrap" align="center">
-  <Badge variant="primary" intent="primary">Primary</Badge>
-  <Badge variant="secondary" intent="success">Active</Badge>
-  <Badge variant="outline" intent="warning">Pending</Badge>
-  <Badge variant="ghost" intent="error">Failed</Badge>
-  <Badge variant="primary" intent="info">Beta 2.0</Badge>
+  code={
+    <CodeBlock>
+      {`<HStack gap="sm" wrap="wrap" align="center">
+    <Badge variant="primary" intent="primary">Primary</Badge>
+    <Badge variant="secondary" intent="success">Active</Badge>
+    <Badge variant="outline" intent="warning">Pending</Badge>
+    <Badge variant="ghost" intent="error">Failed</Badge>
+    <Badge variant="primary" intent="info">Beta 2.0</Badge>
 </HStack>`}
+    </CodeBlock>
+  }
 >
   <HStack gap="sm" wrap="wrap" align="center">
     <Badge variant="primary" intent="primary">
