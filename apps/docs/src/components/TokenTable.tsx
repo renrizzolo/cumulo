@@ -105,12 +105,6 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
     { name: 'vars.radius.none', variable: '--theme-radius-none', value: '0px', category: 'radius' },
     {
       name: 'vars.radius.md',
-      variable: '--theme-radius-sm',
-      value: '0.125rem (2px)',
-      category: 'radius',
-    },
-    {
-      name: 'vars.radius.md',
       variable: '--theme-radius-md',
       value: '0.375rem (6px)',
       category: 'radius',
@@ -317,14 +311,14 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
 };
 
 const previewBarStyle = style({
-  height: '16px',
+  height: vars.size.xSmall,
   backgroundColor: vars.primary.DEFAULT,
   borderRadius: vars.radius.md,
 });
 
 const previewBoxStyle = style({
-  height: '32px',
-  width: '32px',
+  width: vars.size.base,
+  height: vars.size.base,
   borderWidth: 2,
   borderStyle: 'solid',
   borderColor: vars.primary.DEFAULT,
@@ -332,8 +326,8 @@ const previewBoxStyle = style({
 });
 
 const colorSwatchStyle = style({
-  height: '24px',
-  width: '24px',
+  width: vars.size.base,
+  height: vars.size.base,
   borderRadius: vars.radius.md,
   borderWidth: 1,
   borderStyle: 'solid',
@@ -384,15 +378,16 @@ export function TokenTable({
                 <div
                   className={previewBarStyle.className}
                   style={{
-                    width: token.value ? token.value.split(' ')[0] : '24px',
-                    maxWidth: '120px',
+                    width: `var(${token.variable})`,
                   }}
                 />
               )}
               {token.category === 'radius' && (
                 <div
                   className={previewBoxStyle.className}
-                  style={{ borderRadius: token.value ? token.value.split(' ')[0] : '0px' }}
+                  style={{
+                    borderRadius: `var(${token.variable})`,
+                  }}
                 />
               )}
               {token.category === 'font' && (

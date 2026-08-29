@@ -1,5 +1,5 @@
 import React from 'react';
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants, style } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
@@ -29,6 +29,10 @@ export const tableRecipe = recipe(
   },
   'table',
 );
+
+const tableWrapper = style({
+  overflowX: 'auto',
+});
 
 export const tableHeadCellRecipe = recipe(
   {
@@ -107,9 +111,11 @@ export function TableRoot({
   const classes = tableRecipe({ variant });
 
   return (
-    <table ref={ref} className={cx(classes, className)} {...props}>
-      {cleanTableChildren(children)}
-    </table>
+    <div className={tableWrapper.className}>
+      <table ref={ref} className={cx(classes, className)} {...props}>
+        {cleanTableChildren(children)}
+      </table>
+    </div>
   );
 }
 
@@ -208,3 +214,11 @@ export const Table = Object.assign(TableRoot, {
   Cell: TableCell,
   Caption: TableCaption,
 });
+
+TableRoot.displayName = 'Table';
+TableHeader.displayName = 'Table.Header';
+TableBody.displayName = 'Table.Body';
+TableRow.displayName = 'Table.Row';
+TableHead.displayName = 'Table.Head';
+TableCell.displayName = 'Table.Cell';
+TableCaption.displayName = 'Table.Caption';
