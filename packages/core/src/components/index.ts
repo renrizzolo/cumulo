@@ -58,3 +58,4 @@ export {
   type TableRowProps,
   type TableVariants,
 } from './Table.js';
+export { Flow, flowRecipe, type FlowProps } from './Flow.js';

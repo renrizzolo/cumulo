@@ -1,20 +1,27 @@
 import React from 'react';
-import { recipe, cx } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { Surface, SurfaceProps } from './Surface.js';
+import type { ElementProps } from '../ElementProps.js';
+import { Surface, type SurfaceProps } from './Surface.js';
 
 export const cardRecipe = recipe(
   {
     base: {
-      display: 'flex',
-      flexDirection: 'column',
+      borderRadius: vars.radius.lg,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: vars.surface.border,
+      boxShadow: vars.shadow['0'],
     },
     variants: {
       padding: {
-        none: { padding: 0 },
+        none: { padding: vars.spacing.none },
+        xs: { padding: vars.spacing.xs },
         sm: { padding: vars.spacing.sm },
         md: { padding: vars.spacing.md },
         lg: { padding: vars.spacing.lg },
+        xl: { padding: vars.spacing.xl },
+        '2xl': { padding: vars.spacing['2xl'] },
       },
     },
     defaultVariants: {
@@ -24,27 +31,32 @@ export const cardRecipe = recipe(
   'card',
 );
 
-export interface CardProps extends SurfaceProps {
-  padding?: 'none' | 'sm' | 'md' | 'lg';
+export type CardVariants = RecipeVariants<typeof cardRecipe>;
+
+export interface CardProps extends ElementProps<HTMLDivElement> {
+  level?: SurfaceProps['level'];
+  variant?: SurfaceProps['variant'];
+  padding?: CardVariants['padding'];
+  children?: React.ReactNode;
 }
 
 export function Card({
   level = 1,
-  padding = 'md',
   variant = 'default',
+  padding = 'md',
   className,
   children,
   ref,
   ...props
-}: CardProps) {
-  const cardClasses = cardRecipe({ padding });
+}: CardProps): React.JSX.Element {
+  const classes = cardRecipe({ padding });
 
   return (
     <Surface
       ref={ref}
       level={level}
       variant={variant}
-      className={cx(cardClasses, className)}
+      className={cx(classes, className)}
       {...props}
     >
       {children}
