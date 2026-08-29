@@ -58,11 +58,7 @@ export function Surface({
   const recipeClasses = surfaceRecipe({ level, variant });
 
   return (
-    <div
-      ref={ref}
-      className={cx(surfaceClass, recipeClasses, className)}
-      {...props}
-    >
+    <div ref={ref} className={cx(surfaceClass, recipeClasses, className)} {...props}>
       {children}
     </div>
   );
