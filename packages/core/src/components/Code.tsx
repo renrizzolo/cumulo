@@ -15,6 +15,7 @@ export const codeRecipe = recipe(
       lineHeight: vars.line.height.tight,
       display: 'inline-block',
       verticalAlign: 'baseline',
+      whiteSpace: 'nowrap',
     },
     variants: {
       variant: {
