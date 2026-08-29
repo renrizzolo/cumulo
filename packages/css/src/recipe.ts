@@ -84,6 +84,7 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
       }
     }
   }
+
   return result as StyleRule;
 }
 
@@ -238,7 +239,14 @@ export function recipe<T extends VariantDefinitions = VariantDefinitions, E = un
   // 6. Zero-runtime resolver
   const recipeFn = ((props?: VariantSelection<CombinedVariants>) => {
     const classes: (string | undefined)[] = [baseClassName];
-    const mergedProps: Record<string, unknown> = { ...mergedDefaultVariants, ...props };
+    const mergedProps: Record<string, unknown> = { ...mergedDefaultVariants };
+    if (props) {
+      for (const [key, val] of Object.entries(props)) {
+        if (val !== undefined) {
+          mergedProps[key] = val;
+        }
+      }
+    }
 
     for (const variantName of Object.keys(mergedVariants)) {
       const propValue = mergedProps[variantName];

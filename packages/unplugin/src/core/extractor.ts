@@ -2,16 +2,30 @@ import path from 'node:path';
 import { createJiti } from 'jiti';
 import type { CumuloPluginOptions } from '../types.js';
 
-const isStylesheet = (file?: string): boolean =>
-  Boolean(file && /\.(css|scss|sass|less|styl)$/.test(file));
+const isStylesheet = (file?: string, source?: string): boolean => {
+  if (file && /\.(css|scss|sass|less|styl)($|\?)/i.test(file)) {
+    return true;
+  }
+  if (source) {
+    const trimmed = source.trim();
+    if (
+      trimmed.startsWith('@import') ||
+      trimmed.startsWith('@layer') ||
+      trimmed.startsWith('@charset')
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
 
 /**
- * we can't/don't want to transform css imports
+ * Strips stylesheet import statements from source code before evaluating with Jiti
  */
 const stripCssImports = (source: string): string =>
   source
-    .replace(/import\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/g, '')
-    .replace(/import\s+[^;]+from\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/g, '');
+    .replace(/import\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/gi, '')
+    .replace(/import\s+[^;]+from\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/gi, '');
 
 const baseJiti = createJiti(process.cwd(), {
   interopDefault: true,
@@ -24,7 +38,7 @@ const jiti = createJiti(process.cwd(), {
   moduleCache: false,
   jsx: true,
   transform(opts) {
-    if (isStylesheet(opts.filename)) {
+    if (isStylesheet(opts.filename, opts.source)) {
       return { code: 'module.exports = {};' };
     }
     const cleanSource = opts.source ? stripCssImports(opts.source) : opts.source;
@@ -53,7 +67,7 @@ function logExtractionWarning(filePath: string, action: string, err: unknown): v
 }
 
 /**
- * Checks if source code contains imports from `@cumulo/css` or `@cumulo/core`
+ * Checks if source code contains imports from `@cumulo/css`
  * or contains calls to style/recipe creation functions.
  */
 export function shouldProcessFile(
@@ -79,11 +93,12 @@ export function shouldProcessFile(
 
   return (
     code.includes('@cumulo/css') ||
-    code.includes('@cumulo/core') ||
     code.includes('recipe(') ||
     code.includes('style(') ||
     code.includes('create(') ||
-    code.includes('keyframes(')
+    code.includes('keyframes(') ||
+    code.includes('createTheme(') ||
+    code.includes('createThemeContract(')
   );
 }
 
