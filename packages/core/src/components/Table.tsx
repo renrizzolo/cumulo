@@ -90,12 +90,6 @@ export const tableRowRecipe = recipe(
 
 export type TableVariants = RecipeVariants<typeof tableRecipe>;
 
-function cleanTableChildren(children: React.ReactNode): React.ReactNode {
-  return React.Children.toArray(children).filter(
-    (child) => typeof child !== 'string' || child.trim() !== '',
-  );
-}
-
 export interface TableProps extends ElementProps<HTMLTableElement> {
   variant?: 'default' | 'bordered';
   children?: React.ReactNode;
@@ -113,7 +107,7 @@ export function TableRoot({
   return (
     <div className={tableWrapper.className}>
       <table ref={ref} className={cx(classes, className)} {...props}>
-        {cleanTableChildren(children)}
+        {children}
       </table>
     </div>
   );
@@ -127,7 +121,7 @@ export function TableHeader({
 }: ElementProps<HTMLTableSectionElement>): React.JSX.Element {
   return (
     <thead ref={ref} className={className} {...props}>
-      {cleanTableChildren(children)}
+      {children}
     </thead>
   );
 }
@@ -140,7 +134,7 @@ export function TableBody({
 }: ElementProps<HTMLTableSectionElement>): React.JSX.Element {
   return (
     <tbody ref={ref} className={className} {...props}>
-      {cleanTableChildren(children)}
+      {children}
     </tbody>
   );
 }
@@ -159,7 +153,7 @@ export function TableRow({
   const classes = tableRowRecipe({ interactive });
   return (
     <tr ref={ref} className={cx(classes, className)} {...props}>
-      {cleanTableChildren(children)}
+      {children}
     </tr>
   );
 }
