@@ -1,12 +1,15 @@
 import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { ElementProps } from '../ElementProps.js';
+import type { ElementProps } from '../ElementProps.js';
+import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 
 export const surfaceRecipe = recipe(
   {
+    extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
     base: {
-      borderRadius: vars.radius.xl,
+      display: 'flex',
+      flexDirection: 'column',
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
@@ -29,20 +32,12 @@ export const surfaceRecipe = recipe(
           borderColor: vars.surface.primary.border,
         },
       },
-      padding: {
-        none: { padding: 0 },
-        xs: { padding: vars.spacing.xs },
-        sm: { padding: vars.spacing.sm },
-        md: { padding: vars.spacing.md },
-        lg: { padding: vars.spacing.lg },
-        xl: { padding: vars.spacing.xl },
-        '2xl': { padding: vars.spacing['2xl'] },
-      },
     },
     defaultVariants: {
       level: 1,
       variant: 'default',
       padding: 'none',
+      radius: 'xl',
     },
   },
   'surface',
@@ -51,9 +46,12 @@ export const surfaceRecipe = recipe(
 export type SurfaceVariants = RecipeVariants<typeof surfaceRecipe>;
 
 export interface SurfaceProps extends ElementProps<HTMLDivElement> {
-  level?: 0 | 1 | 2;
-  variant?: 'default' | 'primary';
-  padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  level?: SurfaceVariants['level'];
+  variant?: SurfaceVariants['variant'];
+  padding?: SurfaceVariants['padding'];
+  radius?: SurfaceVariants['radius'];
+  flex?: SurfaceVariants['flex'];
+  overflow?: SurfaceVariants['overflow'];
   children?: React.ReactNode;
 }
 
@@ -61,13 +59,16 @@ export function Surface({
   level = 1,
   variant = 'default',
   padding = 'none',
+  radius,
+  flex,
+  overflow,
   className,
   children,
   ref,
   ...props
-}: SurfaceProps) {
+}: SurfaceProps): React.JSX.Element {
   const surfaceClass = variant === 'primary' ? 'surface-primary' : `surface-${level}`;
-  const recipeClasses = surfaceRecipe({ level, variant, padding });
+  const recipeClasses = surfaceRecipe({ level, variant, padding, radius, flex, overflow });
 
   return (
     <div ref={ref} className={cx(surfaceClass, recipeClasses, className)} {...props}>

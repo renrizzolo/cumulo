@@ -7,6 +7,7 @@ describe('Card component', () => {
       const defaultClasses = cardRecipe();
       expect(defaultClasses).toContain(cardRecipe.classNames.base);
       expect(defaultClasses).toContain(cardRecipe.classNames.variants.padding.md);
+      expect(defaultClasses).toContain(cardRecipe.classNames.variants.overflow.hidden);
     });
 
     it('supports padding variants (none, sm, md, lg)', () => {
@@ -19,6 +20,17 @@ describe('Card component', () => {
       expect(sm).toContain(cardRecipe.classNames.variants.padding.sm);
       expect(md).toContain(cardRecipe.classNames.variants.padding.md);
       expect(lg).toContain(cardRecipe.classNames.variants.padding.lg);
+    });
+
+    it('supports overflow, flex, and radius variants', () => {
+      const visible = cardRecipe({ overflow: 'visible' });
+      expect(visible).toContain(cardRecipe.classNames.variants.overflow.visible);
+
+      const flexed = cardRecipe({ flex: 1 });
+      expect(flexed).toContain(cardRecipe.classNames.variants.flex['1']);
+
+      const nested = cardRecipe({ radius: 'auto' });
+      expect(nested).toContain(cardRecipe.classNames.variants.radius.auto);
     });
   });
 });

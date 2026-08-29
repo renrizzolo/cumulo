@@ -194,7 +194,6 @@ export const vars = {
     lg: 'var(--theme-radius-lg)',
     md: 'var(--theme-radius-md)',
     none: 'var(--theme-radius-none)',
-    sm: 'var(--theme-radius-sm)',
     xl: 'var(--theme-radius-xl)',
   },
   size: {

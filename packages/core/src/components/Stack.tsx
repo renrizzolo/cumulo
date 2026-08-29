@@ -1,13 +1,13 @@
 import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
-import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { flexStyles, gapStyles } from '../layout.js';
 
 export const stackRecipe = recipe(
   {
+    extend: [flexStyles, gapStyles],
     base: {
       display: 'flex',
-      boxSizing: 'border-box',
     },
     variants: {
       direction: {
@@ -15,17 +15,6 @@ export const stackRecipe = recipe(
         column: { flexDirection: 'column' },
         'row-reverse': { flexDirection: 'row-reverse' },
         'column-reverse': { flexDirection: 'column-reverse' },
-      },
-      gap: {
-        none: { gap: vars.spacing.none },
-        '3xs': { gap: vars.spacing['3xs'] },
-        '2xs': { gap: vars.spacing['2xs'] },
-        xs: { gap: vars.spacing.xs },
-        sm: { gap: vars.spacing.sm },
-        md: { gap: vars.spacing.md },
-        lg: { gap: vars.spacing.lg },
-        xl: { gap: vars.spacing.xl },
-        '2xl': { gap: vars.spacing['2xl'] },
       },
       align: {
         start: { alignItems: 'flex-start' },
@@ -67,12 +56,13 @@ export const stackRecipe = recipe(
 export type StackVariants = RecipeVariants<typeof stackRecipe>;
 
 export interface StackProps extends ElementProps<HTMLDivElement> {
-  direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-  gap?: 'none' | '3xs' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
-  align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
-  justify?: 'start' | 'center' | 'end' | 'between' | 'around' | 'evenly';
-  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse';
-  inline?: boolean;
+  direction?: StackVariants['direction'];
+  gap?: StackVariants['gap'];
+  align?: StackVariants['align'];
+  justify?: StackVariants['justify'];
+  wrap?: StackVariants['wrap'];
+  inline?: StackVariants['inline'];
+  flex?: StackVariants['flex'];
   children?: React.ReactNode;
 }
 
@@ -83,12 +73,13 @@ export function Stack({
   justify = 'start',
   wrap = 'nowrap',
   inline = false,
+  flex,
   className,
   children,
   ref,
   ...props
 }: StackProps): React.JSX.Element {
-  const classes = stackRecipe({ direction, gap, align, justify, wrap, inline });
+  const classes = stackRecipe({ direction, gap, align, justify, wrap, inline, flex });
 
   return (
     <div ref={ref} className={cx(classes, className)} {...props}>

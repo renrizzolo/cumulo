@@ -22,5 +22,16 @@ describe('Surface component', () => {
       const primarySurface = surfaceRecipe({ variant: 'primary' });
       expect(primarySurface).toContain(surfaceRecipe.classNames.variants.variant.primary);
     });
+
+    it('generates flex, overflow, and nested radius classes', () => {
+      const flexSurface = surfaceRecipe({ flex: 1 });
+      expect(flexSurface).toContain(surfaceRecipe.classNames.variants.flex['1']);
+
+      const overflowSurface = surfaceRecipe({ overflow: 'hidden' });
+      expect(overflowSurface).toContain(surfaceRecipe.classNames.variants.overflow.hidden);
+
+      const autoRadiusSurface = surfaceRecipe({ radius: 'auto' });
+      expect(autoRadiusSurface).toContain(surfaceRecipe.classNames.variants.radius.auto);
+    });
   });
 });

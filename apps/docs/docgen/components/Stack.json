@@ -62,16 +62,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"2xs\" | \"xl\" | \"2xl\" | \"3xs\" | undefined",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"xs\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -83,16 +89,10 @@
             "value": "\"lg\""
           },
           {
-            "value": "\"2xs\""
-          },
-          {
             "value": "\"xl\""
           },
           {
             "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xs\""
           }
         ]
       },
@@ -117,19 +117,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"baseline\""
@@ -160,19 +160,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"between\""
@@ -242,7 +242,45 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | undefined"
+        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "1 | \"initial\" | \"auto\" | \"none\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"none\""
+          }
+        ]
       },
       "shortPropTypeName": null
     },
