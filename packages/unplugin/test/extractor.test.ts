@@ -176,4 +176,25 @@ describe('unplugin extractor', () => {
       expect(css).toContain(`.${cls}`);
     }
   });
+
+  it('regression: should extract inline styles from component code with styles', async () => {
+    const code = `
+      import React from 'react';
+      import { style } from '@cumulo/css';
+      import { vars } from '@cumulo/core';
+
+      export const layoutBodyStyle = style(
+        {
+          margin: 0,
+          minHeight: '100vh',
+          backgroundColor: vars.surface.bg.DEFAULT,
+        },
+        'layout-body',
+      );
+    `;
+    const css = await extractCssFromCode(code, 'Layout.tsx');
+
+    expect(css).toContain('.layout-body-');
+    expect(css).toContain('min-height:100vh;');
+  });
 });

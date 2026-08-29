@@ -79,11 +79,14 @@ export async function extractCssFromFile(filePath: string): Promise<string> {
 export async function extractCssFromCode(code: string, id: string): Promise<string> {
   const absolutePath = path.isAbsolute(id) ? id : path.resolve(process.cwd(), id);
 
+  // Strip .css imports before eval so Node/Jiti doesn't fail on stylesheet assets
+  const cleanCode = code.replace(/import\s+['"][^'"]+\.css['"];?/g, '');
+
   try {
     const cumuloCss = (await jiti.import('@cumulo/css')) as typeof import('@cumulo/css');
     cumuloCss.sheet.clear();
 
-    jiti.evalModule(code, {
+    jiti.evalModule(cleanCode, {
       filename: absolutePath,
     });
 
