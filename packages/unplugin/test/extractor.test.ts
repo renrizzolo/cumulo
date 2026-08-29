@@ -9,7 +9,7 @@ import {
 describe('unplugin extractor', () => {
   it('should detect cumulo files', () => {
     expect(shouldProcessFile(`import { recipe } from '@cumulo/css';`, 'Button.tsx')).toBe(true);
-    expect(shouldProcessFile(`import { Button } from '@cumulo/core';`, 'App.tsx')).toBe(true);
+    expect(shouldProcessFile(`recipe({ base: {} })`, 'App.tsx')).toBe(true);
     expect(shouldProcessFile(`console.log("hello")`, 'plain.ts')).toBe(false);
   });
 

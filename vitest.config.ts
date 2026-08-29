@@ -28,6 +28,14 @@ export default defineConfig({
           globals: true,
         },
       },
+      {
+        test: {
+          name: 'docs',
+          include: ['apps/docs/**/*.test.{ts,tsx}'],
+          environment: 'jsdom',
+          globals: true,
+        },
+      },
     ],
   },
   resolve: {

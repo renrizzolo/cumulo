@@ -14,14 +14,7 @@ import { Flow } from '@cumulo/core';
 
 ## Interactive Playground
 
-<ComponentPreview
-  code={`<Flow space="md">
-  <Heading as="h3" size="lg">Article Heading</Heading>
-  <Text>First paragraph of content receiving natural vertical flow.</Text>
-  <Text>Second paragraph separated automatically by token space.</Text>
-  <Button variant="primary">Read More</Button>
-</Flow>`}
->
+<ComponentPreview>
   <Flow space="md">
     <Heading as="h3" size="lg">
       Article Heading
@@ -36,13 +29,7 @@ import { Flow } from '@cumulo/core';
 
 When `prose` is enabled, vertical rhythm automatically tightens the space following headings (`:is(h2, h3, h4) + *`) while keeping generous breathing room between sections.
 
-<ComponentPreview
-  code={`<Flow prose>
-  <Heading as="h2" size="xl">Section Header</Heading>
-  <Text>This paragraph directly follows a heading, so flow space is automatically tightened.</Text>
-  <Text>Subsequent paragraphs maintain standard editorial rhythm and readability.</Text>
-</Flow>`}
->
+<ComponentPreview>
   <Flow prose>
     <Heading as="h2" size="xl">
       Section Header

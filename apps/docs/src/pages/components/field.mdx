@@ -14,15 +14,7 @@ import { Field } from '@cumulo/core';
 
 ## Interactive Playground
 
-<ComponentPreview
-  code={`<Container size="sm" padding="none">
-  <Field.Root intent="primary">
-    <Field.Label>Work Email</Field.Label>
-    <Field.Input placeholder="you@company.com" />
-    <Field.Description>We'll only use this for critical workspace notifications.</Field.Description>
-  </Field.Root>
-</Container>`}
->
+<ComponentPreview>
   <Container size="sm" padding="none">
     <Field.Root intent="primary">
       <Field.Label>Work Email</Field.Label>
@@ -36,15 +28,7 @@ import { Field } from '@cumulo/core';
 
 ## Invalid State
 
-<ComponentPreview
-  code={`<Container size="sm" padding="none">
-  <Field.Root isInvalid>
-    <Field.Label>Username</Field.Label>
-    <Field.Input value="invalid_user@" readOnly />
-    <Field.Error>Username cannot contain special symbols.</Field.Error>
-  </Field.Root>
-</Container>`}
->
+<ComponentPreview>
   <Container size="sm" padding="none">
     <Field.Root isInvalid>
       <Field.Label>Username</Field.Label>
