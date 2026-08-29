@@ -1,0 +1,59 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Flow, Heading, Text, Button } from '@cumulo/core';
+import flowDoc from '../../../docgen/components/Flow.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Flow
+
+Vertical text flow and rhythm primitive based on Andy Bell's lobotomized owl flow pattern (`.flow > * + *`). Automatically spaces sequential sibling elements using CSS custom properties (`--flow-space`) with sensible relative defaults (`1em`).
+
+```tsx
+import { Flow } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  code={`<Flow space="md">
+  <Heading as="h3" size="lg">Article Heading</Heading>
+  <Text>First paragraph of content receiving natural vertical flow.</Text>
+  <Text>Second paragraph separated automatically by token space.</Text>
+  <Button variant="primary">Read More</Button>
+</Flow>`}
+>
+  <Flow space="md">
+    <Heading as="h3" size="lg">
+      Article Heading
+    </Heading>
+    <Text>First paragraph of content receiving natural vertical flow.</Text>
+    <Text>Second paragraph separated automatically by token space.</Text>
+    <Button variant="primary">Read More</Button>
+  </Flow>
+</ComponentPreview>
+
+## Prose Rhythm Mode
+
+When `prose` is enabled, vertical rhythm automatically tightens the space following headings (`:is(h2, h3, h4) + *`) while keeping generous breathing room between sections.
+
+<ComponentPreview
+  code={`<Flow prose>
+  <Heading as="h2" size="xl">Section Header</Heading>
+  <Text>This paragraph directly follows a heading, so flow space is automatically tightened.</Text>
+  <Text>Subsequent paragraphs maintain standard editorial rhythm and readability.</Text>
+</Flow>`}
+>
+  <Flow prose>
+    <Heading as="h2" size="xl">
+      Section Header
+    </Heading>
+    <Text>
+      This paragraph directly follows a heading, so flow space is automatically tightened.
+    </Text>
+    <Text>Subsequent paragraphs maintain standard editorial rhythm and readability.</Text>
+  </Flow>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={flowDoc} />

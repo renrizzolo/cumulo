@@ -1,12 +1,12 @@
 import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { ThemeToggle, HStack, VStack, Text } from '@cumulo/core';
+import { ThemeToggle, HStack } from '@cumulo/core';
 import themeToggleDoc from '../../../docgen/components/ThemeToggle.json';
 export default Layout;
 export { CodeBlock, PropsTable, ComponentPreview };
 
 # ThemeToggle
 
-ThemeToggle provides seamless theme switching between `light`, `dark`, and `system` modes with zero flash of unstyled content (FOUC) and hydration matching.
+Interactive button switching between system, light, and dark color schemes.
 
 ```tsx
 import { ThemeToggle } from '@cumulo/core';
@@ -15,22 +15,14 @@ import { ThemeToggle } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview
-  title="Theme Toggle Variations"
-  description="Supports 2-state smart toggle mode or 3-state cycling."
-  code={`<HStack gap="lg" align="center" wrap="wrap">
-  <ThemeToggle size="base" variant="outline" mode="toggle" />
-  <ThemeToggle size="base" variant="secondary" mode="cycle" showLabel />
-  <ThemeToggle size="small" variant="ghost" shape="default" showLabel />
+  code={`<HStack gap="md" align="center">
+  <ThemeToggle />
 </HStack>`}
 >
-  <HStack gap="lg" align="center" wrap="wrap">
-    <ThemeToggle size="base" variant="outline" mode="toggle" />
-    <ThemeToggle size="base" variant="secondary" mode="cycle" showLabel />
-    <ThemeToggle size="small" variant="ghost" shape="default" showLabel />
+  <HStack gap="md" align="center">
+    <ThemeToggle />
   </HStack>
 </ComponentPreview>
-
----
 
 ## Component API
 

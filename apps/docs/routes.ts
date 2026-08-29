@@ -53,6 +53,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/field.rsc";
         html: "/components/field.html";
       };
+      "/components/flow": {
+        slug: "flow";
+        path: "/components/flow";
+        rsc: "/components/flow.rsc";
+        html: "/components/flow.html";
+      };
       "/components/heading": {
         slug: "heading";
         path: "/components/heading";
@@ -154,6 +160,12 @@ export const flatRoutes = [
     slug: "field",
     rsc: "/components/field.rsc",
     html: "/components/field.html",
+  },
+  {
+    path: "/components/flow",
+    slug: "flow",
+    rsc: "/components/flow.rsc",
+    html: "/components/flow.html",
   },
   {
     path: "/components/heading",
@@ -264,6 +276,13 @@ export const routeTree = {
       slug: "field",
       html: "/components/field.html",
       rsc: "/components/field.rsc",
+      children: [],
+    },
+    {
+      path: "/components/flow",
+      slug: "flow",
+      html: "/components/flow.html",
+      rsc: "/components/flow.rsc",
       children: [],
     },
     {
@@ -381,6 +400,12 @@ export const routesByPage = {
     slug: "field",
     rsc: "/components/field.rsc",
     html: "/components/field.html",
+  },
+  "/components/flow.html": {
+    path: "/components/flow",
+    slug: "flow",
+    rsc: "/components/flow.rsc",
+    html: "/components/flow.html",
   },
   "/components/heading.html": {
     path: "/components/heading",

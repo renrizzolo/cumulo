@@ -16,7 +16,7 @@ import { Card } from '@cumulo/core';
 
 <ComponentPreview
   title="Card Elevation & Padding"
-  description="Cards wrap Surfaces with tokenized padding and elevation levels."
+  description="Cards wrap Surfaces with tokenized padding and depth levels."
   code={`<VStack gap="md">
   <Card level={1} padding="md">
     <VStack gap="xs">
@@ -34,14 +34,12 @@ import { Card } from '@cumulo/core';
 >
   <VStack gap="md">
     <Card level={1} padding="md">
-      <VStack gap="xs">
-        <Heading as="h4" size="md">
-          Container Card (Level 1)
-        </Heading>
-        <Text type="body" size="sm" color="muted">
-          Standard surface container for cards and sections.
-        </Text>
-      </VStack>
+      <Heading as="h4" size="md">
+        Container Card (Level 1)
+      </Heading>
+      <Text type="body" size="sm" color="muted">
+        Standard surface container for cards and sections.
+      </Text>
     </Card>
     <Card level={2} padding="lg">
       <VStack gap="xs">
@@ -55,8 +53,6 @@ import { Card } from '@cumulo/core';
     </Card>
   </VStack>
 </ComponentPreview>
-
----
 
 ## Component API
 

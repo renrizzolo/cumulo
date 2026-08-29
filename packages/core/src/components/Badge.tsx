@@ -1,14 +1,8 @@
+import { cx, recipe, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { type ElementProps } from '../ElementProps.js';
-import {
-  staticIntentStyles,
-  sizes,
-  type BaseVariant,
-  type Intent,
-  type ComponentSize,
-} from '../intents.js';
+import { sizes, staticIntentStyles, type BaseVariant, type Intent } from '../intents.js';
 
 export const badgeRecipe = recipe(
   {
@@ -60,7 +54,7 @@ export const badgeRecipe = recipe(
     defaultVariants: {
       variant: 'primary',
       intent: 'primary',
-      size: 'small',
+      size: 'xSmall',
     },
   },
   'badge',
@@ -73,7 +67,6 @@ export type BadgeColor = 'yellow' | 'blue' | 'green' | 'beige' | 'pink' | 'purpl
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
   variant?: BaseVariant;
   intent?: Intent;
-  size?: ComponentSize;
   color?: BadgeColor;
   children?: React.ReactNode;
 }
@@ -81,14 +74,13 @@ export interface BadgeProps extends ElementProps<HTMLSpanElement> {
 export function Badge({
   variant,
   intent,
-  size = 'xSmall',
   color,
   className,
   children,
   ref,
   ...props
 }: BadgeProps): React.JSX.Element {
-  const classes = badgeRecipe({ variant, intent, color, size });
+  const classes = badgeRecipe({ variant, intent, color });
 
   return (
     <span ref={ref} className={cx(classes, className)} {...props}>

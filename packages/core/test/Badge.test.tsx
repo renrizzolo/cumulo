@@ -8,7 +8,7 @@ describe('Badge component', () => {
       expect(defaultClasses).toContain(badgeRecipe.classNames.base);
       expect(defaultClasses).toContain(badgeRecipe.classNames.variants.variant.primary);
       expect(defaultClasses).toContain(badgeRecipe.classNames.variants.intent.primary);
-      expect(defaultClasses).toContain(badgeRecipe.classNames.variants.size.small);
+      expect(defaultClasses).toContain(badgeRecipe.classNames.variants.size.xSmall);
     });
 
     it('supports variants and intents', () => {
@@ -21,11 +21,9 @@ describe('Badge component', () => {
       expect(ghostInfo).toContain(badgeRecipe.classNames.variants.variant.ghost);
     });
 
-    it('supports sizes and color variants', () => {
-      const small = badgeRecipe({ size: 'small' });
+    it('supports color variants', () => {
       const yellow = badgeRecipe({ color: 'yellow' });
 
-      expect(small).toContain(badgeRecipe.classNames.variants.size.small);
       expect(yellow).toContain(badgeRecipe.classNames.variants.color.yellow);
     });
   });
