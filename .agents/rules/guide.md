@@ -20,8 +20,8 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 
 - **Package Manager**: `pnpm` (`packageManager: "pnpm@11.22.0"`).
 - **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
-- **Type Checking**: `tsc --noEmit` (run via `pnpm type-check`).
-- **Linting & Formatting**: `oxlint` (run via `pnpm lint` / `pnpm lint:fix`) and `oxfmt` (run via `pnpm format`).
+- **Type Checking**: `tsc --noEmit` (run via `pnpm type-check` and included in `pnpm check`).
+- **Linting & Formatting**: uses `oxlint` and `oxfmt`(run via `pnpm check`).
 - **Testing**: `vitest` (run via `pnpm test`).
 - **Releases**: `@changesets/cli`.
 
