@@ -1,0 +1,50 @@
+name: Update Visual Snapshots
+
+on:
+  workflow_dispatch:
+    inputs:
+      bundler:
+        description: 'Optional bundler to update (leave empty for all)'
+        required: false
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update-snapshots:
+    name: Update Browser Visual Snapshots
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@v2
+        with:
+          runtime: node@24
+          cache: true
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Install Playwright Browsers
+        run: pnpm --filter @cumulo/fixtures exec playwright install --with-deps chromium
+
+      - name: Generate & Update Snapshots
+        run: CI=false GITHUB_ACTIONS=false pnpm --filter @cumulo/fixtures exec vitest run --project browser -u
+
+      - name: Commit Updated Snapshots
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'test(fixtures): update browser visual snapshots [skip ci]'
+          file_pattern: 'packages/fixtures/test/browser/__screenshots__/**'
+          branch: ${{ github.ref_name }}
