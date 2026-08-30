@@ -159,3 +159,8 @@ export function ThemeToggle({
     </Button>
   );
 }
+
+ThemeToggle.displayName = 'ThemeToggle';
+SunIcon.displayName = 'SunIcon';
+MoonIcon.displayName = 'MoonIcon';
+SystemIcon.displayName = 'SystemIcon';

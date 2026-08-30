@@ -1,7 +1,16 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { reactNodeToJsx } from './reactNodeToJsx';
-import { Surface, VStack, Text, Button, Field, Table } from '@cumulo/core';
+import {
+  Surface,
+  VStack,
+  Text,
+  Button,
+  Field,
+  Table,
+  Collapsible,
+  ThemeToggle,
+} from '@cumulo/core';
 
 describe('reactNodeToJsx', () => {
   it('serializes single elements with text children and props', () => {
@@ -83,6 +92,22 @@ describe('reactNodeToJsx', () => {
     expect(jsx).toBe(expected);
   });
 
+  it('serializes Collapsible compound components', () => {
+    const jsx = reactNodeToJsx(
+      <Collapsible.Root defaultOpen>
+        <Collapsible.Trigger>Toggle</Collapsible.Trigger>
+        <Collapsible.Content>Panel</Collapsible.Content>
+      </Collapsible.Root>,
+    );
+
+    const expected = `<Collapsible.Root defaultOpen>
+  <Collapsible.Trigger>Toggle</Collapsible.Trigger>
+  <Collapsible.Content>Panel</Collapsible.Content>
+</Collapsible.Root>`;
+
+    expect(jsx).toBe(expected);
+  });
+
   it('serializes Table compound components', () => {
     const jsx = reactNodeToJsx(
       <Table variant="bordered">
@@ -103,5 +128,32 @@ describe('reactNodeToJsx', () => {
 </Table>`;
 
     expect(jsx).toBe(expected);
+  });
+
+  it('serializes ThemeToggle component', () => {
+    const jsx = reactNodeToJsx(<ThemeToggle mode="cycle" />);
+    expect(jsx).toBe('<ThemeToggle mode="cycle" />');
+  });
+
+  it('resolves RSC Client Reference proxies with $$id and $$exportName', () => {
+    const FakeClientRef = {
+      $$typeof: Symbol.for('react.client.reference'),
+      $$id: 'packages/core/dist/index.mjs#ThemeToggle',
+    };
+    const element = React.createElement(
+      FakeClientRef as unknown as React.ComponentType<{ mode: string }>,
+      { mode: 'toggle' },
+    );
+    expect(reactNodeToJsx(element)).toBe('<ThemeToggle mode="toggle" />');
+
+    const FakeCompoundRef = {
+      $$typeof: Symbol.for('react.client.reference'),
+      $$id: 'packages/core/dist/index.mjs#FieldInput',
+    };
+    const inputElement = React.createElement(
+      FakeCompoundRef as unknown as React.ComponentType<{ placeholder: string }>,
+      { placeholder: 'hi' },
+    );
+    expect(reactNodeToJsx(inputElement)).toBe('<Field.Input placeholder="hi" />');
   });
 });
