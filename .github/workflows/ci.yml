@@ -20,7 +20,7 @@ concurrency:
 
 jobs:
   ci:
-    name: Lint, Format, Type Check & Unit Tests
+    name: Lint, format, type check & test
     runs-on: ubuntu-latest
 
     steps:
@@ -70,7 +70,7 @@ jobs:
         run: pnpm build
 
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm --filter @cumulo/fixtures exec playwright install --with-deps chromium
 
       - name: Run Bundler Fixtures & Visual Tests
         run: |
