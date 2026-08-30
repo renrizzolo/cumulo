@@ -68,7 +68,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xs\" | \"2xs\" | undefined",
+        "raw": "\"inherit\" | \"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"2xs\" | \"3xs\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -98,10 +98,10 @@
             "value": "\"2xl\""
           },
           {
-            "value": "\"3xs\""
+            "value": "\"2xs\""
           },
           {
-            "value": "\"2xs\""
+            "value": "\"3xs\""
           }
         ]
       },

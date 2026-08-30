@@ -41,9 +41,7 @@
       "shortPropTypeName": null
     },
     "variant": {
-      "defaultValue": {
-        "value": "default"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "variant",
       "parent": {
@@ -75,9 +73,7 @@
       "shortPropTypeName": null
     },
     "padding": {
-      "defaultValue": {
-        "value": "none"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "padding",
       "parent": {

@@ -1,18 +1,27 @@
-export type Theme = 'light' | 'dark' | 'system';
-export type ResolvedTheme = 'light' | 'dark';
+export type ColorMode = 'light' | 'dark' | 'system';
+export type ResolvedColorMode = 'light' | 'dark';
+
+export type Theme = 'default' | 'cloud' | 'docs' | (string & {});
+
+export const DEFAULT_THEME: Theme = 'default';
+export const DEFAULT_COLOR_MODE: ColorMode = 'system';
 
 export const DEFAULT_THEME_STORAGE_KEY = 'cumulo-theme';
-export const DEFAULT_THEME: Theme = 'system';
+export const DEFAULT_MODE_STORAGE_KEY = 'cumulo-mode';
 
-export function isTheme(value: unknown): value is Theme {
+export function isColorMode(value: unknown): value is ColorMode {
   return value === 'light' || value === 'dark' || value === 'system';
 }
 
-export function isResolvedTheme(value: unknown): value is ResolvedTheme {
+export function isResolvedColorMode(value: unknown): value is ResolvedColorMode {
   return value === 'light' || value === 'dark';
 }
 
-export function getSystemTheme(): ResolvedTheme {
+export function isTheme(value: unknown): value is Theme {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+export function getSystemColorMode(): ResolvedColorMode {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return 'light';
   }
@@ -24,11 +33,11 @@ export function getSystemTheme(): ResolvedTheme {
   }
 }
 
-export function resolveTheme(theme: Theme): ResolvedTheme {
-  if (theme === 'system') {
-    return getSystemTheme();
+export function resolveColorMode(mode: ColorMode): ResolvedColorMode {
+  if (mode === 'system') {
+    return getSystemColorMode();
   }
-  return theme;
+  return mode === 'dark' ? 'dark' : 'light';
 }
 
 export function getStoredTheme(
@@ -40,7 +49,7 @@ export function getStoredTheme(
   }
   try {
     const item = window.localStorage.getItem(storageKey);
-    if (isTheme(item)) {
+    if (item && isTheme(item)) {
       return item;
     }
   } catch {
@@ -54,7 +63,7 @@ export function setStoredTheme(theme: Theme, storageKey: string = DEFAULT_THEME_
     return;
   }
   try {
-    if (theme === 'system') {
+    if (theme === DEFAULT_THEME) {
       window.localStorage.removeItem(storageKey);
     } else {
       window.localStorage.setItem(storageKey, theme);
@@ -64,8 +73,50 @@ export function setStoredTheme(theme: Theme, storageKey: string = DEFAULT_THEME_
   }
 }
 
-export function applyColorScheme(theme: Theme): ResolvedTheme {
-  const resolved = resolveTheme(theme);
+export function getStoredColorMode(
+  storageKey: string = DEFAULT_MODE_STORAGE_KEY,
+  defaultMode: ColorMode = DEFAULT_COLOR_MODE,
+): ColorMode {
+  if (typeof window === 'undefined') {
+    return defaultMode;
+  }
+  try {
+    const item = window.localStorage.getItem(storageKey);
+    if (isColorMode(item)) {
+      return item;
+    }
+  } catch {
+    // localStorage might be unavailable/restricted
+  }
+  return defaultMode;
+}
+
+export function setStoredColorMode(
+  mode: ColorMode,
+  storageKey: string = DEFAULT_MODE_STORAGE_KEY,
+): void {
+  if (typeof window === 'undefined') {
+    return;
+  }
+  try {
+    if (mode === 'system') {
+      window.localStorage.removeItem(storageKey);
+    } else {
+      window.localStorage.setItem(storageKey, mode);
+    }
+  } catch {
+    // localStorage might be unavailable/restricted
+  }
+}
+
+export function applyTheme(theme: Theme): void {
+  if (typeof document !== 'undefined') {
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+}
+
+export function applyColorScheme(mode: ColorMode): ResolvedColorMode {
+  const resolved = resolveColorMode(mode);
   if (typeof document !== 'undefined') {
     document.documentElement.style.colorScheme = resolved;
   }
@@ -73,26 +124,33 @@ export function applyColorScheme(theme: Theme): ResolvedTheme {
 }
 
 export interface ThemeStoreOptions {
-  storageKey?: string;
+  themeStorageKey?: string;
+  modeStorageKey?: string;
   defaultTheme?: Theme;
+  defaultMode?: ColorMode;
 }
 
 export interface ThemeStore {
   getTheme(): Theme;
-  getResolvedTheme(): ResolvedTheme;
-  getSystemTheme(): ResolvedTheme;
   setTheme(theme: Theme): void;
-  toggleTheme(cycle?: readonly Theme[]): void;
+  getMode(): ColorMode;
+  getResolvedMode(): ResolvedColorMode;
+  getSystemMode(): ResolvedColorMode;
+  setMode(mode: ColorMode): void;
+  toggleMode(cycle?: readonly ColorMode[]): void;
   subscribe(listener: () => void): () => void;
   destroy(): void;
 }
 
 export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
-  const storageKey = options.storageKey ?? DEFAULT_THEME_STORAGE_KEY;
+  const themeStorageKey = options.themeStorageKey ?? DEFAULT_THEME_STORAGE_KEY;
+  const modeStorageKey = options.modeStorageKey ?? DEFAULT_MODE_STORAGE_KEY;
   const defaultTheme = options.defaultTheme ?? DEFAULT_THEME;
+  const defaultMode = options.defaultMode ?? DEFAULT_COLOR_MODE;
 
-  let currentTheme: Theme = getStoredTheme(storageKey, defaultTheme);
-  let currentResolved: ResolvedTheme = resolveTheme(currentTheme);
+  let currentTheme: Theme = getStoredTheme(themeStorageKey, defaultTheme);
+  let currentMode: ColorMode = getStoredColorMode(modeStorageKey, defaultMode);
+  let currentResolvedMode: ResolvedColorMode = resolveColorMode(currentMode);
 
   const listeners = new Set<() => void>();
 
@@ -103,11 +161,11 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
   }
 
   function handleMediaChange(): void {
-    if (currentTheme === 'system') {
-      const nextResolved = getSystemTheme();
-      if (nextResolved !== currentResolved) {
-        currentResolved = nextResolved;
-        applyColorScheme(currentTheme);
+    if (currentMode === 'system') {
+      const nextResolved = getSystemColorMode();
+      if (nextResolved !== currentResolvedMode) {
+        currentResolvedMode = nextResolved;
+        applyColorScheme(currentMode);
         notify();
       }
     }
@@ -125,34 +183,45 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
     }
   }
 
-  // Apply initial theme to documentElement immediately
+  // Apply initial theme and colorScheme to documentElement
   if (typeof window !== 'undefined') {
-    currentResolved = applyColorScheme(currentTheme);
+    applyTheme(currentTheme);
+    currentResolvedMode = applyColorScheme(currentMode);
   }
 
   return {
     getTheme(): Theme {
       return currentTheme;
     },
-    getResolvedTheme(): ResolvedTheme {
-      return currentResolved;
-    },
-    getSystemTheme(): ResolvedTheme {
-      return getSystemTheme();
-    },
     setTheme(newTheme: Theme): void {
       if (!isTheme(newTheme)) return;
       currentTheme = newTheme;
-      setStoredTheme(newTheme, storageKey);
-      currentResolved = applyColorScheme(newTheme);
+      setStoredTheme(newTheme, themeStorageKey);
+      applyTheme(newTheme);
       notify();
     },
-    toggleTheme(cycle?: readonly Theme[]): void {
+    getMode(): ColorMode {
+      return currentMode;
+    },
+    getResolvedMode(): ResolvedColorMode {
+      return currentResolvedMode;
+    },
+    getSystemMode(): ResolvedColorMode {
+      return getSystemColorMode();
+    },
+    setMode(newMode: ColorMode): void {
+      if (!isColorMode(newMode)) return;
+      currentMode = newMode;
+      setStoredColorMode(newMode, modeStorageKey);
+      currentResolvedMode = applyColorScheme(newMode);
+      notify();
+    },
+    toggleMode(cycle?: readonly ColorMode[]): void {
       if (cycle && cycle.length > 0) {
-        const currentIndex = cycle.indexOf(currentTheme);
+        const currentIndex = cycle.indexOf(currentMode);
         const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % cycle.length;
-        const nextTheme = cycle[nextIndex];
-        this.setTheme(nextTheme);
+        const nextMode = cycle[nextIndex];
+        this.setMode(nextMode);
         return;
       }
 
@@ -161,13 +230,13 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
       // Toggle to the opposite of current appearance.
       // If the target matches current OS preference, remove override (revert to 'system').
       // Otherwise, store explicit override ('light' or 'dark').
-      const targetTheme: ResolvedTheme = currentResolved === 'dark' ? 'light' : 'dark';
-      const osTheme = getSystemTheme();
+      const targetMode: ResolvedColorMode = currentResolvedMode === 'dark' ? 'light' : 'dark';
+      const osMode = getSystemColorMode();
 
-      if (targetTheme === osTheme) {
-        this.setTheme('system');
+      if (targetMode === osMode) {
+        this.setMode('system');
       } else {
-        this.setTheme(targetTheme);
+        this.setMode(targetMode);
       }
     },
     subscribe(listener: () => void): () => void {

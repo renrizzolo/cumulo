@@ -13,19 +13,15 @@ export interface ComponentPreviewClientProps {
   children: React.ReactNode;
 }
 
-const previewWrapperStyle = style({
-  margin: `${vars.spacing.lg} 0 ${vars.spacing['2xl']}`,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing.xs,
-});
-
-const previewCanvasStyle = style({
-  minHeight: '160px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: `${vars.spacing['2xl']} ${vars.spacing.xl}`,
-});
+const previewCanvasStyle = style(
+  {
+    minHeight: '160px',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: `${vars.spacing['2xl']} ${vars.spacing.xl}`,
+  },
+  'canvas',
+);
 
 const toolbarFooterStyle = style({
   paddingTop: vars.spacing.md,
@@ -88,11 +84,11 @@ export function ComponentPreviewClient({
   }, [codeString]);
 
   return (
-    <div className={previewWrapperStyle.className}>
+    <>
       {(title || description) && (
         <VStack gap="3xs">
           {title && (
-            <Heading as="h3" size="sm" weight="semibold" color="muted">
+            <Heading as="h3" size="md" weight="semibold" color="muted">
               {title}
             </Heading>
           )}
@@ -106,7 +102,13 @@ export function ComponentPreviewClient({
 
       <Surface level={0} overflow="hidden" padding="md" radius="2xl">
         {/* Preview Canvas Area */}
-        <Surface level={level} flex={1} radius="lg" className={previewCanvasStyle.className}>
+        <Surface
+          level={level}
+          flex={1}
+          radius="lg"
+          padding="lg"
+          className={previewCanvasStyle.className}
+        >
           {children}
         </Surface>
 
@@ -160,6 +162,6 @@ export function ComponentPreviewClient({
           </div>
         </div>
       </Surface>
-    </div>
+    </>
   );
 }

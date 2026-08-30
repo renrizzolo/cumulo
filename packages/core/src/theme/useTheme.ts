@@ -2,20 +2,32 @@ import { useSyncExternalStore, useCallback } from 'react';
 import {
   themeStore,
   type Theme,
-  type ResolvedTheme,
+  type ColorMode,
+  type ResolvedColorMode,
   DEFAULT_THEME,
-  resolveTheme,
+  DEFAULT_COLOR_MODE,
+  resolveColorMode,
 } from './theme.js';
 
 export interface UseThemeReturn {
+  /** Active custom or default theme (e.g. 'default', 'docs', 'cloud') */
   theme: Theme;
-  resolvedTheme: ResolvedTheme;
-  systemTheme: ResolvedTheme;
+  /** Set the active theme name */
   setTheme: (theme: Theme) => void;
-  toggleTheme: (cycle?: readonly Theme[]) => void;
+
+  /** Active color mode ('light' | 'dark' | 'system') */
+  mode: ColorMode;
+  /** Resolved color mode ('light' | 'dark') */
+  resolvedMode: ResolvedColorMode;
+  /** Current OS preference ('light' | 'dark') */
+  systemMode: ResolvedColorMode;
+  /** Set the color mode */
+  setMode: (mode: ColorMode) => void;
+  /** Toggle the color mode (2-state smart toggle or custom cycle) */
+  toggleMode: (cycle?: readonly ColorMode[]) => void;
 }
 
-const SERVER_SYSTEM_THEME: ResolvedTheme = 'light';
+const SERVER_SYSTEM_MODE: ResolvedColorMode = 'light';
 
 export function useTheme(): UseThemeReturn {
   const theme = useSyncExternalStore(
@@ -24,31 +36,41 @@ export function useTheme(): UseThemeReturn {
     () => DEFAULT_THEME,
   );
 
-  const resolvedTheme = useSyncExternalStore(
+  const mode = useSyncExternalStore(
     themeStore.subscribe,
-    themeStore.getResolvedTheme,
-    () => resolveTheme(DEFAULT_THEME),
+    themeStore.getMode,
+    () => DEFAULT_COLOR_MODE,
   );
 
-  const systemTheme = useSyncExternalStore(
+  const resolvedMode = useSyncExternalStore(themeStore.subscribe, themeStore.getResolvedMode, () =>
+    resolveColorMode(DEFAULT_COLOR_MODE),
+  );
+
+  const systemMode = useSyncExternalStore(
     themeStore.subscribe,
-    themeStore.getSystemTheme,
-    () => SERVER_SYSTEM_THEME,
+    themeStore.getSystemMode,
+    () => SERVER_SYSTEM_MODE,
   );
 
   const setTheme = useCallback((nextTheme: Theme) => {
     themeStore.setTheme(nextTheme);
   }, []);
 
-  const toggleTheme = useCallback((cycle?: readonly Theme[]) => {
-    themeStore.toggleTheme(cycle);
+  const setMode = useCallback((nextMode: ColorMode) => {
+    themeStore.setMode(nextMode);
+  }, []);
+
+  const toggleMode = useCallback((cycle?: readonly ColorMode[]) => {
+    themeStore.toggleMode(cycle);
   }, []);
 
   return {
     theme,
-    resolvedTheme,
-    systemTheme,
     setTheme,
-    toggleTheme,
+    mode,
+    resolvedMode,
+    systemMode,
+    setMode,
+    toggleMode,
   };
 }

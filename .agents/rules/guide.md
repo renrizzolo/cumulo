@@ -21,7 +21,7 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 - **Package Manager**: `pnpm` (`packageManager: "pnpm@11.22.0"`).
 - **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
 - **Type Checking**: `tsc --noEmit` (run via `pnpm type-check` and included in `pnpm check`).
-- **Linting & Formatting**: uses `oxlint` and `oxfmt`(run via `pnpm check`).
+- **Linting & Formatting**: uses `oxlint` and `oxfmt` (run via `pnpm check`).
 - **Testing**: `vitest` (run via `pnpm test`).
 - **Releases**: `@changesets/cli`.
 
@@ -41,6 +41,8 @@ Strict type safety is a non-negotiable standard across this codebase.
   - Use `type` imports/exports (`import type { ... }`) when importing or re-exporting types.
 - **HTML Element Props**:
   - Extend `ElementProps<T>` from `packages/core/src/ElementProps.ts` rather than raw `React.HTMLAttributes<T>`, ensuring obsolete/noisy attributes are excluded while retaining correct element-specific attributes and typed `ref`.
+- **No Deprecated Aliases**:
+  - Because this library is in pre-release, avoid creating or maintaining deprecated backwards-compatibility aliases. Keep APIs canonical, clean, and concise.
 
 ---
 
@@ -76,6 +78,22 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
   - Use `style({ ... })` for static, element-specific styles.
   - Use `recipe({ base, variants, defaultVariants, extend }, debugName)` for components with multi-dimensional variants (e.g. `variant`, `intent`, `size`, `shape`, `width`).
   - Use `cx()` for merging class names cleanly.
-  - Don't use arbitrary style props
+  - Don't use arbitrary style props.
   - Prefer using or creating core components where something doesn't exist when iterating on documentation or other apps/sites.
 - **Recipe Composition**: Combine shared variant styles (such as `allIntentStyles`, `sizes`) via the recipe's `extend` option.
+
+---
+
+## 5. Themes, Color Modes & Pure CSS Token Architecture
+
+- **Decouple Theme vs Color Mode**:
+  - **`Theme`**: Brand and visual identity (e.g. `'default'`, `'docs'`, `'cloud'`, or custom theme strings). Applied via the `[data-theme='...']` attribute on `document.documentElement`.
+  - **`ColorMode`**: Appearance mode (`'light' | 'dark' | 'system'`). Applied via `document.documentElement.style.colorScheme` and CSS `color-scheme`.
+  - **Intrinsic Light/Dark Support**: `'dark'` is NOT a theme name. All themes must intrinsically support both light and dark modes via CSS `light-dark()` calculations.
+- **Pure CSS Custom Themes**:
+  - Define custom themes using pure CSS variables under `[data-theme='<name>']` (e.g. overriding `--color-primary-base`, `--color-grey-base`, `--theme-font-mono`).
+  - Avoid runtime JavaScript DOM `<style>` injection for themes.
+- **Theme & Mode Management**:
+  - Use `useTheme()` from `@cumulo/core` for `theme`, `setTheme`, `mode`, `resolvedMode`, `systemMode`, `setMode`, and `toggleMode`.
+  - Use `<ThemeScript />` in HTML `<head>` for zero-FOUC restoration of both `data-theme` and `colorScheme`.
+  - Use `<ThemeToggle />` for toggling color appearance modes (`light`, `dark`, `system`).

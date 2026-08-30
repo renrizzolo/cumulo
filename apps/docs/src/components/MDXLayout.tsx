@@ -3,11 +3,12 @@ import type { PageProps } from '@parcel/rsc';
 import React, { type ReactNode } from 'react';
 import AppLayout from '../Layout';
 import { CodeBlock } from './CodeBlock';
+import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { PropsTable } from './PropsTable';
 import { TokenTable } from './TokenTable';
 
-export { CodeBlock, ComponentPreview, PropsTable, TokenTable };
+export { CodeBlock, ColorTokens, ComponentPreview, PropsTable, TokenTable };
 
 export const components = {
   h1: ({ ...props }: React.ComponentProps<typeof Heading>) => (
@@ -31,6 +32,7 @@ export const components = {
   ),
   hr: () => <Divider />,
   CodeBlock,
+  ColorTokens,
   TokenTable,
   PropsTable,
   ComponentPreview,

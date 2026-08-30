@@ -123,6 +123,17 @@ export function compileStyleRule(
     }
   }
 
+  // Handle @container queries
+  if (rule['@container']) {
+    for (const [query, containerProps] of Object.entries(rule['@container'])) {
+      const decls = serializeProperties(containerProps);
+      if (decls) {
+        const cleanQuery = query.startsWith('@container') ? query : `@container ${query}`;
+        cssRules.push(`${cleanQuery}{.${className}{${decls}}}`);
+      }
+    }
+  }
+
   // Handle @supports queries
   if (rule['@supports']) {
     for (const [query, supportsProps] of Object.entries(rule['@supports'])) {

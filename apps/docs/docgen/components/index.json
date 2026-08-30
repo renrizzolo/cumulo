@@ -123,6 +123,129 @@
       },
       "shortPropTypeName": null
     },
+    "radius": {
+      "defaultValue": null,
+      "description": "",
+      "name": "radius",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"full\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"initial\" | \"auto\" | \"none\" | 1 | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "1"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "overflow": {
+      "defaultValue": null,
+      "description": "",
+      "name": "overflow",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"hidden\""
+          },
+          {
+            "value": "\"scroll\""
+          },
+          {
+            "value": "\"visible\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "className": {
       "defaultValue": null,
       "description": "",

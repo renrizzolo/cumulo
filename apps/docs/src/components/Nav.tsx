@@ -19,7 +19,6 @@ const navContainerStyle = style({
   borderTop: 'none',
   borderBottom: 'none',
   borderLeft: 'none',
-  padding: `${vars.spacing.lg} ${vars.spacing.sm}`,
   display: 'flex',
   flexDirection: 'column',
   gap: vars.spacing.lg,
@@ -142,7 +141,7 @@ export function Nav({
   };
 
   return (
-    <Surface level={1} className={navContainerStyle.className}>
+    <Surface level={1} padding="md" className={navContainerStyle.className}>
       {/* Brand Header */}
       <Link to="/" className={brandLinkStyle.className}>
         <HStack gap="sm" align="center">

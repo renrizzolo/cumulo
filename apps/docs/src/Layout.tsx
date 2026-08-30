@@ -60,14 +60,14 @@ export default function Layout({
         </title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <ThemeScript />
+        <ThemeScript defaultTheme="docs" />
       </head>
 
       <AppProvider>
         <body className={bodyStyle.className}>
-          <HStack align="stretch" style={{ minHeight: '100vh', width: '100%' }}>
+          <HStack align="stretch" flex="auto" gap="lg">
             <Nav currentPage={currentPage} />
-            <VStack style={{ flex: 1, minWidth: 0 }}>
+            <VStack flex="auto">
               {/* Top Navigation Bar */}
               <div className={topHeaderStyle.className}>
                 <ThemeSwitcher />
