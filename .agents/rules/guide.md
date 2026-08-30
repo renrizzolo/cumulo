@@ -12,8 +12,9 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 
 - **`@cumulo/css` (`packages/css`)**: Lightweight, zero-dependency, type-safe CSS framework inspired by StyleX and Vanilla Extract. Provides `style()`, `recipe()`, `createThemeContract()`, `createTheme()`, `keyframes()`, and `cx()`.
 - **`@cumulo/core` (`packages/core`)**: React 19 UI component library.
-- **`@cumulo/unplugin` (`packages/unplugin`)**: Build tool unplugin for compile-time CSS extraction across Vite, Rollup, Webpack, etc.
+- **`@cumulo/unplugin` (`packages/unplugin`)**: Build tool unplugin for compile-time CSS extraction across Vite, Rollup, Webpack, esbuild, and Parcel.
 - **`@cumulo/parcel-transformer` (`packages/parcel-transformer`)**: Custom Parcel transformer for static/RSC/CSS processing.
+- **`@cumulo/fixtures` (`packages/fixtures`)**: Dedicated private test package for bundler integration and Vitest native browser visual regression testing.
 - **`apps/docs`**: Documentation site built with React Static / Parcel.
 
 ### Tooling & Commands
@@ -22,7 +23,7 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 - **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
 - **Type Checking**: `tsc --noEmit` (run via `pnpm type-check` and included in `pnpm check`).
 - **Linting & Formatting**: uses `oxlint` and `oxfmt`(run via `pnpm check`).
-- **Testing**: `vitest` (run via `pnpm test`).
+- **Testing**: `vitest` (run all unit & bundler tests via `pnpm test`, browser visual tests via `pnpm --filter @cumulo/fixtures test:browser`).
 - **Releases**: `@changesets/cli`.
 
 ---
@@ -79,3 +80,17 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
   - Don't use arbitrary style props
   - Prefer using or creating core components where something doesn't exist when iterating on documentation or other apps/sites.
 - **Recipe Composition**: Combine shared variant styles (such as `allIntentStyles`, `sizes`) via the recipe's `extend` option.
+
+---
+
+## 5. Testing & Visual Regression Testing Standards
+
+- **Unit & Component Testing**: Use `vitest` with `jsdom` or `node` environments for core component tests and CSS logic tests (`packages/core/test`, `packages/css/test`).
+- **Bundler Integration Testing (`@cumulo/fixtures`)**:
+  - Test compile-time CSS extraction and module transformation across supported bundlers (**Vite**, **Rollup**, **esbuild**, **Webpack**, and **Parcel**).
+  - Assert that generated JS imports reference valid class names and that extracted stylesheets contain complete rule sets for basic styles, pseudo-classes, media queries, keyframes, theme variables, overrides, recipe variants, compound variants, and extensions.
+- **Vitest Native Browser Visual Regression Testing**:
+  - Use Vitest Browser Mode with `@vitest/browser-playwright` and headless Chromium (`pnpm --filter @cumulo/fixtures test:browser`).
+  - Perform visual regression assertions with `expect(locator).toMatchScreenshot()`.
+  - Assert real browser DOM computed styles (`window.getComputedStyle`) alongside screenshot comparisons.
+  - CI manages canonical Linux baseline snapshots and runs fixtures in a dedicated parallel workflow job.

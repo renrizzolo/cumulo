@@ -30,9 +30,9 @@ export default defineConfig({
       },
       {
         test: {
-          name: 'docs',
-          include: ['apps/docs/**/*.test.{ts,tsx}'],
-          environment: 'jsdom',
+          name: 'fixtures',
+          include: ['packages/fixtures/test/bundlers/**/*.test.{ts,tsx}'],
+          environment: 'node',
           globals: true,
         },
       },
