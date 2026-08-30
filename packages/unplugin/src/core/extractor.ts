@@ -27,16 +27,29 @@ const stripCssImports = (source: string): string =>
     .replace(/import\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/gi, '')
     .replace(/import\s+[^;]+from\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/gi, '');
 
-const baseJiti = createJiti(process.cwd(), {
+import { fileURLToPath } from 'node:url';
+
+let cumuloCssPath: string | undefined;
+try {
+  cumuloCssPath = fileURLToPath(import.meta.resolve('@cumulo/css'));
+} catch {
+  cumuloCssPath = undefined;
+}
+
+const jitiAlias = cumuloCssPath ? { '@cumulo/css': cumuloCssPath } : undefined;
+
+const baseJiti = createJiti(import.meta.url, {
   interopDefault: true,
   moduleCache: false,
   jsx: true,
+  alias: jitiAlias,
 });
 
-const jiti = createJiti(process.cwd(), {
+const jiti = createJiti(import.meta.url, {
   interopDefault: true,
   moduleCache: false,
   jsx: true,
+  alias: jitiAlias,
   transform(opts) {
     if (isStylesheet(opts.filename, opts.source)) {
       return { code: 'module.exports = {};' };

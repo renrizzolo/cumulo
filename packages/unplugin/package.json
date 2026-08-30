@@ -39,9 +39,5 @@
     "@parcel/plugin": {
       "optional": true
     }
-  },
-  "inlinedDependencies": {
-    "@types/estree": "1.0.9",
-    "rollup": "4.62.4"
   }
 }

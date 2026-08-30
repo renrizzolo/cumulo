@@ -1,0 +1,44 @@
+{
+  "name": "@cumulo/fixtures",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:browser": "vitest run --project browser",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cumulo/core": "workspace:*",
+    "@cumulo/css": "workspace:*",
+    "@cumulo/parcel-transformer": "workspace:*",
+    "@cumulo/unplugin": "workspace:*",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@types/node": "^24",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@types/webpack": "^5.28.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitest/browser": "^4.1.11",
+    "@vitest/browser-playwright": "^4.1.11",
+    "css-loader": "^7.1.5",
+    "esbuild": "^0.28.2",
+    "esbuild-loader": "^4.5.0",
+    "mini-css-extract-plugin": "^2.10.2",
+    "parcel": "^2.16.4",
+    "playwright": "^1.62.1",
+    "rollup": "^4.63.1",
+    "rollup-plugin-esbuild": "^6.2.1",
+    "style-loader": "^4.0.0",
+    "typescript": "^5.8.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11",
+    "webpack": "^5.110.1"
+  }
+}
