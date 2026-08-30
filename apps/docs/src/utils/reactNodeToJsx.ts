@@ -6,6 +6,82 @@ interface ComponentWithMetadata {
   render?: { displayName?: string; name?: string };
 }
 
+function extractComponentName(type: unknown): string {
+  if (typeof type === 'string') {
+    return type;
+  }
+
+  if (typeof type === 'symbol') {
+    if (type === Symbol.for('react.fragment')) {
+      return '';
+    }
+    return 'Component';
+  }
+
+  if (typeof type === 'function' || (typeof type === 'object' && type !== null)) {
+    const rec = type as Record<string, unknown>;
+    const meta = type as ComponentWithMetadata;
+
+    // 1. Direct explicit display name or function name
+    let name = meta.displayName || meta.name || meta.render?.displayName || meta.render?.name;
+
+    // 2. Client reference RSC metadata ($$id, $$exportName, $$name, exportName, _name)
+    if (!name || name === 'ClientReference' || name === 'Component') {
+      if (typeof rec.$$name === 'string' && rec.$$name) {
+        name = rec.$$name;
+      } else if (typeof rec.$$exportName === 'string' && rec.$$exportName) {
+        name = rec.$$exportName;
+      } else if (typeof rec.exportName === 'string' && rec.exportName) {
+        name = rec.exportName;
+      } else if (typeof rec._name === 'string' && rec._name) {
+        name = rec._name;
+      } else if (typeof rec.$$id === 'string' && rec.$$id) {
+        const hashPart = rec.$$id.includes('#') ? rec.$$id.split('#').pop() : undefined;
+        if (hashPart && hashPart !== 'default') {
+          name = hashPart;
+        } else {
+          const cleanPath = rec.$$id.replace(/[?#].*$/, '');
+          const fileBase = cleanPath
+            .split(/[/\\]/)
+            .pop()
+            ?.replace(/\.[^.]+$/, '');
+          if (fileBase) name = fileBase;
+        }
+      } else if (typeof rec.id === 'string' && rec.id.includes('#')) {
+        name = rec.id.split('#').pop();
+      }
+    }
+
+    if (!name || name === 'ClientReference') {
+      name = 'Component';
+    }
+
+    // 3. Normalize compound component names (e.g. FieldRoot -> Field.Root, CollapsibleTrigger -> Collapsible.Trigger)
+    if (name.startsWith('Field.') || name.startsWith('Collapsible.') || name.startsWith('Table.')) {
+      return name;
+    }
+    if (name.startsWith('Field') && name !== 'Field') {
+      return `Field.${name.slice(5)}`;
+    }
+    if (name.startsWith('Collapsible') && name !== 'Collapsible' && name !== 'CollapsibleRoot') {
+      return `Collapsible.${name.slice(11)}`;
+    }
+    if (name === 'CollapsibleRoot') {
+      return 'Collapsible.Root';
+    }
+    if (name.startsWith('Table') && name !== 'Table' && name !== 'TableRoot') {
+      return `Table.${name.slice(5)}`;
+    }
+    if (name === 'TableRoot') {
+      return 'Table';
+    }
+
+    return name;
+  }
+
+  return 'Component';
+}
+
 /**
  * Converts a ReactNode tree into a clean, formatted JSX string representation.
  */
@@ -34,33 +110,7 @@ export function reactNodeToJsx(node: React.ReactNode, indent = 0): string {
     const indentStr = ' '.repeat(indent);
 
     // Resolve component name
-    let tagName = 'Component';
-    if (typeof type === 'string') {
-      tagName = type;
-    } else if (typeof type === 'function' || (typeof type === 'object' && type !== null)) {
-      const meta = type as unknown as ComponentWithMetadata;
-      tagName =
-        meta.displayName ||
-        meta.name ||
-        meta.render?.displayName ||
-        meta.render?.name ||
-        'Component';
-
-      // Map compound fallback if name matches known pattern (e.g. FieldRoot -> Field.Root)
-      if (!meta.displayName) {
-        if (tagName.startsWith('Field') && tagName !== 'Field') {
-          tagName = `Field.${tagName.slice(5)}`;
-        } else if (tagName.startsWith('Table') && tagName !== 'Table' && tagName !== 'TableRoot') {
-          tagName = `Table.${tagName.slice(5)}`;
-        } else if (tagName === 'TableRoot') {
-          tagName = 'Table';
-        }
-      }
-    } else if (typeof type === 'symbol') {
-      if (type === Symbol.for('react.fragment')) {
-        tagName = '';
-      }
-    }
+    const tagName = extractComponentName(type);
 
     // Format props
     const propEntries = Object.entries(props || {}).filter(([key, val]) => {

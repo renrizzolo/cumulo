@@ -57,8 +57,8 @@ export interface SurfaceProps extends ElementProps<HTMLDivElement> {
 
 export function Surface({
   level = 1,
-  variant = 'default',
-  padding = 'none',
+  variant,
+  padding,
   radius,
   flex,
   overflow,

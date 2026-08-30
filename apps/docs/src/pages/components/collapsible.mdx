@@ -1,0 +1,53 @@
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import {
+  CollapsibleRoot,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  Button,
+  Card,
+  Text,
+  VStack,
+} from '@cumulo/core';
+export default Layout;
+export { CodeBlock, ComponentPreview };
+
+# Collapsible
+
+An interactive compound component that expands and collapses content with smooth CSS Grid animations.
+
+```tsx
+import { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Basic Collapsible"
+  description="Click trigger to expand and collapse the region with animated CSS grid interpolation."
+>
+  <CollapsibleRoot style={{ width: '100%', maxWidth: '400px' }}>
+    <CollapsibleTrigger variant="secondary" width="full">
+      Toggle Details
+    </CollapsibleTrigger>
+    <CollapsibleContent style={{ marginTop: '8px' }}>
+      <Card style={{ padding: '16px' }}>
+        <VStack gap="xs">
+          <Text size="sm" weight="semibold">
+            Collapsible Content Panel
+          </Text>
+          <Text size="xs" color="muted">
+            Smooth height animation powered by pure CSS Grid (0fr to 1fr) with zero layout
+            calculation delays.
+          </Text>
+        </VStack>
+      </Card>
+    </CollapsibleContent>
+  </CollapsibleRoot>
+</ComponentPreview>
+
+## Features
+
+- **Compound Architecture**: Uses `<CollapsibleRoot>`, `<CollapsibleTrigger>`, and `<CollapsibleContent>`.
+- **Pure CSS Animation**: Animates dynamically sized content via CSS Grid rows (`0fr` to `1fr`) and opacity.
+- **Accessibility Included**: Wires `aria-expanded`, `aria-controls`, `aria-labelledby`, and `data-state` automatically.
+- **Controlled & Uncontrolled**: Supports `defaultOpen`, `open`, and `onOpenChange`.

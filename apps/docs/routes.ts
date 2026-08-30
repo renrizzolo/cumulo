@@ -35,6 +35,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/code.rsc";
         html: "/components/code.html";
       };
+      "/components/collapsible": {
+        slug: "collapsible";
+        path: "/components/collapsible";
+        rsc: "/components/collapsible.rsc";
+        html: "/components/collapsible.html";
+      };
       "/components/container": {
         slug: "container";
         path: "/components/container";
@@ -142,6 +148,12 @@ export const flatRoutes = [
     slug: "code",
     rsc: "/components/code.rsc",
     html: "/components/code.html",
+  },
+  {
+    path: "/components/collapsible",
+    slug: "collapsible",
+    rsc: "/components/collapsible.rsc",
+    html: "/components/collapsible.html",
   },
   {
     path: "/components/container",
@@ -255,6 +267,13 @@ export const routeTree = {
       slug: "code",
       html: "/components/code.html",
       rsc: "/components/code.rsc",
+      children: [],
+    },
+    {
+      path: "/components/collapsible",
+      slug: "collapsible",
+      html: "/components/collapsible.html",
+      rsc: "/components/collapsible.rsc",
       children: [],
     },
     {
@@ -382,6 +401,12 @@ export const routesByPage = {
     slug: "code",
     rsc: "/components/code.rsc",
     html: "/components/code.html",
+  },
+  "/components/collapsible.html": {
+    path: "/components/collapsible",
+    slug: "collapsible",
+    rsc: "/components/collapsible.rsc",
+    html: "/components/collapsible.html",
   },
   "/components/container.html": {
     path: "/components/container",

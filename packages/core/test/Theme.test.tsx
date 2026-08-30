@@ -3,23 +3,28 @@ import React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import {
   createThemeStore,
-  getSystemTheme,
-  resolveTheme,
+  getSystemColorMode,
+  resolveColorMode,
   getStoredTheme,
   setStoredTheme,
+  getStoredColorMode,
+  setStoredColorMode,
+  applyTheme,
   applyColorScheme,
   getThemeScript,
   useTheme,
   isTheme,
+  isColorMode,
 } from '../src/index.js';
 
-describe('Theme utilities and store', () => {
+describe('Theme and ColorMode utilities and store', () => {
   let isDarkMedia = false;
 
   beforeEach(() => {
     isDarkMedia = false;
     localStorage.clear();
     document.documentElement.style.colorScheme = '';
+    document.documentElement.removeAttribute('data-theme');
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: isDarkMedia,
       media: query,
@@ -32,39 +37,64 @@ describe('Theme utilities and store', () => {
     vi.restoreAllMocks();
   });
 
-  it('validates theme values with isTheme', () => {
-    expect(isTheme('light')).toBe(true);
-    expect(isTheme('dark')).toBe(true);
-    expect(isTheme('system')).toBe(true);
-    expect(isTheme('unknown')).toBe(false);
+  it('validates color modes and themes correctly', () => {
+    expect(isColorMode('light')).toBe(true);
+    expect(isColorMode('dark')).toBe(true);
+    expect(isColorMode('system')).toBe(true);
+    expect(isColorMode('unknown')).toBe(false);
+    expect(isColorMode(null)).toBe(false);
+    expect(isColorMode(123)).toBe(false);
+
+    expect(isTheme('default')).toBe(true);
+    expect(isTheme('docs')).toBe(true);
+    expect(isTheme('cloud')).toBe(true);
+    expect(isTheme('my-custom-theme')).toBe(true);
+    expect(isTheme('')).toBe(false);
     expect(isTheme(null)).toBe(false);
     expect(isTheme(123)).toBe(false);
   });
 
-  it('detects system theme based on matchMedia', () => {
+  it('detects system theme and resolves color mode based on matchMedia', () => {
     isDarkMedia = true;
-    expect(getSystemTheme()).toBe('dark');
-    expect(resolveTheme('system')).toBe('dark');
-    expect(resolveTheme('light')).toBe('light');
-    expect(resolveTheme('dark')).toBe('dark');
+    expect(getSystemColorMode()).toBe('dark');
+    expect(resolveColorMode('system')).toBe('dark');
+    expect(resolveColorMode('light')).toBe('light');
+    expect(resolveColorMode('dark')).toBe('dark');
 
     isDarkMedia = false;
-    expect(getSystemTheme()).toBe('light');
-    expect(resolveTheme('system')).toBe('light');
+    expect(getSystemColorMode()).toBe('light');
+    expect(resolveColorMode('system')).toBe('light');
   });
 
-  it('reads and writes to localStorage safely (removes on system)', () => {
-    expect(getStoredTheme()).toBe('system');
-    setStoredTheme('dark');
-    expect(getStoredTheme()).toBe('dark');
-    expect(localStorage.getItem('cumulo-theme')).toBe('dark');
+  it('reads and writes theme and color mode to localStorage safely', () => {
+    // Theme storage
+    expect(getStoredTheme()).toBe('default');
+    setStoredTheme('docs');
+    expect(getStoredTheme()).toBe('docs');
+    expect(localStorage.getItem('cumulo-theme')).toBe('docs');
 
-    setStoredTheme('system');
-    expect(getStoredTheme()).toBe('system');
+    setStoredTheme('default');
+    expect(getStoredTheme()).toBe('default');
     expect(localStorage.getItem('cumulo-theme')).toBeNull();
+
+    // Mode storage
+    expect(getStoredColorMode()).toBe('system');
+    setStoredColorMode('dark');
+    expect(getStoredColorMode()).toBe('dark');
+    expect(localStorage.getItem('cumulo-mode')).toBe('dark');
+
+    setStoredColorMode('system');
+    expect(getStoredColorMode()).toBe('system');
+    expect(localStorage.getItem('cumulo-mode')).toBeNull();
   });
 
-  it('applies color-scheme to documentElement', () => {
+  it('applies theme attribute and color-scheme to documentElement', () => {
+    applyTheme('docs');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
+
+    applyTheme('cloud');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('cloud');
+
     applyColorScheme('dark');
     expect(document.documentElement.style.colorScheme).toBe('dark');
 
@@ -73,9 +103,17 @@ describe('Theme utilities and store', () => {
   });
 
   it('generates zero-FOUC script snippet with getThemeScript', () => {
-    const script = getThemeScript({ storageKey: 'custom-theme', defaultTheme: 'dark' });
-    expect(script).toContain('"custom-theme"');
+    const script = getThemeScript({
+      themeStorageKey: 'my-theme-key',
+      modeStorageKey: 'my-mode-key',
+      defaultTheme: 'docs',
+      defaultMode: 'dark',
+    });
+    expect(script).toContain('"my-theme-key"');
+    expect(script).toContain('"my-mode-key"');
+    expect(script).toContain('"docs"');
     expect(script).toContain('"dark"');
+    expect(script).toContain('data-theme');
     expect(script).toContain('document.documentElement.style.colorScheme');
     expect(script).toContain('(prefers-color-scheme: dark)');
   });
@@ -83,35 +121,48 @@ describe('Theme utilities and store', () => {
   it('implements 2-state toggle lifecycle with OS preference changes', () => {
     // 1. OS is Light, nothing in LS
     isDarkMedia = false;
-    const store = createThemeStore({ storageKey: 'test-theme-key', defaultTheme: 'system' });
+    const store = createThemeStore({
+      themeStorageKey: 'test-theme-key',
+      modeStorageKey: 'test-mode-key',
+      defaultTheme: 'docs',
+      defaultMode: 'system',
+    });
 
-    expect(store.getTheme()).toBe('system');
-    expect(store.getResolvedTheme()).toBe('light');
-    expect(localStorage.getItem('test-theme-key')).toBeNull();
+    expect(store.getTheme()).toBe('docs');
+    expect(store.getMode()).toBe('system');
+    expect(store.getResolvedMode()).toBe('light');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
+    expect(localStorage.getItem('test-mode-key')).toBeNull();
 
-    // 2. User toggles -> target is Dark (differs from OS: light) -> Pin override 'dark'
-    store.toggleTheme();
-    expect(store.getTheme()).toBe('dark');
-    expect(store.getResolvedTheme()).toBe('dark');
-    expect(localStorage.getItem('test-theme-key')).toBe('dark');
+    // 2. User toggles mode -> target is Dark (differs from OS: light) -> Pin override 'dark'
+    store.toggleMode();
+    expect(store.getMode()).toBe('dark');
+    expect(store.getResolvedMode()).toBe('dark');
+    expect(localStorage.getItem('test-mode-key')).toBe('dark');
     expect(document.documentElement.style.colorScheme).toBe('dark');
 
-    // 3. OS switches to Dark (sunset) -> Override 'dark' must be PRESERVED in storage
+    // 3. User switches theme -> sets custom theme attribute
+    store.setTheme('cloud');
+    expect(store.getTheme()).toBe('cloud');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('cloud');
+    expect(localStorage.getItem('test-theme-key')).toBe('cloud');
+
+    // 4. OS switches to Dark (sunset) -> Override 'dark' must be PRESERVED in storage
     isDarkMedia = true;
-    expect(store.getTheme()).toBe('dark');
-    expect(localStorage.getItem('test-theme-key')).toBe('dark');
+    expect(store.getMode()).toBe('dark');
+    expect(localStorage.getItem('test-mode-key')).toBe('dark');
 
-    // 4. OS switches back to Light (sunrise) -> Override 'dark' remains active
+    // 5. OS switches back to Light (sunrise) -> Override 'dark' remains active
     isDarkMedia = false;
-    expect(store.getTheme()).toBe('dark');
-    expect(store.getResolvedTheme()).toBe('dark');
-    expect(localStorage.getItem('test-theme-key')).toBe('dark');
+    expect(store.getMode()).toBe('dark');
+    expect(store.getResolvedMode()).toBe('dark');
+    expect(localStorage.getItem('test-mode-key')).toBe('dark');
 
-    // 5. User toggles -> target is Light (matches OS: light) -> Remove override, revert to system!
-    store.toggleTheme();
-    expect(store.getTheme()).toBe('system');
-    expect(store.getResolvedTheme()).toBe('light');
-    expect(localStorage.getItem('test-theme-key')).toBeNull();
+    // 6. User toggles mode -> target is Light (matches OS: light) -> Remove override, revert to system!
+    store.toggleMode();
+    expect(store.getMode()).toBe('system');
+    expect(store.getResolvedMode()).toBe('light');
+    expect(localStorage.getItem('test-mode-key')).toBeNull();
     expect(document.documentElement.style.colorScheme).toBe('light');
 
     store.destroy();
@@ -121,23 +172,26 @@ describe('Theme utilities and store', () => {
     const { result } = renderHook(() => useTheme());
 
     expect(result.current.theme).toBeDefined();
-    expect(['light', 'dark', 'system']).toContain(result.current.theme);
-    expect(['light', 'dark']).toContain(result.current.resolvedTheme);
+    expect(result.current.mode).toBeDefined();
+    expect(['light', 'dark']).toContain(result.current.resolvedMode);
 
     act(() => {
-      result.current.setTheme('dark');
+      result.current.setTheme('docs');
+      result.current.setMode('dark');
     });
 
-    expect(result.current.theme).toBe('dark');
-    expect(result.current.resolvedTheme).toBe('dark');
+    expect(result.current.theme).toBe('docs');
+    expect(result.current.mode).toBe('dark');
+    expect(result.current.resolvedMode).toBe('dark');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
     expect(document.documentElement.style.colorScheme).toBe('dark');
 
     act(() => {
-      result.current.toggleTheme(['light', 'dark']);
+      result.current.toggleMode(['light', 'dark']);
     });
 
-    expect(result.current.theme).toBe('light');
-    expect(result.current.resolvedTheme).toBe('light');
+    expect(result.current.mode).toBe('light');
+    expect(result.current.resolvedMode).toBe('light');
     expect(document.documentElement.style.colorScheme).toBe('light');
   });
 });

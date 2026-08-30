@@ -1,6 +1,6 @@
-import Layout, { CodeBlock, TokenTable } from '../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ColorTokens, TokenTable } from '../components/MDXLayout.tsx';
 export default Layout;
-export { CodeBlock, TokenTable };
+export { CodeBlock, ColorTokens, TokenTable };
 
 # @cumulo/core Tokens & CSS-First Theming
 
@@ -17,6 +17,12 @@ Surfaces define contextual CSS custom properties so that nested interactive elem
 Themes are seeded from base variables (`--color-primary-base`, `--color-success-base`, etc.) and dynamically calculate full 50–900 stepped palettes live in CSS using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
 
 <TokenTable category="seed" />
+
+## Color Palette Shades
+
+Each intent palette generates a full 10-step shade scale (50–900) live in CSS with adaptive contrast across light and dark modes.
+
+<ColorTokens />
 
 ## Spacing Scale
 

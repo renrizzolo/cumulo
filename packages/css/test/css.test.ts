@@ -77,6 +77,11 @@ describe('@cumulo/css', () => {
           padding: '12px 24px',
         },
       },
+      '@container': {
+        '(max-width: 400px)': {
+          padding: '4px 8px',
+        },
+      },
     });
 
     expect(buttonStyle.className).toMatch(/^c-/);
@@ -89,6 +94,9 @@ describe('@cumulo/css', () => {
     expect(sheetCss).toContain(`.${buttonStyle.className}:hover{opacity:0.85;}`);
     expect(sheetCss).toContain(
       `@media (min-width: 600px){.${buttonStyle.className}{padding:12px 24px;}}`,
+    );
+    expect(sheetCss).toContain(
+      `@container (max-width: 400px){.${buttonStyle.className}{padding:4px 8px;}}`,
     );
 
     const styles = create({

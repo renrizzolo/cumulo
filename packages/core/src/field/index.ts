@@ -13,14 +13,14 @@ import {
 } from './Field.js';
 import { Label, type LabelProps } from './Label.js';
 
-export const Field = {
+export const Field = Object.assign(FieldRoot, {
   Root: FieldRoot,
   Input: FieldInput,
   Label: FieldLabel,
   Error: FieldError,
   Description: FieldDescription,
   Group: FieldGroup,
-};
+});
 
 export {
   FieldRoot,

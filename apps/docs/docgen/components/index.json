@@ -41,9 +41,7 @@
       "shortPropTypeName": null
     },
     "variant": {
-      "defaultValue": {
-        "value": "default"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "variant",
       "parent": {
@@ -75,9 +73,7 @@
       "shortPropTypeName": null
     },
     "padding": {
-      "defaultValue": {
-        "value": "none"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "padding",
       "parent": {
@@ -93,16 +89,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"xs\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -118,6 +114,129 @@
           },
           {
             "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "radius": {
+      "defaultValue": null,
+      "description": "",
+      "name": "radius",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"auto\" | \"full\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"full\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "1"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "overflow": {
+      "defaultValue": null,
+      "description": "",
+      "name": "overflow",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"hidden\""
+          },
+          {
+            "value": "\"scroll\""
+          },
+          {
+            "value": "\"visible\""
           }
         ]
       },

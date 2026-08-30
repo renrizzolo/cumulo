@@ -193,7 +193,7 @@ export function InteractivePlayground(): React.JSX.Element {
                 className={colorDotBaseStyle.className}
                 style={{ backgroundColor: '#f59e0b' }}
               />
-              Amber (Hoard)
+              Amber
             </Button>
             <Button
               size="small"
