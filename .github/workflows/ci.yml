@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -74,7 +72,8 @@ jobs:
 
       - name: Run Bundler Fixtures & Visual Tests
         run: |
-          if [ "${{ github.event.inputs.update_snapshots }}" = "true" ]; then
+          if [ "${{ github.event.inputs.update_snapshots }}" = "true" ] || [ -z "$(ls packages/fixtures/test/browser/__screenshots__/visual.browser.test.tsx/*-linux.png 2>/dev/null)" ]; then
+            echo "No Linux snapshots found or update requested — generating baseline snapshots..."
             pnpm --filter @cumulo/fixtures test -- -u
           else
             pnpm --filter @cumulo/fixtures test
@@ -89,7 +88,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Commit Updated Snapshots
-        if: github.event_name == 'workflow_dispatch' && github.event.inputs.update_snapshots == 'true'
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.update_snapshots == 'true')
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: 'test(fixtures): update browser visual snapshots [skip ci]'
