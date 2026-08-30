@@ -1,0 +1,30 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Input, Container, VStack } from '@cumulo/core';
+import inputDoc from '../../../docgen/components/Input.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Input
+
+Text input field with variant, intent, and sizing support.
+
+```tsx
+import { Input } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <Container size="sm" padding="none">
+    <VStack gap="md">
+      <Input placeholder="Default Input" />
+      <Input intent="success" defaultValue="Valid input value" />
+      <Input intent="error" defaultValue="Invalid input value" />
+      <Input size="small" placeholder="Small Input" />
+    </VStack>
+  </Container>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={inputDoc} />

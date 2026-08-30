@@ -37,10 +37,20 @@ export const vars = {
     shadow: 'var(--surface-shadow)',
     subtle: 'var(--surface-subtle)',
   },
+  beige: {
+    bg: 'var(--theme-beige-bg)',
+    fg: 'var(--theme-beige-fg)',
+  },
   bg: {
     '0': 'var(--theme-bg-0)',
     '1': 'var(--theme-bg-1)',
     '2': 'var(--theme-bg-2)',
+    '3': 'var(--theme-bg-3)',
+    '4': 'var(--theme-bg-4)',
+  },
+  blue: {
+    bg: 'var(--theme-blue-bg)',
+    fg: 'var(--theme-blue-fg)',
   },
   border: 'var(--theme-border)',
   chroma: {
@@ -60,8 +70,15 @@ export const vars = {
   },
   error: {
     '50': 'var(--theme-error-50)',
+    '100': 'var(--theme-error-100)',
+    '200': 'var(--theme-error-200)',
+    '300': 'var(--theme-error-300)',
+    '400': 'var(--theme-error-400)',
+    '500': 'var(--theme-error-500)',
     '600': 'var(--theme-error-600)',
     '700': 'var(--theme-error-700)',
+    '800': 'var(--theme-error-800)',
+    '900': 'var(--theme-error-900)',
     bg: 'var(--theme-error-bg)',
     fg: 'var(--theme-error-fg)',
     hover: 'var(--theme-error-hover)',
@@ -97,6 +114,10 @@ export const vars = {
       semibold: 'var(--theme-font-weight-semibold)',
     },
   },
+  green: {
+    bg: 'var(--theme-green-bg)',
+    fg: 'var(--theme-green-fg)',
+  },
   grey: {
     '50': 'var(--theme-grey-50)',
     '100': 'var(--theme-grey-100)',
@@ -111,8 +132,15 @@ export const vars = {
   },
   info: {
     '50': 'var(--theme-info-50)',
+    '100': 'var(--theme-info-100)',
+    '200': 'var(--theme-info-200)',
+    '300': 'var(--theme-info-300)',
+    '400': 'var(--theme-info-400)',
+    '500': 'var(--theme-info-500)',
     '600': 'var(--theme-info-600)',
     '700': 'var(--theme-info-700)',
+    '800': 'var(--theme-info-800)',
+    '900': 'var(--theme-info-900)',
     bg: 'var(--theme-info-bg)',
     fg: 'var(--theme-info-fg)',
     hover: 'var(--theme-info-hover)',
@@ -134,6 +162,10 @@ export const vars = {
     },
   },
   muted: 'var(--theme-muted)',
+  pink: {
+    bg: 'var(--theme-pink-bg)',
+    fg: 'var(--theme-pink-fg)',
+  },
   primary: {
     '50': 'var(--theme-primary-50)',
     '100': 'var(--theme-primary-100)',
@@ -152,19 +184,27 @@ export const vars = {
     hover: 'var(--theme-primary-hover)',
     subtle: 'var(--theme-primary-subtle)',
   },
+  purple: {
+    bg: 'var(--theme-purple-bg)',
+    fg: 'var(--theme-purple-fg)',
+  },
   radius: {
     '2xl': 'var(--theme-radius-2xl)',
     full: 'var(--theme-radius-full)',
     lg: 'var(--theme-radius-lg)',
     md: 'var(--theme-radius-md)',
     none: 'var(--theme-radius-none)',
-    sm: 'var(--theme-radius-sm)',
     xl: 'var(--theme-radius-xl)',
   },
   size: {
     base: 'var(--theme-size-base)',
     large: 'var(--theme-size-large)',
     small: 'var(--theme-size-small)',
+    xSmall: 'var(--theme-size-xSmall)',
+  },
+  sky: {
+    bg: 'var(--theme-sky-bg)',
+    fg: 'var(--theme-sky-fg)',
   },
   spacing: {
     '2xl': 'var(--theme-spacing-2xl)',
@@ -272,9 +312,15 @@ export const vars = {
   subtle: 'var(--theme-subtle)',
   success: {
     '50': 'var(--theme-success-50)',
+    '100': 'var(--theme-success-100)',
+    '200': 'var(--theme-success-200)',
+    '300': 'var(--theme-success-300)',
+    '400': 'var(--theme-success-400)',
     '500': 'var(--theme-success-500)',
     '600': 'var(--theme-success-600)',
     '700': 'var(--theme-success-700)',
+    '800': 'var(--theme-success-800)',
+    '900': 'var(--theme-success-900)',
     bg: 'var(--theme-success-bg)',
     fg: 'var(--theme-success-fg)',
     hover: 'var(--theme-success-hover)',
@@ -289,8 +335,15 @@ export const vars = {
   },
   warning: {
     '50': 'var(--theme-warning-50)',
+    '100': 'var(--theme-warning-100)',
+    '200': 'var(--theme-warning-200)',
+    '300': 'var(--theme-warning-300)',
+    '400': 'var(--theme-warning-400)',
+    '500': 'var(--theme-warning-500)',
     '600': 'var(--theme-warning-600)',
     '700': 'var(--theme-warning-700)',
+    '800': 'var(--theme-warning-800)',
+    '900': 'var(--theme-warning-900)',
     bg: 'var(--theme-warning-bg)',
     fg: 'var(--theme-warning-fg)',
     hover: 'var(--theme-warning-hover)',
@@ -302,6 +355,10 @@ export const vars = {
       border: 'var(--theme-warning-secondary-border)',
       fg: 'var(--theme-warning-secondary-fg)',
     },
+  },
+  yellow: {
+    bg: 'var(--theme-yellow-bg)',
+    fg: 'var(--theme-yellow-fg)',
   },
 } as const;
 

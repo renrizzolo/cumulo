@@ -1,0 +1,225 @@
+{
+  "name": "Heading",
+  "path": "packages/core/src/components/Heading.tsx",
+  "fileName": "Heading.tsx",
+  "props": {
+    "as": {
+      "defaultValue": {
+        "value": "h2"
+      },
+      "description": "",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "HeadingLevel | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"h1\""
+          },
+          {
+            "value": "\"h2\""
+          },
+          {
+            "value": "\"h3\""
+          },
+          {
+            "value": "\"h4\""
+          },
+          {
+            "value": "\"h5\""
+          },
+          {
+            "value": "\"h6\""
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"span\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"3xl\""
+          },
+          {
+            "value": "\"4xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "weight": {
+      "defaultValue": {
+        "value": "bold"
+      },
+      "description": "",
+      "name": "weight",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"bold\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"normal\""
+          },
+          {
+            "value": "\"semibold\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "color": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "color",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"primary\" | \"inherit\" | \"default\" | \"muted\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"muted\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

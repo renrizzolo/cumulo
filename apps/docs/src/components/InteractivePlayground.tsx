@@ -1,9 +1,68 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Surface, Button, Input, Badge, Card } from '@cumulo/core';
+import { style } from '@cumulo/css';
+import {
+  Surface,
+  Button,
+  Input,
+  Badge,
+  VStack,
+  HStack,
+  Heading,
+  Text,
+  Code,
+  vars,
+} from '@cumulo/core';
 
-export function InteractivePlayground() {
+const playgroundWrapperStyle = style({
+  margin: `${vars.spacing.xl} 0 ${vars.spacing['2xl']}`,
+});
+
+const surfaceLevel0Style = style({
+  padding: vars.spacing.lg,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: vars.surface.border,
+  borderRadius: vars.radius.lg,
+});
+
+const surfaceLevel1Style = style({
+  padding: vars.spacing.md,
+  borderRadius: vars.radius.md,
+});
+
+const surfaceLevel2Style = style({
+  padding: vars.spacing.sm,
+  borderRadius: vars.radius.md,
+});
+
+const inputMediumWrapperStyle = style({
+  width: '220px',
+});
+
+const inputSmallWrapperStyle = style({
+  width: '180px',
+});
+
+const colorCardStyle = style({
+  padding: `${vars.spacing.md} ${vars.spacing.lg}`,
+  borderRadius: vars.radius.lg,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: vars.surface.border,
+  backgroundColor: vars.surface.bg.DEFAULT,
+});
+
+const colorDotBaseStyle = style({
+  width: '12px',
+  height: '12px',
+  borderRadius: '50%',
+  display: 'inline-block',
+  marginRight: vars.spacing['3xs'],
+});
+
+export function InteractivePlayground(): React.JSX.Element {
   const [count, setCount] = useState(0);
   const [seedColor, setSeedColor] = useState('#2563eb');
   const [inputValue, setInputValue] = useState('');
@@ -16,223 +75,173 @@ export function InteractivePlayground() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '24px',
-        margin: '20px 0',
-      }}
-    >
+    <VStack gap="xl" className={playgroundWrapperStyle.className}>
       {/* Dynamic Surface Nesting Showcase */}
-      <Surface
-        level={0}
-        style={{
-          padding: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '20px',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <div>
-            <h4 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>
-              Surface Level 0 (Canvas)
-            </h4>
-            <p
-              style={{
-                fontSize: '13px',
-                color: 'var(--surface-muted)',
-                margin: '4px 0 0',
-              }}
-            >
-              Interactive elements automatically darken/adapt via <code>--surface-bg-next</code>.
-            </p>
-          </div>
-          <Badge variant="primary" intent="primary">
-            Surface 0
-          </Badge>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            gap: '12px',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Button variant="primary" onClick={() => setCount((c) => c + 1)}>
-            Primary Action ({count})
-          </Button>
-          <Button variant="secondary" onClick={() => setCount(0)}>
-            Secondary Reset
-          </Button>
-          <Button variant="outline" intent="success">
-            Outline Success
-          </Button>
-          <div style={{ width: '220px' }}>
-            <Input
-              placeholder="Input on Surface 0..."
-              value={inputValue}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Nested Surface Level 1 */}
-        <Surface
-          level={1}
-          style={{
-            padding: '20px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '16px',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <div>
-              <h5 style={{ fontSize: '14px', fontWeight: 700, margin: 0 }}>
-                Surface Level 1 (Card / Container)
-              </h5>
-              <p
-                style={{
-                  fontSize: '12px',
-                  color: 'var(--surface-muted)',
-                  margin: '2px 0 0',
-                }}
-              >
-                Hovering inputs/buttons shifts into Surface Level 2 background.
-              </p>
-            </div>
-            <Badge variant="secondary" intent="success">
-              Surface 1
+      <Surface level={0} className={surfaceLevel0Style.className}>
+        <VStack gap="lg">
+          <HStack justify="between" align="center">
+            <VStack gap="3xs">
+              <Heading as="h4" size="md">
+                Surface Level 0 (Canvas)
+              </Heading>
+              <Text type="caption" color="muted">
+                Interactive elements automatically adapt via <Code>--surface-bg-next</Code>.
+              </Text>
+            </VStack>
+            <Badge variant="primary" intent="primary">
+              Surface 0
             </Badge>
-          </div>
+          </HStack>
 
-          <div
-            style={{
-              display: 'flex',
-              gap: '12px',
-              alignItems: 'center',
-              flexWrap: 'wrap',
-            }}
-          >
-            <Button variant="secondary" intent="warning">
-              Warning Secondary
+          <HStack gap="sm" align="center" wrap="wrap">
+            <Button variant="primary" onClick={() => setCount((c) => c + 1)}>
+              Primary Action ({count})
             </Button>
-            <Button variant="outline" intent="error">
-              Error Outline
+            <Button variant="secondary" onClick={() => setCount(0)}>
+              Secondary Reset
             </Button>
-            <div style={{ width: '220px' }}>
-              <Input placeholder="Input on Surface 1..." />
+            <Button variant="outline" intent="success">
+              Outline Success
+            </Button>
+            <div className={inputMediumWrapperStyle.className}>
+              <Input
+                placeholder="Input on Surface 0…"
+                value={inputValue}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+              />
             </div>
-          </div>
+          </HStack>
 
-          {/* Nested Surface Level 2 */}
-          <Surface
-            level={2}
-            style={{
-              padding: '16px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '12px',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <span style={{ fontSize: '13px', fontWeight: 600 }}>
-                Surface Level 2 (Elevated Popover / Modal)
-              </span>
-              <Badge variant="outline" intent="info">
-                Surface 2
-              </Badge>
-            </div>
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <Button size="small" variant="primary">
-                Small Primary
-              </Button>
-              <Button size="small" variant="secondary">
-                Small Secondary
-              </Button>
-              <div style={{ width: '180px' }}>
-                <Input size="small" placeholder="Input on Surface 2..." />
-              </div>
-            </div>
+          {/* Nested Surface Level 1 */}
+          <Surface level={1} className={surfaceLevel1Style.className}>
+            <VStack gap="md">
+              <HStack justify="between" align="center">
+                <VStack gap="3xs">
+                  <Heading as="h5" size="sm">
+                    Surface Level 1 (Card / Container)
+                  </Heading>
+                  <Text type="caption" color="muted">
+                    Hovering inputs/buttons shifts into Surface Level 2 background.
+                  </Text>
+                </VStack>
+                <Badge variant="secondary" intent="success">
+                  Surface 1
+                </Badge>
+              </HStack>
+
+              <HStack gap="sm" align="center" wrap="wrap">
+                <Button variant="secondary" intent="warning">
+                  Warning Secondary
+                </Button>
+                <Button variant="outline" intent="error">
+                  Error Outline
+                </Button>
+                <div className={inputMediumWrapperStyle.className}>
+                  <Input placeholder="Input on Surface 1…" />
+                </div>
+              </HStack>
+
+              {/* Nested Surface Level 2 */}
+              <Surface level={2} className={surfaceLevel2Style.className}>
+                <VStack gap="sm">
+                  <HStack justify="between" align="center">
+                    <Text type="label" size="sm" weight="semibold">
+                      Surface Level 2 (Elevated Popover / Modal)
+                    </Text>
+                    <Badge variant="outline" intent="info">
+                      Surface 2
+                    </Badge>
+                  </HStack>
+                  <HStack gap="sm" align="center" wrap="wrap">
+                    <Button size="small" variant="primary">
+                      Small Primary
+                    </Button>
+                    <Button size="small" variant="secondary">
+                      Small Secondary
+                    </Button>
+                    <div className={inputSmallWrapperStyle.className}>
+                      <Input size="small" placeholder="Input on Surface 2…" />
+                    </div>
+                  </HStack>
+                </VStack>
+              </Surface>
+            </VStack>
           </Surface>
-        </Surface>
+        </VStack>
       </Surface>
 
       {/* Live OKLCH Color Seeding Controls */}
-      <Card level={1} padding="md" style={{ gap: '16px' }}>
-        <div>
-          <h4 style={{ fontSize: '16px', fontWeight: 700, margin: 0 }}>
-            Live Mathematical OKLCH Color Seeding
-          </h4>
-          <p
-            style={{
-              fontSize: '13px',
-              color: 'var(--surface-muted)',
-              margin: '4px 0 0',
-            }}
-          >
-            Change the seed color below to see the entire 50-900 palette recompute live in pure CSS!
-          </p>
-        </div>
+      <div className={colorCardStyle.className}>
+        <VStack gap="md">
+          <VStack gap="3xs">
+            <Heading as="h4" size="md">
+              Live Mathematical OKLCH Color Seeding
+            </Heading>
+            <Text type="caption" color="muted">
+              Change the seed color below to see the entire 50-900 palette recompute live in pure
+              CSS!
+            </Text>
+          </VStack>
 
-        <div
-          style={{
-            display: 'flex',
-            gap: '12px',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-          }}
-        >
-          {[
-            { label: 'Blue', hex: '#2563eb' },
-            { label: 'Purple', hex: '#7c3aed' },
-            { label: 'Emerald', hex: '#059669' },
-            { label: 'Rose', hex: '#e11d48' },
-            { label: 'Amber', hex: '#d97706' },
-          ].map((preset) => (
+          <HStack gap="sm" align="center" wrap="wrap">
             <Button
-              key={preset.hex}
               size="small"
-              variant={seedColor === preset.hex ? 'primary' : 'outline'}
-              onClick={() => handleSeedChange(preset.hex)}
+              variant={seedColor === '#f59e0b' ? 'primary' : 'outline'}
+              onClick={() => handleSeedChange('#f59e0b')}
             >
               <span
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  borderRadius: '50%',
-                  backgroundColor: preset.hex,
-                  display: 'inline-block',
-                  marginRight: '6px',
-                }}
+                className={colorDotBaseStyle.className}
+                style={{ backgroundColor: '#f59e0b' }}
               />
-              {preset.label}
+              Amber
             </Button>
-          ))}
-        </div>
-      </Card>
-    </div>
+            <Button
+              size="small"
+              variant={seedColor === '#2563eb' ? 'primary' : 'outline'}
+              onClick={() => handleSeedChange('#2563eb')}
+            >
+              <span
+                className={colorDotBaseStyle.className}
+                style={{ backgroundColor: '#2563eb' }}
+              />
+              Blue
+            </Button>
+            <Button
+              size="small"
+              variant={seedColor === '#8b5cf6' ? 'primary' : 'outline'}
+              onClick={() => handleSeedChange('#8b5cf6')}
+            >
+              <span
+                className={colorDotBaseStyle.className}
+                style={{ backgroundColor: '#8b5cf6' }}
+              />
+              Purple
+            </Button>
+            <Button
+              size="small"
+              variant={seedColor === '#10b981' ? 'primary' : 'outline'}
+              onClick={() => handleSeedChange('#10b981')}
+            >
+              <span
+                className={colorDotBaseStyle.className}
+                style={{ backgroundColor: '#10b981' }}
+              />
+              Emerald
+            </Button>
+            <Button
+              size="small"
+              variant={seedColor === '#f43f5e' ? 'primary' : 'outline'}
+              onClick={() => handleSeedChange('#f43f5e')}
+            >
+              <span
+                className={colorDotBaseStyle.className}
+                style={{ backgroundColor: '#f43f5e' }}
+              />
+              Rose
+            </Button>
+          </HStack>
+        </VStack>
+      </div>
+    </VStack>
   );
 }

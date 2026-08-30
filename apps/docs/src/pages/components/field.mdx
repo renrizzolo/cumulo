@@ -1,0 +1,48 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import {
+  FieldRoot,
+  FieldLabel,
+  FieldInput,
+  FieldDescription,
+  FieldError,
+  Container,
+} from '@cumulo/core';
+import fieldDoc from '../../../docgen/components/Field.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Field
+
+Accessible compound form field coordinating labels, inputs, descriptions, and error states.
+
+```tsx
+import { FieldRoot, FieldLabel, FieldInput, FieldDescription, FieldError } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <Container size="sm" padding="none">
+    <FieldRoot intent="primary">
+      <FieldLabel>Work Email</FieldLabel>
+      <FieldInput placeholder="you@company.com" />
+      <FieldDescription>We'll only use this for critical workspace notifications.</FieldDescription>
+    </FieldRoot>
+  </Container>
+</ComponentPreview>
+
+## Invalid State
+
+<ComponentPreview>
+  <Container size="sm" padding="none">
+    <FieldRoot isInvalid>
+      <FieldLabel>Username</FieldLabel>
+      <FieldInput value="invalid_user@" readOnly />
+      <FieldError>Username cannot contain special symbols.</FieldError>
+    </FieldRoot>
+  </Container>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={fieldDoc} />

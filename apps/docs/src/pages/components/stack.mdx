@@ -1,0 +1,33 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Stack, HStack, VStack, Button, Badge } from '@cumulo/core';
+import stackDoc from '../../../docgen/components/Stack.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Stack
+
+Flexbox layout primitive providing horizontal (HStack) and vertical (VStack) arrangement with token spacing.
+
+```tsx
+import { Stack, HStack, VStack } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <VStack gap="md">
+    <HStack gap="sm" align="center">
+      <Button variant="primary">Item 1</Button>
+      <Button variant="secondary">Item 2</Button>
+      <Button variant="outline">Item 3</Button>
+    </HStack>
+    <HStack gap="lg" align="center">
+      <Badge variant="primary">Wide Gap 1</Badge>
+      <Badge variant="secondary">Wide Gap 2</Badge>
+    </HStack>
+  </VStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={stackDoc} />

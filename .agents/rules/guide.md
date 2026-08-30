@@ -12,17 +12,18 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 
 - **`@cumulo/css` (`packages/css`)**: Lightweight, zero-dependency, type-safe CSS framework inspired by StyleX and Vanilla Extract. Provides `style()`, `recipe()`, `createThemeContract()`, `createTheme()`, `keyframes()`, and `cx()`.
 - **`@cumulo/core` (`packages/core`)**: React 19 UI component library.
-- **`@cumulo/unplugin` (`packages/unplugin`)**: Build tool unplugin for compile-time CSS extraction across Vite, Rollup, Webpack, etc.
+- **`@cumulo/unplugin` (`packages/unplugin`)**: Build tool unplugin for compile-time CSS extraction across Vite, Rollup, Webpack, esbuild, and Parcel.
 - **`@cumulo/parcel-transformer` (`packages/parcel-transformer`)**: Custom Parcel transformer for static/RSC/CSS processing.
+- **`@cumulo/fixtures` (`packages/fixtures`)**: Dedicated private test package for bundler integration and Vitest native browser visual regression testing.
 - **`apps/docs`**: Documentation site built with React Static / Parcel.
 
 ### Tooling & Commands
 
 - **Package Manager**: `pnpm` (`packageManager: "pnpm@11.22.0"`).
 - **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
-- **Type Checking**: `tsc --noEmit` (run via `pnpm type-check`).
-- **Linting & Formatting**: `oxlint` (run via `pnpm lint` / `pnpm lint:fix`) and `oxfmt` (run via `pnpm format`).
-- **Testing**: `vitest` (run via `pnpm test`).
+- **Type Checking**: `tsc --noEmit` (run via `pnpm type-check` and included in `pnpm check`).
+- **Linting & Formatting**: uses `oxlint` and `oxfmt`(run via `pnpm check`).
+- **Testing**: `vitest` (run all unit & bundler tests via `pnpm test`, browser visual tests via `pnpm --filter @cumulo/fixtures test:browser`).
 - **Releases**: `@changesets/cli`.
 
 ---
@@ -41,6 +42,8 @@ Strict type safety is a non-negotiable standard across this codebase.
   - Use `type` imports/exports (`import type { ... }`) when importing or re-exporting types.
 - **HTML Element Props**:
   - Extend `ElementProps<T>` from `packages/core/src/ElementProps.ts` rather than raw `React.HTMLAttributes<T>`, ensuring obsolete/noisy attributes are excluded while retaining correct element-specific attributes and typed `ref`.
+- **No Deprecated Aliases**:
+  - Because this library is in pre-release, avoid creating or maintaining deprecated backwards-compatibility aliases. Keep APIs canonical, clean, and concise.
 
 ---
 
@@ -76,4 +79,34 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
   - Use `style({ ... })` for static, element-specific styles.
   - Use `recipe({ base, variants, defaultVariants, extend }, debugName)` for components with multi-dimensional variants (e.g. `variant`, `intent`, `size`, `shape`, `width`).
   - Use `cx()` for merging class names cleanly.
+  - Don't use arbitrary style props.
+  - Prefer using or creating core components where something doesn't exist when iterating on documentation or other apps/sites.
 - **Recipe Composition**: Combine shared variant styles (such as `allIntentStyles`, `sizes`) via the recipe's `extend` option.
+
+---
+
+## 5. Testing & Visual Regression Testing Standards
+
+- **Unit & Component Testing**: Use `vitest` with `jsdom` or `node` environments for core component tests and CSS logic tests (`packages/core/test`, `packages/css/test`).
+- **Bundler Integration Testing (`@cumulo/fixtures`)**:
+  - Test compile-time CSS extraction and module transformation across supported bundlers (**Vite**, **Rollup**, **esbuild**, **Webpack**, and **Parcel**).
+  - Assert that generated JS imports reference valid class names and that extracted stylesheets contain complete rule sets for basic styles, pseudo-classes, media queries, keyframes, theme variables, overrides, recipe variants, compound variants, and extensions.
+- **Vitest Native Browser Visual Regression Testing**:
+  - Use Vitest Browser Mode with `@vitest/browser-playwright` and headless Chromium (`pnpm --filter @cumulo/fixtures test:browser`).
+  - Perform visual regression assertions with `expect(locator).toMatchScreenshot()`.
+  - Assert real browser DOM computed styles (`window.getComputedStyle`) alongside screenshot comparisons.
+  - CI manages canonical Linux baseline snapshots and runs fixtures in a dedicated parallel workflow job.
+
+## 6. Themes, Color Modes & Pure CSS Token Architecture
+
+- **Decouple Theme vs Color Mode**:
+  - **`Theme`**: Brand and visual identity (e.g. `'default'`, `'docs'`, `'cloud'`, or custom theme strings). Applied via the `[data-theme='...']` attribute on `document.documentElement`.
+  - **`ColorMode`**: Appearance mode (`'light' | 'dark' | 'system'`). Applied via `document.documentElement.style.colorScheme` and CSS `color-scheme`.
+  - **Intrinsic Light/Dark Support**: `'dark'` is NOT a theme name. All themes must intrinsically support both light and dark modes via CSS `light-dark()` calculations.
+- **Pure CSS Custom Themes**:
+  - Define custom themes using pure CSS variables under `[data-theme='<name>']` (e.g. overriding `--color-primary-base`, `--color-grey-base`, `--theme-font-mono`).
+  - Avoid runtime JavaScript DOM `<style>` injection for themes.
+- **Theme & Mode Management**:
+  - Use `useTheme()` from `@cumulo/core` for `theme`, `setTheme`, `mode`, `resolvedMode`, `systemMode`, `setMode`, and `toggleMode`.
+  - Use `<ThemeScript />` in HTML `<head>` for zero-FOUC restoration of both `data-theme` and `colorScheme`.
+  - Use `<ThemeToggle />` for toggling color appearance modes (`light`, `dark`, `system`).

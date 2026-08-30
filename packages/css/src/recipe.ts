@@ -73,7 +73,19 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
   const defined = rules.filter((r): r is StyleRule => Boolean(r));
   if (defined.length === 0) return undefined;
   if (defined.length === 1) return defined[0];
-  return Object.assign({}, ...defined);
+  const result: Record<string, unknown> = {};
+
+  for (const rule of defined) {
+    for (const [key, value] of Object.entries(rule)) {
+      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+        result[key] = Object.assign({}, (result[key] as Record<string, unknown>) || {}, value);
+      } else {
+        result[key] = value;
+      }
+    }
+  }
+
+  return result as StyleRule;
 }
 
 interface OptionsCollector {
@@ -110,10 +122,13 @@ function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
 
   if (extOpts.variants) {
     for (const vKey of Object.keys(extOpts.variants)) {
-      acc.variants[vKey] = {
-        ...acc.variants[vKey],
-        ...extOpts.variants[vKey],
-      };
+      if (!acc.variants[vKey]) {
+        acc.variants[vKey] = {};
+      }
+      for (const optKey of Object.keys(extOpts.variants[vKey])) {
+        acc.variants[vKey][optKey] =
+          mergeStyleRules([acc.variants[vKey][optKey], extOpts.variants[vKey][optKey]]) || {};
+      }
     }
   }
 
@@ -164,10 +179,13 @@ export function recipe<T extends VariantDefinitions = VariantDefinitions, E = un
 
   if (options.variants) {
     for (const vKey of Object.keys(options.variants)) {
-      collected.variants[vKey] = {
-        ...collected.variants[vKey],
-        ...options.variants[vKey],
-      };
+      if (!collected.variants[vKey]) {
+        collected.variants[vKey] = {};
+      }
+      for (const optKey of Object.keys(options.variants[vKey])) {
+        collected.variants[vKey][optKey] =
+          mergeStyleRules([collected.variants[vKey][optKey], options.variants[vKey][optKey]]) || {};
+      }
     }
   }
 
@@ -221,7 +239,14 @@ export function recipe<T extends VariantDefinitions = VariantDefinitions, E = un
   // 6. Zero-runtime resolver
   const recipeFn = ((props?: VariantSelection<CombinedVariants>) => {
     const classes: (string | undefined)[] = [baseClassName];
-    const mergedProps: Record<string, unknown> = { ...mergedDefaultVariants, ...props };
+    const mergedProps: Record<string, unknown> = { ...mergedDefaultVariants };
+    if (props) {
+      for (const [key, val] of Object.entries(props)) {
+        if (val !== undefined) {
+          mergedProps[key] = val;
+        }
+      }
+    }
 
     for (const variantName of Object.keys(mergedVariants)) {
       const propValue = mergedProps[variantName];

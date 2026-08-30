@@ -9,7 +9,7 @@ import {
 describe('unplugin extractor', () => {
   it('should detect cumulo files', () => {
     expect(shouldProcessFile(`import { recipe } from '@cumulo/css';`, 'Button.tsx')).toBe(true);
-    expect(shouldProcessFile(`import { Button } from '@cumulo/core';`, 'App.tsx')).toBe(true);
+    expect(shouldProcessFile(`recipe({ base: {} })`, 'App.tsx')).toBe(true);
     expect(shouldProcessFile(`console.log("hello")`, 'plain.ts')).toBe(false);
   });
 
@@ -175,5 +175,26 @@ describe('unplugin extractor', () => {
     for (const cls of classList) {
       expect(css).toContain(`.${cls}`);
     }
+  });
+
+  it('regression: should extract inline styles from component code with styles', async () => {
+    const code = `
+      import React from 'react';
+      import { style } from '@cumulo/css';
+      import { vars } from '@cumulo/core';
+
+      export const layoutBodyStyle = style(
+        {
+          margin: 0,
+          minHeight: '100vh',
+          backgroundColor: vars.surface.bg.DEFAULT,
+        },
+        'layout-body',
+      );
+    `;
+    const css = await extractCssFromCode(code, 'Layout.tsx');
+
+    expect(css).toContain('.layout-body-');
+    expect(css).toContain('min-height:100vh;');
   });
 });

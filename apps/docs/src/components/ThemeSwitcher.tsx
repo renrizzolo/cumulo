@@ -1,12 +1,36 @@
 'use client';
 
 import React from 'react';
-import { ThemeToggle } from '@cumulo/core';
+import { HStack, ThemeToggle, Button, useTheme } from '@cumulo/core';
 
-export function ThemeSwitcher() {
+const THEMES = [
+  { id: 'docs', label: 'Docs' },
+  { id: 'default', label: 'Default' },
+  { id: 'cloud', label: 'Cloud' },
+] as const;
+
+export function ThemeSwitcher(): React.JSX.Element {
+  const { theme, setTheme } = useTheme();
+
   return (
-    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-      <ThemeToggle size="small" variant="outline" mode="toggle" />
-    </div>
+    <HStack gap="xs" align="center">
+      <HStack gap="3xs" align="center">
+        {THEMES.map((item) => {
+          const isActive = theme === item.id;
+          return (
+            <Button
+              key={item.id}
+              size="small"
+              variant={isActive ? 'secondary' : 'ghost'}
+              shape="round"
+              onClick={() => setTheme(item.id)}
+            >
+              {item.label}
+            </Button>
+          );
+        })}
+      </HStack>
+      <ThemeToggle />
+    </HStack>
   );
 }

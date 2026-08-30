@@ -1,5 +1,5 @@
 import React from 'react';
-import { recipe, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { ElementProps } from '../ElementProps.js';
 import { fieldIntentStyles, sizes, type ComponentSize } from '../intents.js';
@@ -12,7 +12,6 @@ export const inputRecipe = recipe(
       width: '100%',
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      backgroundColor: vars.surface.bg.DEFAULT,
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
@@ -23,11 +22,7 @@ export const inputRecipe = recipe(
       '::placeholder': {
         color: vars.surface.subtle,
       },
-      ':hover': {
-        backgroundColor: vars.surface.bg.next,
-      },
       ':focus-visible': {
-        backgroundColor: vars.surface.bg.next,
         borderColor: vars.primary.DEFAULT,
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
@@ -101,7 +96,7 @@ export function Input({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className={`${classes} ${className || ''}`.trim()}
+      className={cx(classes, className)}
       {...props}
     />
   );

@@ -1,5 +1,5 @@
 /**
- * In-memory & DOM stylesheet manager for @cumulo/css.
+ * In-memory stylesheet manager for @cumulo/css build-time / static extraction.
  */
 class StyleSheetManager {
   private rules = new Set<string>();
@@ -31,7 +31,7 @@ if (!globalStore[GLOBAL_SHEET_KEY]) {
   globalStore[GLOBAL_SHEET_KEY] = new StyleSheetManager();
 }
 
-export const sheet = globalStore[GLOBAL_SHEET_KEY];
+export const sheet = globalStore[GLOBAL_SHEET_KEY]!;
 
 export function getSheetCss(): string {
   return sheet.getCss();

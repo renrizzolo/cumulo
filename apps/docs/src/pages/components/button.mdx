@@ -1,0 +1,90 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Button, HStack } from '@cumulo/core';
+import buttonDoc from '../../../docgen/components/Button.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Button
+
+Buttons allow users to take actions, make choices, and trigger state changes with a single tap or click.
+
+```tsx
+import { Button } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Button variant="primary">Primary</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline" intent="success">
+      Outline Success
+    </Button>
+    <Button variant="ghost" intent="error">
+      Ghost Error
+    </Button>
+    <Button size="small" variant="primary" shape="round">
+      Round Small
+    </Button>
+  </HStack>
+</ComponentPreview>
+
+## Visual Variants
+
+Cumulo buttons support four core visual variants: `primary`, `secondary`, `outline`, and `ghost`.
+
+<ComponentPreview>
+  <HStack gap="sm" wrap="wrap">
+    <Button variant="primary">Primary</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="outline">Outline</Button>
+    <Button variant="ghost">Ghost</Button>
+  </HStack>
+</ComponentPreview>
+
+## Semantic Intents
+
+Buttons automatically adapt their styling according to system intents (`primary`, `success`, `warning`, `error`, `info`).
+
+<ComponentPreview>
+  <HStack gap="sm" wrap="wrap">
+    <Button variant="primary" intent="primary">
+      Primary
+    </Button>
+    <Button variant="primary" intent="success">
+      Success
+    </Button>
+    <Button variant="primary" intent="warning">
+      Warning
+    </Button>
+    <Button variant="primary" intent="error">
+      Error
+    </Button>
+    <Button variant="primary" intent="info">
+      Info
+    </Button>
+  </HStack>
+</ComponentPreview>
+
+## Sizes & Shapes
+
+Buttons offer `small`, `base`, and `large` sizes, with `default` and `round` shapes.
+
+<ComponentPreview>
+  <HStack gap="sm" align="center" wrap="wrap">
+    <Button size="small">Small</Button>
+    <Button size="base">Base</Button>
+    <Button size="large">Large</Button>
+    <Button shape="round" variant="secondary">
+      Round Pill
+    </Button>
+    <Button disabled variant="primary">
+      Disabled
+    </Button>
+  </HStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={buttonDoc} />

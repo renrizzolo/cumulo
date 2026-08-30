@@ -28,6 +28,14 @@ export default defineConfig({
           globals: true,
         },
       },
+      {
+        test: {
+          name: 'fixtures',
+          include: ['packages/fixtures/test/bundlers/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+        },
+      },
     ],
   },
   resolve: {

@@ -1,50 +1,61 @@
 import React from 'react';
-import { recipe } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { Surface, SurfaceProps } from './Surface.js';
+import type { ElementProps } from '../ElementProps.js';
+import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
+import { Surface, type SurfaceProps } from './Surface.js';
 
 export const cardRecipe = recipe(
   {
+    extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
     base: {
-      display: 'flex',
-      flexDirection: 'column',
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderColor: vars.surface.border,
+      boxShadow: vars.shadow['0'],
     },
-    variants: {
-      padding: {
-        none: { padding: 0 },
-        sm: { padding: vars.spacing.sm },
-        md: { padding: vars.spacing.md },
-        lg: { padding: vars.spacing.lg },
-      },
-    },
+    variants: {},
     defaultVariants: {
       padding: 'md',
+      overflow: 'hidden',
+      radius: 'lg',
     },
   },
   'card',
 );
 
-export interface CardProps extends SurfaceProps {
-  padding?: 'none' | 'sm' | 'md' | 'lg';
+export type CardVariants = RecipeVariants<typeof cardRecipe>;
+
+export interface CardProps extends ElementProps<HTMLDivElement> {
+  level?: SurfaceProps['level'];
+  variant?: SurfaceProps['variant'];
+  padding?: CardVariants['padding'];
+  overflow?: CardVariants['overflow'];
+  flex?: CardVariants['flex'];
+  radius?: CardVariants['radius'];
+  children?: React.ReactNode;
 }
 
 export function Card({
   level = 1,
-  padding = 'md',
   variant = 'default',
+  padding = 'md',
+  overflow = 'hidden',
+  flex,
+  radius,
   className,
   children,
   ref,
   ...props
-}: CardProps) {
-  const cardClasses = cardRecipe({ padding });
+}: CardProps): React.JSX.Element {
+  const classes = cardRecipe({ padding, overflow, flex, radius });
 
   return (
     <Surface
       ref={ref}
       level={level}
       variant={variant}
-      className={`${cardClasses} ${className || ''}`.trim()}
+      className={cx(classes, className)}
       {...props}
     >
       {children}

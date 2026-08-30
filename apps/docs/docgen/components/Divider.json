@@ -1,0 +1,123 @@
+{
+  "name": "Divider",
+  "path": "packages/core/src/components/Divider.tsx",
+  "fileName": "Divider.tsx",
+  "props": {
+    "orientation": {
+      "defaultValue": {
+        "value": "horizontal"
+      },
+      "description": "",
+      "name": "orientation",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+        "name": "DividerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+          "name": "DividerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"vertical\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "spacing": {
+      "defaultValue": {
+        "value": "none"
+      },
+      "description": "",
+      "name": "spacing",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+        "name": "DividerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Divider.tsx",
+          "name": "DividerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLHRElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

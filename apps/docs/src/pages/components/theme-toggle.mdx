@@ -1,0 +1,23 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { ThemeToggle, HStack } from '@cumulo/core';
+import themeToggleDoc from '../../../docgen/components/ThemeToggle.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# ThemeToggle
+
+Interactive button switching between system, light, and dark color schemes.
+
+```tsx
+import { ThemeToggle } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <ThemeToggle />
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={themeToggleDoc} />

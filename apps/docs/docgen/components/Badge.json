@@ -4,9 +4,7 @@
   "fileName": "Badge.tsx",
   "props": {
     "variant": {
-      "defaultValue": {
-        "value": "primary"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "variant",
       "parent": {
@@ -44,9 +42,7 @@
       "shortPropTypeName": null
     },
     "intent": {
-      "defaultValue": {
-        "value": "primary"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "intent",
       "parent": {
@@ -74,10 +70,10 @@
             "value": "\"success\""
           },
           {
-            "value": "\"error\""
+            "value": "\"warning\""
           },
           {
-            "value": "\"warning\""
+            "value": "\"error\""
           },
           {
             "value": "\"info\""
@@ -86,12 +82,10 @@
       },
       "shortPropTypeName": null
     },
-    "size": {
-      "defaultValue": {
-        "value": "small"
-      },
+    "color": {
+      "defaultValue": null,
       "description": "",
-      "name": "size",
+      "name": "color",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Badge.tsx",
         "name": "BadgeProps"
@@ -105,19 +99,31 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "ComponentSize | undefined",
+        "raw": "BadgeColor | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"small\""
+            "value": "\"beige\""
           },
           {
-            "value": "\"large\""
+            "value": "\"blue\""
           },
           {
-            "value": "\"base\""
+            "value": "\"green\""
+          },
+          {
+            "value": "\"pink\""
+          },
+          {
+            "value": "\"purple\""
+          },
+          {
+            "value": "\"yellow\""
+          },
+          {
+            "value": "\"sky\""
           }
         ]
       },

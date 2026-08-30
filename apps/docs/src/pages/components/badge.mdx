@@ -1,0 +1,79 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Badge, HStack } from '@cumulo/core';
+import badgeDoc from '../../../docgen/components/Badge.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Badge
+
+Badges highlight status, metadata, tags, or count indicators across application surfaces.
+
+```tsx
+import { Badge } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Badge States"
+  description="Badges inherit intent and color definitions seamlessly across surfaces."
+>
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Badge variant="primary" intent="primary">
+      Primary
+    </Badge>
+    <Badge variant="secondary" intent="success">
+      Active
+    </Badge>
+    <Badge variant="outline" intent="warning">
+      Pending
+    </Badge>
+    <Badge variant="ghost" intent="error">
+      Failed
+    </Badge>
+    <Badge variant="primary" intent="info">
+      Beta 2.0
+    </Badge>
+  </HStack>
+</ComponentPreview>
+
+## Variants & Intents
+
+```tsx render
+<div>Hello world!</div>
+```
+
+<ComponentPreview title="Badge Variants Across Intents">
+  <HStack gap="sm" wrap="wrap">
+    <Badge variant="primary" intent="success">
+      Primary Success
+    </Badge>
+    <Badge variant="secondary" intent="warning">
+      Secondary Warning
+    </Badge>
+    <Badge variant="outline" intent="error">
+      Outline Error
+    </Badge>
+    <Badge variant="ghost" intent="info">
+      Ghost Info
+    </Badge>
+  </HStack>
+</ComponentPreview>
+
+## Color Presets
+
+<ComponentPreview title="Named Color Badges">
+  <HStack gap="sm" wrap="wrap">
+    <Badge color="yellow">Yellow</Badge>
+    <Badge color="green">Green</Badge>
+    <Badge color="blue">Blue</Badge>
+    <Badge color="purple">Purple</Badge>
+    <Badge color="pink">Pink</Badge>
+    <Badge color="beige">Beige</Badge>
+    <Badge color="sky">Sky</Badge>
+  </HStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={badgeDoc} />

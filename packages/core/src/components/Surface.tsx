@@ -1,12 +1,15 @@
 import React from 'react';
-import { recipe, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { ElementProps } from '../ElementProps.js';
+import type { ElementProps } from '../ElementProps.js';
+import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 
 export const surfaceRecipe = recipe(
   {
+    extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
     base: {
-      borderRadius: vars.radius.xl,
+      display: 'flex',
+      flexDirection: 'column',
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
@@ -33,6 +36,8 @@ export const surfaceRecipe = recipe(
     defaultVariants: {
       level: 1,
       variant: 'default',
+      padding: 'none',
+      radius: 'xl',
     },
   },
   'surface',
@@ -41,28 +46,32 @@ export const surfaceRecipe = recipe(
 export type SurfaceVariants = RecipeVariants<typeof surfaceRecipe>;
 
 export interface SurfaceProps extends ElementProps<HTMLDivElement> {
-  level?: 0 | 1 | 2;
-  variant?: 'default' | 'primary';
+  level?: SurfaceVariants['level'];
+  variant?: SurfaceVariants['variant'];
+  padding?: SurfaceVariants['padding'];
+  radius?: SurfaceVariants['radius'];
+  flex?: SurfaceVariants['flex'];
+  overflow?: SurfaceVariants['overflow'];
   children?: React.ReactNode;
 }
 
 export function Surface({
   level = 1,
-  variant = 'default',
+  variant,
+  padding,
+  radius,
+  flex,
+  overflow,
   className,
   children,
   ref,
   ...props
-}: SurfaceProps) {
+}: SurfaceProps): React.JSX.Element {
   const surfaceClass = variant === 'primary' ? 'surface-primary' : `surface-${level}`;
-  const recipeClasses = surfaceRecipe({ level, variant });
+  const recipeClasses = surfaceRecipe({ level, variant, padding, radius, flex, overflow });
 
   return (
-    <div
-      ref={ref}
-      className={`${surfaceClass} ${recipeClasses} ${className || ''}`.trim()}
-      {...props}
-    >
+    <div ref={ref} className={cx(surfaceClass, recipeClasses, className)} {...props}>
       {children}
     </div>
   );

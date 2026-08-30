@@ -1,0 +1,167 @@
+{
+  "name": "Flow",
+  "path": "packages/core/src/components/Flow.tsx",
+  "fileName": "Flow.tsx",
+  "props": {
+    "as": {
+      "defaultValue": {
+        "value": "div"
+      },
+      "description": "",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+        "name": "FlowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+          "name": "FlowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"article\" | \"form\" | \"main\" | \"div\" | \"section\" | \"aside\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"article\""
+          },
+          {
+            "value": "\"form\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"section\""
+          },
+          {
+            "value": "\"aside\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "space": {
+      "defaultValue": {
+        "value": "inherit"
+      },
+      "description": "",
+      "name": "space",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+        "name": "FlowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+          "name": "FlowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"inherit\" | \"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"2xs\" | \"3xs\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"3xs\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "prose": {
+      "defaultValue": null,
+      "description": "",
+      "name": "prose",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+        "name": "FlowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+          "name": "FlowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

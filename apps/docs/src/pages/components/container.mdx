@@ -1,0 +1,27 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Container, Surface, Text } from '@cumulo/core';
+import containerDoc from '../../../docgen/components/Container.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Container
+
+Centers content horizontally with maximum width boundaries and standard padding.
+
+```tsx
+import { Container } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <Container size="md" padding="md">
+    <Surface level={1} padding="md">
+      <Text>Container size="md" with Surface Level 1</Text>
+    </Surface>
+  </Container>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={containerDoc} />

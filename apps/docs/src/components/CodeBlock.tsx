@@ -1,40 +1,30 @@
+import { Card, vars, type ElementProps } from '@cumulo/core';
+import { cx, style } from '@cumulo/css';
 import React from 'react';
+import { HighlightedCode } from './HighlightedCode';
 
-export interface CodeBlockProps extends React.HTMLAttributes<HTMLPreElement> {
-  children?: React.ReactNode;
+export interface CodeBlockProps extends ElementProps<HTMLDivElement> {
+  children: string;
   className?: string;
-  code?: string;
   language?: string;
 }
 
-export function CodeBlock({ children, className, code, language, ...props }: CodeBlockProps) {
-  const content = code || (typeof children === 'string' ? children : children);
-  const lang = language || (className ? className.replace(/language-/, '') : '');
+const codeBlockContainerStyle = style({
+  fontFamily: vars.font.mono,
+  fontSize: vars.font.size.xs,
+  lineHeight: vars.line.height.relaxed,
+  overflowX: 'auto',
+});
 
+export function CodeBlock({
+  children,
+  className,
+  language = 'typescript',
+  ...props
+}: CodeBlockProps): React.JSX.Element {
   return (
-    <div className="docs-code-block" style={{ position: 'relative', margin: '20px 0' }}>
-      {lang && (
-        <span
-          style={{
-            position: 'absolute',
-            top: '8px',
-            right: '12px',
-            fontSize: '11px',
-            textTransform: 'uppercase',
-            color: '#8892b0',
-            letterSpacing: '0.05em',
-            fontFamily: 'var(--docs-mono)',
-            userSelect: 'none',
-          }}
-        >
-          {lang}
-        </span>
-      )}
-      <pre className={className} {...props}>
-        <code>{content}</code>
-      </pre>
-    </div>
+    <Card className={cx(codeBlockContainerStyle.className, className)} {...props}>
+      <HighlightedCode code={children} language={language} />
+    </Card>
   );
 }
-
-export default CodeBlock;

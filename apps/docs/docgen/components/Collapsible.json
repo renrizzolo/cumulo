@@ -1,0 +1,127 @@
+{
+  "name": "Collapsible",
+  "path": "packages/core/src/components/Collapsible.tsx",
+  "fileName": "Collapsible.tsx",
+  "props": {
+    "open": {
+      "defaultValue": null,
+      "description": "",
+      "name": "open",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultOpen": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "defaultOpen",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "onOpenChange": {
+      "defaultValue": null,
+      "description": "",
+      "name": "onOpenChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((open: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "disabled": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "disabled",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

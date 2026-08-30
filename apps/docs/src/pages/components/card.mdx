@@ -1,0 +1,47 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Card, VStack, HStack, Heading, Text, Button } from '@cumulo/core';
+import cardDoc from '../../../docgen/components/Card.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Card
+
+Cards group related content and actions into a distinct, elevated surface container.
+
+```tsx
+import { Card } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Card Elevation & Padding"
+  description="Cards wrap Surfaces with tokenized padding and depth levels."
+>
+  <VStack gap="md">
+    <Card level={1} padding="md">
+      <VStack gap="xs">
+        <Heading as="h4" size="md">
+          Container Card (Level 1)
+        </Heading>
+        <Text type="body" size="sm" color="muted">
+          Standard surface container for cards and sections.
+        </Text>
+      </VStack>
+    </Card>
+    <Card level={2} padding="lg">
+      <VStack gap="xs">
+        <Heading as="h4" size="md">
+          Elevated Card (Level 2)
+        </Heading>
+        <Text type="body" size="sm" color="muted">
+          Elevated surface for popovers, dialogs, and highlighted panels.
+        </Text>
+      </VStack>
+    </Card>
+  </VStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={cardDoc} />

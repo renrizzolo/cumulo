@@ -3,7 +3,7 @@ import { vars } from './contract.js';
 
 export type BaseVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 export type Intent = 'primary' | 'success' | 'warning' | 'error' | 'info';
-export type ComponentSize = 'small' | 'base' | 'large';
+export type ComponentSize = 'xSmall' | 'small' | 'base' | 'large';
 
 const intentSecondaryVarMap = {
   success: vars.success.secondary,
@@ -13,7 +13,85 @@ const intentSecondaryVarMap = {
 } as const;
 
 /**
- * Creates primary, secondary, outline, ghost compound styles for given intents.
+ * Creates static primary, secondary, outline, ghost compound styles for given intents (no hover).
+ */
+export function createStaticIntentCompoundVariants<T extends Intent>(intents: readonly T[]) {
+  return intents.flatMap((intent) => {
+    if (intent === 'primary') return [];
+    if (!(intent in intentSecondaryVarMap)) return [];
+
+    const secondary = intentSecondaryVarMap[intent as keyof typeof intentSecondaryVarMap];
+
+    return [
+      {
+        variants: { intent, variant: 'secondary' as const },
+        style: {
+          backgroundColor: secondary.bg.DEFAULT,
+          color: secondary.fg,
+          borderColor: 'transparent',
+        },
+      },
+      {
+        variants: { intent, variant: 'outline' as const },
+        style: {
+          backgroundColor: 'transparent',
+          color: secondary.fg,
+          borderColor: secondary.border,
+        },
+      },
+      {
+        variants: { intent, variant: 'ghost' as const },
+        style: {
+          backgroundColor: 'transparent',
+          color: secondary.fg,
+          borderColor: 'transparent',
+        },
+      },
+    ];
+  });
+}
+
+/**
+ * Creates interactive hover compound styles for given intents.
+ */
+export function createInteractiveIntentCompoundVariants<T extends Intent>(intents: readonly T[]) {
+  return intents.flatMap((intent) => {
+    if (intent === 'primary') return [];
+    if (!(intent in intentSecondaryVarMap)) return [];
+
+    const secondary = intentSecondaryVarMap[intent as keyof typeof intentSecondaryVarMap];
+
+    return [
+      {
+        variants: { intent, variant: 'secondary' as const },
+        style: {
+          ':hover': {
+            backgroundColor: secondary.bg.hover,
+          },
+        },
+      },
+      {
+        variants: { intent, variant: 'outline' as const },
+        style: {
+          ':hover': {
+            backgroundColor: secondary.bg.DEFAULT,
+          },
+        },
+      },
+      {
+        variants: { intent, variant: 'ghost' as const },
+        style: {
+          ':hover': {
+            backgroundColor: secondary.bg.DEFAULT,
+          },
+        },
+      },
+    ];
+  });
+}
+
+/**
+ * Creates combined compound styles for given intents (includes hover for backward compatibility).
  */
 export function createIntentCompoundVariants<T extends Intent>(intents: readonly T[]) {
   return intents.flatMap((intent) => {
@@ -61,9 +139,9 @@ export function createIntentCompoundVariants<T extends Intent>(intents: readonly
 }
 
 /**
- * Base variants available across interactive elements (primary, secondary, outline, ghost).
+ * Static base variants (primary, secondary, outline, ghost) without hover.
  */
-export const baseVariantStyles = recipe(
+export const staticBaseVariantStyles = recipe(
   {
     variants: {
       variant: {
@@ -71,39 +149,71 @@ export const baseVariantStyles = recipe(
           backgroundColor: vars.primary.DEFAULT,
           color: vars.primary.fg,
           borderColor: 'transparent',
-          ':hover': {
-            backgroundColor: vars.primary.hover,
-          },
         },
         secondary: {
           backgroundColor: vars.surface.secondary.DEFAULT,
           color: vars.surface.fg,
           borderColor: 'transparent',
-          ':hover': {
-            backgroundColor: vars.surface.secondary.hover,
-          },
         },
         outline: {
           backgroundColor: 'transparent',
           color: vars.surface.fg,
           borderColor: vars.surface.secondary.border,
-          ':hover': {
-            backgroundColor: vars.surface.secondary.DEFAULT,
-          },
         },
         ghost: {
           backgroundColor: 'transparent',
           color: vars.surface.fg,
           borderColor: 'transparent',
-          ':hover': {
-            backgroundColor: vars.surface.secondary.DEFAULT,
-          },
         },
       },
     },
     defaultVariants: {
       variant: 'primary',
     },
+  },
+  'static-base-var',
+);
+
+/**
+ * Interactive hover styles for base variants.
+ */
+export const interactiveBaseVariantStyles = recipe(
+  {
+    variants: {
+      variant: {
+        primary: {
+          ':hover': {
+            backgroundColor: vars.primary.hover,
+          },
+        },
+        secondary: {
+          ':hover': {
+            backgroundColor: vars.surface.secondary.hover,
+          },
+        },
+        outline: {
+          ':hover': {
+            backgroundColor: vars.surface.secondary.DEFAULT,
+          },
+        },
+        ghost: {
+          ':hover': {
+            backgroundColor: vars.surface.secondary.DEFAULT,
+          },
+        },
+      },
+    },
+  },
+  'interactive-base-var',
+);
+
+/**
+ * Base variants available across interactive elements (primary, secondary, outline, ghost).
+ */
+export const baseVariantStyles = recipe(
+  {
+    extend: [staticBaseVariantStyles, interactiveBaseVariantStyles],
+    variants: {},
   },
   'base-var',
 );
@@ -115,6 +225,12 @@ export const sizes = recipe(
   {
     variants: {
       size: {
+        xSmall: {
+          height: vars.size.xSmall,
+          paddingLeft: vars.spacing['xs'],
+          paddingRight: vars.spacing['xs'],
+          fontSize: vars.font.size.xs,
+        },
         small: {
           height: vars.size.small,
           paddingLeft: vars.spacing.sm,
@@ -143,76 +259,95 @@ export const sizes = recipe(
 );
 
 /**
- * Primary action intents (success, error).
+ * Static intent styles without hover (success, warning, error, info).
  */
-export const buttonIntentStyles = recipe(
+export const staticIntentStyles = recipe(
   {
-    extend: [baseVariantStyles],
+    extend: [staticBaseVariantStyles],
     variants: {
       intent: {
         primary: {},
         success: {
           backgroundColor: vars.success.bg,
           color: vars.success.fg,
-          ':hover': {
-            backgroundColor: vars.success.hover,
-          },
+        },
+        warning: {
+          backgroundColor: vars.warning.bg,
+          color: vars.warning.fg,
         },
         error: {
           backgroundColor: vars.error.bg,
           color: vars.error.fg,
-          ':hover': {
-            backgroundColor: vars.error.hover,
-          },
-        },
-      },
-    },
-    compoundVariants: createIntentCompoundVariants(['success', 'error'] as const),
-  },
-  'btn-intent',
-);
-
-/**
- * Secondary / informational intents (warning, info).
- */
-export const extraIntentStyles = recipe(
-  {
-    extend: [baseVariantStyles],
-    variants: {
-      intent: {
-        warning: {
-          backgroundColor: vars.warning.bg,
-          color: vars.warning.fg,
-          ':hover': {
-            backgroundColor: vars.warning.hover,
-          },
         },
         info: {
           backgroundColor: vars.info.bg,
           color: vars.info.fg,
+        },
+      },
+    },
+    compoundVariants: createStaticIntentCompoundVariants([
+      'success',
+      'warning',
+      'error',
+      'info',
+    ] as const),
+    defaultVariants: {
+      variant: 'primary',
+      intent: 'primary',
+    },
+  },
+  'static-intent',
+);
+
+export const baseIntentStyles = staticIntentStyles;
+
+/**
+ * Interactive intent styles with hover (success, warning, error, info).
+ */
+export const interactiveIntentStyles = recipe(
+  {
+    extend: [staticIntentStyles, interactiveBaseVariantStyles],
+    variants: {
+      intent: {
+        primary: {},
+        success: {
+          ':hover': {
+            backgroundColor: vars.success.hover,
+          },
+        },
+        warning: {
+          ':hover': {
+            backgroundColor: vars.warning.hover,
+          },
+        },
+        error: {
+          ':hover': {
+            backgroundColor: vars.error.hover,
+          },
+        },
+        info: {
           ':hover': {
             backgroundColor: vars.info.hover,
           },
         },
       },
     },
-    compoundVariants: createIntentCompoundVariants(['warning', 'info'] as const),
+    compoundVariants: createInteractiveIntentCompoundVariants([
+      'success',
+      'warning',
+      'error',
+      'info',
+    ] as const),
+    defaultVariants: {
+      variant: 'primary',
+      intent: 'primary',
+    },
   },
-  'extra-intent',
+  'interactive-intent',
 );
 
-/**
- * All intents combined (success, warning, error, info).
- */
-export const allIntentStyles = recipe(
-  {
-    extend: [buttonIntentStyles, extraIntentStyles],
-    variants: {},
-  },
-  'all-intent',
-);
-
-export const baseIntentStyles = allIntentStyles;
+export const allIntentStyles = interactiveIntentStyles;
+export const buttonIntentStyles = interactiveIntentStyles;
 
 /**
  * Variant style for form inputs.
@@ -222,11 +357,14 @@ export const fieldVariantStyles = recipe(
     variants: {
       variant: {
         field: {
-          backgroundColor: vars.surface.bg.DEFAULT,
+          backgroundColor: vars.surface.secondary.DEFAULT,
           color: vars.surface.fg,
           borderColor: vars.surface.border,
           ':hover': {
-            backgroundColor: vars.surface.bg.next,
+            backgroundColor: vars.surface.secondary.hover,
+          },
+          ':focus': {
+            backgroundColor: vars.surface.secondary.hover,
           },
         },
       },

@@ -1,0 +1,28 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Code, HStack } from '@cumulo/core';
+import codeDoc from '../../../docgen/components/Code.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Code
+
+Inline and block-level code formatting with intent-aware visual variants.
+
+```tsx
+import { Code } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Code variant="primary">primary</Code>
+    <Code variant="subtle">subtle</Code>
+    <Code variant="outline">outline</Code>
+    <Code variant="ghost">ghost</Code>
+  </HStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={codeDoc} />

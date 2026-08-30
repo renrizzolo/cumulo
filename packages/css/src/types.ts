@@ -27,6 +27,7 @@ export type SelectorBlock = {
 export interface ComplexStyleRule extends CSSProperties {
   selectors?: Record<string, CSSProperties>;
   '@media'?: Record<string, CSSProperties>;
+  '@container'?: Record<string, CSSProperties>;
   '@supports'?: Record<string, CSSProperties>;
   ':hover'?: CSSProperties;
   ':focus'?: CSSProperties;

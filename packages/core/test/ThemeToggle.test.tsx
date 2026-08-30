@@ -16,7 +16,7 @@ describe('ThemeToggle component', () => {
       addEventListener: vi.fn(),
       removeEventListener: vi.fn(),
     }));
-    themeStore.setTheme('system');
+    themeStore.setMode('system');
   });
 
   afterEach(() => {
@@ -42,40 +42,40 @@ describe('ThemeToggle component', () => {
     render(<ThemeToggle />);
     const button = screen.getByRole('button');
 
-    expect(themeStore.getTheme()).toBe('system');
-    expect(themeStore.getResolvedTheme()).toBe('light');
+    expect(themeStore.getMode()).toBe('system');
+    expect(themeStore.getResolvedMode()).toBe('light');
 
     // Toggle 1: switches to dark, stores 'dark'
     fireEvent.click(button);
-    expect(themeStore.getTheme()).toBe('dark');
-    expect(themeStore.getResolvedTheme()).toBe('dark');
+    expect(themeStore.getMode()).toBe('dark');
+    expect(themeStore.getResolvedMode()).toBe('dark');
     expect(document.documentElement.style.colorScheme).toBe('dark');
-    expect(localStorage.getItem('cumulo-theme')).toBe('dark');
+    expect(localStorage.getItem('cumulo-mode')).toBe('dark');
     expect(button.getAttribute('aria-label')).toBe('Switch to light mode');
 
     // Toggle 2: switches back to light (which matches OS), removes override from LS
     fireEvent.click(button);
-    expect(themeStore.getTheme()).toBe('system');
-    expect(themeStore.getResolvedTheme()).toBe('light');
+    expect(themeStore.getMode()).toBe('system');
+    expect(themeStore.getResolvedMode()).toBe('light');
     expect(document.documentElement.style.colorScheme).toBe('light');
-    expect(localStorage.getItem('cumulo-theme')).toBeNull();
+    expect(localStorage.getItem('cumulo-mode')).toBeNull();
     expect(button.getAttribute('aria-label')).toBe('Switch to dark mode');
   });
 
-  it('supports explicit multi-theme cycle mode', () => {
+  it('supports explicit multi-mode cycle mode', () => {
     render(<ThemeToggle mode="cycle" />);
     const button = screen.getByRole('button');
 
-    expect(themeStore.getTheme()).toBe('system');
+    expect(themeStore.getMode()).toBe('system');
 
     fireEvent.click(button);
-    expect(themeStore.getTheme()).toBe('light');
+    expect(themeStore.getMode()).toBe('light');
 
     fireEvent.click(button);
-    expect(themeStore.getTheme()).toBe('dark');
+    expect(themeStore.getMode()).toBe('dark');
 
     fireEvent.click(button);
-    expect(themeStore.getTheme()).toBe('system');
+    expect(themeStore.getMode()).toBe('system');
   });
 
   it('renders custom label when showLabel is true', () => {

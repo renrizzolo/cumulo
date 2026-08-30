@@ -1,0 +1,36 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { Text, VStack } from '@cumulo/core';
+import textDoc from '../../../docgen/components/Text.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Text
+
+Typography primitive with semantic presets, size scales, color intents, and text wrap options.
+
+```tsx
+import { Text } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview>
+  <VStack gap="sm">
+    <Text type="display" size="2xl">
+      Display Typography
+    </Text>
+    <Text type="body" size="base">
+      Body copy explaining interface content.
+    </Text>
+    <Text type="label" weight="semibold">
+      Interactive Label
+    </Text>
+    <Text type="caption" color="muted">
+      Caption or helper footnote
+    </Text>
+  </VStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={textDoc} />

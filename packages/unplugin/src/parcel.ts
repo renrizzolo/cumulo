@@ -18,13 +18,19 @@ export default new Transformer({
 
     asset.invalidateOnFileChange(asset.filePath);
 
+    const uniqueKey = `${asset.filePath}-cumulo-css`;
+    asset.addDependency({
+      specifier: uniqueKey,
+      specifierType: 'esm',
+    });
+
     return [
       asset,
       {
         type: 'css',
         content: css,
-        uniqueKey: `${asset.filePath}-cumulo-css`,
-        sideEffects: false,
+        uniqueKey,
+        sideEffects: true,
       },
     ];
   },

@@ -1,5 +1,5 @@
 {
-  "ignorePatterns": ["apps/docs/routes.ts"],
+  "ignorePatterns": ["apps/docs/routes.ts", "**/.temp/**"],
   "tabWidth": 2,
   "useTabs": false,
   "semi": true,

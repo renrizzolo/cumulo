@@ -1,9 +1,13 @@
-import React, { createContext, useContext, useState, useCallback, useId, useEffect } from 'react';
-import { style } from '@cumulo/css';
+'use client';
+
+import React, { createContext, useContext, useId, useEffect } from 'react';
+import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
-import { ElementProps } from '../ElementProps.js';
+import type { ElementProps } from '../ElementProps.js';
 import { Input, type InputProps } from '../components/Input.js';
 import { Label, type LabelProps } from './Label.js';
+
+import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
 export interface FieldContextValue {
   id: string;
@@ -74,23 +78,7 @@ export function FieldRoot({
 }: FieldProps) {
   const generatedId = useId();
   const id = providedId || generatedId;
-  const [parts, setParts] = useState<Record<string, string>>({});
-
-  const registerPart = useCallback((part: string, partId: string) => {
-    setParts((prev) => ({
-      ...prev,
-      [part]: partId,
-    }));
-    return () => {
-      setParts((prev) => {
-        const { [part]: _, ...rest } = prev;
-        return rest;
-      });
-    };
-  }, []);
-
-  const getPartId = useCallback((part: string) => parts[part], [parts]);
-  const hasPart = useCallback((part: string) => Boolean(parts[part]), [parts]);
+  const { registerPart, getPartId, hasPart, parts } = usePartsRegistry();
 
   const hasError = isInvalid ?? Boolean(parts['error']);
 
@@ -107,7 +95,7 @@ export function FieldRoot({
 
   return (
     <FieldContext.Provider value={contextValue}>
-      <div ref={ref} className={`${fieldRootStyle.className} ${className || ''}`.trim()} {...props}>
+      <div ref={ref} className={cx(fieldRootStyle, className)} {...props}>
         {children}
       </div>
     </FieldContext.Provider>
@@ -162,7 +150,7 @@ export function FieldInput({
 
 export function FieldGroup({ children, className, ...props }: FieldProps) {
   return (
-    <div className={`${fieldGroupStyle.className} ${className || ''}`.trim()} {...props}>
+    <div className={cx(fieldGroupStyle, className)} {...props}>
       {children}
     </div>
   );
@@ -182,11 +170,7 @@ export function FieldDescription({
   }, [registerPart, id]);
 
   return (
-    <p
-      id={id}
-      className={`${fieldDescriptionStyle.className} ${className || ''}`.trim()}
-      {...props}
-    >
+    <p id={id} className={cx(fieldDescriptionStyle, className)} {...props}>
       {children}
     </p>
   );
@@ -205,7 +189,7 @@ export function FieldError({ children, id: providedId, className, ...props }: Fi
   }, [registerPart, id]);
 
   return (
-    <p id={id} className={`${fieldErrorStyle.className} ${className || ''}`.trim()} {...props}>
+    <p id={id} className={cx(fieldErrorStyle, className)} {...props}>
       {children}
     </p>
   );
@@ -231,3 +215,10 @@ export function FieldLabel({
     </Label>
   );
 }
+
+FieldRoot.displayName = 'Field.Root';
+FieldInput.displayName = 'Field.Input';
+FieldLabel.displayName = 'Field.Label';
+FieldError.displayName = 'Field.Error';
+FieldDescription.displayName = 'Field.Description';
+FieldGroup.displayName = 'Field.Group';

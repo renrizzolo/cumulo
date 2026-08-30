@@ -1,6 +1,8 @@
+'use client';
+
 import { cx, style } from '@cumulo/css';
 import React, { useCallback } from 'react';
-import type { Theme } from '../theme/theme.js';
+import type { ColorMode } from '../theme/theme.js';
 import { useTheme } from '../theme/useTheme.js';
 import { Button, type ButtonProps } from './Button.js';
 
@@ -72,7 +74,7 @@ export function SystemIcon({ className }: { className?: string } = {}): React.JS
   );
 }
 
-const DEFAULT_CYCLE_ALL: readonly Theme[] = ['light', 'dark', 'system'] as const;
+const DEFAULT_CYCLE_ALL: readonly ColorMode[] = ['light', 'dark', 'system'] as const;
 
 export interface ThemeToggleProps extends ButtonProps {
   /**
@@ -81,11 +83,11 @@ export interface ThemeToggleProps extends ButtonProps {
    * - `cycle`: 3-state cycling between light, dark, and system.
    */
   mode?: 'toggle' | 'cycle';
-  /** Custom sequence of themes to cycle through when clicked. */
-  cycle?: readonly Theme[];
+  /** Custom sequence of color modes to cycle through when clicked. */
+  cycle?: readonly ColorMode[];
   showLabel?: boolean;
-  labelMap?: Partial<Record<Theme, React.ReactNode>>;
-  iconMap?: Partial<Record<Theme, React.ReactNode>>;
+  labelMap?: Partial<Record<ColorMode, React.ReactNode>>;
+  iconMap?: Partial<Record<ColorMode, React.ReactNode>>;
 }
 
 export function ThemeToggle({
@@ -93,7 +95,7 @@ export function ThemeToggle({
   shape = 'round',
   mode = 'toggle',
   size = 'small',
-  width = 'square',
+  width,
   cycle,
   showLabel = false,
   labelMap,
@@ -104,36 +106,35 @@ export function ThemeToggle({
   ref,
   ...props
 }: ThemeToggleProps): React.JSX.Element {
-  const { theme, resolvedTheme, toggleTheme } = useTheme();
+  const { mode: currentMode, resolvedMode, toggleMode } = useTheme();
 
   const cycleSequence = cycle ?? (mode === 'cycle' ? DEFAULT_CYCLE_ALL : undefined);
 
   const renderIcon = useCallback((): React.ReactNode => {
-    if (iconMap && iconMap[theme]) {
-      return iconMap[theme];
+    if (iconMap && iconMap[currentMode]) {
+      return iconMap[currentMode];
     }
-    if (mode === 'cycle' && theme === 'system') {
+    if (mode === 'cycle' && currentMode === 'system') {
       return <SystemIcon />;
     }
-    if (resolvedTheme === 'dark') {
+    if (resolvedMode === 'dark') {
       return <MoonIcon />;
     }
     return <SunIcon />;
-  }, [theme, iconMap, mode, resolvedTheme]);
+  }, [currentMode, iconMap, mode, resolvedMode]);
 
   const renderLabel = useCallback((): React.ReactNode => {
     if (!showLabel) return null;
-    if (labelMap && labelMap[theme]) {
-      return labelMap[theme];
+    if (labelMap && labelMap[currentMode]) {
+      return labelMap[currentMode];
     }
-    if (mode === 'cycle' && theme === 'system') {
+    if (mode === 'cycle' && currentMode === 'system') {
       return 'System';
     }
-    return resolvedTheme === 'dark' ? 'Dark' : 'Light';
-  }, [theme, showLabel, mode, labelMap, resolvedTheme]);
+    return resolvedMode === 'dark' ? 'Dark' : 'Light';
+  }, [currentMode, showLabel, mode, labelMap, resolvedMode]);
 
-  const defaultAriaLabel =
-    resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+  const defaultAriaLabel = resolvedMode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
 
   return (
     <Button
@@ -147,7 +148,7 @@ export function ThemeToggle({
       onClick={(e) => {
         onClick?.(e);
         if (!e.defaultPrevented) {
-          toggleTheme(cycleSequence);
+          toggleMode(cycleSequence);
         }
       }}
       {...props}
@@ -158,3 +159,8 @@ export function ThemeToggle({
     </Button>
   );
 }
+
+ThemeToggle.displayName = 'ThemeToggle';
+SunIcon.displayName = 'SunIcon';
+MoonIcon.displayName = 'MoonIcon';
+SystemIcon.displayName = 'SystemIcon';
