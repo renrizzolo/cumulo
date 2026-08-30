@@ -7,12 +7,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      update_snapshots:
-        description: 'Update and commit visual snapshots'
-        type: boolean
-        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,8 +20,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          ref: ${{ github.head_ref || github.ref }}
 
       - name: Setup pnpm and Node.js
         uses: pnpm/setup@v2
@@ -53,15 +45,10 @@ jobs:
   fixtures:
     name: Bundler Fixtures & Browser Visual Tests
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-        with:
-          ref: ${{ github.head_ref || github.ref }}
-          fetch-depth: 0
 
       - name: Setup pnpm and Node.js
         uses: pnpm/setup@v2
@@ -76,15 +63,7 @@ jobs:
         run: pnpm --filter @cumulo/fixtures exec playwright install --with-deps chromium
 
       - name: Run Bundler Fixtures & Visual Tests
-        run: |
-          mkdir -p packages/fixtures/test/browser/__screenshots__/visual.browser.test.tsx
-          if [ "${{ github.event.inputs.update_snapshots }}" = "true" ] || [ -z "$(ls packages/fixtures/test/browser/__screenshots__/visual.browser.test.tsx/*-linux.png 2>/dev/null)" ]; then
-            echo "No Linux snapshots found or update requested — generating baseline snapshots..."
-            CI=false pnpm --filter @cumulo/fixtures test:browser -- -u
-            pnpm --filter @cumulo/fixtures test
-          else
-            pnpm --filter @cumulo/fixtures test
-          fi
+        run: pnpm --filter @cumulo/fixtures test
 
       - name: Upload Screenshot Artifacts on Failure
         if: failure()
@@ -93,11 +72,3 @@ jobs:
           name: fixture-screenshot-diffs
           path: packages/fixtures/test/browser/__screenshots__/**
           if-no-files-found: ignore
-
-      - name: Commit Updated Snapshots
-        if: always()
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'test(fixtures): update browser visual snapshots [skip ci]'
-          file_pattern: 'packages/fixtures/test/browser/__screenshots__/**'
-          branch: ${{ github.head_ref || github.ref_name }}
