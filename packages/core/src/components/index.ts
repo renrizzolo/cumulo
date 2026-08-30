@@ -59,3 +59,14 @@ export {
   type TableVariants,
 } from './Table.js';
 export { Flow, flowRecipe, type FlowProps } from './Flow.js';
+export {
+  Collapsible,
+  CollapsibleRoot,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  collapsibleContentRecipe,
+  type CollapsibleProps,
+  type CollapsibleTriggerProps,
+  type CollapsibleContentProps,
+  type CollapsibleContextValue,
+} from './Collapsible.js';

@@ -1,11 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, useId, useEffect } from 'react';
+import React, { createContext, useContext, useId, useEffect } from 'react';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Input, type InputProps } from '../components/Input.js';
 import { Label, type LabelProps } from './Label.js';
+
+import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
 export interface FieldContextValue {
   id: string;
@@ -76,23 +78,7 @@ export function FieldRoot({
 }: FieldProps) {
   const generatedId = useId();
   const id = providedId || generatedId;
-  const [parts, setParts] = useState<Record<string, string>>({});
-
-  const registerPart = useCallback((part: string, partId: string) => {
-    setParts((prev) => ({
-      ...prev,
-      [part]: partId,
-    }));
-    return () => {
-      setParts((prev) => {
-        const { [part]: _, ...rest } = prev;
-        return rest;
-      });
-    };
-  }, []);
-
-  const getPartId = useCallback((part: string) => parts[part], [parts]);
-  const hasPart = useCallback((part: string) => Boolean(parts[part]), [parts]);
+  const { registerPart, getPartId, hasPart, parts } = usePartsRegistry();
 
   const hasError = isInvalid ?? Boolean(parts['error']);
 

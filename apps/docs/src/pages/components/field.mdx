@@ -1,5 +1,12 @@
 import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { Field, Container } from '@cumulo/core';
+import {
+  FieldRoot,
+  FieldLabel,
+  FieldInput,
+  FieldDescription,
+  FieldError,
+  Container,
+} from '@cumulo/core';
 import fieldDoc from '../../../docgen/components/Field.json';
 export default Layout;
 export { CodeBlock, PropsTable, ComponentPreview };
@@ -9,22 +16,18 @@ export { CodeBlock, PropsTable, ComponentPreview };
 Accessible compound form field coordinating labels, inputs, descriptions, and error states.
 
 ```tsx
-import { Field } from '@cumulo/core';
+import { FieldRoot, FieldLabel, FieldInput, FieldDescription, FieldError } from '@cumulo/core';
 ```
 
 ## Interactive Playground
 
 <ComponentPreview>
   <Container size="sm" padding="none">
-    <Field.Root intent="primary">
-      <Field.Label>Work Email</Field.Label>
-      <Field.Input placeholder="you@company.com" />
-      {
-        <Field.Description>
-          We'll only use this for critical workspace notifications.
-        </Field.Description>
-      }
-    </Field.Root>
+    <FieldRoot intent="primary">
+      <FieldLabel>Work Email</FieldLabel>
+      <FieldInput placeholder="you@company.com" />
+      <FieldDescription>We'll only use this for critical workspace notifications.</FieldDescription>
+    </FieldRoot>
   </Container>
 </ComponentPreview>
 
@@ -32,11 +35,11 @@ import { Field } from '@cumulo/core';
 
 <ComponentPreview>
   <Container size="sm" padding="none">
-    <Field.Root isInvalid>
-      <Field.Label>Username</Field.Label>
-      <Field.Input value="invalid_user@" readOnly />
-      <Field.Error>Username cannot contain special symbols.</Field.Error>
-    </Field.Root>
+    <FieldRoot isInvalid>
+      <FieldLabel>Username</FieldLabel>
+      <FieldInput value="invalid_user@" readOnly />
+      <FieldError>Username cannot contain special symbols.</FieldError>
+    </FieldRoot>
   </Container>
 </ComponentPreview>
 
