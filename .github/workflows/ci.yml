@@ -80,7 +80,8 @@ jobs:
           mkdir -p packages/fixtures/test/browser/__screenshots__/visual.browser.test.tsx
           if [ "${{ github.event.inputs.update_snapshots }}" = "true" ] || [ -z "$(ls packages/fixtures/test/browser/__screenshots__/visual.browser.test.tsx/*-linux.png 2>/dev/null)" ]; then
             echo "No Linux snapshots found or update requested — generating baseline snapshots..."
-            pnpm --filter @cumulo/fixtures test -- -u
+            CI=false pnpm --filter @cumulo/fixtures test:browser -- -u
+            pnpm --filter @cumulo/fixtures test
           else
             pnpm --filter @cumulo/fixtures test
           fi
