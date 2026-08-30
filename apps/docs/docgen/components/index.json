@@ -41,9 +41,7 @@
       "shortPropTypeName": null
     },
     "variant": {
-      "defaultValue": {
-        "value": "default"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "variant",
       "parent": {
@@ -75,9 +73,7 @@
       "shortPropTypeName": null
     },
     "padding": {
-      "defaultValue": {
-        "value": "none"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "padding",
       "parent": {
@@ -93,16 +89,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"xs\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -140,16 +136,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"full\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
+            "value": "\"none\""
+          },
+          {
             "value": "\"auto\""
           },
           {
-            "value": "\"none\""
+            "value": "\"full\""
           },
           {
             "value": "\"md\""
@@ -162,9 +161,6 @@
           },
           {
             "value": "\"2xl\""
-          },
-          {
-            "value": "\"full\""
           }
         ]
       },
@@ -187,7 +183,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"initial\" | \"auto\" | \"none\" | 1 | undefined",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
@@ -196,10 +192,10 @@
             "value": "\"initial\""
           },
           {
-            "value": "\"auto\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"auto\""
           },
           {
             "value": "1"

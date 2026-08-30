@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { style, recipe } from '@cumulo/css';
-import { Surface, HStack, VStack, Button, Heading, Text, vars } from '@cumulo/core';
+import { style } from '@cumulo/css';
+import { Surface, HStack, VStack, Button, Heading, Text, Collapsible, vars } from '@cumulo/core';
 
 export interface ComponentPreviewClientProps {
   title?: string;
@@ -26,38 +26,6 @@ const previewCanvasStyle = style(
 const toolbarFooterStyle = style({
   paddingTop: vars.spacing.md,
   gap: vars.spacing.sm,
-});
-
-const codeCollapseRecipe = recipe(
-  {
-    base: {
-      display: 'grid',
-      gridTemplateRows: '0fr',
-      transition: `grid-template-rows ${vars.duration.normal} ${vars.ease.default}, opacity ${vars.duration.fast} ${vars.ease.default}`,
-      opacity: 0,
-    },
-    variants: {
-      open: {
-        true: {
-          gridTemplateRows: '1fr',
-          opacity: 1,
-        },
-        false: {
-          gridTemplateRows: '0fr',
-          opacity: 0,
-        },
-      },
-    },
-    defaultVariants: {
-      open: false,
-    },
-  },
-  'preview-code-collapse',
-);
-
-const codeInnerStyle = style({
-  minHeight: 0,
-  overflow: 'hidden',
 });
 
 const codeInnerStyleOffset = style({ marginTop: vars.spacing.md });
@@ -112,55 +80,51 @@ export function ComponentPreviewClient({
           {children}
         </Surface>
 
-        {/* Toolbar Controls */}
-        <HStack
-          wrap="wrap"
-          justify="between"
-          align="center"
-          className={toolbarFooterStyle.className}
-        >
-          {/* Surface Level Switcher */}
-          <HStack gap="xs" align="center">
-            <Text type="label" size="xs" color="muted">
-              Surface:
-            </Text>
-            <HStack gap="3xs" align="center">
-              {([0, 1, 2] as const).map((lvl) => (
-                <Button
-                  key={lvl}
-                  size="xSmall"
-                  variant={level === lvl ? 'primary' : 'ghost'}
-                  onClick={() => setLevel(lvl)}
-                >
-                  {lvl === 0 ? 'Canvas' : lvl === 1 ? 'Surface' : 'Elevated'}
+        <Collapsible.Root open={showCode} onOpenChange={setShowCode}>
+          {/* Toolbar Controls */}
+          <HStack
+            wrap="wrap"
+            justify="between"
+            align="center"
+            className={toolbarFooterStyle.className}
+          >
+            {/* Surface Level Switcher */}
+            <HStack gap="xs" align="center">
+              <Text type="label" size="xs" color="muted">
+                Surface:
+              </Text>
+              <HStack gap="3xs" align="center">
+                {([0, 1, 2] as const).map((lvl) => (
+                  <Button
+                    key={lvl}
+                    size="xSmall"
+                    variant={level === lvl ? 'primary' : 'ghost'}
+                    onClick={() => setLevel(lvl)}
+                  >
+                    {lvl === 0 ? 'Canvas' : lvl === 1 ? 'Surface' : 'Elevated'}
+                  </Button>
+                ))}
+              </HStack>
+            </HStack>
+
+            {/* Code Actions */}
+            <HStack gap="2xs" align="center">
+              {showCode && (
+                <Button size="xSmall" variant="ghost" onClick={handleCopy}>
+                  {copied ? 'Copied!' : 'Copy'}
                 </Button>
-              ))}
+              )}
+              <Collapsible.Trigger size="xSmall" variant={showCode ? 'secondary' : 'ghost'}>
+                {showCode ? 'Hide Code' : 'View Code'}
+              </Collapsible.Trigger>
             </HStack>
           </HStack>
 
-          {/* Code Actions */}
-          <HStack gap="2xs" align="center">
-            {showCode && (
-              <Button size="xSmall" variant="ghost" onClick={handleCopy}>
-                {copied ? 'Copied!' : 'Copy'}
-              </Button>
-            )}
-            <Button
-              size="xSmall"
-              variant={showCode ? 'secondary' : 'ghost'}
-              onClick={() => setShowCode(!showCode)}
-            >
-              {showCode ? 'Hide Code' : 'View Code'}
-            </Button>
-          </HStack>
-        </HStack>
-
-        {/* Animated Code Panel */}
-        <div className={codeCollapseRecipe({ open: showCode })}>
-          <div className={codeInnerStyle.className}>
+          {/* Animated Code Panel */}
+          <Collapsible.Content>
             <div className={codeInnerStyleOffset.className}>{code}</div>
-          </div>
-        </div>
+          </Collapsible.Content>
+        </Collapsible.Root>
       </Surface>
     </>
   );
