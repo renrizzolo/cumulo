@@ -89,13 +89,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"none\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -108,9 +111,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"2xl\""
@@ -136,7 +136,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"full\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -157,10 +157,10 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"full\""
+            "value": "\"2xl\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"full\""
           }
         ]
       },
@@ -183,10 +183,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
+        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "1"
           },
           {
             "value": "\"initial\""
@@ -196,9 +199,6 @@
           },
           {
             "value": "\"auto\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -221,22 +221,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"hidden\" | \"auto\" | \"visible\" | \"scroll\" | undefined",
+        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"hidden\""
-          },
-          {
             "value": "\"auto\""
           },
           {
-            "value": "\"visible\""
+            "value": "\"hidden\""
           },
           {
             "value": "\"scroll\""
+          },
+          {
+            "value": "\"visible\""
           }
         ]
       },

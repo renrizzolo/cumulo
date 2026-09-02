@@ -1,4 +1,4 @@
-import { recipe } from '@cumulo/css';
+import { recipe, style } from '@cumulo/css';
 import { vars } from './contract.js';
 
 export type BaseVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -401,4 +401,62 @@ export const fieldIntentStyles = recipe(
     },
   },
   'field-intent',
+);
+
+/**
+ * Shared focus ring style and recipe for interactive components.
+ */
+export const focusRingStyles = {
+  outline: 'none',
+  ':focus-visible': {
+    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+  },
+  ':has(:focus-visible)': {
+    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+  },
+} as const;
+
+export const focusRing = recipe(
+  {
+    base: focusRingStyles,
+  },
+  'focus-ring',
+);
+
+/**
+ * Accessible visually hidden style for hidden input elements and screen-reader content.
+ */
+export const visuallyHidden = style(
+  {
+    position: 'absolute',
+    width: '1px',
+    height: '1px',
+    padding: 0,
+    margin: '-1px',
+    overflow: 'hidden',
+    clip: 'rect(0, 0, 0, 0)',
+    whiteSpace: 'nowrap',
+    border: 0,
+    opacity: 0,
+  },
+  'visually-hidden',
+);
+
+/**
+ * Full-coverage transparent input style for custom interactive controls (e.g. Checkbox, Switch).
+ * Stretches across the parent container to natively capture click, touch, and focus events without wrapping in a label.
+ */
+export const controlInput = style(
+  {
+    position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    opacity: 0,
+    margin: 0,
+    padding: 0,
+    cursor: 'inherit',
+    zIndex: 1,
+  },
+  'control-input',
 );

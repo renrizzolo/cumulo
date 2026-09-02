@@ -5,6 +5,7 @@ import { type ElementProps } from '../ElementProps.js';
 import {
   allIntentStyles,
   sizes,
+  focusRing,
   type BaseVariant,
   type Intent,
   type ComponentSize,
@@ -12,7 +13,7 @@ import {
 
 export const buttonRecipe = recipe(
   {
-    extend: [allIntentStyles, sizes],
+    extend: [allIntentStyles, sizes, focusRing],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -25,7 +26,6 @@ export const buttonRecipe = recipe(
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'transparent',
-      outline: 'none',
       userSelect: 'none',
       transition: `all ${vars.duration.slow} ${vars.ease.default}`,
       willChange: 'transform',
@@ -35,9 +35,6 @@ export const buttonRecipe = recipe(
       },
       ':active': {
         transform: 'scale(0.98)',
-      },
-      ':focus-visible': {
-        boxShadow: `0 0 0 2px var(--surface-bg), 0 0 0 4px ${vars.primary.focus}`,
       },
     },
     variants: {

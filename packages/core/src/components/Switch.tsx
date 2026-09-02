@@ -1,16 +1,20 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { focusRing, controlInput } from '../intents.js';
 
 export const switchRecipe = recipe(
   {
+    extend: [focusRing],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
       position: 'relative',
+      width: vars.size.sm,
+      height: vars.font.size.lg,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.secondary.DEFAULT,
       borderWidth: 1,
@@ -20,32 +24,13 @@ export const switchRecipe = recipe(
       userSelect: 'none',
       boxSizing: 'border-box',
       transition: `background-color ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}`,
-      outline: 'none',
-      padding: '2px',
+      padding: vars.spacing['3xs'],
       flexShrink: 0,
       ':hover': {
         backgroundColor: vars.surface.secondary.hover,
       },
-      ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
-      },
     },
     variants: {
-      size: {
-        sm: {
-          width: '2rem',
-          height: '1.125rem',
-        },
-        md: {
-          width: '2.5rem',
-          height: '1.375rem',
-        },
-        lg: {
-          width: '3rem',
-          height: '1.625rem',
-        },
-      },
       checked: {
         true: {
           backgroundColor: vars.primary.DEFAULT,
@@ -65,11 +50,25 @@ export const switchRecipe = recipe(
         },
         false: {},
       },
+      intent: {
+        default: {},
+        error: {
+          borderColor: vars.error.bg,
+          ':focus-visible': {
+            borderColor: vars.error.bg,
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+          },
+          ':has(:focus-visible)': {
+            borderColor: vars.error.bg,
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+          },
+        },
+      },
     },
     defaultVariants: {
-      size: 'md',
       checked: false,
       disabled: false,
+      intent: 'default',
     },
   },
   'switch',
@@ -79,56 +78,26 @@ export const switchThumbRecipe = recipe(
   {
     base: {
       display: 'block',
+      width: vars.font.size.sm,
+      height: vars.font.size.sm,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.bg.DEFAULT,
       boxShadow: vars.shadow['0'],
       transition: `transform ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
       pointerEvents: 'none',
+      flexShrink: 0,
     },
     variants: {
-      size: {
-        sm: {
-          width: '0.875rem',
-          height: '0.875rem',
-        },
-        md: {
-          width: '1.125rem',
-          height: '1.125rem',
-        },
-        lg: {
-          width: '1.375rem',
-          height: '1.375rem',
-        },
-      },
       checked: {
-        true: {},
+        true: {
+          transform: `translateX(${vars.spacing.sm})`,
+        },
         false: {
           transform: 'translateX(0)',
         },
       },
     },
-    compoundVariants: [
-      {
-        variants: { size: 'sm', checked: true },
-        style: {
-          transform: 'translateX(0.875rem)',
-        },
-      },
-      {
-        variants: { size: 'md', checked: true },
-        style: {
-          transform: 'translateX(1.125rem)',
-        },
-      },
-      {
-        variants: { size: 'lg', checked: true },
-        style: {
-          transform: 'translateX(1.375rem)',
-        },
-      },
-    ],
     defaultVariants: {
-      size: 'md',
       checked: false,
     },
   },
@@ -137,30 +106,17 @@ export const switchThumbRecipe = recipe(
 
 export type SwitchVariants = RecipeVariants<typeof switchRecipe>;
 
-const visuallyHiddenInput = style({
-  position: 'absolute',
-  width: '1px',
-  height: '1px',
-  padding: 0,
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-  whiteSpace: 'nowrap',
-  border: 0,
-  opacity: 0,
-});
-
-export interface SwitchProps extends Omit<ElementProps<HTMLInputElement>, 'size'> {
-  size?: 'sm' | 'md' | 'lg';
+export interface SwitchProps extends ElementProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
+  intent?: 'default' | 'error';
   onCheckedChange?: (checked: boolean) => void;
 }
 
 export function Switch({
-  size = 'md',
   checked: controlledChecked,
   defaultChecked = false,
+  intent = 'default',
   disabled = false,
   className,
   id,
@@ -186,18 +142,17 @@ export function Switch({
   );
 
   const classes = switchRecipe({
-    size,
     checked: isChecked,
     disabled,
+    intent,
   });
 
   const thumbClasses = switchThumbRecipe({
-    size,
     checked: isChecked,
   });
 
   return (
-    <label className={cx(classes, className)}>
+    <span className={cx(classes, className)}>
       <input
         ref={ref}
         type="checkbox"
@@ -206,12 +161,13 @@ export function Switch({
         checked={isChecked}
         disabled={disabled}
         onChange={handleChange}
-        className={visuallyHiddenInput.className}
+        className={controlInput.className}
         aria-checked={isChecked}
+        aria-invalid={intent === 'error' ? true : undefined}
         {...props}
       />
       <span className={thumbClasses} aria-hidden="true" />
-    </label>
+    </span>
   );
 }
 

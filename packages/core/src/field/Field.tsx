@@ -316,13 +316,15 @@ export function FieldSwitch({
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
+  intent,
   ...props
 }: SwitchProps) {
-  const { id, labelledBy, describedBy } = useFieldItem({
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
     'aria-labelledby': ariaLabelledby,
     'aria-describedby': ariaDescribedby,
+    intent,
   });
 
   return (
@@ -331,6 +333,8 @@ export function FieldSwitch({
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
       className={className}
+      intent={resolvedIntent}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
       {...props}
     />
   );

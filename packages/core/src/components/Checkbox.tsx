@@ -1,17 +1,22 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { focusRing, controlInput } from '../intents.js';
+import { useMergeRefs } from '../hooks/useMergeRefs.js';
 
 export const checkboxRecipe = recipe(
   {
+    extend: [focusRing],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
+      width: vars.font.size.lg,
+      height: vars.font.size.lg,
       borderRadius: vars.radius.md,
       borderWidth: 1,
       borderStyle: 'solid',
@@ -22,32 +27,13 @@ export const checkboxRecipe = recipe(
       userSelect: 'none',
       boxSizing: 'border-box',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
-      outline: 'none',
       flexShrink: 0,
       ':hover': {
         borderColor: vars.primary.DEFAULT,
         backgroundColor: vars.surface.bg.next,
       },
-      ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
-      },
     },
     variants: {
-      size: {
-        sm: {
-          width: '1rem',
-          height: '1rem',
-        },
-        md: {
-          width: '1.25rem',
-          height: '1.25rem',
-        },
-        lg: {
-          width: '1.5rem',
-          height: '1.5rem',
-        },
-      },
       checked: {
         true: {
           backgroundColor: vars.primary.DEFAULT,
@@ -73,12 +59,16 @@ export const checkboxRecipe = recipe(
           borderColor: vars.error.bg,
           ':focus-visible': {
             borderColor: vars.error.bg,
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+          },
+          ':has(:focus-visible)': {
+            borderColor: vars.error.bg,
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
           },
         },
       },
     },
     defaultVariants: {
-      size: 'md',
       checked: false,
       disabled: false,
       intent: 'default',
@@ -89,23 +79,12 @@ export const checkboxRecipe = recipe(
 
 export type CheckboxVariants = RecipeVariants<typeof checkboxRecipe>;
 
-const visuallyHiddenInput = style({
-  position: 'absolute',
-  width: '1px',
-  height: '1px',
-  padding: 0,
-  margin: '-1px',
-  overflow: 'hidden',
-  clip: 'rect(0, 0, 0, 0)',
-  whiteSpace: 'nowrap',
-  border: 0,
-  opacity: 0,
-});
-
 const iconStyle = style({
   width: '75%',
   height: '75%',
   display: 'block',
+  flexShrink: 0,
+  pointerEvents: 'none',
 });
 
 function CheckIcon({ className }: { className?: string } = {}): React.JSX.Element {
@@ -142,68 +121,97 @@ function IndeterminateIcon({ className }: { className?: string } = {}): React.JS
   );
 }
 
-export interface CheckboxProps extends Omit<ElementProps<HTMLInputElement>, 'size'> {
-  size?: 'sm' | 'md' | 'lg';
+export interface CheckboxProps extends ElementProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   indeterminate?: boolean;
+  defaultIndeterminate?: boolean;
   intent?: 'default' | 'error';
   onCheckedChange?: (checked: boolean) => void;
+  onIndeterminateChange?: (indeterminate: boolean) => void;
 }
 
 export function Checkbox({
-  size = 'md',
   checked: controlledChecked,
   defaultChecked = false,
-  indeterminate = false,
+  indeterminate: controlledIndeterminate,
+  defaultIndeterminate = false,
   intent = 'default',
   disabled = false,
   className,
   id,
   onChange,
   onCheckedChange,
+  onIndeterminateChange,
   ref,
   ...props
 }: CheckboxProps): React.JSX.Element {
   const [uncontrolledChecked, setUncontrolledChecked] = useState(defaultChecked);
-  const isControlled = controlledChecked !== undefined;
-  const isChecked = isControlled ? controlledChecked : uncontrolledChecked;
+  const [uncontrolledIndeterminate, setUncontrolledIndeterminate] = useState(
+    controlledIndeterminate !== undefined ? controlledIndeterminate : defaultIndeterminate,
+  );
+
+  const isCheckedControlled = controlledChecked !== undefined;
+  const isChecked = isCheckedControlled ? controlledChecked : uncontrolledChecked;
+
+  const isIndeterminateControlled = controlledIndeterminate !== undefined;
+  const isIndeterminate = isIndeterminateControlled
+    ? controlledIndeterminate
+    : uncontrolledIndeterminate;
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const mergedRef = useMergeRefs(ref, inputRef);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.indeterminate = Boolean(isIndeterminate);
+    }
+  }, [isIndeterminate]);
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const nextChecked = event.target.checked;
-      if (!isControlled) {
+      if (!isCheckedControlled) {
         setUncontrolledChecked(nextChecked);
       }
+      if (!isIndeterminateControlled) {
+        setUncontrolledIndeterminate(false);
+      }
+      onIndeterminateChange?.(false);
       onChange?.(event);
       onCheckedChange?.(nextChecked);
     },
-    [isControlled, onChange, onCheckedChange],
+    [
+      isCheckedControlled,
+      isIndeterminateControlled,
+      onChange,
+      onCheckedChange,
+      onIndeterminateChange,
+    ],
   );
 
   const classes = checkboxRecipe({
-    size,
-    checked: isChecked || indeterminate,
+    checked: isChecked || isIndeterminate,
     disabled,
     intent,
   });
 
   return (
-    <label className={cx(classes, className)}>
+    <span className={cx(classes, className)}>
       <input
-        ref={ref}
+        ref={mergedRef}
         type="checkbox"
         id={id}
         checked={isChecked}
         disabled={disabled}
         onChange={handleChange}
-        className={visuallyHiddenInput.className}
-        aria-checked={indeterminate ? 'mixed' : isChecked}
+        className={controlInput.className}
+        aria-checked={isIndeterminate ? 'mixed' : isChecked}
         aria-invalid={intent === 'error' ? true : undefined}
         {...props}
       />
-      {indeterminate ? <IndeterminateIcon /> : isChecked ? <CheckIcon /> : null}
-    </label>
+      {isIndeterminate ? <IndeterminateIcon /> : isChecked ? <CheckIcon /> : null}
+    </span>
   );
 }
 

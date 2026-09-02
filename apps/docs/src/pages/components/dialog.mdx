@@ -1,4 +1,4 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import {
   Dialog,
   DialogRoot,
@@ -18,8 +18,9 @@ import {
   HStack,
   Text,
 } from '@cumulo/core';
+import dialogDoc from '../../../docgen/components/Dialog.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Dialog
 
@@ -72,10 +73,6 @@ import { Dialog } from '@cumulo/core';
   </DialogRoot>
 </ComponentPreview>
 
-## Features
+## Component API
 
-- **Native `<dialog>` Architecture**: Renders into the browser top-layer via `showModal()`.
-- **Declarative Light Dismiss**: Supports `closedby="any"` with fallback backdrop click calculation.
-- **Accessible ARIA Linking**: Automatically connects `aria-labelledby` to `Dialog.Title` and `aria-describedby` to `Dialog.Description`.
-- **Keyboard Trapping & Escape**: Native browser focus trap and Esc key support.
-- **Sizing Variants**: `sm`, `md`, `lg`, `xl`, `full`.
+<PropsTable data={dialogDoc} />

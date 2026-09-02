@@ -1,7 +1,8 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import { TabsRoot, TabsList, TabsTrigger, TabsContent, Card, VStack, Text } from '@cumulo/core';
+import tabsDoc from '../../../docgen/components/Tabs.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Tabs
 
@@ -61,9 +62,6 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
   </VStack>
 </ComponentPreview>
 
-## Features
+## Component API
 
-- **Keyboard Arrow Navigation**: Left/Right arrows for horizontal lists, Up/Down for vertical lists, Home/End for rapid jumping.
-- **Visual Styles**: `line`, `pill`, `bordered`.
-- **Orientation**: `horizontal` or `vertical`.
-- **WAI-ARIA Pattern**: Full conformance with `tablist`, `tab`, and `tabpanel` specifications.
+<PropsTable data={tabsDoc} />

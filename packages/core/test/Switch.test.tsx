@@ -66,11 +66,8 @@ describe('Switch Component', () => {
     expect(switchEl.id).toBe('notifications-field');
   });
 
-  it('applies recipe sizing variants', () => {
-    const sm = switchRecipe({ size: 'sm' });
-    const lg = switchRecipe({ size: 'lg' });
-
-    expect(sm).toContain(switchRecipe.classNames.variants.size.sm);
-    expect(lg).toContain(switchRecipe.classNames.variants.size.lg);
+  it('generates base styles and default variants', () => {
+    const classes = switchRecipe();
+    expect(classes).toContain(switchRecipe.classNames.base);
   });
 });

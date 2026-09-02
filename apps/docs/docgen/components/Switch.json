@@ -3,43 +3,6 @@
   "path": "packages/core/src/components/Switch.tsx",
   "fileName": "Switch.tsx",
   "props": {
-    "size": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Switch.tsx",
-        "name": "SwitchProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Switch.tsx",
-          "name": "SwitchProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "checked": {
       "defaultValue": null,
       "description": "",
@@ -79,6 +42,40 @@
       "required": false,
       "type": {
         "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"error\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          }
+        ]
       },
       "shortPropTypeName": null
     },

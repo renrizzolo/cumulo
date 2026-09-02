@@ -1,19 +1,22 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import {
   Checkbox,
   FieldRoot,
   FieldLabel,
   FieldDescription,
+  FieldError,
+  FieldCheckbox,
   HStack,
   VStack,
   Text,
 } from '@cumulo/core';
+import checkboxDoc from '../../../docgen/components/Checkbox.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Checkbox
 
-An accessible, token-styled form control that supports checked, unchecked, and indeterminate states.
+An accessible, token-styled form control that supports checked, unchecked, indeterminate, and error states.
 
 ```tsx
 import { Checkbox } from '@cumulo/core';
@@ -22,32 +25,110 @@ import { Checkbox } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview
-  title="Checkbox States"
-  description="Explore standard checked, unchecked, indeterminate, and sizing options."
+  title="Checkbox Control"
+  description="Explore interactive checkboxes with integrated field labeling."
 >
   <VStack gap="md">
-    <HStack gap="md" align="center">
-      <Checkbox defaultChecked size="sm" aria-label="Small checkbox" />
-      <Checkbox defaultChecked size="md" aria-label="Medium checkbox" />
-      <Checkbox defaultChecked size="lg" aria-label="Large checkbox" />
-      <Checkbox indeterminate size="md" aria-label="Indeterminate checkbox" />
-      <Checkbox disabled defaultChecked size="md" aria-label="Disabled checkbox" />
-    </HStack>
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox />
+        <FieldLabel>Enable Setting</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox defaultChecked />
+        <FieldLabel>Checked by Default</FieldLabel>
+      </HStack>
+    </FieldRoot>
+  </VStack>
+</ComponentPreview>
+
+## States & Intents
+
+Checkboxes support unchecked, checked, indeterminate, error intent, and disabled states.
+
+<ComponentPreview
+  title="Checkbox States & Intents"
+  description="Default, checked, indeterminate, error intent, and disabled checkboxes."
+>
+  <VStack gap="md">
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox />
+        <FieldLabel>Unchecked</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox defaultChecked />
+        <FieldLabel>Checked</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox defaultIndeterminate />
+        <FieldLabel>Indeterminate</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot isInvalid>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox />
+        <FieldLabel>Error State</FieldLabel>
+      </HStack>
+      <FieldError>This selection is required to proceed.</FieldError>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox disabled />
+        <FieldLabel>Disabled</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox disabled defaultChecked />
+        <FieldLabel>Disabled Checked</FieldLabel>
+      </HStack>
+    </FieldRoot>
+  </VStack>
+</ComponentPreview>
+
+## Field Integration
+
+When used inside a `FieldRoot`, checkboxes automatically synchronize IDs, descriptions, accessibility attributes (`aria-invalid`), and error validation states.
+
+<ComponentPreview
+  title="Form Field Integration"
+  description="Checkboxes configured with valid and invalid Field contexts."
+>
+  <VStack gap="lg">
+    <FieldRoot>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox defaultChecked />
+        <FieldLabel>Subscribe to developer updates</FieldLabel>
+      </HStack>
+      <FieldDescription>Receive weekly digests of new components, features, and releases.</FieldDescription>
+    </FieldRoot>
+
+    <FieldRoot isInvalid>
+      <HStack gap="xs" align="center">
+        <FieldCheckbox />
+        <FieldLabel>I accept the Terms of Service & Privacy Policy</FieldLabel>
+      </HStack>
+      <FieldError>You must accept the terms of service to create your account.</FieldError>
+    </FieldRoot>
 
     <FieldRoot>
       <HStack gap="xs" align="center">
-        <Checkbox id="terms" defaultChecked />
-        <FieldLabel htmlFor="terms">I accept the terms and conditions</FieldLabel>
+        <FieldCheckbox disabled defaultChecked />
+        <FieldLabel>Early Access Preview (Managed by Admin)</FieldLabel>
       </HStack>
-      <FieldDescription>You must accept the terms before continuing.</FieldDescription>
+      <FieldDescription>This setting is locked by your organization administrator.</FieldDescription>
     </FieldRoot>
 
   </VStack>
 </ComponentPreview>
 
-## Features
+## Component API
 
-- **Indeterminate State**: Accessible `aria-checked="mixed"` with custom indicator.
-- **T-Shirt Sizing**: `sm`, `md`, `lg`.
-- **Field Integration**: Automatically registers with `Field.Root` for coordinated error states and labeling.
-- **Form Compatible**: Uses visually hidden native checkbox for full form submission fidelity.
+<PropsTable data={checkboxDoc} />

@@ -1,4 +1,4 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import {
   Popover,
   PopoverRoot,
@@ -9,8 +9,9 @@ import {
   VStack,
   Text,
 } from '@cumulo/core';
+import popoverDoc from '../../../docgen/components/Popover.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Popover
 
@@ -48,12 +49,6 @@ import { Popover } from '@cumulo/core';
   </PopoverRoot>
 </ComponentPreview>
 
-## Features
+## Component API
 
-- **Native Popover API**: Utilizes `popover="auto"` and `popovertarget` for native browser-driven invocation and dismiss.
-- **CSS Anchor Positioning**: Seamlessly anchors content to the trigger via scoped `anchor-name` and `position-anchor`.
-- **Automatic Multi-Axis Fallbacks**: Leverages `position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline` to automatically prevent off-screen clipping.
-- **Top Layer Elevation**: Renders above all z-indexes without clipping or overflow constraints.
-- **Light Dismiss**: Native outside click and escape key handling.
-- **Placements**: `bottom-start`, `bottom`, `bottom-end`, `top`, `top-start`, `top-end`, `left`, `right`.
-- **Sizing Variants**: `sm`, `md`, `lg`.
+<PropsTable data={popoverDoc} />

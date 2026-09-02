@@ -14,6 +14,7 @@ import React, {
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { focusRing } from '../intents.js';
 
 export type TabsOrientation = 'horizontal' | 'vertical';
 export type TabsVariant = 'line' | 'pill' | 'bordered';
@@ -205,6 +206,7 @@ export function TabsList({
 
 export const tabsTriggerRecipe = recipe(
   {
+    extend: [focusRing],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -218,15 +220,11 @@ export const tabsTriggerRecipe = recipe(
       border: 'none',
       cursor: 'pointer',
       userSelect: 'none',
-      outline: 'none',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       textDecoration: 'none',
       position: 'relative',
       ':hover': {
         color: vars.surface.fg,
-      },
-      ':focus-visible': {
-        boxShadow: `0 0 0 2px var(--surface-bg), 0 0 0 4px ${vars.primary.focus}`,
       },
       ':disabled': {
         opacity: 0.5,

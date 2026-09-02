@@ -3,43 +3,6 @@
   "path": "packages/core/src/components/Checkbox.tsx",
   "fileName": "Checkbox.tsx",
   "props": {
-    "size": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
-        "name": "CheckboxProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
-          "name": "CheckboxProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "checked": {
       "defaultValue": null,
       "description": "",
@@ -83,11 +46,31 @@
       "shortPropTypeName": null
     },
     "indeterminate": {
+      "defaultValue": null,
+      "description": "",
+      "name": "indeterminate",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultIndeterminate": {
       "defaultValue": {
         "value": "false"
       },
       "description": "",
-      "name": "indeterminate",
+      "name": "defaultIndeterminate",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
         "name": "CheckboxProps"
@@ -155,6 +138,26 @@
       "required": false,
       "type": {
         "name": "((checked: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "onIndeterminateChange": {
+      "defaultValue": null,
+      "description": "",
+      "name": "onIndeterminateChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((indeterminate: boolean) => void) | undefined"
       },
       "shortPropTypeName": "function"
     },
