@@ -1,25 +1,25 @@
 {
-  "name": "Field",
-  "path": "packages/core/src/components/Field.tsx",
-  "fileName": "Field.tsx",
+  "name": "Label",
+  "path": "packages/core/src/components/Label.tsx",
+  "fileName": "Label.tsx",
   "props": {
-    "isInvalid": {
+    "htmlFor": {
       "defaultValue": null,
       "description": "",
-      "name": "isInvalid",
+      "name": "htmlFor",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Field.tsx",
-        "name": "FieldProps"
+        "fileName": "cumulo/packages/core/src/components/Label.tsx",
+        "name": "LabelProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Field.tsx",
-          "name": "FieldProps"
+          "fileName": "cumulo/packages/core/src/components/Label.tsx",
+          "name": "LabelProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "boolean | undefined"
+        "name": "string | undefined"
       },
       "shortPropTypeName": null
     },
@@ -55,7 +55,7 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLDivElement> | undefined"
+        "name": "Ref<HTMLLabelElement> | undefined"
       },
       "shortPropTypeName": "Union"
     }

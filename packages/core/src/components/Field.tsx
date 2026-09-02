@@ -4,10 +4,10 @@ import React, { createContext, useContext, useId, useEffect } from 'react';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { Input, type InputProps } from '../components/Input.js';
-import { Textarea, type TextareaProps } from '../components/Textarea.js';
-import { Checkbox, type CheckboxProps } from '../components/Checkbox.js';
-import { Switch, type SwitchProps } from '../components/Switch.js';
+import { Input, type InputProps } from './Input.js';
+import { Textarea, type TextareaProps } from './Textarea.js';
+import { Checkbox, type CheckboxProps } from './Checkbox.js';
+import { Switch, type SwitchProps } from './Switch.js';
 import { Label, type LabelProps } from './Label.js';
 
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';

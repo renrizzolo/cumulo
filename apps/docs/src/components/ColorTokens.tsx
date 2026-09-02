@@ -10,9 +10,9 @@ import {
   vars,
   type ThemeToken,
   type VarPath,
-  type Intent,
   Button,
 } from '@cumulo/core';
+import { Intent } from '@cumulo/core/intents';
 
 type ColorIntent = Intent | 'grey';
 type ColorStep = (typeof STEPS)[number];

@@ -135,8 +135,8 @@ export {
   type FieldProps,
   type FieldErrorProps,
   type FieldContextValue,
-} from './field/Field.js';
-export { Label, type LabelProps } from './field/Label.js';
+} from './components/Field.js';
+export { Label, type LabelProps } from './components/Label.js';
 
 export { ThemeScript, getThemeScript, type ThemeScriptOptions } from './theme/ThemeScript.js';
 export { useTheme, type UseThemeReturn } from './theme/useTheme.js';
