@@ -31,6 +31,9 @@
             "value": "\"inherit\""
           },
           {
+            "value": "\"xs\""
+          },
+          {
             "value": "\"sm\""
           },
           {
@@ -41,9 +44,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"xs\""
           }
         ]
       },
@@ -108,16 +108,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"error\" | undefined",
+        "raw": "\"error\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           }
         ]
       },
