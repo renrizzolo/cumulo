@@ -136,3 +136,12 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
   - Use `useTheme()` from `@cumulo/core` for `theme`, `setTheme`, `mode`, `resolvedMode`, `systemMode`, `setMode`, and `toggleMode`.
   - Use `<ThemeScript />` in HTML `<head>` for zero-FOUC restoration of both `data-theme` and `colorScheme`.
   - Use `<ThemeToggle />` for toggling color appearance modes (`light`, `dark`, `system`).
+
+---
+
+## 8. No Barrel Files & Explicit Module Architecture
+
+- **No Intermediary Barrel Files**: Do not create or use intermediate barrel files (such as `src/hooks/index.ts`, `src/tokens/index.ts`, `src/theme/index.ts`, `src/components/index.ts`, or `src/field/index.ts`).
+- **No Wildcard Exports (`export *`)**: Never use wildcard `export * from '...'` re-exports. Always use explicit named imports and exports (`export { Button, type ButtonProps } from '...'`) to ensure deterministic dead-code elimination, fast compiler evaluation, and compatibility with `oxc/no-barrel-file`.
+- **Direct Module Imports**: Internal modules must import directly from specific files (e.g. `../hooks/useFocus.js`, `../theme/theme.js`, `../components/Input.js`).
+- **Granular Package Subpath Exports**: Public packages expose subpaths in `package.json` (`"exports"` field with `./components/*`, `./hooks/*`, `./tokens/*`, `./theme/*`, `./contract`, etc.) allowing consumers to import specific primitives directly without loading the entire library.

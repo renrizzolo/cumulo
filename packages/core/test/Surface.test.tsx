@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { surfaceRecipe } from '../src/index.js';
+import { surfaceRecipe } from '../src/components/Surface';
 
 describe('Surface component', () => {
   describe('Recipe compilation', () => {

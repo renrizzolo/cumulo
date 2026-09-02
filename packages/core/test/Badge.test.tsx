@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { badgeRecipe } from '../src/index.js';
+import { badgeRecipe } from '../src/components/Badge';
 
 describe('Badge component', () => {
   describe('Recipe compilation', () => {

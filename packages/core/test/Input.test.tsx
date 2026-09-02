@@ -3,7 +3,8 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { Input, inputRecipe } from '../src/index.js';
+import { Input } from '../src';
+import { inputRecipe } from '../src/components/Input';
 
 afterEach(() => {
   cleanup();

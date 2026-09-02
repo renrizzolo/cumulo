@@ -1,7 +1,9 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { ThemeToggle, buttonRecipe, themeStore } from '../src/index.js';
+import { ThemeToggle } from '../src';
+import { buttonRecipe } from '../src/components/Button';
+import { themeStore } from '../src/theme/theme';
 
 describe('ThemeToggle component', () => {
   let isDarkMedia = false;

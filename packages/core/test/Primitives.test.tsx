@@ -1,13 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import {
-  stackRecipe,
-  containerRecipe,
-  headingRecipe,
-  textRecipe,
-  codeRecipe,
-  dividerRecipe,
-  tableRecipe,
-} from '../src/index.js';
+import { codeRecipe } from '../src/components/Code';
+import { containerRecipe } from '../src/components/Container';
+import { dividerRecipe } from '../src/components/Divider';
+import { headingRecipe } from '../src/components/Heading';
+import { stackRecipe } from '../src/components/Stack';
+import { tableRecipe } from '../src/components/Table';
+import { textRecipe } from '../src/components/Text';
 
 describe('Layout and Typography Recipes', () => {
   describe('Stack recipe', () => {

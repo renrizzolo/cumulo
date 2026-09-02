@@ -2,6 +2,7 @@
   "plugins": ["import", "typescript", "unicorn", "oxc", "react", "jsx-a11y"],
   "rules": {
     "no-unused-vars": "warn",
-    "typescript/no-explicit-any": "off"
+    "typescript/no-explicit-any": "error",
+    "oxc/no-barrel-file": ["error", { "threshold": 1 }]
   }
 }

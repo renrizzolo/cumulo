@@ -370,3 +370,17 @@ export const vars = {
 } as const;
 
 export const themeContract = vars;
+
+export type ThemeVars = typeof vars;
+
+export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends string
+  ? Prefix
+  : {
+      [K in keyof T & string]: T[K] extends string
+        ? K extends `${number}${string}`
+          ? `${Prefix}["${K}"]`
+          : `${Prefix}.${K}`
+        : K extends `${number}${string}`
+          ? VarPath<T[K], `${Prefix}["${K}"]`>
+          : VarPath<T[K], `${Prefix}.${K}`>;
+    }[keyof T & string];

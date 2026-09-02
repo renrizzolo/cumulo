@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { cardRecipe } from '../src/index.js';
+import { cardRecipe } from '../src/components/Card';
 
 describe('Card component', () => {
   describe('Recipe compilation', () => {

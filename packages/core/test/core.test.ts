@@ -1,13 +1,9 @@
 import { describe, it, expect } from 'vitest';
-import {
-  vars,
-  themeTokens,
-  themeVars,
-  buttonRecipe,
-  surfaceRecipe,
-  inputRecipe,
-  badgeRecipe,
-} from '../src/index.js';
+import { vars, themeTokens, themeVars } from '../src/index.js';
+import { badgeRecipe } from '../src/components/Badge.js';
+import { buttonRecipe } from '../src/components/Button.js';
+import { inputRecipe } from '../src/components/Input.js';
+import { surfaceRecipe } from '../src/components/Surface.js';
 
 describe('@cumulo/core', () => {
   it('exports theme contract dynamically matching CSS variables in theme.css', () => {

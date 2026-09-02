@@ -1,8 +1,10 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import React from 'react';
 import { renderHook, act } from '@testing-library/react';
+import { getThemeScript, useTheme } from '../src';
 import {
-  createThemeStore,
+  isColorMode,
+  isTheme,
   getSystemColorMode,
   resolveColorMode,
   getStoredTheme,
@@ -11,11 +13,8 @@ import {
   setStoredColorMode,
   applyTheme,
   applyColorScheme,
-  getThemeScript,
-  useTheme,
-  isTheme,
-  isColorMode,
-} from '../src/index.js';
+  createThemeStore,
+} from '../src/theme/theme';
 
 describe('Theme and ColorMode utilities and store', () => {
   let isDarkMedia = false;
