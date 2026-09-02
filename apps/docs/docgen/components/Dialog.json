@@ -1,0 +1,89 @@
+{
+  "name": "Dialog",
+  "path": "packages/core/src/components/Dialog.tsx",
+  "fileName": "Dialog.tsx",
+  "props": {
+    "open": {
+      "defaultValue": null,
+      "description": "",
+      "name": "open",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+        "name": "DialogProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+          "name": "DialogProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultOpen": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "defaultOpen",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+        "name": "DialogProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+          "name": "DialogProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "onOpenChange": {
+      "defaultValue": null,
+      "description": "",
+      "name": "onOpenChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+        "name": "DialogProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+          "name": "DialogProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((open: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "",
+      "name": "id",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+        "name": "DialogProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+          "name": "DialogProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

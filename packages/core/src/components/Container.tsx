@@ -13,10 +13,10 @@ export const containerRecipe = recipe(
     },
     variants: {
       size: {
-        sm: { maxWidth: '640px' },
-        md: { maxWidth: '768px' },
-        lg: { maxWidth: '1024px' },
-        xl: { maxWidth: '1280px' },
+        sm: { maxWidth: vars.container.sm },
+        md: { maxWidth: vars.container.md },
+        lg: { maxWidth: vars.container.lg },
+        xl: { maxWidth: vars.container.xl },
         full: { maxWidth: '100%' },
       },
       padding: {

@@ -15,7 +15,7 @@ describe('Button component', () => {
       const defaultClasses = buttonRecipe();
       expect(defaultClasses).toContain(buttonRecipe.classNames.base);
       expect(defaultClasses).toContain(buttonRecipe.classNames.variants.variant.primary);
-      expect(defaultClasses).toContain(buttonRecipe.classNames.variants.size.base);
+      expect(defaultClasses).toContain(buttonRecipe.classNames.variants.size.md);
     });
 
     it('supports all base variants (primary, secondary, outline, ghost)', () => {
@@ -47,9 +47,9 @@ describe('Button component', () => {
       expect(fullRound).toContain(buttonRecipe.classNames.variants.width.full);
       expect(fullRound).toContain(buttonRecipe.classNames.variants.shape.round);
 
-      const squareSmall = buttonRecipe({ width: 'square', size: 'small' });
-      expect(squareSmall).toContain(buttonRecipe.classNames.variants.width.square);
-      expect(squareSmall).toContain(buttonRecipe.classNames.variants.size.small);
+      const squareSm = buttonRecipe({ width: 'square', size: 'sm' });
+      expect(squareSm).toContain(buttonRecipe.classNames.variants.width.square);
+      expect(squareSm).toContain(buttonRecipe.classNames.variants.size.sm);
       expect(buttonRecipe.classNames.compoundVariants.length).toBeGreaterThan(0);
     });
   });

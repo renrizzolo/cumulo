@@ -3,7 +3,7 @@ import { vars } from './contract.js';
 
 export type BaseVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 export type Intent = 'primary' | 'success' | 'warning' | 'error' | 'info';
-export type ComponentSize = 'xSmall' | 'small' | 'base' | 'large';
+export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 const intentSecondaryVarMap = {
   success: vars.success.secondary,
@@ -225,34 +225,40 @@ export const sizes = recipe(
   {
     variants: {
       size: {
-        xSmall: {
-          height: vars.size.xSmall,
-          paddingLeft: vars.spacing['xs'],
-          paddingRight: vars.spacing['xs'],
+        xs: {
+          height: vars.size.xs,
+          paddingLeft: vars.spacing.xs,
+          paddingRight: vars.spacing.xs,
           fontSize: vars.font.size.xs,
         },
-        small: {
-          height: vars.size.small,
+        sm: {
+          height: vars.size.sm,
           paddingLeft: vars.spacing.sm,
           paddingRight: vars.spacing.sm,
           fontSize: vars.font.size.sm,
         },
-        base: {
-          height: vars.size.base,
+        md: {
+          height: vars.size.md,
           paddingLeft: vars.spacing.md,
           paddingRight: vars.spacing.md,
           fontSize: vars.font.size.sm,
         },
-        large: {
-          height: vars.size.large,
+        lg: {
+          height: vars.size.lg,
           paddingLeft: vars.spacing.lg,
           paddingRight: vars.spacing.lg,
           fontSize: vars.font.size.base,
         },
+        xl: {
+          height: vars.size.xl,
+          paddingLeft: vars.spacing.xl,
+          paddingRight: vars.spacing.xl,
+          fontSize: vars.font.size.lg,
+        },
       },
     },
     defaultVariants: {
-      size: 'base',
+      size: 'md',
     },
   },
   'size',

@@ -107,10 +107,17 @@
     --theme-radius-full: 9999px;
 
     /* Common component sizes */
-    --theme-size-xSmall: 1.5rem;
-    --theme-size-small: 2rem;
-    --theme-size-base: 2.5rem;
-    --theme-size-large: 3rem;
+    --theme-size-xs: 1.5rem;
+    --theme-size-sm: 2rem;
+    --theme-size-md: 2.5rem;
+    --theme-size-lg: 3rem;
+    --theme-size-xl: 3.5rem;
+
+    /* Container max-widths */
+    --theme-container-sm: 640px;
+    --theme-container-md: 768px;
+    --theme-container-lg: 1024px;
+    --theme-container-xl: 1280px;
 
     /* Common spacing */
     --theme-spacing-none: 0px;

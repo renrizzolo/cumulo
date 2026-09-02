@@ -1,0 +1,47 @@
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import {
+  Textarea,
+  FieldRoot,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  VStack,
+} from '@cumulo/core';
+export default Layout;
+export { CodeBlock, ComponentPreview };
+
+# Textarea
+
+A multi-line text input field supporting resizing controls, intent states, and Field compound integration.
+
+```tsx
+import { Textarea } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Textarea within Field"
+  description="Multi-line input integrated with Field label, description, and error messaging."
+>
+  <VStack gap="md" style={{ width: '100%', maxWidth: '480px' }}>
+    <FieldRoot>
+      <FieldLabel>Project Description</FieldLabel>
+      <Textarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
+      <FieldDescription>Brief overview for stakeholders.</FieldDescription>
+    </FieldRoot>
+
+    <FieldRoot isInvalid>
+      <FieldLabel>Feedback</FieldLabel>
+      <Textarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
+      <FieldError>Feedback must be at least 20 characters long.</FieldError>
+    </FieldRoot>
+
+  </VStack>
+</ComponentPreview>
+
+## Features
+
+- **Resize Variants**: `vertical`, `horizontal`, `both`, `none`.
+- **T-Shirt Sizing**: `sm`, `md`, `lg`, `xl`, `inherit`.
+- **Field Integration**: Auto-wiring for labels, helper descriptions, and error states.

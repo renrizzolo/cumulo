@@ -1,6 +1,9 @@
 import {
   FieldRoot,
   FieldInput,
+  FieldTextarea,
+  FieldCheckbox,
+  FieldSwitch,
   FieldLabel,
   FieldError,
   FieldDescription,
@@ -16,6 +19,9 @@ import { Label, type LabelProps } from './Label.js';
 export const Field = Object.assign(FieldRoot, {
   Root: FieldRoot,
   Input: FieldInput,
+  Textarea: FieldTextarea,
+  Checkbox: FieldCheckbox,
+  Switch: FieldSwitch,
   Label: FieldLabel,
   Error: FieldError,
   Description: FieldDescription,
@@ -25,6 +31,9 @@ export const Field = Object.assign(FieldRoot, {
 export {
   FieldRoot,
   FieldInput,
+  FieldTextarea,
+  FieldCheckbox,
+  FieldSwitch,
   FieldLabel,
   FieldError,
   FieldDescription,

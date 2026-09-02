@@ -1,0 +1,69 @@
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { TabsRoot, TabsList, TabsTrigger, TabsContent, Card, VStack, Text } from '@cumulo/core';
+export default Layout;
+export { CodeBlock, ComponentPreview };
+
+# Tabs
+
+An accessible compound tabbed interface supporting line, pill, and bordered styles with full keyboard arrow navigation.
+
+```tsx
+import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Tabs Variants"
+  description="Navigate between tab panels using mouse clicks or keyboard arrow keys (Left/Right, Home, End)."
+>
+  <VStack gap="xl" style={{ width: '100%', maxWidth: '540px' }}>
+    <TabsRoot defaultValue="account" variant="line">
+      <TabsList>
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+        <TabsTrigger value="notifications">Notifications</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+        <Card style={{ padding: '16px' }}>
+          <Text size="sm">Manage your profile, email address, and connected accounts.</Text>
+        </Card>
+      </TabsContent>
+      <TabsContent value="password">
+        <Card style={{ padding: '16px' }}>
+          <Text size="sm">Update your security credentials and two-factor authentication.</Text>
+        </Card>
+      </TabsContent>
+      <TabsContent value="notifications">
+        <Card style={{ padding: '16px' }}>
+          <Text size="sm">Configure email, desktop, and SMS alert preferences.</Text>
+        </Card>
+      </TabsContent>
+    </TabsRoot>
+
+    <TabsRoot defaultValue="overview" variant="pill">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        <TabsTrigger value="reports">Reports</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        <Text size="sm" color="muted">Overview metrics and summary data.</Text>
+      </TabsContent>
+      <TabsContent value="analytics">
+        <Text size="sm" color="muted">Real-time visitor and traffic insights.</Text>
+      </TabsContent>
+      <TabsContent value="reports">
+        <Text size="sm" color="muted">Exportable weekly and monthly audit logs.</Text>
+      </TabsContent>
+    </TabsRoot>
+
+  </VStack>
+</ComponentPreview>
+
+## Features
+
+- **Keyboard Arrow Navigation**: Left/Right arrows for horizontal lists, Up/Down for vertical lists, Home/End for rapid jumping.
+- **Visual Styles**: `line`, `pill`, `bordered`.
+- **Orientation**: `horizontal` or `vertical`.
+- **WAI-ARIA Pattern**: Full conformance with `tablist`, `tab`, and `tabpanel` specifications.

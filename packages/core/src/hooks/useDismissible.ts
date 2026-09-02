@@ -25,8 +25,11 @@ function removeLayer(id: string) {
   dismissibleStack.delete(id);
 }
 
-export function useDismissible(props: { onDismiss: () => void; dismissOnClickOutside: boolean }) {
-  const ref = useRef<HTMLDivElement | null>(null);
+export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
+  onDismiss: () => void;
+  dismissOnClickOutside: boolean;
+}) {
+  const ref = useRef<T | null>(null);
   const id = useId();
 
   const { onDismiss } = props;

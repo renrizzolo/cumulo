@@ -150,6 +150,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     title: 'Forms & Inputs',
     items: [
       { label: 'Button', path: '/components/button', htmlPath: '/components/button.html' },
+      { label: 'Checkbox', path: '/components/checkbox', htmlPath: '/components/checkbox.html' },
       {
         label: 'Field',
         path: '/components/field',
@@ -157,6 +158,8 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         badge: 'Compound',
       },
       { label: 'Input', path: '/components/input', htmlPath: '/components/input.html' },
+      { label: 'Switch', path: '/components/switch', htmlPath: '/components/switch.html' },
+      { label: 'Textarea', path: '/components/textarea', htmlPath: '/components/textarea.html' },
     ],
   },
   {
@@ -171,12 +174,30 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     ],
   },
   {
-    title: 'Disclosure & Utilities',
+    title: 'Overlays & Disclosure',
     items: [
       {
         label: 'Collapsible',
         path: '/components/collapsible',
         htmlPath: '/components/collapsible.html',
+        badge: 'Compound',
+      },
+      {
+        label: 'Dialog',
+        path: '/components/dialog',
+        htmlPath: '/components/dialog.html',
+        badge: 'Native',
+      },
+      {
+        label: 'Popover',
+        path: '/components/popover',
+        htmlPath: '/components/popover.html',
+        badge: 'Native',
+      },
+      {
+        label: 'Tabs',
+        path: '/components/tabs',
+        htmlPath: '/components/tabs.html',
         badge: 'Compound',
       },
       {

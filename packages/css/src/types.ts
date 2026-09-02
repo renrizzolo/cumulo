@@ -2,6 +2,12 @@ import type * as React from 'react';
 
 export type CSSProperties = React.CSSProperties & {
   [key: `--${string}`]: string | number | undefined;
+  anchorName?: string;
+  positionAnchor?: string;
+  positionArea?: string;
+  positionTryFallbacks?: string;
+  positionTry?: string;
+  positionTryOrder?: string;
 };
 
 export type PseudoClass =
@@ -59,11 +65,11 @@ export type NullableTokens = {
 };
 
 export type MapTokensToVars<T> = {
-  [K in keyof T]: T[K] extends Record<string, any> ? MapTokensToVars<T[K]> : string;
+  [K in keyof T]: T[K] extends Record<string, unknown> ? MapTokensToVars<T[K]> : string;
 };
 
 export type MapTokensToValues<T> = {
-  [K in keyof T]: T[K] extends Record<string, any> ? MapTokensToValues<T[K]> : string | number;
+  [K in keyof T]: T[K] extends Record<string, unknown> ? MapTokensToValues<T[K]> : string | number;
 };
 
 export interface ThemeContract<T extends NullableTokens = NullableTokens> {

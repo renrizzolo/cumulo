@@ -74,10 +74,10 @@
             "value": "\"success\""
           },
           {
-            "value": "\"error\""
+            "value": "\"warning\""
           },
           {
-            "value": "\"warning\""
+            "value": "\"error\""
           },
           {
             "value": "\"info\""
@@ -88,7 +88,7 @@
     },
     "size": {
       "defaultValue": {
-        "value": "base"
+        "value": "md"
       },
       "description": "",
       "name": "size",
@@ -111,13 +111,19 @@
             "value": "undefined"
           },
           {
-            "value": "\"small\""
+            "value": "\"xs\""
           },
           {
-            "value": "\"large\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"base\""
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
           }
         ]
       },

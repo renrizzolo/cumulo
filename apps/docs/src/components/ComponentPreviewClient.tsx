@@ -97,7 +97,7 @@ export function ComponentPreviewClient({
                 {([0, 1, 2] as const).map((lvl) => (
                   <Button
                     key={lvl}
-                    size="xSmall"
+                    size="xs"
                     variant={level === lvl ? 'primary' : 'ghost'}
                     onClick={() => setLevel(lvl)}
                   >
@@ -110,11 +110,11 @@ export function ComponentPreviewClient({
             {/* Code Actions */}
             <HStack gap="2xs" align="center">
               {showCode && (
-                <Button size="xSmall" variant="ghost" onClick={handleCopy}>
+                <Button size="xs" variant="ghost" onClick={handleCopy}>
                   {copied ? 'Copied!' : 'Copy'}
                 </Button>
               )}
-              <Collapsible.Trigger size="xSmall" variant={showCode ? 'secondary' : 'ghost'}>
+              <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
                 {showCode ? 'Hide Code' : 'View Code'}
               </Collapsible.Trigger>
             </HStack>

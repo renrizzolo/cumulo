@@ -70,3 +70,58 @@ export {
   type CollapsibleContentProps,
   type CollapsibleContextValue,
 } from './Collapsible.js';
+export {
+  Dialog,
+  DialogRoot,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+  dialogRecipe,
+  type DialogProps,
+  type DialogTriggerProps,
+  type DialogContentProps,
+  type DialogVariants,
+  type DialogContextValue,
+} from './Dialog.js';
+export {
+  Popover,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  popoverRecipe,
+  type PopoverProps,
+  type PopoverTriggerProps,
+  type PopoverContentProps,
+  type PopoverVariants,
+  type PopoverContextValue,
+} from './Popover.js';
+export { Checkbox, checkboxRecipe, type CheckboxProps, type CheckboxVariants } from './Checkbox.js';
+export {
+  Switch,
+  switchRecipe,
+  switchThumbRecipe,
+  type SwitchProps,
+  type SwitchVariants,
+} from './Switch.js';
+export { Textarea, textareaRecipe, type TextareaProps, type TextareaVariants } from './Textarea.js';
+export {
+  Tabs,
+  TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  tabsRootRecipe,
+  tabsListRecipe,
+  tabsTriggerRecipe,
+  type TabsProps,
+  type TabsTriggerProps,
+  type TabsContentProps,
+  type TabsContextValue,
+  type TabsOrientation,
+  type TabsVariant,
+  type TabsTriggerVariants,
+} from './Tabs.js';

@@ -93,16 +93,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"xs\""
-          },
-          {
-            "value": "\"none\""
           },
           {
             "value": "\"sm\""
@@ -115,6 +112,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"none\""
           },
           {
             "value": "\"2xl\""
@@ -218,16 +218,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
+        "raw": "\"auto\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"full\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"auto\""
-          },
-          {
-            "value": "\"none\""
           },
           {
             "value": "\"md\""
@@ -239,10 +236,13 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"none\""
           },
           {
             "value": "\"full\""
+          },
+          {
+            "value": "\"2xl\""
           }
         ]
       },

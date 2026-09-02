@@ -55,25 +55,41 @@ export const buttonRecipe = recipe(
     },
     compoundVariants: [
       {
-        variants: { width: 'square', size: 'small' },
+        variants: { width: 'square', size: 'xs' },
         style: {
-          width: vars.size.small,
+          width: vars.size.xs,
           paddingLeft: 0,
           paddingRight: 0,
         },
       },
       {
-        variants: { width: 'square', size: 'base' },
+        variants: { width: 'square', size: 'sm' },
         style: {
-          width: vars.size.base,
+          width: vars.size.sm,
           paddingLeft: 0,
           paddingRight: 0,
         },
       },
       {
-        variants: { width: 'square', size: 'large' },
+        variants: { width: 'square', size: 'md' },
         style: {
-          width: vars.size.large,
+          width: vars.size.md,
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+      },
+      {
+        variants: { width: 'square', size: 'lg' },
+        style: {
+          width: vars.size.lg,
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+      },
+      {
+        variants: { width: 'square', size: 'xl' },
+        style: {
+          width: vars.size.xl,
           paddingLeft: 0,
           paddingRight: 0,
         },
@@ -82,7 +98,7 @@ export const buttonRecipe = recipe(
     defaultVariants: {
       variant: 'primary',
       intent: 'primary',
-      size: 'base',
+      size: 'md',
       width: 'auto',
       shape: 'default',
     },
@@ -107,7 +123,7 @@ export interface ButtonProps extends ElementProps<HTMLButtonElement> {
 export function Button({
   variant = 'primary',
   intent = 'primary',
-  size = 'base',
+  size = 'md',
   width = 'auto',
   shape = 'default',
   disabled,

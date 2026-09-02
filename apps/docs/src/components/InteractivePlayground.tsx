@@ -153,14 +153,14 @@ export function InteractivePlayground(): React.JSX.Element {
                     </Badge>
                   </HStack>
                   <HStack gap="sm" align="center" wrap="wrap">
-                    <Button size="small" variant="primary">
+                    <Button size="sm" variant="primary">
                       Small Primary
                     </Button>
-                    <Button size="small" variant="secondary">
+                    <Button size="sm" variant="secondary">
                       Small Secondary
                     </Button>
                     <div className={inputSmallWrapperStyle.className}>
-                      <Input size="small" placeholder="Input on Surface 2…" />
+                      <Input size="sm" placeholder="Input on Surface 2…" />
                     </div>
                   </HStack>
                 </VStack>
@@ -185,7 +185,7 @@ export function InteractivePlayground(): React.JSX.Element {
 
           <HStack gap="sm" align="center" wrap="wrap">
             <Button
-              size="small"
+              size="sm"
               variant={seedColor === '#f59e0b' ? 'primary' : 'outline'}
               onClick={() => handleSeedChange('#f59e0b')}
             >
@@ -196,7 +196,7 @@ export function InteractivePlayground(): React.JSX.Element {
               Amber
             </Button>
             <Button
-              size="small"
+              size="sm"
               variant={seedColor === '#2563eb' ? 'primary' : 'outline'}
               onClick={() => handleSeedChange('#2563eb')}
             >
@@ -207,7 +207,7 @@ export function InteractivePlayground(): React.JSX.Element {
               Blue
             </Button>
             <Button
-              size="small"
+              size="sm"
               variant={seedColor === '#8b5cf6' ? 'primary' : 'outline'}
               onClick={() => handleSeedChange('#8b5cf6')}
             >
@@ -218,7 +218,7 @@ export function InteractivePlayground(): React.JSX.Element {
               Purple
             </Button>
             <Button
-              size="small"
+              size="sm"
               variant={seedColor === '#10b981' ? 'primary' : 'outline'}
               onClick={() => handleSeedChange('#10b981')}
             >
@@ -229,7 +229,7 @@ export function InteractivePlayground(): React.JSX.Element {
               Emerald
             </Button>
             <Button
-              size="small"
+              size="sm"
               variant={seedColor === '#f43f5e' ? 'primary' : 'outline'}
               onClick={() => handleSeedChange('#f43f5e')}
             >

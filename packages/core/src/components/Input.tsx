@@ -33,23 +33,29 @@ export const inputRecipe = recipe(
     },
     variants: {
       size: {
-        small: {
-          height: vars.size.small,
+        sm: {
+          height: vars.size.sm,
           paddingLeft: vars.spacing.sm,
           paddingRight: vars.spacing.sm,
           fontSize: vars.font.size.sm,
         },
-        base: {
-          height: vars.size.base,
+        md: {
+          height: vars.size.md,
           paddingLeft: vars.spacing.md,
           paddingRight: vars.spacing.md,
           fontSize: vars.font.size.sm,
         },
-        large: {
-          height: vars.size.large,
+        lg: {
+          height: vars.size.lg,
           paddingLeft: vars.spacing.lg,
           paddingRight: vars.spacing.lg,
           fontSize: vars.font.size.base,
+        },
+        xl: {
+          height: vars.size.xl,
+          paddingLeft: vars.spacing.xl,
+          paddingRight: vars.spacing.xl,
+          fontSize: vars.font.size.lg,
         },
         inherit: {
           height: 'auto',
@@ -59,7 +65,7 @@ export const inputRecipe = recipe(
     defaultVariants: {
       variant: 'field',
       intent: 'default',
-      size: 'base',
+      size: 'md',
     },
   },
   'input',
@@ -74,7 +80,7 @@ export type InputProps = ElementProps<HTMLInputElement> & {
 
 export function Input({
   intent = 'default',
-  size = 'base',
+  size = 'md',
   className,
   type = 'text',
   value,

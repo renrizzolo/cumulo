@@ -5,6 +5,9 @@ import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Input, type InputProps } from '../components/Input.js';
+import { Textarea, type TextareaProps } from '../components/Textarea.js';
+import { Checkbox, type CheckboxProps } from '../components/Checkbox.js';
+import { Switch, type SwitchProps } from '../components/Switch.js';
 import { Label, type LabelProps } from './Label.js';
 
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
@@ -102,23 +105,27 @@ export function FieldRoot({
   );
 }
 
-export function FieldInput({
-  className,
-  type,
-  value,
-  onChange,
-  placeholder,
+export interface UseFieldItemOptions {
+  part?: string;
+  id?: string;
+  'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  intent?: 'default' | 'error';
+}
+
+export function useFieldItem({
+  part = 'input',
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
-  ...props
-}: InputProps) {
-  const { hasError: fieldHasError, getPartId, id, registerPart } = useFieldContext();
-  const inputId = providedId || id;
+  intent,
+}: UseFieldItemOptions = {}) {
+  const { hasError: fieldHasError, getPartId, id: fieldId, registerPart } = useFieldContext();
+  const id = providedId || fieldId;
 
   useEffect(() => {
-    return registerPart('input', inputId);
-  }, [registerPart, inputId]);
+    return registerPart(part, id);
+  }, [registerPart, part, id]);
 
   const labelId = getPartId('label');
   const descriptionId = getPartId('description');
@@ -130,10 +137,40 @@ export function FieldInput({
     ariaDescribedby || (describedByParts.length > 0 ? describedByParts : undefined);
 
   const hasError = fieldHasError || Boolean(errorId);
+  const resolvedIntent = hasError ? 'error' : (intent ?? 'default');
+
+  return {
+    id,
+    labelledBy,
+    describedBy,
+    hasError,
+    resolvedIntent,
+  };
+}
+
+export function FieldInput({
+  className,
+  type,
+  value,
+  onChange,
+  placeholder,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: InputProps) {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent,
+  });
 
   return (
     <Input
-      id={inputId}
+      id={id}
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
       type={type}
@@ -141,7 +178,7 @@ export function FieldInput({
       onChange={onChange}
       placeholder={placeholder}
       className={className}
-      intent={hasError ? 'error' : 'default'}
+      intent={resolvedIntent}
       aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
       {...props}
     />
@@ -216,9 +253,107 @@ export function FieldLabel({
   );
 }
 
+export function FieldTextarea({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: TextareaProps) {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent,
+  });
+
+  return (
+    <Textarea
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      intent={resolvedIntent}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
+      {...props}
+    />
+  );
+}
+
+export function FieldCheckbox({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: CheckboxProps) {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent,
+  });
+
+  return (
+    <Checkbox
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      intent={resolvedIntent}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
+      {...props}
+    />
+  );
+}
+
+export function FieldSwitch({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  ...props
+}: SwitchProps) {
+  const { id, labelledBy, describedBy } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+  });
+
+  return (
+    <Switch
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      {...props}
+    />
+  );
+}
+
 FieldRoot.displayName = 'Field.Root';
 FieldInput.displayName = 'Field.Input';
+FieldTextarea.displayName = 'Field.Textarea';
+FieldCheckbox.displayName = 'Field.Checkbox';
+FieldSwitch.displayName = 'Field.Switch';
 FieldLabel.displayName = 'Field.Label';
 FieldError.displayName = 'Field.Error';
 FieldDescription.displayName = 'Field.Description';
 FieldGroup.displayName = 'Field.Group';
+
+export const Field = Object.assign(FieldRoot, {
+  Root: FieldRoot,
+  Input: FieldInput,
+  Textarea: FieldTextarea,
+  Checkbox: FieldCheckbox,
+  Switch: FieldSwitch,
+  Label: FieldLabel,
+  Error: FieldError,
+  Description: FieldDescription,
+  Group: FieldGroup,
+});

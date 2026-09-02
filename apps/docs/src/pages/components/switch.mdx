@@ -1,0 +1,52 @@
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import {
+  Switch,
+  FieldRoot,
+  FieldLabel,
+  FieldDescription,
+  HStack,
+  VStack,
+  Text,
+} from '@cumulo/core';
+export default Layout;
+export { CodeBlock, ComponentPreview };
+
+# Switch
+
+A smooth, accessible toggle switch control with sliding thumb animations.
+
+```tsx
+import { Switch } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Switch Toggle Sizes & States"
+  description="Toggle switches across different sizes and field configurations."
+>
+  <VStack gap="md">
+    <HStack gap="md" align="center">
+      <Switch defaultChecked size="sm" aria-label="Small switch" />
+      <Switch defaultChecked size="md" aria-label="Medium switch" />
+      <Switch defaultChecked size="lg" aria-label="Large switch" />
+      <Switch disabled defaultChecked size="md" aria-label="Disabled switch" />
+    </HStack>
+
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <Switch id="airplane-mode" />
+        <FieldLabel htmlFor="airplane-mode">Airplane Mode</FieldLabel>
+      </HStack>
+      <FieldDescription>Disable all wireless connections.</FieldDescription>
+    </FieldRoot>
+
+  </VStack>
+</ComponentPreview>
+
+## Features
+
+- **Semantic Role**: Employs `role="switch"` with dynamic `aria-checked`.
+- **Smooth Animation**: Pure CSS transition on thumb transform and track background.
+- **T-Shirt Sizing**: `sm`, `md`, `lg`.
+- **Keyboard Support**: Space bar and Enter toggling out of the box.

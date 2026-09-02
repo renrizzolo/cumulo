@@ -8,7 +8,7 @@ describe('Badge component', () => {
       expect(defaultClasses).toContain(badgeRecipe.classNames.base);
       expect(defaultClasses).toContain(badgeRecipe.classNames.variants.variant.primary);
       expect(defaultClasses).toContain(badgeRecipe.classNames.variants.intent.primary);
-      expect(defaultClasses).toContain(badgeRecipe.classNames.variants.size.xSmall);
+      expect(defaultClasses).toContain(badgeRecipe.classNames.variants.size.xs);
     });
 
     it('supports variants and intents', () => {

@@ -20,7 +20,7 @@ export function ThemeSwitcher(): React.JSX.Element {
           return (
             <Button
               key={item.id}
-              size="small"
+              size="sm"
               variant={isActive ? 'secondary' : 'ghost'}
               shape="round"
               onClick={() => setTheme(item.id)}

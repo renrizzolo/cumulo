@@ -9,7 +9,7 @@ export type UseFocusOptions = {
    */
   restoreFocusOnUnmount?: boolean;
   /**
-   * Whether to automatically focus the first element on mount
+   * Whether to automatically focus the first focusable element on mount
    * @default true
    */
   focusOnMount?: boolean;
@@ -25,10 +25,14 @@ export type UseFocusOptions = {
 export interface UseFocusModalityOptions {
   type: 'modality';
   /**
-   * Trap focus within the container while mounted (e.g., for dialogs)
+   * Trap focus within the container while mounted (e.g., for dialogs or modal popovers)
    * @default true
    */
   trap?: boolean;
+  /**
+   * Callback when focus leaves the container via Tab or Shift+Tab navigation (e.g., for non-modal popovers)
+   */
+  onTabOut?: () => void;
   navigation?: never;
   itemSelector?: never;
   rovingTabIndex?: never;
@@ -46,6 +50,7 @@ export interface UseFocusNavigationOptions {
   /** Optionally manage roving tab index for the navigation items */
   rovingTabIndex?: boolean;
   trap?: never;
+  onTabOut?: never;
 }
 
 const FOCUSABLE_SELECTOR =
@@ -90,6 +95,7 @@ export function useFocus<T extends HTMLElement = HTMLElement>(options: UseFocusO
     navigation,
     rovingTabIndex,
     trap,
+    onTabOut,
     type,
   } = options;
 
@@ -157,12 +163,33 @@ export function useFocus<T extends HTMLElement = HTMLElement>(options: UseFocusO
 
       if (!first || !last) return;
 
-      if (e.shiftKey && document.activeElement === first) {
+      if (
+        e.shiftKey &&
+        (document.activeElement === first || document.activeElement === container)
+      ) {
         e.preventDefault();
         last.focus();
       } else if (!e.shiftKey && document.activeElement === last) {
         e.preventDefault();
         first.focus();
+      }
+    } else if (onTabOut && e.key === 'Tab') {
+      const items = getItems(container, FOCUSABLE_SELECTOR);
+      if (items.length === 0) {
+        onTabOut();
+        return;
+      }
+
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (
+        e.shiftKey &&
+        (document.activeElement === first || document.activeElement === container)
+      ) {
+        onTabOut();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        onTabOut();
       }
     }
 

@@ -74,26 +74,26 @@ export const button = recipe({
       outline: { backgroundColor: 'transparent', borderColor: vars.surface.border },
     },
     size: {
-      small: { height: vars.size.small, padding: '0 12px' },
-      base: { height: vars.size.base, padding: '0 16px' },
+      sm: { height: vars.size.sm, padding: '0 12px' },
+      md: { height: vars.size.md, padding: '0 16px' },
     },
   },
   compoundVariants: [
     {
-      variants: { variant: 'outline', size: 'small' },
+      variants: { variant: 'outline', size: 'sm' },
       style: { borderWidth: 1 },
     },
   ],
   defaultVariants: {
     variant: 'primary',
-    size: 'base',
+    size: 'md',
   },
 });
 
 export type ButtonVariants = RecipeVariants<typeof button>;
 
 // Usage:
-const className = button({ variant: 'secondary', size: 'small' });
+const className = button({ variant: 'secondary', size: 'sm' });
 ```
 
 ## 3. Theme Contracts (`createThemeContract` & `createTheme`)

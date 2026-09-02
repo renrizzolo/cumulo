@@ -16,13 +16,15 @@ afterAll(() => {
   vi.unstubAllGlobals();
 });
 
-const NavigationTest = (props: Partial<UseFocusOptions>) => {
+const NavigationTest = (
+  props: Omit<Extract<UseFocusOptions, { type: 'navigation' }>, 'navigation' | 'type' | 'trap'>,
+) => {
   const ref = useFocus<HTMLDivElement>({
     type: 'navigation',
     navigation: 'vertical',
     itemSelector: 'button',
     ...props,
-  } as any);
+  });
 
   return (
     <div data-testid="container" ref={ref} tabIndex={-1}>
@@ -33,12 +35,14 @@ const NavigationTest = (props: Partial<UseFocusOptions>) => {
   );
 };
 
-const ModalityTest = (props: Partial<UseFocusOptions>) => {
+const ModalityTest = (
+  props: Omit<Extract<UseFocusOptions, { type: 'modality' }>, 'type' | 'trap'>,
+) => {
   const ref = useFocus<HTMLDivElement>({
     type: 'modality',
     trap: true,
     ...props,
-  } as any);
+  });
 
   return (
     <div data-testid="container" ref={ref} tabIndex={-1}>
@@ -57,7 +61,7 @@ describe('useFocus', () => {
 
   test('trap focuses correctly when pressing Tab', async () => {
     const user = userEvent.setup();
-    render(<ModalityTest trap={true} />);
+    render(<ModalityTest />);
 
     const b1 = screen.getByTestId('b1');
     const b3 = screen.getByTestId('b3');
@@ -84,7 +88,7 @@ describe('useFocus', () => {
 
   test('navigation works correctly with arrow keys', async () => {
     const user = userEvent.setup();
-    render(<NavigationTest navigation="vertical" />);
+    render(<NavigationTest />);
 
     const b1 = screen.getByTestId('b1');
     const b2 = screen.getByTestId('b2');

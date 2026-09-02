@@ -24,10 +24,10 @@ describe('ThemeToggle component', () => {
   });
 
   it('renders button with button recipe variants', () => {
-    render(<ThemeToggle variant="outline" size="small" shape="round" />);
+    render(<ThemeToggle variant="outline" size="sm" shape="round" />);
     const button = screen.getByRole('button');
     expect(button.className).toContain(buttonRecipe.classNames.variants.variant.outline);
-    expect(button.className).toContain(buttonRecipe.classNames.variants.size.small);
+    expect(button.className).toContain(buttonRecipe.classNames.variants.size.sm);
     expect(button.className).toContain(buttonRecipe.classNames.variants.shape.round);
   });
 

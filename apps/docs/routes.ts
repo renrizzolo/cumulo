@@ -29,6 +29,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/card.rsc";
         html: "/components/card.html";
       };
+      "/components/checkbox": {
+        slug: "checkbox";
+        path: "/components/checkbox";
+        rsc: "/components/checkbox.rsc";
+        html: "/components/checkbox.html";
+      };
       "/components/code": {
         slug: "code";
         path: "/components/code";
@@ -46,6 +52,12 @@ declare module "@renr/parcel-rsc-router" {
         path: "/components/container";
         rsc: "/components/container.rsc";
         html: "/components/container.html";
+      };
+      "/components/dialog": {
+        slug: "dialog";
+        path: "/components/dialog";
+        rsc: "/components/dialog.rsc";
+        html: "/components/dialog.html";
       };
       "/components/divider": {
         slug: "divider";
@@ -77,6 +89,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/input.rsc";
         html: "/components/input.html";
       };
+      "/components/popover": {
+        slug: "popover";
+        path: "/components/popover";
+        rsc: "/components/popover.rsc";
+        html: "/components/popover.html";
+      };
       "/components/stack": {
         slug: "stack";
         path: "/components/stack";
@@ -89,17 +107,35 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/surface.rsc";
         html: "/components/surface.html";
       };
+      "/components/switch": {
+        slug: "switch";
+        path: "/components/switch";
+        rsc: "/components/switch.rsc";
+        html: "/components/switch.html";
+      };
       "/components/table": {
         slug: "table";
         path: "/components/table";
         rsc: "/components/table.rsc";
         html: "/components/table.html";
       };
+      "/components/tabs": {
+        slug: "tabs";
+        path: "/components/tabs";
+        rsc: "/components/tabs.rsc";
+        html: "/components/tabs.html";
+      };
       "/components/text": {
         slug: "text";
         path: "/components/text";
         rsc: "/components/text.rsc";
         html: "/components/text.html";
+      };
+      "/components/textarea": {
+        slug: "textarea";
+        path: "/components/textarea";
+        rsc: "/components/textarea.rsc";
+        html: "/components/textarea.html";
       };
       "/components/theme-toggle": {
         slug: "theme-toggle";
@@ -144,6 +180,12 @@ export const flatRoutes = [
     html: "/components/card.html",
   },
   {
+    path: "/components/checkbox",
+    slug: "checkbox",
+    rsc: "/components/checkbox.rsc",
+    html: "/components/checkbox.html",
+  },
+  {
     path: "/components/code",
     slug: "code",
     rsc: "/components/code.rsc",
@@ -160,6 +202,12 @@ export const flatRoutes = [
     slug: "container",
     rsc: "/components/container.rsc",
     html: "/components/container.html",
+  },
+  {
+    path: "/components/dialog",
+    slug: "dialog",
+    rsc: "/components/dialog.rsc",
+    html: "/components/dialog.html",
   },
   {
     path: "/components/divider",
@@ -192,6 +240,12 @@ export const flatRoutes = [
     html: "/components/input.html",
   },
   {
+    path: "/components/popover",
+    slug: "popover",
+    rsc: "/components/popover.rsc",
+    html: "/components/popover.html",
+  },
+  {
     path: "/components/stack",
     slug: "stack",
     rsc: "/components/stack.rsc",
@@ -204,16 +258,34 @@ export const flatRoutes = [
     html: "/components/surface.html",
   },
   {
+    path: "/components/switch",
+    slug: "switch",
+    rsc: "/components/switch.rsc",
+    html: "/components/switch.html",
+  },
+  {
     path: "/components/table",
     slug: "table",
     rsc: "/components/table.rsc",
     html: "/components/table.html",
   },
   {
+    path: "/components/tabs",
+    slug: "tabs",
+    rsc: "/components/tabs.rsc",
+    html: "/components/tabs.html",
+  },
+  {
     path: "/components/text",
     slug: "text",
     rsc: "/components/text.rsc",
     html: "/components/text.html",
+  },
+  {
+    path: "/components/textarea",
+    slug: "textarea",
+    rsc: "/components/textarea.rsc",
+    html: "/components/textarea.html",
   },
   {
     path: "/components/theme-toggle",
@@ -263,6 +335,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/checkbox",
+      slug: "checkbox",
+      html: "/components/checkbox.html",
+      rsc: "/components/checkbox.rsc",
+      children: [],
+    },
+    {
       path: "/components/code",
       slug: "code",
       html: "/components/code.html",
@@ -281,6 +360,13 @@ export const routeTree = {
       slug: "container",
       html: "/components/container.html",
       rsc: "/components/container.rsc",
+      children: [],
+    },
+    {
+      path: "/components/dialog",
+      slug: "dialog",
+      html: "/components/dialog.html",
+      rsc: "/components/dialog.rsc",
       children: [],
     },
     {
@@ -319,6 +405,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/popover",
+      slug: "popover",
+      html: "/components/popover.html",
+      rsc: "/components/popover.rsc",
+      children: [],
+    },
+    {
       path: "/components/stack",
       slug: "stack",
       html: "/components/stack.html",
@@ -333,6 +426,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/switch",
+      slug: "switch",
+      html: "/components/switch.html",
+      rsc: "/components/switch.rsc",
+      children: [],
+    },
+    {
       path: "/components/table",
       slug: "table",
       html: "/components/table.html",
@@ -340,10 +440,24 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/tabs",
+      slug: "tabs",
+      html: "/components/tabs.html",
+      rsc: "/components/tabs.rsc",
+      children: [],
+    },
+    {
       path: "/components/text",
       slug: "text",
       html: "/components/text.html",
       rsc: "/components/text.rsc",
+      children: [],
+    },
+    {
+      path: "/components/textarea",
+      slug: "textarea",
+      html: "/components/textarea.html",
+      rsc: "/components/textarea.rsc",
       children: [],
     },
     {
@@ -396,6 +510,12 @@ export const routesByPage = {
     rsc: "/components/card.rsc",
     html: "/components/card.html",
   },
+  "/components/checkbox.html": {
+    path: "/components/checkbox",
+    slug: "checkbox",
+    rsc: "/components/checkbox.rsc",
+    html: "/components/checkbox.html",
+  },
   "/components/code.html": {
     path: "/components/code",
     slug: "code",
@@ -413,6 +533,12 @@ export const routesByPage = {
     slug: "container",
     rsc: "/components/container.rsc",
     html: "/components/container.html",
+  },
+  "/components/dialog.html": {
+    path: "/components/dialog",
+    slug: "dialog",
+    rsc: "/components/dialog.rsc",
+    html: "/components/dialog.html",
   },
   "/components/divider.html": {
     path: "/components/divider",
@@ -444,6 +570,12 @@ export const routesByPage = {
     rsc: "/components/input.rsc",
     html: "/components/input.html",
   },
+  "/components/popover.html": {
+    path: "/components/popover",
+    slug: "popover",
+    rsc: "/components/popover.rsc",
+    html: "/components/popover.html",
+  },
   "/components/stack.html": {
     path: "/components/stack",
     slug: "stack",
@@ -456,17 +588,35 @@ export const routesByPage = {
     rsc: "/components/surface.rsc",
     html: "/components/surface.html",
   },
+  "/components/switch.html": {
+    path: "/components/switch",
+    slug: "switch",
+    rsc: "/components/switch.rsc",
+    html: "/components/switch.html",
+  },
   "/components/table.html": {
     path: "/components/table",
     slug: "table",
     rsc: "/components/table.rsc",
     html: "/components/table.html",
   },
+  "/components/tabs.html": {
+    path: "/components/tabs",
+    slug: "tabs",
+    rsc: "/components/tabs.rsc",
+    html: "/components/tabs.html",
+  },
   "/components/text.html": {
     path: "/components/text",
     slug: "text",
     rsc: "/components/text.rsc",
     html: "/components/text.html",
+  },
+  "/components/textarea.html": {
+    path: "/components/textarea",
+    slug: "textarea",
+    rsc: "/components/textarea.rsc",
+    html: "/components/textarea.html",
   },
   "/components/theme-toggle.html": {
     path: "/components/theme-toggle",

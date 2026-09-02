@@ -82,6 +82,49 @@
       },
       "shortPropTypeName": null
     },
+    "size": {
+      "defaultValue": {
+        "value": "xs"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Badge.tsx",
+        "name": "BadgeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Badge.tsx",
+          "name": "BadgeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "ComponentSize | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "color": {
       "defaultValue": null,
       "description": "",

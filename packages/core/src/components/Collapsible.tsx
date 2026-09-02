@@ -27,7 +27,6 @@ export interface CollapsibleContextValue {
   contentId: string;
   triggerId: string;
   registerPart: (part: CollapsiblePart, id: string) => () => void;
-  getPartId: (part: CollapsiblePart) => string | undefined;
 }
 
 export const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
@@ -76,7 +75,7 @@ export function CollapsibleRoot({
 
   const generatedId = useId();
   const id = providedId || generatedId;
-  const { registerPart, getPartId, parts } = usePartsRegistry<CollapsiblePart>();
+  const { registerPart, parts } = usePartsRegistry<CollapsiblePart>();
 
   const triggerId = parts.trigger || `${id}-trigger`;
   const contentId = parts.content || `${id}-content`;
@@ -99,9 +98,8 @@ export function CollapsibleRoot({
       contentId,
       triggerId,
       registerPart,
-      getPartId,
     }),
-    [id, open, onOpenToggle, disabled, contentId, triggerId, registerPart, getPartId],
+    [id, open, onOpenToggle, disabled, contentId, triggerId, registerPart],
   );
 
   return (
@@ -133,6 +131,7 @@ export function CollapsibleTrigger({
   className,
   ref,
   variant = 'ghost',
+  'aria-controls': ariaControls,
   ...props
 }: CollapsibleTriggerProps): React.JSX.Element {
   const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } =
@@ -162,7 +161,7 @@ export function CollapsibleTrigger({
       type="button"
       variant={variant}
       aria-expanded={open}
-      aria-controls={contentId}
+      aria-controls={ariaControls || contentId}
       aria-disabled={disabled || undefined}
       data-state={open ? 'open' : 'closed'}
       data-disabled={disabled ? '' : undefined}
@@ -223,6 +222,7 @@ export function CollapsibleContent({
   className,
   innerClassName,
   ref,
+  'aria-labelledby': ariaLabelledby,
   ...props
 }: CollapsibleContentProps): React.JSX.Element {
   const { open, contentId, triggerId, registerPart } = useCollapsibleContext();
@@ -238,7 +238,7 @@ export function CollapsibleContent({
     <section
       ref={ref}
       id={id}
-      aria-labelledby={triggerId}
+      aria-labelledby={ariaLabelledby || triggerId}
       data-state={open ? 'open' : 'closed'}
       className={cx(collapsibleContentRecipe({ open }), className)}
       {...props}

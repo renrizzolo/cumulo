@@ -41,16 +41,16 @@ describe('@cumulo/core', () => {
     const errorBtnClass = buttonRecipe({
       variant: 'secondary',
       intent: 'error',
-      size: 'small',
+      size: 'sm',
     });
     expect(errorBtnClass).toContain(buttonRecipe.classNames.variants.variant.secondary);
-    expect(errorBtnClass).toContain(buttonRecipe.classNames.variants.size.small);
+    expect(errorBtnClass).toContain(buttonRecipe.classNames.variants.size.sm);
 
     const surfaceClass = surfaceRecipe({ level: 2 });
     expect(surfaceClass).toContain(surfaceRecipe.classNames.base);
 
-    const inputClass = inputRecipe({ size: 'large', intent: 'error' });
-    expect(inputClass).toContain(inputRecipe.classNames.variants.size.large);
+    const inputClass = inputRecipe({ size: 'lg', intent: 'error' });
+    expect(inputClass).toContain(inputRecipe.classNames.variants.size.lg);
     expect(inputClass).toContain(inputRecipe.classNames.variants.intent.error);
 
     const badgeClass = badgeRecipe({ variant: 'secondary', intent: 'success' });

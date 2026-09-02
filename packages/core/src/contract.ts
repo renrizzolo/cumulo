@@ -56,6 +56,12 @@ export const vars = {
   chroma: {
     scale: 'var(--theme-chroma-scale)',
   },
+  container: {
+    lg: 'var(--theme-container-lg)',
+    md: 'var(--theme-container-md)',
+    sm: 'var(--theme-container-sm)',
+    xl: 'var(--theme-container-xl)',
+  },
   contrast: {
     scale: 'var(--theme-contrast-scale)',
   },
@@ -197,10 +203,11 @@ export const vars = {
     xl: 'var(--theme-radius-xl)',
   },
   size: {
-    base: 'var(--theme-size-base)',
-    large: 'var(--theme-size-large)',
-    small: 'var(--theme-size-small)',
-    xSmall: 'var(--theme-size-xSmall)',
+    lg: 'var(--theme-size-lg)',
+    md: 'var(--theme-size-md)',
+    sm: 'var(--theme-size-sm)',
+    xl: 'var(--theme-size-xl)',
+    xs: 'var(--theme-size-xs)',
   },
   sky: {
     bg: 'var(--theme-sky-bg)',

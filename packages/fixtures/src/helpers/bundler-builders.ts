@@ -95,7 +95,7 @@ export async function buildWithRollup(outDir: string): Promise<BundlerBuildResul
         extensions: ['.tsx', '.ts', '.jsx', '.js'],
       }),
       commonjs(),
-      rollupPlugin(),
+      rollupPlugin() as unknown as rollup.InputPluginOption,
       rollupEsbuild({
         jsx: 'automatic',
         target: 'es2022',

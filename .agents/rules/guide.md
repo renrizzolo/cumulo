@@ -22,8 +22,8 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 - **Package Manager**: `pnpm` (`packageManager: "pnpm@11.22.0"`).
 - **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
 - **Type Checking**: `tsc --noEmit` (run via `pnpm type-check` and included in `pnpm check`).
-- **Linting & Formatting**: uses `oxlint` and `oxfmt`(run via `pnpm check`).
-- **Testing**: `vitest` (run all unit & bundler tests via `pnpm test`, browser visual tests via `pnpm --filter @cumulo/fixtures test:browser`).
+- **Linting & Formatting**: uses `oxlint` and `oxfmt` (run via `pnpm check`).
+- **Testing**: `vitest` (run all unit & bundler tests via `pnpm test`, watch via `pnpm test:watch`, browser visual tests via `pnpm --filter @cumulo/fixtures test:browser`).
 - **Releases**: `@changesets/cli`.
 
 ---
@@ -53,6 +53,7 @@ Strict type safety is a non-negotiable standard across this codebase.
 
 - Components accept `ref?: React.Ref<T>` directly as a prop via `ElementProps<T>`. Avoid wrapping in legacy `React.forwardRef` unless strictly required for backward compatibility.
 - Use explicit component return types or standard function declaration signatures.
+- **Ref Composition (`useMergeRefs`)**: When combining multiple internal refs (e.g. element ref, focus management ref, dismissible ref) with external `ref` props, always compose them via `useMergeRefs(...)`.
 
 ### Compound Component & Slot Patterns (The `Field` Pattern)
 
@@ -72,7 +73,29 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
 
 ---
 
-## 4. Styling & Design Tokens (`@cumulo/css`)
+## 4. Overlay, Focus & Dismissal Architecture
+
+Cumulo uses modern web platform primitives for top-layer components alongside type-safe hooks:
+
+### Modern Web Standards
+
+- **Dialog**: Uses native HTML5 `<dialog>` with `.showModal()`, backdrop styling via `::backdrop`, and native `closedby="any"` / `cancel` events.
+- **Popover**: Uses native HTML `popover="auto"` with CSS Anchor Positioning (`position-anchor: --popover-<id>`, `anchor-name: --popover-<id>`, and `@position-try` fallbacks).
+
+### Dismissible Stacking (`useDismissible`)
+
+- Stack coordination is managed by `useDismissible({ onDismiss, dismissOnClickOutside })`.
+- **Ref Attachment**: The returned ref must always be merged onto the element via `useMergeRefs` so DOM containment checks (`ref.current.contains(document.activeElement)`) function accurately.
+- **Layer Isolation**: Escape and outside interactions dismiss only the topmost active layer, preserving parent containers (such as a Dialog hosting a Popover).
+
+### Focus Trapping & Navigation (`useFocus`)
+
+- **Modality (`type: 'modality'`)**: Used for Dialogs and Popovers. Supports focus trapping (`trap`), focus wrapping on Tab / Shift+Tab, and optional tab-out dismissal (`onTabOut`).
+- **Navigation (`type: 'navigation'`)**: Used for menus, listboxes, and toolbars. Provides arrow key traversal and roving `tabIndex`.
+
+---
+
+## 5. Styling & Design Tokens (`@cumulo/css`)
 
 - **Token Consumption**: Always use `vars` from the contract (`contract.js` / `@cumulo/core`) for colors, spacing, typography, radii, shadows, and transitions (e.g. `vars.spacing.xs`, `vars.radius.lg`, `vars.font.sans`).
 - **Atomic & Scoped Styles**:
@@ -85,9 +108,10 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
 
 ---
 
-## 5. Testing & Visual Regression Testing Standards
+## 6. Testing & Visual Regression Testing Standards
 
 - **Unit & Component Testing**: Use `vitest` with `jsdom` or `node` environments for core component tests and CSS logic tests (`packages/core/test`, `packages/css/test`).
+  - _JSDOM Popover Note_: Because JSDOM does not natively simulate top-layer rendering for `popover="auto"`, avoid raw `toBeVisible()` assertions on native popovers in JSDOM unit tests; assert `toBeInTheDocument()` and `data-state="open"` attributes instead.
 - **Bundler Integration Testing (`@cumulo/fixtures`)**:
   - Test compile-time CSS extraction and module transformation across supported bundlers (**Vite**, **Rollup**, **esbuild**, **Webpack**, and **Parcel**).
   - Assert that generated JS imports reference valid class names and that extracted stylesheets contain complete rule sets for basic styles, pseudo-classes, media queries, keyframes, theme variables, overrides, recipe variants, compound variants, and extensions.
@@ -97,7 +121,9 @@ Cumulo prioritizes flexible, accessible component composition over monolithic, p
   - Assert real browser DOM computed styles (`window.getComputedStyle`) alongside screenshot comparisons.
   - CI manages canonical Linux baseline snapshots and runs fixtures in a dedicated parallel workflow job.
 
-## 6. Themes, Color Modes & Pure CSS Token Architecture
+---
+
+## 7. Themes, Color Modes & Pure CSS Token Architecture
 
 - **Decouple Theme vs Color Mode**:
   - **`Theme`**: Brand and visual identity (e.g. `'default'`, `'docs'`, `'cloud'`, or custom theme strings). Applied via the `[data-theme='...']` attribute on `document.documentElement`.

@@ -1,0 +1,198 @@
+{
+  "name": "Checkbox",
+  "path": "packages/core/src/components/Checkbox.tsx",
+  "fileName": "Checkbox.tsx",
+  "props": {
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "checked": {
+      "defaultValue": null,
+      "description": "",
+      "name": "checked",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultChecked": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "defaultChecked",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "indeterminate": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "indeterminate",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"error\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "onCheckedChange": {
+      "defaultValue": null,
+      "description": "",
+      "name": "onCheckedChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+        "name": "CheckboxProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+          "name": "CheckboxProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((checked: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLInputElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

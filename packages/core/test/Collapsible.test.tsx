@@ -110,7 +110,7 @@ describe('Collapsible component', () => {
 
     render(
       <Collapsible.Root>
-        <Collapsible.Trigger variant="secondary" size="small">
+        <Collapsible.Trigger variant="secondary" size="sm">
           Trigger Button
         </Collapsible.Trigger>
         <Collapsible.Content>Content inside</Collapsible.Content>
