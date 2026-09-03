@@ -37,6 +37,9 @@ Strict type safety is a non-negotiable standard across this codebase.
   - Do NOT use `as` casting to bypass type checking or silence compiler errors.
   - Type assertions are only acceptable in rare cases where bridging untyped third-party boundaries is unavoidable.
   - Rely on TypeScript narrowing, type predicates (`is`), discriminated unions, and proper generic constraints instead.
+  - When narrowing DOM elements in tests, throw an invariant error rather than casting: `if (!(el instanceof HTMLInputElement)) throw new Error('Expected input to be HTMLInputElement');`.
+- **Monorepo TSConfig & `rootDir`**:
+  - Do NOT specify `"rootDir"` in individual workspace package `tsconfig.json` files. Setting `rootDir` prevents TypeScript from including sibling package sources during type-checking across workspace boundaries. Inherit base configuration from `tsconfig.base.json` and keep `rootDir` unset.
 - **Clean Interface & Type Exports**:
   - Explicitly export component prop types, variant types, and context value types.
   - Use `type` imports/exports (`import type { ... }`) when importing or re-exporting types.
@@ -111,6 +114,19 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
 ## 6. Testing & Visual Regression Testing Standards
 
 - **Unit & Component Testing**: Use `vitest` with `jsdom` or `node` environments for core component tests and CSS logic tests (`packages/core/test`, `packages/css/test`).
+  - **Component Tests: Behavior Over Ceremony**:
+    - **No Recipe or Style Checks**: NEVER test recipes, compiled classes, or recipe variants in component unit tests (`expect(button.className).toContain(recipe.classNames...)` is forbidden). Recipe compilation and variant mechanics belong strictly in `@cumulo/css` tests.
+    - **No Framework Boilerplate Checks**: Do NOT test "merges className" (we already know `cx` works) or "forwards ref" (React 19 supports ref passing natively without custom forwarding).
+    - **Simple Smoke Tests for Leaf Wrappers**: Simple leaf/styled components (`Badge`, `Card`, `Surface`) only require a simple smoke render test (`it('renders without crashing')`).
+    - **Test Actual Behaviors on Interactive / Compound Primitives**:
+      - State transitions and callback contracts (uncontrolled vs controlled `onOpenChange`, `onCheckedChange`, `onValueChange`).
+      - Accessibility wiring (`aria-labelledby`, `aria-describedby`, `aria-expanded`, `aria-controls`, `aria-invalid`, `role`).
+      - Event guarding (`disabled` preventing clicks, toggles, or typing).
+      - Focus trapping, loop focus, roving tabIndex, and keyboard navigation (arrow keys, Tab wrapping, Escape dismissal).
+      - Context coordination and dynamic part registration/unregistration.
+  - **Jest-DOM Matchers & Invariant Narrowing**:
+    - Always ensure `import '@testing-library/jest-dom/vitest';` is present in test files using DOM matchers (`toBeInTheDocument`, `toBeDisabled`, `toBeChecked`, etc.).
+    - Never wrap assertions in soft condition blocks `if (el instanceof HTMLInputElement) { expect(...) }`. Throw an invariant error instead: `if (!(el instanceof HTMLInputElement)) throw new Error('Expected input to be an HTMLInputElement');` to guarantee assertions always run and types narrow cleanly without type assertions (`as`).
   - _JSDOM Popover Note_: Because JSDOM does not natively simulate top-layer rendering for `popover="auto"`, avoid raw `toBeVisible()` assertions on native popovers in JSDOM unit tests; assert `toBeInTheDocument()` and `data-state="open"` attributes instead.
 - **Bundler Integration Testing (`@cumulo/fixtures`)**:
   - Test compile-time CSS extraction and module transformation across supported bundlers (**Vite**, **Rollup**, **esbuild**, **Webpack**, and **Parcel**).
