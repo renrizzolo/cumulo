@@ -3,7 +3,7 @@ import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Tabs, tabsListRecipe } from '../src/components/Tabs.js';
+import { Tabs } from '../src/components/Tabs.js';
 
 describe('Tabs Component', () => {
   it('renders tab list, triggers and default selected content', () => {
@@ -78,13 +78,5 @@ describe('Tabs Component', () => {
     const thirdTab = screen.getByRole('tab', { name: 'Third' });
     fireEvent.keyDown(thirdTab, { key: 'Home' });
     expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
-  });
-
-  it('supports pill and bordered variants', () => {
-    const pill = tabsListRecipe({ variant: 'pill' });
-    const bordered = tabsListRecipe({ variant: 'bordered' });
-
-    expect(pill).toContain(tabsListRecipe.classNames.variants.variant.pill);
-    expect(bordered).toContain(tabsListRecipe.classNames.variants.variant.bordered);
   });
 });

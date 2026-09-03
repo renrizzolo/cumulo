@@ -2,7 +2,7 @@
 
 import React, {
   createContext,
-  useContext,
+  use,
   useState,
   useCallback,
   useId,
@@ -32,7 +32,7 @@ export interface CollapsibleContextValue {
 export const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
 
 export const useCollapsibleContext = (): CollapsibleContextValue => {
-  const context = useContext(CollapsibleContext);
+  const context = use(CollapsibleContext);
   if (!context) {
     throw new Error('useCollapsibleContext must be used within a Collapsible.Root');
   }

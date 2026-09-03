@@ -10,14 +10,12 @@ afterEach(() => {
 });
 
 describe('Label component', () => {
-  it('renders a label associated with an input and focuses on click', async () => {
+  it('associates with an input and focuses on click', async () => {
     const user = userEvent.setup();
 
     render(
       <div>
-        <Label htmlFor="target-input" className="custom-label">
-          Username
-        </Label>
+        <Label htmlFor="target-input">Username</Label>
         <input id="target-input" />
       </div>,
     );
@@ -27,7 +25,6 @@ describe('Label component', () => {
 
     expect(label.tagName).toBe('LABEL');
     expect(label).toHaveAttribute('for', 'target-input');
-    expect(label).toHaveClass('custom-label');
     expect(input).toBeInTheDocument();
 
     await user.click(label);

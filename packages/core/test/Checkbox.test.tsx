@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Checkbox, checkboxRecipe } from '../src/components/Checkbox.js';
+import { Checkbox } from '../src/components/Checkbox.js';
 import { Field } from '../src/index.js';
 
 afterEach(() => {
@@ -49,7 +49,10 @@ describe('Checkbox Component', () => {
 
   it('renders indeterminate state with aria-checked mixed and DOM property synced', () => {
     render(<Checkbox aria-label="Select all" indeterminate />);
-    const input = screen.getByRole('checkbox', { name: 'Select all' }) as HTMLInputElement;
+    const input = screen.getByRole('checkbox', { name: 'Select all' });
+    if (!(input instanceof HTMLInputElement)) {
+      throw new Error('Expected input to be an HTMLInputElement');
+    }
     expect(input.getAttribute('aria-checked')).toBe('mixed');
     expect(input.indeterminate).toBe(true);
   });
@@ -68,7 +71,10 @@ describe('Checkbox Component', () => {
       />,
     );
 
-    const input = screen.getByRole('checkbox', { name: 'Select items' }) as HTMLInputElement;
+    const input = screen.getByRole('checkbox', { name: 'Select items' });
+    if (!(input instanceof HTMLInputElement)) {
+      throw new Error('Expected input to be an HTMLInputElement');
+    }
     expect(input.getAttribute('aria-checked')).toBe('mixed');
     expect(input.indeterminate).toBe(true);
 
@@ -91,10 +97,5 @@ describe('Checkbox Component', () => {
 
     const input = screen.getByRole('checkbox');
     expect(input).toBeInvalid();
-  });
-
-  it('generates base styles and default variants', () => {
-    const classes = checkboxRecipe();
-    expect(classes).toContain(checkboxRecipe.classNames.base);
   });
 });

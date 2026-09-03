@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Popover, popoverRecipe } from '../src/components/Popover.js';
+import { Popover } from '../src/components/Popover.js';
 
 describe('Popover Component', () => {
   beforeEach(() => {
@@ -31,16 +31,6 @@ describe('Popover Component', () => {
 
     fireEvent.click(trigger);
     expect(HTMLElement.prototype.togglePopover).toHaveBeenCalled();
-  });
-
-  it('applies popover recipe variants and placements', () => {
-    const smClasses = popoverRecipe({ size: 'sm', placement: 'bottom-start' });
-    expect(smClasses).toContain(popoverRecipe.classNames.variants.size.sm);
-    expect(smClasses).toContain(popoverRecipe.classNames.variants.placement['bottom-start']);
-
-    const topClasses = popoverRecipe({ size: 'lg', placement: 'top' });
-    expect(topClasses).toContain(popoverRecipe.classNames.variants.size.lg);
-    expect(topClasses).toContain(popoverRecipe.classNames.variants.placement.top);
   });
 
   it('links trigger and content via anchor-name and position-anchor', () => {

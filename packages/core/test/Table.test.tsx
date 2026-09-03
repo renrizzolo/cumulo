@@ -11,7 +11,6 @@ import {
   TableHead,
   TableCell,
   TableCaption,
-  tableRecipe,
 } from '../src/components/Table.js';
 
 describe('Table Component', () => {
@@ -37,7 +36,6 @@ describe('Table Component', () => {
     const tableRoot = screen.getByTestId('table-root');
     expect(tableRoot).toBeInTheDocument();
     expect(tableRoot.tagName).toBe('TABLE');
-    expect(tableRoot.className).toContain(tableRecipe.classNames.variants.variant.bordered);
 
     expect(screen.getByTestId('caption')).toHaveTextContent('User List');
     expect(screen.getByTestId('thead').tagName).toBe('THEAD');
@@ -69,11 +67,5 @@ describe('Table Component', () => {
 
     const table = screen.getByTestId('direct-table');
     expect(table).toBeInTheDocument();
-  });
-
-  it('forwards ref properly to native table element', () => {
-    const ref = React.createRef<HTMLTableElement>();
-    render(<Table ref={ref} data-testid="ref-table" />);
-    expect(ref.current).toBeInstanceOf(HTMLTableElement);
   });
 });

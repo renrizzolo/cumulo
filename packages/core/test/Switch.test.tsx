@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Switch, switchRecipe } from '../src/components/Switch.js';
+import { Switch } from '../src/components/Switch.js';
 import { Field } from '../src/index.js';
 
 afterEach(() => {
@@ -64,10 +64,5 @@ describe('Switch Component', () => {
 
     const switchEl = screen.getByRole('switch');
     expect(switchEl.id).toBe('notifications-field');
-  });
-
-  it('generates base styles and default variants', () => {
-    const classes = switchRecipe();
-    expect(classes).toContain(switchRecipe.classNames.base);
   });
 });

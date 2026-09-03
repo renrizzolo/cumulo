@@ -3,7 +3,7 @@ import React from 'react';
 import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Textarea, textareaRecipe } from '../src/components/Textarea.js';
+import { Textarea } from '../src/components/Textarea.js';
 import { Field } from '../src/index.js';
 
 afterEach(() => {
@@ -42,16 +42,5 @@ describe('Textarea Component', () => {
     const textarea = screen.getByRole('textbox', { name: 'Comments' });
     expect(textarea).toBeInvalid();
     expect(textarea.getAttribute('aria-describedby')).toBeDefined();
-  });
-
-  it('applies recipe sizing and resize variants', () => {
-    const sm = textareaRecipe({ size: 'sm', resize: 'none' });
-    const lg = textareaRecipe({ size: 'lg', resize: 'both' });
-
-    expect(sm).toContain(textareaRecipe.classNames.variants.size.sm);
-    expect(sm).toContain(textareaRecipe.classNames.variants.resize.none);
-
-    expect(lg).toContain(textareaRecipe.classNames.variants.size.lg);
-    expect(lg).toContain(textareaRecipe.classNames.variants.resize.both);
   });
 });

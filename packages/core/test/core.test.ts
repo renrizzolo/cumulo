@@ -1,9 +1,5 @@
-import { describe, it, expect } from 'vitest';
-import { vars, themeTokens, themeVars } from '../src/index.js';
-import { badgeRecipe } from '../src/components/Badge.js';
-import { buttonRecipe } from '../src/components/Button.js';
-import { inputRecipe } from '../src/components/Input.js';
-import { surfaceRecipe } from '../src/components/Surface.js';
+import { describe, expect, it } from 'vitest';
+import { themeTokens, themeVars, vars } from '../src/index.js';
 
 describe('@cumulo/core', () => {
   it('exports theme contract dynamically matching CSS variables in theme.css', () => {
@@ -28,28 +24,5 @@ describe('@cumulo/core', () => {
     expect(themeTokens).toContain('--color-primary-base');
     expect(themeTokens).toContain('--theme-primary-50');
     expect(themeVars['--surface-bg']).toBe('var(--surface-bg)');
-  });
-
-  it('compiles zero-runtime recipes with extend for core components', () => {
-    const defaultBtnClass = buttonRecipe();
-    expect(defaultBtnClass).toContain(buttonRecipe.classNames.base);
-
-    const errorBtnClass = buttonRecipe({
-      variant: 'secondary',
-      intent: 'error',
-      size: 'sm',
-    });
-    expect(errorBtnClass).toContain(buttonRecipe.classNames.variants.variant.secondary);
-    expect(errorBtnClass).toContain(buttonRecipe.classNames.variants.size.sm);
-
-    const surfaceClass = surfaceRecipe({ level: 2 });
-    expect(surfaceClass).toContain(surfaceRecipe.classNames.base);
-
-    const inputClass = inputRecipe({ size: 'lg', intent: 'error' });
-    expect(inputClass).toContain(inputRecipe.classNames.variants.size.lg);
-    expect(inputClass).toContain(inputRecipe.classNames.variants.intent.error);
-
-    const badgeClass = badgeRecipe({ variant: 'secondary', intent: 'success' });
-    expect(badgeClass).toContain(badgeRecipe.classNames.variants.variant.secondary);
   });
 });

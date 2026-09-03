@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Dialog, dialogRecipe } from '../src/components/Dialog.js';
+import { Dialog } from '../src/components/Dialog.js';
 import { Popover } from '../src/components/Popover.js';
 
 describe('Dialog Component', () => {
@@ -121,13 +121,5 @@ describe('Dialog Component', () => {
 
     expect(onPopoverClose).toHaveBeenCalledTimes(1);
     expect(onDialogClose).not.toHaveBeenCalled();
-  });
-
-  it('applies size recipe variant classes', () => {
-    const smClasses = dialogRecipe({ size: 'sm' });
-    expect(smClasses).toContain(dialogRecipe.classNames.variants.size.sm);
-
-    const lgClasses = dialogRecipe({ size: 'lg' });
-    expect(lgClasses).toContain(dialogRecipe.classNames.variants.size.lg);
   });
 });

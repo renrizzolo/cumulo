@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useId, useEffect } from 'react';
+import React, { createContext, use, useId, useEffect } from 'react';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
@@ -23,7 +23,7 @@ export interface FieldContextValue {
 export const FieldContext = createContext<FieldContextValue | null>(null);
 
 export const useFieldContext = (): FieldContextValue => {
-  const field = useContext(FieldContext);
+  const field = use(FieldContext);
   if (!field) {
     throw new Error('useFieldContext must be used within a FieldRoot');
   }
