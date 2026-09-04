@@ -25,12 +25,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-2xl-xs" gap="xs" flex={1}>
                 <Text type="label">Padding: xs</Text>
                 <Surface data-testid="parent-2xl-xs" level={2} radius="2xl" padding="xs">
-                  <Surface
-                    data-testid="child-2xl-xs"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-2xl-xs" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -40,12 +35,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-2xl-sm" gap="xs" flex={1}>
                 <Text type="label">Padding: sm</Text>
                 <Surface data-testid="parent-2xl-sm" level={2} radius="2xl" padding="sm">
-                  <Surface
-                    data-testid="child-2xl-sm"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-2xl-sm" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -55,12 +45,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-2xl-md" gap="xs" flex={1}>
                 <Text type="label">Padding: md</Text>
                 <Surface data-testid="parent-2xl-md" level={2} radius="2xl" padding="md">
-                  <Surface
-                    data-testid="child-2xl-md"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-2xl-md" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -95,12 +80,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-xl-xs" gap="xs" flex={1}>
                 <Text type="label">Padding: xs</Text>
                 <Surface data-testid="parent-xl-xs" level={2} radius="xl" padding="xs">
-                  <Surface
-                    data-testid="child-xl-xs"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-xl-xs" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -110,12 +90,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-xl-sm" gap="xs" flex={1}>
                 <Text type="label">Padding: sm</Text>
                 <Surface data-testid="parent-xl-sm" level={2} radius="xl" padding="sm">
-                  <Surface
-                    data-testid="child-xl-sm"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-xl-sm" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -125,12 +100,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-xl-none" gap="xs" flex={1}>
                 <Text type="label">Padding: none</Text>
                 <Surface data-testid="parent-xl-none" level={2} radius="xl" padding="none">
-                  <Surface
-                    data-testid="child-xl-none"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-xl-none" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -150,12 +120,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-lg-xs" gap="xs" flex={1}>
                 <Text type="label">Padding: xs</Text>
                 <Surface data-testid="parent-lg-xs" level={2} radius="lg" padding="xs">
-                  <Surface
-                    data-testid="child-lg-xs"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-lg-xs" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -165,12 +130,7 @@ export function NestedRadiusFixture() {
               <VStack data-testid="case-lg-none" gap="xs" flex={1}>
                 <Text type="label">Padding: none</Text>
                 <Surface data-testid="parent-lg-none" level={2} radius="lg" padding="none">
-                  <Surface
-                    data-testid="child-lg-none"
-                    variant="primary"
-                    radius="auto"
-                    padding="sm"
-                  >
+                  <Surface data-testid="child-lg-none" variant="primary" radius="auto" padding="sm">
                     <Text type="label">Auto Radius</Text>
                   </Surface>
                 </Surface>
@@ -216,22 +176,12 @@ export function NestedRadiusFixture() {
             <Card data-testid="padded-child-parent" radius="2xl" padding="xs">
               <VStack gap="xs">
                 <Text type="label">Parent Card: radius="2xl" (16px), padding="xs" (8px)</Text>
-                <Card
-                  data-testid="padded-child-child"
-                  variant="primary"
-                  radius="auto"
-                  padding="lg"
-                >
+                <Card data-testid="padded-child-child" variant="primary" radius="auto" padding="lg">
                   <VStack gap="xs">
                     <Text type="label">
                       Child Card: radius="auto" (16px - 8px = 8px) with own padding="lg"
                     </Text>
-                    <Surface
-                      data-testid="padded-child-inner"
-                      level={2}
-                      radius="auto"
-                      padding="sm"
-                    >
+                    <Surface data-testid="padded-child-inner" level={2} radius="auto" padding="sm">
                       <Text type="label">Inner Element inheriting from child</Text>
                     </Surface>
                   </VStack>
