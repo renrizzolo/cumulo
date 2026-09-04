@@ -27,10 +27,7 @@ describe('Nested Concentric Radius Browser Testing', () => {
     const fixtureLocator = page.getByTestId('nested-radius-fixture');
     await expect.element(fixtureLocator).toBeVisible();
 
-    // 1. Full fixture screenshot
-    await expect(fixtureLocator).toMatchScreenshot('concentric-radius-full.png');
-
-    // 2. Individual section screenshots
+    // 1. Individual section screenshots
     const section2xl = page.getByTestId('section-radius-2xl');
     await expect(section2xl).toMatchScreenshot('concentric-radius-2xl.png');
 

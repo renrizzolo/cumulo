@@ -1,9 +1,10 @@
 import React from 'react';
-import { Surface, Card, VStack, HStack, Heading, Text } from '@cumulo/core';
-
+import { Surface, Card, VStack, Heading, Text } from '@cumulo/core';
+import { style } from '@cumulo/css';
+const styles = style({ width: 600 });
 export function NestedRadiusFixture() {
   return (
-    <Surface data-testid="nested-radius-fixture" level={0} padding="xl" radius="none">
+    <div data-testid="nested-radius-fixture" className={styles.className}>
       <VStack gap="xl">
         <VStack gap="xs">
           <Heading as="h1" size="2xl">
@@ -20,7 +21,7 @@ export function NestedRadiusFixture() {
             <Heading as="h2" size="md">
               Parent Radius: 2xl (1rem / 16px)
             </Heading>
-            <HStack gap="md" wrap="wrap">
+            <VStack gap="md" wrap="wrap">
               {/* 2xl + xs padding (16px - 8px = 8px child radius) */}
               <VStack data-testid="case-2xl-xs" gap="xs" flex={1}>
                 <Text type="label">Padding: xs</Text>
@@ -65,7 +66,7 @@ export function NestedRadiusFixture() {
                   </Surface>
                 </Surface>
               </VStack>
-            </HStack>
+            </VStack>
           </VStack>
         </Surface>
 
@@ -75,7 +76,7 @@ export function NestedRadiusFixture() {
             <Heading as="h2" size="md">
               Parent Radius: xl (0.75rem / 12px)
             </Heading>
-            <HStack gap="md" wrap="wrap">
+            <VStack gap="md" wrap="wrap">
               {/* xl + xs padding (12px - 8px = 4px child radius) */}
               <VStack data-testid="case-xl-xs" gap="xs" flex={1}>
                 <Text type="label">Padding: xs</Text>
@@ -105,7 +106,7 @@ export function NestedRadiusFixture() {
                   </Surface>
                 </Surface>
               </VStack>
-            </HStack>
+            </VStack>
           </VStack>
         </Surface>
 
@@ -115,7 +116,7 @@ export function NestedRadiusFixture() {
             <Heading as="h2" size="md">
               Parent Radius: lg (0.5rem / 8px)
             </Heading>
-            <HStack gap="md" wrap="wrap">
+            <VStack gap="md" wrap="wrap">
               {/* lg + xs padding (8px - 8px = 0px child radius) */}
               <VStack data-testid="case-lg-xs" gap="xs" flex={1}>
                 <Text type="label">Padding: xs</Text>
@@ -135,7 +136,7 @@ export function NestedRadiusFixture() {
                   </Surface>
                 </Surface>
               </VStack>
-            </HStack>
+            </VStack>
           </VStack>
         </Surface>
 
@@ -191,6 +192,6 @@ export function NestedRadiusFixture() {
           </VStack>
         </Surface>
       </VStack>
-    </Surface>
+    </div>
   );
 }

@@ -7,5 +7,4 @@ build
 *.log
 .DS_Store
 .temp
-__screenshots__
 .vitest-attachments
