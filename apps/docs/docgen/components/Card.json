@@ -59,16 +59,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
+        "raw": "\"default\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           }
         ]
       },
@@ -93,10 +93,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"none\""
           },
           {
             "value": "\"xs\""
@@ -112,9 +115,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"none\""
           },
           {
             "value": "\"2xl\""
@@ -180,29 +180,31 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"initial\" | \"auto\" | \"none\" | 1 | undefined",
+        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"initial\""
+            "value": "1"
           },
           {
-            "value": "\"auto\""
+            "value": "\"initial\""
           },
           {
             "value": "\"none\""
           },
           {
-            "value": "1"
+            "value": "\"auto\""
           }
         ]
       },
       "shortPropTypeName": null
     },
     "radius": {
-      "defaultValue": null,
+      "defaultValue": {
+        "value": "lg"
+      },
       "description": "",
       "name": "radius",
       "parent": {
@@ -218,10 +220,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"full\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"none\""
           },
           {
             "value": "\"auto\""
@@ -236,13 +241,10 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"none\""
+            "value": "\"2xl\""
           },
           {
             "value": "\"full\""
-          },
-          {
-            "value": "\"2xl\""
           }
         ]
       },

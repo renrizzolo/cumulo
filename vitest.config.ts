@@ -9,10 +9,20 @@ export default defineConfig({
     projects: [
       {
         test: {
+          name: 'fixtures',
+          include: ['packages/fixtures/test/bundlers/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+          benchmark: { include: [] },
+        },
+      },
+      {
+        test: {
           name: 'core',
           include: ['packages/core/**/*.test.{ts,tsx}'],
           environment: 'jsdom',
           globals: true,
+          benchmark: { include: [] },
         },
       },
       {
@@ -21,6 +31,7 @@ export default defineConfig({
           include: ['packages/css/**/*.test.{ts,tsx}'],
           environment: 'node',
           globals: true,
+          benchmark: { include: [] },
         },
       },
       {
@@ -29,14 +40,18 @@ export default defineConfig({
           include: ['packages/unplugin/**/*.test.{ts,tsx}'],
           environment: 'node',
           globals: true,
+          benchmark: { include: [] },
         },
       },
       {
         test: {
-          name: 'fixtures',
-          include: ['packages/fixtures/test/bundlers/**/*.test.{ts,tsx}'],
+          name: 'benchmarks',
+          include: [],
           environment: 'node',
-          globals: true,
+          benchmark: {
+            include: ['packages/**/*.bench.{ts,tsx}'],
+            suppressExportGetterWarnings: true,
+          },
         },
       },
     ],

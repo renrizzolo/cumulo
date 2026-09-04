@@ -16,6 +16,8 @@
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:browser": "pnpm --filter @cumulo/fixtures exec vitest run --project browser",
+    "bench": "vitest bench",
+    "bench:css": "vitest bench packages/css",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"
@@ -31,7 +33,7 @@
     "oxlint": "^1.79.0",
     "react-server-dom-parcel": "^19.2.8",
     "typescript": "^5.8.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "packageManager": "pnpm@11.22.0",
   "@renr/parcel-reporter-docgen": {
