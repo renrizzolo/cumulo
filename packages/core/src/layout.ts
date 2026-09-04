@@ -51,36 +51,65 @@ export const paddingStyles = recipe(
         none: {
           padding: vars.spacing.none,
           '--surface-padding': '0px',
+          selectors: {
+            '& > *': {
+              '--parent-padding': '0px',
+            },
+          },
         },
         xs: {
           padding: vars.spacing.xs,
-          '--parent-padding': vars.spacing.xs,
           '--surface-padding': vars.spacing.xs,
+          selectors: {
+            '& > *': {
+              '--parent-padding': vars.spacing.xs,
+            },
+          },
         },
         sm: {
           padding: vars.spacing.sm,
-          '--parent-padding': vars.spacing.sm,
           '--surface-padding': vars.spacing.sm,
+          selectors: {
+            '& > *': {
+              '--parent-padding': vars.spacing.sm,
+            },
+          },
         },
         md: {
           padding: vars.spacing.md,
-          '--parent-padding': vars.spacing.md,
           '--surface-padding': vars.spacing.md,
+          selectors: {
+            '& > *': {
+              '--parent-padding': vars.spacing.md,
+            },
+          },
         },
         lg: {
           padding: vars.spacing.lg,
-          '--parent-padding': vars.spacing.lg,
           '--surface-padding': vars.spacing.lg,
+          selectors: {
+            '& > *': {
+              '--parent-padding': vars.spacing.lg,
+            },
+          },
         },
         xl: {
           padding: vars.spacing.xl,
-          '--parent-padding': vars.spacing.xl,
           '--surface-padding': vars.spacing.xl,
+          selectors: {
+            '& > *': {
+              '--parent-padding': vars.spacing.xl,
+            },
+          },
         },
         '2xl': {
           padding: vars.spacing['2xl'],
-          '--parent-padding': vars.spacing['2xl'],
           '--surface-padding': vars.spacing['2xl'],
+          selectors: {
+            '& > *': {
+              '--parent-padding': vars.spacing['2xl'],
+            },
+          },
         },
       },
     },
@@ -100,33 +129,57 @@ export const radiusStyles = recipe(
       radius: {
         none: {
           borderRadius: vars.radius.none,
-          '--parent-radius': vars.radius.none,
           '--surface-radius': vars.radius.none,
+          selectors: {
+            '& > *': {
+              '--parent-radius': vars.radius.none,
+            },
+          },
         },
         md: {
           borderRadius: vars.radius.md,
-          '--parent-radius': vars.radius.md,
           '--surface-radius': vars.radius.md,
+          selectors: {
+            '& > *': {
+              '--parent-radius': vars.radius.md,
+            },
+          },
         },
         lg: {
           borderRadius: vars.radius.lg,
-          '--parent-radius': vars.radius.lg,
           '--surface-radius': vars.radius.lg,
+          selectors: {
+            '& > *': {
+              '--parent-radius': vars.radius.lg,
+            },
+          },
         },
         xl: {
           borderRadius: vars.radius.xl,
-          '--parent-radius': vars.radius.xl,
           '--surface-radius': vars.radius.xl,
+          selectors: {
+            '& > *': {
+              '--parent-radius': vars.radius.xl,
+            },
+          },
         },
         '2xl': {
           borderRadius: vars.radius['2xl'],
-          '--parent-radius': vars.radius['2xl'],
           '--surface-radius': vars.radius['2xl'],
+          selectors: {
+            '& > *': {
+              '--parent-radius': vars.radius['2xl'],
+            },
+          },
         },
         full: {
           borderRadius: vars.radius.full,
-          '--parent-radius': vars.radius.full,
           '--surface-radius': vars.radius.full,
+          selectors: {
+            '& > *': {
+              '--parent-radius': vars.radius.full,
+            },
+          },
         },
         auto: {
           borderRadius:

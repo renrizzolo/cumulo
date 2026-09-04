@@ -363,14 +363,14 @@ export const fieldVariantStyles = recipe(
     variants: {
       variant: {
         field: {
-          backgroundColor: vars.surface.secondary.DEFAULT,
+          backgroundColor: vars.surface.bg.DEFAULT,
           color: vars.surface.fg,
           borderColor: vars.surface.border,
           ':hover': {
-            backgroundColor: vars.surface.secondary.hover,
+            backgroundColor: vars.surface.bg.next,
           },
           ':focus': {
-            backgroundColor: vars.surface.secondary.hover,
+            backgroundColor: vars.surface.bg.next,
           },
         },
       },

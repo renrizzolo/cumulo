@@ -15,6 +15,7 @@
     "check:ci": "pnpm type-check && pnpm lint && pnpm format:check",
     "test": "vitest run",
     "test:watch": "vitest watch",
+    "test:browser": "pnpm --filter @cumulo/fixtures exec vitest run --project browser",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"
