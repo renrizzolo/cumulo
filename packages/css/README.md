@@ -129,7 +129,7 @@ export const lightTheme = createTheme(vars, {
 
 ### `cx()`
 
-Blazing fast class name merger supporting strings, arrays, conditionals, and object maps:
+Pretty fast class name merger supporting strings, arrays, conditionals, and object maps:
 
 ```ts
 import { cx } from '@cumulo/css';

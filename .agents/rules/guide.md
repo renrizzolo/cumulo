@@ -21,10 +21,11 @@ Cumulo is a modern, high-performance design system monorepo managed with `pnpm` 
 
 - **Package Manager**: `pnpm` (`packageManager: "pnpm@11.22.0"`).
 - **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
-- **Type Checking**: `tsc --noEmit` (run via `pnpm type-check` and included in `pnpm check`).
+- **Type Checking**: `tsc --noEmit && pnpm -r type-check` (run via `pnpm type-check` and included in `pnpm check`). Verifies both root scripts and all workspace packages.
 - **Linting & Formatting**: uses `oxlint` and `oxfmt` (run via `pnpm check`).
 - **Testing**: `vitest` (run all unit & bundler tests via `pnpm test`, watch via `pnpm test:watch`, browser visual tests via `pnpm --filter @cumulo/fixtures test:browser`).
-- **Releases**: `@changesets/cli`.
+- **Benchmarking**: `vitest bench` (run via `pnpm bench` or `pnpm bench:css`).
+- **Releases**: `@changesets/cli` with prerelease channel support (`pnpm changeset`, `pnpm version`).
 
 ---
 
@@ -161,3 +162,27 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
 - **No Wildcard Exports (`export *`)**: Never use wildcard `export * from '...'` re-exports. Always use explicit named imports and exports (`export { Button, type ButtonProps } from '...'`) to ensure deterministic dead-code elimination, fast compiler evaluation, and compatibility with `oxc/no-barrel-file`.
 - **Direct Module Imports**: Internal modules must import directly from specific files (e.g. `../hooks/useFocus.js`, `../theme/theme.js`, `../components/Input.js`).
 - **Granular Package Subpath Exports**: Public packages expose subpaths in `package.json` (`"exports"` field with `./components/*`, `./hooks/*`, `./tokens/*`, `./theme/*`, `./contract`, etc.) allowing consumers to import specific primitives directly without loading the entire library.
+
+---
+
+## 9. PR Metrics, Benchmarking & Automation
+
+- **PR Metrics Pipeline (`scripts/pr-metrics`)**:
+  - Automatically runs on pull requests via `.github/workflows/pr-metrics.yml` to track public API surface changes and bundle sizes against the base branch.
+  - **API Diffing (`api-diff.ts`)**: AST-based TypeScript declaration parsing inspired by React Spectrum (`compareAPIs.js`).
+    - Strips JSDoc and normalizes signatures (props destructuring, sorted interface keys).
+    - Cleans up `RecipeFunction` variants to prevent CSS rule bloat.
+    - Generates compact unified diffs (````diff) per symbol (`/<pkg>:<symbol>`).
+    - Deduplicates re-exports between root index and subpaths.
+  - **Bundle Sizing (`bundle-size.ts`)**:
+    - Discovers and measures build targets across packages, components, hooks, tokens, and themes (raw, gzip, brotli).
+    - Formats PR comments with a **single combined diff value** and a collapsible `<details>` breakdown containing individual modules (changed modules sorted to the top).
+  - **Shared CLI Utilities (`cli-utils.ts`)**:
+    - Shared argument parsing, output writing, and direct execution detection to avoid code duplication across scripts.
+- **Benchmarking**:
+  - Microbenchmarks reside in `packages/*/bench/` (e.g. `packages/css/bench/css.bench.ts`).
+  - Run via `pnpm bench:css` or `pnpm bench`.
+- **Changeset Release Workflow**:
+  - Changesets are tracked in `.changeset/`.
+  - Prerelease channel is enabled via `changeset pre enter <tag>` (e.g. `alpha`).
+  - Version bumping is run via `npx changeset version` (or `pnpm version`), publishing via `pnpm release`.
