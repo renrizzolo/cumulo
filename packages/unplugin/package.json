@@ -1,6 +1,6 @@
 {
   "name": "@cumulo/unplugin",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.0",
   "description": "Universal build plugin for Cumulo CSS with support for Vite, Webpack, Rollup, esbuild, and Parcel",
   "license": "MIT",
   "type": "module",

@@ -1,6 +1,6 @@
 {
   "name": "@cumulo/parcel-transformer",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.0",
   "description": "Parcel transformer for Cumulo CSS static extraction",
   "type": "module",
   "main": "./dist/index.cjs",
