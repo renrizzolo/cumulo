@@ -60,12 +60,15 @@ export function generateBundleSizeSection(
   }
 
   const hasDiff = (entry: BundleEntry): boolean => {
+    if (!baseReport) {
+      return false;
+    }
     const base = baseEntriesMap.get(`${entry.package}:${entry.name}`);
     return (
-      base !== undefined &&
-      (base.metrics.raw !== entry.metrics.raw ||
-        base.metrics.gzip !== entry.metrics.gzip ||
-        base.metrics.brotli !== entry.metrics.brotli)
+      base === undefined ||
+      base.metrics.raw !== entry.metrics.raw ||
+      base.metrics.gzip !== entry.metrics.gzip ||
+      base.metrics.brotli !== entry.metrics.brotli
     );
   };
 
@@ -74,6 +77,25 @@ export function generateBundleSizeSection(
     if (hasDiff(entry)) {
       changedCount++;
     }
+  }
+
+  if (baseReport) {
+    const currentKeys = new Set(currentReport.entries.map((e) => `${e.package}:${e.name}`));
+    for (const entry of baseReport.entries) {
+      if (!currentKeys.has(`${entry.package}:${entry.name}`)) {
+        changedCount++;
+      }
+    }
+  }
+
+  if (baseReport && baseTotal && currentTotal.gzip === baseTotal.gzip && changedCount === 0) {
+    const lines: string[] = [
+      '### 📦 Bundle Size Changes',
+      '',
+      '✅ **No bundle size changes detected.**',
+      '',
+    ];
+    return lines.join('\n');
   }
 
   const diffSummary = baseTotal
