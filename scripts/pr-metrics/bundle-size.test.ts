@@ -105,5 +105,24 @@ describe('bundle-size', () => {
       expect(buttonIdx).toBeLessThan(dialogIdx);
       expect(section).toContain('+50 B (+5.6%)');
     });
+
+    it('renders empty state when base report has zero byte diff', () => {
+      const currentReport: BundleSizeReport = {
+        timestamp: '2026-09-02T00:00:00Z',
+        entries: sampleEntries,
+      };
+
+      const baseReport: BundleSizeReport = {
+        timestamp: '2026-09-01T00:00:00Z',
+        entries: sampleEntries,
+      };
+
+      const section = generateBundleSizeSection(currentReport, baseReport);
+      expect(section).toContain('### 📦 Bundle Size Changes');
+      expect(section).toContain('✅ **No bundle size changes detected.**');
+      expect(section).not.toContain('Module Breakdown');
+      expect(section).not.toContain('Combined Diff');
+      expect(section).not.toContain('<details>');
+    });
   });
 });
