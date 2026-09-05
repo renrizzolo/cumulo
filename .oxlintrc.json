@@ -1,8 +1,19 @@
 {
   "plugins": ["import", "typescript", "unicorn", "oxc", "react", "jsx-a11y"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "pedantic": "off",
+    "perf": "error"
+  },
   "rules": {
+    "import/no-unassigned-import": "off",
+    "react/react-in-jsx-scope": "off",
+    "no-underscore-dangle": "off",
     "no-unused-vars": "warn",
     "typescript/no-explicit-any": "error",
-    "oxc/no-barrel-file": ["error", { "threshold": 1 }]
+    "oxc/no-barrel-file": ["error", { "threshold": 1 }],
+    "oxc/no-accumulating-spread": "error",
+    "oxc/no-map-spread": "error"
   }
 }

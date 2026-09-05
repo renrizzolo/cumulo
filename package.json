@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
-    "type-check": "pnpm -r type-check",
+    "type-check": "tsc --noEmit && pnpm -r type-check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt --write .",
@@ -29,6 +29,7 @@
     "@parcel/transformer-react-static": "2.16.4",
     "@types/node": "^24",
     "buffer": "^6.0.3",
+    "diff": "^9.0.0",
     "oxfmt": "^0.64.0",
     "oxlint": "^1.79.0",
     "react-server-dom-parcel": "^19.2.8",

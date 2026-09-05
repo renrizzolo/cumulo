@@ -53,9 +53,11 @@ function formatTypeValue(type: DocgenPropType): React.ReactNode {
   return <Code variant="subtle">{raw.replace(/\s*\|\s*undefined/g, '')}</Code>;
 }
 
+const DEFAULT_EXCLUDE_PROPS = ['ref', 'className', 'style'];
+
 export function PropsTable({
   data,
-  excludeProps = ['ref', 'className', 'style'],
+  excludeProps = DEFAULT_EXCLUDE_PROPS,
 }: PropsTableProps): React.JSX.Element {
   const propKeys = Object.keys(data?.props || {}).filter((key) => !excludeProps.includes(key));
 

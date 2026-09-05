@@ -152,19 +152,6 @@ describe('Field accessibility', () => {
   it('dynamically updates aria-describedby and aria-invalid when error is toggled', async () => {
     const user = userEvent.setup();
 
-    function DynamicForm() {
-      const [showError, setShowError] = useState(false);
-      return (
-        <Field.Root id="dynamic-field">
-          <Field.Label>Email</Field.Label>
-          <Field.Input placeholder="Email" />
-          <Field.Description>Enter your email address</Field.Description>
-          {showError && <Field.Error>Invalid email address</Field.Error>}
-          <button onClick={() => setShowError((prev) => !prev)}>Toggle Error</button>
-        </Field.Root>
-      );
-    }
-
     render(<DynamicForm />);
 
     const input = screen.getByPlaceholderText('Email');
@@ -192,18 +179,6 @@ describe('Field accessibility', () => {
   it('dynamically updates aria-describedby when description is unmounted', async () => {
     const user = userEvent.setup();
 
-    function DynamicDescForm() {
-      const [showDesc, setShowDesc] = useState(true);
-      return (
-        <Field.Root id="desc-field">
-          <Field.Label>Code</Field.Label>
-          <Field.Input placeholder="Code" />
-          {showDesc && <Field.Description>Help text</Field.Description>}
-          <button onClick={() => setShowDesc(false)}>Hide Desc</button>
-        </Field.Root>
-      );
-    }
-
     render(<DynamicDescForm />);
     const input = screen.getByPlaceholderText('Code');
     expect(input).toHaveAttribute('aria-describedby', 'desc-field-description');
@@ -212,3 +187,28 @@ describe('Field accessibility', () => {
     expect(input).not.toHaveAttribute('aria-describedby');
   });
 });
+
+function DynamicDescForm() {
+  const [showDesc, setShowDesc] = useState(true);
+  return (
+    <Field.Root id="desc-field">
+      <Field.Label>Code</Field.Label>
+      <Field.Input placeholder="Code" />
+      {showDesc && <Field.Description>Help text</Field.Description>}
+      <button onClick={() => setShowDesc(false)}>Hide Desc</button>
+    </Field.Root>
+  );
+}
+
+function DynamicForm() {
+  const [showError, setShowError] = useState(false);
+  return (
+    <Field.Root id="dynamic-field">
+      <Field.Label>Email</Field.Label>
+      <Field.Input placeholder="Email" />
+      <Field.Description>Enter your email address</Field.Description>
+      {showError && <Field.Error>Invalid email address</Field.Error>}
+      <button onClick={() => setShowError((prev) => !prev)}>Toggle Error</button>
+    </Field.Root>
+  );
+}

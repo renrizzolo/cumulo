@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import {
+  calculateTotalMetrics,
   collectBundleSizes,
   formatBytes,
   formatDiff,
@@ -14,6 +15,7 @@ import {
   type ApiDiffReport,
   type ExportChange,
 } from './api-diff.ts';
+import { getCliArg, isDirectExecution, writeCliOutputFile } from './cli-utils.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,6 +49,9 @@ export function generateBundleSizeSection(
   currentReport: BundleSizeReport,
   baseReport?: BundleSizeReport,
 ): string {
+  const currentTotal = calculateTotalMetrics(currentReport.entries);
+  const baseTotal = baseReport ? calculateTotalMetrics(baseReport.entries) : undefined;
+
   const baseEntriesMap = new Map<string, BundleEntry>();
   if (baseReport) {
     for (const entry of baseReport.entries) {
@@ -56,42 +61,60 @@ export function generateBundleSizeSection(
 
   const hasDiff = (entry: BundleEntry): boolean => {
     const base = baseEntriesMap.get(`${entry.package}:${entry.name}`);
-    return base !== undefined && base.metrics.raw !== entry.metrics.raw;
+    return (
+      base !== undefined &&
+      (base.metrics.raw !== entry.metrics.raw ||
+        base.metrics.gzip !== entry.metrics.gzip ||
+        base.metrics.brotli !== entry.metrics.brotli)
+    );
   };
 
-  const primaryEntries = currentReport.entries.filter(
-    (e) => e.isPrimary || e.category === 'core-entry' || hasDiff(e),
-  );
-  const otherEntries = currentReport.entries.filter((e) => !primaryEntries.includes(e));
+  let changedCount = 0;
+  for (const entry of currentReport.entries) {
+    if (hasDiff(entry)) {
+      changedCount++;
+    }
+  }
+
+  const diffSummary = baseTotal
+    ? `**Combined Diff:** \`${formatDiff(currentTotal.gzip, baseTotal.gzip)}\` (gzip)`
+    : `**Combined Size:** \`${formatBytes(currentTotal.gzip)}\` (gzip)`;
+
+  const sortedEntries = currentReport.entries.toSorted((a, b) => {
+    const aDiff = hasDiff(a);
+    const bDiff = hasDiff(b);
+    if (aDiff !== bDiff) {
+      return aDiff ? -1 : 1;
+    }
+    if (a.package !== b.package) {
+      return a.package.localeCompare(b.package);
+    }
+    return a.name.localeCompare(b.name);
+  });
+
+  const summaryText =
+    changedCount > 0
+      ? `<b>Module Breakdown (${changedCount} changed, ${currentReport.entries.length} total)</b>`
+      : `<b>Module Breakdown (${currentReport.entries.length} modules)</b>`;
 
   const lines: string[] = [
     '### 📦 Bundle Size Changes',
+    '',
+    diffSummary,
+    '',
+    `<details><summary>${summaryText}</summary>`,
     '',
     '| Package / Target | Category | Raw Size | Gzip | Brotli |',
     '| :--- | :---: | :---: | :---: | :---: |',
   ];
 
-  for (const entry of primaryEntries) {
+  for (const entry of sortedEntries) {
     const baseEntry = baseEntriesMap.get(`${entry.package}:${entry.name}`);
     lines.push(renderBundleRow(entry, baseEntry));
   }
 
-  if (otherEntries.length > 0) {
-    lines.push('');
-    lines.push(
-      `<details><summary><b>Full Target Breakdown (${currentReport.entries.length} targets across components, hooks & tokens)</b></summary>`,
-    );
-    lines.push('');
-    lines.push('| Package / Target | Category | Raw Size | Gzip | Brotli |');
-    lines.push('| :--- | :---: | :---: | :---: | :---: |');
-    for (const entry of otherEntries) {
-      const baseEntry = baseEntriesMap.get(`${entry.package}:${entry.name}`);
-      lines.push(renderBundleRow(entry, baseEntry));
-    }
-    lines.push('');
-    lines.push('</details>');
-  }
-
+  lines.push('');
+  lines.push('</details>');
   lines.push('');
   lines.push('> *Sizes measured with maximum compression (gzip -9, brotli -11).*');
   lines.push('');
@@ -119,41 +142,10 @@ export function generateApiDiffSection(diffReport: ApiDiffReport): string {
     lines.push(`#### \`${pkgName}\``);
     lines.push('');
 
-    const added = changes.filter((c) => c.type === 'added');
-    const removed = changes.filter((c) => c.type === 'removed');
-    const modified = changes.filter((c) => c.type === 'modified');
-
-    if (added.length > 0) {
-      lines.push('**🟢 Added Exports:**');
-      for (const item of added) {
-        lines.push(`- \`${item.name}\` in \`${item.fileRelPath}\``);
-        lines.push('  ```ts');
-        lines.push(`  ${item.after ?? ''}`);
-        lines.push('  ```');
-      }
+    for (const change of changes) {
+      lines.push(change.symbolId);
       lines.push('');
-    }
-
-    if (modified.length > 0) {
-      lines.push('**🟡 Modified Signatures:**');
-      for (const item of modified) {
-        lines.push(`- \`${item.name}\` in \`${item.fileRelPath}\``);
-        lines.push('  ```diff');
-        lines.push(`  - ${item.before ?? ''}`);
-        lines.push(`  + ${item.after ?? ''}`);
-        lines.push('  ```');
-      }
-      lines.push('');
-    }
-
-    if (removed.length > 0) {
-      lines.push('**🔴 Removed Exports (Breaking Changes):**');
-      for (const item of removed) {
-        lines.push(`- \`${item.name}\` in \`${item.fileRelPath}\``);
-        lines.push('  ```ts');
-        lines.push(`  ${item.before ?? ''}`);
-        lines.push('  ```');
-      }
+      lines.push(change.diffBlock);
       lines.push('');
     }
   }
@@ -178,22 +170,11 @@ export function generateFullReport(options: {
 }
 
 // CLI entry point
-const isMain =
-  process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
-
-if (isMain) {
-  const baseDirIndex = process.argv.indexOf('--base-dir');
-  const prDirIndex = process.argv.indexOf('--pr-dir');
-  const outIndex = process.argv.indexOf('--out');
-
-  const prDir =
-    prDirIndex !== -1 && process.argv[prDirIndex + 1]
-      ? path.resolve(process.argv[prDirIndex + 1])
-      : defaultRootDir;
-  const baseDir =
-    baseDirIndex !== -1 && process.argv[baseDirIndex + 1]
-      ? path.resolve(process.argv[baseDirIndex + 1])
-      : undefined;
+// CLI entry point
+if (isDirectExecution(import.meta.url)) {
+  const prDir = getCliArg('--pr-dir') ?? defaultRootDir;
+  const baseDir = getCliArg('--base-dir');
+  const outPath = getCliArg('--out');
 
   const currentBundle = collectBundleSizes(prDir);
   const baseBundle = baseDir && fs.existsSync(baseDir) ? collectBundleSizes(baseDir) : undefined;
@@ -208,10 +189,8 @@ if (isMain) {
     apiDiff,
   });
 
-  if (outIndex !== -1 && process.argv[outIndex + 1]) {
-    const outPath = path.resolve(process.argv[outIndex + 1]);
-    fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, markdown, 'utf-8');
+  if (outPath) {
+    writeCliOutputFile(outPath, markdown);
     process.stdout.write(`PR report written to ${outPath}\n`);
   } else {
     process.stdout.write(markdown);

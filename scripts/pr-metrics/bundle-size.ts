@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
+import { getCliArg, isDirectExecution, writeCliOutputFile } from './cli-utils.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -216,30 +217,37 @@ export function formatDiff(current: number, base: number): string {
   return `${sign}${formattedBytes} (${sign}${percent}%)`;
 }
 
-// CLI entry point
-const isMain =
-  process.argv[1] && pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
+export function calculateTotalMetrics(entries: BundleEntry[]): BundleMetrics {
+  return entries.reduce(
+    (acc, entry) => ({
+      raw: acc.raw + entry.metrics.raw,
+      gzip: acc.gzip + entry.metrics.gzip,
+      brotli: acc.brotli + entry.metrics.brotli,
+    }),
+    { raw: 0, gzip: 0, brotli: 0 },
+  );
+}
 
-if (isMain) {
-  const outIndex = process.argv.indexOf('--out');
-  const targetDirIndex = process.argv.indexOf('--dir');
-  const targetDir =
-    targetDirIndex !== -1 && process.argv[targetDirIndex + 1]
-      ? path.resolve(process.argv[targetDirIndex + 1])
-      : defaultRootDir;
+// CLI entry point
+if (isDirectExecution(import.meta.url)) {
+  const outPath = getCliArg('--out');
+  const targetDir = getCliArg('--dir') ?? defaultRootDir;
+  const baseDir = getCliArg('--base');
   const report = collectBundleSizes(targetDir);
 
-  if (outIndex !== -1 && process.argv[outIndex + 1]) {
-    const outPath = path.resolve(process.argv[outIndex + 1]);
-    fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    fs.writeFileSync(outPath, JSON.stringify(report, null, 2), 'utf-8');
+  if (outPath) {
+    writeCliOutputFile(outPath, JSON.stringify(report, null, 2));
     process.stdout.write(`Bundle size report saved to ${outPath}\n`);
+  } else if (baseDir && fs.existsSync(baseDir)) {
+    const baseReport = collectBundleSizes(baseDir);
+    const currentTotal = calculateTotalMetrics(report.entries);
+    const baseTotal = calculateTotalMetrics(baseReport.entries);
+    const diff = formatDiff(currentTotal.gzip, baseTotal.gzip);
+    process.stdout.write(`Combined Diff: ${diff} (gzip) across ${report.entries.length} modules\n`);
   } else {
-    process.stdout.write(`Discovered and measured ${report.entries.length} bundle targets:\n`);
-    for (const entry of report.entries) {
-      process.stdout.write(
-        `  ${entry.package} [${entry.category}] ${entry.name}: Raw: ${formatBytes(entry.metrics.raw)} | Gzip: ${formatBytes(entry.metrics.gzip)} | Brotli: ${formatBytes(entry.metrics.brotli)}\n`,
-      );
-    }
+    const total = calculateTotalMetrics(report.entries);
+    process.stdout.write(
+      `Total Bundle Size: Raw: ${formatBytes(total.raw)} | Gzip: ${formatBytes(total.gzip)} | Brotli: ${formatBytes(total.brotli)} (${report.entries.length} modules)\n`,
+    );
   }
 }

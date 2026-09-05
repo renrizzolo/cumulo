@@ -37,7 +37,7 @@ while ((match = varRegex.exec(rawCss)) !== null) {
   declaredVars.add(match[1]);
 }
 
-const sortedVars = Array.from(declaredVars).sort();
+const sortedVars = Array.from(declaredVars).toSorted();
 
 function kebabToCamel(str: string): string {
   return str.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());

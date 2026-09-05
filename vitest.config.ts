@@ -45,6 +45,15 @@ export default defineConfig({
       },
       {
         test: {
+          name: 'scripts',
+          include: ['scripts/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+          benchmark: { include: [] },
+        },
+      },
+      {
+        test: {
           name: 'benchmarks',
           include: [],
           environment: 'node',

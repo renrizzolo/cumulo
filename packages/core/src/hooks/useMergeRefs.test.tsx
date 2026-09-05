@@ -51,17 +51,6 @@ describe('useMergeRefs', () => {
     const callbackRef = vi.fn();
     let externalRefCurrent: HTMLDivElement | null = null;
 
-    function TestComponent({ forwardedRef }: { forwardedRef: React.Ref<HTMLDivElement> }) {
-      const internalRef = useRef<HTMLDivElement>(null);
-      const mergedRef = useMergeRefs(internalRef, forwardedRef);
-
-      return (
-        <div ref={mergedRef} data-testid="merge-target">
-          Content
-        </div>
-      );
-    }
-
     const { getByTestId } = render(
       <TestComponent
         forwardedRef={(node) => {
@@ -76,3 +65,14 @@ describe('useMergeRefs', () => {
     expect(externalRefCurrent).toBe(el);
   });
 });
+
+function TestComponent({ forwardedRef }: { forwardedRef: React.Ref<HTMLDivElement> }) {
+  const internalRef = useRef<HTMLDivElement>(null);
+  const mergedRef = useMergeRefs(internalRef, forwardedRef);
+
+  return (
+    <div ref={mergedRef} data-testid="merge-target">
+      Content
+    </div>
+  );
+}

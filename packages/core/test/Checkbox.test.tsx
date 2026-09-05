@@ -34,12 +34,7 @@ describe('Checkbox Component', () => {
   it('handles controlled mode correctly', async () => {
     const user = userEvent.setup();
 
-    function Controlled() {
-      const [checked, setChecked] = useState(false);
-      return <Checkbox aria-label="Controlled" checked={checked} onCheckedChange={setChecked} />;
-    }
-
-    render(<Controlled />);
+    render(<ControlledCheckbox />);
     const input = screen.getByRole('checkbox', { name: 'Controlled' });
     expect(input).not.toBeChecked();
 
@@ -99,3 +94,8 @@ describe('Checkbox Component', () => {
     expect(input).toBeInvalid();
   });
 });
+
+function ControlledCheckbox() {
+  const [checked, setChecked] = useState(false);
+  return <Checkbox aria-label="Controlled" checked={checked} onCheckedChange={setChecked} />;
+}

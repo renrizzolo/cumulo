@@ -30,7 +30,7 @@ jobs:
           path: pr-repo
 
       - name: Setup pnpm and Node.js
-        uses: pnpm/setup@v2.1.0
+        uses: pnpm/setup@v2.1.0 # note - 'working-directory' is in v2.1, not the pnpm/checkout@2 major
         with:
           runtime: node@24
           cache: true

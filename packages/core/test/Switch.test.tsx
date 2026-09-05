@@ -28,12 +28,7 @@ describe('Switch Component', () => {
   it('handles controlled mode correctly', async () => {
     const user = userEvent.setup();
 
-    function Controlled() {
-      const [checked, setChecked] = useState(false);
-      return <Switch aria-label="Dark mode" checked={checked} onCheckedChange={setChecked} />;
-    }
-
-    render(<Controlled />);
+    render(<ControlledSwitch />);
     const switchEl = screen.getByRole('switch', { name: 'Dark mode' });
     expect(switchEl).not.toBeChecked();
 
@@ -66,3 +61,8 @@ describe('Switch Component', () => {
     expect(switchEl.id).toBe('notifications-field');
   });
 });
+
+function ControlledSwitch() {
+  const [checked, setChecked] = useState(false);
+  return <Switch aria-label="Dark mode" checked={checked} onCheckedChange={setChecked} />;
+}

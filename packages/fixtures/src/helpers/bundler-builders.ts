@@ -5,7 +5,7 @@ import { execSync } from 'node:child_process';
 import * as vite from 'vite';
 import react from '@vitejs/plugin-react';
 import * as rollup from 'rollup';
-import resolve from '@rollup/plugin-node-resolve';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
 import rollupEsbuild from 'rollup-plugin-esbuild';
@@ -91,7 +91,7 @@ export async function buildWithRollup(outDir: string): Promise<BundlerBuildResul
         preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      resolve({
+      nodeResolve({
         extensions: ['.tsx', '.ts', '.jsx', '.js'],
       }),
       commonjs(),
