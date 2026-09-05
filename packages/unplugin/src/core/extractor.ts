@@ -27,6 +27,20 @@ const stripCssImports = (source: string): string =>
     .replace(/import\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/gi, '')
     .replace(/import\s+[^;]+from\s+['"][^'"]+\.(css|scss|sass|less|styl)['"];?/gi, '');
 
+/**
+ * Normalizes relative .js imports in TypeScript source files (e.g. from './Surface.js' -> from './Surface')
+ * allowing Jiti to resolve TypeScript extensions like .tsx, which Jiti's default .js resolver omits.
+ */
+const normalizeRelativeImports = (source: string): string =>
+  source
+    .replace(/(from\s+['"])(\.[^'"]*?)\.js(['"])/g, '$1$2$3')
+    .replace(/(import\s*\(\s*['"])(\.[^'"]*?)\.js(['"]\s*\))/g, '$1$2$3')
+    .replace(/(import\s+['"])(\.[^'"]*?)\.js(['"])/g, '$1$2$3')
+    .replace(/(require\s*\(\s*['"])(\.[^'"]*?)\.js(['"]\s*\))/g, '$1$2$3');
+
+const cleanSourceCode = (source: string): string =>
+  normalizeRelativeImports(stripCssImports(source));
+
 import { fileURLToPath } from 'node:url';
 
 let cumuloCssPath: string | undefined;
@@ -54,7 +68,7 @@ const jiti = createJiti(import.meta.url, {
     if (isStylesheet(opts.filename, opts.source)) {
       return { code: 'module.exports = {};' };
     }
-    const cleanSource = opts.source ? stripCssImports(opts.source) : opts.source;
+    const cleanSource = opts.source ? cleanSourceCode(opts.source) : opts.source;
     const code = baseJiti.transform({ ...opts, source: cleanSource });
     return { code };
   },
@@ -148,8 +162,8 @@ export async function extractCssFromFile(filePath: string): Promise<string> {
 export async function extractCssFromCode(code: string, id: string): Promise<string> {
   const absolutePath = path.isAbsolute(id) ? id : path.resolve(process.cwd(), id);
 
-  // Strip direct .css imports before eval as an additional safeguard
-  const cleanCode = stripCssImports(code);
+  // Strip direct .css imports and normalize relative imports before eval
+  const cleanCode = cleanSourceCode(code);
 
   try {
     const cumuloCss = (await jiti.import('@cumulo/css')) as typeof import('@cumulo/css');
