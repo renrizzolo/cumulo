@@ -102,7 +102,7 @@ describe('api-diff', () => {
       expect(diff).toContain('- }');
     });
 
-    it('formats modified export highlighting changes like React Spectrum', () => {
+    it('formats modified export highlighting changes', () => {
       const before = `PromptFieldProps {\n  brandColor?: string\n  variant?: 'balanced' | 'prominent' | 'subtle'\n}`;
       const after = `PromptFieldProps {\n  brandColor?: string\n  variant?: 'balanced' | 'prominent' | 'subtle' = 'balanced'\n}`;
 
@@ -119,19 +119,19 @@ describe('api-diff', () => {
   describe('formatSymbolIdentifier', () => {
     it('formats root index export', () => {
       expect(formatSymbolIdentifier('@cumulo/core', 'index.d.mts', 'useTheme')).toBe(
-        '/@cumulo/core:useTheme',
+        '@cumulo/core > useTheme',
       );
     });
 
     it('formats subpath export', () => {
       expect(
         formatSymbolIdentifier('@cumulo/core', 'components/Checkbox.d.mts', 'CheckboxProps'),
-      ).toBe('/@cumulo/core/components/Checkbox:CheckboxProps');
+      ).toBe('@cumulo/core/components/Checkbox > CheckboxProps');
     });
   });
 
   describe('generateApiDiffSection', () => {
-    it('renders clean React Spectrum style report', () => {
+    it('renders clean report', () => {
       const baseSnapshot: ApiSnapshot = {
         timestamp: '2026-09-01T00:00:00Z',
         packages: {
@@ -181,7 +181,7 @@ describe('api-diff', () => {
       const section = generateApiDiffSection(diffReport);
       expect(section).toContain('### 🔍 Public API Changes');
       expect(section).toContain('#### `@cumulo/core`');
-      expect(section).toContain('/@cumulo/core/components/Checkbox:CheckboxProps');
+      expect(section).toContain('@cumulo/core/components/Checkbox > CheckboxProps');
       expect(section).toContain('```diff');
       expect(section).toContain("-  variant?: 'balanced' | 'prominent'");
       expect(section).toContain("+  variant?: 'balanced' | 'prominent' | 'subtle'");

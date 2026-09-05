@@ -1,3 +1,4 @@
+// inspired by https://github.com/adobe/react-spectrum/blob/main/scripts/compareAPIs.js
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -473,12 +474,13 @@ export function captureApiSnapshot(baseDir: string = defaultRootDir): ApiSnapsho
   };
 }
 
+/** the path:type used to label each diff block */
 export function formatSymbolIdentifier(pkgName: string, fileRelPath: string, name: string): string {
   const cleanRel = fileRelPath.replace(/\.d\.[cm]?ts$/, '');
   if (cleanRel === 'index') {
-    return `/${pkgName}:${name}`;
+    return `${pkgName} > ${name}`;
   }
-  return `/${pkgName}/${cleanRel}:${name}`;
+  return `${pkgName}/${cleanRel} > ${name}`;
 }
 
 function computeCompactDiff(oldLines: string[], hunks: Diff.StructuredPatchHunk[]): string[] {
@@ -551,6 +553,7 @@ function pushChange(
   before?: string,
   after?: string,
 ): void {
+  console.log(pkgName, fileRelPath, name, formatSymbolIdentifier(pkgName, fileRelPath, name));
   changes.push({
     pkgName,
     fileRelPath,

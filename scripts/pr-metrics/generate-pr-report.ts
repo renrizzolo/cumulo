@@ -143,7 +143,7 @@ export function generateApiDiffSection(diffReport: ApiDiffReport): string {
     lines.push('');
 
     for (const change of changes) {
-      lines.push(change.symbolId);
+      lines.push(`*${change.symbolId}*`);
       lines.push('');
       lines.push(change.diffBlock);
       lines.push('');
