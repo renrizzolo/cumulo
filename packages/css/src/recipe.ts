@@ -34,7 +34,7 @@ export type ExtractRecipeVariants<E> =
         ? UnionToIntersection<ExtractRecipeVariants<U>>
         : {};
 
-export interface RecipeOptions<T extends VariantDefinitions = VariantDefinitions, E = undefined> {
+export interface RecipeOptions<T extends VariantDefinitions = {}, E = undefined> {
   base?: StyleRule | StyleRule[];
   extend?: E;
   variants?: T;
@@ -42,7 +42,7 @@ export interface RecipeOptions<T extends VariantDefinitions = VariantDefinitions
   defaultVariants?: VariantSelection<T & ExtractRecipeVariants<E>>;
 }
 
-export interface RecipeFunction<T extends VariantDefinitions> {
+export interface RecipeFunction<T extends VariantDefinitions = {}> {
   (options?: VariantSelection<T>): string;
   variants: () => (keyof T)[];
   options: RecipeOptions<T, unknown>;
@@ -147,7 +147,7 @@ function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
  * Creates a zero-runtime recipe/variants function.
  * Supports recursive extends of shared intent recipes and compiles all CSS upfront into static classes.
  */
-export function recipe<T extends VariantDefinitions = VariantDefinitions, E = undefined>(
+export function recipe<T extends VariantDefinitions = {}, E = undefined>(
   options: RecipeOptions<T, E>,
   prefix = 'r',
 ): RecipeFunction<T & ExtractRecipeVariants<E>> {

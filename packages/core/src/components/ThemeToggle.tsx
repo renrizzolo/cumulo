@@ -94,7 +94,7 @@ export function ThemeToggle({
   variant = 'ghost',
   shape = 'round',
   mode = 'toggle',
-  size = 'small',
+  size = 'sm',
   width,
   cycle,
   showLabel = false,

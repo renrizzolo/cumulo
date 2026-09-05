@@ -2,17 +2,76 @@
   "name": "@cumulo/core",
   "version": "0.1.0",
   "description": "Core design tokens, theme contracts, and base utilities for Cumulo UI",
+  "license": "MIT",
   "style": "./src/theme.css",
   "files": [
     "dist"
   ],
   "type": "module",
-  "sideEffects": false,
-  "types": "./dist/index.d.cts",
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "exports": {
-    ".": "./dist/index.mjs",
-    "./package.json": "./package.json",
-    "./theme.css": "./dist/theme.css"
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./theme.css": "./dist/theme.css",
+    "./components/*": {
+      "types": "./dist/components/*.d.mts",
+      "import": "./dist/components/*.mjs",
+      "default": "./dist/components/*.mjs"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.mts",
+      "import": "./dist/hooks/*.mjs",
+      "default": "./dist/hooks/*.mjs"
+    },
+    "./tokens/*": {
+      "types": "./dist/tokens/*.d.mts",
+      "import": "./dist/tokens/*.mjs",
+      "default": "./dist/tokens/*.mjs"
+    },
+    "./theme/*": {
+      "types": "./dist/theme/*.d.mts",
+      "import": "./dist/theme/*.mjs",
+      "default": "./dist/theme/*.mjs"
+    },
+    "./field/*": {
+      "types": "./dist/field/*.d.mts",
+      "import": "./dist/field/*.mjs",
+      "default": "./dist/field/*.mjs"
+    },
+    "./contract": {
+      "types": "./dist/contract.d.mts",
+      "import": "./dist/contract.mjs",
+      "default": "./dist/contract.mjs"
+    },
+    "./reset": {
+      "types": "./dist/reset.d.mts",
+      "import": "./dist/reset.mjs",
+      "default": "./dist/reset.mjs"
+    },
+    "./intents": {
+      "types": "./dist/intents.d.mts",
+      "import": "./dist/intents.mjs",
+      "default": "./dist/intents.mjs"
+    },
+    "./layout": {
+      "types": "./dist/layout.d.mts",
+      "import": "./dist/layout.mjs",
+      "default": "./dist/layout.mjs"
+    },
+    "./ElementProps": {
+      "types": "./dist/ElementProps.d.mts",
+      "import": "./dist/ElementProps.mjs",
+      "default": "./dist/ElementProps.mjs"
+    },
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public"

@@ -2,6 +2,7 @@
   "name": "@cumulo/css",
   "version": "0.1.0",
   "description": "Lightweight, zero-dependency type-safe CSS framework inspired by StyleX and Vanilla Extract",
+  "license": "MIT",
   "source": "./src/index.ts",
   "files": [
     "dist"
@@ -19,7 +20,8 @@
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "bench": "vitest bench"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",

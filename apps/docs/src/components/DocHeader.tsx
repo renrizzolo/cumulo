@@ -177,7 +177,7 @@ export function DocHeader({
         {/* Mobile Header Left: Hamburger & Brand */}
         <div className={mobileBrandGroupStyle.className}>
           <Button
-            size="small"
+            size="sm"
             variant="ghost"
             shape="round"
             onClick={() => setIsOpen(true)}
@@ -232,7 +232,7 @@ export function DocHeader({
                   </HStack>
                 </Link>
                 <Button
-                  size="small"
+                  size="sm"
                   variant="ghost"
                   shape="round"
                   onClick={() => setIsOpen(false)}

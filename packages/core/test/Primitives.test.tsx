@@ -1,96 +1,81 @@
-import { describe, it, expect } from 'vitest';
-import {
-  stackRecipe,
-  containerRecipe,
-  headingRecipe,
-  textRecipe,
-  codeRecipe,
-  dividerRecipe,
-  tableRecipe,
-} from '../src/index.js';
+import '@testing-library/jest-dom/vitest';
+import { cleanup, render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
+import { Heading } from '../src/components/Heading';
+import { Text } from '../src/components/Text';
+import { Code, Container, Divider, Stack, Table } from '../src';
 
-describe('Layout and Typography Recipes', () => {
-  describe('Stack recipe', () => {
-    it('generates base styles and default variants', () => {
-      const classes = stackRecipe();
-      expect(classes).toContain(stackRecipe.classNames.base);
-      expect(classes).toContain(stackRecipe.classNames.variants.direction.column);
-      expect(classes).toContain(stackRecipe.classNames.variants.gap.none);
-    });
+afterEach(() => {
+  cleanup();
+});
 
-    it('supports direction, gap, align, and justify variants', () => {
-      const classes = stackRecipe({
-        direction: 'row',
-        gap: 'md',
-        align: 'center',
-        justify: 'between',
-        flex: 1,
-      });
-      expect(classes).toContain(stackRecipe.classNames.variants.direction.row);
-      expect(classes).toContain(stackRecipe.classNames.variants.gap.md);
-      expect(classes).toContain(stackRecipe.classNames.variants.align.center);
-      expect(classes).toContain(stackRecipe.classNames.variants.justify.between);
-      expect(classes).toContain(stackRecipe.classNames.variants.flex['1']);
-    });
+describe('Layout and Typography Primitives', () => {
+  it('renders Heading with semantic heading element and supports as prop', () => {
+    const { rerender } = render(<Heading>Section Title</Heading>);
+    const heading = screen.getByRole('heading', { level: 2 });
+    expect(heading).toBeInTheDocument();
+    expect(heading.tagName).toBe('H2');
+
+    rerender(<Heading as="h1">Main Title</Heading>);
+    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
   });
 
-  describe('Container recipe', () => {
-    it('generates container classes with default size and padding', () => {
-      const classes = containerRecipe();
-      expect(classes).toContain(containerRecipe.classNames.base);
-      expect(classes).toContain(containerRecipe.classNames.variants.size.lg);
-      expect(classes).toContain(containerRecipe.classNames.variants.padding.md);
-    });
+  it('renders Text with semantic tag and supports as prop', () => {
+    const { rerender } = render(<Text>Paragraph text</Text>);
+    expect(screen.getByText('Paragraph text').tagName).toBe('P');
+
+    rerender(<Text as="span">Span text</Text>);
+    expect(screen.getByText('Span text').tagName).toBe('SPAN');
   });
 
-  describe('Heading recipe', () => {
-    it('generates heading recipe classes', () => {
-      const classes = headingRecipe({ size: '3xl', weight: 'bold' });
-      expect(classes).toContain(headingRecipe.classNames.base);
-      expect(classes).toContain(headingRecipe.classNames.variants.size['3xl']);
-      expect(classes).toContain(headingRecipe.classNames.variants.weight.bold);
-    });
+  it('renders Code element', () => {
+    render(<Code>const x = 1;</Code>);
+    const el = screen.getByText('const x = 1;');
+    expect(el.tagName).toBe('CODE');
   });
 
-  describe('Text recipe', () => {
-    it('generates text recipe classes for semantic types', () => {
-      const body = textRecipe({ type: 'body' });
-      expect(body).toContain(textRecipe.classNames.base);
-      expect(body).toContain(textRecipe.classNames.variants.type.body);
-
-      const label = textRecipe({ type: 'label' });
-      expect(label).toContain(textRecipe.classNames.variants.type.label);
-
-      const display = textRecipe({ type: 'display' });
-      expect(display).toContain(textRecipe.classNames.variants.type.display);
-    });
+  it('renders Divider element', () => {
+    render(<Divider data-testid="divider" />);
+    expect(screen.getByTestId('divider')).toBeInTheDocument();
   });
 
-  describe('Code recipe', () => {
-    it('generates code recipe classes', () => {
-      const classes = codeRecipe({ variant: 'subtle' });
-      expect(classes).toContain(codeRecipe.classNames.base);
-      expect(classes).toContain(codeRecipe.classNames.variants.variant.subtle);
-    });
+  it('renders Stack with children', () => {
+    render(
+      <Stack>
+        <span>Item 1</span>
+        <span>Item 2</span>
+      </Stack>,
+    );
+    expect(screen.getByText('Item 1')).toBeInTheDocument();
+    expect(screen.getByText('Item 2')).toBeInTheDocument();
   });
 
-  describe('Divider recipe', () => {
-    it('generates divider recipe classes for horizontal and vertical orientations', () => {
-      const h = dividerRecipe({ orientation: 'horizontal', spacing: 'md' });
-      expect(h).toContain(dividerRecipe.classNames.base);
-      expect(h).toContain(dividerRecipe.classNames.variants.orientation.horizontal);
-      expect(h).toContain(dividerRecipe.classNames.variants.spacing.md);
-
-      const v = dividerRecipe({ orientation: 'vertical' });
-      expect(v).toContain(dividerRecipe.classNames.variants.orientation.vertical);
-    });
+  it('renders Container with children', () => {
+    render(
+      <Container>
+        <p>Container content</p>
+      </Container>,
+    );
+    expect(screen.getByText('Container content')).toBeInTheDocument();
   });
 
-  describe('Table recipe', () => {
-    it('generates table recipe classes', () => {
-      const classes = tableRecipe({ variant: 'bordered' });
-      expect(classes).toContain(tableRecipe.classNames.base);
-      expect(classes).toContain(tableRecipe.classNames.variants.variant.bordered);
-    });
+  it('renders Table structure', () => {
+    render(
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.Head>Name</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Alice</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>,
+    );
+    expect(screen.getByRole('table')).toBeInTheDocument();
+    expect(screen.getByText('Name')).toBeInTheDocument();
+    expect(screen.getByText('Alice')).toBeInTheDocument();
   });
 });

@@ -24,7 +24,7 @@ import { Button } from '@cumulo/core';
     <Button variant="ghost" intent="error">
       Ghost Error
     </Button>
-    <Button size="small" variant="primary" shape="round">
+    <Button size="sm" variant="primary" shape="round">
       Round Small
     </Button>
   </HStack>
@@ -69,13 +69,15 @@ Buttons automatically adapt their styling according to system intents (`primary`
 
 ## Sizes & Shapes
 
-Buttons offer `small`, `base`, and `large` sizes, with `default` and `round` shapes.
+Buttons offer `xs`, `sm`, `md`, `lg`, and `xl` sizes, with `default` and `round` shapes.
 
 <ComponentPreview>
   <HStack gap="sm" align="center" wrap="wrap">
-    <Button size="small">Small</Button>
-    <Button size="base">Base</Button>
-    <Button size="large">Large</Button>
+    <Button size="xs">Extra Small</Button>
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+    <Button size="xl">Extra Large</Button>
     <Button shape="round" variant="secondary">
       Round Pill
     </Button>

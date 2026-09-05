@@ -1,44 +1,63 @@
 {
   "name": "Field",
-  "path": "packages/core/src/field/Field.tsx",
+  "path": "packages/core/src/components/Field.tsx",
   "fileName": "Field.tsx",
   "props": {
-    "intent": {
-      "name": "intent",
-      "required": false,
-      "description": "Semantic intent propagated to child label, input, and descriptions.",
-      "defaultValue": { "value": "primary" },
-      "type": {
-        "name": "enum",
-        "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
-        "value": [
-          { "value": "\"primary\"" },
-          { "value": "\"success\"" },
-          { "value": "\"warning\"" },
-          { "value": "\"error\"" },
-          { "value": "\"info\"" }
-        ]
-      }
-    },
     "isInvalid": {
+      "defaultValue": null,
+      "description": "",
       "name": "isInvalid",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Field.tsx",
+        "name": "FieldProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Field.tsx",
+          "name": "FieldProps"
+        }
+      ],
       "required": false,
-      "description": "Sets invalid validation state and connects aria-invalid to the input.",
-      "defaultValue": { "value": "false" },
-      "type": { "name": "boolean" }
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
     },
-    "disabled": {
-      "name": "disabled",
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
       "required": false,
-      "description": "Disables interaction across the field subcomponents.",
-      "defaultValue": { "value": "false" },
-      "type": { "name": "boolean" }
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
     },
-    "id": {
-      "name": "id",
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
       "required": false,
-      "description": "Base identifier shared between label htmlFor and input id.",
-      "type": { "name": "string" }
+      "type": {
+        "name": "Ref<HTMLDivElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
     }
   }
 }

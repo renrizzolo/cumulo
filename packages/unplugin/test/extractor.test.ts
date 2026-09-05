@@ -153,8 +153,8 @@ describe('unplugin extractor', () => {
     expect(css).toContain('display:inline-flex;');
     expect(css).toContain('.btn-variant-primary-');
     expect(css).toContain('.btn-variant-secondary-');
-    expect(css).toContain('.btn-size-base-');
-    expect(css).toContain('.btn-size-small-');
+    expect(css).toContain('.btn-size-md-');
+    expect(css).toContain('.btn-size-sm-');
     expect(css).toContain('.btn-width-full-');
   });
 
@@ -166,7 +166,7 @@ describe('unplugin extractor', () => {
     const renderedClasses = buttonRecipe({
       variant: 'primary',
       intent: 'primary',
-      size: 'base',
+      size: 'md',
       width: 'auto',
     });
     const classList = renderedClasses.split(' ').filter((cls) => cls && !cls.endsWith('-nf0rvp'));

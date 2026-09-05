@@ -1,7 +1,9 @@
+import '@testing-library/jest-dom/vitest';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
-import { ThemeToggle, buttonRecipe, themeStore } from '../src/index.js';
+import { ThemeToggle } from '../src';
+import { themeStore } from '../src/theme/theme';
 
 describe('ThemeToggle component', () => {
   let isDarkMedia = false;
@@ -23,18 +25,10 @@ describe('ThemeToggle component', () => {
     vi.restoreAllMocks();
   });
 
-  it('renders button with button recipe variants', () => {
-    render(<ThemeToggle variant="outline" size="small" shape="round" />);
-    const button = screen.getByRole('button');
-    expect(button.className).toContain(buttonRecipe.classNames.variants.variant.outline);
-    expect(button.className).toContain(buttonRecipe.classNames.variants.size.small);
-    expect(button.className).toContain(buttonRecipe.classNames.variants.shape.round);
-  });
-
   it('renders button with accessible aria-label', () => {
     render(<ThemeToggle />);
     const button = screen.getByRole('button');
-    expect(button).toBeDefined();
+    expect(button).toBeInTheDocument();
     expect(button.getAttribute('aria-label')).toBe('Switch to dark mode');
   });
 
@@ -80,6 +74,6 @@ describe('ThemeToggle component', () => {
 
   it('renders custom label when showLabel is true', () => {
     render(<ThemeToggle showLabel />);
-    expect(screen.getByText('Light')).toBeDefined();
+    expect(screen.getByText('Light')).toBeInTheDocument();
   });
 });

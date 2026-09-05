@@ -1,9 +1,9 @@
-import { recipe } from '@cumulo/css';
+import { recipe, style } from '@cumulo/css';
 import { vars } from './contract.js';
 
 export type BaseVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 export type Intent = 'primary' | 'success' | 'warning' | 'error' | 'info';
-export type ComponentSize = 'xSmall' | 'small' | 'base' | 'large';
+export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 const intentSecondaryVarMap = {
   success: vars.success.secondary,
@@ -225,34 +225,40 @@ export const sizes = recipe(
   {
     variants: {
       size: {
-        xSmall: {
-          height: vars.size.xSmall,
-          paddingLeft: vars.spacing['xs'],
-          paddingRight: vars.spacing['xs'],
+        xs: {
+          height: vars.size.xs,
+          paddingLeft: vars.spacing.xs,
+          paddingRight: vars.spacing.xs,
           fontSize: vars.font.size.xs,
         },
-        small: {
-          height: vars.size.small,
+        sm: {
+          height: vars.size.sm,
           paddingLeft: vars.spacing.sm,
           paddingRight: vars.spacing.sm,
           fontSize: vars.font.size.sm,
         },
-        base: {
-          height: vars.size.base,
+        md: {
+          height: vars.size.md,
           paddingLeft: vars.spacing.md,
           paddingRight: vars.spacing.md,
           fontSize: vars.font.size.sm,
         },
-        large: {
-          height: vars.size.large,
+        lg: {
+          height: vars.size.lg,
           paddingLeft: vars.spacing.lg,
           paddingRight: vars.spacing.lg,
           fontSize: vars.font.size.base,
         },
+        xl: {
+          height: vars.size.xl,
+          paddingLeft: vars.spacing.xl,
+          paddingRight: vars.spacing.xl,
+          fontSize: vars.font.size.lg,
+        },
       },
     },
     defaultVariants: {
-      size: 'base',
+      size: 'md',
     },
   },
   'size',
@@ -357,14 +363,14 @@ export const fieldVariantStyles = recipe(
     variants: {
       variant: {
         field: {
-          backgroundColor: vars.surface.secondary.DEFAULT,
+          backgroundColor: vars.surface.bg.DEFAULT,
           color: vars.surface.fg,
           borderColor: vars.surface.border,
           ':hover': {
-            backgroundColor: vars.surface.secondary.hover,
+            backgroundColor: vars.surface.bg.next,
           },
           ':focus': {
-            backgroundColor: vars.surface.secondary.hover,
+            backgroundColor: vars.surface.bg.next,
           },
         },
       },
@@ -395,4 +401,62 @@ export const fieldIntentStyles = recipe(
     },
   },
   'field-intent',
+);
+
+/**
+ * Shared focus ring style and recipe for interactive components.
+ */
+export const focusRingStyles = {
+  outline: 'none',
+  ':focus-visible': {
+    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+  },
+  ':has(:focus-visible)': {
+    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+  },
+} as const;
+
+export const focusRing = recipe(
+  {
+    base: focusRingStyles,
+  },
+  'focus-ring',
+);
+
+/**
+ * Accessible visually hidden style for hidden input elements and screen-reader content.
+ */
+export const visuallyHidden = style(
+  {
+    position: 'absolute',
+    width: '1px',
+    height: '1px',
+    padding: 0,
+    margin: '-1px',
+    overflow: 'hidden',
+    clip: 'rect(0, 0, 0, 0)',
+    whiteSpace: 'nowrap',
+    border: 0,
+    opacity: 0,
+  },
+  'visually-hidden',
+);
+
+/**
+ * Full-coverage transparent input style for custom interactive controls (e.g. Checkbox, Switch).
+ * Stretches across the parent container to natively capture click, touch, and focus events without wrapping in a label.
+ */
+export const controlInput = style(
+  {
+    position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    opacity: 0,
+    margin: 0,
+    padding: 0,
+    cursor: 'inherit',
+    zIndex: 1,
+  },
+  'control-input',
 );

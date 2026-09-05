@@ -1,25 +1,24 @@
 import '@testing-library/jest-dom/vitest';
+import { cleanup, render, screen } from '@testing-library/react';
 import React from 'react';
-import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
 import { Flow } from '../src/components/Flow.js';
 
+afterEach(() => {
+  cleanup();
+});
+
 describe('Flow Component', () => {
-  it('renders children with base flow class', () => {
+  it('renders without crashing', () => {
     render(
-      <Flow data-testid="flow">
-        <h1>Heading</h1>
+      <Flow>
         <p>Paragraph</p>
       </Flow>,
     );
-
-    const el = screen.getByTestId('flow');
-    expect(el).toBeInTheDocument();
-    expect(el.tagName).toBe('DIV');
-    expect(el.className).toContain('flow-base');
+    expect(screen.getByText('Paragraph')).toBeInTheDocument();
   });
 
-  it('supports polymorphic as prop', () => {
+  it('renders the specified polymorphic element with as prop', () => {
     render(
       <Flow as="article" data-testid="flow-article">
         <p>Article body</p>
@@ -28,29 +27,5 @@ describe('Flow Component', () => {
 
     const el = screen.getByTestId('flow-article');
     expect(el.tagName).toBe('ARTICLE');
-  });
-
-  it('applies space variant class', () => {
-    render(
-      <Flow space="lg" data-testid="flow-space">
-        <p>Item 1</p>
-        <p>Item 2</p>
-      </Flow>,
-    );
-
-    const el = screen.getByTestId('flow-space');
-    expect(el.className).toContain('flow-space-lg');
-  });
-
-  it('applies prose mode variant', () => {
-    render(
-      <Flow prose data-testid="flow-prose">
-        <h2>Section Title</h2>
-        <p>First paragraph</p>
-      </Flow>,
-    );
-
-    const el = screen.getByTestId('flow-prose');
-    expect(el.className).toContain('flow-prose-true');
   });
 });

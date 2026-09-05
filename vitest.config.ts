@@ -1,15 +1,28 @@
 import { defineConfig } from 'vitest/config';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
   test: {
     projects: [
       {
         test: {
+          name: 'fixtures',
+          include: ['packages/fixtures/test/bundlers/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+          benchmark: { include: [] },
+        },
+      },
+      {
+        test: {
           name: 'core',
           include: ['packages/core/**/*.test.{ts,tsx}'],
           environment: 'jsdom',
           globals: true,
+          benchmark: { include: [] },
         },
       },
       {
@@ -18,6 +31,7 @@ export default defineConfig({
           include: ['packages/css/**/*.test.{ts,tsx}'],
           environment: 'node',
           globals: true,
+          benchmark: { include: [] },
         },
       },
       {
@@ -26,14 +40,27 @@ export default defineConfig({
           include: ['packages/unplugin/**/*.test.{ts,tsx}'],
           environment: 'node',
           globals: true,
+          benchmark: { include: [] },
         },
       },
       {
         test: {
-          name: 'fixtures',
-          include: ['packages/fixtures/test/bundlers/**/*.test.{ts,tsx}'],
+          name: 'scripts',
+          include: ['scripts/**/*.test.{ts,tsx}'],
           environment: 'node',
           globals: true,
+          benchmark: { include: [] },
+        },
+      },
+      {
+        test: {
+          name: 'benchmarks',
+          include: [],
+          environment: 'node',
+          benchmark: {
+            include: ['packages/**/*.bench.{ts,tsx}'],
+            suppressExportGetterWarnings: true,
+          },
         },
       },
     ],

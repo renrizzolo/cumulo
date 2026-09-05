@@ -5,11 +5,7 @@ export default defineConfig({
   format: ['esm'],
   dts: true,
   clean: false,
-  exports: true,
+  exports: false,
   target: 'es2022',
   unbundle: true,
-  // css: {
-
-  //   splitting: true
-  // }
 });

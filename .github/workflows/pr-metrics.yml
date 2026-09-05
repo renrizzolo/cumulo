@@ -1,0 +1,114 @@
+name: PR Metrics (Bundle Size & API Changes)
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+    branches:
+      - main
+
+concurrency:
+  group: pr-metrics-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  metrics:
+    name: Track Bundle Size & Public API Changes
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - name: Checkout PR branch (HEAD)
+        uses: actions/checkout@v7
+        with:
+          path: pr-repo
+
+      - name: Setup pnpm and Node.js
+        uses: pnpm/setup@v2.1.0 # note - 'working-directory' is in v2.1, not the pnpm/checkout@2 major
+        with:
+          runtime: node@24
+          cache: true
+          # we need to let pnpm know the root package.json location for the pnpm version
+          working-directory: pr-repo
+
+      - name: Install dependencies (PR)
+        run: pnpm install
+        working-directory: pr-repo
+
+      - name: Build packages (PR)
+        run: pnpm build
+        working-directory: pr-repo
+
+      - name: Checkout Base branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.base_ref }}
+          path: base-repo
+
+      - name: Install dependencies (Base)
+        run: pnpm install
+        working-directory: base-repo
+
+      - name: Build packages (Base)
+        run: pnpm build
+        working-directory: base-repo
+
+      - name: Generate PR Metrics Report
+        run: |
+          node pr-repo/scripts/pr-metrics/generate-pr-report.ts \
+            --pr-dir pr-repo \
+            --base-dir base-repo \
+            --out pr-repo/pr-metrics-report.md
+
+      - name: Post or Update Sticky PR Comment
+        uses: actions/github-script@v9
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('node:fs');
+            const path = require('node:path');
+
+            const reportPath = path.resolve('pr-repo/pr-metrics-report.md');
+            if (!fs.existsSync(reportPath)) {
+              console.log('No report generated.');
+              return;
+            }
+
+            const body = fs.readFileSync(reportPath, 'utf-8');
+            const headerTag = '<!-- cumulo-pr-metrics -->';
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const existingComment = comments.find(
+              (comment) =>
+                comment.user?.type === 'Bot' &&
+                comment.body?.includes(headerTag)
+            );
+
+            if (existingComment) {
+              console.log(`Updating existing PR metrics comment (ID: ${existingComment.id})`);
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existingComment.id,
+                body,
+              });
+            } else {
+              console.log('Creating new PR metrics comment');
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

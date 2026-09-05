@@ -1,0 +1,54 @@
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import {
+  Popover,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverClose,
+  Button,
+  VStack,
+  Text,
+} from '@cumulo/core';
+import popoverDoc from '../../../docgen/components/Popover.json';
+export default Layout;
+export { CodeBlock, ComponentPreview, PropsTable };
+
+# Popover
+
+A lightweight non-modal floating overlay built on the native HTML Popover API with automatic top-layer elevation and light-dismiss behavior.
+
+```tsx
+import { Popover } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Native Popover"
+  description="Click to toggle the native popover. Click outside or press Esc to dismiss."
+>
+  <PopoverRoot>
+    <PopoverTrigger variant="secondary">Toggle Settings</PopoverTrigger>
+    <PopoverContent size="md">
+      <VStack gap="xs">
+        <Text size="sm" weight="semibold">
+          Quick Preferences
+        </Text>
+        <Text size="xs" color="muted">
+          Native popover rendered directly in the top layer without requiring React portals.
+        </Text>
+        <PopoverClose
+          variant="outline"
+          size="sm"
+          style={{ marginTop: '0.5rem', alignSelf: 'flex-start' }}
+        >
+          Dismiss
+        </PopoverClose>
+      </VStack>
+    </PopoverContent>
+  </PopoverRoot>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={popoverDoc} />

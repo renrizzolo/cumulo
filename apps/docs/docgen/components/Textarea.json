@@ -1,0 +1,163 @@
+{
+  "name": "Textarea",
+  "path": "packages/core/src/components/Textarea.tsx",
+  "fileName": "Textarea.tsx",
+  "props": {
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"inherit\" | ComponentSize | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "resize": {
+      "defaultValue": {
+        "value": "vertical"
+      },
+      "description": "",
+      "name": "resize",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"both\" | \"horizontal\" | \"vertical\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"both\""
+          },
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Textarea.tsx",
+        "name": "TextareaProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Textarea.tsx",
+          "name": "TextareaProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"error\" | \"default\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"default\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLTextAreaElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

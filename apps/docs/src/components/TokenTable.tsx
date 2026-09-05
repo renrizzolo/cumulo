@@ -311,14 +311,14 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
 };
 
 const previewBarStyle = style({
-  height: vars.size.xSmall,
+  height: vars.size.xs,
   backgroundColor: vars.primary.DEFAULT,
   borderRadius: vars.radius.md,
 });
 
 const previewBoxStyle = style({
-  width: vars.size.base,
-  height: vars.size.base,
+  width: vars.size.md,
+  height: vars.size.md,
   borderWidth: 2,
   borderStyle: 'solid',
   borderColor: vars.primary.DEFAULT,
@@ -326,8 +326,8 @@ const previewBoxStyle = style({
 });
 
 const colorSwatchStyle = style({
-  width: vars.size.base,
-  height: vars.size.base,
+  width: vars.size.md,
+  height: vars.size.md,
   borderRadius: vars.radius.md,
   borderWidth: 1,
   borderStyle: 'solid',

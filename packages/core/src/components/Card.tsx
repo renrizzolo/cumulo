@@ -42,7 +42,7 @@ export function Card({
   padding = 'md',
   overflow = 'hidden',
   flex,
-  radius,
+  radius = 'lg',
   className,
   children,
   ref,
@@ -55,6 +55,10 @@ export function Card({
       ref={ref}
       level={level}
       variant={variant}
+      padding={padding}
+      radius={radius}
+      overflow={overflow}
+      flex={flex}
       className={cx(classes, className)}
       {...props}
     >

@@ -18,16 +18,34 @@ import {
 export default defineConfig({
   plugins: [react(), vitePlugin()],
   resolve: {
-    alias: {
-      '@cumulo/css': path.resolve(__dirname, '../css/src/index.ts'),
-      '@cumulo/core': path.resolve(__dirname, '../core/src/index.ts'),
-      '@cumulo/unplugin': path.resolve(__dirname, '../unplugin/src/index.ts'),
-      '@cumulo/unplugin/vite': path.resolve(__dirname, '../unplugin/src/vite.ts'),
-      '@cumulo/unplugin/rollup': path.resolve(__dirname, '../unplugin/src/rollup.ts'),
-      '@cumulo/unplugin/esbuild': path.resolve(__dirname, '../unplugin/src/esbuild.ts'),
-      '@cumulo/unplugin/webpack': path.resolve(__dirname, '../unplugin/src/webpack.ts'),
-      '@cumulo/parcel-transformer': path.resolve(__dirname, '../parcel-transformer/src/index.ts'),
-    },
+    alias: [
+      {
+        find: '@cumulo/unplugin/vite',
+        replacement: path.resolve(__dirname, '../unplugin/src/vite.ts'),
+      },
+      {
+        find: '@cumulo/unplugin/rollup',
+        replacement: path.resolve(__dirname, '../unplugin/src/rollup.ts'),
+      },
+      {
+        find: '@cumulo/unplugin/esbuild',
+        replacement: path.resolve(__dirname, '../unplugin/src/esbuild.ts'),
+      },
+      {
+        find: '@cumulo/unplugin/webpack',
+        replacement: path.resolve(__dirname, '../unplugin/src/webpack.ts'),
+      },
+      {
+        find: /^@cumulo\/unplugin$/,
+        replacement: path.resolve(__dirname, '../unplugin/src/index.ts'),
+      },
+      { find: /^@cumulo\/css$/, replacement: path.resolve(__dirname, '../css/src/index.ts') },
+      { find: /^@cumulo\/core$/, replacement: path.resolve(__dirname, '../core/src/index.ts') },
+      {
+        find: /^@cumulo\/parcel-transformer$/,
+        replacement: path.resolve(__dirname, '../parcel-transformer/src/index.ts'),
+      },
+    ],
   },
   test: {
     projects: [
@@ -40,14 +58,19 @@ export default defineConfig({
         },
       },
       {
-        plugins: [react(), vitePlugin()],
         test: {
           name: 'browser',
           include: ['test/browser/**/*.browser.test.{ts,tsx}'],
           browser: {
             enabled: true,
-            provider: playwright(),
+            provider: playwright({
+              contextOptions: {
+                viewport: { width: 1920, height: 1080 },
+                deviceScaleFactor: 2,
+              },
+            }),
             instances: [{ browser: 'chromium' }],
+            viewport: { width: 1920, height: 1080 },
             headless: true,
             expect: {
               toMatchScreenshot: {

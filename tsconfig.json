@@ -4,8 +4,14 @@
     "baseUrl": ".",
     "paths": {
       "@cumulo/css": ["packages/css/src/index.ts"],
-      "@cumulo/core": ["packages/core/src/index.ts"]
-    }
+      "@cumulo/core": ["packages/core/src/index.ts"],
+      "@cumulo/core/*": ["packages/core/src/*"],
+      "@cumulo/unplugin": ["packages/unplugin/src/index.ts"],
+      "@cumulo/unplugin/*": ["packages/unplugin/src/*"],
+      "@cumulo/parcel-transformer": ["packages/parcel-transformer/src/index.ts"]
+    },
+    "noEmit": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["packages/*/src/**/*", "apps/*/src/**/*"]
+  "include": ["packages/*/src/**/*", "apps/*/src/**/*", "scripts/**/*"]
 }

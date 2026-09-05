@@ -1,0 +1,176 @@
+{
+  "name": "Tabs",
+  "path": "packages/core/src/components/Tabs.tsx",
+  "fileName": "Tabs.tsx",
+  "props": {
+    "value": {
+      "defaultValue": null,
+      "description": "",
+      "name": "value",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultValue": {
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "onValueChange": {
+      "defaultValue": null,
+      "description": "",
+      "name": "onValueChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: string) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "orientation": {
+      "defaultValue": {
+        "value": "horizontal"
+      },
+      "description": "",
+      "name": "orientation",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "TabsOrientation | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "line"
+      },
+      "description": "",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "TabsVariant | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"line\""
+          },
+          {
+            "value": "\"pill\""
+          },
+          {
+            "value": "\"bordered\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

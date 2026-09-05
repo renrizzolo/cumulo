@@ -24,7 +24,7 @@ export function CopyButton({ text, className }: CopyButtonProps): React.JSX.Elem
 
   return (
     <Button
-      size="small"
+      size="sm"
       variant="ghost"
       onClick={handleCopy}
       aria-label="Copy code snippet"

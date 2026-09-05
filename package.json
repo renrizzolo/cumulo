@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
-    "type-check": "pnpm -r type-check",
+    "type-check": "tsc --noEmit && pnpm -r type-check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt --write .",
@@ -14,6 +14,10 @@
     "check": "pnpm type-check && pnpm lint:fix && pnpm format",
     "check:ci": "pnpm type-check && pnpm lint && pnpm format:check",
     "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:browser": "pnpm --filter @cumulo/fixtures exec vitest run --project browser",
+    "bench": "vitest bench",
+    "bench:css": "vitest bench packages/css",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"
@@ -25,11 +29,12 @@
     "@parcel/transformer-react-static": "2.16.4",
     "@types/node": "^24",
     "buffer": "^6.0.3",
+    "diff": "^9.0.0",
     "oxfmt": "^0.64.0",
     "oxlint": "^1.79.0",
     "react-server-dom-parcel": "^19.2.8",
     "typescript": "^5.8.2",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "packageManager": "pnpm@11.22.0",
   "@renr/parcel-reporter-docgen": {

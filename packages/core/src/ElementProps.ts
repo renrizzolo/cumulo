@@ -60,13 +60,13 @@ export type ElementProps<T> = Omit<
   | 'itemType'
   | 'itemID'
   | 'itemRef'
-  | 'popover'
-  | 'popoverTargetAction'
-  | 'popoverTarget'
   | 'exportparts'
-  | 'defaultChecked'
-  | 'defaultValue'
   | 'size'
 > & {
+  popover?: 'auto' | 'manual' | '' | boolean;
+  popoverTarget?: string;
+  popoverTargetAction?: 'toggle' | 'show' | 'hide';
+  defaultChecked?: boolean;
+  defaultValue?: string | number | readonly string[];
   ref?: React.Ref<T>;
 };

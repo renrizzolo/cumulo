@@ -1,0 +1,128 @@
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import {
+  Switch,
+  FieldRoot,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  FieldSwitch,
+  HStack,
+  VStack,
+  Text,
+} from '@cumulo/core';
+import switchDoc from '../../../docgen/components/Switch.json';
+export default Layout;
+export { CodeBlock, ComponentPreview, PropsTable };
+
+# Switch
+
+A smooth, accessible toggle switch control with tokenized sizing, sliding thumb animations, and field integration.
+
+```tsx
+import { Switch } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Switch Toggle"
+  description="Explore interactive toggle switches with integrated field labeling."
+>
+  <VStack gap="md">
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch />
+        <FieldLabel>Enable Feature</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch defaultChecked />
+        <FieldLabel>Active by Default</FieldLabel>
+      </HStack>
+    </FieldRoot>
+  </VStack>
+</ComponentPreview>
+
+## States & Intents
+
+Switches support checked, unchecked, error, and disabled states with automatic accessibility wiring.
+
+<ComponentPreview
+  title="Switch States & Intents"
+  description="Default, checked, error intent, and disabled switches."
+>
+  <VStack gap="md">
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch />
+        <FieldLabel>Default (Unchecked)</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch defaultChecked />
+        <FieldLabel>Checked</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot isInvalid>
+      <HStack gap="sm" align="center">
+        <FieldSwitch />
+        <FieldLabel>Error State</FieldLabel>
+      </HStack>
+      <FieldError>This setting requires immediate review.</FieldError>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch disabled />
+        <FieldLabel>Disabled (Unchecked)</FieldLabel>
+      </HStack>
+    </FieldRoot>
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch disabled defaultChecked />
+        <FieldLabel>Disabled (Checked)</FieldLabel>
+      </HStack>
+    </FieldRoot>
+  </VStack>
+</ComponentPreview>
+
+## Field Integration
+
+When used inside a `FieldRoot`, switches automatically synchronize IDs, descriptions, accessibility attributes, and error validation states.
+
+<ComponentPreview
+  title="Form Field Integration"
+  description="Switches configured with valid, invalid, and disabled Field contexts."
+>
+  <VStack gap="lg">
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch defaultChecked />
+        <FieldLabel>Push Notifications</FieldLabel>
+      </HStack>
+      <FieldDescription>Receive real-time alerts when activity occurs on your account.</FieldDescription>
+    </FieldRoot>
+
+    <FieldRoot isInvalid>
+      <HStack gap="sm" align="center">
+        <FieldSwitch />
+        <FieldLabel>Require Two-Factor Authentication</FieldLabel>
+      </HStack>
+      <FieldError>Two-factor authentication must be enabled for administrator accounts.</FieldError>
+    </FieldRoot>
+
+    <FieldRoot>
+      <HStack gap="sm" align="center">
+        <FieldSwitch disabled />
+        <FieldLabel>Automatic Cloud Backups (Pro Feature)</FieldLabel>
+      </HStack>
+      <FieldDescription>Upgrade your subscription plan to enable automated cloud backups.</FieldDescription>
+    </FieldRoot>
+
+  </VStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={switchDoc} />

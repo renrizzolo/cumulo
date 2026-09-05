@@ -1,0 +1,47 @@
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import {
+  Textarea,
+  FieldRoot,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  FieldTextarea,
+  VStack,
+} from '@cumulo/core';
+import textareaDoc from '../../../docgen/components/Textarea.json';
+export default Layout;
+export { CodeBlock, ComponentPreview, PropsTable };
+
+# Textarea
+
+A multi-line text input field supporting resizing controls, intent states, and Field compound integration.
+
+```tsx
+import { Textarea, FieldTextarea } from '@cumulo/core';
+```
+
+## Interactive Playground
+
+<ComponentPreview
+  title="Textarea within Field"
+  description="Multi-line input integrated with Field label, description, and error messaging."
+>
+  <VStack gap="md" style={{ width: '100%', maxWidth: '480px' }}>
+    <FieldRoot>
+      <FieldLabel>Project Description</FieldLabel>
+      <FieldTextarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
+      <FieldDescription>Brief overview for stakeholders.</FieldDescription>
+    </FieldRoot>
+
+    <FieldRoot isInvalid>
+      <FieldLabel>Feedback</FieldLabel>
+      <FieldTextarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
+      <FieldError>Feedback must be at least 20 characters long.</FieldError>
+    </FieldRoot>
+
+  </VStack>
+</ComponentPreview>
+
+## Component API
+
+<PropsTable data={textareaDoc} />

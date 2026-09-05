@@ -37,7 +37,7 @@ while ((match = varRegex.exec(rawCss)) !== null) {
   declaredVars.add(match[1]);
 }
 
-const sortedVars = Array.from(declaredVars).sort();
+const sortedVars = Array.from(declaredVars).toSorted();
 
 function kebabToCamel(str: string): string {
   return str.replace(/-([a-z0-9])/g, (_, g) => g.toUpperCase());
@@ -126,6 +126,20 @@ const contractContent = `// Auto-generated from src/theme.css by scripts/generat
 export const vars = ${JSON.stringify(contractTree, null, 2)} as const;
 
 export const themeContract = vars;
+
+export type ThemeVars = typeof vars;
+
+export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends string
+  ? Prefix
+  : {
+      [K in keyof T & string]: T[K] extends string
+        ? K extends \`\${number}\${string}\`
+          ? \`\${Prefix}["\${K}"]\`
+          : \`\${Prefix}.\${K}\`
+        : K extends \`\${number}\${string}\`
+          ? VarPath<T[K], \`\${Prefix}["\${K}"]\`>
+          : VarPath<T[K], \`\${Prefix}.\${K}\`>;
+    }[keyof T & string];
 `;
 
 fs.writeFileSync(contractPath, (await format(contractPath, contractContent, oxfmtConfig)).code);

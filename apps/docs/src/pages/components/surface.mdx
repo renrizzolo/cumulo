@@ -15,19 +15,24 @@ import { Surface } from '@cumulo/core';
 ## Interactive Playground
 
 <ComponentPreview>
-  <Surface level={0} padding="sm" radius="2xl">
-    <VStack gap="sm">
-      <Text type="label">Surface Level 0 (Canvas)</Text>
-      <Surface level={1} padding="xs" radius="auto">
-        <VStack gap="sm">
-          <Text type="label">Surface Level 1 (Card)</Text>
-          <Surface level={2} padding="xs" radius="auto">
-            <Text type="label">Surface Level 2 (Elevated)</Text>
-          </Surface>
-        </VStack>
-      </Surface>
-    </VStack>
-  </Surface>
+  <VStack gap="md">
+    <Surface level={0} padding="lg" radius="2xl">
+      <VStack gap="lg">
+        <Text type="label">Surface Level 0 (Canvas)</Text>
+        <Surface level={1} padding="xs" radius="2xl">
+          <VStack gap="lg">
+            <Text type="label">Surface Level 1 (Card)</Text>
+            <Surface level={2} padding="lg" radius="auto">
+              <Text type="label">Surface Level 2 (Elevated)</Text>
+            </Surface>
+          </VStack>
+        </Surface>
+      </VStack>
+    </Surface>
+    <Surface variant="primary" padding="sm">
+      <Text type="label">Primary Surface</Text>
+    </Surface>
+  </VStack>
 </ComponentPreview>
 
 ## Component API

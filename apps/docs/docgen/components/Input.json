@@ -71,7 +71,7 @@
     },
     "size": {
       "defaultValue": {
-        "value": "base"
+        "value": "md"
       },
       "description": "",
       "name": "size",
@@ -93,16 +93,19 @@
             "value": "\"inherit\""
           },
           {
-            "value": "\"small\""
+            "value": "\"xs\""
           },
           {
-            "value": "\"xSmall\""
+            "value": "\"sm\""
           },
           {
-            "value": "\"large\""
+            "value": "\"md\""
           },
           {
-            "value": "\"base\""
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
           }
         ]
       },

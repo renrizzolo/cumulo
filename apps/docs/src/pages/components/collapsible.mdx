@@ -1,4 +1,4 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import {
   CollapsibleRoot,
   CollapsibleTrigger,
@@ -8,8 +8,9 @@ import {
   Text,
   VStack,
 } from '@cumulo/core';
+import collapsibleDoc from '../../../docgen/components/Collapsible.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Collapsible
 
@@ -45,9 +46,6 @@ import { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent } from '@cumulo
   </CollapsibleRoot>
 </ComponentPreview>
 
-## Features
+## Component API
 
-- **Compound Architecture**: Uses `<CollapsibleRoot>`, `<CollapsibleTrigger>`, and `<CollapsibleContent>`.
-- **Pure CSS Animation**: Animates dynamically sized content via CSS Grid rows (`0fr` to `1fr`) and opacity.
-- **Accessibility Included**: Wires `aria-expanded`, `aria-controls`, `aria-labelledby`, and `data-state` automatically.
-- **Controlled & Uncontrolled**: Supports `defaultOpen`, `open`, and `onOpenChange`.
+<PropsTable data={collapsibleDoc} />
