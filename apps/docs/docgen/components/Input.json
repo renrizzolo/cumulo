@@ -3,6 +3,86 @@
   "path": "packages/core/src/components/Input.tsx",
   "fileName": "Input.tsx",
   "props": {
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Input.tsx",
+        "name": "InputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Input.tsx",
+          "name": "InputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"error\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Input.tsx",
+        "name": "InputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Input.tsx",
+          "name": "InputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"inherit\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "className": {
       "defaultValue": null,
       "description": "",
@@ -38,78 +118,6 @@
         "name": "Ref<HTMLInputElement> | undefined"
       },
       "shortPropTypeName": "Union"
-    },
-    "intent": {
-      "defaultValue": {
-        "value": "default"
-      },
-      "description": "",
-      "name": "intent",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Input.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"default\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "size": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "size",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Input.tsx",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"inherit\" | ComponentSize | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"inherit\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
     }
   }
 }

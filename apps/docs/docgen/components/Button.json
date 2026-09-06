@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "BaseVariant | undefined",
+        "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -62,7 +62,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "Intent | undefined",
+        "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -105,7 +105,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "ComponentSize | undefined",
+        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"

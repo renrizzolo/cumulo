@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "TextSemanticType | undefined",
+        "raw": "\"body\" | \"label\" | \"display\" | \"lead\" | \"caption\" | \"code\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -169,16 +169,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"medium\" | \"bold\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"medium\""
+            "value": "\"normal\""
           },
           {
-            "value": "\"normal\""
+            "value": "\"medium\""
           },
           {
             "value": "\"bold\""
@@ -207,16 +207,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"none\" | \"tight\" | \"relaxed\" | undefined",
+        "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"normal\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"normal\""
           },
           {
             "value": "\"tight\""
