@@ -8,7 +8,6 @@ export const headingRecipe = recipe(
     base: {
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      margin: 0,
       lineHeight: vars.line.height.tight,
     },
     variants: {

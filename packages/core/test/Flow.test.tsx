@@ -28,4 +28,13 @@ describe('Flow Component', () => {
     const el = screen.getByTestId('flow-article');
     expect(el.tagName).toBe('ARTICLE');
   });
+
+  it('renders with space variant without crashing', () => {
+    render(
+      <Flow space="xl">
+        <p>Spaced paragraph</p>
+      </Flow>,
+    );
+    expect(screen.getByText('Spaced paragraph')).toBeInTheDocument();
+  });
 });

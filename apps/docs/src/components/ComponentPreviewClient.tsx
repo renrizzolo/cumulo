@@ -19,6 +19,11 @@ const previewCanvasStyle = style(
     justifyContent: 'center',
     alignItems: 'center',
     padding: `${vars.spacing['2xl']} ${vars.spacing.xl}`,
+    resize: 'horizontal',
+    width: '100%',
+    maxWidth: '100%',
+    alignSelf: 'center',
+    overflow: 'auto',
   },
   'canvas',
 );

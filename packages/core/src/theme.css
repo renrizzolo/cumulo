@@ -162,8 +162,8 @@
     /* Line height scale */
     --theme-line-height-none: 1;
     --theme-line-height-tight: 1.25;
-    --theme-line-height-normal: 1.5;
-    --theme-line-height-relaxed: 1.75;
+    --theme-line-height-normal: 1.4;
+    --theme-line-height-relaxed: 1.65;
 
     /* Base canvas and text colors */
     --theme-bg-0: light-dark(#ffffff, #030712);

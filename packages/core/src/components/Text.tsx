@@ -8,13 +8,12 @@ export const textRecipe = recipe(
     base: {
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      margin: 0,
     },
     variants: {
       type: {
         body: {
           fontSize: vars.font.size.base,
-          lineHeight: vars.line.height.relaxed,
+          lineHeight: vars.line.height.normal,
           fontWeight: vars.font.weight.normal,
         },
         label: {
