@@ -25,9 +25,9 @@ export const codeRecipe = recipe(
           color: vars.surface.fg,
         },
         primary: {
-          backgroundColor: vars.primary['50'],
-          borderColor: vars.primary.border,
-          color: vars.primary.DEFAULT,
+          backgroundColor: vars.surface.primary.DEFAULT,
+          borderColor: vars.surface.primary.border,
+          color: vars.surface.primary.fg,
         },
         ghost: {
           backgroundColor: 'transparent',
@@ -47,7 +47,7 @@ export const codeRecipe = recipe(
 export type CodeVariants = RecipeVariants<typeof codeRecipe>;
 
 export interface CodeProps extends ElementProps<HTMLElement> {
-  variant?: 'subtle' | 'primary' | 'ghost';
+  variant?: CodeVariants['variant'];
   children?: React.ReactNode;
 }
 

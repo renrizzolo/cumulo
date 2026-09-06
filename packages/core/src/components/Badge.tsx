@@ -2,13 +2,7 @@ import { cx, recipe, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 import { vars } from '../contract.js';
 import { type ElementProps } from '../ElementProps.js';
-import {
-  ComponentSize,
-  sizes,
-  staticIntentStyles,
-  type BaseVariant,
-  type Intent,
-} from '../intents.js';
+import { sizes, staticIntentStyles } from '../intents.js';
 
 export const badgeRecipe = recipe(
   {
@@ -68,13 +62,13 @@ export const badgeRecipe = recipe(
 
 export type BadgeVariants = RecipeVariants<typeof badgeRecipe>;
 
-export type BadgeColor = 'yellow' | 'blue' | 'green' | 'beige' | 'pink' | 'purple' | 'sky';
+export type BadgeColor = NonNullable<BadgeVariants['color']>;
 
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
-  variant?: BaseVariant;
-  intent?: Intent;
-  size?: ComponentSize;
-  color?: BadgeColor;
+  variant?: BadgeVariants['variant'];
+  intent?: BadgeVariants['intent'];
+  size?: BadgeVariants['size'];
+  color?: BadgeVariants['color'];
   children?: React.ReactNode;
 }
 

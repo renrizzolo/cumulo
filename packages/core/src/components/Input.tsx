@@ -73,10 +73,10 @@ export const inputRecipe = recipe(
 
 export type InputVariants = RecipeVariants<typeof inputRecipe>;
 
-export type InputProps = ElementProps<HTMLInputElement> & {
-  intent?: 'default' | 'error';
-  size?: ComponentSize | 'inherit';
-};
+export interface InputProps extends ElementProps<HTMLInputElement> {
+  intent?: InputVariants['intent'];
+  size?: InputVariants['size'];
+}
 
 export function Input({
   intent = 'default',

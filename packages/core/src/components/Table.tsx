@@ -89,6 +89,7 @@ export const tableRowRecipe = recipe(
 );
 
 export type TableVariants = RecipeVariants<typeof tableRecipe>;
+export type TableRowVariants = RecipeVariants<typeof tableRowRecipe>;
 
 function cleanTableChildren(children: React.ReactNode): React.ReactNode {
   return React.Children.toArray(children).filter(
@@ -97,7 +98,7 @@ function cleanTableChildren(children: React.ReactNode): React.ReactNode {
 }
 
 export interface TableProps extends ElementProps<HTMLTableElement> {
-  variant?: 'default' | 'bordered';
+  variant?: TableVariants['variant'];
   children?: React.ReactNode;
 }
 
@@ -146,7 +147,7 @@ export function TableBody({
 }
 
 export interface TableRowProps extends ElementProps<HTMLTableRowElement> {
-  interactive?: boolean;
+  interactive?: TableRowVariants['interactive'];
 }
 
 export function TableRow({

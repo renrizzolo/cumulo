@@ -126,7 +126,7 @@ export interface CheckboxProps extends ElementProps<HTMLInputElement> {
   defaultChecked?: boolean;
   indeterminate?: boolean;
   defaultIndeterminate?: boolean;
-  intent?: 'default' | 'error';
+  intent?: CheckboxVariants['intent'];
   onCheckedChange?: (checked: boolean) => void;
   onIndeterminateChange?: (indeterminate: boolean) => void;
 }

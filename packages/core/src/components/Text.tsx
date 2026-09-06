@@ -90,18 +90,18 @@ export const textRecipe = recipe(
 
 export type TextVariants = RecipeVariants<typeof textRecipe>;
 
-export type TextSemanticType = 'body' | 'label' | 'display' | 'lead' | 'caption' | 'code';
+export type TextSemanticType = NonNullable<TextVariants['type']>;
 export type TextElement = 'p' | 'span' | 'div' | 'label' | 'code' | 'small' | 'strong' | 'em';
 
 export interface TextProps extends ElementProps<HTMLElement> {
   /** Semantic type that contextually sets size, line-height, and font weight */
-  type?: TextSemanticType;
+  type?: TextVariants['type'];
   /** Explicit element override */
   as?: TextElement;
-  size?: '2xs' | 'xs' | 'sm' | 'base' | 'md' | 'lg' | 'xl' | '2xl' | '3xl';
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold';
-  lineHeight?: 'none' | 'tight' | 'normal' | 'relaxed';
-  color?: 'default' | 'muted' | 'subtle' | 'primary' | 'error' | 'success' | 'warning' | 'inherit';
+  size?: TextVariants['size'];
+  weight?: TextVariants['weight'];
+  lineHeight?: TextVariants['lineHeight'];
+  color?: TextVariants['color'];
   children?: React.ReactNode;
 }
 

@@ -39,8 +39,8 @@ export const containerRecipe = recipe(
 export type ContainerVariants = RecipeVariants<typeof containerRecipe>;
 
 export interface ContainerProps extends ElementProps<HTMLDivElement> {
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
-  padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: ContainerVariants['size'];
+  padding?: ContainerVariants['padding'];
   children?: React.ReactNode;
 }
 

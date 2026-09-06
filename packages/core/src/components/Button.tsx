@@ -2,14 +2,7 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { type ElementProps } from '../ElementProps.js';
-import {
-  allIntentStyles,
-  sizes,
-  focusRing,
-  type BaseVariant,
-  type Intent,
-  type ComponentSize,
-} from '../intents.js';
+import { allIntentStyles, sizes, focusRing } from '../intents.js';
 
 export const buttonRecipe = recipe(
   {
@@ -106,11 +99,11 @@ export const buttonRecipe = recipe(
 export type ButtonVariants = RecipeVariants<typeof buttonRecipe>;
 
 export interface ButtonProps extends ElementProps<HTMLButtonElement> {
-  variant?: BaseVariant;
-  intent?: Intent;
-  size?: ComponentSize;
-  width?: 'auto' | 'full' | 'square';
-  shape?: 'default' | 'round';
+  variant?: ButtonVariants['variant'];
+  intent?: ButtonVariants['intent'];
+  size?: ButtonVariants['size'];
+  width?: ButtonVariants['width'];
+  shape?: ButtonVariants['shape'];
   disabled?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'start' | 'end';

@@ -10,7 +10,7 @@ export { baseResetStyle, injectGlobalReset } from './reset.js';
 // Components
 export { Surface, type SurfaceProps, type SurfaceVariants } from './components/Surface.js';
 export { Button, type ButtonProps, type ButtonVariants } from './components/Button.js';
-export { Card, type CardProps } from './components/Card.js';
+export { Card, type CardProps, type CardVariants } from './components/Card.js';
 export { Input, type InputProps, type InputVariants } from './components/Input.js';
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
 export {
@@ -55,8 +55,9 @@ export {
   type TableProps,
   type TableRowProps,
   type TableVariants,
+  type TableRowVariants,
 } from './components/Table.js';
-export { Flow, type FlowProps } from './components/Flow.js';
+export { Flow, type FlowProps, type FlowVariants } from './components/Flow.js';
 export {
   Collapsible,
   CollapsibleRoot,

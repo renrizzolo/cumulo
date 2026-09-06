@@ -73,9 +73,9 @@ export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'sp
 
 export interface HeadingProps extends ElementProps<HTMLElement> {
   as?: HeadingLevel;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold';
-  color?: 'default' | 'muted' | 'primary' | 'inherit';
+  size?: HeadingVariants['size'];
+  weight?: HeadingVariants['weight'];
+  color?: HeadingVariants['color'];
   children?: React.ReactNode;
 }
 

@@ -80,9 +80,9 @@ export const textareaRecipe = recipe(
 export type TextareaVariants = RecipeVariants<typeof textareaRecipe>;
 
 export interface TextareaProps extends ElementProps<HTMLTextAreaElement> {
-  size?: ComponentSize | 'inherit';
-  resize?: 'none' | 'vertical' | 'horizontal' | 'both';
-  intent?: 'default' | 'error';
+  size?: TextareaVariants['size'];
+  resize?: TextareaVariants['resize'];
+  intent?: TextareaVariants['intent'];
 }
 
 export function Textarea({

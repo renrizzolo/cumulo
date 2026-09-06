@@ -905,7 +905,7 @@
 
     /* Theme Primary */
     --theme-primary: var(--theme-primary-600);
-    --theme-surface-primary: var(--theme-primary-200);
+    --theme-surface-primary: light-dark(var(--theme-primary-50), var(--theme-primary-100));
     --theme-primary-hover: var(--theme-primary-700);
     --theme-primary-focus: light-dark(var(--theme-primary-300), var(--theme-primary-400));
     --theme-primary-border: var(--theme-primary-200);
@@ -1011,8 +1011,8 @@
     --surface-subtle: var(--theme-subtle);
     --surface-border: var(--theme-border);
     --surface-primary: var(--theme-surface-primary);
-    --surface-primary-hover: var(--theme-primary-hover);
-    --surface-primary-fg: var(--theme-primary-fg);
+    --surface-primary-hover: light-dark(var(--theme-primary-100), var(--theme-primary-200));
+    --surface-primary-fg: var(--theme-fg);
     --surface-primary-border: var(--theme-primary-border);
     --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
     --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
@@ -1029,8 +1029,8 @@
     --surface-subtle: var(--theme-subtle);
     --surface-border: var(--theme-border);
     --surface-primary: var(--theme-surface-primary);
-    --surface-primary-hover: var(--theme-primary-hover);
-    --surface-primary-fg: var(--theme-primary-fg);
+    --surface-primary-hover: light-dark(var(--theme-primary-100), var(--theme-primary-200));
+    --surface-primary-fg: var(--theme-fg);
     --surface-primary-border: var(--theme-primary-border);
     --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
     --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
@@ -1047,8 +1047,8 @@
     --surface-subtle: var(--theme-subtle);
     --surface-border: var(--theme-border);
     --surface-primary: var(--theme-surface-primary);
-    --surface-primary-hover: var(--theme-primary-hover);
-    --surface-primary-fg: var(--theme-primary-fg);
+    --surface-primary-hover: light-dark(var(--theme-primary-200), var(--theme-primary-300));
+    --surface-primary-fg: var(--theme-fg);
     --surface-primary-border: var(--theme-primary-border);
     --surface-secondary: light-dark(var(--theme-grey-100), var(--theme-grey-200));
     --surface-secondary-hover: light-dark(var(--theme-grey-200), var(--theme-grey-300));
@@ -1059,29 +1059,11 @@
 
   .surface-primary {
     --surface-bg: var(--theme-surface-primary);
-    --surface-bg-next: color-mix(in lch, var(--theme-surface-primary), black 10%);
-    --surface-fg: var(--theme-primary-fg);
-    --surface-muted: color-mix(in lch, var(--theme-primary-fg), transparent 30%);
-    --surface-subtle: color-mix(in lch, var(--theme-primary-fg), transparent 50%);
-    --surface-border: color-mix(in lch, var(--theme-surface-primary), black 20%);
-    --surface-secondary: color-mix(in lch, var(--theme-surface-primary), black 10%);
-    --surface-secondary-hover: color-mix(in lch, var(--theme-surface-primary), black 20%);
-    --surface-secondary-fg: var(--theme-primary-fg);
-    --surface-secondary-border: color-mix(in lch, var(--theme-surface-primary), black 25%);
-  }
-
-  @supports (color: contrast-color(white)) {
-    .surface-primary {
-      --surface-fg: contrast-color(var(--surface-bg));
-      --surface-muted: color-mix(in lch, var(--surface-fg), transparent 30%);
-    }
-  }
-
-  @supports (color: color-contrast(white vs white, black)) {
-    .surface-primary {
-      --surface-fg: color-contrast(var(--surface-bg) vs white, black);
-      --surface-muted: color-mix(in lch, var(--surface-fg), transparent 30%);
-    }
+    --surface-bg-next: light-dark(var(--theme-primary-100), var(--theme-primary-200));
+    --surface-border: var(--theme-primary-border);
+    --surface-secondary: light-dark(var(--theme-primary-100), var(--theme-primary-200));
+    --surface-secondary-hover: light-dark(var(--theme-primary-200), var(--theme-primary-300));
+    --surface-secondary-border: var(--theme-primary-border);
   }
 }
 

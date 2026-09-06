@@ -42,8 +42,8 @@ export const dividerRecipe = recipe(
 export type DividerVariants = RecipeVariants<typeof dividerRecipe>;
 
 export interface DividerProps extends ElementProps<HTMLHRElement> {
-  orientation?: 'horizontal' | 'vertical';
-  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  orientation?: DividerVariants['orientation'];
+  spacing?: DividerVariants['spacing'];
 }
 
 export function Divider({
