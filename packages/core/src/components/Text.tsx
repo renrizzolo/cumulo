@@ -2,13 +2,11 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { textSharedRecipe } from '../typography.js';
 
 export const textRecipe = recipe(
   {
-    base: {
-      fontFamily: vars.font.sans,
-      color: vars.surface.fg,
-    },
+    extend: [textSharedRecipe],
     variants: {
       type: {
         body: {
@@ -57,28 +55,6 @@ export const textRecipe = recipe(
         '2xl': { fontSize: vars.font.size['2xl'] },
         '3xl': { fontSize: vars.font.size['3xl'] },
       },
-      weight: {
-        normal: { fontWeight: vars.font.weight.normal },
-        medium: { fontWeight: vars.font.weight.medium },
-        semibold: { fontWeight: vars.font.weight.semibold },
-        bold: { fontWeight: vars.font.weight.bold },
-      },
-      lineHeight: {
-        none: { lineHeight: vars.line.height.none },
-        tight: { lineHeight: vars.line.height.tight },
-        normal: { lineHeight: vars.line.height.normal },
-        relaxed: { lineHeight: vars.line.height.relaxed },
-      },
-      color: {
-        default: { color: vars.surface.fg },
-        muted: { color: vars.surface.muted },
-        subtle: { color: vars.subtle },
-        primary: { color: vars.primary.DEFAULT },
-        error: { color: vars.error.fg },
-        success: { color: vars.success.fg },
-        warning: { color: vars.warning.fg },
-        inherit: { color: 'inherit' },
-      },
     },
     defaultVariants: {
       type: 'body',
@@ -105,12 +81,13 @@ export interface TextProps extends ElementProps<HTMLElement> {
   children?: React.ReactNode;
 }
 
+// note: these are block elements so that the Flow margin applies
 const defaultElementForType: Record<TextSemanticType, TextElement> = {
   body: 'p',
-  label: 'span',
+  label: 'div',
   display: 'div',
   lead: 'p',
-  caption: 'span',
+  caption: 'div',
   code: 'code',
 };
 

@@ -124,7 +124,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"medium\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -133,10 +133,10 @@
             "value": "\"normal\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"bold\""
           },
           {
-            "value": "\"bold\""
+            "value": "\"medium\""
           },
           {
             "value": "\"semibold\""
@@ -164,7 +164,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"default\" | \"muted\" | \"primary\" | undefined",
+        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -179,7 +179,19 @@
             "value": "\"muted\""
           },
           {
+            "value": "\"subtle\""
+          },
+          {
             "value": "\"primary\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
           }
         ]
       },

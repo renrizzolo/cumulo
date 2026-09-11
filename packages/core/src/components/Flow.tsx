@@ -9,11 +9,9 @@ export const flowRecipe = recipe(
       selectors: {
         '& > * + *': {
           marginBlockStart: 'var(--flow-space, 1em)',
-          textBox: 'trim-both cap alphabetic',
         },
         '& > h2, & > h3, & > h4': {
           '--flow-space': vars.spacing['2xl'],
-          textBox: 'trim-both cap alphabetic',
         },
       },
     },

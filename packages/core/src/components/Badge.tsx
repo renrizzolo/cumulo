@@ -3,6 +3,7 @@ import React from 'react';
 import { vars } from '../contract.js';
 import { type ElementProps } from '../ElementProps.js';
 import { sizes, staticIntentStyles } from '../intents.js';
+import { textBaseStyles } from '../typography.js';
 
 export const badgeRecipe = recipe(
   {
@@ -86,7 +87,7 @@ export function Badge({
 
   return (
     <span ref={ref} className={cx(classes, className)} {...props}>
-      {children}
+      <span className={textBaseStyles.className}>{children}</span>
     </span>
   );
 }

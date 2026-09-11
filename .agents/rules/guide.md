@@ -116,7 +116,7 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
 
 - **Unit & Component Testing**: Use `vitest` with `jsdom` or `node` environments for core component tests and CSS logic tests (`packages/core/test`, `packages/css/test`).
   - **Component Tests: Behavior Over Ceremony**:
-    - **No Recipe or Style Checks**: NEVER test recipes, compiled classes, or recipe variants in component unit tests (`expect(button.className).toContain(recipe.classNames...)` is forbidden). Recipe compilation and variant mechanics belong strictly in `@cumulo/css` tests.
+    - **Do NOT Test Styles or Recipes**: NEVER test styles, recipes, compiled classes, class names, or recipe variants in `@cumulo/core` unit tests (`expect(button.className).toContain(...)`, checking recipe return values, or asserting style objects is strictly forbidden). Styling and recipe mechanics belong solely in `@cumulo/css` tests, while visual regression tests in `@cumulo/fixtures` verify browser DOM computed styles.
     - **No Framework Boilerplate Checks**: Do NOT test "merges className" (we already know `cx` works) or "forwards ref" (React 19 supports ref passing natively without custom forwarding).
     - **Simple Smoke Tests for Leaf Wrappers**: Simple leaf/styled components (`Badge`, `Card`, `Surface`) only require a simple smoke render test (`it('renders without crashing')`).
     - **Test Actual Behaviors on Interactive / Compound Primitives**:
@@ -162,6 +162,7 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
 - **No Wildcard Exports (`export *`)**: Never use wildcard `export * from '...'` re-exports. Always use explicit named imports and exports (`export { Button, type ButtonProps } from '...'`) to ensure deterministic dead-code elimination, fast compiler evaluation, and compatibility with `oxc/no-barrel-file`.
 - **Direct Module Imports**: Internal modules must import directly from specific files (e.g. `../hooks/useFocus.js`, `../theme/theme.js`, `../components/Input.js`).
 - **Granular Package Subpath Exports**: Public packages expose subpaths in `package.json` (`"exports"` field with `./components/*`, `./hooks/*`, `./tokens/*`, `./theme/*`, `./contract`, etc.) allowing consumers to import specific primitives directly without loading the entire library.
+- **Never Export Private Styles or Types from Root Index**: Do NOT export internal/private styling recipes, utility functions, or private types from package root entrypoints (e.g. `packages/core/src/index.ts`). Internal layout, intents, and typography styling modules (`layout.ts`, `intents.ts`, `typography.ts`) are modular utilities intended for direct module consumption (`../layout.js`, `../intents.js`, `../typography.js`) or specific subpath exports in `package.json`, keeping the root index clean and focused solely on canonical public component APIs, theme tokens, and hooks.
 
 ---
 

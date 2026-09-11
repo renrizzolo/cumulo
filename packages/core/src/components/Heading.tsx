@@ -2,14 +2,11 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { textSharedRecipe } from '../typography.js';
 
 export const headingRecipe = recipe(
   {
-    base: {
-      fontFamily: vars.font.sans,
-      color: vars.surface.fg,
-      lineHeight: vars.line.height.tight,
-    },
+    extend: [textSharedRecipe],
     variants: {
       size: {
         xs: {
@@ -44,18 +41,6 @@ export const headingRecipe = recipe(
           fontSize: vars.font.size['4xl'],
           letterSpacing: '-0.03em',
         },
-      },
-      weight: {
-        normal: { fontWeight: vars.font.weight.normal },
-        medium: { fontWeight: vars.font.weight.medium },
-        semibold: { fontWeight: vars.font.weight.semibold },
-        bold: { fontWeight: vars.font.weight.bold },
-      },
-      color: {
-        default: { color: vars.surface.fg },
-        muted: { color: vars.surface.muted },
-        primary: { color: vars.primary.DEFAULT },
-        inherit: { color: 'inherit' },
       },
     },
     defaultVariants: {

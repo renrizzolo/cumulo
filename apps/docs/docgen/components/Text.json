@@ -169,7 +169,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"medium\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -178,10 +178,10 @@
             "value": "\"normal\""
           },
           {
-            "value": "\"medium\""
+            "value": "\"bold\""
           },
           {
-            "value": "\"bold\""
+            "value": "\"medium\""
           },
           {
             "value": "\"semibold\""
@@ -207,16 +207,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
+        "raw": "\"normal\" | \"none\" | \"tight\" | \"relaxed\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"none\""
+            "value": "\"normal\""
           },
           {
-            "value": "\"normal\""
+            "value": "\"none\""
           },
           {
             "value": "\"tight\""

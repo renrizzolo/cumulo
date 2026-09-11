@@ -101,7 +101,7 @@ export function PropsTable({
               <Table.Cell>{formatTypeValue(prop.type)}</Table.Cell>
               <Table.Cell>
                 {cleanDefault ? (
-                  <Code variant="ghost">{cleanDefault}</Code>
+                  <Code variant="subtle">{cleanDefault}</Code>
                 ) : (
                   <Text as="span" type="caption" color="muted">
                     —
