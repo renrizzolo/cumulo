@@ -2,7 +2,7 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { ElementProps } from '../ElementProps.js';
-import { fieldIntentStyles, sizes, type ComponentSize } from '../intents.js';
+import { fieldIntentStyles, sizes } from '../intents.js';
 
 export const inputRecipe = recipe(
   {

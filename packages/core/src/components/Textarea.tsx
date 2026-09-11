@@ -4,7 +4,7 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { fieldIntentStyles, type ComponentSize } from '../intents.js';
+import { fieldIntentStyles } from '../intents.js';
 
 export const textareaRecipe = recipe(
   {
