@@ -31,6 +31,12 @@ import { Surface } from '@cumulo/core';
     </Surface>
     <Surface variant="primary" padding="sm">
       <Text type="label">Primary Surface</Text>
+      <Surface variant="primary" padding="sm" level={1}>
+        <Text type="label">Primary Surface Level 1</Text>
+        <Surface variant="primary" padding="sm" level={2}>
+          <Text type="label">Primary Surface Level 2</Text>
+        </Surface>
+      </Surface>
     </Surface>
   </VStack>
 </ComponentPreview>

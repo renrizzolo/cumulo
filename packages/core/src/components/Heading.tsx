@@ -2,15 +2,11 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { textSharedRecipe } from '../typography.js';
 
 export const headingRecipe = recipe(
   {
-    base: {
-      fontFamily: vars.font.sans,
-      color: vars.surface.fg,
-      margin: 0,
-      lineHeight: vars.line.height.tight,
-    },
+    extend: [textSharedRecipe],
     variants: {
       size: {
         xs: {
@@ -46,18 +42,6 @@ export const headingRecipe = recipe(
           letterSpacing: '-0.03em',
         },
       },
-      weight: {
-        normal: { fontWeight: vars.font.weight.normal },
-        medium: { fontWeight: vars.font.weight.medium },
-        semibold: { fontWeight: vars.font.weight.semibold },
-        bold: { fontWeight: vars.font.weight.bold },
-      },
-      color: {
-        default: { color: vars.surface.fg },
-        muted: { color: vars.surface.muted },
-        primary: { color: vars.primary.DEFAULT },
-        inherit: { color: 'inherit' },
-      },
     },
     defaultVariants: {
       size: 'xl',
@@ -74,9 +58,9 @@ export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'sp
 
 export interface HeadingProps extends ElementProps<HTMLElement> {
   as?: HeadingLevel;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl';
-  weight?: 'normal' | 'medium' | 'semibold' | 'bold';
-  color?: 'default' | 'muted' | 'primary' | 'inherit';
+  size?: HeadingVariants['size'];
+  weight?: HeadingVariants['weight'];
+  color?: HeadingVariants['color'];
   children?: React.ReactNode;
 }
 

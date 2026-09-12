@@ -22,37 +22,35 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"article\" | \"form\" | \"main\" | \"div\" | \"section\" | \"aside\" | undefined",
+        "raw": "\"div\" | \"article\" | \"section\" | \"main\" | \"aside\" | \"form\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"article\""
-          },
-          {
-            "value": "\"form\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
             "value": "\"div\""
+          },
+          {
+            "value": "\"article\""
           },
           {
             "value": "\"section\""
           },
           {
+            "value": "\"main\""
+          },
+          {
             "value": "\"aside\""
+          },
+          {
+            "value": "\"form\""
           }
         ]
       },
       "shortPropTypeName": null
     },
     "space": {
-      "defaultValue": {
-        "value": "inherit"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "space",
       "parent": {
@@ -68,19 +66,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"2xl\" | \"2xs\" | \"3xs\" | undefined",
+        "raw": "\"md\" | \"lg\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"inherit\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
           },
           {
             "value": "\"md\""
@@ -90,40 +79,8 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"3xs\""
           }
         ]
-      },
-      "shortPropTypeName": null
-    },
-    "prose": {
-      "defaultValue": null,
-      "description": "",
-      "name": "prose",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Flow.tsx",
-        "name": "FlowProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Flow.tsx",
-          "name": "FlowProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
       },
       "shortPropTypeName": null
     },

@@ -67,11 +67,19 @@ export function Surface({
   ref,
   ...props
 }: SurfaceProps): React.JSX.Element {
-  const surfaceClass = variant === 'primary' ? 'surface-primary' : `surface-${level}`;
   const recipeClasses = surfaceRecipe({ level, variant, padding, radius, flex, overflow });
 
   return (
-    <div ref={ref} className={cx(surfaceClass, recipeClasses, className)} {...props}>
+    <div
+      ref={ref}
+      className={cx(
+        variant === 'primary' && 'surface-primary',
+        `surface-${level}`,
+        recipeClasses,
+        className,
+      )}
+      {...props}
+    >
       {children}
     </div>
   );

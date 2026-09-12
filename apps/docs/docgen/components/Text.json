@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "TextSemanticType | undefined",
+        "raw": "\"body\" | \"label\" | \"display\" | \"lead\" | \"caption\" | \"code\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -169,19 +169,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"medium\""
           },
           {
             "value": "\"normal\""
           },
           {
             "value": "\"bold\""
+          },
+          {
+            "value": "\"medium\""
           },
           {
             "value": "\"semibold\""

@@ -109,7 +109,7 @@ export type SwitchVariants = RecipeVariants<typeof switchRecipe>;
 export interface SwitchProps extends ElementProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
-  intent?: 'default' | 'error';
+  intent?: SwitchVariants['intent'];
   onCheckedChange?: (checked: boolean) => void;
 }
 

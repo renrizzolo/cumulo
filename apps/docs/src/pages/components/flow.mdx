@@ -12,32 +12,30 @@ Vertical text flow and rhythm primitive based on Andy Bell's lobotomized owl flo
 import { Flow } from '@cumulo/core';
 ```
 
-## Interactive Playground
+## Flow
+
+Flow can be used to create vertical text flow with different spacing. Use `md`, `lg`, or `xl` to control the spacing between elements. The space before headings (h2, h3, h4) is larger, creating natural sections.
 
 <ComponentPreview>
-  <Flow space="md">
-    <Heading as="h3" size="lg">
-      Article Heading
-    </Heading>
-    <Text>First paragraph of content receiving natural vertical flow.</Text>
-    <Text>Second paragraph separated automatically by token space.</Text>
-    <Button variant="primary">Read More</Button>
-  </Flow>
-</ComponentPreview>
-
-## Prose Rhythm Mode
-
-When `prose` is enabled, vertical rhythm automatically tightens the space following headings (`:is(h2, h3, h4) + *`) while keeping generous breathing room between sections.
-
-<ComponentPreview>
-  <Flow prose>
-    <Heading as="h2" size="xl">
-      Section Header
-    </Heading>
+  <Flow>
+    <Heading as="h2">Section Header</Heading>
     <Text>
       This paragraph directly follows a heading, so flow space is automatically tightened.
     </Text>
     <Text>Subsequent paragraphs maintain standard editorial rhythm and readability.</Text>
+    <Text>
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, maxime. Quisquam, quod.
+      Harum, soluta.
+    </Text>
+    <Heading as="h4">Another Section Header</Heading>
+    <Text size="sm">
+      This paragraph directly follows a heading, so flow space is automatically tightened.
+    </Text>
+    <Text size="sm">Subsequent paragraphs maintain standard editorial rhythm and readability.</Text>
+    <Text size="sm">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus, maxime. Quisquam, quod.
+      Harum, soluta.
+    </Text>
   </Flow>
 </ComponentPreview>
 

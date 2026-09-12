@@ -1,4 +1,5 @@
 import { Code, Divider, Flow, Heading, Table, Text } from '@cumulo/core';
+import { textBase } from '@cumulo/core/typography';
 import type { PageProps } from '@parcel/rsc';
 import React, { type ReactNode } from 'react';
 import AppLayout from '../Layout';
@@ -7,6 +8,7 @@ import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { PropsTable } from './PropsTable';
 import { TokenTable } from './TokenTable';
+import { style } from '@cumulo/css';
 
 export { CodeBlock, ColorTokens, ComponentPreview, PropsTable, TokenTable };
 
@@ -38,6 +40,14 @@ export const components = {
   ComponentPreview,
 };
 
+// TODO: above components aren't applied to regular markdown.
+// this applies base text styles to the child markdown content.
+const styles = style({
+  selectors: {
+    '& p, & h1, & h2, & h3, & h4': textBase,
+  },
+});
+
 export default function MDXLayout({
   children,
   currentPage,
@@ -49,7 +59,7 @@ export default function MDXLayout({
 
   return (
     <AppLayout title={title} currentPage={currentPage}>
-      <Flow>{children}</Flow>
+      <Flow className={styles.className}>{children}</Flow>
     </AppLayout>
   );
 }

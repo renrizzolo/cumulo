@@ -124,19 +124,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"normal\""
           },
           {
             "value": "\"bold\""
           },
           {
             "value": "\"medium\""
-          },
-          {
-            "value": "\"normal\""
           },
           {
             "value": "\"semibold\""
@@ -164,13 +164,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"inherit\" | \"default\" | \"muted\" | undefined",
+        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"primary\""
           },
           {
             "value": "\"inherit\""
@@ -180,6 +177,21 @@
           },
           {
             "value": "\"muted\""
+          },
+          {
+            "value": "\"subtle\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
           }
         ]
       },

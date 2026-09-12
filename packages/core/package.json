@@ -66,6 +66,11 @@
       "import": "./dist/layout.mjs",
       "default": "./dist/layout.mjs"
     },
+    "./typography": {
+      "types": "./dist/typography.d.mts",
+      "import": "./dist/typography.mjs",
+      "default": "./dist/typography.mjs"
+    },
     "./ElementProps": {
       "types": "./dist/ElementProps.d.mts",
       "import": "./dist/ElementProps.mjs",

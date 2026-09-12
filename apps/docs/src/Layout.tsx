@@ -90,7 +90,7 @@ export default function Layout({
 
               {/* Main Content Area */}
               <main className={contentWrapperStyle.className}>
-                <Container size="xl">{children}</Container>
+                <Container size="lg">{children}</Container>
               </main>
             </VStack>
           </HStack>
