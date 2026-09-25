@@ -9,6 +9,7 @@ describe('@cumulo/core', () => {
     expect(vars.primary['50']).toBe('var(--theme-primary-50)');
     expect(vars.primary['900']).toBe('var(--theme-primary-900)');
     expect(vars.seed.primary).toBe('var(--color-primary-base)');
+    expect(vars.radius.control).toBe('var(--theme-radius-control)');
     expect(vars.radius.md).toBe('var(--theme-radius-md)');
     expect(vars.shadow['1']).toBe('var(--theme-shadow-1)');
     expect(vars.font.size.sm).toBe('var(--theme-font-size-sm)');
@@ -23,6 +24,7 @@ describe('@cumulo/core', () => {
     expect(themeTokens).toContain('--surface-bg-next');
     expect(themeTokens).toContain('--color-primary-base');
     expect(themeTokens).toContain('--theme-primary-50');
+    expect(themeTokens).toContain('--theme-radius-control');
     expect(themeVars['--surface-bg']).toBe('var(--surface-bg)');
   });
 });

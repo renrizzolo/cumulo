@@ -175,12 +175,8 @@ export function InteractivePlayground(): React.JSX.Element {
         <VStack gap="md">
           <VStack gap="3xs">
             <Heading as="h4" size="md">
-              Live Mathematical OKLCH Color Seeding
+              OKLCH Color Seeding
             </Heading>
-            <Text type="caption" color="muted">
-              Change the seed color below to see the entire 50-900 palette recompute live in pure
-              CSS!
-            </Text>
           </VStack>
 
           <HStack gap="sm" align="center" wrap="wrap">

@@ -16,7 +16,7 @@ export const textareaRecipe = recipe(
       color: vars.surface.fg,
       borderWidth: 1,
       borderStyle: 'solid',
-      borderRadius: vars.radius.md,
+      borderRadius: vars.radius.control,
       outline: 'none',
       boxSizing: 'border-box',
       transition: `border-color ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}`,

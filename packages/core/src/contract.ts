@@ -199,6 +199,7 @@ export const vars = {
   },
   radius: {
     '2xl': 'var(--theme-radius-2xl)',
+    control: 'var(--theme-radius-control)',
     full: 'var(--theme-radius-full)',
     lg: 'var(--theme-radius-lg)',
     md: 'var(--theme-radius-md)',

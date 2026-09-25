@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useMemo, useCallback, useRef } from 'react';
-import { style } from '@cumulo/css';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { createTheme, createThemeContract, cx, style } from '@cumulo/css';
 import {
   Surface,
   Card,
@@ -38,6 +38,14 @@ import {
 } from '@cumulo/core';
 import { ColorTokens } from './ColorTokens';
 
+const sidebarContract = createThemeContract({
+  width: null,
+});
+
+const sidebarTheme = createTheme(sidebarContract, {
+  width: '450px',
+});
+
 const rootStyle = style(
   {
     width: '100%',
@@ -51,7 +59,7 @@ const rootGridStyle = style({
   gap: vars.spacing.lg,
   '@media': {
     '(min-width: 1500px)': {
-      gridTemplateColumns: '380px 1fr',
+      gridTemplateColumns: `${sidebarContract.width} 1fr`,
     },
   },
 });
@@ -60,8 +68,8 @@ const sidebarStyle = style(
   {
     display: 'flex',
     flexDirection: 'column',
-    flex: '0 0 380px',
-    width: '380px',
+    flex: `0 0 ${sidebarContract.width}`,
+    width: `${sidebarContract.width}`,
     maxWidth: '100%',
     position: 'sticky',
     top: '1rem',
@@ -178,7 +186,7 @@ const marginTopAutoStyle = style(
 
 const codeSurfaceStyle = style(
   {
-    maxHeight: '380px',
+    maxHeight: '350px',
     overflow: 'auto',
     minWidth: 0,
     maxWidth: '100%',
@@ -237,6 +245,7 @@ export interface ThemeConfig {
     lightness: number;
   };
   radii: {
+    control: string;
     md: string;
     lg: string;
     xl: string;
@@ -272,6 +281,7 @@ const DEFAULT_THEME: ThemeConfig = {
     lightness: 0,
   },
   radii: {
+    control: '0.375rem',
     md: '0.375rem',
     lg: '0.5rem',
     xl: '0.75rem',
@@ -294,8 +304,9 @@ interface PresetTheme {
   id: string;
   name: string;
   badge: string;
-  config: Partial<Omit<ThemeConfig, 'scales'>> & {
+  config: Partial<Omit<ThemeConfig, 'scales' | 'fonts'>> & {
     scales?: Partial<ThemeConfig['scales']>;
+    fonts?: Partial<ThemeConfig['fonts']>;
   };
 }
 
@@ -326,81 +337,15 @@ const PRESET_THEMES: PresetTheme[] = [
       },
       scales: { chroma: 1.05, contrast: 0.95, lightness: 0.04 },
       radii: {
+        control: '0.375rem',
         md: '0.5rem',
         lg: '0.75rem',
         xl: '1rem',
         '2xl': '1.25rem',
       },
-    },
-  },
-  {
-    id: 'nordic-frost',
-    name: 'Nordic Frost',
-    badge: 'Airy Pastel',
-    config: {
-      name: 'cumulo-nordic-frost',
-      intentStyle: 'pastel',
-      colors: {
-        primary: '#0ea5e9',
-        success: '#14b8a6',
-        warning: '#f59e0b',
-        error: '#ef4444',
-        info: '#3b82f6',
-        grey: '#64748b',
-      },
-      scales: { chroma: 0.9, contrast: 0.95, lightness: 0.06 },
-      radii: {
-        md: '0.375rem',
-        lg: '0.5rem',
-        xl: '0.75rem',
-        '2xl': '1rem',
-      },
-    },
-  },
-  {
-    id: 'docs',
-    name: 'Docs Violet',
-    badge: 'Vibrant',
-    config: {
-      name: 'cumulo-docs',
-      intentStyle: 'solid',
-      colors: {
-        primary: '#8b5cf6',
-        success: '#10b981',
-        warning: '#f59e0b',
-        error: '#ef4444',
-        info: '#06b6d4',
-        grey: '#6b7280',
-      },
-      scales: { chroma: 1, contrast: 0.95, lightness: 0 },
-      radii: {
-        md: '0.375rem',
-        lg: '0.5rem',
-        xl: '0.75rem',
-        '2xl': '1rem',
-      },
-    },
-  },
-  {
-    id: 'cloud',
-    name: 'Indigo Cloud',
-    badge: 'Subtle',
-    config: {
-      name: 'cumulo-cloud',
-      colors: {
-        primary: '#6366f1',
-        success: '#22c55e',
-        warning: '#eab308',
-        error: '#f43f5e',
-        info: '#38bdf8',
-        grey: '#64748b',
-      },
-      scales: { chroma: 0.85, contrast: 0.95 },
-      radii: {
-        md: '0.5rem',
-        lg: '0.75rem',
-        xl: '1rem',
-        '2xl': '1.25rem',
+      fonts: {
+        sans: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        mono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
       },
     },
   },
@@ -420,10 +365,15 @@ const PRESET_THEMES: PresetTheme[] = [
       },
       scales: { chroma: 1, contrast: 1 },
       radii: {
+        control: '0.5rem',
         md: '0.5rem',
         lg: '0.625rem',
         xl: '0.875rem',
         '2xl': '1.25rem',
+      },
+      fonts: {
+        sans: "'Newsreader', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
+        mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, monospace",
       },
     },
   },
@@ -443,10 +393,15 @@ const PRESET_THEMES: PresetTheme[] = [
       },
       scales: { chroma: 1.05, contrast: 1 },
       radii: {
+        control: '0.375rem',
         md: '0.375rem',
         lg: '0.5rem',
         xl: '0.75rem',
         '2xl': '1rem',
+      },
+      fonts: {
+        sans: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
       },
     },
   },
@@ -466,10 +421,15 @@ const PRESET_THEMES: PresetTheme[] = [
       },
       scales: { chroma: 1.25, contrast: 1.05 },
       radii: {
+        control: '0.125rem',
         md: '0.125rem',
         lg: '0.25rem',
         xl: '0.375rem',
         '2xl': '0.5rem',
+      },
+      fonts: {
+        sans: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        mono: "'Fira Code', ui-monospace, Menlo, Monaco, Consolas, monospace",
       },
     },
   },
@@ -489,6 +449,7 @@ const PRESET_THEMES: PresetTheme[] = [
       },
       scales: { chroma: 0.8, contrast: 1.1 },
       radii: {
+        control: '0px',
         md: '0px',
         lg: '0px',
         xl: '0px',
@@ -516,10 +477,15 @@ const PRESET_THEMES: PresetTheme[] = [
       },
       scales: { chroma: 1.15, contrast: 0.85 },
       radii: {
+        control: '0.5rem',
         md: '0.5rem',
         lg: '0.75rem',
         xl: '1rem',
         '2xl': '1.5rem',
+      },
+      fonts: {
+        sans: "'Newsreader', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
+        mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, monospace",
       },
     },
   },
@@ -528,23 +494,23 @@ const PRESET_THEMES: PresetTheme[] = [
 const RADIUS_PRESETS = [
   {
     label: 'Sharp (0px)',
-    values: { md: '0px', lg: '0px', xl: '0px', '2xl': '0px' },
+    values: { control: '0px', md: '0px', lg: '0px', xl: '0px', '2xl': '0px' },
   },
   {
     label: 'Subtle',
-    values: { md: '0.25rem', lg: '0.375rem', xl: '0.5rem', '2xl': '0.75rem' },
+    values: { control: '0.25rem', md: '0.25rem', lg: '0.375rem', xl: '0.5rem', '2xl': '0.75rem' },
   },
   {
     label: 'Balanced (Default)',
-    values: { md: '0.375rem', lg: '0.5rem', xl: '0.75rem', '2xl': '1rem' },
+    values: { control: '0.375rem', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', '2xl': '1rem' },
   },
   {
     label: 'Rounded',
-    values: { md: '0.625rem', lg: '0.875rem', xl: '1.25rem', '2xl': '1.5rem' },
+    values: { control: '0.625rem', md: '0.625rem', lg: '0.875rem', xl: '1.25rem', '2xl': '1.5rem' },
   },
   {
     label: 'Pill',
-    values: { md: '9999px', lg: '9999px', xl: '9999px', '2xl': '9999px' },
+    values: { control: '9999px', md: '0.375rem', lg: '0.5rem', xl: '0.75rem', '2xl': '1rem' },
   },
 ];
 
@@ -599,10 +565,146 @@ const FONT_PRESETS = [
   },
   {
     label: 'Editorial Serif',
-    sans: "Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
+    sans: "'Newsreader', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
     mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, monospace",
   },
 ];
+
+const SYSTEM_FONT_NAMES = new Set([
+  'system-ui',
+  '-apple-system',
+  'blinkmacsystemfont',
+  'segoe ui',
+  'helvetica neue',
+  'helvetica',
+  'arial',
+  'noto sans',
+  'sans-serif',
+  'serif',
+  'monospace',
+  'ui-monospace',
+  'sfmono-regular',
+  'sf pro',
+  'sf pro text',
+  'sf pro display',
+  'menlo',
+  'monaco',
+  'consolas',
+  'charter',
+  'bitstream charter',
+  'sitka text',
+  'cambria',
+  'georgia',
+  'times',
+  'times new roman',
+  'courier new',
+  'courier',
+  'inherit',
+  'initial',
+]);
+
+const GOOGLE_FONT_SPECS: Record<string, string> = {
+  'dm sans': 'family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000',
+  'cascadia code': 'family=Cascadia+Code:ital,wght@0,200..700;1,200..700',
+  inter: 'family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900',
+  'fira code': 'family=Fira+Code:wght@300..700',
+  newsreader: 'family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800',
+  lora: 'family=Lora:ital,wght@0,400..700;1,400..700',
+  'jetbrains mono': 'family=JetBrains+Mono:ital,wght@0,100..800;1,100..800',
+  'plus jakarta sans': 'family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800',
+  outfit: 'family=Outfit:wght@100..900',
+  'space grotesk': 'family=Space+Grotesk:wght@300..700',
+  'space mono': 'family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700',
+  geist: 'family=Geist:wght@100..900',
+  'geist mono': 'family=Geist+Mono:wght@100..900',
+  'playfair display': 'family=Playfair+Display:ital,wght@0,400..900;1,400..900',
+  merriweather: 'family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700',
+  roboto: 'family=Roboto:ital,wght@0,100..900;1,100..900',
+  'roboto mono': 'family=Roboto+Mono:ital,wght@0,100..700;1,100..700',
+};
+
+function getGoogleFontQuery(family: string): string {
+  const normalized = family.toLowerCase().trim();
+  if (GOOGLE_FONT_SPECS[normalized]) {
+    return GOOGLE_FONT_SPECS[normalized];
+  }
+  const formatted = family.trim().replace(/\s+/g, '+');
+  return `family=${formatted}:wght@400;500;600;700`;
+}
+
+function extractFontFamilies(fontStack: string): string[] {
+  return fontStack
+    .split(',')
+    .map((item) =>
+      item
+        .trim()
+        .replace(/^['"]|['"]$/g, '')
+        .trim(),
+    )
+    .filter((name) => name.length > 0 && !SYSTEM_FONT_NAMES.has(name.toLowerCase()));
+}
+
+const loadedGoogleFonts = new Set<string>();
+
+function loadGoogleFont(family: string): void {
+  if (typeof document === 'undefined') return;
+  const normalized = family.toLowerCase().trim();
+  if (loadedGoogleFonts.has(normalized)) return;
+
+  const id = `google-font-${normalized.replace(/[^a-z0-9]/g, '-')}`;
+  if (document.getElementById(id)) {
+    loadedGoogleFonts.add(normalized);
+    return;
+  }
+
+  if (!document.querySelector('link[data-cumulo-font-preconnect]')) {
+    const preconnect1 = document.createElement('link');
+    preconnect1.rel = 'preconnect';
+    preconnect1.href = 'https://fonts.googleapis.com';
+    preconnect1.setAttribute('data-cumulo-font-preconnect', 'true');
+    document.head.appendChild(preconnect1);
+
+    const preconnect2 = document.createElement('link');
+    preconnect2.rel = 'preconnect';
+    preconnect2.href = 'https://fonts.gstatic.com';
+    preconnect2.crossOrigin = 'anonymous';
+    preconnect2.setAttribute('data-cumulo-font-preconnect', 'true');
+    document.head.appendChild(preconnect2);
+  }
+
+  const query = getGoogleFontQuery(family);
+  const link = document.createElement('link');
+  link.id = id;
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?${query}&display=swap`;
+  document.head.appendChild(link);
+  loadedGoogleFonts.add(normalized);
+}
+
+function loadGoogleFontsForStacks(stacks: string[]): void {
+  for (const stack of stacks) {
+    if (!stack) continue;
+    const families = extractFontFamilies(stack);
+    for (const family of families) {
+      loadGoogleFont(family);
+    }
+  }
+}
+
+function getGoogleFontsImportUrl(stacks: string[]): string | null {
+  const families: string[] = [];
+  for (const stack of stacks) {
+    if (!stack) continue;
+    for (const fam of extractFontFamilies(stack)) {
+      if (!families.some((f) => f.toLowerCase() === fam.toLowerCase())) {
+        families.push(fam);
+      }
+    }
+  }
+  if (families.length === 0) return null;
+  const queries = families.map((fam) => getGoogleFontQuery(fam)).join('&');
+  return `https://fonts.googleapis.com/css2?${queries}&display=swap`;
+}
 
 // Reusable sub-parts
 interface ColorPickerFieldProps {
@@ -724,7 +826,8 @@ const COLOR_CONFIGS: Array<{
 ];
 
 const RADII_CONFIGS: Array<{ key: keyof ThemeConfig['radii']; label: string }> = [
-  { key: 'md', label: 'MD (Buttons)' },
+  { key: 'control', label: 'Control (Buttons, Inputs)' },
+  { key: 'md', label: 'MD (Inner)' },
   { key: 'lg', label: 'LG (Cards)' },
   { key: 'xl', label: 'XL (Modals)' },
   { key: '2xl', label: '2XL (Overlays)' },
@@ -806,6 +909,11 @@ export function ThemeBuilder(): React.JSX.Element {
       ...theme.colors,
       ...preset.config.colors,
     };
+    const nextFonts = {
+      sans: preset.config.fonts?.sans ?? DEFAULT_THEME.fonts.sans,
+      mono: preset.config.fonts?.mono ?? DEFAULT_THEME.fonts.mono,
+    };
+    loadGoogleFontsForStacks([nextFonts.sans, nextFonts.mono]);
     setLocalColors(nextColors);
     setTheme((prev) => ({
       ...prev,
@@ -825,15 +933,23 @@ export function ThemeBuilder(): React.JSX.Element {
         ...prev.spacing,
         ...preset.config.spacing,
       },
-      fonts: {
-        ...prev.fonts,
-        ...preset.config.fonts,
-      },
+      fonts: nextFonts,
     }));
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      loadGoogleFontsForStacks([theme.fonts.sans, theme.fonts.mono]);
+    }, 250);
+    return () => clearTimeout(timer);
+  }, [theme.fonts.sans, theme.fonts.mono]);
+
   const generatedCss = useMemo(() => {
     const selector = `[data-theme='${theme.name || 'my-theme'}']`;
+    const fontImportUrl = getGoogleFontsImportUrl([theme.fonts.sans, theme.fonts.mono]);
+    const fontImport = fontImportUrl
+      ? `/* Google Fonts */\n@import url('${fontImportUrl}');\n\n`
+      : '';
     const pastelOverrides =
       theme.intentStyle === 'pastel'
         ? `
@@ -861,7 +977,7 @@ export function ThemeBuilder(): React.JSX.Element {
   --theme-info-fg: light-dark(var(--theme-info-800), var(--theme-info-100));`
         : '';
 
-    return `${selector} {
+    return `${fontImport}${selector} {
   /* Seed Colors */
   --color-primary-base: ${theme.colors.primary};
   --color-success-base: ${theme.colors.success};
@@ -876,6 +992,7 @@ export function ThemeBuilder(): React.JSX.Element {
   --theme-lightness-offset: ${theme.scales.lightness};${pastelOverrides}
 
   /* Border Radii */
+  --theme-radius-control: ${theme.radii.control};
   --theme-radius-md: ${theme.radii.md};
   --theme-radius-lg: ${theme.radii.lg};
   --theme-radius-xl: ${theme.radii.xl};
@@ -910,7 +1027,7 @@ export function ThemeBuilder(): React.JSX.Element {
   };
 
   return (
-    <div className={rootStyle.className}>
+    <div className={cx(rootStyle.className, sidebarTheme.className)}>
       {/* Dynamic Scoped Styles for the preview container */}
       <style
         dangerouslySetInnerHTML={{
@@ -925,6 +1042,7 @@ export function ThemeBuilder(): React.JSX.Element {
               --theme-chroma-scale: ${theme.scales.chroma};
               --theme-contrast-scale: ${theme.scales.contrast};
               --theme-lightness-offset: ${theme.scales.lightness};
+              --theme-radius-control: ${theme.radii.control};
               --theme-radius-md: ${theme.radii.md};
               --theme-radius-lg: ${theme.radii.lg};
               --theme-radius-xl: ${theme.radii.xl};
@@ -950,7 +1068,7 @@ export function ThemeBuilder(): React.JSX.Element {
             <Card level={0} padding="md">
               <VStack gap="md">
                 <Header
-                  size="sm"
+                  size="md"
                   title="Theme Presets & Actions"
                   description="Quick-switch brand identity presets."
                 />
@@ -970,7 +1088,7 @@ export function ThemeBuilder(): React.JSX.Element {
                 {/* Preset Buttons */}
                 <VStack gap="xs" align="start">
                   <Text type="label" size="xs" color="muted">
-                    QUICK PRESETS
+                    Presets
                   </Text>
                   <HStack gap="xs" wrap="wrap" align="center">
                     {PRESET_THEMES.map((preset) => (
@@ -1004,7 +1122,7 @@ export function ThemeBuilder(): React.JSX.Element {
             <Card level={0} padding="md">
               <VStack gap="md">
                 <Header
-                  size="sm"
+                  size="md"
                   title="Customization Controls"
                   description="Tune seed colors, radii, spacing, and typography."
                 />
@@ -1223,15 +1341,16 @@ export function ThemeBuilder(): React.JSX.Element {
                               key={preset.label}
                               size="sm"
                               variant="secondary"
-                              onClick={() =>
+                              onClick={() => {
+                                loadGoogleFontsForStacks([preset.sans, preset.mono]);
                                 setTheme((prev) => ({
                                   ...prev,
                                   fonts: {
                                     sans: preset.sans,
                                     mono: preset.mono,
                                   },
-                                }))
-                              }
+                                }));
+                              }}
                             >
                               {preset.label}
                             </Button>
@@ -1308,6 +1427,18 @@ export function ThemeBuilder(): React.JSX.Element {
                 </Tabs>
               </VStack>
             </Card>
+            {/* Color Palette Shades Section */}
+            <Card level={0} padding="lg">
+              <VStack gap="md">
+                <Header
+                  size="md"
+                  title="Color Palette Shades"
+                  description="50–900 OKLCH stepped scales calculated via chroma curves and relative color syntax from the seed colors."
+                />
+                <Divider />
+                <ColorTokens />
+              </VStack>
+            </Card>
           </VStack>
         </aside>
 
@@ -1321,42 +1452,9 @@ export function ThemeBuilder(): React.JSX.Element {
               className={fullWidthStyle.className}
             >
               <VStack gap="xl">
-                {/* Color Palette Shades Section */}
-                <Card level={0} padding="lg">
-                  <VStack gap="md">
-                    <Header
-                      size="md"
-                      title="Color Palette Shades"
-                      description="Mathematical 50–900 stepped scales calculated dynamically in CSS via trigonometric chroma curves (sin(t * pi)) and relative color syntax from your seed colors."
-                      actions={
-                        <Badge variant="primary" intent="primary">
-                          Live OKLCH
-                        </Badge>
-                      }
-                    />
-                    <Divider />
-                    <ColorTokens />
-                  </VStack>
-                </Card>
-
                 {/* UI Component Showcase Section */}
-                <Card level={1} padding="lg">
+                <>
                   <VStack gap="md">
-                    <Header
-                      size="md"
-                      title="Component Showcase"
-                      description="Interactive cards exercising form controls, switches, data tables, button intents, and modal dialogs with your active theme tokens."
-                      actions={
-                        <HStack gap="xs" align="center">
-                          <Badge variant="outline">data-theme="{theme.name || 'my-theme'}"</Badge>
-                          <Badge variant="primary" intent="success">
-                            Live Theme
-                          </Badge>
-                        </HStack>
-                      }
-                    />
-                    <Divider />
-
                     {/* Responsive Grid of Cards */}
                     <div className={cardGridStyle.className}>
                       {/* Card 1: Registration Form */}
@@ -1641,24 +1739,10 @@ export function ThemeBuilder(): React.JSX.Element {
                                 <DialogHeader>
                                   <DialogTitle>Custom Theme Modal</DialogTitle>
                                   <DialogDescription>
-                                    This native HTML5 dialog automatically adapts to your custom
-                                    theme seed colors, radius, and typography tokens.
+                                    This is a native HTML5 dialog.
                                   </DialogDescription>
                                 </DialogHeader>
-                                <VStack gap="md" className={modalBodyStyle.className}>
-                                  <Text type="body">
-                                    Notice how surfaces, buttons, and text inside modal overlays
-                                    inherit the exact same mathematical contrast scale!
-                                  </Text>
-                                  <HStack gap="sm" wrap="wrap">
-                                    <Badge variant="primary" intent="success">
-                                      High Contrast
-                                    </Badge>
-                                    <Badge variant="secondary" intent="info">
-                                      Light/Dark Ready
-                                    </Badge>
-                                  </HStack>
-                                </VStack>
+
                                 <HStack justify="end" gap="sm">
                                   <DialogClose variant="ghost">Dismiss</DialogClose>
                                   <DialogClose variant="primary">Confirm</DialogClose>
@@ -1721,7 +1805,7 @@ export function ThemeBuilder(): React.JSX.Element {
                       </Card>
                     </div>
                   </VStack>
-                </Card>
+                </>
 
                 {/* Direct CSS Output Card with Copy */}
                 <Card level={0} padding="lg">

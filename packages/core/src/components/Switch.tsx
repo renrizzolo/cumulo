@@ -28,8 +28,6 @@ const switchTheme = createTheme(switchContract, {
   },
 });
 
-console.log(switchContract, switchTheme);
-
 export const switchRecipe = recipe(
   {
     extend: [focusRing],

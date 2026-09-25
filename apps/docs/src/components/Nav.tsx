@@ -15,7 +15,9 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
   vars,
+  Code,
 } from '@cumulo/core';
+import { Version } from './Version';
 
 export interface NavItem {
   label: string;
@@ -251,8 +253,7 @@ export function NavContent({
   const currentUrl = currentPage?.url || '';
   const currentPath = currentPage?.url ? routesByPage[currentPage.url]?.path : undefined;
 
-  const isItemActive = (item: NavItem) =>
-    currentPath === item.path || currentUrl === item.htmlPath;
+  const isItemActive = (item: NavItem) => currentPath === item.path || currentUrl === item.htmlPath;
 
   const renderLink = (item: NavItem) => {
     const isActive = isItemActive(item);
@@ -334,11 +335,8 @@ export function NavContent({
 
       {/* Footer Info */}
       <VStack gap="3xs" className={footerStyle.className}>
-        <Text type="caption" color="muted">
-          Cumulo Monorepo
-        </Text>
-        <Text type="caption" color="muted">
-          v0.1.0 • React 19
+        <Text size="xs" color="subtle">
+          Cumulo <Version />
         </Text>
       </VStack>
     </>
@@ -350,10 +348,7 @@ export interface NavProps {
   pages?: PageProps['pages'];
 }
 
-export function Nav({
-  currentPage,
-  pages,
-}: NavProps): React.JSX.Element {
+export function Nav({ currentPage, pages }: NavProps): React.JSX.Element {
   return (
     <Surface level={1} padding="md" className={navContainerStyle.className}>
       <NavContent currentPage={currentPage} pages={pages} />

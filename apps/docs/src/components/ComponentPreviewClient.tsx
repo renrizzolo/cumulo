@@ -2,7 +2,17 @@
 
 import React, { useState, useCallback } from 'react';
 import { style } from '@cumulo/css';
-import { Surface, HStack, VStack, Button, Heading, Text, Collapsible, vars } from '@cumulo/core';
+import {
+  Surface,
+  HStack,
+  VStack,
+  Button,
+  Heading,
+  Text,
+  Collapsible,
+  vars,
+  Header,
+} from '@cumulo/core';
 
 export interface ComponentPreviewClientProps {
   title?: string;
@@ -58,20 +68,7 @@ export function ComponentPreviewClient({
 
   return (
     <>
-      {(title || description) && (
-        <VStack gap="3xs">
-          {title && (
-            <Heading as="h3" size="md" weight="semibold" color="muted">
-              {title}
-            </Heading>
-          )}
-          {description && (
-            <Text type="body" color="muted">
-              {description}
-            </Text>
-          )}
-        </VStack>
-      )}
+      {(title || description) && <Header size="sm" title={title} description={description} />}
 
       <Surface level={0} overflow="hidden" padding="md" radius="2xl">
         {/* Preview Canvas Area */}
@@ -103,7 +100,7 @@ export function ComponentPreviewClient({
                   <Button
                     key={lvl}
                     size="xs"
-                    variant={level === lvl ? 'primary' : 'ghost'}
+                    variant={level === lvl ? 'secondary' : 'ghost'}
                     onClick={() => setLevel(lvl)}
                   >
                     {lvl === 0 ? 'Canvas' : lvl === 1 ? 'Surface' : 'Elevated'}

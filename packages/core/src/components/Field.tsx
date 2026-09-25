@@ -90,12 +90,9 @@ const fieldDescriptionStyle = style({
 });
 
 const fieldErrorStyle = style({
-  fontSize: vars.font.size.xs,
-  fontWeight: vars.font.weight.medium,
+  fontSize: vars.font.size.sm,
+  fontWeight: vars.font.weight.normal,
   color: vars.error.secondary.fg,
-  backgroundColor: vars.error.secondary.bg.DEFAULT,
-  padding: `${vars.spacing['3xs']} ${vars.spacing.xs}`,
-  borderRadius: vars.radius.md,
   width: 'max-content',
   margin: 0,
   fontFamily: vars.font.sans,
