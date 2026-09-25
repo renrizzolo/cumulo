@@ -134,10 +134,13 @@ export {
   FieldContext,
   useFieldContext,
   type FieldProps,
+  type FieldGroupProps,
+  type FieldGroupVariants,
   type FieldErrorProps,
   type FieldContextValue,
 } from './components/Field.js';
 export { Label, type LabelProps } from './components/Label.js';
+export { Header, type HeaderProps } from './components/Header.js';
 
 export { ThemeScript, getThemeScript, type ThemeScriptOptions } from './theme/ThemeScript.js';
 export { useTheme, type UseThemeReturn } from './theme/useTheme.js';

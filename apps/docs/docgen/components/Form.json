@@ -1,68 +1,40 @@
 {
-  "name": "Input",
-  "path": "packages/core/src/components/Input.tsx",
-  "fileName": "Input.tsx",
+  "name": "Form",
+  "path": "packages/core/src/components/Form.tsx",
+  "fileName": "Form.tsx",
   "props": {
-    "intent": {
-      "defaultValue": {
-        "value": "default"
-      },
-      "description": "",
-      "name": "intent",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Input.tsx",
-        "name": "InputProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Input.tsx",
-          "name": "InputProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"default\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "size": {
+    "gap": {
       "defaultValue": {
         "value": "md"
       },
       "description": "",
-      "name": "size",
+      "name": "gap",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Input.tsx",
-        "name": "InputProps"
+        "fileName": "cumulo/packages/core/src/components/Form.tsx",
+        "name": "FormProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Input.tsx",
-          "name": "InputProps"
+          "fileName": "cumulo/packages/core/src/components/Form.tsx",
+          "name": "FormProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"inherit\""
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
           },
           {
             "value": "\"xs\""
@@ -78,6 +50,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
           }
         ]
       },
@@ -115,7 +90,7 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLInputElement> | undefined"
+        "name": "Ref<HTMLFormElement> | undefined"
       },
       "shortPropTypeName": "Union"
     }

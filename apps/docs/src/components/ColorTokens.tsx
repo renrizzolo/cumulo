@@ -1,17 +1,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { style } from '@cumulo/css';
-import {
-  Text,
-  Code,
-  HStack,
-  VStack,
-  vars,
-  type ThemeToken,
-  type VarPath,
-  Button,
-} from '@cumulo/core';
+import { create, style } from '@cumulo/css';
+import { Text, vars, type ThemeToken, type VarPath, Button } from '@cumulo/core';
 import { Intent } from '@cumulo/core/intents';
 
 type ColorIntent = Intent | 'grey';
@@ -65,28 +56,10 @@ const INTENT_SCALES: readonly IntentScaleItem[] = [
 
 const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 
-const scaleContainerStyle = style({
-  containerType: 'inline-size',
-});
-
-const headerRowStyle = style({
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginBottom: vars.spacing.xs,
-});
-
-const intentTitleStyle = style({
-  fontWeight: vars.font.weight.semibold,
-  fontSize: vars.font.size.sm,
-  textTransform: 'capitalize',
-  color: vars.surface.fg,
-});
-
 const colorGridStyle = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(10, minmax(0, 64px))',
   gap: vars.spacing.xs,
-  marginBottom: vars.spacing.md,
   '@container': {
     '(max-width: 768px)': {
       gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
@@ -94,6 +67,19 @@ const colorGridStyle = style({
     '(max-width: 480px)': {
       gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     },
+  },
+});
+
+const scaleGrid = create({
+  parent: {
+    display: 'grid',
+    gridTemplateColumns: 'max-content 1fr',
+    alignItems: 'center',
+    gap: vars.spacing.md,
+  },
+  child: {
+    display: 'grid',
+    gridTemplateColumns: 'subgrid',
   },
 });
 
@@ -163,20 +149,17 @@ function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
 
 export function ColorTokens() {
   return (
-    <VStack gap="lg">
+    <div className={scaleGrid.parent.className}>
       {INTENT_SCALES.map((scale) => (
-        <div key={scale.key} className={scaleContainerStyle.className}>
-          <HStack className={headerRowStyle.className}>
-            <Text className={intentTitleStyle.className}>{scale.label}</Text>
-            <Code variant="subtle">{scale.seed}</Code>
-          </HStack>
+        <React.Fragment key={scale.key}>
+          <Text type="label">{scale.label}</Text>
           <div className={colorGridStyle.className}>
             {STEPS.map((step) => (
               <Swatch key={step} intent={scale.key} step={step} />
             ))}
           </div>
-        </div>
+        </React.Fragment>
       ))}
-    </VStack>
+    </div>
   );
 }

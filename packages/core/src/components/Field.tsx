@@ -1,9 +1,10 @@
 'use client';
 
 import React, { createContext, use, useId, useEffect } from 'react';
-import { style, cx } from '@cumulo/css';
+import { style, recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { gapStyles } from '../layout.js';
 import { Input, type InputProps } from './Input.js';
 import { Textarea, type TextareaProps } from './Textarea.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
@@ -42,10 +43,44 @@ const fieldRootStyle = style({
   gap: vars.spacing.xs,
 });
 
-const fieldGroupStyle = style({
-  display: 'flex',
-  gap: vars.spacing.xs,
-});
+export const fieldGroupRecipe = recipe(
+  {
+    extend: [gapStyles],
+    base: {
+      display: 'flex',
+      width: '100%',
+    },
+    variants: {
+      direction: {
+        row: { flexDirection: 'row' },
+        column: { flexDirection: 'column' },
+        'row-reverse': { flexDirection: 'row-reverse' },
+        'column-reverse': { flexDirection: 'column-reverse' },
+      },
+      align: {
+        start: { alignItems: 'flex-start' },
+        center: { alignItems: 'center' },
+        end: { alignItems: 'flex-end' },
+        stretch: { alignItems: 'stretch' },
+      },
+    },
+    defaultVariants: {
+      direction: 'column',
+      gap: 'md',
+      align: 'stretch',
+    },
+  },
+  'field-group',
+);
+
+export type FieldGroupVariants = RecipeVariants<typeof fieldGroupRecipe>;
+
+export interface FieldGroupProps extends ElementProps<HTMLDivElement> {
+  children?: React.ReactNode;
+  direction?: FieldGroupVariants['direction'];
+  gap?: FieldGroupVariants['gap'];
+  align?: FieldGroupVariants['align'];
+}
 
 const fieldDescriptionStyle = style({
   fontSize: vars.font.size.xs,
@@ -185,9 +220,21 @@ export function FieldInput({
   );
 }
 
-export function FieldGroup({ children, className, ...props }: FieldProps) {
+export function FieldGroup({
+  children,
+  className,
+  direction,
+  gap,
+  align,
+  ref,
+  ...props
+}: FieldGroupProps) {
   return (
-    <div className={cx(fieldGroupStyle, className)} {...props}>
+    <div
+      ref={ref}
+      className={cx(fieldGroupRecipe({ direction, gap, align }), className)}
+      {...props}
+    >
       {children}
     </div>
   );

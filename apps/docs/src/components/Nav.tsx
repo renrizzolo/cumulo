@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import type { PageProps } from '@parcel/rsc';
 import { style, cx } from '@cumulo/css';
-import { Link, type RoutePath } from '@renr/parcel-rsc-router';
+import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
+import { routesByPage } from '../../routes';
 import {
   Surface,
   VStack,
@@ -20,7 +20,7 @@ import {
 export interface NavItem {
   label: string;
   path: RoutePath;
-  htmlPath: string;
+  htmlPath: RouteHtml;
   badge?: string;
 }
 
@@ -126,6 +126,12 @@ export const DOC_SECTIONS: NavSection[] = [
       { label: 'Overview', path: '/', htmlPath: '/index.html' },
       { label: '@cumulo/css Engine', path: '/css', htmlPath: '/css.html' },
       { label: '@cumulo/core Tokens', path: '/tokens', htmlPath: '/tokens.html' },
+      {
+        label: 'Theme Builder',
+        path: '/theme-builder',
+        htmlPath: '/theme-builder.html',
+        badge: 'Playground',
+      },
     ],
   },
 ];
@@ -232,6 +238,7 @@ function ChevronRightIcon(): React.JSX.Element {
 
 export interface NavContentProps {
   currentPage?: PageProps['currentPage'];
+  pages?: PageProps['pages'];
   onNavigate?: () => void;
   showBrand?: boolean;
 }
@@ -242,11 +249,10 @@ export function NavContent({
   showBrand = true,
 }: NavContentProps): React.JSX.Element {
   const currentUrl = currentPage?.url || '';
+  const currentPath = currentPage?.url ? routesByPage[currentPage.url]?.path : undefined;
 
   const isItemActive = (item: NavItem) =>
-    currentUrl === item.htmlPath ||
-    currentUrl === item.path ||
-    (item.path === '/' && (currentUrl === '/index.html' || currentUrl === ''));
+    currentPath === item.path || currentUrl === item.htmlPath;
 
   const renderLink = (item: NavItem) => {
     const isActive = isItemActive(item);
@@ -339,14 +345,18 @@ export function NavContent({
   );
 }
 
+export interface NavProps {
+  currentPage?: PageProps['currentPage'];
+  pages?: PageProps['pages'];
+}
+
 export function Nav({
   currentPage,
-}: {
-  currentPage?: PageProps['currentPage'];
-}): React.JSX.Element {
+  pages,
+}: NavProps): React.JSX.Element {
   return (
     <Surface level={1} padding="md" className={navContainerStyle.className}>
-      <NavContent currentPage={currentPage} />
+      <NavContent currentPage={currentPage} pages={pages} />
     </Surface>
   );
 }

@@ -57,16 +57,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           }
         ]
       },
@@ -136,7 +136,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"full\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -157,10 +157,10 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"full\""
           },
           {
-            "value": "\"full\""
+            "value": "\"2xl\""
           }
         ]
       },
@@ -183,13 +183,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "1"
           },
           {
             "value": "\"initial\""
@@ -199,6 +196,9 @@
           },
           {
             "value": "\"auto\""
+          },
+          {
+            "value": "1"
           }
         ]
       },
@@ -221,7 +221,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
+        "raw": "\"auto\" | \"hidden\" | \"visible\" | \"scroll\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -233,10 +233,10 @@
             "value": "\"hidden\""
           },
           {
-            "value": "\"scroll\""
+            "value": "\"visible\""
           },
           {
-            "value": "\"visible\""
+            "value": "\"scroll\""
           }
         ]
       },

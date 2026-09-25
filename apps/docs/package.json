@@ -14,7 +14,7 @@
     "@cumulo/css": "workspace:*",
     "@parcel/config-default": "^2.16.4",
     "@parcel/rsc": "^2.16.4",
-    "@renr/parcel-rsc-router": "^1.0.0-alpha.7",
+    "@renr/parcel-rsc-router": "^1.0.0-alpha.8",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-server-dom-parcel": "^19.2.8"
@@ -24,7 +24,7 @@
     "@parcel/packager-react-static": "2.16.4",
     "@parcel/transformer-react-static": "2.16.4",
     "@renr/parcel-reporter-docgen": "^0.0.1-alpha.4",
-    "@renr/parcel-reporter-rsc-router": "^1.0.0-alpha.14",
+    "@renr/parcel-reporter-rsc-router": "^1.0.0-alpha.15",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "parcel": "^2.16.4",
