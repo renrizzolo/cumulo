@@ -63,8 +63,8 @@ importers:
         specifier: ^2.16.4
         version: 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@renr/parcel-rsc-router':
-        specifier: ^1.0.0-alpha.7
-        version: 1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: ^1.0.0-alpha.8
+        version: 1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -88,8 +88,8 @@ importers:
         specifier: ^0.0.1-alpha.4
         version: 0.0.1-alpha.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(typescript@5.9.3)
       '@renr/parcel-reporter-rsc-router':
-        specifier: ^1.0.0-alpha.14
-        version: 1.0.0-alpha.14(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        specifier: ^1.0.0-alpha.15
+        version: 1.0.0-alpha.15(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -1359,13 +1359,13 @@ packages:
   '@renr/parcel-reporter-docgen@0.0.1-alpha.4':
     resolution: {integrity: sha512-Wm0G4GQGPfexlOgJsDxjrmED/2VmM2mfswcrpvy/N5IztHGD/hMs/DwpQ36jtJbnWRtHyEi3OV2N4TLlrVa29w==}
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.14':
-    resolution: {integrity: sha512-mUZQLpfLHZ3dFDBmqdt+opewczKiD2lyr3aLd6qq/T0+u6IA1l7WgfPD6VApcrluN18d4kR5OoIEwthlByoOEw==}
+  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.15':
+    resolution: {integrity: sha512-QkNeLk8hdEhVBX+yKFuZ1S8eQQifL2ZJdid+rlSeEczzrjp4XYzMj/QUWnpdP8jNUT/wPbTLaUO3JHosr3pTpQ==}
     peerDependencies:
-      '@renr/parcel-rsc-router': 1.0.0-alpha.7
+      '@renr/parcel-rsc-router': 1.0.0-alpha.8
 
-  '@renr/parcel-rsc-router@1.0.0-alpha.7':
-    resolution: {integrity: sha512-GbOEh1fxdXvTNr+jecnhHr7hLNOgnc/AqsHX7ESpMRc+8HiJ3Tx+PbnRxhF/UTXBx7f10gN1S5J+3njM4UFiXQ==}
+  '@renr/parcel-rsc-router@1.0.0-alpha.8':
+    resolution: {integrity: sha512-K8V5ahWm8O72LIKeiJOMDafVqs1aEa7FWueufO3NMHdSvXlKyCNT27a/gl1MYm7Z63Y2KpCcC9/NQHp2eCkn6A==}
     peerDependencies:
       '@parcel/rsc': ^2
       react: ^19
@@ -4605,11 +4605,11 @@ snapshots:
       - napi-wasm
       - typescript
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.14(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
+  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.15(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-rsc-router': 1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+      '@renr/parcel-rsc-router': 1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       dedent: 1.7.2
       prettier: 3.9.6
       tinyglobby: 0.2.17
@@ -4618,7 +4618,7 @@ snapshots:
       - babel-plugin-macros
       - napi-wasm
 
-  '@renr/parcel-rsc-router@1.0.0-alpha.7(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@renr/parcel-rsc-router@1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@parcel/rsc': 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8

@@ -12,11 +12,10 @@ An accessible compound tabbed interface supporting line, pill, and bordered styl
 import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
 <ComponentPreview
-  title="Tabs Variants"
-  description="Navigate between tab panels using mouse clicks or keyboard arrow keys (Left/Right, Home, End)."
+  title="Horizontal Tabs"
 >
   <VStack gap="xl" style={{ width: '100%', maxWidth: '540px' }}>
     <TabsRoot defaultValue="account" variant="line">
@@ -26,22 +25,15 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
         <TabsTrigger value="notifications">Notifications</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
-        <Card style={{ padding: '16px' }}>
           <Text size="sm">Manage your profile, email address, and connected accounts.</Text>
-        </Card>
       </TabsContent>
       <TabsContent value="password">
-        <Card style={{ padding: '16px' }}>
           <Text size="sm">Update your security credentials and two-factor authentication.</Text>
-        </Card>
       </TabsContent>
       <TabsContent value="notifications">
-        <Card style={{ padding: '16px' }}>
           <Text size="sm">Configure email, desktop, and SMS alert preferences.</Text>
-        </Card>
       </TabsContent>
     </TabsRoot>
-
     <TabsRoot defaultValue="overview" variant="pill">
       <TabsList>
         <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -49,19 +41,91 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
         <TabsTrigger value="reports">Reports</TabsTrigger>
       </TabsList>
       <TabsContent value="overview">
-        <Text size="sm" color="muted">Overview metrics and summary data.</Text>
+          <Text size="sm">Overview metrics and summary data.</Text>
       </TabsContent>
       <TabsContent value="analytics">
-        <Text size="sm" color="muted">Real-time visitor and traffic insights.</Text>
+          <Text size="sm">Real-time visitor and traffic insights.</Text>
       </TabsContent>
       <TabsContent value="reports">
-        <Text size="sm" color="muted">Exportable weekly and monthly audit logs.</Text>
+          <Text size="sm">Exportable weekly and monthly audit logs.</Text>
+      </TabsContent>
+    </TabsRoot>
+    <TabsRoot defaultValue="general" variant="bordered">
+      <TabsList>
+        <TabsTrigger value="general">General</TabsTrigger>
+        <TabsTrigger value="team">Team</TabsTrigger>
+        <TabsTrigger value="billing">Billing</TabsTrigger>
+      </TabsList>
+      <TabsContent value="general">
+          <Text size="sm">Organization settings, domain verification, and branding.</Text>
+      </TabsContent>
+      <TabsContent value="team">
+          <Text size="sm">Member seats, role-based access control, and invitations.</Text>
+      </TabsContent>
+      <TabsContent value="billing">
+          <Text size="sm">Invoices, payment methods, and current billing cycle.</Text>
       </TabsContent>
     </TabsRoot>
 
   </VStack>
 </ComponentPreview>
 
-## Component API
+<ComponentPreview
+  title="Vertical Tabs"
+>
+  <VStack gap="xl" style={{ width: '100%', maxWidth: '640px' }}>
+    <TabsRoot defaultValue="account" orientation="vertical" variant="line">
+      <TabsList>
+        <TabsTrigger value="account">Account</TabsTrigger>
+        <TabsTrigger value="password">Password</TabsTrigger>
+        <TabsTrigger value="notifications">Notifications</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account">
+          <Text size="sm">Manage your profile, email address, and connected accounts.</Text>
+      </TabsContent>
+      <TabsContent value="password">
+          <Text size="sm">Update your security credentials and two-factor authentication.</Text>
+      </TabsContent>
+      <TabsContent value="notifications">
+          <Text size="sm">Configure email, desktop, and SMS alert preferences.</Text>
+      </TabsContent>
+    </TabsRoot>
+    <TabsRoot defaultValue="overview" orientation="vertical" variant="pill">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="analytics">Analytics</TabsTrigger>
+        <TabsTrigger value="reports">Reports</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+          <Text size="sm">Overview metrics and summary data.</Text>
+      </TabsContent>
+      <TabsContent value="analytics">
+          <Text size="sm">Real-time visitor and traffic insights.</Text>
+      </TabsContent>
+      <TabsContent value="reports">
+          <Text size="sm">Exportable weekly and monthly audit logs.</Text>
+      </TabsContent>
+    </TabsRoot>
+    <TabsRoot defaultValue="general" orientation="vertical" variant="bordered">
+      <TabsList>
+        <TabsTrigger value="general">General</TabsTrigger>
+        <TabsTrigger value="team">Team</TabsTrigger>
+        <TabsTrigger value="billing">Billing</TabsTrigger>
+      </TabsList>
+      <TabsContent value="general">
+          <Text size="sm">Organization settings, domain verification, and branding.</Text>
+      </TabsContent>
+      <TabsContent value="team">
+          <Text size="sm">Member seats, role-based access control, and invitations.</Text>
+      </TabsContent>
+      <TabsContent value="billing">
+          <Text size="sm">Invoices, payment methods, and current billing cycle.</Text>
+      </TabsContent>
+    </TabsRoot>
+
+  </VStack>
+</ComponentPreview>
+
+### Component API
 
 <PropsTable data={tabsDoc} />

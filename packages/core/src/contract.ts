@@ -159,6 +159,9 @@ export const vars = {
       fg: 'var(--theme-info-secondary-fg)',
     },
   },
+  lightness: {
+    offset: 'var(--theme-lightness-offset)',
+  },
   line: {
     height: {
       none: 'var(--theme-line-height-none)',
@@ -196,6 +199,7 @@ export const vars = {
   },
   radius: {
     '2xl': 'var(--theme-radius-2xl)',
+    control: 'var(--theme-radius-control)',
     full: 'var(--theme-radius-full)',
     lg: 'var(--theme-radius-lg)',
     md: 'var(--theme-radius-md)',
@@ -203,6 +207,9 @@ export const vars = {
     xl: 'var(--theme-radius-xl)',
   },
   size: {
+    '2xs': 'var(--theme-size-2xs)',
+    '3xs': 'var(--theme-size-3xs)',
+    '4xs': 'var(--theme-size-4xs)',
     lg: 'var(--theme-size-lg)',
     md: 'var(--theme-size-md)',
     sm: 'var(--theme-size-sm)',

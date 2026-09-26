@@ -104,6 +104,12 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   radius: [
     { name: 'vars.radius.none', variable: '--theme-radius-none', value: '0px', category: 'radius' },
     {
+      name: 'vars.radius.control',
+      variable: '--theme-radius-control',
+      value: '0.375rem (6px)',
+      category: 'radius',
+    },
+    {
       name: 'vars.radius.md',
       variable: '--theme-radius-md',
       value: '0.375rem (6px)',

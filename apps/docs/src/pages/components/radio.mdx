@@ -1,0 +1,149 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import {
+  Radio,
+  RadioList,
+  Field,
+  FieldRoot,
+  FieldLabel,
+  FieldDescription,
+  FieldError,
+  FieldRadio,
+  FieldRadioList,
+  HStack,
+  VStack,
+  Text,
+} from '@cumulo/core';
+import radioDoc from '../../../docgen/components/Radio.json';
+import radioListDoc from '../../../docgen/components/RadioList.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# Radio & RadioList
+
+An accessible, token-styled radio input component utilizing native `<input type="radio">` with circular indicator styling, error intent, and flex-powered `RadioList` grouping.
+
+```tsx
+import { Radio, RadioList, Field } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Radio List Group">
+  <RadioList defaultValue="standard" orientation="vertical">
+    <HStack gap="xs" align="center">
+      <Radio id="plan-standard" value="standard" />
+      <label htmlFor="plan-standard">Standard Plan</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="plan-pro" value="pro" />
+      <label htmlFor="plan-pro">Pro Plan</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="plan-enterprise" value="enterprise" />
+      <label htmlFor="plan-enterprise">Enterprise Plan</label>
+    </HStack>
+  </RadioList>
+</ComponentPreview>
+
+## Orientation & Custom Flex Layout
+
+`RadioList` renders a `Flex` container under the hood, allowing easy switching between `vertical` and `horizontal` orientations and accepting all flex props (`gap`, `wrap`, `justify`, `align`).
+
+<ComponentPreview title="Horizontal Radio List">
+  <RadioList defaultValue="light" orientation="horizontal" gap="lg">
+    <HStack gap="xs" align="center">
+      <Radio id="theme-light" value="light" />
+      <label htmlFor="theme-light">Light</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="theme-dark" value="dark" />
+      <label htmlFor="theme-dark">Dark</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="theme-system" value="system" />
+      <label htmlFor="theme-system">System</label>
+    </HStack>
+  </RadioList>
+</ComponentPreview>
+
+## States & Intents
+
+Radios support unchecked, checked, error intent, and disabled states.
+
+<ComponentPreview title="Radio States">
+  <VStack gap="md">
+    <HStack gap="xs" align="center">
+      <Radio id="state-unchecked" aria-label="Unchecked" />
+      <label htmlFor="state-unchecked">Unchecked</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="state-checked" defaultChecked aria-label="Checked" />
+      <label htmlFor="state-checked">Checked</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="state-error" intent="error" defaultChecked aria-label="Error intent" />
+      <label htmlFor="state-error">Error Intent</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="state-disabled" disabled aria-label="Disabled" />
+      <label htmlFor="state-disabled">Disabled</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="state-disabled-checked" disabled defaultChecked aria-label="Disabled checked" />
+      <label htmlFor="state-disabled-checked">Disabled Checked</label>
+    </HStack>
+  </VStack>
+</ComponentPreview>
+
+## Field Integration
+
+When used inside a `FieldRoot`, `FieldRadioList` and `FieldRadio` seamlessly wire `aria-labelledby`, descriptions, and validation states.
+
+<ComponentPreview
+  title="Field RadioList Integration"
+>
+  <VStack gap="lg">
+    <FieldRoot>
+      <FieldLabel>Notification Channel</FieldLabel>
+      <FieldDescription>Choose where you would like to receive product notifications.</FieldDescription>
+      <FieldRadioList defaultValue="email">
+        <HStack gap="xs" align="center">
+          <FieldRadio id="notify-email" value="email" />
+          <label htmlFor="notify-email">Email Notifications</label>
+        </HStack>
+        <HStack gap="xs" align="center">
+          <FieldRadio id="notify-sms" value="sms" />
+          <label htmlFor="notify-sms">SMS Notifications</label>
+        </HStack>
+        <HStack gap="xs" align="center">
+          <FieldRadio id="notify-slack" value="slack" />
+          <label htmlFor="notify-slack">Slack Direct Message</label>
+        </HStack>
+      </FieldRadioList>
+    </FieldRoot>
+
+    <FieldRoot isInvalid>
+      <FieldLabel>Shipping Speed</FieldLabel>
+      <FieldRadioList>
+        <HStack gap="xs" align="center">
+          <FieldRadio id="ship-standard" value="standard" />
+          <label htmlFor="ship-standard">Standard (3-5 business days)</label>
+        </HStack>
+        <HStack gap="xs" align="center">
+          <FieldRadio id="ship-express" value="express" />
+          <label htmlFor="ship-express">Express (Next day)</label>
+        </HStack>
+      </FieldRadioList>
+      <FieldError>Please choose a shipping speed to continue.</FieldError>
+    </FieldRoot>
+
+  </VStack>
+</ComponentPreview>
+
+## Radio API
+
+<PropsTable data={radioDoc} />
+
+## RadioList API
+
+<PropsTable data={radioListDoc} />

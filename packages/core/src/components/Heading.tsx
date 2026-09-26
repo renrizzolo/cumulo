@@ -64,7 +64,7 @@ export interface HeadingProps extends ElementProps<HTMLElement> {
   children?: React.ReactNode;
 }
 
-const defaultSizeForLevel: Record<string, HeadingProps['size']> = {
+export const defaultSizeForLevel: Record<HeadingLevel, HeadingProps['size']> = {
   h1: '3xl',
   h2: '2xl',
   h3: 'xl',

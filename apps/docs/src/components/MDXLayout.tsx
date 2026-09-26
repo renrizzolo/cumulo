@@ -1,6 +1,6 @@
 import { Code, Divider, Flow, Heading, Table, Text } from '@cumulo/core';
 import { textBase } from '@cumulo/core/typography';
-import type { PageProps } from '@parcel/rsc';
+import type { PageProps } from '@renr/parcel-rsc-router';
 import React, { type ReactNode } from 'react';
 import AppLayout from '../Layout';
 import { CodeBlock } from './CodeBlock';
@@ -44,7 +44,7 @@ export const components = {
 // this applies base text styles to the child markdown content.
 const styles = style({
   selectors: {
-    '& p, & h1, & h2, & h3, & h4': textBase,
+    '& > p, & > h1, & > h2, & > h3, & > h4': textBase,
   },
 });
 
@@ -59,7 +59,11 @@ export default function MDXLayout({
 
   return (
     <AppLayout title={title} currentPage={currentPage}>
-      <Flow className={styles.className}>{children}</Flow>
+      {currentPage?.url === '/theme-builder.html' ? (
+        children
+      ) : (
+        <Flow className={styles.className}>{children}</Flow>
+      )}
     </AppLayout>
   );
 }

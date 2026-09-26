@@ -1,5 +1,5 @@
 import React from 'react';
-import type { PageProps } from '@parcel/rsc';
+import type { PageProps } from '@renr/parcel-rsc-router';
 import { HStack, VStack, ThemeScript, vars, Container } from '@cumulo/core';
 import { style } from '@cumulo/css';
 import { Nav } from './components/Nav';
@@ -38,6 +38,22 @@ const contentWrapperStyle = style(
     },
   },
   'layout-content-wrapper',
+);
+
+const builderWrapperStyle = style(
+  {
+    flex: 1,
+    paddingBlock: vars.spacing.lg,
+    boxSizing: 'border-box',
+    width: '100%',
+    minWidth: 0,
+    '@media': {
+      '(max-width: 959px)': {
+        padding: `${vars.spacing.md} ${vars.spacing.sm} 60px`,
+      },
+    },
+  },
+  'layout-builder-wrapper',
 );
 
 const navAsideStyle = style(
@@ -84,14 +100,18 @@ export default function Layout({
             <aside className={navAsideStyle.className}>
               <Nav currentPage={currentPage} />
             </aside>
-            <VStack flex="auto">
+            <VStack flex="auto" style={{ minWidth: 0 }}>
               {/* Top Responsive Navigation Bar */}
               <DocHeader currentPage={currentPage} />
 
               {/* Main Content Area */}
-              <main className={contentWrapperStyle.className}>
-                <Container size="lg">{children}</Container>
-              </main>
+              {currentPage?.url === '/theme-builder.html' ? (
+                <main className={builderWrapperStyle.className}>{children}</main>
+              ) : (
+                <main className={contentWrapperStyle.className}>
+                  <Container size="lg">{children}</Container>
+                </main>
+              )}
             </VStack>
           </HStack>
         </body>

@@ -1,30 +1,65 @@
 import React from 'react';
-import { recipe, cx, type RecipeVariants, style } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants, style, createThemeContract } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+
+export const tableContract = createThemeContract(
+  {
+    bg: null,
+  },
+  'table',
+);
 
 export const tableRecipe = recipe(
   {
     base: {
       width: '100%',
-      borderCollapse: 'collapse',
+      borderCollapse: 'separate',
+      overflow: 'hidden',
       textAlign: 'left',
       fontSize: vars.font.size.sm,
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
+      borderSpacing: 0,
     },
     variants: {
       variant: {
         default: {},
         bordered: {
+          borderRadius: `max(${vars.radius.control}, ${vars.spacing.md})`,
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
+          ...tableContract.$set({
+            bg: vars.surface.bg.next,
+          }),
+          selectors: {
+            '& tbody tr:last-child td': {
+              borderBottom: 'none',
+            },
+            '& > tr:last-child td': {
+              borderBottom: 'none',
+            },
+          },
         },
+      },
+      interactive: {
+        true: {
+          selectors: {
+            '& tbody tr, & > tr': {
+              transition: `background-color ${vars.duration.fast} ${vars.ease.default}`,
+            },
+            '& tbody tr:hover, & > tr:hover': {
+              backgroundColor: vars.surface.bg.next,
+            },
+          },
+        },
+        false: {},
       },
     },
     defaultVariants: {
       variant: 'default',
+      interactive: false,
     },
   },
   'table',
@@ -43,7 +78,7 @@ export const tableHeadCellRecipe = recipe(
       borderBottomWidth: 1,
       borderBottomStyle: 'solid',
       borderBottomColor: vars.surface.border,
-      backgroundColor: vars.surface.bg.next,
+      backgroundColor: tableContract.bg,
       textAlign: 'left',
     },
     variants: {},
@@ -66,27 +101,7 @@ export const tableCellRecipe = recipe(
   'table-td',
 );
 
-export const tableRowRecipe = recipe(
-  {
-    base: {
-      transition: `background-color ${vars.duration.fast} ${vars.ease.default}`,
-    },
-    variants: {
-      interactive: {
-        true: {
-          ':hover': {
-            backgroundColor: vars.surface.bg.next,
-          },
-        },
-        false: {},
-      },
-    },
-    defaultVariants: {
-      interactive: false,
-    },
-  },
-  'table-tr',
-);
+export const tableRowRecipe = recipe({}, 'table-tr');
 
 export type TableVariants = RecipeVariants<typeof tableRecipe>;
 export type TableRowVariants = RecipeVariants<typeof tableRowRecipe>;
@@ -99,17 +114,19 @@ function cleanTableChildren(children: React.ReactNode): React.ReactNode {
 
 export interface TableProps extends ElementProps<HTMLTableElement> {
   variant?: TableVariants['variant'];
+  interactive?: TableVariants['interactive'];
   children?: React.ReactNode;
 }
 
 export function TableRoot({
   variant = 'default',
+  interactive = false,
   className,
   children,
   ref,
   ...props
 }: TableProps): React.JSX.Element {
-  const classes = tableRecipe({ variant });
+  const classes = tableRecipe({ variant, interactive });
 
   return (
     <div className={tableWrapper.className}>
@@ -146,20 +163,11 @@ export function TableBody({
   );
 }
 
-export interface TableRowProps extends ElementProps<HTMLTableRowElement> {
-  interactive?: TableRowVariants['interactive'];
-}
+export type TableRowProps = ElementProps<HTMLTableRowElement>;
 
-export function TableRow({
-  interactive = false,
-  className,
-  children,
-  ref,
-  ...props
-}: TableRowProps): React.JSX.Element {
-  const classes = tableRowRecipe({ interactive });
+export function TableRow({ className, children, ref, ...props }: TableRowProps): React.JSX.Element {
   return (
-    <tr ref={ref} className={cx(classes, className)} {...props}>
+    <tr ref={ref} className={className} {...props}>
       {cleanTableChildren(children)}
     </tr>
   );

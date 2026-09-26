@@ -66,7 +66,7 @@ export type BadgeVariants = RecipeVariants<typeof badgeRecipe>;
 export type BadgeColor = NonNullable<BadgeVariants['color']>;
 
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
-  variant?: BadgeVariants['variant'];
+  variant?: Exclude<BadgeVariants['variant'], 'ghost'>;
   intent?: BadgeVariants['intent'];
   size?: BadgeVariants['size'];
   color?: BadgeVariants['color'];

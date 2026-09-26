@@ -117,7 +117,30 @@ export {
   type TabsOrientation,
   type TabsVariant,
   type TabsTriggerVariants,
+  type TabsContentVariants,
 } from './components/Tabs.js';
+
+export {
+  ButtonGroup,
+  ButtonGroupRoot,
+  ButtonGroupItem,
+  useButtonGroupContext,
+  type ButtonGroupRootProps,
+  type ButtonGroupItemProps,
+  type ButtonGroupContextValue,
+  type ButtonGroupOrientation,
+  type ButtonGroupSize,
+} from './components/ButtonGroup.js';
+
+export { Radio, type RadioProps, type RadioVariants } from './components/Radio.js';
+
+export {
+  RadioList,
+  useRadioListContext,
+  type RadioListProps,
+  type RadioListOrientation,
+  type RadioListContextValue,
+} from './components/RadioList.js';
 
 // Field
 export {
@@ -127,6 +150,8 @@ export {
   FieldTextarea,
   FieldCheckbox,
   FieldSwitch,
+  FieldRadio,
+  FieldRadioList,
   FieldLabel,
   FieldError,
   FieldDescription,
@@ -134,10 +159,13 @@ export {
   FieldContext,
   useFieldContext,
   type FieldProps,
+  type FieldGroupProps,
+  type FieldGroupVariants,
   type FieldErrorProps,
   type FieldContextValue,
 } from './components/Field.js';
 export { Label, type LabelProps } from './components/Label.js';
+export { Header, type HeaderProps } from './components/Header.js';
 
 export { ThemeScript, getThemeScript, type ThemeScriptOptions } from './theme/ThemeScript.js';
 export { useTheme, type UseThemeReturn } from './theme/useTheme.js';

@@ -62,10 +62,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"2xl\" | \"2xs\" | \"3xs\" | undefined",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
           },
           {
             "value": "\"xs\""
@@ -83,16 +92,7 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"none\""
-          },
-          {
             "value": "\"2xl\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"3xs\""
           }
         ]
       },
@@ -206,16 +206,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"nowrap\""
+            "value": "\"wrap\""
           },
           {
-            "value": "\"wrap\""
+            "value": "\"nowrap\""
           },
           {
             "value": "\"wrap-reverse\""
@@ -263,22 +263,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"initial\" | \"auto\" | \"none\" | 1 | undefined",
+        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"initial\""
+            "value": "1"
           },
           {
-            "value": "\"auto\""
+            "value": "\"initial\""
           },
           {
             "value": "\"none\""
           },
           {
-            "value": "1"
+            "value": "\"auto\""
           }
         ]
       },

@@ -12,55 +12,67 @@ Badges highlight status, metadata, tags, or count indicators across application 
 import { Badge } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
-<ComponentPreview
-  title="Badge States"
-  description="Badges inherit intent and color definitions seamlessly across surfaces."
->
+<ComponentPreview title="Primary">
   <HStack gap="sm" wrap="wrap" align="center">
     <Badge variant="primary" intent="primary">
       Primary
     </Badge>
-    <Badge variant="secondary" intent="success">
-      Active
+    <Badge variant="primary" intent="success">
+      Success
     </Badge>
-    <Badge variant="outline" intent="warning">
-      Pending
+    <Badge variant="primary" intent="warning">
+      Warning
     </Badge>
-    <Badge variant="ghost" intent="error">
-      Failed
+    <Badge variant="primary" intent="error">
+      Error
     </Badge>
     <Badge variant="primary" intent="info">
-      Beta 2.0
+      Info
     </Badge>
   </HStack>
 </ComponentPreview>
 
-## Variants & Intents
-
-```tsx render
-<div>Hello world!</div>
-```
-
-<ComponentPreview title="Badge Variants Across Intents">
-  <HStack gap="sm" wrap="wrap">
-    <Badge variant="primary" intent="success">
-      Primary Success
+<ComponentPreview title="Secondary">
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Badge variant="secondary" intent="primary">
+      Primary
+    </Badge>
+    <Badge variant="secondary" intent="success">
+      Success
     </Badge>
     <Badge variant="secondary" intent="warning">
-      Secondary Warning
+      Warning
     </Badge>
-    <Badge variant="outline" intent="error">
-      Outline Error
+    <Badge variant="secondary" intent="error">
+      Error
     </Badge>
-    <Badge variant="ghost" intent="info">
-      Ghost Info
+    <Badge variant="secondary" intent="info">
+      Info
     </Badge>
   </HStack>
 </ComponentPreview>
 
-## Color Presets
+<ComponentPreview title="Outline">
+  <HStack gap="sm" wrap="wrap" align="center">
+    <Badge variant="outline" intent="primary">
+      Primary
+    </Badge>
+    <Badge variant="outline" intent="success">
+      Success
+    </Badge>
+    <Badge variant="outline" intent="warning">
+      Warning
+    </Badge>
+    <Badge variant="outline" intent="error">
+      Error
+    </Badge>
+    <Badge variant="outline" intent="info">
+      Info
+    </Badge>
+  </HStack>
+</ComponentPreview>
 
 <ComponentPreview title="Named Color Badges">
   <HStack gap="sm" wrap="wrap">
@@ -74,6 +86,6 @@ import { Badge } from '@cumulo/core';
   </HStack>
 </ComponentPreview>
 
-## Component API
+#### Component API
 
 <PropsTable data={badgeDoc} />

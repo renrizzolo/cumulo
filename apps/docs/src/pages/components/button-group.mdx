@@ -1,0 +1,100 @@
+import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { ButtonGroup, ButtonGroupRoot, ButtonGroupItem, VStack, HStack, Text } from '@cumulo/core';
+import buttonGroupDoc from '../../../docgen/components/ButtonGroup.json';
+export default Layout;
+export { CodeBlock, PropsTable, ComponentPreview };
+
+# ButtonGroup
+
+A segmented button toggle and action grouping component built on top of `Flex`. Supports single selection, keyboard arrow navigation, roving tab index, and full layout customization via flex props.
+
+```tsx
+import { ButtonGroup } from '@cumulo/core';
+// or named imports
+import { ButtonGroupRoot, ButtonGroupItem } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="ButtonGroup Control">
+  <VStack gap="md" align="start">
+    <ButtonGroupRoot defaultValue="daily" size="sm">
+      <ButtonGroupItem value="daily">Daily</ButtonGroupItem>
+      <ButtonGroupItem value="weekly">Weekly</ButtonGroupItem>
+      <ButtonGroupItem value="monthly">Monthly</ButtonGroupItem>
+      <ButtonGroupItem value="yearly">Yearly</ButtonGroupItem>
+    </ButtonGroupRoot>
+  </VStack>
+</ComponentPreview>
+
+## Orientation
+
+Button groups can be oriented horizontally or vertically. Arrow keys automatically follow the orientation.
+
+<ComponentPreview
+  title="Horizontal and Vertical Orientation">
+  <HStack gap="xl" align="start">
+    <VStack gap="xs" align="start">
+      <Text type="label" size="xs" color="muted">Horizontal</Text>
+      <ButtonGroupRoot defaultValue="list" orientation="horizontal" size="sm">
+        <ButtonGroupItem value="list">List</ButtonGroupItem>
+        <ButtonGroupItem value="grid">Grid</ButtonGroupItem>
+        <ButtonGroupItem value="board">Board</ButtonGroupItem>
+      </ButtonGroupRoot>
+    </VStack>
+
+    <VStack gap="xs" align="start">
+      <Text type="label" size="xs" color="muted">Vertical</Text>
+      <ButtonGroupRoot defaultValue="account" orientation="vertical" size="sm">
+        <ButtonGroupItem value="account">Account</ButtonGroupItem>
+        <ButtonGroupItem value="security">Security</ButtonGroupItem>
+        <ButtonGroupItem value="notifications">Notifications</ButtonGroupItem>
+      </ButtonGroupRoot>
+    </VStack>
+
+  </HStack>
+</ComponentPreview>
+
+## Custom Flex Layout
+
+Because `ButtonGroupRoot` renders `Flex`, you can pass standard layout props like `gap`, `wrap`, `justify`, and `align` to customize spacing and wrapping behavior.
+
+<ComponentPreview title="Custom Gap & Wrap">
+  <ButtonGroupRoot defaultValue="tag1" wrap="wrap" gap="sm">
+    <ButtonGroupItem value="tag1">Design Systems</ButtonGroupItem>
+    <ButtonGroupItem value="tag2">Accessibility</ButtonGroupItem>
+    <ButtonGroupItem value="tag3">Typography</ButtonGroupItem>
+    <ButtonGroupItem value="tag4">Color Palettes</ButtonGroupItem>
+    <ButtonGroupItem value="tag5">Performance</ButtonGroupItem>
+    <ButtonGroupItem value="tag6">Responsive Layouts</ButtonGroupItem>
+  </ButtonGroupRoot>
+</ComponentPreview>
+
+## Sizes
+
+Supports all standard button sizes: `xs`, `sm`, `md`, `lg`.
+
+<ComponentPreview title="Sizes">
+  <VStack gap="md" align="start">
+    <ButtonGroupRoot defaultValue="1" size="xs">
+      <ButtonGroupItem value="1">Extra Small</ButtonGroupItem>
+      <ButtonGroupItem value="2">XS Item</ButtonGroupItem>
+    </ButtonGroupRoot>
+    <ButtonGroupRoot defaultValue="1" size="sm">
+      <ButtonGroupItem value="1">Small</ButtonGroupItem>
+      <ButtonGroupItem value="2">SM Item</ButtonGroupItem>
+    </ButtonGroupRoot>
+    <ButtonGroupRoot defaultValue="1" size="md">
+      <ButtonGroupItem value="1">Medium</ButtonGroupItem>
+      <ButtonGroupItem value="2">MD Item</ButtonGroupItem>
+    </ButtonGroupRoot>
+    <ButtonGroupRoot defaultValue="1" size="lg">
+      <ButtonGroupItem value="1">Large</ButtonGroupItem>
+      <ButtonGroupItem value="2">LG Item</ButtonGroupItem>
+    </ButtonGroupRoot>
+  </VStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={buttonGroupDoc} />

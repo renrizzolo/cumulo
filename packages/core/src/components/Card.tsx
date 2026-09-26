@@ -4,6 +4,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 import { Surface, type SurfaceProps } from './Surface.js';
+import { Header } from './Header.js';
 
 export const cardRecipe = recipe(
   {
@@ -66,3 +67,5 @@ export function Card({
     </Surface>
   );
 }
+
+Card.Header = Header;

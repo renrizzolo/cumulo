@@ -1,10 +1,34 @@
 'use client';
 
 import React, { useCallback, useState } from 'react';
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants, createThemeContract, createTheme } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { focusRing, controlInput } from '../intents.js';
+
+const switchContract = createThemeContract({
+  track: {
+    width: null,
+    height: null,
+    padding: null,
+    borderWidth: null,
+  },
+  thumb: {
+    size: null,
+  },
+});
+
+const switchTheme = createTheme(switchContract, {
+  track: {
+    width: vars.size.sm,
+    height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+    padding: vars.spacing['3xs'],
+    borderWidth: '1px',
+  },
+  thumb: {
+    size: vars.size['4xs'],
+  },
+});
 
 export const switchRecipe = recipe(
   {
@@ -13,21 +37,23 @@ export const switchRecipe = recipe(
       display: 'inline-flex',
       alignItems: 'center',
       position: 'relative',
-      width: vars.size.sm,
-      height: vars.font.size.lg,
+      width: switchContract.track.width,
+      height: switchContract.track.height,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.secondary.DEFAULT,
-      borderWidth: 1,
+      borderWidth: switchContract.track.borderWidth,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       cursor: 'pointer',
       userSelect: 'none',
       boxSizing: 'border-box',
       transition: `background-color ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}`,
-      padding: vars.spacing['3xs'],
+      padding: switchContract.track.padding,
       flexShrink: 0,
-      ':hover': {
-        backgroundColor: vars.surface.secondary.hover,
+      selectors: {
+        '&:has(input:hover)': {
+          backgroundColor: vars.surface.secondary.hover,
+        },
       },
     },
     variants: {
@@ -35,9 +61,11 @@ export const switchRecipe = recipe(
         true: {
           backgroundColor: vars.primary.DEFAULT,
           borderColor: vars.primary.DEFAULT,
-          ':hover': {
-            backgroundColor: vars.primary.hover,
-            borderColor: vars.primary.hover,
+          selectors: {
+            '&:has(input:hover)': {
+              backgroundColor: vars.primary.hover,
+              borderColor: vars.primary.hover,
+            },
           },
         },
         false: {},
@@ -78,11 +106,10 @@ export const switchThumbRecipe = recipe(
   {
     base: {
       display: 'block',
-      width: vars.font.size.sm,
-      height: vars.font.size.sm,
+      width: switchContract.thumb.size,
+      height: switchContract.thumb.size,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.bg.DEFAULT,
-      boxShadow: vars.shadow['0'],
       transition: `transform ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
       pointerEvents: 'none',
       flexShrink: 0,
@@ -90,7 +117,7 @@ export const switchThumbRecipe = recipe(
     variants: {
       checked: {
         true: {
-          transform: `translateX(${vars.spacing.sm})`,
+          transform: `translateX(calc(${switchContract.track.width} - (${switchContract.track.padding} * 2) - (${switchContract.thumb.size}) - (${switchContract.track.borderWidth} * 2)))`,
         },
         false: {
           transform: 'translateX(0)',
@@ -152,7 +179,7 @@ export function Switch({
   });
 
   return (
-    <span className={cx(classes, className)}>
+    <span className={cx(switchTheme.className, classes, className)}>
       <input
         ref={ref}
         type="checkbox"

@@ -4,11 +4,14 @@ import React, { createContext, use, useId, useEffect } from 'react';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { Stack, VStack, type StackProps, type StackVariants } from './Stack.js';
 import { Input, type InputProps } from './Input.js';
 import { Textarea, type TextareaProps } from './Textarea.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
 import { Switch, type SwitchProps } from './Switch.js';
 import { Label, type LabelProps } from './Label.js';
+import { Radio, type RadioProps } from './Radio.js';
+import { RadioList, type RadioListProps } from './RadioList.js';
 
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
@@ -36,16 +39,9 @@ const fieldIds = {
   label: (id: string) => `${id}-label`,
 };
 
-const fieldRootStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing.xs,
-});
+export type FieldGroupVariants = StackVariants;
 
-const fieldGroupStyle = style({
-  display: 'flex',
-  gap: vars.spacing.xs,
-});
+export interface FieldGroupProps extends StackProps {}
 
 const fieldDescriptionStyle = style({
   fontSize: vars.font.size.xs,
@@ -55,18 +51,15 @@ const fieldDescriptionStyle = style({
 });
 
 const fieldErrorStyle = style({
-  fontSize: vars.font.size.xs,
-  fontWeight: vars.font.weight.medium,
+  fontSize: vars.font.size.sm,
+  fontWeight: vars.font.weight.normal,
   color: vars.error.secondary.fg,
-  backgroundColor: vars.error.secondary.bg.DEFAULT,
-  padding: `${vars.spacing['3xs']} ${vars.spacing.xs}`,
-  borderRadius: vars.radius.md,
   width: 'max-content',
   margin: 0,
   fontFamily: vars.font.sans,
 });
 
-export interface FieldProps extends ElementProps<HTMLDivElement> {
+export interface FieldProps extends StackProps {
   children?: React.ReactNode;
   isInvalid?: boolean;
 }
@@ -76,6 +69,7 @@ export function FieldRoot({
   className,
   children,
   isInvalid,
+  gap = 'xs',
   ref,
   ...props
 }: FieldProps) {
@@ -98,9 +92,9 @@ export function FieldRoot({
 
   return (
     <FieldContext.Provider value={contextValue}>
-      <div ref={ref} className={cx(fieldRootStyle, className)} {...props}>
+      <VStack ref={ref} gap={gap} className={className} {...props}>
         {children}
-      </div>
+      </VStack>
     </FieldContext.Provider>
   );
 }
@@ -185,12 +179,13 @@ export function FieldInput({
   );
 }
 
-export function FieldGroup({ children, className, ...props }: FieldProps) {
-  return (
-    <div className={cx(fieldGroupStyle, className)} {...props}>
-      {children}
-    </div>
-  );
+export function FieldGroup({
+  direction = 'column',
+  gap = 'md',
+  align = 'stretch',
+  ...props
+}: FieldGroupProps): React.JSX.Element {
+  return <Stack direction={direction} gap={gap} align={align} {...props} />;
 }
 
 export function FieldDescription({
@@ -340,11 +335,67 @@ export function FieldSwitch({
   );
 }
 
+export function FieldRadio({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: RadioProps) {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent,
+  });
+
+  return (
+    <Radio
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      intent={resolvedIntent}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
+      {...props}
+    />
+  );
+}
+
+export function FieldRadioList({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  ...props
+}: RadioListProps) {
+  const { id, labelledBy, describedBy } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+  });
+
+  return (
+    <RadioList
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      {...props}
+    />
+  );
+}
+
 FieldRoot.displayName = 'Field.Root';
 FieldInput.displayName = 'Field.Input';
 FieldTextarea.displayName = 'Field.Textarea';
 FieldCheckbox.displayName = 'Field.Checkbox';
 FieldSwitch.displayName = 'Field.Switch';
+FieldRadio.displayName = 'Field.Radio';
+FieldRadioList.displayName = 'Field.RadioList';
 FieldLabel.displayName = 'Field.Label';
 FieldError.displayName = 'Field.Error';
 FieldDescription.displayName = 'Field.Description';
@@ -356,6 +407,8 @@ export const Field = Object.assign(FieldRoot, {
   Textarea: FieldTextarea,
   Checkbox: FieldCheckbox,
   Switch: FieldSwitch,
+  Radio: FieldRadio,
+  RadioList: FieldRadioList,
   Label: FieldLabel,
   Error: FieldError,
   Description: FieldDescription,

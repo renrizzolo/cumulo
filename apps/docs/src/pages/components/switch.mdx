@@ -22,12 +22,9 @@ A smooth, accessible toggle switch control with tokenized sizing, sliding thumb 
 import { Switch } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
-<ComponentPreview
-  title="Switch Toggle"
-  description="Explore interactive toggle switches with integrated field labeling."
->
+<ComponentPreview title="Switch Toggle">
   <VStack gap="md">
     <FieldRoot>
       <HStack gap="sm" align="center">
@@ -48,10 +45,7 @@ import { Switch } from '@cumulo/core';
 
 Switches support checked, unchecked, error, and disabled states with automatic accessibility wiring.
 
-<ComponentPreview
-  title="Switch States & Intents"
-  description="Default, checked, error intent, and disabled switches."
->
+<ComponentPreview title="Switch States & Intents">
   <VStack gap="md">
     <FieldRoot>
       <HStack gap="sm" align="center">
@@ -93,7 +87,6 @@ When used inside a `FieldRoot`, switches automatically synchronize IDs, descript
 
 <ComponentPreview
   title="Form Field Integration"
-  description="Switches configured with valid, invalid, and disabled Field contexts."
 >
   <VStack gap="lg">
     <FieldRoot>
@@ -123,6 +116,6 @@ When used inside a `FieldRoot`, switches automatically synchronize IDs, descript
   </VStack>
 </ComponentPreview>
 
-## Component API
+### Component API
 
 <PropsTable data={switchDoc} />

@@ -186,6 +186,25 @@ describe('Field accessibility', () => {
     await user.click(screen.getByText('Hide Desc'));
     expect(input).not.toHaveAttribute('aria-describedby');
   });
+
+  it('renders Field.Group with children', () => {
+    render(
+      <Field.Group data-testid="field-group">
+        <Field.Root>
+          <Field.Label>First Name</Field.Label>
+          <Field.Input placeholder="First Name" />
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>Last Name</Field.Label>
+          <Field.Input placeholder="Last Name" />
+        </Field.Root>
+      </Field.Group>,
+    );
+
+    expect(screen.getByTestId('field-group')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Last Name')).toBeInTheDocument();
+  });
 });
 
 function DynamicDescForm() {
