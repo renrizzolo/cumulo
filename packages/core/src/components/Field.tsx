@@ -1,10 +1,10 @@
 'use client';
 
 import React, { createContext, use, useId, useEffect } from 'react';
-import { style, recipe, cx, type RecipeVariants } from '@cumulo/css';
+import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { gapStyles } from '../layout.js';
+import { Stack, VStack, type StackProps, type StackVariants } from './Stack.js';
 import { Input, type InputProps } from './Input.js';
 import { Textarea, type TextareaProps } from './Textarea.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
@@ -39,59 +39,9 @@ const fieldIds = {
   label: (id: string) => `${id}-label`,
 };
 
-const fieldRootStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing.xs,
-});
+export type FieldGroupVariants = StackVariants;
 
-export const fieldGroupRecipe = recipe(
-  {
-    extend: [gapStyles],
-    base: {
-      display: 'flex',
-      width: '100%',
-    },
-    variants: {
-      direction: {
-        row: { flexDirection: 'row' },
-        column: { flexDirection: 'column' },
-        'row-reverse': { flexDirection: 'row-reverse' },
-        'column-reverse': { flexDirection: 'column-reverse' },
-      },
-      align: {
-        start: { alignItems: 'flex-start' },
-        center: { alignItems: 'center' },
-        end: { alignItems: 'flex-end' },
-        stretch: { alignItems: 'stretch' },
-      },
-      justify: {
-        start: { justifyContent: 'flex-start' },
-        center: { justifyContent: 'center' },
-        end: { justifyContent: 'flex-end' },
-        between: { justifyContent: 'space-between' },
-        around: { justifyContent: 'space-around' },
-        evenly: { justifyContent: 'space-evenly' },
-      },
-    },
-    defaultVariants: {
-      direction: 'column',
-      gap: 'md',
-      align: 'stretch',
-    },
-  },
-  'field-group',
-);
-
-export type FieldGroupVariants = RecipeVariants<typeof fieldGroupRecipe>;
-
-export interface FieldGroupProps extends ElementProps<HTMLDivElement> {
-  children?: React.ReactNode;
-  direction?: FieldGroupVariants['direction'];
-  gap?: FieldGroupVariants['gap'];
-  align?: FieldGroupVariants['align'];
-  justify?: FieldGroupVariants['justify'];
-}
+export interface FieldGroupProps extends StackProps {}
 
 const fieldDescriptionStyle = style({
   fontSize: vars.font.size.xs,
@@ -109,7 +59,7 @@ const fieldErrorStyle = style({
   fontFamily: vars.font.sans,
 });
 
-export interface FieldProps extends ElementProps<HTMLDivElement> {
+export interface FieldProps extends StackProps {
   children?: React.ReactNode;
   isInvalid?: boolean;
 }
@@ -119,6 +69,7 @@ export function FieldRoot({
   className,
   children,
   isInvalid,
+  gap = 'xs',
   ref,
   ...props
 }: FieldProps) {
@@ -141,9 +92,9 @@ export function FieldRoot({
 
   return (
     <FieldContext.Provider value={contextValue}>
-      <div ref={ref} className={cx(fieldRootStyle, className)} {...props}>
+      <VStack ref={ref} gap={gap} className={className} {...props}>
         {children}
-      </div>
+      </VStack>
     </FieldContext.Provider>
   );
 }
@@ -229,24 +180,12 @@ export function FieldInput({
 }
 
 export function FieldGroup({
-  children,
-  className,
-  direction,
-  gap,
-  align,
-  justify,
-  ref,
+  direction = 'column',
+  gap = 'md',
+  align = 'stretch',
   ...props
-}: FieldGroupProps) {
-  return (
-    <div
-      ref={ref}
-      className={cx(fieldGroupRecipe({ direction, gap, align, justify }), className)}
-      {...props}
-    >
-      {children}
-    </div>
-  );
+}: FieldGroupProps): React.JSX.Element {
+  return <Stack direction={direction} gap={gap} align={align} {...props} />;
 }
 
 export function FieldDescription({

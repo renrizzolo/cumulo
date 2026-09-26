@@ -11,6 +11,7 @@ const labelStyle = style({
   color: vars.surface.fg,
   fontFamily: vars.font.sans,
   userSelect: 'none',
+  minWidth: 'max-content',
   ...textBase,
 });
 

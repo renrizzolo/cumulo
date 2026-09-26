@@ -14,6 +14,7 @@ import React, {
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { Stack } from './Stack.js';
 import { focusRing } from '../intents.js';
 
 export type TabsOrientation = 'horizontal' | 'vertical';
@@ -42,30 +43,6 @@ export const useTabs = useTabsContext;
 /* -------------------------------------------------------------------------------------------------
  * TabsRoot
  * -----------------------------------------------------------------------------------------------*/
-
-export const tabsRootRecipe = recipe(
-  {
-    base: {
-      display: 'flex',
-      width: '100%',
-    },
-    variants: {
-      orientation: {
-        horizontal: {
-          flexDirection: 'column',
-        },
-        vertical: {
-          flexDirection: 'row',
-          gap: vars.spacing.md,
-        },
-      },
-    },
-    defaultVariants: {
-      orientation: 'horizontal',
-    },
-  },
-  'tabs-root',
-);
 
 export interface TabsProps extends ElementProps<HTMLDivElement> {
   value?: string;
@@ -116,13 +93,21 @@ export function TabsRoot({
     [id, value, setValue, orientation, variant],
   );
 
-  const classes = tabsRootRecipe({ orientation });
+  const isVertical = orientation === 'vertical';
 
   return (
     <TabsContext.Provider value={contextValue}>
-      <div ref={ref} id={id} className={cx(classes, className)} {...props}>
+      <Stack
+        ref={ref}
+        id={id}
+        data-orientation={orientation}
+        direction={isVertical ? 'row' : 'column'}
+        gap={isVertical ? 'md' : 'none'}
+        className={className}
+        {...props}
+      >
         {children}
-      </div>
+      </Stack>
     </TabsContext.Provider>
   );
 }
