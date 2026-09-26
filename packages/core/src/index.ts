@@ -117,6 +117,7 @@ export {
   type TabsOrientation,
   type TabsVariant,
   type TabsTriggerVariants,
+  type TabsContentVariants,
 } from './components/Tabs.js';
 
 export {

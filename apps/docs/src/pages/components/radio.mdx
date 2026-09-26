@@ -26,12 +26,9 @@ An accessible, token-styled radio input component utilizing native `<input type=
 import { Radio, RadioList, Field } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
-<ComponentPreview
-  title="Radio List Group"
-  description="Select mutually exclusive options within a group."
->
+<ComponentPreview title="Radio List Group">
   <RadioList defaultValue="standard" orientation="vertical">
     <HStack gap="xs" align="center">
       <Radio id="plan-standard" value="standard" />
@@ -52,7 +49,7 @@ import { Radio, RadioList, Field } from '@cumulo/core';
 
 `RadioList` renders a `Flex` container under the hood, allowing easy switching between `vertical` and `horizontal` orientations and accepting all flex props (`gap`, `wrap`, `justify`, `align`).
 
-<ComponentPreview title="Horizontal Radio List" description="Horizontal layout with custom gap.">
+<ComponentPreview title="Horizontal Radio List">
   <RadioList defaultValue="light" orientation="horizontal" gap="lg">
     <HStack gap="xs" align="center">
       <Radio id="theme-light" value="light" />
@@ -73,10 +70,7 @@ import { Radio, RadioList, Field } from '@cumulo/core';
 
 Radios support unchecked, checked, error intent, and disabled states.
 
-<ComponentPreview
-  title="Radio States"
-  description="Unchecked, checked, error intent, and disabled radios."
->
+<ComponentPreview title="Radio States">
   <VStack gap="md">
     <HStack gap="xs" align="center">
       <Radio id="state-unchecked" aria-label="Unchecked" />
@@ -107,7 +101,6 @@ When used inside a `FieldRoot`, `FieldRadioList` and `FieldRadio` seamlessly wir
 
 <ComponentPreview
   title="Field RadioList Integration"
-  description="Radio list with label, descriptions, and error states."
 >
   <VStack gap="lg">
     <FieldRoot>

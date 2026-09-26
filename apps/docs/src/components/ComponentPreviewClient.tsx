@@ -76,7 +76,6 @@ const codeInnerStyleOffset = style({ marginTop: vars.spacing.md });
 
 export function ComponentPreviewClient({
   title,
-  description,
   code,
   codeString,
   defaultLevel = 0,
@@ -100,16 +99,7 @@ export function ComponentPreviewClient({
       <Surface level={0} overflow="hidden" padding="md" radius="2xl">
         {/* Preview Canvas Area */}
         <VStack gap="md">
-          {title || description ? (
-            <VStack gap="2xs">
-              {title ? <Text size="sm">{title}</Text> : null}
-              {description ? (
-                <Text size="xs" color="muted">
-                  {description}
-                </Text>
-              ) : null}
-            </VStack>
-          ) : null}
+          {title ? <Text type="body">{title}</Text> : null}
 
           <Surface
             level={level}

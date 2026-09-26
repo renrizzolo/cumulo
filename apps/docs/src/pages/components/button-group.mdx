@@ -14,12 +14,9 @@ import { ButtonGroup } from '@cumulo/core';
 import { ButtonGroupRoot, ButtonGroupItem } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
-<ComponentPreview
-  title="ButtonGroup Control"
-  description="Select options with keyboard navigation and active state highlighting."
->
+<ComponentPreview title="ButtonGroup Control">
   <VStack gap="md" align="start">
     <ButtonGroupRoot defaultValue="daily" size="sm">
       <ButtonGroupItem value="daily">Daily</ButtonGroupItem>
@@ -35,9 +32,7 @@ import { ButtonGroupRoot, ButtonGroupItem } from '@cumulo/core';
 Button groups can be oriented horizontally or vertically. Arrow keys automatically follow the orientation.
 
 <ComponentPreview
-  title="Horizontal and Vertical Orientation"
-  description="Horizontal button group and vertical button stack."
->
+  title="Horizontal and Vertical Orientation">
   <HStack gap="xl" align="start">
     <VStack gap="xs" align="start">
       <Text type="label" size="xs" color="muted">Horizontal</Text>
@@ -64,10 +59,7 @@ Button groups can be oriented horizontally or vertically. Arrow keys automatical
 
 Because `ButtonGroupRoot` renders `Flex`, you can pass standard layout props like `gap`, `wrap`, `justify`, and `align` to customize spacing and wrapping behavior.
 
-<ComponentPreview
-  title="Custom Gap & Wrap"
-  description="Button group wrapping across multiple lines with custom gap."
->
+<ComponentPreview title="Custom Gap & Wrap">
   <ButtonGroupRoot defaultValue="tag1" wrap="wrap" gap="sm">
     <ButtonGroupItem value="tag1">Design Systems</ButtonGroupItem>
     <ButtonGroupItem value="tag2">Accessibility</ButtonGroupItem>
@@ -82,7 +74,7 @@ Because `ButtonGroupRoot` renders `Flex`, you can pass standard layout props lik
 
 Supports all standard button sizes: `xs`, `sm`, `md`, `lg`.
 
-<ComponentPreview title="Sizes" description="Button groups across different size variants.">
+<ComponentPreview title="Sizes">
   <VStack gap="md" align="start">
     <ButtonGroupRoot defaultValue="1" size="xs">
       <ButtonGroupItem value="1">Extra Small</ButtonGroupItem>
@@ -103,6 +95,6 @@ Supports all standard button sizes: `xs`, `sm`, `md`, `lg`.
   </VStack>
 </ComponentPreview>
 
-## Component API
+### Component API
 
 <PropsTable data={buttonGroupDoc} />
