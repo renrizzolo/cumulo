@@ -12,7 +12,7 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
-import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';

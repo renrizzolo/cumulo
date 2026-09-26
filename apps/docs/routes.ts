@@ -32,6 +32,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/button.rsc";
         html: "/components/button.html";
       };
+      "/components/button-group": {
+        slug: "button-group";
+        path: "/components/button-group";
+        rsc: "/components/button-group.rsc";
+        html: "/components/button-group.html";
+      };
       "/components/card": {
         slug: "card";
         path: "/components/card";
@@ -103,6 +109,12 @@ declare module "@renr/parcel-rsc-router" {
         path: "/components/popover";
         rsc: "/components/popover.rsc";
         html: "/components/popover.html";
+      };
+      "/components/radio": {
+        slug: "radio";
+        path: "/components/radio";
+        rsc: "/components/radio.rsc";
+        html: "/components/radio.html";
       };
       "/components/stack": {
         slug: "stack";
@@ -189,6 +201,12 @@ export const flatRoutes = [
     html: "/components/button.html",
   },
   {
+    path: "/components/button-group",
+    slug: "button-group",
+    rsc: "/components/button-group.rsc",
+    html: "/components/button-group.html",
+  },
+  {
     path: "/components/card",
     slug: "card",
     rsc: "/components/card.rsc",
@@ -259,6 +277,12 @@ export const flatRoutes = [
     slug: "popover",
     rsc: "/components/popover.rsc",
     html: "/components/popover.html",
+  },
+  {
+    path: "/components/radio",
+    slug: "radio",
+    rsc: "/components/radio.rsc",
+    html: "/components/radio.html",
   },
   {
     path: "/components/stack",
@@ -349,6 +373,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/button-group",
+      slug: "button-group",
+      html: "/components/button-group.html",
+      rsc: "/components/button-group.rsc",
+      children: [],
+    },
+    {
       path: "/components/card",
       slug: "card",
       html: "/components/card.html",
@@ -430,6 +461,13 @@ export const routeTree = {
       slug: "popover",
       html: "/components/popover.html",
       rsc: "/components/popover.rsc",
+      children: [],
+    },
+    {
+      path: "/components/radio",
+      slug: "radio",
+      html: "/components/radio.html",
+      rsc: "/components/radio.rsc",
       children: [],
     },
     {
@@ -532,6 +570,12 @@ export const routesByPage = {
     rsc: "/components/button.rsc",
     html: "/components/button.html",
   },
+  "/components/button-group.html": {
+    path: "/components/button-group",
+    slug: "button-group",
+    rsc: "/components/button-group.rsc",
+    html: "/components/button-group.html",
+  },
   "/components/card.html": {
     path: "/components/card",
     slug: "card",
@@ -603,6 +647,12 @@ export const routesByPage = {
     slug: "popover",
     rsc: "/components/popover.rsc",
     html: "/components/popover.html",
+  },
+  "/components/radio.html": {
+    path: "/components/radio",
+    slug: "radio",
+    rsc: "/components/radio.rsc",
+    html: "/components/radio.html",
   },
   "/components/stack.html": {
     path: "/components/stack",

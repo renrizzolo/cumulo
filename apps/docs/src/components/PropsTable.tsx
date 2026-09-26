@@ -70,7 +70,7 @@ export function PropsTable({
   }
 
   return (
-    <Table variant="bordered">
+    <Table interactive>
       <Table.Header>
         <Table.Row>
           <Table.Head>Prop</Table.Head>
@@ -87,7 +87,7 @@ export function PropsTable({
           const cleanDefault = defaultValue?.replace(/^["']|["']$/g, '');
 
           return (
-            <Table.Row key={key} interactive>
+            <Table.Row key={key}>
               <Table.Cell>
                 <HStack gap="xs" align="center">
                   <Code variant="primary">{prop.name}</Code>

@@ -119,6 +119,28 @@ export {
   type TabsTriggerVariants,
 } from './components/Tabs.js';
 
+export {
+  ButtonGroup,
+  ButtonGroupRoot,
+  ButtonGroupItem,
+  useButtonGroupContext,
+  type ButtonGroupRootProps,
+  type ButtonGroupItemProps,
+  type ButtonGroupContextValue,
+  type ButtonGroupOrientation,
+  type ButtonGroupSize,
+} from './components/ButtonGroup.js';
+
+export { Radio, type RadioProps, type RadioVariants } from './components/Radio.js';
+
+export {
+  RadioList,
+  useRadioListContext,
+  type RadioListProps,
+  type RadioListOrientation,
+  type RadioListContextValue,
+} from './components/RadioList.js';
+
 // Field
 export {
   Field,
@@ -127,6 +149,8 @@ export {
   FieldTextarea,
   FieldCheckbox,
   FieldSwitch,
+  FieldRadio,
+  FieldRadioList,
   FieldLabel,
   FieldError,
   FieldDescription,

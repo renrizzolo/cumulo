@@ -93,8 +93,8 @@
   [data-theme='default'],
   [data-theme] {
     /* Shadow base */
-    --shadow-color: light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5));
-    --theme-shadow-0: 0 1px 2px 0 var(--shadow-color);
+    --shadow-color: light-dark(rgb(0 0 0 / 0.07), rgb(0 0 0 / 0.5));
+    --theme-shadow-0: 0 1px 3px 0 var(--shadow-color);
     --theme-shadow-1: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
     --theme-shadow-2: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
 
@@ -172,7 +172,7 @@
     /* Base canvas and text colors */
     --theme-bg-0: light-dark(#ffffff, #030712);
     --theme-bg-1: light-dark(
-      color-mix(in oklch, var(--theme-bg-0), black 1.5%),
+      color-mix(in oklch, var(--theme-bg-0), black 1.2%),
       color-mix(in oklch, var(--theme-bg-0), white 8%)
     );
     --theme-bg-2: light-dark(
@@ -190,7 +190,7 @@
 
     --theme-fg: light-dark(#0f172a, #f8fafc);
     --theme-muted: var(--theme-grey-700);
-    --theme-subtle: var(--theme-grey-400);
+    --theme-subtle: var(--theme-grey-500);
     --theme-border: light-dark(
       color-mix(in oklch, var(--theme-bg-0), black 12%),
       color-mix(in oklch, var(--theme-bg-0), white 17%)

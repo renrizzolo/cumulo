@@ -15,7 +15,6 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
   vars,
-  Code,
 } from '@cumulo/core';
 import { Version } from './Version';
 
@@ -158,6 +157,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     title: 'Forms & Inputs',
     items: [
       { label: 'Button', path: '/components/button', htmlPath: '/components/button.html' },
+      {
+        label: 'ButtonGroup',
+        path: '/components/button-group',
+        htmlPath: '/components/button-group.html',
+        badge: 'Compound',
+      },
       { label: 'Checkbox', path: '/components/checkbox', htmlPath: '/components/checkbox.html' },
       {
         label: 'Field',
@@ -166,6 +171,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         badge: 'Compound',
       },
       { label: 'Input', path: '/components/input', htmlPath: '/components/input.html' },
+      { label: 'Radio', path: '/components/radio', htmlPath: '/components/radio.html' },
       { label: 'Switch', path: '/components/switch', htmlPath: '/components/switch.html' },
       { label: 'Textarea', path: '/components/textarea', htmlPath: '/components/textarea.html' },
     ],

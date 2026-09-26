@@ -3,6 +3,26 @@
   "path": "packages/core/src/components/Surface.tsx",
   "fileName": "Surface.tsx",
   "props": {
+    "bordered": {
+      "defaultValue": null,
+      "description": "Sometimes it's desired to have the background colour only.",
+      "name": "bordered",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+      },
+      "shortPropTypeName": "Union"
+    },
     "level": {
       "defaultValue": {
         "value": "1"
@@ -57,16 +77,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
+        "raw": "\"default\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           }
         ]
       },
@@ -136,7 +156,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"full\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"control\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -157,10 +177,13 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"full\""
+            "value": "\"2xl\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"control\""
+          },
+          {
+            "value": "\"full\""
           }
         ]
       },
@@ -183,10 +206,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
+        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "1"
           },
           {
             "value": "\"initial\""
@@ -196,9 +222,6 @@
           },
           {
             "value": "\"auto\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -221,7 +244,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"hidden\" | \"visible\" | \"scroll\" | undefined",
+        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -233,10 +256,10 @@
             "value": "\"hidden\""
           },
           {
-            "value": "\"visible\""
+            "value": "\"scroll\""
           },
           {
-            "value": "\"scroll\""
+            "value": "\"visible\""
           }
         ]
       },

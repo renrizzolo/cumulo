@@ -44,7 +44,7 @@ export const components = {
 // this applies base text styles to the child markdown content.
 const styles = style({
   selectors: {
-    '& p, & h1, & h2, & h3, & h4': textBase,
+    '& > p, & > h1, & > h2, & > h3, & > h4': textBase,
   },
 });
 

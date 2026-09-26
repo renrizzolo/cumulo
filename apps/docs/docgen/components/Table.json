@@ -37,6 +37,28 @@
       },
       "shortPropTypeName": null
     },
+    "interactive": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "interactive",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Table.tsx",
+        "name": "TableProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Table.tsx",
+          "name": "TableProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+      },
+      "shortPropTypeName": "Union"
+    },
     "className": {
       "defaultValue": null,
       "description": "",

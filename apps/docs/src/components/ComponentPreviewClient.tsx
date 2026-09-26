@@ -1,18 +1,17 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { style } from '@cumulo/css';
 import {
-  Surface,
-  HStack,
-  VStack,
   Button,
-  Heading,
-  Text,
+  ButtonGroup,
   Collapsible,
+  HStack,
+  Surface,
+  Text,
   vars,
-  Header,
+  VStack,
 } from '@cumulo/core';
+import { style } from '@cumulo/css';
+import React, { useCallback, useState } from 'react';
 
 export interface ComponentPreviewClientProps {
   title?: string;
@@ -34,6 +33,36 @@ const previewCanvasStyle = style(
     maxWidth: '100%',
     alignSelf: 'center',
     overflow: 'auto',
+    position: 'relative',
+    '::before': {
+      content: "''",
+      position: 'absolute',
+      bottom: vars.spacing['2xs'],
+      right: vars.spacing['2xs'],
+      width: vars.size['4xs'],
+      height: vars.size['4xs'],
+      backgroundColor: vars.surface.secondary.border,
+      borderColor: vars.surface.border,
+      borderWidth: 1,
+      borderTopLeftRadius: vars.size.xs,
+      borderBottomRightRadius: vars.spacing.xs,
+      cornerShape: 'round',
+      opacity: 0,
+      pointerEvents: 'none',
+      transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+    },
+    selectors: {
+      '&::-webkit-resizer': {
+        appearance: 'none',
+        backgroundColor: 'transparent',
+      },
+      '&:hover::before': {
+        opacity: 1,
+      },
+      '&:active::before': {
+        opacity: 1,
+      },
+    },
   },
   'canvas',
 );
@@ -68,65 +97,74 @@ export function ComponentPreviewClient({
 
   return (
     <>
-      {(title || description) && <Header size="sm" title={title} description={description} />}
-
       <Surface level={0} overflow="hidden" padding="md" radius="2xl">
         {/* Preview Canvas Area */}
-        <Surface
-          level={level}
-          flex={1}
-          radius="lg"
-          padding="lg"
-          className={previewCanvasStyle.className}
-        >
-          {children}
-        </Surface>
+        <VStack gap="md">
+          {title || description ? (
+            <VStack gap="2xs">
+              {title ? <Text size="sm">{title}</Text> : null}
+              {description ? (
+                <Text size="xs" color="muted">
+                  {description}
+                </Text>
+              ) : null}
+            </VStack>
+          ) : null}
 
-        <Collapsible.Root open={showCode} onOpenChange={setShowCode}>
-          {/* Toolbar Controls */}
-          <HStack
-            wrap="wrap"
-            justify="between"
-            align="center"
-            className={toolbarFooterStyle.className}
+          <Surface
+            level={level}
+            flex={1}
+            bordered={false}
+            radius="lg"
+            padding="md"
+            className={previewCanvasStyle.className}
           >
-            {/* Surface Level Switcher */}
-            <HStack gap="xs" align="center">
-              <Text type="label" size="xs" color="muted">
-                Surface:
-              </Text>
-              <HStack gap="3xs" align="center">
-                {([0, 1, 2] as const).map((lvl) => (
-                  <Button
-                    key={lvl}
-                    size="xs"
-                    variant={level === lvl ? 'secondary' : 'ghost'}
-                    onClick={() => setLevel(lvl)}
-                  >
-                    {lvl === 0 ? 'Canvas' : lvl === 1 ? 'Surface' : 'Elevated'}
+            {children}
+          </Surface>
+
+          <Collapsible.Root open={showCode} onOpenChange={setShowCode}>
+            {/* Toolbar Controls */}
+            <HStack
+              wrap="wrap"
+              justify="between"
+              align="center"
+              className={toolbarFooterStyle.className}
+            >
+              {/* Surface Level Switcher */}
+              <HStack gap="xs" align="center">
+                <Text type="label" size="xs" color="muted">
+                  Surface:
+                </Text>
+                <ButtonGroup.Root
+                  value={String(level)}
+                  onValueChange={(val) => setLevel(Number(val) as 0 | 1 | 2)}
+                  size="xs"
+                >
+                  <ButtonGroup.Item value="0">Canvas</ButtonGroup.Item>
+                  <ButtonGroup.Item value="1">Surface</ButtonGroup.Item>
+                  <ButtonGroup.Item value="2">Elevated</ButtonGroup.Item>
+                </ButtonGroup.Root>
+              </HStack>
+
+              {/* Code Actions */}
+              <HStack gap="2xs" align="center">
+                {showCode && (
+                  <Button size="xs" variant="ghost" onClick={handleCopy}>
+                    {copied ? 'Copied!' : 'Copy'}
                   </Button>
-                ))}
+                )}
+                <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
+                  {showCode ? 'Hide Code' : 'View Code'}
+                </Collapsible.Trigger>
               </HStack>
             </HStack>
 
-            {/* Code Actions */}
-            <HStack gap="2xs" align="center">
-              {showCode && (
-                <Button size="xs" variant="ghost" onClick={handleCopy}>
-                  {copied ? 'Copied!' : 'Copy'}
-                </Button>
-              )}
-              <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
-                {showCode ? 'Hide Code' : 'View Code'}
-              </Collapsible.Trigger>
-            </HStack>
-          </HStack>
-
-          {/* Animated Code Panel */}
-          <Collapsible.Content>
-            <div className={codeInnerStyleOffset.className}>{code}</div>
-          </Collapsible.Content>
-        </Collapsible.Root>
+            {/* Animated Code Panel */}
+            <Collapsible.Content>
+              <div className={codeInnerStyleOffset.className}>{code}</div>
+            </Collapsible.Content>
+          </Collapsible.Root>
+        </VStack>
       </Surface>
     </>
   );

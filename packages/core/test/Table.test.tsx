@@ -16,7 +16,7 @@ import {
 describe('Table Component', () => {
   it('renders a full table structure with compound subcomponents', () => {
     render(
-      <Table data-testid="table-root" variant="bordered">
+      <Table data-testid="table-root" variant="bordered" interactive>
         <Table.Caption data-testid="caption">User List</Table.Caption>
         <Table.Header data-testid="thead">
           <Table.Row data-testid="header-row">
@@ -25,7 +25,7 @@ describe('Table Component', () => {
           </Table.Row>
         </Table.Header>
         <Table.Body data-testid="tbody">
-          <Table.Row data-testid="body-row" interactive>
+          <Table.Row data-testid="body-row">
             <Table.Cell data-testid="td-name">Alice</Table.Cell>
             <Table.Cell data-testid="td-role">Admin</Table.Cell>
           </Table.Row>
@@ -50,7 +50,7 @@ describe('Table Component', () => {
 
   it('supports direct named component imports', () => {
     render(
-      <TableRoot data-testid="direct-table">
+      <TableRoot data-testid="direct-table" interactive>
         <TableCaption>Direct Caption</TableCaption>
         <TableHeader>
           <TableRow>
@@ -58,7 +58,7 @@ describe('Table Component', () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow interactive>
+          <TableRow>
             <TableCell>Val</TableCell>
           </TableRow>
         </TableBody>

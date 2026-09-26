@@ -10,12 +10,8 @@ export const surfaceRecipe = recipe(
     base: {
       display: 'flex',
       flexDirection: 'column',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
       backgroundColor: vars.surface.bg.DEFAULT,
       color: vars.surface.fg,
-      boxShadow: vars.surface.shadow,
       transition: `background-color ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}`,
     },
     variants: {
@@ -23,6 +19,17 @@ export const surfaceRecipe = recipe(
         0: {},
         1: {},
         2: {},
+      },
+      bordered: {
+        true: {
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: vars.surface.border,
+          boxShadow: vars.surface.shadow,
+        },
+        false: {
+          borderWidth: 0,
+        },
       },
       variant: {
         default: {},
@@ -35,6 +42,7 @@ export const surfaceRecipe = recipe(
     },
     defaultVariants: {
       level: 1,
+      bordered: true,
       variant: 'default',
       padding: 'none',
       radius: 'xl',
@@ -46,6 +54,8 @@ export const surfaceRecipe = recipe(
 export type SurfaceVariants = RecipeVariants<typeof surfaceRecipe>;
 
 export interface SurfaceProps extends ElementProps<HTMLDivElement> {
+  /** Sometimes it's desired to have the background colour only. */
+  bordered?: SurfaceVariants['bordered'];
   level?: SurfaceVariants['level'];
   variant?: SurfaceVariants['variant'];
   padding?: SurfaceVariants['padding'];
@@ -61,13 +71,22 @@ export function Surface({
   padding,
   radius,
   flex,
+  bordered,
   overflow,
   className,
   children,
   ref,
   ...props
 }: SurfaceProps): React.JSX.Element {
-  const recipeClasses = surfaceRecipe({ level, variant, padding, radius, flex, overflow });
+  const recipeClasses = surfaceRecipe({
+    level,
+    variant,
+    padding,
+    bordered,
+    radius,
+    flex,
+    overflow,
+  });
 
   return (
     <div

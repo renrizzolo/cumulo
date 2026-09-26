@@ -6,7 +6,6 @@ import {
   Surface,
   Card,
   Button,
-  Input,
   Badge,
   Heading,
   Text,
@@ -35,6 +34,10 @@ import {
   VStack,
   ThemeToggle,
   vars,
+  FieldGroup,
+  FieldLabel,
+  FieldInput,
+  ButtonGroup,
 } from '@cumulo/core';
 import { ColorTokens } from './ColorTokens';
 
@@ -158,6 +161,7 @@ const colorInputStyle = style(
     border: 'none',
     borderRadius: vars.radius.md,
     cursor: 'pointer',
+    background: 'transparent',
   },
   'theme-color-input',
 );
@@ -168,13 +172,6 @@ const sliderInputStyle = style(
     cursor: 'pointer',
   },
   'theme-slider-input',
-);
-
-const modalBodyStyle = style(
-  {
-    padding: `${vars.spacing.md} 0`,
-  },
-  'theme-modal-body',
 );
 
 const marginTopAutoStyle = style(
@@ -204,28 +201,6 @@ const preStyle = style(
     maxWidth: '100%',
   },
   'theme-pre',
-);
-
-const sidebarPreSurfaceStyle = style(
-  {
-    maxHeight: '280px',
-    overflow: 'auto',
-    minWidth: 0,
-    maxWidth: '100%',
-  },
-  'theme-sidebar-pre-surface',
-);
-
-const sidebarPreStyle = style(
-  {
-    margin: 0,
-    fontFamily: vars.font.mono,
-    fontSize: vars.font.size.xs,
-    lineHeight: vars.line.height.normal,
-    overflowX: 'auto',
-    maxWidth: '100%',
-  },
-  'theme-sidebar-pre',
 );
 
 export interface ThemeConfig {
@@ -559,12 +534,12 @@ const FONT_PRESETS = [
     mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   },
   {
-    label: 'Modern Inter',
+    label: 'Inter (sans)',
     sans: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     mono: "'Fira Code', ui-monospace, Menlo, Monaco, Consolas, monospace",
   },
   {
-    label: 'Editorial Serif',
+    label: 'Newsreader (serif)',
     sans: "'Newsreader', Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif",
     mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, monospace",
   },
@@ -575,18 +550,12 @@ const SYSTEM_FONT_NAMES = new Set([
   '-apple-system',
   'blinkmacsystemfont',
   'segoe ui',
-  'helvetica neue',
-  'helvetica',
-  'arial',
-  'noto sans',
+  'roboto',
   'sans-serif',
   'serif',
   'monospace',
   'ui-monospace',
   'sfmono-regular',
-  'sf pro',
-  'sf pro text',
-  'sf pro display',
   'menlo',
   'monaco',
   'consolas',
@@ -594,13 +563,6 @@ const SYSTEM_FONT_NAMES = new Set([
   'bitstream charter',
   'sitka text',
   'cambria',
-  'georgia',
-  'times',
-  'times new roman',
-  'courier new',
-  'courier',
-  'inherit',
-  'initial',
 ]);
 
 const GOOGLE_FONT_SPECS: Record<string, string> = {
@@ -609,18 +571,6 @@ const GOOGLE_FONT_SPECS: Record<string, string> = {
   inter: 'family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900',
   'fira code': 'family=Fira+Code:wght@300..700',
   newsreader: 'family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800',
-  lora: 'family=Lora:ital,wght@0,400..700;1,400..700',
-  'jetbrains mono': 'family=JetBrains+Mono:ital,wght@0,100..800;1,100..800',
-  'plus jakarta sans': 'family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800',
-  outfit: 'family=Outfit:wght@100..900',
-  'space grotesk': 'family=Space+Grotesk:wght@300..700',
-  'space mono': 'family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700',
-  geist: 'family=Geist:wght@100..900',
-  'geist mono': 'family=Geist+Mono:wght@100..900',
-  'playfair display': 'family=Playfair+Display:ital,wght@0,400..900;1,400..900',
-  merriweather: 'family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700',
-  roboto: 'family=Roboto:ital,wght@0,100..900;1,100..900',
-  'roboto mono': 'family=Roboto+Mono:ital,wght@0,100..700;1,100..700',
 };
 
 function getGoogleFontQuery(family: string): string {
@@ -706,50 +656,41 @@ function getGoogleFontsImportUrl(stacks: string[]): string | null {
   return `https://fonts.googleapis.com/css2?${queries}&display=swap`;
 }
 
-// Reusable sub-parts
-interface ColorPickerFieldProps {
-  label: string;
-  colorKey: keyof ThemeConfig['colors'];
-  value: string;
-  defaultHex: string;
-  badge: string;
-  intent?: 'primary' | 'success' | 'warning' | 'error' | 'info';
-  onChange: (key: keyof ThemeConfig['colors'], value: string) => void;
-}
-
 function ColorPickerField({
   label,
   colorKey,
   value,
   defaultHex,
-  badge,
-  intent,
   onChange,
-}: ColorPickerFieldProps) {
+}: {
+  label: string;
+  colorKey: keyof ThemeConfig['colors'];
+  value: string;
+  defaultHex: string;
+  onChange: (key: keyof ThemeConfig['colors'], value: string) => void;
+}) {
   return (
-    <VStack gap="xs" align="start">
-      <HStack justify="between" align="center" className={fullWidthStyle.className}>
-        <Text type="label" size="xs" weight="semibold">
-          {label}
-        </Text>
-        <Badge variant={intent ? 'primary' : 'secondary'} intent={intent}>
-          {badge}
-        </Badge>
-      </HStack>
-      <HStack gap="xs" align="center" className={fullWidthStyle.className}>
-        <input
-          type="color"
-          value={value.startsWith('#') ? value : defaultHex}
-          onChange={(e) => onChange(colorKey, e.target.value)}
-          className={colorInputStyle.className}
-        />
-        <Input
-          size="sm"
-          value={value}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(colorKey, e.target.value)}
-        />
-      </HStack>
-    </VStack>
+    <Field>
+      <FieldGroup gap="xs">
+        <FieldLabel>{label}</FieldLabel>
+        <HStack gap="xs" align="center" className={fullWidthStyle.className}>
+          <input
+            type="color"
+            value={value.startsWith('#') ? value : defaultHex}
+            onChange={(e) => onChange(colorKey, e.target.value)}
+            className={colorInputStyle.className}
+            aria-label={`${label} color picker`}
+          />
+          <FieldInput
+            size="sm"
+            value={value}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              onChange(colorKey, e.target.value)
+            }
+          />
+        </HStack>
+      </FieldGroup>
+    </Field>
   );
 }
 
@@ -765,25 +706,23 @@ interface ScaleSliderFieldProps {
 
 function ScaleSliderField({ label, code, value, min, max, step, onChange }: ScaleSliderFieldProps) {
   return (
-    <Card level={1} padding="sm">
-      <VStack gap="xs" align="start">
-        <HStack justify="between" align="center" className={fullWidthStyle.className}>
-          <Text type="label" size="xs" weight="semibold">
-            {label}: {value}x
-          </Text>
-          <Code>{code}</Code>
-        </HStack>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={step}
-          value={value}
-          onChange={(e) => onChange(parseFloat(e.target.value))}
-          className={sliderInputStyle.className}
-        />
-      </VStack>
-    </Card>
+    <Field>
+      <HStack justify="between" align="center" className={fullWidthStyle.className}>
+        <FieldLabel>
+          {label}: {value}x
+        </FieldLabel>
+        <Code>{code}</Code>
+      </HStack>
+      <FieldInput
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(parseFloat(e.target.value))}
+        className={sliderInputStyle.className}
+      />
+    </Field>
   );
 }
 
@@ -795,18 +734,14 @@ interface TokenInputFieldProps {
 
 function TokenInputField({ label, value, onChange }: TokenInputFieldProps) {
   return (
-    <Card level={1} padding="sm">
-      <VStack gap="xs" align="start">
-        <Text type="label" size="xs" weight="semibold">
-          {label}
-        </Text>
-        <Input
-          size="sm"
-          value={value}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
-        />
-      </VStack>
-    </Card>
+    <Field>
+      <FieldLabel>{label}</FieldLabel>
+      <FieldInput
+        size="sm"
+        value={value}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
+      />
+    </Field>
   );
 }
 
@@ -814,15 +749,13 @@ const COLOR_CONFIGS: Array<{
   label: string;
   key: keyof ThemeConfig['colors'];
   defaultHex: string;
-  badge: string;
-  intent?: 'primary' | 'success' | 'warning' | 'error' | 'info';
 }> = [
-  { label: 'Primary', key: 'primary', defaultHex: '#2563eb', badge: 'Brand', intent: 'primary' },
-  { label: 'Success', key: 'success', defaultHex: '#009b50', badge: 'Valid', intent: 'success' },
-  { label: 'Warning', key: 'warning', defaultHex: '#e79212', badge: 'Alert', intent: 'warning' },
-  { label: 'Error', key: 'error', defaultHex: '#d10d27', badge: 'Danger', intent: 'error' },
-  { label: 'Info', key: 'info', defaultHex: '#0284c7', badge: 'Notice', intent: 'info' },
-  { label: 'Grey', key: 'grey', defaultHex: '#96938e', badge: 'Neutral' },
+  { label: 'Primary', key: 'primary', defaultHex: '#2563eb' },
+  { label: 'Success', key: 'success', defaultHex: '#009b50' },
+  { label: 'Warning', key: 'warning', defaultHex: '#e79212' },
+  { label: 'Error', key: 'error', defaultHex: '#d10d27' },
+  { label: 'Info', key: 'info', defaultHex: '#0284c7' },
+  { label: 'Grey', key: 'grey', defaultHex: '#96938e' },
 ];
 
 const RADII_CONFIGS: Array<{ key: keyof ThemeConfig['radii']; label: string }> = [
@@ -843,6 +776,7 @@ const SPACING_CONFIGS: Array<{ key: keyof ThemeConfig['spacing']; label: string 
 
 export function ThemeBuilder(): React.JSX.Element {
   const [theme, setTheme] = useState<ThemeConfig>(DEFAULT_THEME);
+  const [activePresetId, setActivePresetId] = useState<string>('default');
   const [localColors, setLocalColors] = useState<ThemeConfig['colors']>(DEFAULT_THEME.colors);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<string>('colors');
@@ -905,6 +839,7 @@ export function ThemeBuilder(): React.JSX.Element {
   };
 
   const applyPreset = (preset: PresetTheme) => {
+    setActivePresetId(preset.id);
     const nextColors = {
       ...theme.colors,
       ...preset.config.colors,
@@ -1022,6 +957,7 @@ export function ThemeBuilder(): React.JSX.Element {
   }, [generatedCss]);
 
   const handleReset = () => {
+    setActivePresetId('default');
     setLocalColors(DEFAULT_THEME.colors);
     setTheme(DEFAULT_THEME);
   };
@@ -1067,17 +1003,13 @@ export function ThemeBuilder(): React.JSX.Element {
             {/* Presets & Actions Toolbar Card */}
             <Card level={0} padding="md">
               <VStack gap="md">
-                <Header
-                  size="md"
-                  title="Theme Presets & Actions"
-                  description="Quick-switch brand identity presets."
-                />
-
-                <HStack gap="xs" align="center" wrap="wrap">
-                  <ThemeToggle />
-                  <Button size="sm" variant="outline" onClick={handleReset}>
-                    Reset
-                  </Button>
+                <HStack justify="between" align="center">
+                  <HStack gap="xs" align="center">
+                    <ThemeToggle />
+                    <Button size="sm" variant="outline" onClick={handleReset}>
+                      Reset
+                    </Button>
+                  </HStack>
                   <Button size="sm" variant="primary" onClick={handleCopy}>
                     {copied ? '✓ Copied!' : 'Copy CSS'}
                   </Button>
@@ -1085,63 +1017,54 @@ export function ThemeBuilder(): React.JSX.Element {
 
                 <Divider />
 
-                {/* Preset Buttons */}
-                <VStack gap="xs" align="start">
-                  <Text type="label" size="xs" color="muted">
-                    Presets
-                  </Text>
-                  <HStack gap="xs" wrap="wrap" align="center">
-                    {PRESET_THEMES.map((preset) => (
-                      <Button
-                        key={preset.id}
-                        size="sm"
-                        width="full"
-                        variant="ghost"
-                        onClick={() => applyPreset(preset)}
-                      >
-                        <HStack gap="xs" justify="between" flex="auto" align="center">
-                          <span>{preset.name}</span>
-                          <Badge
-                            variant="primary"
-                            style={{
-                              color: `contrast-color(${preset.config.colors?.primary})`,
-                              backgroundColor: preset.config.colors?.primary,
-                            }}
-                          >
-                            {preset.badge}
-                          </Badge>
-                        </HStack>
-                      </Button>
-                    ))}
-                  </HStack>
-                </VStack>
+                {/* Preset Button Group */}
+                <ButtonGroup.Root
+                  wrap="wrap"
+                  value={activePresetId}
+                  onValueChange={(id) => {
+                    const p = PRESET_THEMES.find((preset) => preset.id === id);
+                    if (p) applyPreset(p);
+                  }}
+                  orientation="vertical"
+                >
+                  {PRESET_THEMES.map((preset) => (
+                    <ButtonGroup.Item key={preset.id} value={preset.id} size="sm" width="full">
+                      <HStack gap="xs" justify="between" flex="auto" align="center">
+                        <span>{preset.name}</span>
+                        <Badge
+                          variant="primary"
+                          style={{
+                            color: `contrast-color(${preset.config.colors?.primary})`,
+                            backgroundColor: preset.config.colors?.primary,
+                          }}
+                        >
+                          {preset.badge}
+                        </Badge>
+                      </HStack>
+                    </ButtonGroup.Item>
+                  ))}
+                </ButtonGroup.Root>
               </VStack>
             </Card>
 
             {/* Configuration Controls Card */}
             <Card level={0} padding="md">
               <VStack gap="md">
-                <Header
-                  size="md"
-                  title="Customization Controls"
-                  description="Tune seed colors, radii, spacing, and typography."
-                />
-
-                <HStack gap="xs" align="center" justify="between">
-                  <Text type="label" size="xs">
-                    Theme ID:
-                  </Text>
-                  <div className={themeInputWrapperStyle.className}>
-                    <Input
-                      size="sm"
-                      value={theme.name}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setTheme((prev) => ({ ...prev, name: e.target.value }))
-                      }
-                      placeholder="e.g. brand-theme"
-                    />
-                  </div>
-                </HStack>
+                <Field>
+                  <FieldGroup direction="row" align="center" justify="between">
+                    <FieldLabel>Theme ID</FieldLabel>
+                    <div className={themeInputWrapperStyle.className}>
+                      <FieldInput
+                        size="sm"
+                        value={theme.name}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setTheme((prev) => ({ ...prev, name: e.target.value }))
+                        }
+                        placeholder="e.g. brand-theme"
+                      />
+                    </div>
+                  </FieldGroup>
+                </Field>
 
                 <Tabs
                   defaultValue={activeTab}
@@ -1152,8 +1075,7 @@ export function ThemeBuilder(): React.JSX.Element {
                     <TabsTrigger value="colors">Colors</TabsTrigger>
                     <TabsTrigger value="radii">Radii</TabsTrigger>
                     <TabsTrigger value="spacing">Spacing</TabsTrigger>
-                    <TabsTrigger value="typography">Type</TabsTrigger>
-                    <TabsTrigger value="export">Export</TabsTrigger>
+                    <TabsTrigger value="typography">Typography</TabsTrigger>
                   </TabsList>
 
                   {/* Colors & Tuning Tab */}
@@ -1167,54 +1089,39 @@ export function ThemeBuilder(): React.JSX.Element {
                             colorKey={cfg.key}
                             value={localColors[cfg.key]}
                             defaultHex={cfg.defaultHex}
-                            badge={cfg.badge}
-                            intent={cfg.intent}
                             onChange={handleColorChange}
                           />
                         ))}
                       </div>
 
                       {/* Intent Style */}
-                      <Card level={1} padding="sm">
-                        <VStack gap="md" align="start">
-                          <HStack
-                            justify="between"
-                            align="center"
-                            className={fullWidthStyle.className}
-                          >
-                            <Text type="label" size="xs" weight="semibold">
-                              Intent Style
-                            </Text>
-                          </HStack>
-                          <HStack gap="xs" className={fullWidthStyle.className}>
-                            <Button
-                              size="sm"
-                              width="full"
-                              variant={theme.intentStyle === 'solid' ? 'primary' : 'outline'}
-                              onClick={() =>
-                                setTheme((prev) => ({ ...prev, intentStyle: 'solid' }))
-                              }
-                            >
-                              Solid
-                            </Button>
-                            <Button
-                              size="sm"
-                              width="full"
-                              variant={theme.intentStyle === 'pastel' ? 'primary' : 'outline'}
-                              onClick={() =>
-                                setTheme((prev) => ({ ...prev, intentStyle: 'pastel' }))
-                              }
-                            >
-                              Pastel
-                            </Button>
-                          </HStack>
-                        </VStack>
-                      </Card>
+                      <VStack gap="xs" align="start">
+                        <Text type="label" size="xs" color="muted">
+                          INTENT STYLE
+                        </Text>
+                        <ButtonGroup.Root
+                          wrap="wrap"
+                          value={theme.intentStyle}
+                          onValueChange={(val) =>
+                            setTheme((prev) => ({
+                              ...prev,
+                              intentStyle: val as 'solid' | 'pastel',
+                            }))
+                          }
+                        >
+                          <ButtonGroup.Item value="solid" width="full">
+                            Solid
+                          </ButtonGroup.Item>
+                          <ButtonGroup.Item value="pastel" width="full">
+                            Pastel
+                          </ButtonGroup.Item>
+                        </ButtonGroup.Root>
+                      </VStack>
 
                       <Divider />
 
                       {/* Chroma, Contrast & Lightness Tuning */}
-                      <VStack gap="sm">
+                      <VStack gap="md">
                         <ScaleSliderField
                           label="Chroma"
                           code="--theme-chroma-scale"
@@ -1248,29 +1155,33 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Border Radii Tab */}
                   <TabsContent value="radii">
-                    <VStack gap="sm" className={tabContentStyle.className}>
-                      <VStack gap="xs" align="start">
-                        <Text type="label" size="xs" color="muted">
-                          RADIUS PRESETS
-                        </Text>
-                        <HStack gap="xs" wrap="wrap">
-                          {RADIUS_PRESETS.map((preset) => (
-                            <Button
-                              key={preset.label}
-                              size="sm"
-                              variant="secondary"
-                              onClick={() =>
-                                setTheme((prev) => ({
-                                  ...prev,
-                                  radii: { ...preset.values },
-                                }))
-                              }
-                            >
-                              {preset.label}
-                            </Button>
-                          ))}
-                        </HStack>
-                      </VStack>
+                    <VStack gap="md" className={tabContentStyle.className}>
+                      <ButtonGroup.Root
+                        wrap="wrap"
+                        value={
+                          RADIUS_PRESETS.find(
+                            (p) =>
+                              p.values.control === theme.radii.control &&
+                              p.values.md === theme.radii.md &&
+                              p.values.lg === theme.radii.lg,
+                          )?.label ?? ''
+                        }
+                        onValueChange={(label) => {
+                          const preset = RADIUS_PRESETS.find((p) => p.label === label);
+                          if (preset) {
+                            setTheme((prev) => ({
+                              ...prev,
+                              radii: { ...preset.values },
+                            }));
+                          }
+                        }}
+                      >
+                        {RADIUS_PRESETS.map((preset) => (
+                          <ButtonGroup.Item key={preset.label} value={preset.label} size="sm">
+                            {preset.label}
+                          </ButtonGroup.Item>
+                        ))}
+                      </ButtonGroup.Root>
 
                       <Divider />
 
@@ -1289,29 +1200,33 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Spacing Scale Tab */}
                   <TabsContent value="spacing">
-                    <VStack gap="sm" className={tabContentStyle.className}>
-                      <VStack gap="xs" align="start">
-                        <Text type="label" size="xs" color="muted">
-                          SPACING PRESETS
-                        </Text>
-                        <HStack gap="xs" wrap="wrap">
-                          {SPACING_PRESETS.map((preset) => (
-                            <Button
-                              key={preset.label}
-                              size="sm"
-                              variant="secondary"
-                              onClick={() =>
-                                setTheme((prev) => ({
-                                  ...prev,
-                                  spacing: { ...preset.values },
-                                }))
-                              }
-                            >
-                              {preset.label}
-                            </Button>
-                          ))}
-                        </HStack>
-                      </VStack>
+                    <VStack gap="md" className={tabContentStyle.className}>
+                      <ButtonGroup.Root
+                        wrap="wrap"
+                        value={
+                          SPACING_PRESETS.find(
+                            (p) =>
+                              p.values.xs === theme.spacing.xs &&
+                              p.values.md === theme.spacing.md &&
+                              p.values.lg === theme.spacing.lg,
+                          )?.label ?? ''
+                        }
+                        onValueChange={(label) => {
+                          const preset = SPACING_PRESETS.find((p) => p.label === label);
+                          if (preset) {
+                            setTheme((prev) => ({
+                              ...prev,
+                              spacing: { ...preset.values },
+                            }));
+                          }
+                        }}
+                      >
+                        {SPACING_PRESETS.map((preset) => (
+                          <ButtonGroup.Item key={preset.label} value={preset.label} size="sm">
+                            {preset.label}
+                          </ButtonGroup.Item>
+                        ))}
+                      </ButtonGroup.Root>
 
                       <Divider />
 
@@ -1330,98 +1245,62 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Typography Tab */}
                   <TabsContent value="typography">
-                    <VStack gap="sm" className={tabContentStyle.className}>
-                      <VStack gap="xs" align="start">
-                        <Text type="label" size="xs" color="muted">
-                          FONT PAIRINGS
-                        </Text>
-                        <HStack gap="xs" wrap="wrap">
-                          {FONT_PRESETS.map((preset) => (
-                            <Button
-                              key={preset.label}
-                              size="sm"
-                              variant="secondary"
-                              onClick={() => {
-                                loadGoogleFontsForStacks([preset.sans, preset.mono]);
-                                setTheme((prev) => ({
-                                  ...prev,
-                                  fonts: {
-                                    sans: preset.sans,
-                                    mono: preset.mono,
-                                  },
-                                }));
-                              }}
-                            >
-                              {preset.label}
-                            </Button>
-                          ))}
-                        </HStack>
-                      </VStack>
+                    <VStack gap="md" className={tabContentStyle.className}>
+                      <ButtonGroup.Root
+                        wrap="wrap"
+                        value={FONT_PRESETS.find((p) => p.sans === theme.fonts.sans)?.label ?? ''}
+                        onValueChange={(label) => {
+                          const preset = FONT_PRESETS.find((p) => p.label === label);
+                          if (preset) {
+                            loadGoogleFontsForStacks([preset.sans, preset.mono]);
+                            setTheme((prev) => ({
+                              ...prev,
+                              fonts: {
+                                sans: preset.sans,
+                                mono: preset.mono,
+                              },
+                            }));
+                          }
+                        }}
+                      >
+                        {FONT_PRESETS.map((preset) => (
+                          <ButtonGroup.Item key={preset.label} value={preset.label} size="sm">
+                            {preset.label}
+                          </ButtonGroup.Item>
+                        ))}
+                      </ButtonGroup.Root>
 
                       <Divider />
 
-                      <VStack gap="sm">
-                        <Card level={1} padding="sm">
-                          <VStack gap="xs" align="start">
-                            <Text type="label" size="xs" weight="semibold">
-                              Sans-Serif Font Stack
-                            </Text>
-                            <Input
-                              size="sm"
-                              value={theme.fonts.sans}
-                              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setTheme((prev) => ({
-                                  ...prev,
-                                  fonts: { ...prev.fonts, sans: e.target.value },
-                                }))
-                              }
-                            />
-                          </VStack>
-                        </Card>
+                      <VStack gap="md">
+                        <Field>
+                          <FieldLabel>Sans-Serif Font Stack</FieldLabel>
+                          <FieldInput
+                            size="sm"
+                            value={theme.fonts.sans}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              setTheme((prev) => ({
+                                ...prev,
+                                fonts: { ...prev.fonts, sans: e.target.value },
+                              }))
+                            }
+                          />
+                        </Field>
 
-                        <Card level={1} padding="sm">
-                          <VStack gap="xs" align="start">
-                            <Text type="label" size="xs" weight="semibold">
-                              Monospace Font Stack
-                            </Text>
-                            <Input
-                              size="sm"
-                              value={theme.fonts.mono}
-                              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                                setTheme((prev) => ({
-                                  ...prev,
-                                  fonts: { ...prev.fonts, mono: e.target.value },
-                                }))
-                              }
-                            />
-                          </VStack>
-                        </Card>
+                        <Field>
+                          <FieldLabel>Monospace Font Stack</FieldLabel>
+                          <FieldInput
+                            size="sm"
+                            value={theme.fonts.mono}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                              setTheme((prev) => ({
+                                ...prev,
+                                fonts: { ...prev.fonts, mono: e.target.value },
+                              }))
+                            }
+                          />
+                        </Field>
                       </VStack>
-                    </VStack>
-                  </TabsContent>
-
-                  {/* Export Tab */}
-                  <TabsContent value="export">
-                    <VStack gap="sm" className={tabContentStyle.className}>
-                      <HStack justify="between" align="center">
-                        <Text type="label" size="xs" color="muted">
-                          CSS PREVIEW
-                        </Text>
-                        <Button size="sm" variant="primary" onClick={handleCopy}>
-                          {copied ? '✓ Copied!' : 'Copy Code'}
-                        </Button>
-                      </HStack>
-
-                      <Surface
-                        level={1}
-                        padding="sm"
-                        radius="md"
-                        className={sidebarPreSurfaceStyle.className}
-                      >
-                        <pre className={sidebarPreStyle.className}>
-                          <code>{generatedCss}</code>
-                        </pre>
-                      </Surface>
                     </VStack>
                   </TabsContent>
                 </Tabs>
@@ -1600,7 +1479,7 @@ export function ThemeBuilder(): React.JSX.Element {
                             </Text>
                           </HStack>
 
-                          <Table variant="bordered">
+                          <Table variant="bordered" interactive>
                             <TableHeader>
                               <TableRow>
                                 <TableHead>Member</TableHead>
@@ -1609,7 +1488,7 @@ export function ThemeBuilder(): React.JSX.Element {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              <TableRow interactive>
+                              <TableRow>
                                 <TableCell>Alex Rivera</TableCell>
                                 <TableCell>
                                   <Badge variant="primary">Admin</Badge>
@@ -1620,7 +1499,7 @@ export function ThemeBuilder(): React.JSX.Element {
                                   </Badge>
                                 </TableCell>
                               </TableRow>
-                              <TableRow interactive>
+                              <TableRow>
                                 <TableCell>Morgan Blake</TableCell>
                                 <TableCell>
                                   <Badge variant="secondary">Editor</Badge>
@@ -1631,7 +1510,7 @@ export function ThemeBuilder(): React.JSX.Element {
                                   </Badge>
                                 </TableCell>
                               </TableRow>
-                              <TableRow interactive>
+                              <TableRow>
                                 <TableCell>Taylor Reed</TableCell>
                                 <TableCell>
                                   <Badge variant="outline">Viewer</Badge>

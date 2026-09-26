@@ -40,7 +40,7 @@ export function Header({
         ))}
       {description &&
         (typeof description === 'string' ? (
-          <Text type="caption" color="muted">
+          <Text type="label" color="subtle">
             {description}
           </Text>
         ) : (

@@ -98,16 +98,19 @@ const className = button({ variant: 'secondary', size: 'sm' });
 
 ## 3. Theme Contracts (`createThemeContract` & `createTheme`)
 
-Theme contracts define strongly typed CSS custom properties that can be mapped to various themes:
+Theme contracts define strongly typed CSS custom properties that can be mapped to themes or overridden inside style recipes via `.$set()`:
 
 ```tsx
-import { createThemeContract, createTheme } from '@cumulo/css';
+import { createThemeContract, createTheme, recipe } from '@cumulo/css';
 
 // 1. Define the contract
-export const colorContract = createThemeContract({
-  brand: null,
-  surface: null,
-});
+export const colorContract = createThemeContract(
+  {
+    brand: null,
+    surface: null,
+  },
+  'color',
+);
 
 // 2. Create themes matching the contract
 export const lightTheme = createTheme(colorContract, {
@@ -118,6 +121,22 @@ export const lightTheme = createTheme(colorContract, {
 export const darkTheme = createTheme(colorContract, {
   brand: '#818cf8',
   surface: '#0f172a',
+});
+
+// 3. Override contract variables inside recipes or style rules without manual strings
+export const cardRecipe = recipe({
+  base: {
+    backgroundColor: colorContract.surface,
+  },
+  variants: {
+    highlight: {
+      true: {
+        ...colorContract.$set({
+          surface: '#f1f5f9',
+        }),
+      },
+    },
+  },
 });
 ```
 

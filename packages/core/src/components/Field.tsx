@@ -10,6 +10,8 @@ import { Textarea, type TextareaProps } from './Textarea.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
 import { Switch, type SwitchProps } from './Switch.js';
 import { Label, type LabelProps } from './Label.js';
+import { Radio, type RadioProps } from './Radio.js';
+import { RadioList, type RadioListProps } from './RadioList.js';
 
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
@@ -63,6 +65,14 @@ export const fieldGroupRecipe = recipe(
         end: { alignItems: 'flex-end' },
         stretch: { alignItems: 'stretch' },
       },
+      justify: {
+        start: { justifyContent: 'flex-start' },
+        center: { justifyContent: 'center' },
+        end: { justifyContent: 'flex-end' },
+        between: { justifyContent: 'space-between' },
+        around: { justifyContent: 'space-around' },
+        evenly: { justifyContent: 'space-evenly' },
+      },
     },
     defaultVariants: {
       direction: 'column',
@@ -80,6 +90,7 @@ export interface FieldGroupProps extends ElementProps<HTMLDivElement> {
   direction?: FieldGroupVariants['direction'];
   gap?: FieldGroupVariants['gap'];
   align?: FieldGroupVariants['align'];
+  justify?: FieldGroupVariants['justify'];
 }
 
 const fieldDescriptionStyle = style({
@@ -223,13 +234,14 @@ export function FieldGroup({
   direction,
   gap,
   align,
+  justify,
   ref,
   ...props
 }: FieldGroupProps) {
   return (
     <div
       ref={ref}
-      className={cx(fieldGroupRecipe({ direction, gap, align }), className)}
+      className={cx(fieldGroupRecipe({ direction, gap, align, justify }), className)}
       {...props}
     >
       {children}
@@ -384,11 +396,67 @@ export function FieldSwitch({
   );
 }
 
+export function FieldRadio({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: RadioProps) {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent,
+  });
+
+  return (
+    <Radio
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      intent={resolvedIntent}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
+      {...props}
+    />
+  );
+}
+
+export function FieldRadioList({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  ...props
+}: RadioListProps) {
+  const { id, labelledBy, describedBy } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+  });
+
+  return (
+    <RadioList
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      {...props}
+    />
+  );
+}
+
 FieldRoot.displayName = 'Field.Root';
 FieldInput.displayName = 'Field.Input';
 FieldTextarea.displayName = 'Field.Textarea';
 FieldCheckbox.displayName = 'Field.Checkbox';
 FieldSwitch.displayName = 'Field.Switch';
+FieldRadio.displayName = 'Field.Radio';
+FieldRadioList.displayName = 'Field.RadioList';
 FieldLabel.displayName = 'Field.Label';
 FieldError.displayName = 'Field.Error';
 FieldDescription.displayName = 'Field.Description';
@@ -400,6 +468,8 @@ export const Field = Object.assign(FieldRoot, {
   Textarea: FieldTextarea,
   Checkbox: FieldCheckbox,
   Switch: FieldSwitch,
+  Radio: FieldRadio,
+  RadioList: FieldRadioList,
   Label: FieldLabel,
   Error: FieldError,
   Description: FieldDescription,

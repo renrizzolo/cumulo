@@ -9,6 +9,7 @@ import { focusRing, controlInput } from '../intents.js';
 const switchContract = createThemeContract({
   track: {
     width: null,
+    height: null,
     padding: null,
     borderWidth: null,
   },
@@ -20,6 +21,7 @@ const switchContract = createThemeContract({
 const switchTheme = createTheme(switchContract, {
   track: {
     width: vars.size.sm,
+    height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
     padding: vars.spacing['3xs'],
     borderWidth: '1px',
   },
@@ -36,6 +38,7 @@ export const switchRecipe = recipe(
       alignItems: 'center',
       position: 'relative',
       width: switchContract.track.width,
+      height: switchContract.track.height,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.secondary.DEFAULT,
       borderWidth: switchContract.track.borderWidth,
@@ -107,7 +110,6 @@ export const switchThumbRecipe = recipe(
       height: switchContract.thumb.size,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.bg.DEFAULT,
-      boxShadow: vars.shadow['0'],
       transition: `transform ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
       pointerEvents: 'none',
       flexShrink: 0,
@@ -115,7 +117,7 @@ export const switchThumbRecipe = recipe(
     variants: {
       checked: {
         true: {
-          transform: `translateX(calc(${switchContract.track.width} - (${switchContract.track.padding} * 2) - (${switchContract.thumb.size}) - ${switchContract.track.borderWidth}))`,
+          transform: `translateX(calc(${switchContract.track.width} - (${switchContract.track.padding} * 2) - (${switchContract.thumb.size}) - (${switchContract.track.borderWidth} * 2)))`,
         },
         false: {
           transform: 'translateX(0)',
