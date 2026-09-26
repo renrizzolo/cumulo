@@ -101,13 +101,6 @@ const showcaseAreaStyle = style(
   'theme-builder-showcase',
 );
 
-const themeInputWrapperStyle = style(
-  {
-    width: '180px',
-  },
-  'theme-input-wrap',
-);
-
 const tabContentStyle = style(
   {
     paddingTop: vars.spacing.xs,
@@ -118,7 +111,7 @@ const tabContentStyle = style(
 const cardGridStyle = style(
   {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
     gap: vars.spacing.lg,
     width: '100%',
     alignItems: 'stretch',
@@ -183,7 +176,7 @@ const marginTopAutoStyle = style(
 
 const codeSurfaceStyle = style(
   {
-    maxHeight: '350px',
+    // maxHeight: '350px',
     overflow: 'auto',
     minWidth: 0,
     maxWidth: '100%',
@@ -1002,7 +995,7 @@ export function ThemeBuilder(): React.JSX.Element {
           <VStack gap="lg">
             {/* Presets & Actions Toolbar Card */}
             <Card level={0} padding="md">
-              <VStack gap="md">
+              <VStack gap="lg">
                 <HStack justify="between" align="center">
                   <HStack gap="xs" align="center">
                     <ThemeToggle />
@@ -1049,20 +1042,19 @@ export function ThemeBuilder(): React.JSX.Element {
 
             {/* Configuration Controls Card */}
             <Card level={0} padding="md">
-              <VStack gap="md">
+              <VStack gap="lg">
                 <Field>
                   <FieldGroup direction="row" align="center" justify="between">
                     <FieldLabel>Theme ID</FieldLabel>
-                    <div className={themeInputWrapperStyle.className}>
-                      <FieldInput
-                        size="sm"
-                        value={theme.name}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setTheme((prev) => ({ ...prev, name: e.target.value }))
-                        }
-                        placeholder="e.g. brand-theme"
-                      />
-                    </div>
+
+                    <FieldInput
+                      size="sm"
+                      value={theme.name}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setTheme((prev) => ({ ...prev, name: e.target.value }))
+                      }
+                      placeholder="e.g. brand-theme"
+                    />
                   </FieldGroup>
                 </Field>
 
@@ -1080,7 +1072,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Colors & Tuning Tab */}
                   <TabsContent value="colors">
-                    <VStack gap="md" className={tabContentStyle.className}>
+                    <VStack gap="lg" className={tabContentStyle.className}>
                       <div className={colorGridStyle.className}>
                         {COLOR_CONFIGS.map((cfg) => (
                           <ColorPickerField
@@ -1095,12 +1087,11 @@ export function ThemeBuilder(): React.JSX.Element {
                       </div>
 
                       {/* Intent Style */}
-                      <VStack gap="xs" align="start">
-                        <Text type="label" size="xs" color="muted">
-                          INTENT STYLE
-                        </Text>
+                      <VStack gap="sm" align="start">
+                        <Text type="label">Intent style</Text>
                         <ButtonGroup.Root
                           wrap="wrap"
+                          direction="row"
                           value={theme.intentStyle}
                           onValueChange={(val) =>
                             setTheme((prev) => ({
@@ -1109,19 +1100,15 @@ export function ThemeBuilder(): React.JSX.Element {
                             }))
                           }
                         >
-                          <ButtonGroup.Item value="solid" width="full">
-                            Solid
-                          </ButtonGroup.Item>
-                          <ButtonGroup.Item value="pastel" width="full">
-                            Pastel
-                          </ButtonGroup.Item>
+                          <ButtonGroup.Item value="solid">Solid</ButtonGroup.Item>
+                          <ButtonGroup.Item value="pastel">Pastel</ButtonGroup.Item>
                         </ButtonGroup.Root>
                       </VStack>
 
                       <Divider />
 
                       {/* Chroma, Contrast & Lightness Tuning */}
-                      <VStack gap="md">
+                      <VStack gap="lg">
                         <ScaleSliderField
                           label="Chroma"
                           code="--theme-chroma-scale"
@@ -1155,7 +1142,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Border Radii Tab */}
                   <TabsContent value="radii">
-                    <VStack gap="md" className={tabContentStyle.className}>
+                    <VStack gap="lg" className={tabContentStyle.className}>
                       <ButtonGroup.Root
                         wrap="wrap"
                         value={
@@ -1200,7 +1187,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Spacing Scale Tab */}
                   <TabsContent value="spacing">
-                    <VStack gap="md" className={tabContentStyle.className}>
+                    <VStack gap="lg" className={tabContentStyle.className}>
                       <ButtonGroup.Root
                         wrap="wrap"
                         value={
@@ -1245,7 +1232,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                   {/* Typography Tab */}
                   <TabsContent value="typography">
-                    <VStack gap="md" className={tabContentStyle.className}>
+                    <VStack gap="lg" className={tabContentStyle.className}>
                       <ButtonGroup.Root
                         wrap="wrap"
                         value={FONT_PRESETS.find((p) => p.sans === theme.fonts.sans)?.label ?? ''}
@@ -1272,7 +1259,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                       <Divider />
 
-                      <VStack gap="md">
+                      <VStack gap="lg">
                         <Field>
                           <FieldLabel>Sans-Serif Font Stack</FieldLabel>
                           <FieldInput
@@ -1306,16 +1293,26 @@ export function ThemeBuilder(): React.JSX.Element {
                 </Tabs>
               </VStack>
             </Card>
-            {/* Color Palette Shades Section */}
+
+            {/* Direct CSS Output Card with Copy */}
             <Card level={0} padding="lg">
-              <VStack gap="md">
+              <VStack gap="lg">
                 <Header
                   size="md"
-                  title="Color Palette Shades"
-                  description="50–900 OKLCH stepped scales calculated via chroma curves and relative color syntax from the seed colors."
+                  title="Theme CSS"
+                  description="Place this in your app's global CSS or inside a scoped container with data-theme."
+                  actions={
+                    <Button variant="primary" onClick={handleCopy}>
+                      {copied ? '✓ Copied to Clipboard!' : 'Copy Theme CSS'}
+                    </Button>
+                  }
                 />
-                <Divider />
-                <ColorTokens />
+
+                <Surface level={1} padding="md" radius="md" className={codeSurfaceStyle.className}>
+                  <pre className={preStyle.className}>
+                    <code>{generatedCss}</code>
+                  </pre>
+                </Surface>
               </VStack>
             </Card>
           </VStack>
@@ -1333,12 +1330,12 @@ export function ThemeBuilder(): React.JSX.Element {
               <VStack gap="xl">
                 {/* UI Component Showcase Section */}
                 <>
-                  <VStack gap="md">
+                  <VStack gap="lg">
                     {/* Responsive Grid of Cards */}
                     <div className={cardGridStyle.className}>
                       {/* Card 1: Registration Form */}
                       <Card level={0} padding="lg">
-                        <VStack gap="md">
+                        <VStack gap="lg">
                           <Header
                             size="md"
                             title="Create Account"
@@ -1392,7 +1389,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                       {/* Card 2: Settings & Preferences */}
                       <Card level={0} padding="lg">
-                        <VStack gap="md">
+                        <VStack gap="lg">
                           <Header
                             size="md"
                             title="Account Preferences"
@@ -1458,7 +1455,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                       {/* Card 3: Metrics & Data Table */}
                       <Card level={0} padding="lg">
-                        <VStack gap="md">
+                        <VStack gap="lg">
                           <Header
                             size="md"
                             title="Team & Subscriptions"
@@ -1470,16 +1467,16 @@ export function ThemeBuilder(): React.JSX.Element {
                             }
                           />
 
-                          <HStack gap="lg" align="baseline">
+                          <VStack gap="sm" align="baseline">
                             <Heading as="h3" size="2xl">
                               $38,450
                             </Heading>
                             <Text type="caption" color="muted">
                               Total active plan billing
                             </Text>
-                          </HStack>
+                          </VStack>
 
-                          <Table variant="bordered" interactive>
+                          <Table variant="default" interactive>
                             <TableHeader>
                               <TableRow>
                                 <TableHead>Member</TableHead>
@@ -1541,7 +1538,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                       {/* Card 4: Interactive Primitives & Dialog */}
                       <Card level={0} padding="lg">
-                        <VStack gap="md">
+                        <VStack gap="lg">
                           <Header
                             size="md"
                             title="Interactive Primitives"
@@ -1556,10 +1553,8 @@ export function ThemeBuilder(): React.JSX.Element {
                           <Divider />
 
                           {/* Button Intents */}
-                          <VStack gap="xs" align="start">
-                            <Text type="label" size="xs" color="muted">
-                              BUTTON INTENTS
-                            </Text>
+                          <VStack gap="sm" align="start">
+                            <Text type="label">Button intents</Text>
                             <HStack gap="xs" wrap="wrap">
                               <Button size="sm" variant="primary">
                                 Primary
@@ -1580,10 +1575,8 @@ export function ThemeBuilder(): React.JSX.Element {
                           </VStack>
 
                           {/* Badges */}
-                          <VStack gap="xs" align="start">
-                            <Text type="label" size="xs" color="muted">
-                              BADGE INTENTS
-                            </Text>
+                          <VStack gap="sm" align="start">
+                            <Text type="label">Badge intents</Text>
                             <HStack gap="xs" wrap="wrap">
                               <Badge variant="primary" intent="primary">
                                 Primary
@@ -1606,10 +1599,8 @@ export function ThemeBuilder(): React.JSX.Element {
                           <Divider />
 
                           {/* Native Modal Dialog */}
-                          <VStack gap="xs" align="start">
-                            <Text type="label" size="xs" color="muted">
-                              MODAL COMPONENT
-                            </Text>
+                          <VStack gap="sm" align="start">
+                            <Text type="label">Dialog</Text>
                             <DialogRoot>
                               <DialogTrigger variant="secondary" width="full">
                                 Open Theme Modal Dialog
@@ -1634,7 +1625,7 @@ export function ThemeBuilder(): React.JSX.Element {
 
                       {/* Card 5: Inquiries & Message Composer */}
                       <Card level={0} padding="lg">
-                        <VStack gap="md">
+                        <VStack gap="lg">
                           <Header
                             size="md"
                             title="Support Inquiry"
@@ -1685,31 +1676,16 @@ export function ThemeBuilder(): React.JSX.Element {
                     </div>
                   </VStack>
                 </>
-
-                {/* Direct CSS Output Card with Copy */}
+                {/* Color Palette Shades Section */}
                 <Card level={0} padding="lg">
-                  <VStack gap="md">
+                  <VStack gap="lg">
                     <Header
                       size="md"
-                      title="Ready-to-Use CSS Stylesheet Block"
-                      description="Place this in your app's global CSS or inside a scoped container with data-theme."
-                      actions={
-                        <Button variant="primary" onClick={handleCopy}>
-                          {copied ? '✓ Copied to Clipboard!' : 'Copy Theme CSS'}
-                        </Button>
-                      }
+                      title="Color Palette Shades"
+                      description="50–900 OKLCH stepped scales calculated via chroma curves and relative color syntax from the seed colors."
                     />
-
-                    <Surface
-                      level={1}
-                      padding="md"
-                      radius="md"
-                      className={codeSurfaceStyle.className}
-                    >
-                      <pre className={preStyle.className}>
-                        <code>{generatedCss}</code>
-                      </pre>
-                    </Surface>
+                    <Divider />
+                    <ColorTokens />
                   </VStack>
                 </Card>
               </VStack>
