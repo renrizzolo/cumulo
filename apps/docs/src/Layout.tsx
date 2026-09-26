@@ -43,7 +43,7 @@ const contentWrapperStyle = style(
 const builderWrapperStyle = style(
   {
     flex: 1,
-    padding: `${vars.spacing.lg} ${vars.spacing.xl} 80px`,
+    paddingBlock: vars.spacing.lg,
     boxSizing: 'border-box',
     width: '100%',
     minWidth: 0,

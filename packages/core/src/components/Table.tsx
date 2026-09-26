@@ -21,12 +21,12 @@ export const tableRecipe = recipe(
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
       borderSpacing: 0,
-      borderRadius: vars.radius.control,
     },
     variants: {
       variant: {
         default: {},
         bordered: {
+          borderRadius: `max(${vars.radius.control}, ${vars.spacing.md})`,
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
