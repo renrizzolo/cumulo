@@ -13,6 +13,7 @@ const topHeaderStyle = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  backgroundColor: vars.surface.bg.DEFAULT,
   borderTop: 'none',
   borderLeft: 'none',
   borderRight: 'none',
@@ -21,7 +22,9 @@ const topHeaderStyle = style({
   borderBottomColor: vars.surface.border,
   borderRadius: 0,
   minHeight: '3.5rem',
+  height: '3.5rem',
   boxSizing: 'border-box',
+  zIndex: 10,
   '@media': {
     '(max-width: 768px)': {
       padding: `${vars.spacing.sm} ${vars.spacing.md}`,
@@ -55,6 +58,11 @@ const mobileBrandLinkStyle = style({
   display: 'flex',
   alignItems: 'center',
   gap: vars.spacing['2xs'],
+});
+
+const mobileBrandIconStyle = style({
+  fontSize: '20px',
+  lineHeight: 1,
 });
 
 const backdropStyle = style({
@@ -220,7 +228,7 @@ export function DocHeader({
                   className={mobileBrandLinkStyle.className}
                 >
                   <HStack gap="xs" align="center">
-                    <span style={{ fontSize: '20px' }}>📦</span>
+                    <span className={mobileBrandIconStyle.className}>📦</span>
                     <VStack gap="3xs">
                       <Heading as="h4" size="sm">
                         Cumulo UI

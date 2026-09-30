@@ -8,9 +8,10 @@ import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { PropsTable } from './PropsTable';
 import { TokenTable } from './TokenTable';
+import { DemoFrame } from './DemoFrame';
 import { style } from '@cumulo/css';
 
-export { CodeBlock, ColorTokens, ComponentPreview, PropsTable, TokenTable };
+export { CodeBlock, ColorTokens, ComponentPreview, PropsTable, TokenTable, DemoFrame };
 
 export const components = {
   h1: ({ ...props }: React.ComponentProps<typeof Heading>) => (
@@ -38,6 +39,7 @@ export const components = {
   TokenTable,
   PropsTable,
   ComponentPreview,
+  DemoFrame,
 };
 
 // TODO: above components aren't applied to regular markdown.

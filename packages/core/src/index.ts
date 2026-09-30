@@ -173,3 +173,53 @@ export { useTheme, type UseThemeReturn } from './theme/useTheme.js';
 // hooks
 export { useDismissible } from './hooks/useDismissible.js';
 export { useFocus } from './hooks/useFocus.js';
+export {
+  useSidebar,
+  type SidebarContextValue,
+  type SidebarVariant,
+  type SidebarPosition,
+} from './hooks/useSidebar.js';
+
+// App Layout & Frame Primitives
+export {
+  Panel,
+  PanelRoot,
+  panelContract,
+  type PanelProps,
+  type PanelVariants,
+  type PanelDividerSide,
+  type PanelDividerProp,
+  type PanelTag,
+} from './components/Panel.js';
+
+export {
+  Sidebar,
+  SidebarRoot,
+  SidebarToggle,
+  sidebarContract,
+  type SidebarProps,
+  type SidebarVariants,
+  type SidebarToggleProps,
+} from './components/Sidebar.js';
+
+export {
+  SideNav,
+  SideNavRoot,
+  SideNavItem,
+  SideNavGroup,
+  sideNavContract,
+  type SideNavProps,
+  type SideNavVariants,
+  type SideNavItemProps,
+  type SideNavGroupProps,
+} from './components/SideNav.js';
+
+export {
+  AppFrame,
+  AppFrameRoot,
+  AppFrameMain,
+  frameContract,
+  type AppFrameProps,
+  type AppFrameVariants,
+  type AppFrameMainProps,
+} from './components/AppFrame.js';

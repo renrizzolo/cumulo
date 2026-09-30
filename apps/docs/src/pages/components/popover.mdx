@@ -27,18 +27,14 @@ import { Popover } from '@cumulo/core';
   <PopoverRoot>
     <PopoverTrigger variant="secondary">Toggle Settings</PopoverTrigger>
     <PopoverContent size="md">
-      <VStack gap="xs">
+      <VStack gap="sm" align="start">
         <Text size="sm" weight="semibold">
           Quick Preferences
         </Text>
         <Text size="xs" color="muted">
           Native popover rendered directly in the top layer without requiring React portals.
         </Text>
-        <PopoverClose
-          variant="outline"
-          size="sm"
-          style={{ marginTop: '0.5rem', alignSelf: 'flex-start' }}
-        >
+        <PopoverClose variant="outline" size="sm">
           Dismiss
         </PopoverClose>
       </VStack>

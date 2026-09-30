@@ -1,6 +1,6 @@
 import React from 'react';
 import type { PageProps } from '@renr/parcel-rsc-router';
-import { HStack, VStack, ThemeScript, vars, Container } from '@cumulo/core';
+import { AppFrame, AppFrameMain, Panel, ThemeScript, vars, Container } from '@cumulo/core';
 import { style } from '@cumulo/css';
 import { Nav } from './components/Nav';
 import { AppProvider } from './appProvider';
@@ -10,15 +10,9 @@ import './styles.css';
 const bodyStyle = style(
   {
     margin: 0,
-    padding: vars.spacing.md,
     minHeight: '100vh',
     backgroundColor: vars.surface.bg.DEFAULT,
     color: vars.surface.fg,
-    '@media': {
-      '(max-width: 768px)': {
-        padding: 0,
-      },
-    },
   },
   'layout-body',
 );
@@ -56,20 +50,6 @@ const builderWrapperStyle = style(
   'layout-builder-wrapper',
 );
 
-const navAsideStyle = style(
-  {
-    display: 'flex',
-    flexDirection: 'column',
-    flexShrink: 0,
-    '@media': {
-      '(max-width: 959px)': {
-        display: 'none !important',
-      },
-    },
-  },
-  'layout-nav-aside',
-);
-
 export default function Layout({
   children,
   title,
@@ -96,24 +76,24 @@ export default function Layout({
 
       <AppProvider>
         <body className={bodyStyle.className}>
-          <HStack align="stretch" flex="auto" gap="lg">
-            <aside className={navAsideStyle.className}>
-              <Nav currentPage={currentPage} />
-            </aside>
-            <VStack flex="auto" style={{ minWidth: 0 }}>
+          <AppFrame variant="docked">
+            <Nav currentPage={currentPage} />
+            <AppFrameMain>
               {/* Top Responsive Navigation Bar */}
               <DocHeader currentPage={currentPage} />
 
               {/* Main Content Area */}
               {currentPage?.url === '/theme-builder.html' ? (
-                <main className={builderWrapperStyle.className}>{children}</main>
+                <Panel scrollable as="main" className={builderWrapperStyle.className}>
+                  {children}
+                </Panel>
               ) : (
-                <main className={contentWrapperStyle.className}>
+                <Panel scrollable as="main" className={contentWrapperStyle.className}>
                   <Container size="lg">{children}</Container>
-                </main>
+                </Panel>
               )}
-            </VStack>
-          </HStack>
+            </AppFrameMain>
+          </AppFrame>
         </body>
       </AppProvider>
     </html>

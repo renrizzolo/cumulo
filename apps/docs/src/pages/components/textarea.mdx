@@ -1,4 +1,9 @@
-import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import Layout, {
+  CodeBlock,
+  ComponentPreview,
+  PropsTable,
+  DemoFrame,
+} from '../../components/MDXLayout.tsx';
 import {
   Textarea,
   FieldRoot,
@@ -25,20 +30,22 @@ import { Textarea, FieldTextarea } from '@cumulo/core';
 <ComponentPreview
   title="Textarea within Field"
 >
-  <VStack gap="md" style={{ width: '100%', maxWidth: '480px' }}>
-    <FieldRoot>
-      <FieldLabel>Project Description</FieldLabel>
-      <FieldTextarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
-      <FieldDescription>Brief overview for stakeholders.</FieldDescription>
-    </FieldRoot>
+  <DemoFrame maxWidth="md" bordered={false}>
+    <VStack gap="md">
+      <FieldRoot>
+        <FieldLabel>Project Description</FieldLabel>
+        <FieldTextarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
+        <FieldDescription>Brief overview for stakeholders.</FieldDescription>
+      </FieldRoot>
 
-    <FieldRoot isInvalid>
-      <FieldLabel>Feedback</FieldLabel>
-      <FieldTextarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
-      <FieldError>Feedback must be at least 20 characters long.</FieldError>
-    </FieldRoot>
+      <FieldRoot isInvalid>
+        <FieldLabel>Feedback</FieldLabel>
+        <FieldTextarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
+        <FieldError>Feedback must be at least 20 characters long.</FieldError>
+      </FieldRoot>
+    </VStack>
 
-  </VStack>
+  </DemoFrame>
 </ComponentPreview>
 
 ### Component API

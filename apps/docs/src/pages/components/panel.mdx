@@ -1,0 +1,76 @@
+import Layout, { CodeBlock, ComponentPreview, DemoFrame } from '../../components/MDXLayout.tsx';
+import { Panel, VStack, HStack, Heading, Text, Button } from '@cumulo/core';
+export default Layout;
+export { CodeBlock, ComponentPreview };
+
+# Panel
+
+Panels provide versatile structural containers for layout regions, headers, sidebars, and scrollable content with togglable border dividers.
+
+```tsx
+import { Panel } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Panel with Dividers">
+  <DemoFrame maxWidth="md">
+    <Panel divider="bottom" padding="md">
+      <VStack gap="2xs">
+        <Heading as="h4" size="sm">
+          Header Panel (<code>divider="bottom"</code>)
+        </Heading>
+        <Text as="div" size="xs" color="muted">
+          Border divider separates this header from following content.
+        </Text>
+      </VStack>
+    </Panel>
+    <Panel divider={['bottom', 'right']} padding="md">
+      <VStack gap="2xs">
+        <Heading as="h4" size="sm">
+          Multi-edge Dividers (<code>divider={"{['bottom', 'right']}"}</code>)
+        </Heading>
+        <Text as="div" size="xs" color="muted">
+          Draws 1px borders on bottom and right edges using the panelContract divider color.
+        </Text>
+      </VStack>
+    </Panel>
+    <Panel divider padding="md">
+      <VStack gap="2xs">
+        <Heading as="h4" size="sm">
+          Full Border Divider (<code>divider={'{true}'}</code>)
+        </Heading>
+        <Text as="div" size="xs" color="muted">
+          Encloses the entire panel in a 1px border.
+        </Text>
+      </VStack>
+    </Panel>
+  </DemoFrame>
+</ComponentPreview>
+
+<ComponentPreview title="Scrollable Content Panel">
+  <DemoFrame height="xs" maxWidth="sm">
+    <Panel scrollable padding="md" divider>
+      <VStack gap="sm">
+        <Text as="div" size="sm" weight="semibold">
+          Scrollable Viewport
+        </Text>
+        <Text as="div" size="xs" color="muted">
+          Line 1: Responsive scroll container.
+        </Text>
+        <Text as="div" size="xs" color="muted">
+          Line 2: Automatically manages flex and overflow.
+        </Text>
+        <Text as="div" size="xs" color="muted">
+          Line 3: Supports keyboard scrolling and nested content.
+        </Text>
+        <Text as="div" size="xs" color="muted">
+          Line 4: Ideal for main app canvas and sidebars.
+        </Text>
+        <Text as="div" size="xs" color="muted">
+          Line 5: Keeps headers and footers docked in place.
+        </Text>
+      </VStack>
+    </Panel>
+  </DemoFrame>
+</ComponentPreview>
