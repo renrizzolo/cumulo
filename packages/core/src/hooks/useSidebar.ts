@@ -2,7 +2,6 @@
 
 import { createContext, use } from 'react';
 
-export type SidebarVariant = 'docked' | 'inset' | 'floating';
 export type SidebarPosition = 'left' | 'right';
 export type SidebarHoverBehavior = 'expand' | 'tooltip' | 'none';
 
@@ -20,38 +19,35 @@ export interface SidebarContextValue {
    */
   toggleCollapsed: () => void;
   /**
-   * Layout presentation variant.
-   */
-  variant: SidebarVariant;
-  /**
-   * Sidebar dock position.
+   * Sidebar dock position (`'left'` or `'right'`).
    */
   position: SidebarPosition;
   /**
-   * Whether hover-to-expand is enabled on the sidebar.
+   * Strategy for showing items on hover when collapsed:
+   * - `tooltip`: Keeps sidebar collapsed and displays floating tooltips adjacent to items.
+   * - `none`: No hover tooltips.
+   * - `expand`: Expand the sidebar to full width on hover.
    */
-  expandOnHover: boolean;
+  hoverBehaviour: SidebarHoverBehavior;
   /**
-   * Hover behavior when collapsed.
+   * Whether hover-expand and focus-within expansion behavior is temporarily suppressed (e.g. immediately after collapse toggle).
    */
-  collapsedHoverBehavior: SidebarHoverBehavior;
+  hoverSuppressed?: boolean;
+  /**
+   * Sets hover suppression state.
+   */
+  setHoverSuppressed?: (suppressed: boolean) => void;
 }
 
-const defaultSidebarContext: SidebarContextValue = {
-  collapsed: false,
-  setCollapsed: () => {},
-  toggleCollapsed: () => {},
-  variant: 'docked',
-  position: 'left',
-  expandOnHover: false,
-  collapsedHoverBehavior: 'expand',
-};
-
-export const SidebarContext = createContext<SidebarContextValue>(defaultSidebarContext);
+export const SidebarContext = createContext<SidebarContextValue | null>(null);
 
 /**
  * Accesses the active sidebar state and controls.
  */
 export function useSidebar(): SidebarContextValue {
-  return use(SidebarContext);
+  const contextValue = use(SidebarContext);
+  if (!contextValue) {
+    throw new Error('useSidebar must be used within a SidebarProvider or Sidebar');
+  }
+  return contextValue;
 }

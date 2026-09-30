@@ -80,8 +80,8 @@ export function ButtonGroupRoot({
     [isControlled, onValueChange],
   );
 
-  const contextValue = useMemo<ButtonGroupContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): ButtonGroupContextValue => ({
       value,
       setValue,
       size,

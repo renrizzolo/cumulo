@@ -24,6 +24,8 @@ export interface PopoverContextValue {
   id: string;
   open: boolean;
   setOpen: (open: boolean) => void;
+  show: () => void;
+  hide: () => void;
   toggle: () => void;
   close: () => void;
   popoverRef: React.RefObject<HTMLElement | null>;
@@ -50,6 +52,11 @@ export interface PopoverProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Delay in milliseconds before opening when triggered by hover or focus.
+   * @default 0
+   */
+  delay?: number;
   children?: ReactNode;
   id?: string;
 }
@@ -58,6 +65,7 @@ export function PopoverRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
+  delay = 0,
   id: providedId,
   children,
 }: PopoverProps): React.JSX.Element {
@@ -69,36 +77,77 @@ export function PopoverRoot({
   const id = providedId || generatedId;
   const popoverRef = useRef<HTMLElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current !== null) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  }, []);
+
+  useEffect(() => {
+    return clearTimer;
+  }, [clearTimer]);
 
   const setOpen = useCallback(
     (nextOpen: boolean) => {
+      clearTimer();
       if (!isControlled) {
         setUncontrolledOpen(nextOpen);
       }
       onOpenChange?.(nextOpen);
     },
-    [isControlled, onOpenChange],
+    [clearTimer, isControlled, onOpenChange],
   );
 
+  const show = useCallback(() => {
+    clearTimer();
+    if (delay > 0) {
+      timerRef.current = setTimeout(() => {
+        if (!isControlled) {
+          setUncontrolledOpen(true);
+        }
+        onOpenChange?.(true);
+      }, delay);
+    } else {
+      if (!isControlled) {
+        setUncontrolledOpen(true);
+      }
+      onOpenChange?.(true);
+    }
+  }, [clearTimer, delay, isControlled, onOpenChange]);
+
+  const hide = useCallback(() => {
+    clearTimer();
+    if (!isControlled) {
+      setUncontrolledOpen(false);
+    }
+    onOpenChange?.(false);
+  }, [clearTimer, isControlled, onOpenChange]);
+
   const close = useCallback(() => {
-    setOpen(false);
-  }, [setOpen]);
+    hide();
+  }, [hide]);
 
   const toggle = useCallback(() => {
+    clearTimer();
     setOpen(!open);
-  }, [open, setOpen]);
+  }, [clearTimer, open, setOpen]);
 
-  const contextValue = useMemo<PopoverContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): PopoverContextValue => ({
       id,
       open,
       setOpen,
+      show,
+      hide,
       toggle,
       close,
       popoverRef,
       triggerRef,
     }),
-    [id, open, setOpen, toggle, close],
+    [id, open, setOpen, show, hide, toggle, close],
   );
 
   return <PopoverContext.Provider value={contextValue}>{children}</PopoverContext.Provider>;
@@ -108,22 +157,43 @@ export function PopoverRoot({
  * PopoverTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export type PopoverTriggerProps = ButtonProps;
+export interface PopoverTriggerProps extends ElementProps<HTMLElement> {
+  as?: React.ElementType;
+  trigger?: 'click' | 'hover';
+  variant?: ButtonProps['variant'];
+  intent?: ButtonProps['intent'];
+  size?: ButtonProps['size'];
+  shape?: ButtonProps['shape'];
+  width?: ButtonProps['width'];
+  'aria-haspopup'?: React.AriaAttributes['aria-haspopup'];
+  href?: string;
+  to?: string;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  title?: string;
+}
 
 export function PopoverTrigger({
+  as: Component = Button,
+  trigger = 'click',
   children,
   onClick,
+  onPointerEnter,
+  onPointerLeave,
+  onFocus,
+  onBlur,
   onKeyDown,
   style,
   ref,
-  'aria-haspopup': ariaHasPopup = 'dialog',
+  'aria-haspopup': ariaHasPopupProp,
+  'aria-describedby': ariaDescribedByProp,
   ...props
 }: PopoverTriggerProps): React.JSX.Element {
-  const { id, open, close, toggle, popoverRef, triggerRef } = usePopoverContext();
+  const { id, open, close, toggle, show, hide, popoverRef, triggerRef } = usePopoverContext();
 
   const anchorName = useMemo(() => `--popover-${id}`, [id]);
-  const anchorStyle = useMemo<React.CSSProperties>(
-    () => ({
+  const anchorStyle = useMemo(
+    (): React.CSSProperties => ({
       // Link the trigger element to the CSS Anchor Positioning engine
       anchorName,
       ...style,
@@ -132,9 +202,11 @@ export function PopoverTrigger({
   );
 
   const handleClick = useCallback(
-    (event: MouseEvent<HTMLButtonElement>) => {
-      onClick?.(event);
+    (event: MouseEvent<HTMLElement>) => {
+      onClick?.(event as MouseEvent<HTMLButtonElement>);
       if (event.defaultPrevented) return;
+
+      if (trigger === 'hover') return;
 
       const el = popoverRef.current;
       // In synthetic environments (like JSDOM / Vitest) where button popoverTarget is not dispatched by browser engine
@@ -151,13 +223,58 @@ export function PopoverTrigger({
         toggle();
       }
     },
-    [onClick, popoverRef, toggle],
+    [onClick, popoverRef, toggle, trigger],
+  );
+
+  const handlePointerEnter = useCallback(
+    (event: React.PointerEvent<HTMLElement>) => {
+      onPointerEnter?.(event);
+      if (trigger === 'hover' && !event.defaultPrevented) {
+        show();
+      }
+    },
+    [onPointerEnter, show, trigger],
+  );
+
+  const handlePointerLeave = useCallback(
+    (event: React.PointerEvent<HTMLElement>) => {
+      onPointerLeave?.(event);
+      if (trigger === 'hover' && !event.defaultPrevented) {
+        hide();
+      }
+    },
+    [onPointerLeave, hide, trigger],
+  );
+
+  const handleFocus = useCallback(
+    (event: React.FocusEvent<HTMLElement>) => {
+      onFocus?.(event);
+      if (trigger === 'hover' && !event.defaultPrevented) {
+        show();
+      }
+    },
+    [onFocus, show, trigger],
+  );
+
+  const handleBlur = useCallback(
+    (event: React.FocusEvent<HTMLElement>) => {
+      onBlur?.(event);
+      if (trigger === 'hover' && !event.defaultPrevented) {
+        hide();
+      }
+    },
+    [onBlur, hide, trigger],
   );
 
   const handleKeyDown = useCallback(
-    (event: React.KeyboardEvent<HTMLButtonElement>) => {
-      onKeyDown?.(event);
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      onKeyDown?.(event as React.KeyboardEvent<HTMLButtonElement>);
       if (event.defaultPrevented) return;
+
+      if (event.key === 'Escape' && open) {
+        close();
+        return;
+      }
 
       // If popover is open and user tabs backwards from the trigger, dismiss the popover
       if (open && event.key === 'Tab' && event.shiftKey) {
@@ -180,20 +297,62 @@ export function PopoverTrigger({
 
   const mergedRef = useMergeRefs(triggerRef, ref);
 
-  return (
-    <Button
-      ref={mergedRef}
-      type="button"
-      popoverTarget={id}
-      popoverTargetAction="toggle"
-      aria-haspopup={ariaHasPopup}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-      style={anchorStyle}
-      {...props}
-    >
-      {children}
-    </Button>
+  const ariaHasPopup =
+    ariaHasPopupProp !== undefined ? ariaHasPopupProp : trigger === 'hover' ? undefined : 'dialog';
+
+  const ariaDescribedBy = ariaDescribedByProp
+    ? trigger === 'hover'
+      ? `${ariaDescribedByProp} ${id}`
+      : ariaDescribedByProp
+    : trigger === 'hover'
+      ? id
+      : undefined;
+
+  if (Component === Button) {
+    return (
+      <Button
+        ref={mergedRef}
+        type="button"
+        popoverTarget={trigger === 'click' ? id : undefined}
+        popoverTargetAction={trigger === 'click' ? 'toggle' : undefined}
+        aria-haspopup={ariaHasPopup}
+        aria-expanded={open}
+        aria-controls={id}
+        aria-describedby={ariaDescribedBy}
+        onClick={handleClick}
+        onPointerEnter={handlePointerEnter}
+        onPointerLeave={handlePointerLeave}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
+        style={anchorStyle}
+        {...props}
+      >
+        {children}
+      </Button>
+    );
+  }
+
+  return React.createElement(
+    Component,
+    {
+      ref: mergedRef,
+      popoverTarget: trigger === 'click' ? id : undefined,
+      popoverTargetAction: trigger === 'click' ? 'toggle' : undefined,
+      'aria-haspopup': ariaHasPopup,
+      'aria-expanded': open,
+      'aria-controls': id,
+      'aria-describedby': ariaDescribedBy,
+      onClick: handleClick,
+      onPointerEnter: handlePointerEnter,
+      onPointerLeave: handlePointerLeave,
+      onFocus: handleFocus,
+      onBlur: handleBlur,
+      onKeyDown: handleKeyDown,
+      style: anchorStyle,
+      ...props,
+    },
+    children,
   );
 }
 
@@ -208,22 +367,9 @@ export const popoverRecipe = recipe(
       positionArea: 'bottom span-right',
       positionTryFallbacks: 'flip-block, flip-inline, flip-block flip-inline',
       margin: 0,
-      marginBlockStart: vars.spacing.xs,
       inset: 'auto',
-      width: 'fit-content',
-      height: 'fit-content',
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      borderRadius: vars.radius.lg,
-      backgroundColor: vars.surface.bg.DEFAULT,
-      color: vars.surface.fg,
-      boxShadow: vars.shadow['2'],
-      padding: vars.spacing.md,
       boxSizing: 'border-box',
       outline: 'none',
-      zIndex: 50,
-      maxWidth: 'min(90vw, 360px)',
       selectors: {
         '&::backdrop': {
           backgroundColor: 'transparent',
@@ -237,6 +383,41 @@ export const popoverRecipe = recipe(
       },
     },
     variants: {
+      variant: {
+        popover: {
+          width: 'fit-content',
+          height: 'fit-content',
+          borderWidth: 1,
+          borderStyle: 'solid',
+          borderColor: vars.surface.border,
+          borderRadius: vars.radius.lg,
+          backgroundColor: vars.surface.bg.DEFAULT,
+          color: vars.surface.fg,
+          boxShadow: vars.shadow['2'],
+          padding: vars.spacing.md,
+          zIndex: 50,
+          maxWidth: 'min(90vw, 360px)',
+        },
+        tooltip: {
+          width: 'max-content',
+          height: 'fit-content',
+          borderWidth: 0,
+          borderStyle: 'none',
+          borderRadius: vars.radius.md,
+          backgroundColor: vars.surface.fg,
+          color: vars.surface.bg.DEFAULT,
+          boxShadow: vars.shadow['2'],
+          padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
+          fontSize: vars.font.size.xs,
+          fontWeight: vars.font.weight.medium,
+          fontFamily: vars.font.sans,
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none',
+          maxWidth: 'max-content',
+          zIndex: 1000,
+          transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+        },
+      },
       placement: {
         bottom: {
           positionArea: 'bottom center',
@@ -302,8 +483,8 @@ export const popoverRecipe = recipe(
       },
     },
     defaultVariants: {
+      variant: 'popover',
       placement: 'bottom-start',
-      size: 'md',
     },
   },
   'popover-content',
@@ -311,10 +492,34 @@ export const popoverRecipe = recipe(
 
 export type PopoverVariants = RecipeVariants<typeof popoverRecipe>;
 
-export interface PopoverContentProps extends ElementProps<HTMLDivElement> {
-  popover?: 'auto' | 'manual';
+export type PopoverContentProps = Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> & {
   placement?: PopoverVariants['placement'];
+  children?: ReactNode;
+} & (PopoverDialogOptions | PopoverTooltipOptions);
+
+export interface PopoverDialogOptions {
+  /**
+   * The variant styling of the popover content.
+   * @default 'popover'
+   */
+  variant?: 'popover';
+  /**
+   * Width and padding size presets for the popover dialog.
+   * Tooltip variant does not accept size presets.
+   * @default 'md'
+   */
   size?: PopoverVariants['size'];
+  /**
+   * The native HTML popover attribute value.
+   * In dialog mode, defaults to 'auto' so clicking outside or pressing Escape dismisses the popover.
+   * @default 'auto'
+   */
+  popover?: 'auto' | 'manual';
+  /**
+   * The ARIA role of the popover content.
+   * @default 'dialog'
+   */
+  role?: 'dialog' | 'alertdialog';
   /**
    * Whether to loop focus inside the popover.
    * If false (default), the popover will close when tabbing out of its contents.
@@ -326,17 +531,29 @@ export interface PopoverContentProps extends ElementProps<HTMLDivElement> {
    * @default true
    */
   closeOnTabOut?: boolean;
-  children?: ReactNode;
+}
+
+export interface PopoverTooltipOptions {
+  /**
+   * Tooltip variant used by `<Tooltip>` under the hood.
+   */
+  variant: 'tooltip';
+  size?: never;
+  loopFocus?: never;
+  closeOnTabOut?: never;
+  popover?: never;
+  role?: never;
 }
 
 export function PopoverContent({
   id: providedId,
-  popover = 'auto',
+  variant = 'popover',
+  popover,
   placement = 'bottom-start',
   size = 'md',
   loopFocus = false,
   closeOnTabOut = true,
-  role = 'dialog',
+  role,
   className,
   style,
   children,
@@ -346,9 +563,13 @@ export function PopoverContent({
 }: PopoverContentProps): React.JSX.Element {
   const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopoverContext();
   const id = providedId || rootId;
+  const isTooltip = variant === 'tooltip';
 
-  const anchorStyle = useMemo<React.CSSProperties>(
-    () => ({
+  const resolvedPopover = isTooltip ? 'manual' : (popover ?? 'auto');
+  const resolvedRole = isTooltip ? 'tooltip' : (role ?? 'dialog');
+
+  const anchorStyle = useMemo(
+    (): React.CSSProperties => ({
       positionAnchor: `--popover-${rootId}`,
       ...style,
     }),
@@ -383,15 +604,16 @@ export function PopoverContent({
 
   const focusRef = useFocus<HTMLDivElement>({
     type: 'modality',
-    trap: loopFocus,
-    onTabOut: closeOnTabOut ? handleTabOut : undefined,
+    trap: !isTooltip && loopFocus,
+    onTabOut: !isTooltip && closeOnTabOut ? handleTabOut : undefined,
     onEscape: close,
-    focusOnMount: loopFocus,
-    restoreFocusOnUnmount: true,
+    focusOnMount: !isTooltip && loopFocus,
+    restoreFocusOnUnmount: !isTooltip,
   });
 
   const dismissibleRef = useDismissible<HTMLDivElement>({
     onDismiss: () => {
+      if (isTooltip) return;
       close();
       const el = popoverRef.current;
       if (
@@ -405,12 +627,12 @@ export function PopoverContent({
         }
       }
     },
-    dismissOnClickOutside: true,
+    dismissOnClickOutside: !isTooltip,
   });
 
   // Close popover if focus moves completely outside trigger and popover
   useEffect(() => {
-    if (!open || !closeOnTabOut || loopFocus) return;
+    if (!open || !closeOnTabOut || loopFocus || isTooltip) return;
 
     const handleDocumentFocusIn = (event: FocusEvent) => {
       const popoverEl = popoverRef.current;
@@ -442,7 +664,7 @@ export function PopoverContent({
     return () => {
       document.removeEventListener('focusin', handleDocumentFocusIn);
     };
-  }, [close, closeOnTabOut, loopFocus, open, popoverRef, triggerRef]);
+  }, [close, closeOnTabOut, isTooltip, loopFocus, open, popoverRef, triggerRef]);
 
   // Controlled open/close with native API if available
   useEffect(() => {
@@ -474,7 +696,7 @@ export function PopoverContent({
     }
   }, [open, popoverRef]);
 
-  const classes = popoverRecipe({ size, placement });
+  const classes = popoverRecipe({ variant, placement, size: isTooltip ? undefined : size });
   const mergedRef = useMergeRefs(popoverRef, focusRef, dismissibleRef, ref);
 
   return (
@@ -482,13 +704,13 @@ export function PopoverContent({
     <div
       ref={mergedRef}
       id={id}
-      role={role}
-      popover={popover}
       onToggle={handleToggle}
       data-state={open ? 'open' : 'closed'}
+      {...props}
+      role={resolvedRole}
+      popover={resolvedPopover}
       className={cx(classes, className)}
       style={anchorStyle}
-      {...props}
     >
       {children}
     </div>

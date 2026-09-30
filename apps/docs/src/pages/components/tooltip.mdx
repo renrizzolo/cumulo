@@ -1,0 +1,78 @@
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import {
+  Tooltip,
+  TooltipRoot,
+  TooltipTrigger,
+  TooltipContent,
+  Button,
+  VStack,
+  HStack,
+  Text,
+} from '@cumulo/core';
+import tooltipDoc from '../../../docgen/components/Tooltip.json';
+export default Layout;
+export { CodeBlock, ComponentPreview, PropsTable };
+
+# Tooltip
+
+A lightweight, non-modal contextual hint built on native HTML Popover and CSS Anchor Positioning. Automatically elevated to the top layer detached from all overflow and scroll constraints.
+
+```tsx
+import { Tooltip } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Native Tooltip">
+  <HStack gap="md" align="center">
+    <TooltipRoot>
+      <TooltipTrigger variant="secondary">Hover for details</TooltipTrigger>
+      <TooltipContent placement="top">
+        Contextual hint displayed in the top layer
+      </TooltipContent>
+    </TooltipRoot>
+
+    <TooltipRoot delay={200}>
+      <TooltipTrigger variant="outline">Delayed Tooltip</TooltipTrigger>
+      <TooltipContent placement="bottom">
+        Opens with a 200ms delay
+      </TooltipContent>
+    </TooltipRoot>
+
+  </HStack>
+</ComponentPreview>
+
+### Placements
+
+<ComponentPreview title="Tooltip Placements">
+  <HStack gap="sm" wrap="wrap">
+    <TooltipRoot>
+      <TooltipTrigger size="sm" variant="ghost">
+        Top
+      </TooltipTrigger>
+      <TooltipContent placement="top">Top tooltip</TooltipContent>
+    </TooltipRoot>
+    <TooltipRoot>
+      <TooltipTrigger size="sm" variant="ghost">
+        Right
+      </TooltipTrigger>
+      <TooltipContent placement="right">Right tooltip</TooltipContent>
+    </TooltipRoot>
+    <TooltipRoot>
+      <TooltipTrigger size="sm" variant="ghost">
+        Bottom
+      </TooltipTrigger>
+      <TooltipContent placement="bottom">Bottom tooltip</TooltipContent>
+    </TooltipRoot>
+    <TooltipRoot>
+      <TooltipTrigger size="sm" variant="ghost">
+        Left
+      </TooltipTrigger>
+      <TooltipContent placement="left">Left tooltip</TooltipContent>
+    </TooltipRoot>
+  </HStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={tooltipDoc} />

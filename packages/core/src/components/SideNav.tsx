@@ -1,10 +1,13 @@
 'use client';
 
-import React, { useState, useCallback, useId } from 'react';
+import React, { useEffect } from 'react';
 import { recipe, style, cx, createThemeContract, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { useSidebar } from '../hooks/useSidebar.js';
+import { focusRing, focusRingStyles } from '../intents.js';
+import { CollapsibleRoot, CollapsibleContent, useCollapsibleContext } from './Collapsible.js';
+import { TooltipRoot, TooltipTrigger, TooltipContent } from './Tooltip.js';
 
 export const sideNavContract = createThemeContract(
   {
@@ -54,19 +57,25 @@ SideNavRoot.displayName = 'SideNav';
  * SideNavItem
  * -----------------------------------------------------------------------------------------------*/
 
+const collapsedSelector =
+  '[data-collapsed="true"]:not([data-hover-behavior="expand"]:not([data-hover-suppressed="true"]):hover):not([data-hover-behavior="expand"]:not([data-hover-suppressed="true"]):focus-within) &';
+
 export const sideNavItemRecipe = recipe(
   {
+    extend: [focusRing],
     base: {
       display: 'flex',
       alignItems: 'center',
       gap: vars.spacing.xs,
       width: '100%',
+      height: vars.size.sm,
+      minWidth: vars.size.sm,
       boxSizing: 'border-box',
       ...sideNavContract.$set({
-        itemPadding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+        itemPadding: vars.spacing.xs,
         itemRadius: vars.radius.md,
       }),
-      padding: sideNavContract.itemPadding,
+      paddingInline: sideNavContract.itemPadding,
       borderRadius: sideNavContract.itemRadius,
       fontSize: vars.font.size.sm,
       fontWeight: vars.font.weight.normal,
@@ -83,10 +92,6 @@ export const sideNavItemRecipe = recipe(
         backgroundColor: vars.surface.bg.next,
         color: vars.surface.fg,
       },
-      ':focus-visible': {
-        outline: `2px solid ${vars.primary.focus}`,
-        outlineOffset: '2px',
-      },
       selectors: {
         '&[data-active="true"]': {
           backgroundColor: vars.surface.bg.next,
@@ -98,13 +103,9 @@ export const sideNavItemRecipe = recipe(
           cursor: 'not-allowed',
           pointerEvents: 'none',
         },
-        '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-          {
-            justifyContent: 'center',
-            ...sideNavContract.$set({
-              itemPadding: vars.spacing.xs,
-            }),
-          },
+        [collapsedSelector]: {
+          width: 'max-content',
+        },
       },
     },
   },
@@ -116,14 +117,6 @@ const itemIconStyle = style({
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
-  width: '20px',
-  height: '20px',
-  selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        margin: 0,
-      },
-  },
 });
 
 const itemLabelStyle = style({
@@ -135,18 +128,18 @@ const itemLabelStyle = style({
   transform: 'translateX(0)',
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0,
-        transform: 'translateX(-8px)',
-        pointerEvents: 'none',
-        flex: '0 0 0px',
-        width: 0,
-      },
+    [collapsedSelector]: {
+      opacity: 0,
+      transform: 'translateX(-8px)',
+      pointerEvents: 'none',
+      width: 0,
+      flex: '0 0 0px',
+    },
   },
 });
 
 const itemBadgeStyle = style({
+  marginLeft: 'auto',
   display: 'inline-flex',
   alignItems: 'center',
   flexShrink: 0,
@@ -154,14 +147,14 @@ const itemBadgeStyle = style({
   transform: 'scale(1)',
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0,
-        transform: 'scale(0.8)',
-        pointerEvents: 'none',
-        width: 0,
-        overflow: 'hidden',
-      },
+    [collapsedSelector]: {
+      opacity: 0,
+      transform: 'scale(0.8)',
+      pointerEvents: 'none',
+      width: 0,
+      overflow: 'hidden',
+      flex: '0 0 0px',
+    },
   },
 });
 
@@ -170,61 +163,27 @@ const itemFallbackDotStyle = style({
   height: '6px',
   borderRadius: vars.radius.full,
   backgroundColor: 'currentColor',
-  opacity: 0,
-  transform: 'scale(0)',
+  opacity: 0.6,
   flexShrink: 0,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0.6,
-        transform: 'scale(1)',
-      },
-  },
 });
 
-const itemTooltipStyle = style({
+const itemFallbackContainerStyle = style({
   position: 'absolute',
-  left: 'calc(100% + 10px)',
+  left: '50%',
   top: '50%',
-  transform: 'translateY(-50%) translateX(-4px)',
+  transform: 'translate(-50%,-50%)',
+  // width: '20px',
+  // height: '20px',
   display: 'inline-flex',
   alignItems: 'center',
-  padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
-  borderRadius: vars.radius.md,
-  backgroundColor: vars.surface.fg,
-  color: vars.surface.bg.DEFAULT,
-  fontSize: vars.font.size.xs,
-  fontWeight: vars.font.weight.medium,
-  fontFamily: vars.font.sans,
-  boxShadow: vars.shadow['2'],
-  whiteSpace: 'nowrap',
+  justifyContent: 'center',
   pointerEvents: 'none',
-  zIndex: 1000,
   opacity: 0,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
-    '[data-collapsed="true"] :hover > &': {
+    [collapsedSelector]: {
       opacity: 1,
-      transform: 'translateY(-50%) translateX(0)',
-    },
-    '[data-collapsed="true"] :focus-visible > &': {
-      opacity: 1,
-      transform: 'translateY(-50%) translateX(0)',
-    },
-    '[data-position="right"] &': {
-      left: 'auto',
-      right: 'calc(100% + 10px)',
-      transform: 'translateY(-50%) translateX(4px)',
-    },
-    '[data-position="right"][data-collapsed="true"] :hover > &': {
-      transform: 'translateY(-50%) translateX(0)',
-    },
-    '[data-position="right"][data-collapsed="true"] :focus-visible > &': {
-      transform: 'translateY(-50%) translateX(0)',
-    },
-    '[data-expand-on-hover="true"]:hover &': {
-      display: 'none',
+      transitionDelay: vars.duration.snappy,
     },
   },
 });
@@ -244,7 +203,7 @@ export interface SideNavItemProps extends ElementProps<HTMLElement> {
    * - `true`: displays the item's label (or title) as a floating tooltip when collapsed.
    * - `false`: suppresses tooltip when collapsed.
    * - `React.ReactNode`: custom tooltip content.
-   * If not specified, tooltips are automatically displayed when the sidebar has `collapsedHoverBehavior="tooltip"`.
+   * If not specified, tooltips are automatically displayed when the sidebar has `hoverBehaviour="tooltip"`.
    */
   tooltip?: boolean | React.ReactNode;
   children?: React.ReactNode;
@@ -266,10 +225,10 @@ export function SideNavItem({
   ref,
   ...props
 }: SideNavItemProps): React.JSX.Element {
-  const { collapsed, collapsedHoverBehavior } = useSidebar();
+  const { collapsed, hoverBehaviour, position } = useSidebar();
 
   const showTooltip =
-    tooltip !== undefined ? Boolean(tooltip) : collapsedHoverBehavior === 'tooltip' && collapsed;
+    tooltip !== undefined ? Boolean(tooltip) : hoverBehaviour === 'tooltip' && collapsed;
 
   const tooltipContent =
     typeof tooltip === 'boolean' || tooltip === undefined ? label || title : tooltip;
@@ -283,7 +242,9 @@ export function SideNavItem({
       {icon ? (
         <span className={itemIconStyle.className}>{icon}</span>
       ) : (
-        <span className={itemFallbackDotStyle.className} />
+        <span className={itemFallbackContainerStyle.className}>
+          <span className={itemFallbackDotStyle.className} />
+        </span>
       )}
       {label && (
         <span data-part="label" className={itemLabelStyle.className}>
@@ -295,15 +256,36 @@ export function SideNavItem({
           {badge}
         </span>
       )}
-      {showTooltip && tooltipContent && (
-        <span role="tooltip" className={itemTooltipStyle.className}>
-          {tooltipContent}
-        </span>
-      )}
     </>
   );
 
   const Component = CustomComponent || (href || to ? 'a' : 'button');
+
+  if (showTooltip && tooltipContent) {
+    return (
+      <TooltipRoot>
+        <TooltipTrigger
+          as={Component}
+          ref={ref}
+          href={href || to}
+          to={to}
+          type={Component === 'button' ? 'button' : undefined}
+          data-active={active ? 'true' : 'false'}
+          data-disabled={disabled ? 'true' : undefined}
+          aria-current={active ? 'page' : undefined}
+          aria-disabled={disabled || undefined}
+          title={resolvedTitle}
+          className={cx(sideNavItemRecipe(), className)}
+          {...props}
+        >
+          {content}
+        </TooltipTrigger>
+        <TooltipContent placement={position === 'right' ? 'left' : 'right'}>
+          {tooltipContent}
+        </TooltipContent>
+      </TooltipRoot>
+    );
+  }
 
   return React.createElement(
     Component,
@@ -343,33 +325,45 @@ const groupHeaderStyle = style({
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
   color: vars.surface.muted,
-  padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
+  padding: `${vars.spacing['2xs']} ${vars.spacing.sm}`,
   margin: 0,
   whiteSpace: 'nowrap',
   overflow: 'hidden',
-  maxHeight: '32px',
-  opacity: 1,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-height ${vars.duration.normal} ${vars.ease.default}, padding ${vars.duration.normal} ${vars.ease.default}`,
+  minHeight: '24px',
+  height: '24px',
+  display: 'flex',
+  alignItems: 'center',
+  boxSizing: 'border-box',
+  position: 'relative',
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0,
-        maxHeight: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        pointerEvents: 'none',
-      },
+    [collapsedSelector]: {
+      color: 'transparent',
+      userSelect: 'none',
+    },
+    [`${collapsedSelector}::after`]: {
+      content: '""',
+      display: 'block',
+      width: '20px',
+      height: '1px',
+      backgroundColor: vars.surface.border,
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+    },
   },
 });
 
 const groupTriggerStyle = style({
+  ...focusRingStyles,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
+  padding: `${vars.spacing.xs} ${vars.spacing.xs}`,
   borderRadius: vars.radius.md,
-  fontSize: vars.font.size.xs,
+  fontSize: vars.font.size.sm,
   fontWeight: vars.font.weight.semibold,
   fontFamily: vars.font.sans,
   color: vars.surface.fg,
@@ -378,26 +372,14 @@ const groupTriggerStyle = style({
   cursor: 'pointer',
   textAlign: 'left',
   whiteSpace: 'nowrap',
-  overflow: 'hidden',
-  maxHeight: '36px',
-  opacity: 1,
-  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}, opacity ${vars.duration.fast} ${vars.ease.default}, max-height ${vars.duration.normal} ${vars.ease.default}, padding ${vars.duration.normal} ${vars.ease.default}`,
+  height: vars.size.sm,
+  boxSizing: 'border-box',
+  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
   ':hover': {
     backgroundColor: vars.surface.bg.next,
   },
-  ':focus-visible': {
-    outline: `2px solid ${vars.primary.focus}`,
-    outlineOffset: '2px',
-  },
-  selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0,
-        maxHeight: 0,
-        paddingTop: 0,
-        paddingBottom: 0,
-        pointerEvents: 'none',
-      },
+  ':active': {
+    transform: 'scale(0.98)',
   },
 });
 
@@ -413,40 +395,52 @@ const chevronStyle = style({
   },
 });
 
-const groupTriggerLabelStyle = style({
+const groupChevronContainerStyle = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '20px',
+  height: '20px',
+});
+
+const groupTriggerTitleStyle = style({
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  opacity: 1,
+  transform: 'translateX(0)',
+  minWidth: 0,
+  flex: 1,
+  marginRight: vars.spacing.xs,
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}, margin-right ${vars.duration.normal} ${vars.ease.default}`,
+  selectors: {
+    [collapsedSelector]: {
+      opacity: 0,
+      transform: 'translateX(-8px)',
+      pointerEvents: 'none',
+      width: 0,
+      flex: '0 0 0px',
+      marginRight: 0,
+    },
+  },
+});
+
+const groupTriggerRightStyle = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: vars.spacing.xs,
-});
-
-const groupContentRecipe = recipe(
-  {
-    base: {
-      display: 'grid',
-      gridTemplateRows: '0fr',
-      width: '100%',
-      boxSizing: 'border-box',
-      transition: `grid-template-rows ${vars.duration.normal} ${vars.ease.default}, opacity ${vars.duration.fast} ${vars.ease.default}`,
-      opacity: 0,
-    },
-    variants: {
-      open: {
-        true: {
-          gridTemplateRows: '1fr',
-          opacity: 1,
-        },
-        false: {
-          gridTemplateRows: '0fr',
-          opacity: 0,
-        },
-      },
-    },
-    defaultVariants: {
-      open: false,
+  marginLeft: 'auto',
+  flexShrink: 0,
+  opacity: 1,
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+  selectors: {
+    [collapsedSelector]: {
+      marginLeft: 0,
+      gap: 0,
     },
   },
-  'sidenav-group-content',
-);
+});
 
 const groupInnerStyle = style({
   minHeight: 0,
@@ -473,13 +467,141 @@ const groupCollapsibleInnerStyle = style({
   borderLeftColor: vars.surface.border,
   transition: `padding-left ${vars.duration.normal} ${vars.ease.default}, margin-left ${vars.duration.normal} ${vars.ease.default}, border-color ${vars.duration.normal} ${vars.ease.default}`,
   selectors: {
-    '[data-collapsed="true"]:not([data-hover-expanded="true"]) &': {
+    [collapsedSelector]: {
       paddingLeft: 0,
       marginLeft: 0,
+      borderLeftWidth: 0,
       borderLeftColor: 'transparent',
     },
   },
 });
+
+export interface SideNavGroupTriggerProps extends ElementProps<HTMLButtonElement> {
+  badge?: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+export function SideNavGroupTrigger({
+  id: providedId,
+  badge,
+  className,
+  children,
+  onClick,
+  ref,
+  ...props
+}: SideNavGroupTriggerProps): React.JSX.Element {
+  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } =
+    useCollapsibleContext();
+  const { collapsed, hoverBehaviour, position } = useSidebar();
+  const id = providedId || triggerId;
+
+  useEffect(() => {
+    if (providedId) {
+      return registerPart('trigger', providedId);
+    }
+  }, [providedId, registerPart]);
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    onClick?.(e);
+    if (!e.defaultPrevented) {
+      onOpenToggle();
+    }
+  };
+
+  const showTooltip = hoverBehaviour === 'tooltip' && collapsed;
+
+  const triggerContent = (
+    <>
+      <span className={groupTriggerTitleStyle.className}>{children}</span>
+      <span className={groupTriggerRightStyle.className}>
+        {badge && <span className={itemBadgeStyle.className}>{badge}</span>}
+        <span className={groupChevronContainerStyle.className}>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={chevronStyle.className}
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </span>
+      </span>
+    </>
+  );
+
+  if (showTooltip && typeof children === 'string') {
+    return (
+      <TooltipRoot>
+        <TooltipTrigger
+          as="button"
+          ref={ref}
+          id={id}
+          type="button"
+          aria-expanded={open}
+          aria-controls={contentId}
+          aria-disabled={disabled || undefined}
+          disabled={disabled}
+          data-state={open ? 'open' : 'closed'}
+          onClick={handleClick}
+          className={cx(groupTriggerStyle.className, className)}
+          {...props}
+        >
+          {triggerContent}
+        </TooltipTrigger>
+        <TooltipContent placement={position === 'right' ? 'left' : 'right'}>
+          {children}
+        </TooltipContent>
+      </TooltipRoot>
+    );
+  }
+
+  return (
+    <button
+      ref={ref}
+      id={id}
+      type="button"
+      aria-expanded={open}
+      aria-controls={contentId}
+      aria-disabled={disabled || undefined}
+      disabled={disabled}
+      data-state={open ? 'open' : 'closed'}
+      onClick={handleClick}
+      className={cx(groupTriggerStyle.className, className)}
+      {...props}
+    >
+      {triggerContent}
+    </button>
+  );
+}
+
+SideNavGroupTrigger.displayName = 'SideNav.GroupTrigger';
+
+export interface SideNavGroupContentProps extends ElementProps<HTMLElement> {
+  children?: React.ReactNode;
+}
+
+export function SideNavGroupContent({
+  className,
+  children,
+  ref,
+  ...props
+}: SideNavGroupContentProps): React.JSX.Element {
+  return (
+    <CollapsibleContent
+      ref={ref}
+      className={className}
+      innerClassName={groupCollapsibleInnerStyle.className}
+      {...props}
+    >
+      {children}
+    </CollapsibleContent>
+  );
+}
+
+SideNavGroupContent.displayName = 'SideNav.GroupContent';
 
 export interface SideNavGroupProps extends ElementProps<HTMLDivElement> {
   title?: React.ReactNode;
@@ -487,6 +609,7 @@ export interface SideNavGroupProps extends ElementProps<HTMLDivElement> {
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  disabled?: boolean;
   badge?: React.ReactNode;
   children?: React.ReactNode;
 }
@@ -495,27 +618,15 @@ export function SideNavGroup({
   title,
   collapsible = false,
   defaultOpen = true,
-  open: controlledOpen,
+  open,
   onOpenChange,
+  disabled,
   badge,
   className,
   children,
   ref,
   ...props
 }: SideNavGroupProps): React.JSX.Element {
-  const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
-  const isControlled = controlledOpen !== undefined;
-  const isOpen = isControlled ? controlledOpen : uncontrolledOpen;
-  const contentId = useId();
-
-  const handleToggle = useCallback(() => {
-    const next = !isOpen;
-    if (!isControlled) {
-      setUncontrolledOpen(next);
-    }
-    onOpenChange?.(next);
-  }, [isOpen, isControlled, onOpenChange]);
-
   if (!collapsible) {
     return (
       <div ref={ref} className={cx(groupRootStyle.className, className)} {...props}>
@@ -526,41 +637,24 @@ export function SideNavGroup({
   }
 
   return (
-    <div ref={ref} className={cx(groupRootStyle.className, className)} {...props}>
-      {title && (
-        <button
-          type="button"
-          aria-expanded={isOpen}
-          aria-controls={contentId}
-          data-state={isOpen ? 'open' : 'closed'}
-          onClick={handleToggle}
-          className={groupTriggerStyle.className}
-        >
-          <span className={groupTriggerLabelStyle.className}>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className={chevronStyle.className}
-            >
-              <polyline points="9 18 15 12 9 6" />
-            </svg>
-            <span>{title}</span>
-          </span>
-          {badge}
-        </button>
+    <CollapsibleRoot
+      ref={ref}
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      disabled={disabled}
+      className={cx(groupRootStyle.className, className)}
+      {...props}
+    >
+      {title ? (
+        <>
+          <SideNavGroupTrigger badge={badge}>{title}</SideNavGroupTrigger>
+          <SideNavGroupContent>{children}</SideNavGroupContent>
+        </>
+      ) : (
+        children
       )}
-      <div
-        id={contentId}
-        data-state={isOpen ? 'open' : 'closed'}
-        className={groupContentRecipe({ open: isOpen })}
-      >
-        <div className={groupCollapsibleInnerStyle.className}>{children}</div>
-      </div>
-    </div>
+    </CollapsibleRoot>
   );
 }
 
@@ -569,5 +663,10 @@ SideNavGroup.displayName = 'SideNav.Group';
 export const SideNav = Object.assign(SideNavRoot, {
   Root: SideNavRoot,
   Item: SideNavItem,
-  Group: SideNavGroup,
+  Group: Object.assign(SideNavGroup, {
+    Trigger: SideNavGroupTrigger,
+    Content: SideNavGroupContent,
+  }),
+  GroupTrigger: SideNavGroupTrigger,
+  GroupContent: SideNavGroupContent,
 });

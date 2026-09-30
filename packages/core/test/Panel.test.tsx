@@ -61,7 +61,7 @@ describe('Panel component', () => {
 
   it('renders scrollable content container', () => {
     render(
-      <Panel scrollable data-testid="scrollable-panel">
+      <Panel scrollbar="thin" data-testid="scrollable-panel">
         <div>Long content item 1</div>
         <div>Long content item 2</div>
       </Panel>,
@@ -70,4 +70,28 @@ describe('Panel component', () => {
     expect(panel).toBeInTheDocument();
     expect(panel).toHaveTextContent('Long content item 1');
   });
+
+  it('renders with scrollbar variants without error', () => {
+    const { rerender } = render(
+      <Panel scrollbar="thin" data-testid="scrollbar-panel">
+        Scrollbar Content
+      </Panel>,
+    );
+    expect(screen.getByTestId('scrollbar-panel')).toBeInTheDocument();
+
+    rerender(
+      <Panel scrollbar="none" data-testid="scrollbar-panel">
+        Scrollbar Content
+      </Panel>,
+    );
+    expect(screen.getByTestId('scrollbar-panel')).toBeInTheDocument();
+
+    rerender(
+      <Panel scrollbar="default" data-testid="scrollbar-panel">
+        Scrollbar Content
+      </Panel>,
+    );
+    expect(screen.getByTestId('scrollbar-panel')).toBeInTheDocument();
+  });
 });
+

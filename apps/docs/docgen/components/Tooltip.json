@@ -1,0 +1,131 @@
+{
+  "name": "Tooltip",
+  "path": "packages/core/src/components/Tooltip.tsx",
+  "fileName": "Tooltip.tsx",
+  "props": {
+    "open": {
+      "defaultValue": null,
+      "description": "Whether the tooltip is currently open (controlled).",
+      "name": "open",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultOpen": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Whether the tooltip is open by default (uncontrolled).",
+      "name": "defaultOpen",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "onOpenChange": {
+      "defaultValue": null,
+      "description": "Callback fired when open state changes.",
+      "name": "onOpenChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((open: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "delay": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Delay in milliseconds before opening the tooltip on hover or focus.",
+      "name": "delay",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "id": {
+      "defaultValue": null,
+      "description": "Custom identifier for linking anchor positioning and accessibility attributes.",
+      "name": "id",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "Tooltip children, typically containing `<Tooltip.Trigger>` and `<Tooltip.Content>`.",
+      "name": "children",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+        "name": "TooltipProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tooltip.tsx",
+          "name": "TooltipProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      },
+      "shortPropTypeName": null
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import Layout, { CodeBlock, ComponentPreview, DemoFrame } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
 import {
   AppFrame,
   AppFrameMain,
@@ -23,64 +23,62 @@ import { AppFrame, AppFrameMain, Sidebar, Panel, SideNav } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Full AppFrame Composition">
-  <DemoFrame height="lg">
-    <AppFrame variant="docked" height="full">
-      <Sidebar width="220px">
-        <Panel padding="sm" divider="bottom">
-          <Heading as="h4" size="sm">
-            Workspace
-          </Heading>
-        </Panel>
-        <Panel scrollable padding="sm">
-          <SideNav>
-            <SideNavItem
-              icon={
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <rect width="7" height="9" x="3" y="3" rx="1" />
-                  <rect width="7" height="5" x="14" y="3" rx="1" />
-                  <rect width="7" height="9" x="14" y="12" rx="1" />
-                  <rect width="7" height="5" x="3" y="16" rx="1" />
-                </svg>
-              }
-              label="Dashboard"
-              active
-            />
-            <SideNavItem
-              icon={
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-              }
-              label="Settings"
-            />
-          </SideNav>
-        </Panel>
-      </Sidebar>
-      <AppFrameMain>
-        <Panel as="header" divider="bottom" padding="sm">
-          <Heading as="h4" size="sm">
-            Header Bar
-          </Heading>
-        </Panel>
-        <Panel scrollable padding="md">
-          <Text size="sm">Scrollable main content panel within the app frame.</Text>
-        </Panel>
-      </AppFrameMain>
-    </AppFrame>
-  </DemoFrame>
+  <AppFrame variant="docked" height="full">
+    <Sidebar variant="docked" position="left" hoverBehaviour="none" width="220px">
+      <Panel padding="sm" divider="bottom">
+        <Heading as="h4" size="sm">
+          Workspace
+        </Heading>
+      </Panel>
+      <Panel scrollbar="thin" padding="sm">
+        <SideNav>
+          <SideNavItem
+            icon={
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect width="7" height="9" x="3" y="3" rx="1" />
+                <rect width="7" height="5" x="14" y="3" rx="1" />
+                <rect width="7" height="9" x="14" y="12" rx="1" />
+                <rect width="7" height="5" x="3" y="16" rx="1" />
+              </svg>
+            }
+            label="Dashboard"
+            active
+          />
+          <SideNavItem
+            icon={
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+            }
+            label="Settings"
+          />
+        </SideNav>
+      </Panel>
+    </Sidebar>
+    <AppFrameMain>
+      <Panel as="header" divider="bottom" padding="sm">
+        <Heading as="h4" size="sm">
+          Header Bar
+        </Heading>
+      </Panel>
+      <Panel scrollbar="thin" padding="md">
+        <Text size="sm">Scrollable main content panel within the app frame.</Text>
+      </Panel>
+    </AppFrameMain>
+  </AppFrame>
 </ComponentPreview>

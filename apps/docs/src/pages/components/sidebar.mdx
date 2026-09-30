@@ -1,7 +1,8 @@
-import Layout, { CodeBlock, ComponentPreview, DemoFrame } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
 import {
   Sidebar,
   SidebarToggle,
+  SidebarHeader,
   Panel,
   SideNav,
   SideNavItem,
@@ -24,17 +25,26 @@ import { Sidebar, SidebarToggle, useSidebar } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Collapsible Sidebar with Toggle">
-  <DemoFrame height="md" direction="row">
-    <Sidebar defaultCollapsed={false} width="240px">
+  <HStack width="full">
+    <Sidebar
+      variant="docked"
+      position="left"
+      hoverBehaviour="none"
+      defaultCollapsed={false}
+      width="240px"
+    >
       <Panel padding="sm" divider="bottom">
-        <HStack align="center" justify="space-between">
-          <Heading as="h4" size="sm">
-            App
-          </Heading>
+        <SidebarHeader
+          title={
+            <Heading as="h4" size="sm">
+              App
+            </Heading>
+          }
+        >
           <SidebarToggle />
-        </HStack>
+        </SidebarHeader>
       </Panel>
-      <Panel scrollable padding="sm">
+      <Panel scrollbar="thin" padding="sm">
         <SideNav>
           <SideNavItem
             icon={
@@ -79,18 +89,24 @@ import { Sidebar, SidebarToggle, useSidebar } from '@cumulo/core';
         Main content area beside the collapsible sidebar.
       </Text>
     </Panel>
-  </DemoFrame>
+  </HStack>
 </ComponentPreview>
 
 <ComponentPreview title="Floating Sidebar Variant">
-  <DemoFrame height="sm" direction="row" bg="next">
-    <Sidebar variant="floating" width="220px">
+  <HStack width="full">
+    <Sidebar variant="floating" position="left" hoverBehaviour="expand" width="220px">
       <Panel padding="sm" divider="bottom">
-        <Heading as="h4" size="sm">
-          Floating
-        </Heading>
+        <SidebarHeader
+          title={
+            <Heading as="h4" size="sm">
+              Floating
+            </Heading>
+          }
+        >
+          <SidebarToggle />
+        </SidebarHeader>
       </Panel>
-      <Panel scrollable padding="sm">
+      <Panel scrollbar="thin" padding="sm">
         <SideNav>
           <SideNavItem
             icon={
@@ -133,21 +149,30 @@ import { Sidebar, SidebarToggle, useSidebar } from '@cumulo/core';
         Floating sidebar elevated with rounded corners and subtle shadow.
       </Text>
     </Panel>
-  </DemoFrame>
+  </HStack>
 </ComponentPreview>
 
-<ComponentPreview title="Hover to Expand (expandOnHover)">
-  <DemoFrame height="sm" direction="row">
-    <Sidebar defaultCollapsed expandOnHover width="220px">
+<ComponentPreview title="Hover to Expand">
+  <HStack width="full">
+    <Sidebar
+      variant="docked"
+      position="left"
+      defaultCollapsed
+      hoverBehaviour="expand"
+      width="220px"
+    >
       <Panel padding="sm" divider="bottom">
-        <HStack align="center" justify="space-between">
-          <Heading as="h4" size="sm">
-            App
-          </Heading>
+        <SidebarHeader
+          title={
+            <Heading as="h4" size="sm">
+              App
+            </Heading>
+          }
+        >
           <SidebarToggle />
-        </HStack>
+        </SidebarHeader>
       </Panel>
-      <Panel scrollable padding="sm">
+      <Panel scrollbar="thin" padding="sm">
         <SideNav>
           <SideNavItem
             icon={
@@ -191,19 +216,28 @@ import { Sidebar, SidebarToggle, useSidebar } from '@cumulo/core';
         Hover over the collapsed sidebar on the left to smoothly expand it with elevation shadow.
       </Text>
     </Panel>
-  </DemoFrame>
+  </HStack>
 </ComponentPreview>
 
 <ComponentPreview title="Collapsed Hover Strategy: Floating Tooltips">
-  <DemoFrame height="sm" direction="row">
-    <Sidebar defaultCollapsed collapsedHoverBehavior="tooltip" width="220px">
+  <HStack width="full">
+    <Sidebar
+      variant="docked"
+      position="left"
+      defaultCollapsed
+      hoverBehaviour="tooltip"
+      width="220px"
+    >
       <Panel padding="sm" divider="bottom">
-        <HStack align="center" justify="space-between">
-          <Heading as="h4" size="sm">
-            App
-          </Heading>
-          <SidebarToggle />
-        </HStack>
+        <SidebarHeader
+          title={
+            <Heading as="h4" size="sm">
+              App
+            </Heading>
+          }
+        >
+          <SidebarToggle variant="secondary" />
+        </SidebarHeader>
       </Panel>
       <Panel padding="sm">
         <SideNav>
@@ -248,5 +282,5 @@ import { Sidebar, SidebarToggle, useSidebar } from '@cumulo/core';
         Hover over each item icon to display an adjacent floating tooltip pill.
       </Text>
     </Panel>
-  </DemoFrame>
+  </HStack>
 </ComponentPreview>

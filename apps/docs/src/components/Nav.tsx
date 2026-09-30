@@ -1,12 +1,14 @@
 'use client';
 
+// Docs Navigation Component updated 2
 import React from 'react';
 import { style } from '@cumulo/css';
 import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import { routesByPage } from '../../routes';
 import {
-  Sidebar,
-  SidebarToggle,
+  SidebarRoot,
+  SidebarHeader,
+  SidebarFooter,
   Panel,
   SideNav,
   SideNavGroup,
@@ -42,68 +44,17 @@ const navContainerStyle = style({
   },
 });
 
-const sidebarHeaderStyle = style({
-  height: '3.5rem',
-  minHeight: '3.5rem',
-  boxSizing: 'border-box',
-  paddingInline: vars.spacing.md,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  transition: `padding ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        paddingInline: vars.spacing.xs,
-        justifyContent: 'center',
-      },
-  },
-});
-
 const brandLinkStyle = style({
   textDecoration: 'none',
   color: 'inherit',
   display: 'flex',
   alignItems: 'center',
   minWidth: 0,
-  marginBottom: vars.spacing.md,
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  opacity: 1,
-  transform: 'translateX(0)',
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0,
-        transform: 'translateX(-8px)',
-        pointerEvents: 'none',
-        width: 0,
-      },
-  },
 });
 
 const brandIconStyle = style({
   fontSize: '20px',
   lineHeight: 1,
-});
-
-const footerStyle = style({
-  marginTop: 'auto',
-  paddingLeft: vars.spacing.xs,
-  paddingTop: vars.spacing.md,
-  overflow: 'hidden',
-  opacity: 1,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-height ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    '[data-collapsed="true"]:not([data-expand-on-hover="true"]:hover):not([data-expand-on-hover="true"]:focus-within) &':
-      {
-        opacity: 0,
-        maxHeight: 0,
-        paddingTop: 0,
-        pointerEvents: 'none',
-      },
-  },
 });
 
 export const DOC_SECTIONS: NavSection[] = [
@@ -229,6 +180,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         path: '/components/theme-toggle',
         htmlPath: '/components/theme-toggle.html',
       },
+      {
+        label: 'Tooltip',
+        path: '/components/tooltip',
+        htmlPath: '/components/tooltip.html',
+        badge: 'Native',
+      },
     ],
   },
 ];
@@ -291,40 +248,50 @@ export function NavContent({
 
         {/* Components Group */}
         <SideNavGroup title="Components">
-          {COMPONENT_SECTIONS.map((section) => {
-            const hasActiveItem = section.items.some(isItemActive);
-
-            return (
-              <SideNavGroup
-                key={section.title}
-                collapsible
-                defaultOpen={hasActiveItem || section.title === 'Layout & Structure'}
-                title={section.title}
-                badge={<Badge variant="secondary">{section.items.length}</Badge>}
-              >
-                {section.items.map((item) => (
-                  <SideNavItem
-                    key={item.path}
-                    as={Link}
-                    to={item.path}
-                    onClick={onNavigate}
-                    active={isItemActive(item)}
-                    label={item.label}
-                    badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
-                  />
-                ))}
-              </SideNavGroup>
+          {(() => {
+            const hasAnyComponentActive = COMPONENT_SECTIONS.some((s) =>
+              s.items.some(isItemActive),
             );
-          })}
+            return COMPONENT_SECTIONS.map((section) => {
+              const hasActiveItem = section.items.some(isItemActive);
+
+              return (
+                <SideNavGroup
+                  key={section.title}
+                  collapsible
+                  defaultOpen={
+                    hasActiveItem ||
+                    (!hasAnyComponentActive && section.title === 'Layout & Structure')
+                  }
+                  title={section.title}
+                  badge={<Badge variant="secondary">{section.items.length}</Badge>}
+                >
+                  {section.items.map((item) => (
+                    <SideNavItem
+                      key={item.path}
+                      as={Link}
+                      to={item.path}
+                      onClick={onNavigate}
+                      active={isItemActive(item)}
+                      label={item.label}
+                      badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
+                    />
+                  ))}
+                </SideNavGroup>
+              );
+            });
+          })()}
         </SideNavGroup>
       </SideNav>
 
-      {/* Footer Info */}
-      <VStack gap="3xs" className={footerStyle.className}>
-        <Text size="xs" color="subtle">
-          Cumulo <Version />
-        </Text>
-      </VStack>
+      {/* Footer Info in standalone drawer */}
+      {showBrand && (
+        <VStack gap="3xs" style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+          <Text size="xs" color="subtle">
+            Cumulo <Version />
+          </Text>
+        </VStack>
+      )}
     </>
   );
 }
@@ -336,31 +303,34 @@ export interface NavProps {
 
 export function Nav({ currentPage, pages }: NavProps): React.JSX.Element {
   return (
-    <Sidebar expandOnHover className={navContainerStyle.className}>
-      <Panel
-        direction="row"
-        padding="none"
-        divider="bottom"
-        className={sidebarHeaderStyle.className}
-      >
-        <Link to="/" className={brandLinkStyle.className}>
-          <HStack gap="xs" align="center">
-            <span className={brandIconStyle.className}>📦</span>
-            <VStack gap="3xs">
-              <Heading as="h4" size="sm">
-                Cumulo UI
-              </Heading>
-              <Text type="caption" color="muted">
-                Design System & Engine
-              </Text>
-            </VStack>
-          </HStack>
-        </Link>
-        <SidebarToggle />
+    <SidebarRoot variant="docked" className={navContainerStyle.className}>
+      <Panel padding="sm" divider="bottom">
+        <SidebarHeader
+          title={
+            <Link to="/" className={brandLinkStyle.className}>
+              <HStack gap="xs" align="center">
+                <span className={brandIconStyle.className}>📦</span>
+                <VStack gap="3xs">
+                  <Heading as="h4" size="sm">
+                    Cumulo UI
+                  </Heading>
+                  <Text type="caption" color="muted">
+                    Design System & Engine
+                  </Text>
+                </VStack>
+              </HStack>
+            </Link>
+          }
+        />
       </Panel>
-      <Panel scrollable padding="sm">
+      <Panel scrollbar="thin" padding="sm">
         <NavContent currentPage={currentPage} pages={pages} showBrand={false} />
+        <SidebarFooter style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+          <Text size="xs" color="subtle">
+            Cumulo <Version />
+          </Text>
+        </SidebarFooter>
       </Panel>
-    </Sidebar>
+    </SidebarRoot>
   );
 }

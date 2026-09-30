@@ -98,6 +98,20 @@ export {
   type PopoverContextValue,
 } from './components/Popover.js';
 
+export {
+  Tooltip,
+  TooltipRoot,
+  TooltipTrigger,
+  TooltipContent,
+  useTooltip,
+  useTooltipContext,
+  type TooltipProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+  type TooltipVariants,
+  type TooltipContextValue,
+} from './components/Tooltip.js';
+
 export { Checkbox, type CheckboxProps, type CheckboxVariants } from './components/Checkbox.js';
 
 export { Switch, type SwitchProps, type SwitchVariants } from './components/Switch.js';
@@ -175,8 +189,8 @@ export { useDismissible } from './hooks/useDismissible.js';
 export { useFocus } from './hooks/useFocus.js';
 export {
   useSidebar,
+  SidebarContext,
   type SidebarContextValue,
-  type SidebarVariant,
   type SidebarPosition,
 } from './hooks/useSidebar.js';
 
@@ -187,6 +201,7 @@ export {
   panelContract,
   type PanelProps,
   type PanelVariants,
+  type PanelScrollbar,
   type PanelDividerSide,
   type PanelDividerProp,
   type PanelTag,
@@ -195,11 +210,20 @@ export {
 export {
   Sidebar,
   SidebarRoot,
+  SidebarProvider,
   SidebarToggle,
+  SidebarHeader,
+  SidebarFooter,
   sidebarContract,
+  sidebarRecipe,
   type SidebarProps,
+  type SidebarProviderProps,
+  type SidebarRootProps,
+  type SidebarVariant,
   type SidebarVariants,
   type SidebarToggleProps,
+  type SidebarHeaderProps,
+  type SidebarFooterProps,
 } from './components/Sidebar.js';
 
 export {
@@ -207,11 +231,15 @@ export {
   SideNavRoot,
   SideNavItem,
   SideNavGroup,
+  SideNavGroupTrigger,
+  SideNavGroupContent,
   sideNavContract,
   type SideNavProps,
   type SideNavVariants,
   type SideNavItemProps,
   type SideNavGroupProps,
+  type SideNavGroupTriggerProps,
+  type SideNavGroupContentProps,
 } from './components/SideNav.js';
 
 export {

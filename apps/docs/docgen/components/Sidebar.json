@@ -3,57 +3,82 @@
   "path": "packages/core/src/components/Sidebar.tsx",
   "fileName": "Sidebar.tsx",
   "props": {
-    "variant": {
-      "defaultValue": {
-        "value": "docked"
-      },
-      "description": "Layout presentation variant:\n- `'docked'`: Standard flush sidebar docked to the edge.\n- `'inset'`: Sits cleanly inset below a top header or inside frame canvas.\n- `'floating'`: Floating elevated card with rounded corners and shadow.",
-      "name": "variant",
+    "collapsed": {
+      "defaultValue": null,
+      "description": "Controlled collapsed state.",
+      "name": "collapsed",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
+        "name": "SidebarProviderProps"
       },
       "declarations": [
         {
           "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
+          "name": "SidebarProviderProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "SidebarVariant | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"docked\""
-          },
-          {
-            "value": "\"inset\""
-          },
-          {
-            "value": "\"floating\""
-          }
-        ]
+        "name": "boolean | undefined"
       },
       "shortPropTypeName": null
+    },
+    "defaultCollapsed": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Uncontrolled initial collapsed state.",
+      "name": "defaultCollapsed",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+        "name": "SidebarProviderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+          "name": "SidebarProviderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "onCollapsedChange": {
+      "defaultValue": null,
+      "description": "Callback fired when collapsed state changes.",
+      "name": "onCollapsedChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+        "name": "SidebarProviderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+          "name": "SidebarProviderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((collapsed: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
     },
     "position": {
       "defaultValue": {
         "value": "left"
       },
-      "description": "Dock position (`'left'` or `'right'`).",
+      "description": "Sidebar dock position (`'left'` or `'right'`).",
       "name": "position",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
+        "name": "SidebarProviderProps"
       },
       "declarations": [
         {
           "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
+          "name": "SidebarProviderProps"
         }
       ],
       "required": false,
@@ -74,174 +99,25 @@
       },
       "shortPropTypeName": null
     },
-    "bordered": {
-      "defaultValue": {
-        "value": "true"
-      },
-      "description": "Whether the sidebar displays border divider along its inner edge.",
-      "name": "bordered",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "collapsed": {
+    "hoverBehaviour": {
       "defaultValue": null,
-      "description": "Controlled collapsed state.",
-      "name": "collapsed",
+      "description": "Strategy for showing items on hover when collapsed:\n- `tooltip`: Keeps sidebar collapsed and displays floating tooltips adjacent to items.\n- `none`: No hover tooltips.\n- `expand`: Expand the sidebar to full width on hover.",
+      "name": "hoverBehaviour",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
+        "name": "SidebarProviderProps"
       },
       "declarations": [
         {
           "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
+          "name": "SidebarProviderProps"
         }
       ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "defaultCollapsed": {
-      "defaultValue": {
-        "value": "false"
-      },
-      "description": "Uncontrolled initial collapsed state.",
-      "name": "defaultCollapsed",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "onCollapsedChange": {
-      "defaultValue": null,
-      "description": "Callback fired when collapsed state changes.",
-      "name": "onCollapsedChange",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "((collapsed: boolean) => void) | undefined"
-      },
-      "shortPropTypeName": "function"
-    },
-    "width": {
-      "defaultValue": null,
-      "description": "Custom expanded width override (e.g. `'280px'`).",
-      "name": "width",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "collapsedWidth": {
-      "defaultValue": null,
-      "description": "Custom collapsed width override (e.g. `'56px'`).",
-      "name": "collapsedWidth",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "expandOnHover": {
-      "defaultValue": {
-        "value": "false"
-      },
-      "description": "Whether the collapsed sidebar temporarily expands to full width on hover/focus.\nDefaults to `false`.",
-      "name": "expandOnHover",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "collapsedHoverBehavior": {
-      "defaultValue": null,
-      "description": "Strategy for showing items on hover when collapsed:\n- `'expand'`: Expands the whole sidebar on hover with elevation shadow (default when expandOnHover is true).\n- `'tooltip'`: Keeps sidebar collapsed and displays floating tooltips adjacent to items.\n- `'none'`: No hover expansion or tooltips.",
-      "name": "collapsedHoverBehavior",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-        "name": "SidebarProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
-          "name": "SidebarProps"
-        }
-      ],
-      "required": false,
+      "required": true,
       "type": {
         "name": "enum",
-        "raw": "SidebarHoverBehavior | undefined",
+        "raw": "SidebarHoverBehavior",
         "value": [
-          {
-            "value": "undefined"
-          },
           {
             "value": "\"none\""
           },
@@ -252,42 +128,6 @@
             "value": "\"tooltip\""
           }
         ]
-      },
-      "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
-    "ref": {
-      "defaultValue": null,
-      "description": "",
-      "name": "ref",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Ref<HTMLElement> | undefined"
       },
       "shortPropTypeName": null
     }

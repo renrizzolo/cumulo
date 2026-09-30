@@ -2,14 +2,25 @@
 
 import React, { useState, useEffect } from 'react';
 import type { PageProps } from '@renr/parcel-rsc-router';
-import { style } from '@cumulo/css';
 import { Link } from '@renr/parcel-rsc-router';
-import { Surface, HStack, VStack, Button, Heading, Text, vars, useDismissible } from '@cumulo/core';
+import { style } from '@cumulo/css';
+import {
+  Surface,
+  HStack,
+  VStack,
+  Button,
+  Heading,
+  Text,
+  vars,
+  useDismissible,
+  SidebarToggle,
+  Tooltip,
+} from '@cumulo/core';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { NavContent } from './Nav';
 
 const topHeaderStyle = style({
-  padding: `${vars.spacing.sm} ${vars.spacing.xl}`,
+  padding: vars.spacing.sm,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -21,9 +32,9 @@ const topHeaderStyle = style({
   borderBottomStyle: 'solid',
   borderBottomColor: vars.surface.border,
   borderRadius: 0,
-  minHeight: '3.5rem',
-  height: '3.5rem',
-  boxSizing: 'border-box',
+  // minHeight: '3.5rem',
+  // height: '3.5rem',
+  // boxSizing: 'border-box',
   zIndex: 10,
   '@media': {
     '(max-width: 768px)': {
@@ -43,11 +54,12 @@ const mobileBrandGroupStyle = style({
   },
 });
 
-const desktopSpacerStyle = style({
+const desktopToggleStyle = style({
   display: 'none',
+  alignItems: 'center',
   '@media': {
     '(min-width: 960px)': {
-      display: 'block',
+      display: 'flex',
     },
   },
 });
@@ -203,8 +215,15 @@ export function DocHeader({
           </Link>
         </div>
 
-        {/* Desktop Spacer */}
-        <div className={desktopSpacerStyle.className} />
+        {/* Desktop Sidebar Toggle */}
+        <div className={desktopToggleStyle.className}>
+          <Tooltip.Root>
+            <Tooltip.Trigger as={'span'}>
+              <SidebarToggle />
+            </Tooltip.Trigger>
+            <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
+          </Tooltip.Root>
+        </div>
 
         {/* Header Right Controls */}
         <ThemeSwitcher />

@@ -23,12 +23,12 @@
       },
       "shortPropTypeName": null
     },
-    "scrollable": {
+    "scrollbar": {
       "defaultValue": {
-        "value": "false"
+        "value": "none"
       },
-      "description": "Enables auto scroll with full flex expansion, ideal for main content panels.",
-      "name": "scrollable",
+      "description": "Scrollbar and overflow variant.\n- `'none'`: no overflow container (content flows naturally).\n- `'default'`: scrollable viewport using native browser scrollbars without custom styling.\n- `'thin'`: scrollable viewport with thin, theme-colored scrollbars.",
+      "name": "scrollbar",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Panel.tsx",
         "name": "PanelProps"
@@ -41,7 +41,22 @@
       ],
       "required": false,
       "type": {
-        "name": "boolean | undefined"
+        "name": "enum",
+        "raw": "PanelScrollbar | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"thin\""
+          },
+          {
+            "value": "\"default\""
+          }
+        ]
       },
       "shortPropTypeName": null
     },

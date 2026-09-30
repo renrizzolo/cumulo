@@ -96,7 +96,7 @@ export function ComponentPreviewClient({
 
   return (
     <>
-      <Surface level={0} overflow="hidden" padding="md" radius="2xl">
+      <Surface level={0} overflow="hidden" padding="lg" radius="2xl">
         {/* Preview Canvas Area */}
         <VStack gap="md">
           {title ? <Text type="body">{title}</Text> : null}

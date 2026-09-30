@@ -48,6 +48,10 @@ Strict type safety is a non-negotiable standard across this codebase.
   - Extend `ElementProps<T>` from `packages/core/src/ElementProps.ts` rather than raw `React.HTMLAttributes<T>`, ensuring obsolete/noisy attributes are excluded while retaining correct element-specific attributes and typed `ref`.
 - **No Deprecated Aliases**:
   - Because this library is in pre-release, avoid creating or maintaining deprecated backwards-compatibility aliases. Keep APIs canonical, clean, and concise.
+- **Hook Callback Return Typing (`useMemo((): Type => ...)`)**:
+  - Always annotate the callback return type directly (`useMemo((): Type => ({ ... }), [deps])`) rather than using generic type arguments on the hook call (`useMemo<Type>(...)`). Supplying generics bypasses TypeScript's excess property checking on object literals, whereas annotating the factory return type strictly flags invalid or extraneous properties on the returned object.
+- **Discriminated Unions over Loose Optionals**:
+  - Avoid bags of optional props that can produce incoherent or contradictory states. Model mutually exclusive configurations as discriminated unions using a discriminator prop (e.g. `type: 'modality' | 'navigation'`) with `never` for incompatible properties (e.g. `UseFocusOptions` in `packages/core/src/hooks/useFocus.ts`).
 
 ---
 
@@ -57,7 +61,53 @@ Strict type safety is a non-negotiable standard across this codebase.
 
 - Components accept `ref?: React.Ref<T>` directly as a prop via `ElementProps<T>`. Avoid wrapping in legacy `React.forwardRef` unless strictly required for backward compatibility.
 - Use explicit component return types or standard function declaration signatures.
+- **Strict `useMemo` Callback Return Types (`useMemo((): Type => ...)` over `useMemo<Type>(...)`)**:
+  - Always annotate the return type on the factory function directly: `useMemo((): Type => ({ ... }), [deps])` rather than supplying generic parameters to the hook call `useMemo<Type>(...)`.
+  - Supplying the generic `useMemo<Type>(...)` bypasses TypeScript's excess property checking on object literals. Explicitly typing the callback `(): Type => ({ ... })` strictly enforces exact object shapes and prevents adding incorrect or extraneous properties on the return object.
 - **Ref Composition (`useMergeRefs`)**: When combining multiple internal refs (e.g. element ref, focus management ref, dismissible ref) with external `ref` props, always compose them via `useMergeRefs(...)`.
+
+### Strict Prop Design & Discriminated Unions
+
+Avoid bloated, loose prop interfaces with optional flags that could be configured into invalid or conflicting states:
+
+- **Avoid Optional Props Where Possible**:
+  - Do NOT create props that do not make sense, contradict each other, or cannot function properly when used in tandem.
+  - If a prop only applies when a specific feature or mode is active, it must not be an unconstrained optional prop on a monolithic interface.
+- **Discriminate on `type` or Key Discriminant Props**:
+  - Distinguish mutually exclusive behaviors or configurations using discriminated unions on a `type` (or similar discriminant) prop.
+  - Explicitly mark conflicting properties as `never` (or omit them from incompatible branches) so TypeScript provides immediate compile-time errors if incompatible options are combined.
+  - Exemplified in [`useFocus`](file:///c:/Users/renri/repos/cumulo/packages/core/src/hooks/useFocus.ts):
+    ```ts
+    export type UseFocusOptions = {
+      restoreFocusOnUnmount?: boolean;
+      focusOnMount?: boolean;
+      onEscape?: () => void;
+      loop?: boolean;
+    } & (UseFocusNavigationOptions | UseFocusModalityOptions);
+
+    export interface UseFocusModalityOptions {
+      type: 'modality';
+      trap?: boolean;
+      onTabOut?: () => void;
+      navigation?: never;
+      itemSelector?: never;
+      rovingTabIndex?: never;
+    }
+
+    export interface UseFocusNavigationOptions {
+      type: 'navigation';
+      navigation: 'vertical' | 'horizontal' | 'both';
+      itemSelector?: string;
+      rovingTabIndex?: boolean;
+      trap?: never;
+      onTabOut?: never;
+    }
+    ```
+- **No `never` on Non-Existent Props**:
+  - In discriminated unions, `never` is used **only** for properties that explicitly exist on other branches of the union to prevent incompatible cross-usage.
+  - NEVER declare `never` for properties that were omitted or never part of the component/type in the first place (e.g. do not throw arbitrary `size?: never` or `role?: never` onto types that never accepted those props).
+- **Non-Configurable Semantic Invariants**:
+  - When a component has fixed, immutable platform semantics (e.g. `<Tooltip>` must always have `role="tooltip"` and `popover="manual"`), do NOT expose those attributes as configurable or overridable props. Hardcode them in the component implementation and omit them from the public prop interface (`Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'>`).
 
 ### Compound Component & Slot Patterns (The `Field` Pattern)
 
@@ -85,6 +135,13 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
 
 - **Dialog**: Uses native HTML5 `<dialog>` with `.showModal()`, backdrop styling via `::backdrop`, and native `closedby="any"` / `cancel` events.
 - **Popover**: Uses native HTML `popover="auto"` with CSS Anchor Positioning (`position-anchor: --popover-<id>`, `anchor-name: --popover-<id>`, and `@position-try` fallbacks).
+- **Tooltip**: Dedicated component primitive that uses `<Popover>` under the hood (`PopoverRoot`, `PopoverTrigger trigger="hover"`, `PopoverContent variant="tooltip"`). Automatically sets native `popover="manual"`, `role="tooltip"`, and CSS Anchor Positioning without duplicating overlay logic, context, or hooks.
+- **Top-Layer vs Scroll Container Clipping**:
+  - In CSS, when a container has `overflow-y: auto`, any horizontal content overflowing the container automatically forces the browser to compute `overflow-x: auto`, triggering unwanted horizontal scrollbars (e.g. `scrollWidth > clientWidth` on `<Sidebar>`).
+  - Never use ad-hoc `position: absolute` floating tooltips inside scrollable containers. Always use native top-layer `<Tooltip>` which completely detaches the overlay from parent overflow clipping and scroll layout.
+- **Recipe Discrimination & Avoiding Duplicate Overlay Logic**:
+  - Rather than duplicating hooks, stacking, and anchor positioning logic across separate components, `<Tooltip>` delegates directly to `<Popover>` under the hood.
+  - The shared `popoverRecipe` uses discriminated variants (`variant: 'popover' | 'tooltip'`). To avoid variant bleed, `size: 'md'` must NOT be set in `defaultVariants`; instead, resolve default size conditionally when `variant === 'popover'`. Incompatible props (`size`, `loopFocus`, `closeOnTabOut`, `role`, `popover`) are strictly typed as `never` under `PopoverTooltipOptions` following the `useFocus` discriminated union pattern.
 
 ### Dismissible Stacking (`useDismissible`)
 
@@ -109,6 +166,8 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
   - Don't use arbitrary style props.
   - Prefer using or creating core components where something doesn't exist when iterating on documentation or other apps/sites.
 - **Recipe Composition**: Combine shared variant styles (such as `allIntentStyles`, `sizes`) via the recipe's `extend` option.
+- **Recipe Default Variants Fallback**:
+  - `@cumulo/css` `recipe()` automatically falls back to `defaultVariants` whenever a variant property is `undefined`. If a variant dimension (such as `size`) does not apply to all usages or variants, do NOT set it in `defaultVariants`. Instead, resolve defaults explicitly in the component or use compound variants.
 
 ---
 
@@ -187,3 +246,13 @@ Cumulo uses modern web platform primitives for top-layer components alongside ty
   - Changesets are tracked in `.changeset/`.
   - Prerelease channel is enabled via `changeset pre enter <tag>` (e.g. `alpha`).
   - Version bumping is run via `npx changeset version` (or `pnpm version`), publishing via `pnpm release`.
+
+---
+
+## 10. Documentation & Docgen Automation
+
+- **NEVER Manually Edit or Create Docgen Files**:
+  - Files under `apps/docs/docgen/components/*.json` are **strictly read-only artifacts** automatically generated during build by `@renr/parcel-reporter-docgen` from TypeScript component interfaces and JSDoc comments.
+  - NEVER manually edit, add, or commit handwritten JSON files in `docgen/components/`.
+- **Prop Descriptions from JSDoc Comments**:
+  - All component prop descriptions, default values, and deprecation notes displayed in the documentation `<PropsTable data={...Doc} />` come directly from JSDoc comments (`/** ... */`) written above the interface fields in the source files. Always author comprehensive JSDoc comments on component prop types.

@@ -124,13 +124,13 @@
             "value": "undefined"
           },
           {
+            "value": "\"bordered\""
+          },
+          {
             "value": "\"line\""
           },
           {
             "value": "\"pill\""
-          },
-          {
-            "value": "\"bordered\""
           }
         ]
       },

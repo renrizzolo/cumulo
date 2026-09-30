@@ -34,16 +34,22 @@ export const panelRecipe = recipe(
           flexDirection: 'row',
         },
       },
-      scrollable: {
-        true: {
-          overflow: 'auto',
+      scrollbar: {
+        none: {},
+        default: {
+          overflowY: 'auto',
+          flex: 1,
+          minHeight: 0,
+          minWidth: 0,
+        },
+        thin: {
+          overflowY: 'auto',
           flex: 1,
           minHeight: 0,
           minWidth: 0,
           scrollbarWidth: 'thin',
           scrollbarColor: `${vars.surface.border} transparent`,
         },
-        false: {},
       },
       divider: {
         true: { borderWidth: 1 },
@@ -71,7 +77,7 @@ export const panelRecipe = recipe(
     },
     defaultVariants: {
       direction: 'column',
-      scrollable: false,
+      scrollbar: 'none',
       padding: 'none',
       divider: false,
     },
@@ -81,6 +87,7 @@ export const panelRecipe = recipe(
 
 export type PanelVariants = RecipeVariants<typeof panelRecipe>;
 
+export type PanelScrollbar = NonNullable<PanelVariants['scrollbar']>;
 export type PanelDividerSide = 'top' | 'bottom' | 'left' | 'right';
 export type PanelDividerProp = boolean | PanelDividerSide | 'x' | 'y' | 'all' | PanelDividerSide[];
 export type PanelTag = 'div' | 'header' | 'main' | 'aside' | 'footer' | 'section' | 'nav';
@@ -93,9 +100,13 @@ export interface PanelProps extends ElementProps<HTMLElement> {
    */
   divider?: PanelDividerProp;
   /**
-   * Enables auto scroll with full flex expansion, ideal for main content panels.
+   * Scrollbar and overflow variant.
+   * - `'none'`: no overflow container (content flows naturally).
+   * - `'default'`: scrollable viewport using native browser scrollbars without custom styling.
+   * - `'thin'`: scrollable viewport with thin, theme-colored scrollbars.
+   * @default 'none'
    */
-  scrollable?: boolean;
+  scrollbar?: PanelScrollbar;
   /**
    * Flex layout direction.
    */
@@ -118,7 +129,7 @@ export interface PanelProps extends ElementProps<HTMLElement> {
 export function PanelRoot({
   as: Component = 'div',
   divider,
-  scrollable = false,
+  scrollbar = 'none',
   direction = 'column',
   flex,
   padding,
@@ -132,7 +143,7 @@ export function PanelRoot({
 
   const classes = panelRecipe({
     direction,
-    scrollable,
+    scrollbar,
     flex,
     padding,
     divider: singleDivider,
@@ -146,6 +157,7 @@ export function PanelRoot({
     Component,
     {
       ref,
+      'data-part': 'panel',
       className: cx(classes, className),
       ...props,
     },

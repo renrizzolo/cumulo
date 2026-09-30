@@ -284,6 +284,35 @@
       },
       "shortPropTypeName": null
     },
+    "width": {
+      "defaultValue": null,
+      "description": "",
+      "name": "width",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"full\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"full\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "className": {
       "defaultValue": null,
       "description": "",

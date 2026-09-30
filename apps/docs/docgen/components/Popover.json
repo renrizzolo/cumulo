@@ -65,6 +65,28 @@
       },
       "shortPropTypeName": "function"
     },
+    "delay": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Delay in milliseconds before opening when triggered by hover or focus.",
+      "name": "delay",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | undefined"
+      },
+      "shortPropTypeName": null
+    },
     "id": {
       "defaultValue": null,
       "description": "",

@@ -73,8 +73,8 @@ export function RadioList({
     [isControlled, onValueChange],
   );
 
-  const contextValue = useMemo<RadioListContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): RadioListContextValue => ({
       name,
       value,
       setValue,

@@ -1,9 +1,4 @@
-import Layout, {
-  CodeBlock,
-  ComponentPreview,
-  PropsTable,
-  DemoFrame,
-} from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import { TabsRoot, TabsList, TabsTrigger, TabsContent, Card, VStack, Text } from '@cumulo/core';
 import tabsDoc from '../../../docgen/components/Tabs.json';
 export default Layout;
@@ -22,8 +17,7 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
 <ComponentPreview
   title="Horizontal Tabs"
 >
-  <DemoFrame maxWidth="md" bordered={false}>
-    <VStack gap="xl">
+  <VStack gap="xl">
     <TabsRoot defaultValue="account" variant="line">
       <TabsList>
         <TabsTrigger value="account">Account</TabsTrigger>
@@ -75,14 +69,12 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
 
     </VStack>
 
-  </DemoFrame>
 </ComponentPreview>
 
 <ComponentPreview
   title="Vertical Tabs"
 >
-  <DemoFrame maxWidth="lg" bordered={false}>
-    <VStack gap="xl">
+  <VStack gap="xl">
     <TabsRoot defaultValue="account" orientation="vertical" variant="line">
       <TabsList>
         <TabsTrigger value="account">Account</TabsTrigger>
@@ -134,7 +126,6 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
 
     </VStack>
 
-  </DemoFrame>
 </ComponentPreview>
 
 ### Component API

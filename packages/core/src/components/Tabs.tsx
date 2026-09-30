@@ -82,8 +82,8 @@ export function TabsRoot({
     [isControlled, onValueChange],
   );
 
-  const contextValue = useMemo<TabsContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): TabsContextValue => ({
       id,
       value,
       setValue,

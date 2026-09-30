@@ -188,6 +188,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/theme-toggle.rsc";
         html: "/components/theme-toggle.html";
       };
+      "/components/tooltip": {
+        slug: "tooltip";
+        path: "/components/tooltip";
+        rsc: "/components/tooltip.rsc";
+        html: "/components/tooltip.html";
+      };
       "/css": { slug: "css"; path: "/css"; rsc: "/css.rsc"; html: "/css.html" };
       "/theme-builder": {
         slug: "theme-builder";
@@ -379,6 +385,12 @@ export const flatRoutes = [
     slug: "theme-toggle",
     rsc: "/components/theme-toggle.rsc",
     html: "/components/theme-toggle.html",
+  },
+  {
+    path: "/components/tooltip",
+    slug: "tooltip",
+    rsc: "/components/tooltip.rsc",
+    html: "/components/tooltip.html",
   },
   {
     path: "/css",
@@ -603,6 +615,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/tooltip",
+      slug: "tooltip",
+      html: "/components/tooltip.html",
+      rsc: "/components/tooltip.rsc",
+      children: [],
+    },
+    {
       path: "/css",
       slug: "css",
       html: "/css.html",
@@ -801,6 +820,12 @@ export const routesByPage = {
     slug: "theme-toggle",
     rsc: "/components/theme-toggle.rsc",
     html: "/components/theme-toggle.html",
+  },
+  "/components/tooltip.html": {
+    path: "/components/tooltip",
+    slug: "tooltip",
+    rsc: "/components/tooltip.rsc",
+    html: "/components/tooltip.html",
   },
   "/css.html": {
     path: "/css",

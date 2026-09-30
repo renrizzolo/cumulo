@@ -1,4 +1,4 @@
-import Layout, { CodeBlock, ComponentPreview, DemoFrame } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
 import { Panel, VStack, HStack, Heading, Text, Button } from '@cumulo/core';
 export default Layout;
 export { CodeBlock, ComponentPreview };
@@ -14,9 +14,9 @@ import { Panel } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Panel with Dividers">
-  <DemoFrame maxWidth="md">
+  <VStack gap="lg">
     <Panel divider="bottom" padding="md">
-      <VStack gap="2xs">
+      <VStack gap="sm">
         <Heading as="h4" size="sm">
           Header Panel (<code>divider="bottom"</code>)
         </Heading>
@@ -26,7 +26,7 @@ import { Panel } from '@cumulo/core';
       </VStack>
     </Panel>
     <Panel divider={['bottom', 'right']} padding="md">
-      <VStack gap="2xs">
+      <VStack gap="sm">
         <Heading as="h4" size="sm">
           Multi-edge Dividers (<code>divider={"{['bottom', 'right']}"}</code>)
         </Heading>
@@ -36,41 +36,63 @@ import { Panel } from '@cumulo/core';
       </VStack>
     </Panel>
     <Panel divider padding="md">
-      <VStack gap="2xs">
+      <VStack gap="sm">
         <Heading as="h4" size="sm">
-          Full Border Divider (<code>divider={'{true}'}</code>)
+          Full Border Divider <code>divider={'{true}'}</code>
         </Heading>
         <Text as="div" size="xs" color="muted">
           Encloses the entire panel in a 1px border.
         </Text>
       </VStack>
     </Panel>
-  </DemoFrame>
+  </VStack>
 </ComponentPreview>
 
 <ComponentPreview title="Scrollable Content Panel">
-  <DemoFrame height="xs" maxWidth="sm">
-    <Panel scrollable padding="md" divider>
-      <VStack gap="sm">
-        <Text as="div" size="sm" weight="semibold">
-          Scrollable Viewport
-        </Text>
-        <Text as="div" size="xs" color="muted">
-          Line 1: Responsive scroll container.
-        </Text>
-        <Text as="div" size="xs" color="muted">
-          Line 2: Automatically manages flex and overflow.
-        </Text>
-        <Text as="div" size="xs" color="muted">
-          Line 3: Supports keyboard scrolling and nested content.
-        </Text>
-        <Text as="div" size="xs" color="muted">
-          Line 4: Ideal for main app canvas and sidebars.
-        </Text>
-        <Text as="div" size="xs" color="muted">
-          Line 5: Keeps headers and footers docked in place.
-        </Text>
-      </VStack>
-    </Panel>
-  </DemoFrame>
+  <HStack gap="md" align="stretch">
+    <VStack style={{ height: '130px', flex: 1 }}>
+      <Panel scrollbar="thin" padding="md" divider>
+        <VStack gap="xs">
+          <Text as="div" size="sm" weight="semibold">
+            Thin Scrollbar (<code>scrollbar="thin"</code>)
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 1: Responsive scroll container.
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 2: Matches surface border color.
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 3: Supports keyboard scrolling.
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 4: Overflow-ready container.
+          </Text>
+        </VStack>
+      </Panel>
+    </VStack>
+    <VStack style={{ height: '130px', flex: 1 }}>
+      <Panel scrollbar="default" padding="md" divider>
+        <VStack gap="xs">
+          <Text as="div" size="sm" weight="semibold">
+            Native Scrollbar (<code>scrollbar="default"</code>)
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 1: Standard browser scrollbar.
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 2: No custom width or color changes.
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 3: Supports keyboard scrolling.
+          </Text>
+          <Text as="div" size="xs" color="muted">
+            Line 4: Overflow-ready container.
+          </Text>
+        </VStack>
+      </Panel>
+    </VStack>
+  </HStack>
 </ComponentPreview>
+
+

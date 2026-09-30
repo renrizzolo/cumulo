@@ -40,6 +40,9 @@ export const stackRecipe = recipe(
         true: { display: 'inline-flex' },
         false: { display: 'flex' },
       },
+      width: {
+        full: { width: '100%' },
+      },
     },
     defaultVariants: {
       direction: 'column',
@@ -63,6 +66,7 @@ export interface StackProps extends ElementProps<HTMLDivElement> {
   wrap?: StackVariants['wrap'];
   inline?: StackVariants['inline'];
   flex?: StackVariants['flex'];
+  width?: StackVariants['width'];
   children?: React.ReactNode;
 }
 
@@ -74,12 +78,13 @@ export function Stack({
   wrap = 'nowrap',
   inline = false,
   flex,
+  width,
   className,
   children,
   ref,
   ...props
 }: StackProps): React.JSX.Element {
-  const classes = stackRecipe({ direction, gap, align, justify, wrap, inline, flex });
+  const classes = stackRecipe({ direction, gap, align, justify, wrap, inline, flex, width });
 
   return (
     <div ref={ref} className={cx(classes, className)} {...props}>

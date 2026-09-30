@@ -5,10 +5,22 @@ import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
 import { SideNav } from '../src/components/SideNav.js';
 import { Sidebar } from '../src/components/Sidebar.js';
+import { SidebarContext, type SidebarContextValue } from '../src/hooks/useSidebar.js';
+
+const mockSidebarContext: SidebarContextValue = {
+  collapsed: false,
+  setCollapsed: vi.fn(),
+  toggleCollapsed: vi.fn(),
+  position: 'left',
+  hoverBehaviour: 'none',
+};
+
+const renderWithContext = (ui: React.ReactElement) =>
+  render(<SidebarContext value={mockSidebarContext}>{ui}</SidebarContext>);
 
 describe('SideNav component', () => {
   it('renders semantic nav element with accessible label', () => {
-    render(
+    renderWithContext(
       <SideNav aria-label="Main navigation">
         <SideNav.Item label="Home" />
       </SideNav>,
@@ -19,7 +31,7 @@ describe('SideNav component', () => {
   });
 
   it('renders link when href is provided, button otherwise', () => {
-    render(
+    renderWithContext(
       <SideNav>
         <SideNav.Item href="/dashboard" label="Dashboard" />
         <SideNav.Item label="Settings" />
@@ -35,7 +47,7 @@ describe('SideNav component', () => {
   });
 
   it('wires active and disabled states correctly', () => {
-    render(
+    renderWithContext(
       <SideNav>
         <SideNav.Item active href="/active" label="Active Item" />
         <SideNav.Item disabled label="Disabled Item" />
@@ -53,7 +65,7 @@ describe('SideNav component', () => {
 
   it('renders title tooltip attribute on item when sidebar is collapsed', () => {
     render(
-      <Sidebar defaultCollapsed>
+      <Sidebar variant="docked" position="left" hoverBehaviour="none" defaultCollapsed>
         <SideNav>
           <SideNav.Item icon={<span data-testid="icon">icon</span>} label="Collapsed Nav Item" />
         </SideNav>
@@ -66,28 +78,28 @@ describe('SideNav component', () => {
 
   it('renders floating tooltip when tooltip prop is true or custom', () => {
     render(
-      <Sidebar defaultCollapsed>
+      <Sidebar variant="docked" position="left" hoverBehaviour="none" defaultCollapsed>
         <SideNav>
           <SideNav.Item tooltip="Custom Tooltip Content" label="Item with Tooltip" />
         </SideNav>
       </Sidebar>,
     );
 
-    const tooltip = screen.getByRole('tooltip');
+    const tooltip = screen.getByRole('tooltip', { hidden: true });
     expect(tooltip).toBeInTheDocument();
     expect(tooltip).toHaveTextContent('Custom Tooltip Content');
   });
 
-  it('renders floating tooltip when collapsedHoverBehavior="tooltip"', () => {
+  it('renders floating tooltip when hoverBehaviour="tooltip"', () => {
     render(
-      <Sidebar defaultCollapsed collapsedHoverBehavior="tooltip">
+      <Sidebar variant="docked" position="left" defaultCollapsed hoverBehaviour="tooltip">
         <SideNav>
           <SideNav.Item label="Item with Auto Tooltip" />
         </SideNav>
       </Sidebar>,
     );
 
-    const tooltip = screen.getByRole('tooltip');
+    const tooltip = screen.getByRole('tooltip', { hidden: true });
     expect(tooltip).toBeInTheDocument();
     expect(tooltip).toHaveTextContent('Item with Auto Tooltip');
   });
@@ -96,7 +108,7 @@ describe('SideNav component', () => {
     const user = userEvent.setup();
     const handleOpenChange = vi.fn();
 
-    render(
+    renderWithContext(
       <SideNav>
         <SideNav.Group
           collapsible
@@ -120,7 +132,7 @@ describe('SideNav component', () => {
   });
 
   it('renders non-collapsible group with section title', () => {
-    render(
+    renderWithContext(
       <SideNav>
         <SideNav.Group title="Static Section">
           <SideNav.Item label="Item 1" />
@@ -130,5 +142,33 @@ describe('SideNav component', () => {
 
     expect(screen.getByText('Static Section')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Item 1' })).toBeInTheDocument();
+  });
+
+  it('supports compound subcomponents: SideNav.Group.Trigger and SideNav.Group.Content', async () => {
+    const user = userEvent.setup();
+    const handleOpenChange = vi.fn();
+
+    renderWithContext(
+      <SideNav>
+        <SideNav.Group collapsible defaultOpen={false} onOpenChange={handleOpenChange}>
+          <SideNav.Group.Trigger badge={<span data-testid="badge">3</span>}>
+            Compound Section
+          </SideNav.Group.Trigger>
+          <SideNav.Group.Content>
+            <SideNav.Item label="Item A" />
+          </SideNav.Group.Content>
+        </SideNav.Group>
+      </SideNav>,
+    );
+
+    const trigger = screen.getByRole('button', { name: /compound section/i });
+    expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.getByTestId('badge')).toHaveTextContent('3');
+
+    await user.click(trigger);
+
+    expect(handleOpenChange).toHaveBeenCalledWith(true);
+    expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    expect(screen.getByRole('button', { name: 'Item A' })).toBeInTheDocument();
   });
 });

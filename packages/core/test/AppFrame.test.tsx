@@ -26,11 +26,11 @@ describe('AppFrame component', () => {
   it('composes full application structure with Sidebar, Panels, and AppFrame.Main', () => {
     render(
       <AppFrame data-testid="app-frame">
-        <Sidebar data-testid="sidebar">
+        <Sidebar variant="docked" position="left" hoverBehaviour="none" data-testid="sidebar">
           <Panel divider="bottom" data-testid="sidebar-header">
             <Sidebar.Toggle />
           </Panel>
-          <Panel scrollable data-testid="sidebar-nav-panel">
+          <Panel scrollbar="thin" data-testid="sidebar-nav-panel">
             <SideNav aria-label="App navigation">
               <SideNav.Item label="Dashboard" />
             </SideNav>
@@ -40,7 +40,7 @@ describe('AppFrame component', () => {
           <Panel as="header" divider="bottom" data-testid="main-header">
             Header Title
           </Panel>
-          <Panel scrollable data-testid="main-scrollable">
+          <Panel scrollbar="thin" data-testid="main-scrollable">
             Main Application Content
           </Panel>
         </AppFrame.Main>

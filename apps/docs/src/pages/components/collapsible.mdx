@@ -1,9 +1,4 @@
-import Layout, {
-  CodeBlock,
-  ComponentPreview,
-  PropsTable,
-  DemoFrame,
-} from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import {
   CollapsibleRoot,
   CollapsibleTrigger,
@@ -28,28 +23,26 @@ import { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent } from '@cumulo
 ### Examples
 
 <ComponentPreview title="Basic Collapsible">
-  <DemoFrame maxWidth="sm">
-    <CollapsibleRoot>
-      <VStack gap="xs">
-        <CollapsibleTrigger variant="secondary" width="full">
-          Toggle Details
-        </CollapsibleTrigger>
-        <CollapsibleContent>
-          <Card padding="md">
-            <VStack gap="xs">
-              <Text size="sm" weight="semibold">
-                Collapsible Content Panel
-              </Text>
-              <Text size="xs" color="muted">
-                Smooth height animation powered by pure CSS Grid (0fr to 1fr) with zero layout
-                calculation delays.
-              </Text>
-            </VStack>
-          </Card>
-        </CollapsibleContent>
-      </VStack>
-    </CollapsibleRoot>
-  </DemoFrame>
+  <CollapsibleRoot>
+    <VStack gap="xs">
+      <CollapsibleTrigger variant="secondary" width="full">
+        Toggle Details
+      </CollapsibleTrigger>
+      <CollapsibleContent>
+        <Card padding="md">
+          <VStack gap="xs">
+            <Text size="sm" weight="semibold">
+              Collapsible Content Panel
+            </Text>
+            <Text size="xs" color="muted">
+              Smooth height animation powered by pure CSS Grid (0fr to 1fr) with zero layout
+              calculation delays.
+            </Text>
+          </VStack>
+        </Card>
+      </CollapsibleContent>
+    </VStack>
+  </CollapsibleRoot>
 </ComponentPreview>
 
 ### Component API
