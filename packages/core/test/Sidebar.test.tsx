@@ -3,9 +3,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
-import { getSheetCss } from '@cumulo/css';
-import { Sidebar } from '../src/components/Sidebar.js';
-import { useSidebar } from '../src/hooks/useSidebar.js';
+import { Sidebar, useSidebar } from '../src/components/Sidebar.js';
 
 function TestSidebarConsumer() {
   useSidebar();
@@ -19,23 +17,6 @@ function VisualStateConsumer() {
       <span data-testid="state-collapsed">{collapsed ? 'collapsed' : 'expanded'}</span>
       <span data-testid="state-visually-collapsed">{visuallyCollapsed ? 'yes' : 'no'}</span>
     </div>
-  );
-}
-
-function PinnableSidebar() {
-  const [pinned, setPinned] = useState(false);
-  return (
-    <Sidebar.Provider
-      type={pinned ? 'push' : 'overlay'}
-      collapsed={!pinned}
-      hoverBehaviour="expand"
-    >
-      <Sidebar.Root data-testid="sidebar-root" collapsedWidth="0px">
-        <button data-testid="pin-btn" onClick={() => setPinned((p) => !p)}>
-          {pinned ? 'Unpin' : 'Pin'}
-        </button>
-      </Sidebar.Root>
-    </Sidebar.Provider>
   );
 }
 
@@ -60,26 +41,6 @@ describe('Sidebar component', () => {
     expect(sidebar).toHaveAttribute('data-collapsed', 'true');
     expect(toggle).toHaveAttribute('aria-expanded', 'false');
     expect(toggle).toHaveAttribute('aria-label', 'Expand sidebar');
-  });
-
-  it('respects defaultCollapsed={true}', () => {
-    render(
-      <Sidebar
-        variant="docked"
-        position="left"
-        defaultCollapsed
-        hoverBehaviour="none"
-        data-testid="sidebar"
-      >
-        <Sidebar.Toggle />
-      </Sidebar>,
-    );
-
-    const sidebar = screen.getByTestId('sidebar');
-    const toggle = screen.getByRole('button', { name: /expand sidebar/i });
-
-    expect(sidebar).toHaveAttribute('data-collapsed', 'true');
-    expect(toggle).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('supports controlled collapsed state and calls onCollapsedChange', async () => {
@@ -116,60 +77,6 @@ describe('Sidebar component', () => {
 
     expect(handleCollapsedChange).toHaveBeenCalledWith(true);
     expect(sidebar).toHaveAttribute('data-collapsed', 'true');
-  });
-
-  it('renders with variants data attribute', () => {
-    const { rerender } = render(
-      <Sidebar variant="floating" position="left" hoverBehaviour="none" data-testid="sidebar" />,
-    );
-    expect(screen.getByTestId('sidebar')).toHaveAttribute('data-variant', 'floating');
-
-    rerender(
-      <Sidebar variant="inset" position="left" hoverBehaviour="none" data-testid="sidebar" />,
-    );
-    expect(screen.getByTestId('sidebar')).toHaveAttribute('data-variant', 'inset');
-
-    rerender(
-      <Sidebar variant="docked" position="left" hoverBehaviour="none" data-testid="sidebar" />,
-    );
-    expect(screen.getByTestId('sidebar')).toHaveAttribute('data-variant', 'docked');
-  });
-
-  it('supports hoverBehaviour="expand" when collapsed', () => {
-    render(
-      <Sidebar
-        variant="docked"
-        position="left"
-        defaultCollapsed
-        hoverBehaviour="expand"
-        data-testid="sidebar"
-      >
-        <Sidebar.Toggle />
-      </Sidebar>,
-    );
-
-    const sidebar = screen.getByTestId('sidebar');
-    expect(sidebar).toHaveAttribute('data-collapsed', 'true');
-    expect(sidebar).toHaveAttribute('data-hover-behavior', 'expand');
-  });
-
-  it('supports hoverBehaviour="tooltip"', () => {
-    render(
-      <Sidebar
-        variant="docked"
-        position="left"
-        defaultCollapsed
-        hoverBehaviour="tooltip"
-        data-testid="sidebar"
-      >
-        <Sidebar.Toggle />
-      </Sidebar>,
-    );
-
-    const sidebar = screen.getByTestId('sidebar');
-    expect(sidebar).toHaveAttribute('data-collapsed', 'true');
-    expect(sidebar).toHaveAttribute('data-tooltip-mode', 'true');
-    expect(sidebar).toHaveAttribute('data-hover-behavior', 'tooltip');
   });
 
   describe('SidebarProvider + SidebarRoot composition', () => {
@@ -253,15 +160,14 @@ describe('Sidebar component', () => {
 
       // Must be collapsed and suppressed so menu stays closed while mouse is on button
       expect(root).toHaveAttribute('data-collapsed', 'true');
-      expect(root).toHaveAttribute('data-hover-suppressed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
 
       // Pointer leaves the sidebar root (clearing suppression)
       fireEvent.pointerLeave(root);
-      expect(root).not.toHaveAttribute('data-hover-suppressed');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
 
       // Pointer re-enters the sidebar root -> allows expanding
       fireEvent.pointerEnter(root);
-      expect(root).not.toHaveAttribute('data-hover-suppressed');
       expect(root).toHaveAttribute('data-visually-collapsed', 'false');
     });
 
@@ -287,14 +193,14 @@ describe('Sidebar component', () => {
 
       // Must be collapsed and suppressed so focus-within does not force it open
       expect(root).toHaveAttribute('data-collapsed', 'true');
-      expect(root).toHaveAttribute('data-hover-suppressed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
 
       // Focus leaves sidebar
       fireEvent.blur(root, { relatedTarget: document.body });
 
       // Focus re-enters sidebar -> clears suppression to allow expansion
       fireEvent.focus(root);
-      expect(root).not.toHaveAttribute('data-hover-suppressed');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
     });
 
     it('throws a descriptive error when useSidebar is used outside of SidebarProvider or Sidebar', () => {
@@ -340,42 +246,6 @@ describe('Sidebar component', () => {
       await user.click(outerToggle);
       expect(outerRoot).toHaveAttribute('data-collapsed', 'true');
       expect(innerSidebar).toHaveAttribute('data-collapsed', 'true');
-    });
-  });
-
-  describe('regression: collapse header alignment', () => {
-    it('does not apply justify-content: center or container gap to Sidebar.Header when collapsed to preserve smooth width tracking', () => {
-      render(
-        <Sidebar variant="docked" position="left" hoverBehaviour="none" defaultCollapsed>
-          <Sidebar.Header title="App Title">
-            <Sidebar.Toggle />
-          </Sidebar.Header>
-        </Sidebar>,
-      );
-
-      const css = getSheetCss();
-      // Sidebar.Header must not use justify-content: center in collapsed selector
-      expect(css).not.toMatch(
-        /\[data-collapsed="true"\].*sidebarHeader[^{]*\{[^}]*justify-content:\s*center/,
-      );
-      // Sidebar.Header base must not use gap to avoid offset from hidden heading
-      expect(css).not.toMatch(/sidebarHeader[^{]*\{[^}]*gap:/);
-    });
-  });
-
-  describe('Sidebar.Header titleCollapsed', () => {
-    it('renders title and titleCollapsed in Sidebar.Header', () => {
-      render(
-        <Sidebar variant="docked" position="left" hoverBehaviour="none">
-          <Sidebar.Header
-            title={<span data-testid="header-title">Cumulo UI</span>}
-            titleCollapsed={<span data-testid="header-collapsed">📦</span>}
-          />
-        </Sidebar>,
-      );
-
-      expect(screen.getByTestId('header-title')).toHaveTextContent('Cumulo UI');
-      expect(screen.getByTestId('header-collapsed')).toHaveTextContent('📦');
     });
   });
 
@@ -475,70 +345,6 @@ describe('Sidebar component', () => {
       await user.click(toggleBtn);
       expect(collapsedText).toHaveTextContent('collapsed');
       expect(visuallyCollapsedText).toHaveTextContent('yes');
-    });
-  });
-
-  describe('Sidebar type ("push" | "overlay")', () => {
-    it('renders with type="push" by default', () => {
-      render(
-        <Sidebar.Provider hoverBehaviour="none">
-          <Sidebar.Root data-testid="sidebar-root">
-            <div>Sidebar content</div>
-          </Sidebar.Root>
-        </Sidebar.Provider>,
-      );
-
-      const root = screen.getByTestId('sidebar-root');
-      expect(root).toHaveAttribute('data-sidebar-type', 'push');
-    });
-
-    it('renders with type="overlay" directly without extra wrapper', () => {
-      render(
-        <Sidebar.Provider type="overlay" hoverBehaviour="expand" defaultCollapsed>
-          <Sidebar.Root data-testid="sidebar-root" collapsedWidth="0px">
-            <div>Sidebar content</div>
-          </Sidebar.Root>
-        </Sidebar.Provider>,
-      );
-
-      const root = screen.getByTestId('sidebar-root');
-      expect(root).toHaveAttribute('data-sidebar-type', 'overlay');
-      expect(root).toHaveAttribute('data-zero-collapsed-width', 'true');
-    });
-
-    it('allows overriding type on SidebarRoot', () => {
-      render(
-        <Sidebar.Provider type="push" hoverBehaviour="none">
-          <Sidebar.Root data-testid="sidebar-root" type="overlay">
-            <div>Sidebar content</div>
-          </Sidebar.Root>
-        </Sidebar.Provider>,
-      );
-
-      const root = screen.getByTestId('sidebar-root');
-      expect(root).toHaveAttribute('data-sidebar-type', 'overlay');
-    });
-
-    it('supports dynamic switching between overlay and push type for pinning', async () => {
-      const user = userEvent.setup();
-
-      render(<PinnableSidebar />);
-
-      const root = screen.getByTestId('sidebar-root');
-      const pinBtn = screen.getByTestId('pin-btn');
-
-      // Initially unpinned: overlay type
-      expect(root).toHaveAttribute('data-sidebar-type', 'overlay');
-
-      // Pin: switches to push type in document flow
-      await user.click(pinBtn);
-      const pinnedRoot = screen.getByTestId('sidebar-root');
-      expect(pinnedRoot).toHaveAttribute('data-sidebar-type', 'push');
-
-      // Unpin: switches back to overlay
-      await user.click(screen.getByTestId('pin-btn'));
-      const unpinnedRoot = screen.getByTestId('sidebar-root');
-      expect(unpinnedRoot).toHaveAttribute('data-sidebar-type', 'overlay');
     });
   });
 });

@@ -170,7 +170,6 @@ export interface PopoverTriggerProps extends ElementProps<HTMLElement> {
   to?: string;
   type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
-  title?: string;
 }
 
 export function PopoverTrigger({

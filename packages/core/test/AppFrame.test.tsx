@@ -8,19 +8,30 @@ import { Panel } from '../src/components/Panel.js';
 import { SideNav } from '../src/components/SideNav.js';
 
 describe('AppFrame component', () => {
-  it('renders default docked layout with data-variant', () => {
+  it('renders without crashing', () => {
     render(<AppFrame data-testid="frame">Frame Content</AppFrame>);
-    const frame = screen.getByTestId('frame');
-    expect(frame).toBeInTheDocument();
-    expect(frame).toHaveAttribute('data-variant', 'docked');
+    expect(screen.getByTestId('frame')).toBeInTheDocument();
   });
 
-  it('renders with inset and floating variants', () => {
-    const { rerender } = render(<AppFrame variant="inset" data-testid="frame" />);
-    expect(screen.getByTestId('frame')).toHaveAttribute('data-variant', 'inset');
+  it('renders AppFrame.Main as a main landmark by default', () => {
+    render(
+      <AppFrame>
+        <AppFrame.Main>Content</AppFrame.Main>
+      </AppFrame>,
+    );
+    expect(screen.getByRole('main')).toHaveTextContent('Content');
+  });
 
-    rerender(<AppFrame variant="floating" data-testid="frame" />);
-    expect(screen.getByTestId('frame')).toHaveAttribute('data-variant', 'floating');
+  it('renders AppFrame.Main as a custom element via `as`', () => {
+    render(
+      <AppFrame>
+        <AppFrame.Main as="div" data-testid="main">
+          Content
+        </AppFrame.Main>
+      </AppFrame>,
+    );
+    expect(screen.queryByRole('main')).not.toBeInTheDocument();
+    expect(screen.getByTestId('main').tagName).toBe('DIV');
   });
 
   it('composes full application structure with Sidebar, Panels, and AppFrame.Main', () => {
@@ -47,10 +58,7 @@ describe('AppFrame component', () => {
       </AppFrame>,
     );
 
-    expect(screen.getByTestId('app-frame')).toBeInTheDocument();
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();
-    expect(screen.getByTestId('sidebar-header')).toBeInTheDocument();
-    expect(screen.getByTestId('main-content')).toBeInTheDocument();
     expect(screen.getByTestId('main-content').tagName).toBe('MAIN');
     expect(screen.getByTestId('main-header').tagName).toBe('HEADER');
     expect(screen.getByTestId('main-scrollable')).toBeInTheDocument();

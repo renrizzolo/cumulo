@@ -34,17 +34,20 @@ export const panelRecipe = recipe(
           flexDirection: 'row',
         },
       },
+      width: {
+        full: {
+          width: '100%',
+        },
+      },
       scrollbar: {
         none: {},
         default: {
           overflowY: 'auto',
-          flex: 1,
           minHeight: 0,
           minWidth: 0,
         },
         thin: {
           overflowY: 'auto',
-          flex: 1,
           minHeight: 0,
           minWidth: 0,
           scrollbarWidth: 'thin',
@@ -116,6 +119,10 @@ export interface PanelProps extends ElementProps<HTMLElement> {
    */
   flex?: PanelVariants['flex'];
   /**
+   * Width variant.
+   */
+  width?: PanelVariants['width'];
+  /**
    * Padding variant scale.
    */
   padding?: PanelVariants['padding'];
@@ -134,6 +141,7 @@ export function PanelRoot({
   flex,
   padding,
   className,
+  width,
   children,
   ref,
   ...props
@@ -146,6 +154,7 @@ export function PanelRoot({
     scrollbar,
     flex,
     padding,
+    width,
     divider: singleDivider,
     dividerTop: isArray && divider.includes('top') ? true : undefined,
     dividerBottom: isArray && divider.includes('bottom') ? true : undefined,

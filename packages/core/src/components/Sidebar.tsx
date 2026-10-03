@@ -1,30 +1,23 @@
 'use client';
 
 import { createThemeContract, cx, recipe, style, type RecipeVariants } from '@cumulo/css';
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { ExtractThemeVarByType, vars } from '../contract.js';
+import React, { createContext, use, useCallback, useMemo, useRef, useState } from 'react';
+import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import {
-  SidebarContext,
-  useSidebar,
-  type SidebarContextValue,
-  type SidebarPosition,
-  type SidebarHoverBehavior,
-  type SidebarType,
-} from '../hooks/useSidebar.js';
 import { Button, type ButtonProps } from './Button.js';
 import { HStack } from './Stack.js';
-
-export type { SidebarType };
 
 export const sidebarContract = createThemeContract(
   {
     width: null,
     collapsedWidth: null,
+    floatingMargin: null,
   },
   'sidebar',
 );
+
+const defaultFloatingMargin = vars.spacing.sm;
 
 export const sidebarRecipe = recipe(
   {
@@ -33,13 +26,13 @@ export const sidebarRecipe = recipe(
       flexDirection: 'column',
       boxSizing: 'border-box',
       flexShrink: 0,
-      position: 'relative',
       zIndex: 10,
       backgroundColor: vars.surface.bg.DEFAULT,
       color: vars.surface.fg,
       ...sidebarContract.$set({
         width: '270px',
         collapsedWidth: vars.size.xl,
+        floatingMargin: defaultFloatingMargin,
       }),
       width: sidebarContract.width,
       overflowX: 'hidden',
@@ -50,7 +43,6 @@ export const sidebarRecipe = recipe(
           width: sidebarContract.collapsedWidth,
         },
         '&[data-collapsed="true"]:not([data-visually-collapsed="true"])': {
-          width: sidebarContract.width,
           zIndex: 40,
         },
         '&[data-visually-collapsed="true"][data-zero-collapsed-width="true"]': {
@@ -68,49 +60,50 @@ export const sidebarRecipe = recipe(
             cursor: 'pointer',
             zIndex: 50,
           },
-        '&[data-position="right"][data-zero-collapsed-width="true"][data-visually-collapsed="true"][data-hover-behavior="expand"]::before':
-          {
-            left: 'auto',
-            right: 0,
-          },
       },
     },
     variants: {
       type: {
-        push: {},
+        push: {
+          position: 'relative',
+        },
         overlay: {
           position: 'absolute',
           top: 0,
           bottom: 0,
           zIndex: 40,
-          selectors: {
-            '&:not([data-visually-collapsed="true"])': {
-              boxShadow: vars.surface.shadow,
-            },
-          },
         },
       },
       variant: {
-        docked: {
-          height: '100%',
-        },
+        docked: {},
         inset: {
-          height: '100%',
+          selectors: {
+            '& [data-part="panel"]': {
+              paddingInline: 0,
+            },
+          },
         },
         floating: {
-          height: 'calc(100% - 24px)',
-          margin: vars.spacing.sm,
+          height: `calc(100% - (${sidebarContract.floatingMargin} * 2))`,
+          margin: sidebarContract.floatingMargin,
           borderRadius: vars.radius.xl,
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
           boxShadow: vars.surface.shadow,
-          overflow: 'hidden',
         },
       },
       position: {
         left: {},
-        right: {},
+        right: {
+          selectors: {
+            '&[data-zero-collapsed-width="true"][data-visually-collapsed="true"][data-hover-behavior="expand"]::before':
+              {
+                left: 'auto',
+                right: 0,
+              },
+          },
+        },
       },
       bordered: {
         true: {},
@@ -151,7 +144,7 @@ export const sidebarRecipe = recipe(
         style: {
           borderRightWidth: 1,
           borderRightStyle: 'solid',
-          borderRightColor: vars.surface.border,
+          borderRightColor: 'transparent',
         },
       },
       {
@@ -159,7 +152,7 @@ export const sidebarRecipe = recipe(
         style: {
           borderLeftWidth: 1,
           borderLeftStyle: 'solid',
-          borderLeftColor: vars.surface.border,
+          borderLeftColor: 'transparent',
         },
       },
     ],
@@ -174,8 +167,87 @@ export const sidebarRecipe = recipe(
 );
 
 export type SidebarVariants = RecipeVariants<typeof sidebarRecipe>;
+export type SidebarType = NonNullable<SidebarVariants['type']>;
+export type SidebarVariant = NonNullable<SidebarVariants['variant']>;
+export type SidebarPosition = NonNullable<SidebarVariants['position']>;
+export type SidebarHoverBehavior = 'expand' | 'tooltip' | 'none';
+export type SidebarLevel = 0 | 1 | 2;
 
-export type SidebarVariant = 'docked' | 'inset' | 'floating';
+export interface SidebarContextValue {
+  /**
+   * Visual layout variant of the sidebar:
+   * - `'docked'`: Standard pinned sidebar with outer border.
+   * - `'inset'`: Inset sidebar flush with adjacent canvas, zero inline padding on header/menu/footer.
+   * - `'floating'`: Floating sidebar elevated with rounded corners and margin.
+   */
+  variant: SidebarVariant;
+  /**
+   * Expansion type of the sidebar:
+   * - `'push'`: Expands within document flow, pushing adjacent content.
+   * - `'overlay'`: Expands over adjacent content without shifting the layout.
+   */
+  type: SidebarType;
+  /**
+   * Whether the sidebar is currently explicitly toggled to collapsed mode.
+   */
+  collapsed: boolean;
+  /**
+   * Whether the sidebar is currently visually collapsed (accounting for hover and focus expansion).
+   */
+  visuallyCollapsed: boolean;
+  /**
+   * Sets the collapsed state of the sidebar.
+   */
+  setCollapsed: (collapsed: boolean) => void;
+  /**
+   * Toggles the collapsed state between expanded and icon-only.
+   */
+  toggleCollapsed: () => void;
+  /**
+   * Sidebar dock position (`'left'` or `'right'`).
+   */
+  position: SidebarPosition;
+  /**
+   * Strategy for showing items on hover when collapsed:
+   * - `'expand'`: Expand the sidebar to full width on hover.
+   * - `'tooltip'`: Keeps sidebar collapsed and displays floating tooltips adjacent to items.
+   * - `'none'`: No hover tooltips.
+   */
+  hoverBehaviour: SidebarHoverBehavior;
+  /**
+   * Whether hover-expand and focus-within expansion behavior is temporarily suppressed (e.g. immediately after collapse toggle).
+   */
+  hoverSuppressed: boolean;
+  /**
+   * Sets hover suppression state.
+   */
+  setHoverSuppressed: (suppressed: boolean) => void;
+  /**
+   * Sets whether the sidebar root is currently hovered.
+   */
+  setHovered: (hovered: boolean) => void;
+  /**
+   * Sets whether sidebar content is currently focused.
+   */
+  setFocused: (focused: boolean) => void;
+  /**
+   * Surface elevation level of the sidebar (`0 | 1 | 2`).
+   */
+  level?: SidebarLevel;
+}
+
+export const SidebarContext = createContext<SidebarContextValue | null>(null);
+
+/**
+ * Accesses the active sidebar state and controls.
+ */
+export function useSidebar(): SidebarContextValue {
+  const contextValue = use(SidebarContext);
+  if (!contextValue) {
+    throw new Error('useSidebar must be used within a SidebarProvider or Sidebar');
+  }
+  return contextValue;
+}
 
 export interface SidebarProviderProps {
   /**
@@ -184,13 +256,14 @@ export interface SidebarProviderProps {
    * - `'overlay'`: Expands over adjacent content without shifting layout.
    * @default 'push'
    */
-  type?: SidebarType;
+  type?: SidebarVariants['type'];
   /**
    * Controlled collapsed state.
    */
   collapsed?: boolean;
   /**
    * Uncontrolled initial collapsed state.
+   * @default false
    */
   defaultCollapsed?: boolean;
   /**
@@ -199,15 +272,31 @@ export interface SidebarProviderProps {
   onCollapsedChange?: (collapsed: boolean) => void;
   /**
    * Sidebar dock position (`'left'` or `'right'`).
+   * @default 'left'
    */
-  position?: SidebarPosition;
+  position?: SidebarVariants['position'];
   /**
    * Strategy for showing items on hover when collapsed:
-   * - `tooltip`: Keeps sidebar collapsed and displays floating tooltips adjacent to items.
-   * - `none`: No hover tooltips.
-   * - `expand`: Expand the sidebar to full width on hover.
+   * - `'expand'`: Expand the sidebar to full width on hover.
+   * - `'tooltip'`: Keeps sidebar collapsed and displays floating tooltips adjacent to items.
+   * - `'none'`: No hover tooltips.
+   * @default 'none'
    */
-  hoverBehaviour: SidebarHoverBehavior;
+  hoverBehaviour?: SidebarHoverBehavior;
+  /**
+   * Visual layout variant of the sidebar:
+   * - `'docked'`: Standard pinned sidebar with outer border.
+   * - `'inset'`: Inset sidebar flush with adjacent canvas, zero inline padding on header/menu/footer.
+   * - `'floating'`: Floating sidebar elevated with rounded corners and margin.
+   * @default 'docked'
+   */
+  variant?: SidebarVariants['variant'];
+  /**
+   * Surface elevation level of the sidebar (`0 | 1 | 2`).
+   * When set, scopes `--surface-bg` and `--surface-bg-next` so the sidebar and
+   * child nav items use the corresponding surface background and hover/active colors.
+   */
+  level?: SidebarLevel;
   children?: React.ReactNode;
 }
 
@@ -217,7 +306,9 @@ export function SidebarProvider({
   defaultCollapsed = false,
   onCollapsedChange,
   position = 'left',
-  hoverBehaviour,
+  hoverBehaviour = 'none',
+  variant = 'docked',
+  level,
   children,
 }: SidebarProviderProps): React.JSX.Element {
   const [uncontrolledCollapsed, setUncontrolledCollapsed] = useState(defaultCollapsed);
@@ -269,6 +360,8 @@ export function SidebarProvider({
       setHoverSuppressed,
       setHovered,
       setFocused,
+      level,
+      variant,
     }),
     [
       type,
@@ -282,6 +375,8 @@ export function SidebarProvider({
       setHoverSuppressed,
       setHovered,
       setFocused,
+      level,
+      variant,
     ],
   );
 
@@ -295,22 +390,30 @@ export interface SidebarRootProps extends ElementProps<HTMLDivElement> {
    * Override expansion type (`'push'` or `'overlay'`). If omitted, uses type from SidebarProvider.
    * @default 'push'
    */
-  type?: SidebarType;
+  type?: SidebarVariants['type'];
   /**
    * Whether the sidebar displays border divider along its inner edge.
+   * @default true
    */
-  bordered?: boolean;
+  bordered?: SidebarVariants['bordered'];
   /**
    * Layout presentation variant:
    * - `'docked'`: Standard flush sidebar docked to the edge.
    * - `'inset'`: Sits cleanly inset below a top header or inside frame canvas.
    * - `'floating'`: Floating elevated card with rounded corners and shadow.
+   * If omitted, uses variant from SidebarProvider.
+   * @default 'docked'
    */
-  variant?: SidebarVariant;
+  variant?: SidebarVariants['variant'];
+  /**
+   * Custom margin used for the outer margin of the floating sidebar, and included in the collapsed content spacer for the `overlay` type.
+   * @default var(--theme-spacing-sm)
+   */
+  floatingMargin?: string;
   /**
    * Custom expanded width override (e.g. `'280px'`).
    */
-  width?: ExtractThemeVarByType<'size'>[keyof ExtractThemeVarByType<'size'>] | (string & {});
+  width?: string;
   /**
    * Custom collapsed width override.
    * @default var(--theme-size-xl)
@@ -318,23 +421,27 @@ export interface SidebarRootProps extends ElementProps<HTMLDivElement> {
   collapsedWidth?: '0px' | (string & {});
   /**
    * Override dock position (`'left'` or `'right'`). If omitted, uses position from SidebarProvider.
+   * @default 'left'
    */
-  position?: SidebarPosition;
+  position?: SidebarVariants['position'];
   /**
-   * Override hover behavior (`'expand'`, `'tooltip'`, or `'none'`). If omitted, uses hoverBehaviour from SidebarProvider.
+   * Surface elevation level of the sidebar (`0 | 1 | 2`).
+   * Defaults to `0` when `variant="inset"`.
+   * If omitted, uses level from SidebarProvider.
    */
-  hoverBehaviour?: SidebarHoverBehavior;
+  level?: SidebarLevel;
   children?: React.ReactNode;
 }
 
 export function SidebarRoot({
   type: typeProp,
-  variant = 'docked',
+  variant: variantProp,
   position: positionProp,
   bordered = true,
   width,
   collapsedWidth,
-  hoverBehaviour: hoverBehaviourProp,
+  level: levelProp,
+  floatingMargin,
   className,
   children,
   ref,
@@ -343,18 +450,20 @@ export function SidebarRoot({
 }: SidebarRootProps): React.JSX.Element {
   const {
     type: typeContext,
-    collapsed,
-    hoverBehaviour: hoverBehaviourContext,
+    variant: variantContext,
     position: positionContext,
+    level: levelContext,
+    collapsed,
     visuallyCollapsed,
-    hoverSuppressed,
+    hoverBehaviour,
     setFocused,
     setHoverSuppressed,
     setHovered,
   } = useSidebar();
   const type = typeProp ?? typeContext ?? 'push';
-  const position = positionProp ?? positionContext;
-  const hoverBehaviour = hoverBehaviourProp ?? hoverBehaviourContext;
+  const variant = variantProp ?? variantContext ?? 'docked';
+  const position = positionProp ?? positionContext ?? 'left';
+  const level = levelProp ?? levelContext ?? (variant === 'inset' ? 0 : undefined);
   const rootRef = useRef<HTMLDivElement>(null);
   const mergedRef = useMergeRefs(ref, rootRef);
 
@@ -370,64 +479,73 @@ export function SidebarRoot({
     return sidebarContract.$set({
       ...(width ? { width } : {}),
       ...(collapsedWidth ? { collapsedWidth } : {}),
+      ...(floatingMargin ? { floatingMargin } : {}),
     });
-  }, [width, collapsedWidth]);
+  }, [width, collapsedWidth, floatingMargin]);
 
   const isZeroCollapsedWidth = collapsedWidth !== undefined && parseFloat(collapsedWidth) === 0;
 
   return (
-    <div
-      ref={mergedRef}
-      data-sidebar-type={type}
-      data-collapsed={collapsed ? 'true' : 'false'}
-      data-visually-collapsed={visuallyCollapsed ? 'true' : 'false'}
-      data-zero-collapsed-width={isZeroCollapsedWidth ? 'true' : undefined}
-      data-hover-behavior={hoverBehaviour}
-      data-hover-suppressed={hoverSuppressed ? 'true' : undefined}
-      data-tooltip-mode={hoverBehaviour === 'tooltip' ? 'true' : undefined}
-      data-variant={variant}
-      data-position={position}
-      style={{
-        ...customWidths,
-        ...styleProp,
-      }}
-      className={cx(classes, className)}
-      onPointerEnter={(e) => {
-        setHoverSuppressed?.(false);
-        setHovered?.(true);
-        props.onPointerEnter?.(e);
-      }}
-      onPointerLeave={(e) => {
-        setHovered?.(false);
-        setHoverSuppressed?.(false);
-        setFocused?.(false);
-        props.onPointerLeave?.(e);
-      }}
-      onFocus={(e) => {
-        setHoverSuppressed?.(false);
-        if (e.target instanceof HTMLElement && e.target.hasAttribute('data-sidebar-toggle')) {
+    <>
+      <div
+        ref={mergedRef}
+        data-collapsed={collapsed ? 'true' : 'false'}
+        data-visually-collapsed={visuallyCollapsed ? 'true' : 'false'}
+        data-zero-collapsed-width={isZeroCollapsedWidth ? 'true' : undefined}
+        data-hover-behavior={hoverBehaviour}
+        style={{
+          ...customWidths,
+          ...styleProp,
+        }}
+        className={cx(level !== undefined && `surface-${level}`, classes, className)}
+        {...props}
+        onPointerEnter={(e) => {
+          setHoverSuppressed?.(false);
+          setHovered?.(true);
+          props.onPointerEnter?.(e);
+        }}
+        onPointerLeave={(e) => {
+          setHovered?.(false);
+          setHoverSuppressed?.(false);
           setFocused?.(false);
-        } else {
-          setFocused?.(true);
-        }
-        props.onFocus?.(e);
-      }}
-      onBlur={(e) => {
-        const nextTarget = e.relatedTarget;
-        if (!(nextTarget instanceof Node) || !e.currentTarget.contains(nextTarget)) {
-          setFocused?.(false);
-        } else if (
-          nextTarget instanceof HTMLElement &&
-          nextTarget.hasAttribute('data-sidebar-toggle')
-        ) {
-          setFocused?.(false);
-        }
-        props.onBlur?.(e);
-      }}
-      {...props}
-    >
-      {children}
-    </div>
+          props.onPointerLeave?.(e);
+        }}
+        onFocus={(e) => {
+          setHoverSuppressed?.(false);
+          if (e.target instanceof HTMLElement && e.target.hasAttribute('data-sidebar-toggle')) {
+            setFocused?.(false);
+          } else {
+            setFocused?.(true);
+          }
+          props.onFocus?.(e);
+        }}
+        onBlur={(e) => {
+          const nextTarget = e.relatedTarget;
+          if (!(nextTarget instanceof Node) || !e.currentTarget.contains(nextTarget)) {
+            setFocused?.(false);
+          } else if (
+            nextTarget instanceof HTMLElement &&
+            nextTarget.hasAttribute('data-sidebar-toggle')
+          ) {
+            setFocused?.(false);
+          }
+          props.onBlur?.(e);
+        }}
+      >
+        {children}
+      </div>
+      {/* push the main content so that the collapsed overlay isn't covering it */}
+      {type === 'overlay' ? (
+        <div
+          aria-hidden="true"
+          style={{
+            width: `calc(${collapsedWidth || vars.size.xl} + ${
+              variant === 'floating' ? `(${floatingMargin || defaultFloatingMargin} * 2)` : '0px'
+            })`,
+          }}
+        />
+      ) : null}
+    </>
   );
 }
 
@@ -454,7 +572,7 @@ export function SidebarToggle({
 }: SidebarToggleProps): React.JSX.Element {
   const { collapsed, toggleCollapsed, position } = useSidebar();
 
-  const handleClick = React.useCallback(
+  const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       onClick?.(e);
       if (!e.defaultPrevented) {
@@ -463,15 +581,6 @@ export function SidebarToggle({
     },
     [onClick, toggleCollapsed],
   );
-
-  const chevronPath =
-    position === 'right'
-      ? collapsed
-        ? 'm13 9-3 3 3 3'
-        : 'm10 9 3 3-3 3'
-      : collapsed
-        ? 'm11 9 3 3-3 3'
-        : 'm14 9-3 3 3 3';
 
   return (
     <Button
@@ -498,7 +607,6 @@ export function SidebarToggle({
           >
             <rect width="18" height="18" x="3" y="3" rx="2" />
             <path d={position === 'right' ? 'M15 3v18' : 'M9 3v18'} />
-            <path d={chevronPath} />
           </svg>
         )
       }
@@ -625,24 +733,11 @@ const sidebarFooterContentStyle = style({
   flex: 1,
   minWidth: 0,
   gap: vars.spacing.xs,
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  opacity: 1,
-  // Fade in on expand
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
     '& > *': {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-    },
-    [collapsedHeaderSelector]: {
-      opacity: 0,
-      pointerEvents: 'none',
-      width: 0,
-      flex: '0 0 0px',
-      // Fade out quickly (fast), then snap layout away after fade
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}`,
     },
   },
 });
@@ -677,6 +772,8 @@ export function SidebarCombined({
   bordered,
   width,
   collapsedWidth,
+  floatingMargin,
+  level,
   children,
   ...props
 }: SidebarProps): React.JSX.Element {
@@ -688,15 +785,18 @@ export function SidebarCombined({
       onCollapsedChange={onCollapsedChange}
       position={position}
       hoverBehaviour={hoverBehaviour}
+      variant={variant}
+      level={level}
     >
       <SidebarRoot
         type={type}
         variant={variant}
         position={position}
-        hoverBehaviour={hoverBehaviour}
         bordered={bordered}
         width={width}
         collapsedWidth={collapsedWidth}
+        floatingMargin={floatingMargin}
+        level={level}
         {...props}
       >
         {children}

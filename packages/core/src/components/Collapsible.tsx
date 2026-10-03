@@ -188,7 +188,8 @@ export const collapsibleContentRecipe = recipe(
       transition: `grid-template-rows ${vars.duration.normal} ${vars.ease.default}, opacity ${vars.duration.fast} ${vars.ease.default}`,
       opacity: 0,
       visibility: 'hidden',
-      overflow: 'hidden',
+      overflow: 'clip',
+      overflowClipMargin: '6px',
     },
     variants: {
       open: {
@@ -213,7 +214,6 @@ export const collapsibleContentRecipe = recipe(
 
 const collapsibleInnerStyle = style({
   minHeight: 0,
-  overflow: 'hidden',
 });
 
 export function CollapsibleContent({

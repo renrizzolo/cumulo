@@ -3,48 +3,11 @@
   "path": "packages/core/src/components/AppFrame.tsx",
   "fileName": "AppFrame.tsx",
   "props": {
-    "variant": {
-      "defaultValue": {
-        "value": "docked"
-      },
-      "description": "",
-      "name": "variant",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",
-        "name": "AppFrameProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",
-          "name": "AppFrameProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"docked\" | \"inset\" | \"floating\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"docked\""
-          },
-          {
-            "value": "\"inset\""
-          },
-          {
-            "value": "\"floating\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "height": {
       "defaultValue": {
-        "value": "screen"
+        "value": "'screen'"
       },
-      "description": "",
+      "description": "How the frame is sized vertically:\n- `'screen'`: Locks the frame to the viewport (`100dvh`). Children scroll independently.\n- `'full'`: Fills the parent's height (`100%`). Use when embedding the frame in a sized container.\n- `'auto'`: Grows with content (minimum `100dvh`) so the document itself scrolls.",
       "name": "height",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",

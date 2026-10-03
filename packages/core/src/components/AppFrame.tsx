@@ -1,20 +1,17 @@
 import React from 'react';
-import { recipe, cx, createThemeContract, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants, style } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
-export const frameContract = createThemeContract(
-  {
-    sidebarWidth: null,
-    sidebarCollapsedWidth: null,
-  },
-  'frame',
-);
+/* -------------------------------------------------------------------------------------------------
+ * AppFrame
+ * -----------------------------------------------------------------------------------------------*/
 
 export const appFrameRecipe = recipe(
   {
     base: {
       display: 'flex',
+      flexDirection: 'row',
       width: '100%',
       boxSizing: 'border-box',
       position: 'relative',
@@ -22,35 +19,21 @@ export const appFrameRecipe = recipe(
       color: vars.surface.fg,
     },
     variants: {
-      variant: {
-        docked: {
-          flexDirection: 'row',
-          overflow: 'hidden',
-        },
-        inset: {
-          flexDirection: 'column',
-          backgroundColor: vars.surface.bg.next,
-        },
-        floating: {
-          flexDirection: 'row',
-          backgroundColor: vars.surface.bg.next,
-          overflow: 'hidden',
-        },
-      },
       height: {
         screen: {
-          height: '100vh',
+          height: '100dvh',
+          overflow: 'hidden',
         },
         full: {
           height: '100%',
+          overflow: 'hidden',
         },
         auto: {
-          minHeight: '100vh',
+          minHeight: '100dvh',
         },
       },
     },
     defaultVariants: {
-      variant: 'docked',
       height: 'screen',
     },
   },
@@ -60,26 +43,31 @@ export const appFrameRecipe = recipe(
 export type AppFrameVariants = RecipeVariants<typeof appFrameRecipe>;
 
 export interface AppFrameProps extends ElementProps<HTMLDivElement> {
-  variant?: AppFrameVariants['variant'];
+  /**
+   * How the frame is sized vertically:
+   * - `'screen'`: Locks the frame to the viewport (`100dvh`). Children scroll independently.
+   * - `'full'`: Fills the parent's height (`100%`). Use when embedding the frame in a sized container.
+   * - `'auto'`: Grows with content (minimum `100dvh`) so the document itself scrolls.
+   * @default 'screen'
+   */
   height?: AppFrameVariants['height'];
   children?: React.ReactNode;
 }
 
+/**
+ * Top-level application shell. Lays out a `Sidebar` (or any panel) next to `AppFrame.Main`
+ * in a horizontal row. Visual sidebar styles (`docked`, `inset`, `floating`) are configured
+ * on `Sidebar` itself.
+ */
 export function AppFrameRoot({
-  variant = 'docked',
-  height = 'screen',
+  height,
   className,
   children,
   ref,
   ...props
 }: AppFrameProps): React.JSX.Element {
   return (
-    <div
-      ref={ref}
-      data-variant={variant}
-      className={cx(appFrameRecipe({ variant, height }), className)}
-      {...props}
-    >
+    <div ref={ref} className={cx(appFrameRecipe({ height }), className)} {...props}>
       {children}
     </div>
   );
@@ -91,27 +79,32 @@ AppFrameRoot.displayName = 'AppFrame';
  * AppFrameMain
  * -----------------------------------------------------------------------------------------------*/
 
-export const appFrameMainRecipe = recipe(
+export const appFrameMainStyle = style(
   {
-    base: {
-      display: 'flex',
-      flexDirection: 'column',
-      flex: 1,
-      minWidth: 0,
-      minHeight: 0,
-      height: '100%',
-      position: 'relative',
-      boxSizing: 'border-box',
-    },
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
+    minWidth: 0,
+    minHeight: 0,
+    position: 'relative',
   },
   'app-frame-main',
 );
 
 export interface AppFrameMainProps extends ElementProps<HTMLElement> {
+  /**
+   * Element to render. Defaults to `main`; use `div` when a descendant already provides the
+   * page's `<main>` landmark.
+   * @default 'main'
+   */
   as?: 'main' | 'div' | 'section';
   children?: React.ReactNode;
 }
 
+/**
+ * Flexible content column that fills the space beside the sidebar. Stack a header `Panel`
+ * and a scrollable `Panel` inside it.
+ */
 export function AppFrameMain({
   as: Component = 'main',
   className,
@@ -123,7 +116,7 @@ export function AppFrameMain({
     Component,
     {
       ref,
-      className: cx(appFrameMainRecipe(), className),
+      className: cx(appFrameMainStyle, className),
       ...props,
     },
     children,

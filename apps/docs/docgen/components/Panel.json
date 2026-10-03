@@ -132,6 +132,35 @@
       },
       "shortPropTypeName": null
     },
+    "width": {
+      "defaultValue": null,
+      "description": "Width variant.",
+      "name": "width",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+        "name": "PanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+          "name": "PanelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"full\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"full\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "padding": {
       "defaultValue": null,
       "description": "Padding variant scale.",

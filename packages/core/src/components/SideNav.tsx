@@ -1,36 +1,40 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { recipe, style, cx, createThemeContract, type RecipeVariants } from '@cumulo/css';
+import { recipe, style, cx, createThemeContract, createTheme } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { useSidebar } from '../hooks/useSidebar.js';
 import { focusRing, focusRingStyles } from '../intents.js';
 import { CollapsibleRoot, CollapsibleContent, useCollapsibleContext } from './Collapsible.js';
 import { TooltipRoot, TooltipTrigger, TooltipContent } from './Tooltip.js';
+import { useSidebar } from './Sidebar.js';
 
 export const sideNavContract = createThemeContract(
   {
     itemPadding: null,
     itemRadius: null,
+    itemSize: null,
   },
   'sidenav',
 );
 
-export const sideNavRecipe = recipe(
-  {
-    base: {
-      display: 'flex',
-      flexDirection: 'column',
-      width: '100%',
-      gap: vars.spacing['2xs'],
-      boxSizing: 'border-box',
-    },
-  },
-  'sidenav',
-);
+const sideNavTheme = createTheme(sideNavContract, {
+  itemPadding: vars.spacing.xs,
+  itemRadius: vars.radius.md,
+  itemSize: vars.size.sm,
+});
 
-export type SideNavVariants = RecipeVariants<typeof sideNavRecipe>;
+export const sideNavStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+  gap: vars.spacing['2xs'],
+  // clip with margin so that box shadow focus rings aren't hidden.
+  // we clip this so that when width transitions below the minimum width of the side nav items,
+  // it doesn't introduce a horizontal scrollbar
+  overflow: 'clip',
+  overflowClipMargin: '6px',
+});
 
 export interface SideNavProps extends ElementProps<HTMLElement> {
   'aria-label'?: string;
@@ -45,7 +49,12 @@ export function SideNavRoot({
   ...props
 }: SideNavProps): React.JSX.Element {
   return (
-    <nav ref={ref} aria-label={ariaLabel} className={cx(sideNavRecipe(), className)} {...props}>
+    <nav
+      ref={ref}
+      aria-label={ariaLabel}
+      className={cx(sideNavStyle.className, sideNavTheme.className, className)}
+      {...props}
+    >
       {children}
     </nav>
   );
@@ -67,13 +76,9 @@ export const sideNavItemRecipe = recipe(
       alignItems: 'center',
       gap: vars.spacing.xs,
       width: '100%',
-      height: vars.size.sm,
-      minWidth: vars.size.sm,
+      height: sideNavContract.itemSize,
+      minWidth: sideNavContract.itemSize,
       boxSizing: 'border-box',
-      ...sideNavContract.$set({
-        itemPadding: vars.spacing.xs,
-        itemRadius: vars.radius.md,
-      }),
       paddingInline: sideNavContract.itemPadding,
       borderRadius: sideNavContract.itemRadius,
       fontSize: vars.font.size.sm,
@@ -89,7 +94,6 @@ export const sideNavItemRecipe = recipe(
       position: 'relative',
       ':hover': {
         backgroundColor: vars.surface.bg.next,
-        color: vars.surface.fg,
       },
       selectors: {
         '&[data-active="true"]': {
@@ -102,9 +106,6 @@ export const sideNavItemRecipe = recipe(
           cursor: 'not-allowed',
           pointerEvents: 'none',
         },
-        [collapsedSelector]: {
-          width: 'auto',
-        },
       },
     },
   },
@@ -115,7 +116,18 @@ const itemIconStyle = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
+  width: sideNavContract.itemSize,
+  height: sideNavContract.itemSize,
+  marginInlineStart: `calc(-1 * ${sideNavContract.itemPadding})`,
   flexShrink: 0,
+  opacity: 1,
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+  selectors: {
+    [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
+      opacity: 0,
+      pointerEvents: 'none',
+    },
+  },
 });
 
 const itemContentStyle = style({
@@ -125,6 +137,7 @@ const itemContentStyle = style({
   minWidth: 0,
   gap: vars.spacing.xs,
   overflow: 'hidden',
+  whiteSpace: 'nowrap',
   opacity: 1,
   // Fade in on expand
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
@@ -134,8 +147,8 @@ const itemContentStyle = style({
       pointerEvents: 'none',
       width: 0,
       flex: '0 0 0px',
-      // Fade out quickly (snappy), then snap layout away after fade
-      transition: `opacity ${vars.duration.snappy} ${vars.ease.default}, width 0s linear ${vars.duration.snappy}, flex 0s linear ${vars.duration.snappy}`,
+      // Fade out quickly (fast), then collapse width/flex
+      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}`,
     },
   },
 });
@@ -170,9 +183,9 @@ const itemFallbackDotStyle = style({
 
 const itemFallbackContainerStyle = style({
   position: 'absolute',
-  left: '50%',
+  left: `calc(${sideNavContract.itemSize} / 2)`,
   top: '50%',
-  transform: 'translate(-50%,-50%)',
+  transform: 'translate(-50%, -50%)',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -182,7 +195,7 @@ const itemFallbackContainerStyle = style({
   selectors: {
     [`[data-visually-collapsed="true"]:not([data-zero-collapsed-width="true"]) &`]: {
       opacity: 1,
-      transitionDelay: vars.duration.snappy,
+      transitionDelay: vars.duration.fast,
     },
   },
 });
@@ -239,24 +252,18 @@ export function SideNavItem({
   const content = children || (
     <>
       {icon ? (
-        <span className={itemIconStyle.className}>{icon}</span>
+        <span role="presentation" className={itemIconStyle.className}>
+          {icon}
+        </span>
       ) : (
-        <span className={itemFallbackContainerStyle.className}>
+        <span role="presentation" className={itemFallbackContainerStyle.className}>
           <span className={itemFallbackDotStyle.className} />
         </span>
       )}
       {(label || badge) && (
         <span className={itemContentStyle.className}>
-          {label && (
-            <span data-part="label" className={itemLabelStyle.className}>
-              {label}
-            </span>
-          )}
-          {badge && (
-            <span data-part="badge" className={itemBadgeStyle.className}>
-              {badge}
-            </span>
-          )}
+          {label && <span className={itemLabelStyle.className}>{label}</span>}
+          {badge && <span className={itemBadgeStyle.className}>{badge}</span>}
         </span>
       )}
     </>
@@ -277,7 +284,6 @@ export function SideNavItem({
           data-disabled={disabled ? 'true' : undefined}
           aria-current={active ? 'page' : undefined}
           aria-disabled={disabled || undefined}
-          title={resolvedTitle}
           className={cx(sideNavItemRecipe(), className)}
           {...props}
         >
@@ -323,15 +329,16 @@ const groupRootStyle = style({
 });
 
 const groupHeaderStyle = style({
-  fontSize: '11px',
+  fontSize: vars.font.size['2xs'],
   fontWeight: vars.font.weight.semibold,
   textTransform: 'uppercase',
   letterSpacing: '0.06em',
-  color: vars.surface.muted,
-  padding: `${vars.spacing['2xs']} ${vars.spacing.sm}`,
+  color: vars.surface.subtle,
+  paddingInline: vars.spacing.xs,
   margin: 0,
   whiteSpace: 'nowrap',
-  overflow: 'hidden',
+  width: '100%',
+  minWidth: sideNavContract.itemSize,
   minHeight: '24px',
   height: '24px',
   display: 'flex',
@@ -339,21 +346,30 @@ const groupHeaderStyle = style({
   boxSizing: 'border-box',
   position: 'relative',
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
+  marginTop: vars.spacing.sm,
+  // represents group headers as a thin line when collapsed
+  '::after': {
+    content: '""',
+    display: 'block',
+    width: '20px',
+    height: '1px',
+    backgroundColor: vars.surface.border,
+    position: 'absolute',
+    left: `calc(${sideNavContract.itemSize} / 2)`,
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    opacity: 0,
+    pointerEvents: 'none',
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+  },
   selectors: {
     [collapsedSelector]: {
       color: 'transparent',
       userSelect: 'none',
     },
-    [`${collapsedSelector}::after`]: {
-      content: '""',
-      display: 'block',
-      width: '20px',
-      height: '1px',
-      backgroundColor: vars.surface.border,
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
+    [`[data-visually-collapsed="true"]:not([data-zero-collapsed-width="true"]) &::after`]: {
+      opacity: 1,
+      transitionDelay: vars.duration.fast,
     },
   },
 });
@@ -362,10 +378,11 @@ const groupTriggerStyle = style({
   ...focusRingStyles,
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
   width: '100%',
-  padding: `${vars.spacing.xs} ${vars.spacing.xs}`,
-  borderRadius: vars.radius.md,
+  minWidth: sideNavContract.itemSize,
+  height: sideNavContract.itemSize,
+  paddingInline: sideNavContract.itemPadding,
+  borderRadius: sideNavContract.itemRadius,
   fontSize: vars.font.size.sm,
   fontWeight: vars.font.weight.semibold,
   fontFamily: vars.font.sans,
@@ -375,14 +392,14 @@ const groupTriggerStyle = style({
   cursor: 'pointer',
   textAlign: 'left',
   whiteSpace: 'nowrap',
-  height: vars.size.sm,
   boxSizing: 'border-box',
-  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
+  willChange: 'transform',
+  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
   ':hover': {
     backgroundColor: vars.surface.bg.next,
   },
   ':active': {
-    transform: 'scale(0.98)',
+    transform: 'scale(0.99)',
   },
 });
 
@@ -403,8 +420,16 @@ const groupChevronContainerStyle = style({
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
-  width: '20px',
-  height: '20px',
+  width: `calc(${sideNavContract.itemSize} - 2 * ${sideNavContract.itemPadding})`,
+  height: `calc(${sideNavContract.itemSize} - 2 * ${sideNavContract.itemPadding})`,
+  opacity: 1,
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+  selectors: {
+    [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
+      opacity: 0,
+      pointerEvents: 'none',
+    },
+  },
 });
 
 const groupTriggerTitleStyle = style({
@@ -414,37 +439,40 @@ const groupTriggerTitleStyle = style({
   opacity: 1,
   minWidth: 0,
   flex: 1,
-  marginRight: vars.spacing.xs,
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
     [collapsedSelector]: {
       opacity: 0,
-      textOverflow: 'clip',
       pointerEvents: 'none',
-      width: 0,
-      flex: '0 0 0px',
-      marginRight: 0,
-      // Delay layout collapse until after opacity fade completes
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}, margin-right 0s linear ${vars.duration.fast}`,
     },
   },
 });
 
-const groupTriggerRightStyle = style({
+const groupTriggerTrailingStyle = style({
   display: 'inline-flex',
   alignItems: 'center',
   gap: vars.spacing.xs,
-  marginLeft: 'auto',
   flexShrink: 0,
-  opacity: 1,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+  transition: `gap ${vars.duration.normal} ${vars.ease.default}`,
   selectors: {
     [collapsedSelector]: {
-      // marginLeft: 0,
-      // gap: 0,
+      gap: 0,
     },
-    [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
+  },
+});
+
+const groupTriggerBadgeStyle = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  flexShrink: 0,
+  opacity: 1,
+  maxWidth: '80px',
+  overflow: 'hidden',
+  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-width ${vars.duration.normal} ${vars.ease.default}`,
+  selectors: {
+    [collapsedSelector]: {
       opacity: 0,
+      maxWidth: 0,
       pointerEvents: 'none',
     },
   },
@@ -452,7 +480,6 @@ const groupTriggerRightStyle = style({
 
 const groupInnerStyle = style({
   minHeight: 0,
-  overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
@@ -462,24 +489,23 @@ const groupInnerStyle = style({
 
 const groupCollapsibleInnerStyle = style({
   minHeight: 0,
-  overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
-  width: '100%',
+  width: `calc(100% - ${sideNavContract.itemPadding})`,
   boxSizing: 'border-box',
+  marginLeft: sideNavContract.itemPadding,
   gap: vars.spacing['3xs'],
-  paddingLeft: vars.spacing.sm,
-  marginLeft: vars.spacing.xs,
-  borderLeftWidth: 1,
-  borderLeftStyle: 'solid',
-  borderLeftColor: vars.surface.border,
-  transition: `padding-left ${vars.duration.normal} ${vars.ease.default}, margin-left ${vars.duration.normal} ${vars.ease.default}, border-color ${vars.duration.normal} ${vars.ease.default}`,
+  paddingLeft: sideNavContract.itemPadding,
+  overflow: 'clip',
+  overflowClipMargin: '6px',
+  boxShadow: `inset 1px 0 0 0 ${vars.surface.border}`,
+  transition: `width ${vars.duration.normal} ${vars.ease.default}, padding-left ${vars.duration.normal} ${vars.ease.default}, margin-left ${vars.duration.normal} ${vars.ease.default}, box-shadow ${vars.duration.normal} ${vars.ease.default}`,
   selectors: {
     [collapsedSelector]: {
+      width: '100%',
       paddingLeft: 0,
       marginLeft: 0,
-      borderLeftWidth: 0,
-      borderLeftColor: 'transparent',
+      boxShadow: 'inset 1px 0 0 0 transparent',
     },
   },
 });
@@ -521,8 +547,8 @@ export function SideNavGroupTrigger({
   const triggerContent = (
     <>
       <span className={groupTriggerTitleStyle.className}>{children}</span>
-      <span className={groupTriggerRightStyle.className}>
-        {badge && <span className={itemBadgeStyle.className}>{badge}</span>}
+      <span className={groupTriggerTrailingStyle.className}>
+        {badge && <span className={groupTriggerBadgeStyle.className}>{badge}</span>}
         <span className={groupChevronContainerStyle.className}>
           <svg
             viewBox="0 0 24 24"

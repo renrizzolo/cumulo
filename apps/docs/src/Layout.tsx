@@ -85,9 +85,9 @@ export default function Layout({
       <AppProvider>
         <body className={bodyStyle.className}>
           <SidebarProvider hoverBehaviour="expand">
-            <AppFrame variant="docked">
+            <AppFrame>
               <SidebarNav currentPage={currentPage} />
-              <AppFrameMain>
+              <AppFrameMain as="div">
                 {/* Top Responsive Navigation Bar */}
                 <DocHeader currentPage={currentPage} />
 

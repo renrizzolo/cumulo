@@ -36,7 +36,6 @@ export interface NavSection {
 }
 
 const navContainerStyle = style({
-  minHeight: '100vh',
   '@media': {
     '(max-width: 959px)': {
       display: 'none !important',

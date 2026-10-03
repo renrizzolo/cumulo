@@ -5,6 +5,7 @@ import {
   ButtonGroup,
   Collapsible,
   HStack,
+  Panel,
   Surface,
   Text,
   vars,
@@ -16,6 +17,7 @@ import React, { useCallback, useState } from 'react';
 export interface ComponentPreviewClientProps {
   title?: string;
   description?: string;
+  frame?: boolean;
   code: React.ReactNode;
   codeString: string;
   defaultLevel?: 0 | 1 | 2;
@@ -79,6 +81,7 @@ export function ComponentPreviewClient({
   code,
   codeString,
   defaultLevel = 0,
+  frame,
   children,
 }: ComponentPreviewClientProps): React.JSX.Element {
   const [level, setLevel] = useState<0 | 1 | 2>(defaultLevel);
@@ -109,7 +112,13 @@ export function ComponentPreviewClient({
             padding="md"
             className={previewCanvasStyle.className}
           >
-            {children}
+            {frame ? (
+              <Panel flex={1} width="full" divider>
+                {children}
+              </Panel>
+            ) : (
+              children
+            )}
           </Surface>
 
           <Collapsible.Root open={showCode} onOpenChange={setShowCode}>

@@ -158,6 +158,7 @@
     --theme-font-size-4xl: 3rem;
 
     /* Font weight scale */
+    --theme-font-weight-light: 300;
     --theme-font-weight-normal: 400;
     --theme-font-weight-medium: 500;
     --theme-font-weight-semibold: 600;
@@ -202,7 +203,7 @@
     --color-warning-base: #e79212;
     --color-error-base: #d10d27;
     --color-info-base: #0284c7;
-    --color-grey-base: #96938e;
+    --color-grey-base: #7b7b82;
 
     /* Global palette tuning */
     --theme-chroma-scale: 1;
@@ -210,8 +211,8 @@
     --theme-lightness-offset: 0;
 
     /* Step progress t (0.04 to 0.95) */
-    --theme-step-50-t: 0.04;
-    --theme-step-100-t: 0.08;
+    --theme-step-50-t: 0.05;
+    --theme-step-100-t: 0.1;
     --theme-step-200-t: 0.16;
     --theme-step-300-t: 0.28;
     --theme-step-400-t: 0.4;
@@ -1145,8 +1146,8 @@
     --surface-primary-hover: light-dark(var(--theme-primary-100), var(--theme-primary-200));
     --surface-primary-fg: var(--theme-fg);
     --surface-primary-border: var(--theme-primary-border);
-    --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-100));
-    --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
+    --surface-secondary: light-dark(var(--theme-grey-50), var(--theme-grey-200));
+    --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-300));
     --surface-secondary-fg: var(--theme-fg);
     --surface-secondary-border: var(--theme-border);
     --surface-shadow: var(--theme-shadow-0);
