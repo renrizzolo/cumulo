@@ -1,4 +1,4 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import { DualSidebarExample } from '../../components/DualSidebarExample.tsx';
 import {
   Sidebar,
@@ -16,8 +16,9 @@ import {
   Heading,
   Text,
 } from '@cumulo/core';
+import sidebarDoc from '../../../docgen/components/Sidebar.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Sidebar
 
@@ -576,3 +577,7 @@ return (
 
   <DualSidebarExample />
 </ComponentPreview>
+
+### Component API
+
+<PropsTable data={sidebarDoc} />

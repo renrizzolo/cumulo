@@ -1,7 +1,8 @@
-import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import { Panel, VStack, HStack, Heading, Text, Button } from '@cumulo/core';
+import panelDoc from '../../../docgen/components/Panel.json';
 export default Layout;
-export { CodeBlock, ComponentPreview };
+export { CodeBlock, ComponentPreview, PropsTable };
 
 # Panel
 
@@ -94,3 +95,7 @@ import { Panel } from '@cumulo/core';
     </VStack>
   </HStack>
 </ComponentPreview>
+
+### Component API
+
+<PropsTable data={panelDoc} />
