@@ -94,4 +94,3 @@ describe('Panel component', () => {
     expect(screen.getByTestId('scrollbar-panel')).toBeInTheDocument();
   });
 });
-

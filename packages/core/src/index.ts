@@ -219,6 +219,7 @@ export {
   type SidebarProps,
   type SidebarProviderProps,
   type SidebarRootProps,
+  type SidebarType,
   type SidebarVariant,
   type SidebarVariants,
   type SidebarToggleProps,

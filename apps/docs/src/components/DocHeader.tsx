@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import type { PageProps } from '@renr/parcel-rsc-router';
 import { Link } from '@renr/parcel-rsc-router';
-import { style } from '@cumulo/css';
+import { keyframes, style } from '@cumulo/css';
 import {
   Surface,
   HStack,
@@ -15,6 +15,7 @@ import {
   useDismissible,
   SidebarToggle,
   Tooltip,
+  useSidebar,
 } from '@cumulo/core';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { NavContent } from './Nav';
@@ -157,6 +158,21 @@ function CloseIcon(): React.JSX.Element {
   );
 }
 
+const headerAnimation = keyframes({
+  from: {
+    opacity: 0,
+    transform: `translateX(-${vars.spacing.md})`,
+  },
+  to: {
+    opacity: 1,
+    transform: 'translateX(0)',
+  },
+});
+
+const headerBrandStyle = style({
+  animation: `${headerAnimation} ${vars.duration.slow} ${vars.ease.default}`,
+});
+
 export function DocHeader({
   currentPage,
 }: {
@@ -190,7 +206,7 @@ export function DocHeader({
     onDismiss: () => setIsOpen(false),
     dismissOnClickOutside: true,
   });
-
+  const sidebar = useSidebar();
   return (
     <>
       <div className={topHeaderStyle.className}>
@@ -223,6 +239,9 @@ export function DocHeader({
             </Tooltip.Trigger>
             <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
           </Tooltip.Root>
+          {sidebar.visuallyCollapsed ? (
+            <div className={headerBrandStyle.className}>📦 Cumulo UI</div>
+          ) : null}
         </div>
 
         {/* Header Right Controls */}

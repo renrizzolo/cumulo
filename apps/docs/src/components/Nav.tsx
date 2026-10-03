@@ -301,23 +301,18 @@ export interface NavProps {
   pages?: PageProps['pages'];
 }
 
-export function Nav({ currentPage, pages }: NavProps): React.JSX.Element {
+export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element {
   return (
-    <SidebarRoot variant="docked" className={navContainerStyle.className}>
+    <SidebarRoot collapsedWidth={'0px'} variant="docked" className={navContainerStyle.className}>
       <Panel padding="sm" divider="bottom">
         <SidebarHeader
           title={
             <Link to="/" className={brandLinkStyle.className}>
-              <HStack gap="xs" align="center">
-                <span className={brandIconStyle.className}>📦</span>
-                <VStack gap="3xs">
-                  <Heading as="h4" size="sm">
-                    Cumulo UI
-                  </Heading>
-                  <Text type="caption" color="muted">
-                    Design System & Engine
-                  </Text>
-                </VStack>
+              <HStack gap="2xs" align="center" style={{ minWidth: 0 }}>
+                📦
+                <Heading as="h4" size="sm" truncate>
+                  Cumulo UI
+                </Heading>
               </HStack>
             </Link>
           }

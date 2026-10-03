@@ -197,6 +197,26 @@
       },
       "shortPropTypeName": null
     },
+    "truncate": {
+      "defaultValue": null,
+      "description": "",
+      "name": "truncate",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
     "className": {
       "defaultValue": null,
       "description": "",

@@ -4,16 +4,27 @@ import { createContext, use } from 'react';
 
 export type SidebarPosition = 'left' | 'right';
 export type SidebarHoverBehavior = 'expand' | 'tooltip' | 'none';
+export type SidebarType = 'push' | 'overlay';
 
 export interface SidebarContextValue {
   /**
-   * Whether the sidebar is currently collapsed to icon-only mode.
+   * Expansion type of the sidebar:
+   * - `'push'`: Expands within document flow, pushing adjacent content.
+   * - `'overlay'`: Expands over adjacent content without shifting the layout.
+   */
+  type: SidebarType;
+  /**
+   * Whether the sidebar is currently explicitly toggled to collapsed mode.
    */
   collapsed: boolean;
   /**
+   * Whether the sidebar is currently visually collapsed (accounting for hover and focus expansion).
+   */
+  visuallyCollapsed: boolean;
+  /**
    * Sets the collapsed state of the sidebar.
    */
-  setCollapsed: (collapsed: boolean | ((prev: boolean) => boolean)) => void;
+  setCollapsed: (collapsed: boolean) => void;
   /**
    * Toggles the collapsed state between expanded and icon-only.
    */
@@ -32,11 +43,19 @@ export interface SidebarContextValue {
   /**
    * Whether hover-expand and focus-within expansion behavior is temporarily suppressed (e.g. immediately after collapse toggle).
    */
-  hoverSuppressed?: boolean;
+  hoverSuppressed: boolean;
   /**
    * Sets hover suppression state.
    */
-  setHoverSuppressed?: (suppressed: boolean) => void;
+  setHoverSuppressed: (suppressed: boolean) => void;
+  /**
+   * Sets whether the sidebar root is currently hovered.
+   */
+  setHovered: (hovered: boolean) => void;
+  /**
+   * Sets whether sidebar content is currently focused.
+   */
+  setFocused: (focused: boolean) => void;
 }
 
 export const SidebarContext = createContext<SidebarContextValue | null>(null);

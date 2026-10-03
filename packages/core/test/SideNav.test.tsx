@@ -8,11 +8,17 @@ import { Sidebar } from '../src/components/Sidebar.js';
 import { SidebarContext, type SidebarContextValue } from '../src/hooks/useSidebar.js';
 
 const mockSidebarContext: SidebarContextValue = {
+  type: 'push',
   collapsed: false,
+  visuallyCollapsed: false,
   setCollapsed: vi.fn(),
   toggleCollapsed: vi.fn(),
   position: 'left',
   hoverBehaviour: 'none',
+  hoverSuppressed: false,
+  setHoverSuppressed: vi.fn(),
+  setHovered: vi.fn(),
+  setFocused: vi.fn(),
 };
 
 const renderWithContext = (ui: React.ReactElement) =>

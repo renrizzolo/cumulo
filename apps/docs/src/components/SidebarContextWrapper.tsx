@@ -7,6 +7,7 @@ export function SidebarContextWrapper({
   collapsed: initialCollapsed = false,
   position = 'left',
   hoverBehaviour = 'none',
+  type = 'push',
   children,
 }: Partial<SidebarContextValue> & { children?: React.ReactNode }): React.JSX.Element {
   const [collapsed, setCollapsed] = useState(initialCollapsed);
@@ -14,12 +15,18 @@ export function SidebarContextWrapper({
   const contextValue = useMemo(
     (): SidebarContextValue => ({
       collapsed,
+      visuallyCollapsed: collapsed,
       setCollapsed,
       toggleCollapsed: () => setCollapsed((prev) => !prev),
       position,
       hoverBehaviour,
+      type,
+      hoverSuppressed: false,
+      setHoverSuppressed: () => {},
+      setHovered: () => {},
+      setFocused: () => {},
     }),
-    [collapsed, position, hoverBehaviour],
+    [collapsed, position, hoverBehaviour, type],
   );
 
   return <SidebarContext value={contextValue}>{children}</SidebarContext>;

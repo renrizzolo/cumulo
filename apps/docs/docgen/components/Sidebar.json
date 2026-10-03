@@ -3,6 +3,40 @@
   "path": "packages/core/src/components/Sidebar.tsx",
   "fileName": "Sidebar.tsx",
   "props": {
+    "type": {
+      "defaultValue": {
+        "value": "push"
+      },
+      "description": "Expansion type of the sidebar:\n- `'push'`: Expands within document flow, pushing adjacent content.\n- `'overlay'`: Expands over adjacent content without shifting layout.",
+      "name": "type",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+        "name": "SidebarProviderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+          "name": "SidebarProviderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "SidebarType | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"overlay\""
+          },
+          {
+            "value": "\"push\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "collapsed": {
       "defaultValue": null,
       "description": "Controlled collapsed state.",

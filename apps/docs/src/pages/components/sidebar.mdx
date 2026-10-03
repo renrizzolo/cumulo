@@ -1,4 +1,5 @@
 import Layout, { CodeBlock, ComponentPreview } from '../../components/MDXLayout.tsx';
+import { SentrySidebarExample } from '../../components/SentrySidebarExample.tsx';
 import {
   Sidebar,
   SidebarToggle,
@@ -284,3 +285,9 @@ import { Sidebar, SidebarToggle, useSidebar } from '@cumulo/core';
     </Panel>
   </HStack>
 </ComponentPreview>
+
+### Sentry-Style Dual Sidebar (Overlay & Pin)
+
+A two-tier navigation pattern pairing a permanent slim rail with an adjacent hover-expand overlay sidebar (`type="overlay"` and `collapsedWidth="0px"`). When unpinned, the secondary sidebar expands on hover directly over the page content without shifting the layout. When pinned, it transitions into document flow (`type="push"`), locking it open alongside the content.
+
+<SentrySidebarExample />
