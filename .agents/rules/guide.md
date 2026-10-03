@@ -2,257 +2,267 @@
 trigger: always_on
 ---
 
-# Cumulo Design System — Monorepo Guide & Rules
+# Cumulo Design System — Monorepo Feature Map & Architecture Guide
 
-## 1. Monorepo Overview & Architecture
-
-Cumulo is a modern, high-performance design system monorepo managed with `pnpm` workspaces.
-
-### Packages & Apps
-
-- **`@cumulo/css` (`packages/css`)**: Lightweight, zero-dependency, type-safe CSS framework inspired by StyleX and Vanilla Extract. Provides `style()`, `recipe()`, `createThemeContract()`, `createTheme()`, `keyframes()`, and `cx()`.
-- **`@cumulo/core` (`packages/core`)**: React 19 UI component library.
-- **`@cumulo/unplugin` (`packages/unplugin`)**: Build tool unplugin for compile-time CSS extraction across Vite, Rollup, Webpack, esbuild, and Parcel.
-- **`@cumulo/parcel-transformer` (`packages/parcel-transformer`)**: Custom Parcel transformer for static/RSC/CSS processing.
-- **`@cumulo/fixtures` (`packages/fixtures`)**: Dedicated private test package for bundler integration and Vitest native browser visual regression testing.
-- **`apps/docs`**: Documentation site built with React Static / Parcel.
-
-### Tooling & Commands
-
-- **Package Manager**: `pnpm` (`packageManager: "pnpm@11.22.0"`).
-- **Build**: `tsdown` (run via `pnpm build` or `pnpm dev`).
-- **Type Checking**: `tsc --noEmit && pnpm -r type-check` (run via `pnpm type-check` and included in `pnpm check`). Verifies both root scripts and all workspace packages.
-- **Linting & Formatting**: uses `oxlint` and `oxfmt` (run via `pnpm check`).
-- **Testing**: `vitest` (run all unit & bundler tests via `pnpm test`, watch via `pnpm test:watch`, browser visual tests via `pnpm --filter @cumulo/fixtures test:browser`).
-- **Benchmarking**: `vitest bench` (run via `pnpm bench` or `pnpm bench:css`).
-- **Releases**: `@changesets/cli` with prerelease channel support (`pnpm changeset`, `pnpm version`).
+A streamlined guide to the architecture, directory layout, design system usage, TypeScript conventions, and engineering standards across the Cumulo monorepo.
 
 ---
 
-## 2. TypeScript Strictness & Type Safety
+## 1. Monorepo Feature Map & Directory Index
 
-Strict type safety is a non-negotiable standard across this codebase.
+```
+cumulo/
+├── packages/
+│   ├── core/                  # React 19 UI component library (@cumulo/core)
+│   │   └── src/
+│   │       ├── components/    # 30+ UI, layout, and overlay components
+│   │       ├── hooks/         # Headless logic (focus, dismissal, ref merging, layout)
+│   │       ├── theme/         # Theme runtime, useTheme hook, ThemeScript
+│   │       ├── tokens/        # Pure design tokens & theme contract values
+│   │       ├── contract.ts    # Zero-runtime CSS variable contract (`vars`)
+│   │       ├── ElementProps.ts# Strict React 19 HTML element typing
+│   │       ├── intents.ts     # Shared intent & variant styling utilities
+│   │       ├── layout.ts      # Shared layout CSS helper rules
+│   │       ├── typography.ts  # Shared typography CSS helper rules
+│   │       └── reset.ts       # Global base CSS resets
+│   ├── css/                   # Zero-dependency, type-safe CSS framework (@cumulo/css)
+│   │   └── src/
+│   │       ├── create.ts      # style() implementation & style compiler
+│   │       ├── recipe.ts      # recipe() multi-variant component builder
+│   │       ├── createTheme.ts # createThemeContract(), createTheme(), assignVars()
+│   │       ├── keyframes.ts   # keyframes() animation definition
+│   │       └── cx.ts          # cx() class merging utility
+│   ├── unplugin/              # Compile-time CSS extraction unplugin (Vite, Rollup, Webpack, esbuild, Parcel)
+│   ├── parcel-transformer/    # Custom Parcel transformer for CSS extraction & static/RSC compilation
+│   └── fixtures/              # Bundler integration tests & Vitest Playwright browser visual tests
+├── apps/
+│   └── docs/                  # React Static / Parcel documentation site
+│       ├── docgen/components/ # Generated prop tables (READ-ONLY — never edit manually)
+│       └── src/pages/         # Interactive MDX documentation & component previews
+├── scripts/
+│   └── pr-metrics/            # CI AST-based API diffing & bundle sizing tools
+├── .changeset/                # Release management & version bumping configs
+└── vitest.config.ts           # Root test configuration (jsdom & browser modes)
+```
 
-- **Zero `any` Policy**: NEVER use `any`. Always use specific types, generic constraints, `unknown` with narrowing, or discriminated unions.
-- **Avoid Type Casting (`as Type`)**:
-  - Do NOT use `as` casting to bypass type checking or silence compiler errors.
-  - Type assertions are only acceptable in rare cases where bridging untyped third-party boundaries is unavoidable.
-  - Rely on TypeScript narrowing, type predicates (`is`), discriminated unions, and proper generic constraints instead.
-  - When narrowing DOM elements in tests, throw an invariant error rather than casting: `if (!(el instanceof HTMLInputElement)) throw new Error('Expected input to be HTMLInputElement');`.
-- **Monorepo TSConfig & `rootDir`**:
-  - Do NOT specify `"rootDir"` in individual workspace package `tsconfig.json` files. Setting `rootDir` prevents TypeScript from including sibling package sources during type-checking across workspace boundaries. Inherit base configuration from `tsconfig.base.json` and keep `rootDir` unset.
-- **Clean Interface & Type Exports**:
-  - Explicitly export component prop types, variant types, and context value types.
-  - Use `type` imports/exports (`import type { ... }`) when importing or re-exporting types.
-- **HTML Element Props**:
-  - Extend `ElementProps<T>` from `packages/core/src/ElementProps.ts` rather than raw `React.HTMLAttributes<T>`, ensuring obsolete/noisy attributes are excluded while retaining correct element-specific attributes and typed `ref`.
-- **No Deprecated Aliases**:
-  - Because this library is in pre-release, avoid creating or maintaining deprecated backwards-compatibility aliases. Keep APIs canonical, clean, and concise.
-- **Hook Callback Return Typing (`useMemo((): Type => ...)`)**:
-  - Always annotate the callback return type directly (`useMemo((): Type => ({ ... }), [deps])`) rather than using generic type arguments on the hook call (`useMemo<Type>(...)`). Supplying generics bypasses TypeScript's excess property checking on object literals, whereas annotating the factory return type strictly flags invalid or extraneous properties on the returned object.
-- **Discriminated Unions over Loose Optionals**:
-  - Avoid bags of optional props that can produce incoherent or contradictory states. Model mutually exclusive configurations as discriminated unions using a discriminator prop (e.g. `type: 'modality' | 'navigation'`) with `never` for incompatible properties (e.g. `UseFocusOptions` in `packages/core/src/hooks/useFocus.ts`).
+### Component Feature Map (`packages/core/src/components/`)
 
----
+| Category               | Components                                                                        | Notes / Key Subcomponents                                                                                                              |
+| :--------------------- | :-------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+| **Forms & Input**      | `Field`, `Input`, `Textarea`, `Checkbox`, `Radio`, `RadioList`, `Switch`, `Label` | `Field` compound namespace (`Root`, `Input`, `Label`, `Error`, `Description`, `Group`) with dynamic part registration                  |
+| **Overlays**           | `Dialog`, `Popover`, `Tooltip`                                                    | Native HTML5 `<dialog>` and `popover="auto"` / `popover="manual"` with CSS Anchor Positioning                                          |
+| **App Layout**         | `AppFrame`, `Panel`, `Sidebar`, `SideNav`                                         | Modern responsive frame primitives; `Sidebar` features collapsible levels, toggles, `useSidebar` hook, and top-layer tooltip isolation |
+| **Layout & Flow**      | `Stack` (`HStack`, `VStack`), `Container`, `Flow`, `Divider`, `Table`             | Flex/grid layouts, token-aware spacing, and tabular display                                                                            |
+| **Navigation & Tabs**  | `Tabs`, `ButtonGroup`                                                             | Roving focus keyboard navigation, accessible tabs with controlled/uncontrolled state                                                   |
+| **Feedback & Display** | `Surface`, `Card`, `Badge`, `Button`, `Collapsible`, `ThemeToggle`                | Polymorphic surfaces, intents (`primary`, `success`, `warning`, `error`, `neutral`), and dark-mode toggles                             |
+| **Typography**         | `Heading`, `Text`, `Code`                                                         | Semantic elements (`h1`–`h6`, `p`, `span`, `code`), variant styles tied to typography tokens                                           |
 
-## 3. React 19 & Component Composition Patterns
+### Headless Hooks Map (`packages/core/src/hooks/`)
 
-### React 19 Conventions
-
-- Components accept `ref?: React.Ref<T>` directly as a prop via `ElementProps<T>`. Avoid wrapping in legacy `React.forwardRef` unless strictly required for backward compatibility.
-- Use explicit component return types or standard function declaration signatures.
-- **Strict `useMemo` Callback Return Types (`useMemo((): Type => ...)` over `useMemo<Type>(...)`)**:
-  - Always annotate the return type on the factory function directly: `useMemo((): Type => ({ ... }), [deps])` rather than supplying generic parameters to the hook call `useMemo<Type>(...)`.
-  - Supplying the generic `useMemo<Type>(...)` bypasses TypeScript's excess property checking on object literals. Explicitly typing the callback `(): Type => ({ ... })` strictly enforces exact object shapes and prevents adding incorrect or extraneous properties on the return object.
-- **Ref Composition (`useMergeRefs`)**: When combining multiple internal refs (e.g. element ref, focus management ref, dismissible ref) with external `ref` props, always compose them via `useMergeRefs(...)`.
-
-### Strict Prop Design & Discriminated Unions
-
-Avoid bloated, loose prop interfaces with optional flags that could be configured into invalid or conflicting states:
-
-- **Avoid Optional Props Where Possible**:
-  - Do NOT create props that do not make sense, contradict each other, or cannot function properly when used in tandem.
-  - If a prop only applies when a specific feature or mode is active, it must not be an unconstrained optional prop on a monolithic interface.
-- **Discriminate on `type` or Key Discriminant Props**:
-  - Distinguish mutually exclusive behaviors or configurations using discriminated unions on a `type` (or similar discriminant) prop.
-  - Explicitly mark conflicting properties as `never` (or omit them from incompatible branches) so TypeScript provides immediate compile-time errors if incompatible options are combined.
-  - Exemplified in [`useFocus`](file:///c:/Users/renri/repos/cumulo/packages/core/src/hooks/useFocus.ts):
-    ```ts
-    export type UseFocusOptions = {
-      restoreFocusOnUnmount?: boolean;
-      focusOnMount?: boolean;
-      onEscape?: () => void;
-      loop?: boolean;
-    } & (UseFocusNavigationOptions | UseFocusModalityOptions);
-
-    export interface UseFocusModalityOptions {
-      type: 'modality';
-      trap?: boolean;
-      onTabOut?: () => void;
-      navigation?: never;
-      itemSelector?: never;
-      rovingTabIndex?: never;
-    }
-
-    export interface UseFocusNavigationOptions {
-      type: 'navigation';
-      navigation: 'vertical' | 'horizontal' | 'both';
-      itemSelector?: string;
-      rovingTabIndex?: boolean;
-      trap?: never;
-      onTabOut?: never;
-    }
-    ```
-- **No `never` on Non-Existent Props**:
-  - In discriminated unions, `never` is used **only** for properties that explicitly exist on other branches of the union to prevent incompatible cross-usage.
-  - NEVER declare `never` for properties that were omitted or never part of the component/type in the first place (e.g. do not throw arbitrary `size?: never` or `role?: never` onto types that never accepted those props).
-- **Non-Configurable Semantic Invariants**:
-  - When a component has fixed, immutable platform semantics (e.g. `<Tooltip>` must always have `role="tooltip"` and `popover="manual"`), do NOT expose those attributes as configurable or overridable props. Hardcode them in the component implementation and omit them from the public prop interface (`Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'>`).
-
-### Compound Component & Slot Patterns (The `Field` Pattern)
-
-Cumulo prioritizes flexible, accessible component composition over monolithic, prop-heavy APIs. Follow the pattern demonstrated by `Field`:
-
-1. **Root + Subcomponents Export Structure**:
-   - Provide modular subcomponents: `FieldRoot`, `FieldInput`, `FieldLabel`, `FieldError`, `FieldDescription`, `FieldGroup`.
-   - Export both named components and a compound namespace object (e.g. `export const Field = { Root, Input, Label, Error, Description, Group };`).
-2. **Context-Driven Coordination**:
-   - Use a specialized context (e.g. `FieldContext`, `useFieldContext()`) for state and identifier sharing between subcomponents.
-   - Implement dynamic part registration (`registerPart(part, id)` with cleanup in `useEffect`) so children can dynamically inform the root of their presence without hardcoded hierarchy constraints.
-3. **Automatic Accessibility Wiring**:
-   - Seamlessly connect IDs (`aria-labelledby`, `aria-describedby`, `aria-invalid`, `htmlFor`) across subcomponents via context and generated IDs (`useId()`).
-   - Always allow user-provided IDs (`id`, `aria-labelledby`, `aria-describedby`, `htmlFor`) to override generated IDs.
-4. **State & Intent Synchronization**:
-   - Subcomponents should automatically reflect root state (e.g. `isInvalid` or error presence automatically propagates `intent="error"` and `aria-invalid={true}` to `FieldInput`).
+- [`useDismissible`](file:///packages/core/src/hooks/useDismissible.ts): Layer-isolated click-outside and Escape key stack dismissal.
+- [`useFocus`](file:///packages/core/src/hooks/useFocus.ts): Discriminated focus management (`type: 'modality'` for Dialog/Popover traps, `type: 'navigation'` for roving tabIndex / arrow keys).
+- [`useMergeRefs`](file:///packages/core/src/hooks/useMergeRefs.ts): Composes multiple internal and external React 19 refs.
+- [`usePartsRegistry`](file:///packages/core/src/hooks/usePartsRegistry.ts): Coordinates dynamic child component presence within compound parents.
+- [`useTheme`](file:///packages/core/src/theme/useTheme.ts): Controls active theme, color mode (`light`, `dark`, `system`), and resolved mode.
 
 ---
 
-## 4. Overlay, Focus & Dismissal Architecture
+## 2. How the Design System Works
 
-Cumulo uses modern web platform primitives for top-layer components alongside type-safe hooks:
+### 1. Styling with `@cumulo/css`
 
-### Modern Web Standards
+Cumulo uses an atomic, compile-time extracted CSS engine. **Do not use arbitrary inline style props.**
 
-- **Dialog**: Uses native HTML5 `<dialog>` with `.showModal()`, backdrop styling via `::backdrop`, and native `closedby="any"` / `cancel` events.
-- **Popover**: Uses native HTML `popover="auto"` with CSS Anchor Positioning (`position-anchor: --popover-<id>`, `anchor-name: --popover-<id>`, and `@position-try` fallbacks).
-- **Tooltip**: Dedicated component primitive that uses `<Popover>` under the hood (`PopoverRoot`, `PopoverTrigger trigger="hover"`, `PopoverContent variant="tooltip"`). Automatically sets native `popover="manual"`, `role="tooltip"`, and CSS Anchor Positioning without duplicating overlay logic, context, or hooks.
-- **Top-Layer vs Scroll Container Clipping**:
-  - In CSS, when a container has `overflow-y: auto`, any horizontal content overflowing the container automatically forces the browser to compute `overflow-x: auto`, triggering unwanted horizontal scrollbars (e.g. `scrollWidth > clientWidth` on `<Sidebar>`).
-  - Never use ad-hoc `position: absolute` floating tooltips inside scrollable containers. Always use native top-layer `<Tooltip>` which completely detaches the overlay from parent overflow clipping and scroll layout.
-- **Recipe Discrimination & Avoiding Duplicate Overlay Logic**:
-  - Rather than duplicating hooks, stacking, and anchor positioning logic across separate components, `<Tooltip>` delegates directly to `<Popover>` under the hood.
-  - The shared `popoverRecipe` uses discriminated variants (`variant: 'popover' | 'tooltip'`). To avoid variant bleed, `size: 'md'` must NOT be set in `defaultVariants`; instead, resolve default size conditionally when `variant === 'popover'`. Incompatible props (`size`, `loopFocus`, `closeOnTabOut`, `role`, `popover`) are strictly typed as `never` under `PopoverTooltipOptions` following the `useFocus` discriminated union pattern.
+- **Static Styles (`style`)**:
+  ```ts
+  import { style } from '@cumulo/css';
+  import { vars } from '../contract.js';
 
-### Dismissible Stacking (`useDismissible`)
+  export const containerStyle = style({
+    display: 'flex',
+    padding: vars.spacing.md,
+    borderRadius: vars.radius.md,
+    backgroundColor: vars.color.background.base,
+  });
+  ```
+- **Variant Recipes (`recipe`)**:
+  ```ts
+  import { recipe } from '@cumulo/css';
+  import { vars } from '../contract.js';
 
-- Stack coordination is managed by `useDismissible({ onDismiss, dismissOnClickOutside })`.
-- **Ref Attachment**: The returned ref must always be merged onto the element via `useMergeRefs` so DOM containment checks (`ref.current.contains(document.activeElement)`) function accurately.
-- **Layer Isolation**: Escape and outside interactions dismiss only the topmost active layer, preserving parent containers (such as a Dialog hosting a Popover).
+  export const buttonRecipe = recipe({
+    base: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      fontFamily: vars.font.sans,
+    },
+    variants: {
+      intent: {
+        primary: { backgroundColor: vars.color.primary.base, color: vars.color.primary.contrast },
+        neutral: { backgroundColor: vars.color.grey.base, color: vars.color.grey.contrast },
+      },
+      size: {
+        sm: { height: '28px', padding: `0 ${vars.spacing.xs}` },
+        md: { height: '36px', padding: `0 ${vars.spacing.sm}` },
+      },
+    },
+    defaultVariants: {
+      intent: 'primary',
+      size: 'md',
+    },
+  });
+  ```
+- **Class Merging (`cx`)**: Cleanly combines static styles, recipe outputs, and external class names (`className={cx(buttonRecipe({ intent, size }), className)}`).
+- **Recipe Default Variants Rule**:
+  `recipe()` automatically falls back to `defaultVariants` when a property is `undefined`. If a variant dimension (e.g. `size`) does not apply to all usages or variants, do **not** set it in `defaultVariants`. Instead, resolve it conditionally in the component or use compound variants.
 
-### Focus Trapping & Navigation (`useFocus`)
+### 2. Tokens, Themes & Color Modes
 
-- **Modality (`type: 'modality'`)**: Used for Dialogs and Popovers. Supports focus trapping (`trap`), focus wrapping on Tab / Shift+Tab, and optional tab-out dismissal (`onTabOut`).
-- **Navigation (`type: 'navigation'`)**: Used for menus, listboxes, and toolbars. Provides arrow key traversal and roving `tabIndex`.
+- **Design Token Contract**: Always consume tokens through `vars` (`contract.ts`).
+  - Colors: `vars.color.primary.*`, `vars.color.grey.*`, `vars.color.success.*`, `vars.color.error.*`, etc.
+  - Geometry: `vars.spacing.*`, `vars.radius.*`, `vars.shadow.*`, `vars.border.*`.
+  - Typography: `vars.font.*`, `vars.fontSize.*`, `vars.fontWeight.*`, `vars.lineHeight.*`.
+- **Theme vs Color Mode Decoupling**:
+  - **Theme**: Visual branding identity (`default`, `docs`, `cloud`). Configured via `[data-theme='...']` on `<html>`. Pure CSS variable overrides—avoid runtime `<style>` injection.
+  - **Color Mode**: Appearance (`light | dark | system`). Configured via `document.documentElement.style.colorScheme`.
+  - **Intrinsic Light/Dark Support**: All themes intrinsically support both modes using CSS `light-dark()` calculations. `'dark'` is **never** a theme name.
+- **Zero-FOUC Restoration**: Embed `<ThemeScript />` directly in HTML `<head>`. Manage modes via `useTheme()` and `<ThemeToggle />`.
 
----
+### 3. Component Composition Patterns
 
-## 5. Styling & Design Tokens (`@cumulo/css`)
-
-- **Token Consumption**: Always use `vars` from the contract (`contract.js` / `@cumulo/core`) for colors, spacing, typography, radii, shadows, and transitions (e.g. `vars.spacing.xs`, `vars.radius.lg`, `vars.font.sans`).
-- **Atomic & Scoped Styles**:
-  - Use `style({ ... })` for static, element-specific styles.
-  - Use `recipe({ base, variants, defaultVariants, extend }, debugName)` for components with multi-dimensional variants (e.g. `variant`, `intent`, `size`, `shape`, `width`).
-  - Use `cx()` for merging class names cleanly.
-  - Don't use arbitrary style props.
-  - Prefer using or creating core components where something doesn't exist when iterating on documentation or other apps/sites.
-- **Recipe Composition**: Combine shared variant styles (such as `allIntentStyles`, `sizes`) via the recipe's `extend` option.
-- **Recipe Default Variants Fallback**:
-  - `@cumulo/css` `recipe()` automatically falls back to `defaultVariants` whenever a variant property is `undefined`. If a variant dimension (such as `size`) does not apply to all usages or variants, do NOT set it in `defaultVariants`. Instead, resolve defaults explicitly in the component or use compound variants.
-
----
-
-## 6. Testing & Visual Regression Testing Standards
-
-- **Unit & Component Testing**: Use `vitest` with `jsdom` or `node` environments for core component tests and CSS logic tests (`packages/core/test`, `packages/css/test`).
-  - **Component Tests: Behavior Over Ceremony**:
-    - **Do NOT Test Styles or Recipes**: NEVER test styles, recipes, compiled classes, class names, or recipe variants in `@cumulo/core` unit tests (`expect(button.className).toContain(...)`, checking recipe return values, or asserting style objects is strictly forbidden). Styling and recipe mechanics belong solely in `@cumulo/css` tests, while visual regression tests in `@cumulo/fixtures` verify browser DOM computed styles.
-    - **No Framework Boilerplate Checks**: Do NOT test "merges className" (we already know `cx` works) or "forwards ref" (React 19 supports ref passing natively without custom forwarding).
-    - **Simple Smoke Tests for Leaf Wrappers**: Simple leaf/styled components (`Badge`, `Card`, `Surface`) only require a simple smoke render test (`it('renders without crashing')`).
-    - **Test Actual Behaviors on Interactive / Compound Primitives**:
-      - State transitions and callback contracts (uncontrolled vs controlled `onOpenChange`, `onCheckedChange`, `onValueChange`).
-      - Accessibility wiring (`aria-labelledby`, `aria-describedby`, `aria-expanded`, `aria-controls`, `aria-invalid`, `role`).
-      - Event guarding (`disabled` preventing clicks, toggles, or typing).
-      - Focus trapping, loop focus, roving tabIndex, and keyboard navigation (arrow keys, Tab wrapping, Escape dismissal).
-      - Context coordination and dynamic part registration/unregistration.
-  - **Jest-DOM Matchers & Invariant Narrowing**:
-    - Always ensure `import '@testing-library/jest-dom/vitest';` is present in test files using DOM matchers (`toBeInTheDocument`, `toBeDisabled`, `toBeChecked`, etc.).
-    - Never wrap assertions in soft condition blocks `if (el instanceof HTMLInputElement) { expect(...) }`. Throw an invariant error instead: `if (!(el instanceof HTMLInputElement)) throw new Error('Expected input to be an HTMLInputElement');` to guarantee assertions always run and types narrow cleanly without type assertions (`as`).
-  - _JSDOM Popover Note_: Because JSDOM does not natively simulate top-layer rendering for `popover="auto"`, avoid raw `toBeVisible()` assertions on native popovers in JSDOM unit tests; assert `toBeInTheDocument()` and `data-state="open"` attributes instead.
-- **Bundler Integration Testing (`@cumulo/fixtures`)**:
-  - Test compile-time CSS extraction and module transformation across supported bundlers (**Vite**, **Rollup**, **esbuild**, **Webpack**, and **Parcel**).
-  - Assert that generated JS imports reference valid class names and that extracted stylesheets contain complete rule sets for basic styles, pseudo-classes, media queries, keyframes, theme variables, overrides, recipe variants, compound variants, and extensions.
-- **Vitest Native Browser Visual Regression Testing**:
-  - Use Vitest Browser Mode with `@vitest/browser-playwright` and headless Chromium (`pnpm --filter @cumulo/fixtures test:browser`).
-  - Perform visual regression assertions with `expect(locator).toMatchScreenshot()`.
-  - Assert real browser DOM computed styles (`window.getComputedStyle`) alongside screenshot comparisons.
-  - CI manages canonical Linux baseline snapshots and runs fixtures in a dedicated parallel workflow job.
-
----
-
-## 7. Themes, Color Modes & Pure CSS Token Architecture
-
-- **Decouple Theme vs Color Mode**:
-  - **`Theme`**: Brand and visual identity (e.g. `'default'`, `'docs'`, `'cloud'`, or custom theme strings). Applied via the `[data-theme='...']` attribute on `document.documentElement`.
-  - **`ColorMode`**: Appearance mode (`'light' | 'dark' | 'system'`). Applied via `document.documentElement.style.colorScheme` and CSS `color-scheme`.
-  - **Intrinsic Light/Dark Support**: `'dark'` is NOT a theme name. All themes must intrinsically support both light and dark modes via CSS `light-dark()` calculations.
-- **Pure CSS Custom Themes**:
-  - Define custom themes using pure CSS variables under `[data-theme='<name>']` (e.g. overriding `--color-primary-base`, `--color-grey-base`, `--theme-font-mono`).
-  - Avoid runtime JavaScript DOM `<style>` injection for themes.
-- **Theme & Mode Management**:
-  - Use `useTheme()` from `@cumulo/core` for `theme`, `setTheme`, `mode`, `resolvedMode`, `systemMode`, `setMode`, and `toggleMode`.
-  - Use `<ThemeScript />` in HTML `<head>` for zero-FOUC restoration of both `data-theme` and `colorScheme`.
-  - Use `<ThemeToggle />` for toggling color appearance modes (`light`, `dark`, `system`).
+- **Compound Components (`Field` Pattern)**:
+  - Export modular components (`FieldRoot`, `FieldInput`, `FieldLabel`, etc.) plus compound namespace (`export const Field = { Root, Input, Label, Error, Description, Group };`).
+  - Use `FieldContext` and `usePartsRegistry` for dynamic subcomponent presence.
+  - Seamlessly coordinate IDs (`aria-labelledby`, `aria-describedby`, `aria-invalid`, `htmlFor`). Subcomponents automatically inherit state (e.g. invalid status propagates `intent="error"` to `FieldInput`).
+- **Modern Top-Layer Overlays**:
+  - `<Dialog>` uses native `<dialog>` with `.showModal()`, backdrop styling via `::backdrop`, and native `closedby="any"` / `cancel` events.
+  - `<Popover>` uses native `popover="auto"` with CSS Anchor Positioning (`position-anchor`, `anchor-name`, `@position-try`).
+  - `<Tooltip>` uses `<Popover>` under the hood (`popover="manual"`, `variant="tooltip"`). Because tooltips use native top-layer, they are **never clipped by parent scroll containers** (`overflow-y: auto` in `<Sidebar>`).
 
 ---
 
-## 8. No Barrel Files & Explicit Module Architecture
+## 3. TypeScript Standards & Strict Usage
 
-- **No Intermediary Barrel Files**: Do not create or use intermediate barrel files (such as `src/hooks/index.ts`, `src/tokens/index.ts`, `src/theme/index.ts`, `src/components/index.ts`, or `src/field/index.ts`).
-- **No Wildcard Exports (`export *`)**: Never use wildcard `export * from '...'` re-exports. Always use explicit named imports and exports (`export { Button, type ButtonProps } from '...'`) to ensure deterministic dead-code elimination, fast compiler evaluation, and compatibility with `oxc/no-barrel-file`.
-- **Direct Module Imports**: Internal modules must import directly from specific files (e.g. `../hooks/useFocus.js`, `../theme/theme.js`, `../components/Input.js`).
-- **Granular Package Subpath Exports**: Public packages expose subpaths in `package.json` (`"exports"` field with `./components/*`, `./hooks/*`, `./tokens/*`, `./theme/*`, `./contract`, etc.) allowing consumers to import specific primitives directly without loading the entire library.
-- **Never Export Private Styles or Types from Root Index**: Do NOT export internal/private styling recipes, utility functions, or private types from package root entrypoints (e.g. `packages/core/src/index.ts`). Internal layout, intents, and typography styling modules (`layout.ts`, `intents.ts`, `typography.ts`) are modular utilities intended for direct module consumption (`../layout.js`, `../intents.js`, `../typography.js`) or specific subpath exports in `package.json`, keeping the root index clean and focused solely on canonical public component APIs, theme tokens, and hooks.
+Strict type safety is non-negotiable across the monorepo.
+
+### Zero `any` & No Type Casting (`as Type`)
+
+- **NEVER use `any`**. Use `unknown` with narrowing, type guards (`is`), or discriminated unions.
+- **Do NOT use `as` casting** to bypass compiler checks or silence errors.
+- **Invariant Narrowing in Tests**: Throw invariant errors instead of casting DOM elements:
+  ```ts
+  // Correct:
+  if (!(input instanceof HTMLInputElement))
+    throw new Error('Expected input to be HTMLInputElement');
+  expect(input).toBeDisabled();
+
+  // Forbidden:
+  expect((input as HTMLInputElement).disabled).toBe(true);
+  ```
+
+### Strict Function & Factory Return Typing
+
+Always annotate return types directly on functions, factories, and hook callbacks (`(): ReturnType => ...`) rather than passing generic parameters to outer calls (e.g. `useMemo<Type>(...)`):
+
+```ts
+// Correct: preserves strict excess property checking on object literals
+const contextValue = useMemo((): FieldContextValue => ({
+  id,
+  isInvalid,
+  registerPart,
+}), [id, isInvalid, registerPart]);
+
+// Forbidden: generic parameter bypasses excess property checks
+const contextValue = useMemo<FieldContextValue>(() => ({ ... }), [deps]);
+```
+
+Annotating the return signature directly (`(): Type => ({ ... })`) ensures TypeScript enforces exact property shapes and flags invalid or extraneous properties on returned object literals.
+
+### Discriminated Unions for Mutually Exclusive Options
+
+Avoid monolithic prop types with loose optional flags that permit conflicting states. Model mutually exclusive behaviors using a discriminant:
+
+```ts
+export type UseFocusOptions = {
+  restoreFocusOnUnmount?: boolean;
+  loop?: boolean;
+} & (UseFocusNavigationOptions | UseFocusModalityOptions);
+
+export interface UseFocusModalityOptions {
+  type: 'modality';
+  trap?: boolean;
+  onTabOut?: () => void;
+  navigation?: never;
+  itemSelector?: never;
+  rovingTabIndex?: never;
+}
+
+export interface UseFocusNavigationOptions {
+  type: 'navigation';
+  navigation: 'vertical' | 'horizontal' | 'both';
+  itemSelector?: string;
+  rovingTabIndex?: boolean;
+  trap?: never;
+  onTabOut?: never;
+}
+```
+
+- **Rule for `never`**: Only use `never` on properties that exist on other union branches to block cross-usage. Never declare `never` for properties not part of the component or interface.
+
+### React 19 Props & Semantic Invariants
+
+- **Extend `ElementProps<T>`**: Component props must extend `ElementProps<T>` from [`packages/core/src/ElementProps.ts`](file:///packages/core/src/ElementProps.ts) (never raw `React.HTMLAttributes<T>`).
+- **Pass `ref` Directly**: React 19 components accept `ref?: React.Ref<T>` directly as a prop. Avoid `React.forwardRef`. Merge refs via `useMergeRefs(...)`.
+- **Non-Configurable Semantic Invariants**: If an element has fixed platform semantics (e.g. `<Tooltip>` must always have `role="tooltip"` and `popover="manual"`), hardcode them internally and omit them from the public prop interface (`Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'>`).
+- **Monorepo TSConfig**: **Never** set `"rootDir"` in workspace package `tsconfig.json` files (breaks cross-package source resolution during builds).
 
 ---
 
-## 9. PR Metrics, Benchmarking & Automation
+## 4. Code Standards & Architecture Rules
 
-- **PR Metrics Pipeline (`scripts/pr-metrics`)**:
-  - Automatically runs on pull requests via `.github/workflows/pr-metrics.yml` to track public API surface changes and bundle sizes against the base branch.
-  - **API Diffing (`api-diff.ts`)**: AST-based TypeScript declaration parsing inspired by React Spectrum (`compareAPIs.js`).
-    - Strips JSDoc and normalizes signatures (props destructuring, sorted interface keys).
-    - Cleans up `RecipeFunction` variants to prevent CSS rule bloat.
-    - Generates compact unified diffs (````diff) per symbol (`/<pkg>:<symbol>`).
-    - Deduplicates re-exports between root index and subpaths.
-  - **Bundle Sizing (`bundle-size.ts`)**:
-    - Discovers and measures build targets across packages, components, hooks, tokens, and themes (raw, gzip, brotli).
-    - Formats PR comments with a **single combined diff value** and a collapsible `<details>` breakdown containing individual modules (changed modules sorted to the top).
-  - **Shared CLI Utilities (`cli-utils.ts`)**:
-    - Shared argument parsing, output writing, and direct execution detection to avoid code duplication across scripts.
-- **Benchmarking**:
-  - Microbenchmarks reside in `packages/*/bench/` (e.g. `packages/css/bench/css.bench.ts`).
-  - Run via `pnpm bench:css` or `pnpm bench`.
-- **Changeset Release Workflow**:
-  - Changesets are tracked in `.changeset/`.
-  - Prerelease channel is enabled via `changeset pre enter <tag>` (e.g. `alpha`).
-  - Version bumping is run via `npx changeset version` (or `pnpm version`), publishing via `pnpm release`.
+### Zero Barrel Files (`oxc/no-barrel-file`)
+
+- **No Intermediate Barrel Files**: Never create or maintain files like `src/components/index.ts`, `src/hooks/index.ts`, or `src/tokens/index.ts`.
+- **No Wildcard Exports**: Never use `export * from '...'`. Use explicit named exports:
+  ```ts
+  export { Button, type ButtonProps, type ButtonVariants } from './components/Button.js';
+  ```
+- **Direct Module Imports**: Internal files must import directly from target source files (`import { useFocus } from '../hooks/useFocus.js';`).
+- **Clean Root Exports**: Do **not** export private styling utilities (`layout.ts`, `intents.ts`, `typography.ts`) or private recipes from the root entrypoint (`packages/core/src/index.ts`). Export only canonical public components, tokens, and hooks. Subpaths are configured via `package.json` exports.
+
+### Component Testing Standards (`packages/core/test/`)
+
+- **Behavior Over Ceremony**:
+  - **NEVER test styles, CSS classes, or recipe outputs** in component unit tests (`expect(el.className).toContain(...)` is strictly forbidden). Style compilation is tested in `@cumulo/css`; DOM computed styles are tested in `@cumulo/fixtures`.
+  - **No boilerplate checks**: Do not test "merges className" or "forwards ref".
+  - **Leaf components** (`Card`, `Surface`, `Badge`): Require only a simple smoke render test (`it('renders without crashing')`).
+  - **Interactive & compound primitives**: Test actual accessibility wiring (`aria-*`), state transitions (controlled vs uncontrolled), event guards (`disabled`), focus trapping, roving tabIndex, and dynamic part registration.
+  - **JSDOM Popover Note**: Because JSDOM does not render top layers for `popover="auto"`, assert `toBeInTheDocument()` and `data-state="open"` rather than raw `toBeVisible()`. Always import `@testing-library/jest-dom/vitest`.
+
+### Documentation & Docgen
+
+- **NEVER Manually Edit Docgen Files**: `apps/docs/docgen/components/*.json` are strictly read-only artifacts generated by `@renr/parcel-reporter-docgen` at build time.
+- **JSDoc Authoring**: All documentation prop tables (`<PropsTable data={...Doc} />`) are extracted from JSDoc comments (`/** ... */`) on component TypeScript interfaces. Always document props with clear JSDoc descriptions.
 
 ---
 
-## 10. Documentation & Docgen Automation
+## 5. Key Workflows & CLI Commands
 
-- **NEVER Manually Edit or Create Docgen Files**:
-  - Files under `apps/docs/docgen/components/*.json` are **strictly read-only artifacts** automatically generated during build by `@renr/parcel-reporter-docgen` from TypeScript component interfaces and JSDoc comments.
-  - NEVER manually edit, add, or commit handwritten JSON files in `docgen/components/`.
-- **Prop Descriptions from JSDoc Comments**:
-  - All component prop descriptions, default values, and deprecation notes displayed in the documentation `<PropsTable data={...Doc} />` come directly from JSDoc comments (`/** ... */`) written above the interface fields in the source files. Always author comprehensive JSDoc comments on component prop types.
+```bash
+# Development & Build
+pnpm dev                  # Run tsdown watchers across workspace
+pnpm build                # Build all packages & documentation site
+pnpm --filter @cumulo/core dev   # Develop core library
+pnpm --filter @cumulo/docs dev   # Run documentation site locally
+
+# Quality & Verification
+pnpm check                # Full check: type-check + lint:fix + format (Run before every commit)
+pnpm type-check           # Root and workspace TypeScript type checking
+pnpm test                 # Run all Vitest unit and bundler tests
+pnpm --filter @cumulo/fixtures test:browser  # Vitest native Chromium visual regression tests
+pnpm bench                # Run microbenchmarks (packages/css/bench/)
+
+# Release Management
+pnpm changeset            # Generate a new changeset
+pnpm version              # Bump package versions from changesets
+```
