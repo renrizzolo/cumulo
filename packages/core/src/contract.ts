@@ -115,6 +115,7 @@ export const vars = {
     },
     weight: {
       bold: 'var(--theme-font-weight-bold)',
+      light: 'var(--theme-font-weight-light)',
       medium: 'var(--theme-font-weight-medium)',
       normal: 'var(--theme-font-weight-normal)',
       semibold: 'var(--theme-font-weight-semibold)',
