@@ -186,30 +186,32 @@
       },
       "shortPropTypeName": null
     },
-    "className": {
-      "defaultValue": null,
+    "inline": {
+      "defaultValue": {
+        "value": "true"
+      },
       "description": "",
-      "name": "className",
+      "name": "inline",
       "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | undefined"
+        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
       },
-      "shortPropTypeName": "string | function"
+      "shortPropTypeName": "Union"
     },
-    "direction": {
+    "flex": {
       "defaultValue": null,
       "description": "",
-      "name": "direction",
+      "name": "flex",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Stack.tsx",
         "name": "StackProps"
@@ -223,22 +225,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"row\""
+            "value": "\"initial\""
           },
           {
-            "value": "\"column\""
+            "value": "\"none\""
           },
           {
-            "value": "\"column-reverse\""
+            "value": "\"auto\""
           },
           {
-            "value": "\"row-reverse\""
+            "value": "1"
           }
         ]
       },
@@ -294,6 +296,128 @@
           },
           {
             "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "\"wrap-reverse\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "width": {
+      "defaultValue": null,
+      "description": "",
+      "name": "width",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"full\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"full\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "",
+      "name": "direction",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "\"column\""
+          },
+          {
+            "value": "\"column-reverse\""
+          },
+          {
+            "value": "\"row-reverse\""
           }
         ]
       },
@@ -379,130 +503,6 @@
           },
           {
             "value": "\"evenly\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "wrap": {
-      "defaultValue": null,
-      "description": "",
-      "name": "wrap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"wrap-reverse\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "inline": {
-      "defaultValue": {
-        "value": "true"
-      },
-      "description": "",
-      "name": "inline",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
-      },
-      "shortPropTypeName": "Union"
-    },
-    "flex": {
-      "defaultValue": null,
-      "description": "",
-      "name": "flex",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"auto\""
-          },
-          {
-            "value": "\"initial\""
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "1"
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "width": {
-      "defaultValue": null,
-      "description": "",
-      "name": "width",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"full\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"full\""
           }
         ]
       },
