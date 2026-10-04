@@ -35,10 +35,13 @@ export const useButtonGroupContext = (): ButtonGroupContextValue => {
   return context;
 };
 
-export interface ButtonGroupRootProps extends Omit<StackProps, 'defaultValue' | 'onChange'> {
-  value?: string;
+export interface ButtonGroupRootProps<T extends string = string> extends Omit<
+  StackProps,
+  'defaultValue' | 'onChange'
+> {
+  value?: T;
   defaultValue?: string;
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: T) => void;
   orientation?: ButtonGroupOrientation;
   size?: ButtonGroupSize;
   disabled?: boolean;
@@ -46,7 +49,7 @@ export interface ButtonGroupRootProps extends Omit<StackProps, 'defaultValue' | 
   children?: ReactNode;
 }
 
-export function ButtonGroupRoot({
+export function ButtonGroupRoot<T extends string>({
   value: controlledValue,
   defaultValue = '',
   onValueChange,
@@ -65,7 +68,7 @@ export function ButtonGroupRoot({
   children,
   ref,
   ...props
-}: ButtonGroupRootProps): React.JSX.Element {
+}: ButtonGroupRootProps<T>): React.JSX.Element {
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : uncontrolledValue;
@@ -75,7 +78,7 @@ export function ButtonGroupRoot({
       if (!isControlled) {
         setUncontrolledValue(nextValue);
       }
-      onValueChange?.(nextValue);
+      onValueChange?.(nextValue as T);
     },
     [isControlled, onValueChange],
   );

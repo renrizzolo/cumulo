@@ -111,7 +111,7 @@ const tabContentStyle = style(
 const cardGridStyle = style(
   {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
     gap: vars.spacing.lg,
     width: '100%',
     alignItems: 'stretch',
@@ -198,7 +198,7 @@ const preStyle = style(
 
 export interface ThemeConfig {
   name: string;
-  intentStyle: 'solid' | 'pastel';
+  intentStyle: 'solid' | 'pastel' | 'pastel-dark';
   colors: {
     primary: string;
     success: string;
@@ -268,17 +268,18 @@ const DEFAULT_THEME: ThemeConfig = {
   },
 };
 
-interface PresetTheme {
+interface PresetThemeShape {
   id: string;
   name: string;
   badge: string;
   config: Partial<Omit<ThemeConfig, 'scales' | 'fonts'>> & {
     scales?: Partial<ThemeConfig['scales']>;
     fonts?: Partial<ThemeConfig['fonts']>;
+    intentStyle?: ThemeConfig['intentStyle'];
   };
 }
 
-const PRESET_THEMES: PresetTheme[] = [
+const PRESET_THEMES = [
   {
     id: 'default',
     name: 'Default Blue',
@@ -457,7 +458,9 @@ const PRESET_THEMES: PresetTheme[] = [
       },
     },
   },
-];
+] satisfies PresetThemeShape[];
+
+type PresetTheme = (typeof PRESET_THEMES)[number];
 
 const RADIUS_PRESETS = [
   {
@@ -769,7 +772,7 @@ const SPACING_CONFIGS: Array<{ key: keyof ThemeConfig['spacing']; label: string 
 
 export function ThemeBuilder(): React.JSX.Element {
   const [theme, setTheme] = useState<ThemeConfig>(DEFAULT_THEME);
-  const [activePresetId, setActivePresetId] = useState<string>('default');
+  const [activePresetId, setActivePresetId] = useState<PresetTheme['id']>('default');
   const [localColors, setLocalColors] = useState<ThemeConfig['colors']>(DEFAULT_THEME.colors);
   const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<string>('colors');
@@ -857,10 +860,6 @@ export function ThemeBuilder(): React.JSX.Element {
         ...prev.radii,
         ...preset.config.radii,
       },
-      spacing: {
-        ...prev.spacing,
-        ...preset.config.spacing,
-      },
       fonts: nextFonts,
     }));
   };
@@ -903,7 +902,31 @@ export function ThemeBuilder(): React.JSX.Element {
   --theme-info-bg: light-dark(var(--theme-info-100), var(--theme-info-900));
   --theme-info-hover: light-dark(var(--theme-info-200), var(--theme-info-800));
   --theme-info-fg: light-dark(var(--theme-info-800), var(--theme-info-100));`
-        : '';
+        : theme.intentStyle === 'pastel-dark'
+          ? `
+
+  /* Intent Style: Pastel (Dark Mode Only) */
+  --theme-primary: light-dark(var(--theme-primary-600), var(--theme-primary-900));
+  --theme-primary-hover: light-dark(var(--theme-primary-700), var(--theme-primary-800));
+  --theme-primary-fg: light-dark(var(--color-white), var(--theme-primary-100));
+  --theme-primary-border: light-dark(var(--theme-primary-200), var(--theme-primary-700));
+
+  --theme-success-bg: light-dark(var(--theme-success-600), var(--theme-success-900));
+  --theme-success-hover: light-dark(var(--theme-success-700), var(--theme-success-800));
+  --theme-success-fg: light-dark(#ffffff, var(--theme-success-100));
+
+  --theme-warning-bg: light-dark(var(--theme-warning-600), var(--theme-warning-900));
+  --theme-warning-hover: light-dark(var(--theme-warning-700), var(--theme-warning-800));
+  --theme-warning-fg: light-dark(#ffffff, var(--theme-warning-100));
+
+  --theme-error-bg: light-dark(var(--theme-error-600), var(--theme-error-900));
+  --theme-error-hover: light-dark(var(--theme-error-700), var(--theme-error-800));
+  --theme-error-fg: light-dark(#ffffff, var(--theme-error-100));
+
+  --theme-info-bg: light-dark(var(--theme-info-600), var(--theme-info-900));
+  --theme-info-hover: light-dark(var(--theme-info-700), var(--theme-info-800));
+  --theme-info-fg: light-dark(#ffffff, var(--theme-info-100));`
+          : '';
 
     return `${fontImport}${selector} {
   /* Seed Colors */
@@ -1096,12 +1119,15 @@ export function ThemeBuilder(): React.JSX.Element {
                           onValueChange={(val) =>
                             setTheme((prev) => ({
                               ...prev,
-                              intentStyle: val as 'solid' | 'pastel',
+                              intentStyle: val,
                             }))
                           }
                         >
                           <ButtonGroup.Item value="solid">Solid</ButtonGroup.Item>
                           <ButtonGroup.Item value="pastel">Pastel</ButtonGroup.Item>
+                          <ButtonGroup.Item value="pastel-dark">
+                            Pastel (dark mode only)
+                          </ButtonGroup.Item>
                         </ButtonGroup.Root>
                       </VStack>
 
@@ -1322,374 +1348,346 @@ export function ThemeBuilder(): React.JSX.Element {
         <div className={showcaseAreaStyle.className}>
           <VStack gap="xl">
             {/* Live Theme Scoped Preview Container */}
-            <div
-              data-theme="theme-builder-preview"
-              data-intent-style={theme.intentStyle}
-              className={fullWidthStyle.className}
-            >
-              <VStack gap="xl">
-                {/* UI Component Showcase Section */}
-                <>
-                  <VStack gap="lg">
-                    {/* Responsive Grid of Cards */}
-                    <div className={cardGridStyle.className}>
-                      {/* Card 1: Registration Form */}
-                      <Card level={0} padding="lg">
-                        <VStack gap="lg">
-                          <Header
-                            size="md"
-                            title="Create Account"
-                            description="Form inputs and state validation."
-                            actions={
-                              <Badge variant="secondary" intent="primary">
-                                Form
-                              </Badge>
-                            }
-                          />
+            <Surface bordered={false} level={1} padding="lg">
+              <div
+                data-theme="theme-builder-preview"
+                data-intent-style={theme.intentStyle}
+                className={fullWidthStyle.className}
+              >
+                <VStack gap="xl">
+                  {/* UI Component Showcase Section: 4 Balanced Representative Cards */}
+                  <div className={cardGridStyle.className}>
+                    {/* Card 1: Registration Form */}
+                    <Card level={0} padding="lg">
+                      <VStack gap="lg">
+                        <Header
+                          size="md"
+                          title="Create Account"
+                          description="Form inputs, descriptions, and state validation."
+                          actions={
+                            <Badge variant="secondary" intent="primary">
+                              Form
+                            </Badge>
+                          }
+                        />
 
-                          <Divider />
+                        <Divider />
 
-                          <Field.Group>
-                            <Field.Root>
-                              <Field.Label>Email Address</Field.Label>
-                              <Field.Input
-                                type="email"
-                                placeholder="alex@company.com"
-                                defaultValue="alex@company.com"
-                              />
-                              <Field.Description>We will never share your email.</Field.Description>
-                            </Field.Root>
+                        <Field.Group>
+                          <Field.Root>
+                            <Field.Label>Email Address</Field.Label>
+                            <Field.Input
+                              type="email"
+                              placeholder="alex@company.com"
+                              defaultValue="alex@company.com"
+                            />
+                            <Field.Description>
+                              We will never share your email address.
+                            </Field.Description>
+                          </Field.Root>
 
-                            <Field.Root>
-                              <Field.Label>Password</Field.Label>
-                              <Field.Input type="password" defaultValue="secretPassword123" />
-                            </Field.Root>
+                          <Field.Root>
+                            <Field.Label>Password</Field.Label>
+                            <Field.Input type="password" defaultValue="secretPassword123" />
+                          </Field.Root>
 
-                            <Field.Root>
-                              <HStack gap="xs" align="center">
-                                <Field.Checkbox defaultChecked />
-                                <Field.Label>I accept the terms and privacy policy</Field.Label>
-                              </HStack>
-                            </Field.Root>
-                          </Field.Group>
-
-                          <HStack
-                            gap="sm"
-                            align="center"
-                            justify="between"
-                            className={marginTopAutoStyle.className}
-                          >
-                            <Button variant="ghost" size="sm">
-                              Sign In Instead
-                            </Button>
-                            <Button variant="primary">Create Account</Button>
-                          </HStack>
-                        </VStack>
-                      </Card>
-
-                      {/* Card 2: Settings & Preferences */}
-                      <Card level={0} padding="lg">
-                        <VStack gap="lg">
-                          <Header
-                            size="md"
-                            title="Account Preferences"
-                            description="Switches, textareas, and secondary actions."
-                            actions={
-                              <Badge variant="secondary" intent="success">
-                                Settings
-                              </Badge>
-                            }
-                          />
-
-                          <Divider />
-
-                          <Field.Group>
-                            <Field.Root>
-                              <Field.Label>Public Bio</Field.Label>
-                              <Field.Textarea
-                                rows={3}
-                                defaultValue="Frontend design system engineer passionate about accessible interfaces and mathematical CSS color spaces."
-                              />
-                            </Field.Root>
-
-                            <Field.Root>
-                              <HStack justify="between" align="start">
-                                <VStack gap="xs">
-                                  <Field.Label>Two-Factor Authentication</Field.Label>
-                                  <Field.Description>
-                                    Enhanced security for account logins
-                                  </Field.Description>
-                                </VStack>
-                                <Field.Switch defaultChecked />
-                              </HStack>
-                            </Field.Root>
-
-                            <Field.Root>
-                              <HStack justify="between" align="start">
-                                <VStack gap="xs">
-                                  <Field.Label>Email Digest</Field.Label>
-                                  <Field.Description>
-                                    Weekly product updates and reports
-                                  </Field.Description>
-                                </VStack>
-                                <Field.Switch defaultChecked />
-                              </HStack>
-                            </Field.Root>
-                          </Field.Group>
-
-                          <HStack
-                            gap="sm"
-                            align="center"
-                            justify="end"
-                            className={marginTopAutoStyle.className}
-                          >
-                            <Button variant="outline" intent="error" size="sm">
-                              Discard
-                            </Button>
-                            <Button variant="primary" size="sm">
-                              Save Changes
-                            </Button>
-                          </HStack>
-                        </VStack>
-                      </Card>
-
-                      {/* Card 3: Metrics & Data Table */}
-                      <Card level={0} padding="lg">
-                        <VStack gap="lg">
-                          <Header
-                            size="md"
-                            title="Team & Subscriptions"
-                            description="Bordered data table and intent badges."
-                            actions={
-                              <Badge variant="primary" intent="success">
-                                +18.4% MRR
-                              </Badge>
-                            }
-                          />
-
-                          <VStack gap="sm" align="baseline">
-                            <Heading as="h3" size="2xl">
-                              $38,450
-                            </Heading>
-                            <Text type="caption" color="muted">
-                              Total active plan billing
-                            </Text>
-                          </VStack>
-
-                          <Table variant="default" interactive>
-                            <TableHeader>
-                              <TableRow>
-                                <TableHead>Member</TableHead>
-                                <TableHead>Role</TableHead>
-                                <TableHead>Status</TableHead>
-                              </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                              <TableRow>
-                                <TableCell>Alex Rivera</TableCell>
-                                <TableCell>
-                                  <Badge variant="primary">Admin</Badge>
-                                </TableCell>
-                                <TableCell>
-                                  <Badge variant="secondary" intent="success">
-                                    Active
-                                  </Badge>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>Morgan Blake</TableCell>
-                                <TableCell>
-                                  <Badge variant="secondary">Editor</Badge>
-                                </TableCell>
-                                <TableCell>
-                                  <Badge variant="secondary" intent="warning">
-                                    Pending
-                                  </Badge>
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>Taylor Reed</TableCell>
-                                <TableCell>
-                                  <Badge variant="outline">Viewer</Badge>
-                                </TableCell>
-                                <TableCell>
-                                  <Badge variant="secondary" intent="error">
-                                    Paused
-                                  </Badge>
-                                </TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </Table>
-
-                          <HStack
-                            justify="between"
-                            align="center"
-                            className={marginTopAutoStyle.className}
-                          >
-                            <Text type="caption" color="muted">
-                              3 members active
-                            </Text>
-                            <Button variant="secondary" size="sm">
-                              Manage Team
-                            </Button>
-                          </HStack>
-                        </VStack>
-                      </Card>
-
-                      {/* Card 4: Interactive Primitives & Dialog */}
-                      <Card level={0} padding="lg">
-                        <VStack gap="lg">
-                          <Header
-                            size="md"
-                            title="Interactive Primitives"
-                            description="Intent variants, buttons, and native modal dialog."
-                            actions={
-                              <Badge variant="outline" intent="info">
-                                Overlays
-                              </Badge>
-                            }
-                          />
-
-                          <Divider />
-
-                          {/* Button Intents */}
-                          <VStack gap="sm" align="start">
-                            <Text type="label">Button intents</Text>
-                            <HStack gap="xs" wrap="wrap">
-                              <Button size="sm" variant="primary">
-                                Primary
-                              </Button>
-                              <Button size="sm" variant="secondary">
-                                Secondary
-                              </Button>
-                              <Button size="sm" variant="outline" intent="success">
-                                Success
-                              </Button>
-                              <Button size="sm" variant="outline" intent="warning">
-                                Warning
-                              </Button>
-                              <Button size="sm" variant="outline" intent="error">
-                                Error
-                              </Button>
+                          <Field.Root>
+                            <HStack gap="xs" align="center">
+                              <Field.Checkbox defaultChecked />
+                              <Field.Label>I accept the terms and privacy policy</Field.Label>
                             </HStack>
-                          </VStack>
+                          </Field.Root>
+                        </Field.Group>
 
-                          {/* Badges */}
-                          <VStack gap="sm" align="start">
-                            <Text type="label">Badge intents</Text>
-                            <HStack gap="xs" wrap="wrap">
-                              <Badge variant="primary" intent="primary">
-                                Primary
-                              </Badge>
-                              <Badge variant="primary" intent="success">
-                                Success
-                              </Badge>
-                              <Badge variant="primary" intent="warning">
-                                Warning
-                              </Badge>
-                              <Badge variant="primary" intent="error">
-                                Error
-                              </Badge>
-                              <Badge variant="primary" intent="info">
-                                Info
-                              </Badge>
+                        <HStack
+                          gap="sm"
+                          align="center"
+                          justify="between"
+                          className={marginTopAutoStyle.className}
+                        >
+                          <Button variant="ghost" size="sm">
+                            Sign In Instead
+                          </Button>
+                          <Button variant="primary" size="sm">
+                            Create Account
+                          </Button>
+                        </HStack>
+                      </VStack>
+                    </Card>
+
+                    {/* Card 2: Settings & Preferences */}
+                    <Card level={0} padding="lg">
+                      <VStack gap="lg">
+                        <Header
+                          size="md"
+                          title="Account Preferences"
+                          description="Switches, textareas, and secondary actions."
+                          actions={
+                            <Badge variant="secondary" intent="success">
+                              Settings
+                            </Badge>
+                          }
+                        />
+
+                        <Divider />
+
+                        <Field.Group>
+                          <Field.Root>
+                            <Field.Label>Public Bio</Field.Label>
+                            <Field.Textarea
+                              rows={3}
+                              defaultValue="Frontend design system engineer passionate about accessible interfaces and mathematical CSS color spaces."
+                            />
+                          </Field.Root>
+
+                          <Field.Root>
+                            <HStack justify="between" align="start">
+                              <VStack gap="xs">
+                                <Field.Label>Two-Factor Authentication</Field.Label>
+                                <Field.Description>
+                                  Enhanced security for account logins
+                                </Field.Description>
+                              </VStack>
+                              <Field.Switch defaultChecked />
                             </HStack>
-                          </VStack>
+                          </Field.Root>
 
-                          <Divider />
+                          <Field.Root>
+                            <HStack justify="between" align="start">
+                              <VStack gap="xs">
+                                <Field.Label>Email Digest</Field.Label>
+                                <Field.Description>
+                                  Weekly product updates and reports
+                                </Field.Description>
+                              </VStack>
+                              <Field.Switch defaultChecked />
+                            </HStack>
+                          </Field.Root>
+                        </Field.Group>
 
-                          {/* Native Modal Dialog */}
-                          <VStack gap="sm" align="start">
-                            <Text type="label">Dialog</Text>
-                            <DialogRoot>
-                              <DialogTrigger variant="secondary" width="full">
-                                Open Theme Modal Dialog
-                              </DialogTrigger>
-                              <DialogContent>
+                        <HStack
+                          gap="sm"
+                          align="center"
+                          justify="end"
+                          className={marginTopAutoStyle.className}
+                        >
+                          <Button variant="outline" intent="error" size="sm">
+                            Discard
+                          </Button>
+                          <Button variant="primary" size="sm">
+                            Save Changes
+                          </Button>
+                        </HStack>
+                      </VStack>
+                    </Card>
+
+                    {/* Card 3: Metrics & Data Table */}
+                    <Card level={0} padding="lg">
+                      <VStack gap="lg">
+                        <Header
+                          size="md"
+                          title="Team & Subscriptions"
+                          description="Bordered data table and intent badges."
+                          actions={
+                            <Badge variant="primary" intent="success">
+                              +18.4% MRR
+                            </Badge>
+                          }
+                        />
+
+                        <VStack gap="sm" align="baseline">
+                          <Heading as="h3" size="2xl">
+                            $38,450
+                          </Heading>
+                          <Text type="caption" color="muted">
+                            Total active plan billing
+                          </Text>
+                        </VStack>
+
+                        <Table variant="default" interactive>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead>Member</TableHead>
+                              <TableHead>Role</TableHead>
+                              <TableHead>Status</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>Alex Rivera</TableCell>
+                              <TableCell>
+                                <Badge variant="primary">Admin</Badge>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="secondary" intent="success">
+                                  Active
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Morgan Blake</TableCell>
+                              <TableCell>
+                                <Badge variant="secondary">Editor</Badge>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="secondary" intent="warning">
+                                  Pending
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Taylor Reed</TableCell>
+                              <TableCell>
+                                <Badge variant="outline">Viewer</Badge>
+                              </TableCell>
+                              <TableCell>
+                                <Badge variant="secondary" intent="error">
+                                  Paused
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+
+                        <HStack
+                          justify="between"
+                          align="center"
+                          className={marginTopAutoStyle.className}
+                        >
+                          <Text type="caption" color="muted">
+                            3 members active
+                          </Text>
+                          <Button variant="secondary" size="sm">
+                            Manage Team
+                          </Button>
+                        </HStack>
+                      </VStack>
+                    </Card>
+
+                    {/* Card 4: Interactive Primitives & Dialog */}
+                    <Card level={0} padding="lg">
+                      <VStack gap="lg">
+                        <Header
+                          size="md"
+                          title="Interactive Primitives"
+                          description="Intent styles, buttons, badges, and native dialog."
+                          actions={
+                            <Badge variant="secondary" intent="info">
+                              Overlays
+                            </Badge>
+                          }
+                        />
+
+                        <Divider />
+
+                        {/* Button Intents - directly showcases solid vs pastel styling */}
+                        <VStack gap="sm" align="start">
+                          <Text type="label">Button intents</Text>
+                          <HStack gap="xs" wrap="wrap">
+                            <Button size="sm" variant="primary" intent="primary">
+                              Primary
+                            </Button>
+                            <Button size="sm" variant="primary" intent="success">
+                              Success
+                            </Button>
+                            <Button size="sm" variant="primary" intent="warning">
+                              Warning
+                            </Button>
+                            <Button size="sm" variant="primary" intent="error">
+                              Error
+                            </Button>
+                            <Button size="sm" variant="primary" intent="info">
+                              Info
+                            </Button>
+                          </HStack>
+                        </VStack>
+
+                        {/* Button Variants */}
+                        <VStack gap="sm" align="start">
+                          <Text type="label">Button variants</Text>
+                          <HStack gap="xs" wrap="wrap">
+                            <Button size="sm" variant="secondary">
+                              Secondary
+                            </Button>
+                            <Button size="sm" variant="outline">
+                              Outline
+                            </Button>
+                            <Button size="sm" variant="ghost">
+                              Ghost
+                            </Button>
+                          </HStack>
+                        </VStack>
+
+                        {/* Badges across all intents */}
+                        <VStack gap="sm" align="start">
+                          <Text type="label">Badge intents</Text>
+                          <HStack gap="xs" wrap="wrap">
+                            <Badge variant="primary" intent="primary">
+                              Primary
+                            </Badge>
+                            <Badge variant="primary" intent="success">
+                              Success
+                            </Badge>
+                            <Badge variant="primary" intent="warning">
+                              Warning
+                            </Badge>
+                            <Badge variant="primary" intent="error">
+                              Error
+                            </Badge>
+                            <Badge variant="primary" intent="info">
+                              Info
+                            </Badge>
+                          </HStack>
+                        </VStack>
+
+                        <Divider />
+
+                        {/* Native Modal Dialog */}
+                        <div className={marginTopAutoStyle.className}>
+                          <DialogRoot>
+                            <DialogTrigger variant="secondary" size="sm" width="full">
+                              Open Theme Modal Dialog
+                            </DialogTrigger>
+                            <DialogContent>
+                              <VStack gap="lg">
                                 <DialogHeader>
                                   <DialogTitle>Custom Theme Modal</DialogTitle>
                                   <DialogDescription>
-                                    This is a native HTML5 dialog.
+                                    This is a native HTML5 dialog styled with the active theme
+                                    tokens.
                                   </DialogDescription>
                                 </DialogHeader>
 
                                 <HStack justify="end" gap="sm">
-                                  <DialogClose variant="ghost">Dismiss</DialogClose>
-                                  <DialogClose variant="primary">Confirm</DialogClose>
+                                  <DialogClose variant="ghost" size="sm">
+                                    Dismiss
+                                  </DialogClose>
+                                  <DialogClose variant="primary" size="sm">
+                                    Confirm
+                                  </DialogClose>
                                 </HStack>
-                              </DialogContent>
-                            </DialogRoot>
-                          </VStack>
-                        </VStack>
-                      </Card>
-
-                      {/* Card 5: Inquiries & Message Composer */}
-                      <Card level={0} padding="lg">
-                        <VStack gap="lg">
-                          <Header
-                            size="md"
-                            title="Support Inquiry"
-                            description="Compound field integration with helper state."
-                            actions={<Badge variant="outline">Helpdesk</Badge>}
-                          />
-
-                          <Divider />
-
-                          <Field.Group>
-                            <Field.Root>
-                              <Field.Label>Inquiry Topic</Field.Label>
-                              <Field.Input placeholder="e.g. Design token integration question" />
-                            </Field.Root>
-
-                            <Field.Root>
-                              <Field.Label>Message</Field.Label>
-                              <Field.Textarea
-                                rows={3}
-                                placeholder="Please describe how we can assist you..."
-                                defaultValue="Can I override --color-primary-base dynamically at runtime per user organization?"
-                              />
-                              <Field.Description>
-                                Response time usually under 2 hours.
-                              </Field.Description>
-                            </Field.Root>
-
-                            <Field.Root>
-                              <HStack gap="xs" align="center">
-                                <Field.Checkbox defaultChecked />
-                                <Field.Label>Attach system diagnostics and theme JSON</Field.Label>
-                              </HStack>
-                            </Field.Root>
-                          </Field.Group>
-
-                          <HStack
-                            justify="between"
-                            align="center"
-                            className={marginTopAutoStyle.className}
-                          >
-                            <Badge variant="secondary" intent="info">
-                              Standard Priority
-                            </Badge>
-                            <Button variant="primary">Submit Ticket</Button>
-                          </HStack>
-                        </VStack>
-                      </Card>
-                    </div>
-                  </VStack>
-                </>
-                {/* Color Palette Shades Section */}
-                <Card level={0} padding="lg">
-                  <VStack gap="lg">
-                    <Header
-                      size="md"
-                      title="Color Palette Shades"
-                      description="50–900 OKLCH stepped scales calculated via chroma curves and relative color syntax from the seed colors."
-                    />
-                    <Divider />
-                    <ColorTokens />
-                  </VStack>
-                </Card>
+                              </VStack>
+                            </DialogContent>
+                          </DialogRoot>
+                        </div>
+                      </VStack>
+                    </Card>
+                  </div>
+                </VStack>
+              </div>
+            </Surface>
+            {/* Color Palette Shades Section */}
+            <Card level={0} padding="lg">
+              <VStack gap="lg">
+                <Header
+                  size="md"
+                  title="Color Palette Shades"
+                  description="50–900 OKLCH stepped scales calculated via chroma curves and relative color syntax from the seed colors."
+                />
+                <Divider />
+                <ColorTokens />
               </VStack>
-            </div>
+            </Card>
           </VStack>
         </div>
       </div>
