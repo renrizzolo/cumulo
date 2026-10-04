@@ -187,12 +187,6 @@ export { useTheme, type UseThemeReturn } from './theme/useTheme.js';
 // hooks
 export { useDismissible } from './hooks/useDismissible.js';
 export { useFocus } from './hooks/useFocus.js';
-export {
-  useSidebar,
-  SidebarContext,
-  type SidebarContextValue,
-  type SidebarPosition,
-} from './hooks/useSidebar.js';
 
 // App Layout & Frame Primitives
 export {
@@ -216,12 +210,18 @@ export {
   SidebarFooter,
   sidebarContract,
   sidebarRecipe,
+  useSidebar,
+  SidebarContext,
+  type SidebarContextValue,
   type SidebarProps,
   type SidebarProviderProps,
   type SidebarRootProps,
+  type SidebarVariants,
   type SidebarType,
   type SidebarVariant,
-  type SidebarVariants,
+  type SidebarPosition,
+  type SidebarHoverBehavior,
+  type SidebarLevel,
   type SidebarToggleProps,
   type SidebarHeaderProps,
   type SidebarFooterProps,
@@ -236,7 +236,6 @@ export {
   SideNavGroupContent,
   sideNavContract,
   type SideNavProps,
-  type SideNavVariants,
   type SideNavItemProps,
   type SideNavGroupProps,
   type SideNavGroupTriggerProps,
@@ -247,7 +246,6 @@ export {
   AppFrame,
   AppFrameRoot,
   AppFrameMain,
-  frameContract,
   type AppFrameProps,
   type AppFrameVariants,
   type AppFrameMainProps,
