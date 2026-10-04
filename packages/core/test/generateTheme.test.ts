@@ -15,38 +15,31 @@ describe('Theme Generator & CLI', () => {
     expect(result.canonicalVars[2]).toBe('--theme-shadow-1');
     expect(result.canonicalVars[3]).toBe('--theme-shadow-2');
 
-    // 2. Radius tokens follow shadow tokens
-    expect(result.canonicalVars[4]).toBe('--theme-radius-none');
-    expect(result.canonicalVars[5]).toBe('--theme-radius-md');
-    expect(result.canonicalVars[6]).toBe('--theme-radius-lg');
-
-    // 3. Inspect generated contract code contains keys in source order
+    // 2. Inspect generated contract code contains keys in source order
     const shadowIndex = result.contractCode.indexOf('shadow: {');
-    const radiusIndex = result.contractCode.indexOf('radius: {');
     const sizeIndex = result.contractCode.indexOf('size: {');
     const containerIndex = result.contractCode.indexOf('container: {');
     const spacingIndex = result.contractCode.indexOf('spacing: {');
 
-    expect(shadowIndex).toBeLessThan(radiusIndex);
-    expect(radiusIndex).toBeLessThan(sizeIndex);
+    expect(shadowIndex).toBeLessThan(sizeIndex);
     expect(sizeIndex).toBeLessThan(containerIndex);
     expect(containerIndex).toBeLessThan(spacingIndex);
 
-    // 4. Nested radius keys in size order (none -> md -> lg -> xl -> 2xl -> full)
-    const noneIndex = result.contractCode.indexOf("none: 'var(--theme-radius-none)'");
-    const mdIndex = result.contractCode.indexOf("md: 'var(--theme-radius-md)'");
-    const lgIndex = result.contractCode.indexOf("lg: 'var(--theme-radius-lg)'");
-    const xlIndex = result.contractCode.indexOf("xl: 'var(--theme-radius-xl)'");
-    const x2lIndex = result.contractCode.indexOf("'2xl': 'var(--theme-radius-2xl)'");
-    const fullIndex = result.contractCode.indexOf("full: 'var(--theme-radius-full)'");
+    // 3. Nested spacing keys in size order (none -> 3xs -> 2xs -> xs -> sm -> md -> lg -> xl -> 2xl)
+    const noneIndex = result.contractCode.indexOf("none: 'var(--theme-spacing-none)'");
+    const xsIndex = result.contractCode.indexOf("xs: 'var(--theme-spacing-xs)'");
+    const smIndex = result.contractCode.indexOf("sm: 'var(--theme-spacing-sm)'");
+    const mdIndex = result.contractCode.indexOf("md: 'var(--theme-spacing-md)'");
+    const lgIndex = result.contractCode.indexOf("lg: 'var(--theme-spacing-lg)'");
+    const xlIndex = result.contractCode.indexOf("xl: 'var(--theme-spacing-xl)'");
 
-    expect(noneIndex).toBeLessThan(mdIndex);
+    expect(noneIndex).toBeLessThan(xsIndex);
+    expect(xsIndex).toBeLessThan(smIndex);
+    expect(smIndex).toBeLessThan(mdIndex);
     expect(mdIndex).toBeLessThan(lgIndex);
     expect(lgIndex).toBeLessThan(xlIndex);
-    expect(xlIndex).toBeLessThan(x2lIndex);
-    expect(x2lIndex).toBeLessThan(fullIndex);
 
-    // 5. Steps order (50 comes before 100, not alphabetical)
+    // 4. Steps order (50 comes before 100, not alphabetical)
     const step50Index = result.contractCode.indexOf("'50': 'var(--theme-error-50)'");
     const step100Index = result.contractCode.indexOf("'100': 'var(--theme-error-100)'");
     const step200Index = result.contractCode.indexOf("'200': 'var(--theme-error-200)'");
@@ -61,7 +54,7 @@ describe('Theme Generator & CLI', () => {
   it('overlays custom consumer CSS overrides onto doc comments without adding new vars', async () => {
     const customCss = `
       :root {
-        --theme-radius-md: 16px;
+        --theme-spacing-md: 16px;
         --color-primary-base: #ec4899;
         --theme-font-sans: 'Geist Sans', sans-serif;
         --nonexistent-custom-property: 42px;
@@ -73,7 +66,7 @@ describe('Theme Generator & CLI', () => {
     });
 
     // Overridden variables should be tracked
-    expect(result.overriddenVars).toContain('--theme-radius-md');
+    expect(result.overriddenVars).toContain('--theme-spacing-md');
     expect(result.overriddenVars).toContain('--color-primary-base');
     expect(result.overriddenVars).toContain('--theme-font-sans');
 
@@ -83,7 +76,7 @@ describe('Theme Generator & CLI', () => {
 
     // Contract JSDoc comments should reflect the custom values
     expect(result.contractCode).toContain('/** 16px */');
-    expect(result.contractCode).toContain("md: 'var(--theme-radius-md)'");
+    expect(result.contractCode).toContain("md: 'var(--theme-spacing-md)'");
 
     expect(result.contractCode).toContain('/** #ec4899 */');
     expect(result.contractCode).toContain("primary: 'var(--color-primary-base)'");
@@ -93,7 +86,7 @@ describe('Theme Generator & CLI', () => {
 
     // Non-overridden variables retain default comments
     expect(result.contractCode).toContain('/** 0px */');
-    expect(result.contractCode).toContain("none: 'var(--theme-radius-none)'");
+    expect(result.contractCode).toContain("none: 'var(--theme-spacing-none)'");
 
     // Standalone code should also reflect overrides
     expect(result.standaloneCode).toContain('/** 16px */');
@@ -107,7 +100,7 @@ describe('Theme Generator & CLI', () => {
 
     const customCss = `
       [data-theme='brand'] {
-        --theme-radius-md: 8px;
+        --theme-spacing-md: 8px;
       }
     `;
 
@@ -123,7 +116,7 @@ describe('Theme Generator & CLI', () => {
     expect(content).toContain('export const themeTokens = [');
     expect(content).toContain('export const themeVars = {');
     expect(content).toContain('/** 8px */');
-    expect(content).toContain("md: 'var(--theme-radius-md)'");
+    expect(content).toContain("md: 'var(--theme-spacing-md)'");
 
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
@@ -137,7 +130,7 @@ describe('Theme Generator & CLI', () => {
       customCssFile,
       `
       :root {
-        --theme-radius-lg: 24px;
+        --theme-spacing-lg: 24px;
       }
     `,
     );
@@ -147,7 +140,7 @@ describe('Theme Generator & CLI', () => {
     expect(fs.existsSync(outFile)).toBe(true);
     const content = fs.readFileSync(outFile, 'utf-8');
     expect(content).toContain('/** 24px */');
-    expect(content).toContain("lg: 'var(--theme-radius-lg)'");
+    expect(content).toContain("lg: 'var(--theme-spacing-lg)'");
 
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
