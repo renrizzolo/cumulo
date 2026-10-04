@@ -85,7 +85,6 @@ const sidebarStyle = style(
         position: 'static',
         top: 'auto',
         maxHeight: 'none',
-        overflowY: 'visible',
       },
     },
   },
@@ -111,7 +110,7 @@ const tabContentStyle = style(
 const cardGridStyle = style(
   {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
     gap: vars.spacing.lg,
     width: '100%',
     alignItems: 'stretch',

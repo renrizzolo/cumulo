@@ -15,7 +15,7 @@ export const buttonRecipe = recipe(
       fontFamily: vars.font.sans,
       fontWeight: vars.font.weight.medium,
       borderRadius: vars.radius.control,
-
+      whiteSpace: 'nowrap',
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'transparent',
