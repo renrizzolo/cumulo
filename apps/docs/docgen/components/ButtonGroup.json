@@ -61,7 +61,7 @@
       ],
       "required": false,
       "type": {
-        "name": "((value: string) => void) | undefined"
+        "name": "((value: T) => void) | undefined"
       },
       "shortPropTypeName": "function"
     },

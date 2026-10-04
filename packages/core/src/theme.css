@@ -1130,6 +1130,80 @@
     --theme-info-hover: light-dark(var(--theme-info-200), var(--theme-info-800));
     --theme-info-fg: light-dark(var(--theme-info-800), var(--theme-info-100));
   }
+
+  /* Pastel (dark mode only): Solid bold intents in light mode, soft pastel backgrounds in dark mode */
+  :root[data-intent-style='pastel-dark'],
+  [data-theme][data-intent-style='pastel-dark'],
+  [data-intent-style='pastel-dark'] {
+    --theme-primary: light-dark(var(--theme-primary-600), var(--theme-primary-900));
+    --theme-primary-hover: light-dark(var(--theme-primary-700), var(--theme-primary-800));
+    --theme-primary-fg: light-dark(var(--color-white), var(--theme-primary-100));
+    --theme-primary-border: light-dark(var(--theme-primary-200), var(--theme-primary-700));
+
+    --theme-success-bg: light-dark(var(--theme-success-600), var(--theme-success-900));
+    --theme-success-hover: light-dark(var(--theme-success-700), var(--theme-success-800));
+    --theme-success-fg: light-dark(#ffffff, var(--theme-success-100));
+
+    --theme-warning-bg: light-dark(var(--theme-warning-600), var(--theme-warning-900));
+    --theme-warning-hover: light-dark(var(--theme-warning-700), var(--theme-warning-800));
+    --theme-warning-fg: light-dark(#ffffff, var(--theme-warning-100));
+
+    --theme-error-bg: light-dark(var(--theme-error-600), var(--theme-error-900));
+    --theme-error-hover: light-dark(var(--theme-error-700), var(--theme-error-800));
+    --theme-error-fg: light-dark(#ffffff, var(--theme-error-100));
+
+    --theme-info-bg: light-dark(var(--theme-info-600), var(--theme-info-900));
+    --theme-info-hover: light-dark(var(--theme-info-700), var(--theme-info-800));
+    --theme-info-fg: light-dark(#ffffff, var(--theme-info-100));
+  }
+
+  @supports (color: contrast-color(white)) {
+    :root[data-intent-style='pastel-dark'],
+    [data-theme][data-intent-style='pastel-dark'],
+    [data-intent-style='pastel-dark'] {
+      --theme-primary-fg: light-dark(
+        contrast-color(var(--theme-primary)),
+        var(--theme-primary-100)
+      );
+      --theme-success-fg: light-dark(
+        contrast-color(var(--theme-success-bg)),
+        var(--theme-success-100)
+      );
+      --theme-warning-fg: light-dark(
+        contrast-color(var(--theme-warning-bg)),
+        var(--theme-warning-100)
+      );
+      --theme-error-fg: light-dark(contrast-color(var(--theme-error-bg)), var(--theme-error-100));
+      --theme-info-fg: light-dark(contrast-color(var(--theme-info-bg)), var(--theme-info-100));
+    }
+  }
+
+  @supports (color: color-contrast(white vs white, black)) {
+    :root[data-intent-style='pastel-dark'],
+    [data-theme][data-intent-style='pastel-dark'],
+    [data-intent-style='pastel-dark'] {
+      --theme-primary-fg: light-dark(
+        color-contrast(var(--theme-primary) vs white, black),
+        var(--theme-primary-100)
+      );
+      --theme-success-fg: light-dark(
+        color-contrast(var(--theme-success-bg) vs white, black),
+        var(--theme-success-100)
+      );
+      --theme-warning-fg: light-dark(
+        color-contrast(var(--theme-warning-bg) vs white, black),
+        var(--theme-warning-100)
+      );
+      --theme-error-fg: light-dark(
+        color-contrast(var(--theme-error-bg) vs white, black),
+        var(--theme-error-100)
+      );
+      --theme-info-fg: light-dark(
+        color-contrast(var(--theme-info-bg) vs white, black),
+        var(--theme-info-100)
+      );
+    }
+  }
 }
 
 @layer components {
