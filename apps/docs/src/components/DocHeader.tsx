@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import type { PageProps } from '@parcel/rsc';
+import type { PageProps } from '@renr/parcel-rsc-router';
 import { style } from '@cumulo/css';
 import { Link } from '@renr/parcel-rsc-router';
 import { Surface, HStack, VStack, Button, Heading, Text, vars, useDismissible } from '@cumulo/core';

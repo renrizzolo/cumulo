@@ -15,6 +15,7 @@ import { recipe, style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
+import { VStack } from './Stack.js';
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
 export type CollapsiblePart = 'trigger' | 'content';
@@ -52,11 +53,6 @@ export interface CollapsibleProps extends ElementProps<HTMLDivElement> {
   disabled?: boolean;
   children?: ReactNode;
 }
-
-const collapsibleRootStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-});
 
 export function CollapsibleRoot({
   open: controlledOpen,
@@ -104,16 +100,16 @@ export function CollapsibleRoot({
 
   return (
     <CollapsibleContext.Provider value={contextValue}>
-      <div
+      <VStack
         ref={ref}
         id={id}
         data-state={open ? 'open' : 'closed'}
         data-disabled={disabled ? '' : undefined}
-        className={cx(collapsibleRootStyle, className)}
+        className={className}
         {...props}
       >
         {children}
-      </div>
+      </VStack>
     </CollapsibleContext.Provider>
   );
 }

@@ -13,7 +13,7 @@ export const codeRecipe = recipe(
       borderRadius: vars.radius.md,
       borderWidth: 1,
       borderStyle: 'solid',
-      padding: ` ${vars.spacing['2xs']} ${vars.spacing['2xs']}`,
+      padding: `${vars.spacing['xs']} ${vars.spacing['xs']}`,
       lineHeight: vars.line.height.normal,
       display: 'inline-block',
       verticalAlign: 'baseline',

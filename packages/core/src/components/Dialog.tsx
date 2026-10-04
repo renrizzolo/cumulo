@@ -12,7 +12,7 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
-import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
@@ -22,6 +22,7 @@ import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { useFocus } from '../hooks/useFocus.js';
 import { useDismissible } from '../hooks/useDismissible.js';
+import { Flow } from './Flow.js';
 
 export type DialogPart = 'title' | 'description' | 'content';
 
@@ -287,13 +288,6 @@ export function DialogContent({
  * DialogHeader
  * -----------------------------------------------------------------------------------------------*/
 
-const dialogHeaderStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing['2xs'],
-  marginBottom: vars.spacing.md,
-});
-
 export function DialogHeader({
   className,
   children,
@@ -301,9 +295,9 @@ export function DialogHeader({
   ...props
 }: ElementProps<HTMLDivElement>): React.JSX.Element {
   return (
-    <div ref={ref} className={cx(dialogHeaderStyle, className)} {...props}>
+    <Flow ref={ref} className={className} {...props}>
       {children}
-    </div>
+    </Flow>
   );
 }
 
@@ -343,7 +337,7 @@ export function DialogDescription({
   id: providedId,
   className,
   children,
-  color = 'muted',
+  color = 'default',
   ...props
 }: TextProps): React.JSX.Element {
   const { descriptionId, registerPart } = useDialogContext();

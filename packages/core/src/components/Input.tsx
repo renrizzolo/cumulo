@@ -15,7 +15,7 @@ export const inputRecipe = recipe(
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
-      borderRadius: vars.radius.md,
+      borderRadius: vars.radius.control,
       outline: 'none',
       boxSizing: 'border-box',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,

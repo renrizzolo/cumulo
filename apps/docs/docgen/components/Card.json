@@ -59,16 +59,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
+        "raw": "\"default\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           }
         ]
       },
@@ -180,10 +180,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
+        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "1"
           },
           {
             "value": "\"initial\""
@@ -193,9 +196,6 @@
           },
           {
             "value": "\"auto\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -220,7 +220,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"full\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -241,10 +241,10 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"full\""
+            "value": "\"2xl\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"full\""
           }
         ]
       },

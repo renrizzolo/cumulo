@@ -3,6 +3,26 @@
   "path": "packages/core/src/components/Surface.tsx",
   "fileName": "Surface.tsx",
   "props": {
+    "bordered": {
+      "defaultValue": null,
+      "description": "Sometimes it's desired to have the background colour only.",
+      "name": "bordered",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+      },
+      "shortPropTypeName": "Union"
+    },
     "level": {
       "defaultValue": {
         "value": "1"
@@ -136,7 +156,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
+        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"control\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -158,6 +178,9 @@
           },
           {
             "value": "\"2xl\""
+          },
+          {
+            "value": "\"control\""
           },
           {
             "value": "\"full\""

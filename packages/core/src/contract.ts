@@ -4,18 +4,20 @@ import { type themeVars } from './tokens/themeTokens.js';
 
 export const vars = {
   shadow: {
-    /** 0 1px 2px 0 var(--shadow-color) */
+    /** 0 1px 3px 0 var(--shadow-color) */
     '0': 'var(--theme-shadow-0)',
     /** 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color) */
     '1': 'var(--theme-shadow-1)',
     /** 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color) */
     '2': 'var(--theme-shadow-2)',
-    /** light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5)) */
+    /** light-dark(rgb(0 0 0 / 0.07), rgb(0 0 0 / 0.5)) */
     color: 'var(--shadow-color)',
   },
   radius: {
     /** 0px */
     none: 'var(--theme-radius-none)',
+    /** 0.375rem */
+    control: 'var(--theme-radius-control)',
     /** 0.375rem */
     md: 'var(--theme-radius-md)',
     /** 0.5rem */
@@ -28,6 +30,12 @@ export const vars = {
     full: 'var(--theme-radius-full)',
   },
   size: {
+    /** 0.75rem */
+    '4xs': 'var(--theme-size-4xs)',
+    /** 1rem */
+    '3xs': 'var(--theme-size-3xs)',
+    /** 1.25rem */
+    '2xs': 'var(--theme-size-2xs)',
     /** 1.5rem */
     xs: 'var(--theme-size-xs)',
     /** 2rem */
@@ -136,7 +144,7 @@ export const vars = {
   bg: {
     /** light-dark(#ffffff, #030712) */
     '0': 'var(--theme-bg-0)',
-    /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 1.5%), color-mix(in oklch, var(--theme-bg-0), white 8%) ) */
+    /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 1.2%), color-mix(in oklch, var(--theme-bg-0), white 8%) ) */
     '1': 'var(--theme-bg-1)',
     /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 3.5%), color-mix(in oklch, var(--theme-bg-0), white 12%) ) */
     '2': 'var(--theme-bg-2)',
@@ -147,9 +155,9 @@ export const vars = {
   },
   /** light-dark(#0f172a, #f8fafc) */
   fg: 'var(--theme-fg)',
-  /** light-dark(#475569, #94a3b8) */
+  /** var(--theme-grey-700) */
   muted: 'var(--theme-muted)',
-  /** light-dark(#94a3b8, #64748b) */
+  /** var(--theme-grey-500) */
   subtle: 'var(--theme-subtle)',
   /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 12%), color-mix(in oklch, var(--theme-bg-0), white 17%) ) */
   border: 'var(--theme-border)',
@@ -175,14 +183,18 @@ export const vars = {
     /** 1 */
     scale: 'var(--theme-contrast-scale)',
   },
+  lightness: {
+    /** 0 */
+    offset: 'var(--theme-lightness-offset)',
+  },
   step: {
     '50': {
       /** 0.04 */
       t: 'var(--theme-step-50-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-50-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-50-l-dark)',
       },
       /** calc(sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale)) */
@@ -194,9 +206,9 @@ export const vars = {
       /** 0.08 */
       t: 'var(--theme-step-100-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-100-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-100-l-dark)',
       },
       /** calc(sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale)) */
@@ -208,9 +220,9 @@ export const vars = {
       /** 0.16 */
       t: 'var(--theme-step-200-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-200-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-200-l-dark)',
       },
       /** calc(sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale)) */
@@ -222,9 +234,9 @@ export const vars = {
       /** 0.28 */
       t: 'var(--theme-step-300-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-300-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-300-l-dark)',
       },
       /** calc(sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale)) */
@@ -236,9 +248,9 @@ export const vars = {
       /** 0.4 */
       t: 'var(--theme-step-400-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-400-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-400-l-dark)',
       },
       /** calc(sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale)) */
@@ -250,9 +262,9 @@ export const vars = {
       /** 0.55 */
       t: 'var(--theme-step-500-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-500-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-500-l-dark)',
       },
       /** calc(sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale)) */
@@ -264,9 +276,9 @@ export const vars = {
       /** 0.65 */
       t: 'var(--theme-step-600-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-600-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-600-l-dark)',
       },
       /** calc(sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale)) */
@@ -278,9 +290,9 @@ export const vars = {
       /** 0.78 */
       t: 'var(--theme-step-700-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-700-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-700-l-dark)',
       },
       /** calc(sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale)) */
@@ -292,9 +304,9 @@ export const vars = {
       /** 0.88 */
       t: 'var(--theme-step-800-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-800-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-800-l-dark)',
       },
       /** calc(sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale)) */
@@ -306,9 +318,9 @@ export const vars = {
       /** 0.95 */
       t: 'var(--theme-step-900-t)',
       l: {
-        /** calc( 0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-900-l-light)',
-        /** calc( 0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         dark: 'var(--theme-step-900-l-dark)',
       },
       /** calc(sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale)) */
@@ -465,7 +477,7 @@ export const vars = {
         /** light-dark(var(--theme-error-100), var(--theme-error-200)) */
         hover: 'var(--theme-error-secondary-bg-hover)',
       },
-      /** var(--theme-error-700) */
+      /** var(--theme-error-600) */
       fg: 'var(--theme-error-secondary-fg)',
       /** light-dark(var(--theme-error-200), var(--theme-error-300)) */
       border: 'var(--theme-error-secondary-border)',

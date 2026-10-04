@@ -6,11 +6,15 @@ export const themeTokens = [
   '--theme-shadow-1',
   '--theme-shadow-2',
   '--theme-radius-none',
+  '--theme-radius-control',
   '--theme-radius-md',
   '--theme-radius-lg',
   '--theme-radius-xl',
   '--theme-radius-2xl',
   '--theme-radius-full',
+  '--theme-size-4xs',
+  '--theme-size-3xs',
+  '--theme-size-2xs',
   '--theme-size-xs',
   '--theme-size-sm',
   '--theme-size-md',
@@ -71,6 +75,7 @@ export const themeTokens = [
   '--color-grey-base',
   '--theme-chroma-scale',
   '--theme-contrast-scale',
+  '--theme-lightness-offset',
   '--theme-step-50-t',
   '--theme-step-100-t',
   '--theme-step-200-t',
@@ -250,9 +255,9 @@ export const themeTokens = [
 export type ThemeToken = (typeof themeTokens)[number];
 
 export const themeVars = {
-  /** light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5)) */
+  /** light-dark(rgb(0 0 0 / 0.07), rgb(0 0 0 / 0.5)) */
   '--shadow-color': 'var(--shadow-color)',
-  /** 0 1px 2px 0 var(--shadow-color) */
+  /** 0 1px 3px 0 var(--shadow-color) */
   '--theme-shadow-0': 'var(--theme-shadow-0)',
   /** 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color) */
   '--theme-shadow-1': 'var(--theme-shadow-1)',
@@ -260,6 +265,8 @@ export const themeVars = {
   '--theme-shadow-2': 'var(--theme-shadow-2)',
   /** 0px */
   '--theme-radius-none': 'var(--theme-radius-none)',
+  /** 0.375rem */
+  '--theme-radius-control': 'var(--theme-radius-control)',
   /** 0.375rem */
   '--theme-radius-md': 'var(--theme-radius-md)',
   /** 0.5rem */
@@ -270,6 +277,12 @@ export const themeVars = {
   '--theme-radius-2xl': 'var(--theme-radius-2xl)',
   /** 9999px */
   '--theme-radius-full': 'var(--theme-radius-full)',
+  /** 0.75rem */
+  '--theme-size-4xs': 'var(--theme-size-4xs)',
+  /** 1rem */
+  '--theme-size-3xs': 'var(--theme-size-3xs)',
+  /** 1.25rem */
+  '--theme-size-2xs': 'var(--theme-size-2xs)',
   /** 1.5rem */
   '--theme-size-xs': 'var(--theme-size-xs)',
   /** 2rem */
@@ -358,7 +371,7 @@ export const themeVars = {
   '--theme-line-height-relaxed': 'var(--theme-line-height-relaxed)',
   /** light-dark(#ffffff, #030712) */
   '--theme-bg-0': 'var(--theme-bg-0)',
-  /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 1.5%), color-mix(in oklch, var(--theme-bg-0), white 8%) ) */
+  /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 1.2%), color-mix(in oklch, var(--theme-bg-0), white 8%) ) */
   '--theme-bg-1': 'var(--theme-bg-1)',
   /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 3.5%), color-mix(in oklch, var(--theme-bg-0), white 12%) ) */
   '--theme-bg-2': 'var(--theme-bg-2)',
@@ -368,9 +381,9 @@ export const themeVars = {
   '--theme-bg-4': 'var(--theme-bg-4)',
   /** light-dark(#0f172a, #f8fafc) */
   '--theme-fg': 'var(--theme-fg)',
-  /** light-dark(#475569, #94a3b8) */
+  /** var(--theme-grey-700) */
   '--theme-muted': 'var(--theme-muted)',
-  /** light-dark(#94a3b8, #64748b) */
+  /** var(--theme-grey-500) */
   '--theme-subtle': 'var(--theme-subtle)',
   /** light-dark( color-mix(in oklch, var(--theme-bg-0), black 12%), color-mix(in oklch, var(--theme-bg-0), white 17%) ) */
   '--theme-border': 'var(--theme-border)',
@@ -390,6 +403,8 @@ export const themeVars = {
   '--theme-chroma-scale': 'var(--theme-chroma-scale)',
   /** 1 */
   '--theme-contrast-scale': 'var(--theme-contrast-scale)',
+  /** 0 */
+  '--theme-lightness-offset': 'var(--theme-lightness-offset)',
   /** 0.04 */
   '--theme-step-50-t': 'var(--theme-step-50-t)',
   /** 0.08 */
@@ -410,81 +425,81 @@ export const themeVars = {
   '--theme-step-800-t': 'var(--theme-step-800-t)',
   /** 0.95 */
   '--theme-step-900-t': 'var(--theme-step-900-t)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-50-l-light': 'var(--theme-step-50-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-50-l-dark': 'var(--theme-step-50-l-dark)',
   /** calc(sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-50-c': 'var(--theme-step-50-c)',
   /** 12 */
   '--theme-step-50-h': 'var(--theme-step-50-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-100-l-light': 'var(--theme-step-100-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-100-l-dark': 'var(--theme-step-100-l-dark)',
   /** calc(sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-100-c': 'var(--theme-step-100-c)',
   /** 8 */
   '--theme-step-100-h': 'var(--theme-step-100-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-200-l-light': 'var(--theme-step-200-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-200-l-dark': 'var(--theme-step-200-l-dark)',
   /** calc(sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-200-c': 'var(--theme-step-200-c)',
   /** 4 */
   '--theme-step-200-h': 'var(--theme-step-200-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-300-l-light': 'var(--theme-step-300-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-300-l-dark': 'var(--theme-step-300-l-dark)',
   /** calc(sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-300-c': 'var(--theme-step-300-c)',
   /** 0 */
   '--theme-step-300-h': 'var(--theme-step-300-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-400-l-light': 'var(--theme-step-400-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-400-l-dark': 'var(--theme-step-400-l-dark)',
   /** calc(sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-400-c': 'var(--theme-step-400-c)',
   /** 0 */
   '--theme-step-400-h': 'var(--theme-step-400-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-500-l-light': 'var(--theme-step-500-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-500-l-dark': 'var(--theme-step-500-l-dark)',
   /** calc(sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-500-c': 'var(--theme-step-500-c)',
   /** 0 */
   '--theme-step-500-h': 'var(--theme-step-500-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-600-l-light': 'var(--theme-step-600-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-600-l-dark': 'var(--theme-step-600-l-dark)',
   /** calc(sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-600-c': 'var(--theme-step-600-c)',
   /** 0 */
   '--theme-step-600-h': 'var(--theme-step-600-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-700-l-light': 'var(--theme-step-700-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-700-l-dark': 'var(--theme-step-700-l-dark)',
   /** calc(sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-700-c': 'var(--theme-step-700-c)',
   /** -4 */
   '--theme-step-700-h': 'var(--theme-step-700-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-800-l-light': 'var(--theme-step-800-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-800-l-dark': 'var(--theme-step-800-l-dark)',
   /** calc(sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-800-c': 'var(--theme-step-800-c)',
   /** -8 */
   '--theme-step-800-h': 'var(--theme-step-800-h)',
-  /** calc( 0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-900-l-light': 'var(--theme-step-900-l-light)',
-  /** calc( 0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) ) */
+  /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
   '--theme-step-900-l-dark': 'var(--theme-step-900-l-dark)',
   /** calc(sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale)) */
   '--theme-step-900-c': 'var(--theme-step-900-c)',
@@ -662,7 +677,7 @@ export const themeVars = {
   '--theme-error-secondary-bg': 'var(--theme-error-secondary-bg)',
   /** light-dark(var(--theme-error-100), var(--theme-error-200)) */
   '--theme-error-secondary-bg-hover': 'var(--theme-error-secondary-bg-hover)',
-  /** var(--theme-error-700) */
+  /** var(--theme-error-600) */
   '--theme-error-secondary-fg': 'var(--theme-error-secondary-fg)',
   /** light-dark(var(--theme-error-200), var(--theme-error-300)) */
   '--theme-error-secondary-border': 'var(--theme-error-secondary-border)',

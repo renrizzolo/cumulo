@@ -76,6 +76,28 @@ describe('@cumulo/css', () => {
       const sheetCss = getSheetCss();
       expect(sheetCss).toContain(':root{--c-color-brand:#6366f1;--c-color-accent:#ec4899;}');
     });
+
+    it('sets theme contract values via contract.$set() with proper prefix', () => {
+      const contract = createThemeContract(
+        {
+          th: {
+            bg: null,
+            color: null,
+          },
+        },
+        'table',
+      );
+
+      const vars = contract.$set({
+        th: {
+          bg: '#ffffff',
+        },
+      });
+
+      expect(vars).toEqual({
+        '--table-th-bg': '#ffffff',
+      });
+    });
   });
 
   describe('style & create', () => {

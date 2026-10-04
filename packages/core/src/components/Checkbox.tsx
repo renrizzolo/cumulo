@@ -15,8 +15,8 @@ export const checkboxRecipe = recipe(
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
-      width: vars.font.size.lg,
-      height: vars.font.size.lg,
+      width: vars.size['2xs'],
+      height: vars.size['2xs'],
       borderRadius: vars.radius.md,
       borderWidth: 1,
       borderStyle: 'solid',
@@ -28,9 +28,11 @@ export const checkboxRecipe = recipe(
       boxSizing: 'border-box',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       flexShrink: 0,
-      ':hover': {
-        borderColor: vars.primary.DEFAULT,
-        backgroundColor: vars.surface.bg.next,
+      selectors: {
+        '&:has(input:hover)': {
+          borderColor: vars.primary.DEFAULT,
+          backgroundColor: vars.surface.bg.next,
+        },
       },
     },
     variants: {
@@ -38,9 +40,11 @@ export const checkboxRecipe = recipe(
         true: {
           backgroundColor: vars.primary.DEFAULT,
           borderColor: vars.primary.DEFAULT,
-          ':hover': {
-            backgroundColor: vars.primary.hover,
-            borderColor: vars.primary.hover,
+          selectors: {
+            '&:has(input:hover)': {
+              backgroundColor: vars.primary.hover,
+              borderColor: vars.primary.hover,
+            },
           },
         },
         false: {},

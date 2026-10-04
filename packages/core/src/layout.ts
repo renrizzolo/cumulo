@@ -136,6 +136,9 @@ export const radiusStyles = recipe(
             },
           },
         },
+        control: {
+          borderRadius: vars.radius.control,
+        },
         md: {
           borderRadius: vars.radius.md,
           '--surface-radius': vars.radius.md,

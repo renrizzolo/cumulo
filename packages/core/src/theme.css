@@ -93,13 +93,14 @@
   [data-theme='default'],
   [data-theme] {
     /* Shadow base */
-    --shadow-color: light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.5));
-    --theme-shadow-0: 0 1px 2px 0 var(--shadow-color);
+    --shadow-color: light-dark(rgb(0 0 0 / 0.07), rgb(0 0 0 / 0.5));
+    --theme-shadow-0: 0 1px 3px 0 var(--shadow-color);
     --theme-shadow-1: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color);
     --theme-shadow-2: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color);
 
     /* Radius tokens */
     --theme-radius-none: 0px;
+    --theme-radius-control: 0.375rem;
     --theme-radius-md: 0.375rem;
     --theme-radius-lg: 0.5rem;
     --theme-radius-xl: 0.75rem;
@@ -107,6 +108,9 @@
     --theme-radius-full: 9999px;
 
     /* Common component sizes */
+    --theme-size-4xs: 0.75rem;
+    --theme-size-3xs: 1rem;
+    --theme-size-2xs: 1.25rem;
     --theme-size-xs: 1.5rem;
     --theme-size-sm: 2rem;
     --theme-size-md: 2.5rem;
@@ -168,7 +172,7 @@
     /* Base canvas and text colors */
     --theme-bg-0: light-dark(#ffffff, #030712);
     --theme-bg-1: light-dark(
-      color-mix(in oklch, var(--theme-bg-0), black 1.5%),
+      color-mix(in oklch, var(--theme-bg-0), black 1.2%),
       color-mix(in oklch, var(--theme-bg-0), white 8%)
     );
     --theme-bg-2: light-dark(
@@ -185,8 +189,8 @@
     );
 
     --theme-fg: light-dark(#0f172a, #f8fafc);
-    --theme-muted: light-dark(#475569, #94a3b8);
-    --theme-subtle: light-dark(#94a3b8, #64748b);
+    --theme-muted: var(--theme-grey-700);
+    --theme-subtle: var(--theme-grey-500);
     --theme-border: light-dark(
       color-mix(in oklch, var(--theme-bg-0), black 12%),
       color-mix(in oklch, var(--theme-bg-0), white 17%)
@@ -203,6 +207,7 @@
     /* Global palette tuning */
     --theme-chroma-scale: 1;
     --theme-contrast-scale: 1;
+    --theme-lightness-offset: 0;
 
     /* Step progress t (0.04 to 0.95) */
     --theme-step-50-t: 0.04;
@@ -218,91 +223,191 @@
 
     /* OKLCH / LCH modifiers */
     --theme-step-50-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-50-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-50-c: calc(sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale));
     --theme-step-50-h: 12;
 
     --theme-step-100-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-100-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-100-c: calc(sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale));
     --theme-step-100-h: 8;
 
     --theme-step-200-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-200-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-200-c: calc(sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale));
     --theme-step-200-h: 4;
 
     --theme-step-300-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-300-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-300-c: calc(sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale));
     --theme-step-300-h: 0;
 
     --theme-step-400-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-400-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-400-c: calc(sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale));
     --theme-step-400-h: 0;
 
     --theme-step-500-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-500-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-500-c: calc(sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale));
     --theme-step-500-h: 0;
 
     --theme-step-600-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-600-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-600-c: calc(sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale));
     --theme-step-600-h: 0;
 
     --theme-step-700-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-700-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-700-c: calc(sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale));
     --theme-step-700-h: -4;
 
     --theme-step-800-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-800-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-800-c: calc(sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale));
     --theme-step-800-h: -8;
 
     --theme-step-900-l-light: calc(
-      0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-900-l-dark: calc(
-      0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale))
+      clamp(
+        0.02,
+        0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) +
+          var(--theme-lightness-offset, 0),
+        0.98
+      )
     );
     --theme-step-900-c: calc(sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale));
     --theme-step-900-h: -12;
@@ -946,7 +1051,7 @@
     --theme-error-fg: #ffffff;
     --theme-error-secondary-bg: var(--theme-error-50);
     --theme-error-secondary-bg-hover: light-dark(var(--theme-error-100), var(--theme-error-200));
-    --theme-error-secondary-fg: var(--theme-error-700);
+    --theme-error-secondary-fg: var(--theme-error-600);
     --theme-error-secondary-border: light-dark(var(--theme-error-200), var(--theme-error-300));
 
     --theme-info-bg: var(--theme-info-600);
@@ -996,6 +1101,106 @@
       --theme-warning-fg: color-contrast(var(--theme-warning-bg) vs white, black);
       --theme-error-fg: color-contrast(var(--theme-error-bg) vs white, black);
       --theme-info-fg: color-contrast(var(--theme-info-bg) vs white, black);
+    }
+  }
+
+  /* Pastel / Soft Intent Style: Inverts intents to soft light backgrounds with high-contrast colored text */
+  :root[data-intent-style='pastel'],
+  [data-theme][data-intent-style='pastel'],
+  [data-intent-style='pastel'] {
+    --theme-primary: light-dark(var(--theme-primary-100), var(--theme-primary-900));
+    --theme-primary-hover: light-dark(var(--theme-primary-200), var(--theme-primary-800));
+    --theme-primary-fg: light-dark(var(--theme-primary-800), var(--theme-primary-100));
+    --theme-primary-border: light-dark(var(--theme-primary-200), var(--theme-primary-700));
+
+    --theme-success-bg: light-dark(var(--theme-success-100), var(--theme-success-900));
+    --theme-success-hover: light-dark(var(--theme-success-200), var(--theme-success-800));
+    --theme-success-fg: light-dark(var(--theme-success-800), var(--theme-success-100));
+
+    --theme-warning-bg: light-dark(var(--theme-warning-100), var(--theme-warning-900));
+    --theme-warning-hover: light-dark(var(--theme-warning-200), var(--theme-warning-800));
+    --theme-warning-fg: light-dark(var(--theme-warning-800), var(--theme-warning-100));
+
+    --theme-error-bg: light-dark(var(--theme-error-100), var(--theme-error-900));
+    --theme-error-hover: light-dark(var(--theme-error-200), var(--theme-error-800));
+    --theme-error-fg: light-dark(var(--theme-error-800), var(--theme-error-100));
+
+    --theme-info-bg: light-dark(var(--theme-info-100), var(--theme-info-900));
+    --theme-info-hover: light-dark(var(--theme-info-200), var(--theme-info-800));
+    --theme-info-fg: light-dark(var(--theme-info-800), var(--theme-info-100));
+  }
+
+  /* Pastel (dark mode only): Solid bold intents in light mode, soft pastel backgrounds in dark mode */
+  :root[data-intent-style='pastel-dark'],
+  [data-theme][data-intent-style='pastel-dark'],
+  [data-intent-style='pastel-dark'] {
+    --theme-primary: light-dark(var(--theme-primary-600), var(--theme-primary-900));
+    --theme-primary-hover: light-dark(var(--theme-primary-700), var(--theme-primary-800));
+    --theme-primary-fg: light-dark(var(--color-white), var(--theme-primary-100));
+    --theme-primary-border: light-dark(var(--theme-primary-200), var(--theme-primary-700));
+
+    --theme-success-bg: light-dark(var(--theme-success-600), var(--theme-success-900));
+    --theme-success-hover: light-dark(var(--theme-success-700), var(--theme-success-800));
+    --theme-success-fg: light-dark(#ffffff, var(--theme-success-100));
+
+    --theme-warning-bg: light-dark(var(--theme-warning-600), var(--theme-warning-900));
+    --theme-warning-hover: light-dark(var(--theme-warning-700), var(--theme-warning-800));
+    --theme-warning-fg: light-dark(#ffffff, var(--theme-warning-100));
+
+    --theme-error-bg: light-dark(var(--theme-error-600), var(--theme-error-900));
+    --theme-error-hover: light-dark(var(--theme-error-700), var(--theme-error-800));
+    --theme-error-fg: light-dark(#ffffff, var(--theme-error-100));
+
+    --theme-info-bg: light-dark(var(--theme-info-600), var(--theme-info-900));
+    --theme-info-hover: light-dark(var(--theme-info-700), var(--theme-info-800));
+    --theme-info-fg: light-dark(#ffffff, var(--theme-info-100));
+  }
+
+  @supports (color: contrast-color(white)) {
+    :root[data-intent-style='pastel-dark'],
+    [data-theme][data-intent-style='pastel-dark'],
+    [data-intent-style='pastel-dark'] {
+      --theme-primary-fg: light-dark(
+        contrast-color(var(--theme-primary)),
+        var(--theme-primary-100)
+      );
+      --theme-success-fg: light-dark(
+        contrast-color(var(--theme-success-bg)),
+        var(--theme-success-100)
+      );
+      --theme-warning-fg: light-dark(
+        contrast-color(var(--theme-warning-bg)),
+        var(--theme-warning-100)
+      );
+      --theme-error-fg: light-dark(contrast-color(var(--theme-error-bg)), var(--theme-error-100));
+      --theme-info-fg: light-dark(contrast-color(var(--theme-info-bg)), var(--theme-info-100));
+    }
+  }
+
+  @supports (color: color-contrast(white vs white, black)) {
+    :root[data-intent-style='pastel-dark'],
+    [data-theme][data-intent-style='pastel-dark'],
+    [data-intent-style='pastel-dark'] {
+      --theme-primary-fg: light-dark(
+        color-contrast(var(--theme-primary) vs white, black),
+        var(--theme-primary-100)
+      );
+      --theme-success-fg: light-dark(
+        color-contrast(var(--theme-success-bg) vs white, black),
+        var(--theme-success-100)
+      );
+      --theme-warning-fg: light-dark(
+        color-contrast(var(--theme-warning-bg) vs white, black),
+        var(--theme-warning-100)
+      );
+      --theme-error-fg: light-dark(
+        color-contrast(var(--theme-error-bg) vs white, black),
+        var(--theme-error-100)
+      );
+      --theme-info-fg: light-dark(
+        color-contrast(var(--theme-info-bg) vs white, black),
+        var(--theme-info-100)
+      );
     }
   }
 }
