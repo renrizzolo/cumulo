@@ -11,6 +11,7 @@
     "lint:fix": "oxlint --fix",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
+    "theme": "pnpm --filter @cumulo/core theme",
     "check": "pnpm type-check && pnpm lint:fix && pnpm format",
     "check:ci": "pnpm type-check && pnpm lint && pnpm format:check",
     "test": "vitest run",
