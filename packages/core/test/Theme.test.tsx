@@ -1,10 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { getThemeScript, useTheme } from '../src';
 import {
   isColorMode,
-  isTheme,
   getSystemColorMode,
   resolveColorMode,
   getStoredTheme,
@@ -43,14 +41,6 @@ describe('Theme and ColorMode utilities and store', () => {
     expect(isColorMode('unknown')).toBe(false);
     expect(isColorMode(null)).toBe(false);
     expect(isColorMode(123)).toBe(false);
-
-    expect(isTheme('default')).toBe(true);
-    expect(isTheme('docs')).toBe(true);
-    expect(isTheme('cloud')).toBe(true);
-    expect(isTheme('my-custom-theme')).toBe(true);
-    expect(isTheme('')).toBe(false);
-    expect(isTheme(null)).toBe(false);
-    expect(isTheme(123)).toBe(false);
   });
 
   it('detects system theme and resolves color mode based on matchMedia', () => {
@@ -90,9 +80,6 @@ describe('Theme and ColorMode utilities and store', () => {
   it('applies theme attribute and color-scheme to documentElement', () => {
     applyTheme('docs');
     expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
-
-    applyTheme('cloud');
-    expect(document.documentElement.getAttribute('data-theme')).toBe('cloud');
 
     applyColorScheme('dark');
     expect(document.documentElement.style.colorScheme).toBe('dark');

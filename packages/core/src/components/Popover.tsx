@@ -707,6 +707,7 @@ export function PopoverContent({
       data-state={open ? 'open' : 'closed'}
       {...props}
       role={resolvedRole}
+      aria-modal={resolvedRole === 'dialog' ? true : undefined}
       popover={resolvedPopover}
       className={cx(classes, className)}
       style={anchorStyle}

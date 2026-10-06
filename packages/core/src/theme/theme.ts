@@ -1,7 +1,7 @@
 export type ColorMode = 'light' | 'dark' | 'system';
 export type ResolvedColorMode = 'light' | 'dark';
 
-export type Theme = 'default' | 'cloud' | 'docs' | (string & {});
+export type Theme = 'default' | (string & {});
 
 export const DEFAULT_THEME: Theme = 'default';
 export const DEFAULT_COLOR_MODE: ColorMode = 'system';
@@ -15,10 +15,6 @@ export function isColorMode(value: unknown): value is ColorMode {
 
 export function isResolvedColorMode(value: unknown): value is ResolvedColorMode {
   return value === 'light' || value === 'dark';
-}
-
-export function isTheme(value: unknown): value is Theme {
-  return typeof value === 'string' && value.trim().length > 0;
 }
 
 export function getSystemColorMode(): ResolvedColorMode {
@@ -49,7 +45,7 @@ export function getStoredTheme(
   }
   try {
     const item = window.localStorage.getItem(storageKey);
-    if (item && isTheme(item)) {
+    if (item && item !== null) {
       return item;
     }
   } catch {
@@ -194,7 +190,6 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
       return currentTheme;
     },
     setTheme(newTheme: Theme): void {
-      if (!isTheme(newTheme)) return;
       currentTheme = newTheme;
       setStoredTheme(newTheme, themeStorageKey);
       applyTheme(newTheme);

@@ -1015,7 +1015,7 @@
     --theme-primary-hover: var(--theme-primary-700);
     --theme-primary-focus: light-dark(var(--theme-primary-300), var(--theme-primary-400));
     --theme-primary-border: var(--theme-primary-200);
-    --theme-primary-fg: var(--color-white);
+    --theme-primary-fg: #ffffff;
     --theme-primary-subtle: var(--theme-primary-50);
 
     /* State Colors */
@@ -1137,7 +1137,7 @@
   [data-intent-style='pastel-dark'] {
     --theme-primary: light-dark(var(--theme-primary-600), var(--theme-primary-900));
     --theme-primary-hover: light-dark(var(--theme-primary-700), var(--theme-primary-800));
-    --theme-primary-fg: light-dark(var(--color-white), var(--theme-primary-100));
+    --theme-primary-fg: light-dark(#ffffff, var(--theme-primary-100));
     --theme-primary-border: light-dark(var(--theme-primary-200), var(--theme-primary-700));
 
     --theme-success-bg: light-dark(var(--theme-success-600), var(--theme-success-900));

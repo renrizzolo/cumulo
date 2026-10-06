@@ -6,7 +6,6 @@ import { HStack, ThemeToggle, Button, useTheme } from '@cumulo/core';
 const THEMES = [
   { id: 'docs', label: 'Docs' },
   { id: 'default', label: 'Default' },
-  { id: 'cloud', label: 'Cloud' },
 ] as const;
 
 export function ThemeSwitcher(): React.JSX.Element {
