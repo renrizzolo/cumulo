@@ -97,7 +97,12 @@ export default function Layout({
                     <div className={builderWrapperStyle.className}>{children}</div>
                   ) : (
                     <div className={contentWrapperStyle.className}>
-                      <Container size="lg">{children}</Container>
+                      <Container
+                        // prose pages (overview etc.) have a smaller width than component docs
+                        size={currentPage?.url.startsWith('/components/') ? 'lg' : 'md'}
+                      >
+                        {children}
+                      </Container>
                     </div>
                   )}
                 </Panel>
