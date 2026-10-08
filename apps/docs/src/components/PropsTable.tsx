@@ -1,5 +1,17 @@
 import React from 'react';
-import { Table, Badge, Code, Text, HStack, vars } from '@cumulo/core';
+import {
+  Table,
+  Badge,
+  Code,
+  Text,
+  HStack,
+  VStack,
+  TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  vars,
+} from '@cumulo/core';
 import { style } from '@cumulo/css';
 
 export interface DocgenPropType {
@@ -17,12 +29,20 @@ export interface DocgenProp {
   shortPropTypeName?: string | null;
 }
 
+export interface DocgenSubcomponent {
+  name: string;
+  description?: string;
+  props?: Record<string, DocgenProp>;
+}
+
 export interface DocgenData {
   name: string;
   path?: string;
   fileName?: string;
   description?: string;
   props?: Record<string, DocgenProp>;
+  /** Compound parts keyed by part name (e.g. `Root`, `Trigger`). */
+  subcomponents?: Record<string, DocgenSubcomponent>;
 }
 
 export interface PropsTableProps {
@@ -184,7 +204,70 @@ export function PropsTable({
   data,
   excludeProps = DEFAULT_EXCLUDE_PROPS,
 }: PropsTableProps): React.JSX.Element {
-  const propKeys = Object.keys(data?.props || {}).filter((key) => !excludeProps.includes(key));
+  const subcomponents = Object.entries(data?.subcomponents ?? {});
+  const hasOwnProps = filterPropKeys(data?.props, excludeProps).length > 0;
+
+  if (subcomponents.length === 0) {
+    return <PropsTableContent props={data?.props} excludeProps={excludeProps} />;
+  }
+
+  const tabs = [
+    ...(hasOwnProps
+      ? [
+          {
+            key: '__component',
+            label: data?.name ?? 'Component',
+            description: data?.description,
+            props: data?.props,
+          },
+        ]
+      : []),
+    ...subcomponents.map(([key, sub]) => ({
+      key,
+      label: sub.name,
+      description: sub.description,
+      props: sub.props,
+    })),
+  ];
+  const [first] = tabs;
+  if (!first) return <PropsTableContent props={data?.props} excludeProps={excludeProps} />;
+
+  return (
+    <TabsRoot defaultValue={first.key} variant="line">
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.key} value={tab.key}>
+            {tab.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {tabs.map((tab) => (
+        <TabsContent key={tab.key} value={tab.key}>
+          <VStack gap="sm">
+            {tab.description ? <Description source={tab.description} /> : null}
+            <PropsTableContent props={tab.props} excludeProps={excludeProps} />
+          </VStack>
+        </TabsContent>
+      ))}
+    </TabsRoot>
+  );
+}
+
+function filterPropKeys(
+  props: Record<string, DocgenProp> | undefined,
+  excludeProps: string[],
+): string[] {
+  return Object.keys(props ?? {}).filter((key) => !excludeProps.includes(key));
+}
+
+function PropsTableContent({
+  props,
+  excludeProps,
+}: {
+  props?: Record<string, DocgenProp>;
+  excludeProps: string[];
+}): React.JSX.Element {
+  const propKeys = filterPropKeys(props, excludeProps);
 
   if (propKeys.length === 0) {
     return (
@@ -206,7 +289,7 @@ export function PropsTable({
       </Table.Header>
       <Table.Body>
         {propKeys.map((key) => {
-          const prop = data?.props?.[key];
+          const prop = props?.[key];
           if (!prop) return null;
           const defaultValue = prop.defaultValue?.value;
           const cleanDefault = defaultValue?.replace(/^["']|["']$/g, '');
@@ -217,7 +300,7 @@ export function PropsTable({
                 <HStack gap="xs" align="center">
                   <Code variant="primary">{prop.name}</Code>
                   {prop.required ? (
-                    <Badge variant="primary" intent="error">
+                    <Badge intent="error" variant="outline" size="2xs">
                       required
                     </Badge>
                   ) : null}

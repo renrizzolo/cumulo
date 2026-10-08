@@ -1,19 +1,19 @@
 'use client';
 
 import React from 'react';
-import { HStack, ThemeToggle, Button, useTheme } from '@cumulo/core';
+import { HStack, ThemeToggle, useTheme } from '@cumulo/core';
 
-const THEMES = [
-  { id: 'docs', label: 'Docs' },
-  { id: 'default', label: 'Default' },
-] as const;
+// const THEMES = [
+//   { id: 'docs', label: 'Docs' },
+//   { id: 'default', label: 'Default' },
+// ] as const;
 
 export function ThemeSwitcher(): React.JSX.Element {
-  const { theme, setTheme } = useTheme();
+  useTheme('docs');
 
   return (
     <HStack gap="xs" align="center">
-      <HStack gap="3xs" align="center">
+      {/* <HStack gap="3xs" align="center">
         {THEMES.map((item) => {
           const isActive = theme === item.id;
           return (
@@ -28,7 +28,7 @@ export function ThemeSwitcher(): React.JSX.Element {
             </Button>
           );
         })}
-      </HStack>
+      </HStack> */}
       <ThemeToggle />
     </HStack>
   );

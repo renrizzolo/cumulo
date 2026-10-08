@@ -12,12 +12,12 @@ import {
   Code,
   Text,
   vars,
-  type ThemeToken,
   type VarPath,
+  type VarValue,
 } from '@cumulo/core';
 
-export type TokenName = VarPath | (string & {});
-export type TokenVariable = ThemeToken | (string & {});
+export type TokenName = VarPath;
+export type TokenVariable = VarValue;
 
 export interface TokenItem {
   name: TokenName;
@@ -48,94 +48,99 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   spacing: [
     {
       name: 'vars.spacing.none',
-      variable: '--theme-spacing-none',
+      variable: 'var(--theme-spacing-none)',
       value: '0px',
       category: 'spacing',
     },
     {
       name: 'vars.spacing["3xs"]',
-      variable: '--theme-spacing-3xs',
+      variable: 'var(--theme-spacing-3xs)',
       value: '0.125rem (2px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing["2xs"]',
-      variable: '--theme-spacing-2xs',
+      variable: 'var(--theme-spacing-2xs)',
       value: '0.25rem (4px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing.xs',
-      variable: '--theme-spacing-xs',
+      variable: 'var(--theme-spacing-xs)',
       value: '0.5rem (8px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing.sm',
-      variable: '--theme-spacing-sm',
+      variable: 'var(--theme-spacing-sm)',
       value: '0.75rem (12px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing.md',
-      variable: '--theme-spacing-md',
+      variable: 'var(--theme-spacing-md)',
       value: '1rem (16px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing.lg',
-      variable: '--theme-spacing-lg',
+      variable: 'var(--theme-spacing-lg)',
       value: '1.5rem (24px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing.xl',
-      variable: '--theme-spacing-xl',
+      variable: 'var(--theme-spacing-xl)',
       value: '2rem (32px)',
       category: 'spacing',
     },
     {
       name: 'vars.spacing["2xl"]',
-      variable: '--theme-spacing-2xl',
+      variable: 'var(--theme-spacing-2xl)',
       value: '3rem (48px)',
       category: 'spacing',
     },
   ],
   radius: [
-    { name: 'vars.radius.none', variable: '--theme-radius-none', value: '0px', category: 'radius' },
+    {
+      name: 'vars.radius.none',
+      variable: 'var(--theme-radius-none)',
+      value: '0px',
+      category: 'radius',
+    },
     {
       name: 'vars.radius.control',
-      variable: '--theme-radius-control',
+      variable: 'var(--theme-radius-control)',
       value: '0.375rem (6px)',
       category: 'radius',
     },
     {
       name: 'vars.radius.md',
-      variable: '--theme-radius-md',
+      variable: 'var(--theme-radius-md)',
       value: '0.375rem (6px)',
       category: 'radius',
     },
     {
       name: 'vars.radius.lg',
-      variable: '--theme-radius-lg',
+      variable: 'var(--theme-radius-lg)',
       value: '0.5rem (8px)',
       category: 'radius',
     },
     {
       name: 'vars.radius.xl',
-      variable: '--theme-radius-xl',
+      variable: 'var(--theme-radius-xl)',
       value: '0.75rem (12px)',
       category: 'radius',
     },
     {
       name: 'vars.radius["2xl"]',
-      variable: '--theme-radius-2xl',
+      variable: 'var(--theme-radius-2xl)',
       value: '1rem (16px)',
       category: 'radius',
     },
     {
       name: 'vars.radius.full',
-      variable: '--theme-radius-full',
+      variable: 'var(--theme-radius-full)',
       value: '9999px',
       category: 'radius',
     },
@@ -143,70 +148,70 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   typography: [
     {
       name: 'vars.font.size["2xs"]',
-      variable: '--theme-font-size-2xs',
+      variable: 'var(--theme-font-size-2xs)',
       value: '0.6875rem (11px)',
       description: 'Micro badges, caption footnotes',
       category: 'font',
     },
     {
       name: 'vars.font.size.xs',
-      variable: '--theme-font-size-xs',
+      variable: 'var(--theme-font-size-xs)',
       value: '0.75rem (12px)',
       description: 'Secondary labels, helper text',
       category: 'font',
     },
     {
       name: 'vars.font.size.sm',
-      variable: '--theme-font-size-sm',
+      variable: 'var(--theme-font-size-sm)',
       value: '0.875rem (14px)',
       description: 'Form inputs, table contents',
       category: 'font',
     },
     {
       name: 'vars.font.size.base',
-      variable: '--theme-font-size-base',
+      variable: 'var(--theme-font-size-base)',
       value: '1rem (16px)',
       description: 'Standard body text',
       category: 'font',
     },
     {
       name: 'vars.font.size.md',
-      variable: '--theme-font-size-md',
+      variable: 'var(--theme-font-size-md)',
       value: '1.125rem (18px)',
       description: 'Lead paragraphs, subheadings',
       category: 'font',
     },
     {
       name: 'vars.font.size.lg',
-      variable: '--theme-font-size-lg',
+      variable: 'var(--theme-font-size-lg)',
       value: '1.25rem (20px)',
       description: 'Card headings, section titles',
       category: 'font',
     },
     {
       name: 'vars.font.size.xl',
-      variable: '--theme-font-size-xl',
+      variable: 'var(--theme-font-size-xl)',
       value: '1.5rem (24px)',
       description: 'Medium page headings',
       category: 'font',
     },
     {
       name: 'vars.font.size["2xl"]',
-      variable: '--theme-font-size-2xl',
+      variable: 'var(--theme-font-size-2xl)',
       value: '1.875rem (30px)',
       description: 'Major section titles',
       category: 'font',
     },
     {
       name: 'vars.font.size["3xl"]',
-      variable: '--theme-font-size-3xl',
+      variable: 'var(--theme-font-size-3xl)',
       value: '2.25rem (36px)',
       description: 'Page titles',
       category: 'font',
     },
     {
       name: 'vars.font.size["4xl"]',
-      variable: '--theme-font-size-4xl',
+      variable: 'var(--theme-font-size-4xl)',
       value: '3rem (48px)',
       description: 'Hero displays',
       category: 'font',
@@ -215,43 +220,43 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   surface: [
     {
       name: 'vars.surface.bg.DEFAULT',
-      variable: '--surface-bg',
+      variable: 'var(--surface-bg)',
       description: 'Current surface background level',
       category: 'surface',
     },
     {
       name: 'vars.surface.bg.next',
-      variable: '--surface-bg-next',
+      variable: 'var(--surface-bg-next)',
       description: 'Next nested surface background for inputs & hovers',
       category: 'surface',
     },
     {
       name: 'vars.surface.fg',
-      variable: '--surface-fg',
+      variable: 'var(--surface-fg)',
       description: 'Contextual high-contrast foreground text',
       category: 'surface',
     },
     {
       name: 'vars.surface.border',
-      variable: '--surface-border',
+      variable: 'var(--surface-border)',
       description: 'Contextual surface boundary border',
       category: 'surface',
     },
     {
       name: 'vars.surface.secondary.DEFAULT',
-      variable: '--surface-secondary',
+      variable: 'var(--surface-secondary)',
       description: 'Secondary button/chip container background',
       category: 'surface',
     },
     {
       name: 'vars.surface.primary.DEFAULT',
-      variable: '--theme-surface-primary',
+      variable: 'var(--surface-primary)',
       description: 'Primary branded interactive surface background',
       category: 'surface',
     },
     {
       name: 'vars.surface.muted',
-      variable: '--surface-muted',
+      variable: 'var(--surface-muted)',
       description: 'Subtle text, icons, and deactivated elements',
       category: 'surface',
     },
@@ -259,37 +264,37 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   seed: [
     {
       name: 'vars.seed.primary',
-      variable: '--color-primary-base',
+      variable: 'var(--color-primary-base)',
       description: 'Base primary brand seed color',
       category: 'seed',
     },
     {
       name: 'vars.seed.success',
-      variable: '--color-success-base',
+      variable: 'var(--color-success-base)',
       description: 'Base success validation seed color',
       category: 'seed',
     },
     {
       name: 'vars.seed.warning',
-      variable: '--color-warning-base',
+      variable: 'var(--color-warning-base)',
       description: 'Base warning attention seed color',
       category: 'seed',
     },
     {
       name: 'vars.seed.error',
-      variable: '--color-error-base',
+      variable: 'var(--color-error-base)',
       description: 'Base error danger seed color',
       category: 'seed',
     },
     {
       name: 'vars.seed.info',
-      variable: '--color-info-base',
+      variable: 'var(--color-info-base)',
       description: 'Base information notice seed color',
       category: 'seed',
     },
     {
       name: 'vars.seed.grey',
-      variable: '--color-grey-base',
+      variable: 'var(--color-grey-base)',
       description: 'Base neutral grey seed color',
       category: 'seed',
     },
@@ -297,19 +302,19 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
   shadow: [
     {
       name: 'vars.shadow["0"]',
-      variable: '--theme-shadow-0',
+      variable: 'var(--theme-shadow-0)',
       description: 'Flat surface boundary shadow',
       category: 'shadow',
     },
     {
       name: 'vars.shadow["1"]',
-      variable: '--theme-shadow-1',
+      variable: 'var(--theme-shadow-1)',
       description: 'Elevated card / dropdown shadow',
       category: 'shadow',
     },
     {
       name: 'vars.shadow["2"]',
-      variable: '--theme-shadow-2',
+      variable: 'var(--theme-shadow-2)',
       description: 'Floating modal / dialog shadow',
       category: 'shadow',
     },
@@ -371,10 +376,10 @@ export function TokenTable({
         {resolvedTokens.map((token) => (
           <TableRow key={token.name}>
             <TableCell>
-              <Code variant="primary">{token.name}</Code>
+              <Code variant="base">{token.name}</Code>
             </TableCell>
             <TableCell>
-              <Code variant="subtle">{token.variable}</Code>
+              <Code variant="base">{token.variable}</Code>
             </TableCell>
             <TableCell>
               <Text size="sm">{token.value || token.description}</Text>
@@ -384,7 +389,7 @@ export function TokenTable({
                 <div
                   className={previewBarStyle.className}
                   style={{
-                    width: `var(${token.variable})`,
+                    width: token.variable,
                   }}
                 />
               )}
@@ -392,30 +397,30 @@ export function TokenTable({
                 <div
                   className={previewBoxStyle.className}
                   style={{
-                    borderRadius: `var(${token.variable})`,
+                    borderRadius: token.variable,
                   }}
                 />
               )}
               {token.category === 'font' && (
-                <Text style={{ fontSize: `var(${token.variable})`, fontWeight: 600 }}>Aa</Text>
+                <Text style={{ fontSize: token.variable, fontWeight: 600 }}>Aa</Text>
               )}
               {token.category === 'surface' && (
                 <div
                   className={colorSwatchStyle.className}
-                  style={{ backgroundColor: `var(${token.variable})` }}
+                  style={{ backgroundColor: token.variable }}
                 />
               )}
               {token.category === 'seed' && (
                 <div
                   className={colorSwatchStyle.className}
-                  style={{ backgroundColor: `var(${token.variable})` }}
+                  style={{ backgroundColor: token.variable }}
                 />
               )}
               {token.category === 'shadow' && (
                 <div
                   className={previewBoxStyle.className}
                   style={{
-                    boxShadow: `var(${token.variable})`,
+                    boxShadow: token.variable,
                     borderRadius: vars.radius.md,
                     borderColor: vars.surface.border,
                   }}

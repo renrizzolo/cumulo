@@ -89,7 +89,7 @@ export default function Layout({
               <SidebarNav currentPage={currentPage} />
               <AppFrameMain as="div">
                 {/* Top Responsive Navigation Bar */}
-                <DocHeader currentPage={currentPage} />
+                <DocHeader />
 
                 {/* Main Content Area */}
                 <Panel scrollbar="default" as="main">

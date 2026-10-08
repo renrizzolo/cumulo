@@ -1,5 +1,6 @@
 import React from 'react';
 import { highlightCode } from '../highlighter';
+import { format } from 'oxfmt';
 
 export interface HighlightedCodeProps {
   code: string;
@@ -11,7 +12,13 @@ export async function HighlightedCode({
   language = 'tsx',
 }: HighlightedCodeProps): Promise<React.JSX.Element> {
   const cleanCode = code.trim();
-  const highlightedCode = await highlightCode(cleanCode, language);
+  const formatted = await format(`code.${language}`, cleanCode);
 
-  return <div dangerouslySetInnerHTML={{ __html: highlightedCode ?? '' }} />;
+  if (formatted.errors.length) {
+    console.error('failed to format code block', language, cleanCode, formatted.errors);
+  }
+
+  const highlighted = (await highlightCode(formatted.code, language)) ?? '';
+
+  return <div dangerouslySetInnerHTML={{ __html: highlighted }} />;
 }

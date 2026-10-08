@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "parcel",
+    "dev": "parcel --no-cache",
     "build": "parcel build --no-cache",
     "start": "npx http-server ./dist",
     "type-check": "tsc --noEmit"

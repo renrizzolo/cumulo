@@ -54,7 +54,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"default\" | \"thin\" | undefined",
+        "raw": "\"none\" | \"thin\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -63,10 +63,10 @@
             "value": "\"none\""
           },
           {
-            "value": "\"default\""
+            "value": "\"thin\""
           },
           {
-            "value": "\"thin\""
+            "value": "\"default\""
           }
         ]
       },
@@ -80,19 +80,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"x\" | \"y\" | \"both\" | undefined",
+        "raw": "\"both\" | \"x\" | \"y\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"both\""
           },
           {
             "value": "\"x\""
           },
           {
             "value": "\"y\""
-          },
-          {
-            "value": "\"both\""
           }
         ]
       },
@@ -105,7 +105,7 @@
       "declarations": [],
       "required": false,
       "type": {
-        "name": "| boolean \n|  \"bottom\" \n|  \"left\" \n|  \"right\" \n|  \"top\" \n|  \"true\" \n|  \"false\" \n|  \"x\" \n|  \"y\" \n|  \"all\" \n|  undefined\n"
+        "name": "| boolean \n|  \"bottom\" \n|  \"left\" \n|  \"right\" \n|  \"top\" \n|  \"true\" \n|  \"false\" \n|  \"all\" \n|  \"x\" \n|  \"y\" \n|  undefined\n"
       },
       "shortPropTypeName": "Union"
     },
@@ -161,13 +161,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "1"
           },
           {
             "value": "\"initial\""
@@ -177,6 +174,9 @@
           },
           {
             "value": "\"auto\""
+          },
+          {
+            "value": "1"
           }
         ]
       },
@@ -273,10 +273,10 @@
                 "value": "\"none\""
               },
               {
-                "value": "\"default\""
+                "value": "\"thin\""
               },
               {
-                "value": "\"thin\""
+                "value": "\"default\""
               }
             ]
           },
@@ -307,13 +307,13 @@
                 "value": "undefined"
               },
               {
+                "value": "\"both\""
+              },
+              {
                 "value": "\"x\""
               },
               {
                 "value": "\"y\""
-              },
-              {
-                "value": "\"both\""
               }
             ]
           },
@@ -370,13 +370,10 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
+            "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "1"
               },
               {
                 "value": "\"initial\""
@@ -386,6 +383,9 @@
               },
               {
                 "value": "\"auto\""
+              },
+              {
+                "value": "1"
               }
             ]
           },
@@ -492,22 +492,22 @@
                 "value": "undefined"
               },
               {
+                "value": "\"main\""
+              },
+              {
                 "value": "\"div\""
               },
               {
-                "value": "\"header\""
-              },
-              {
-                "value": "\"main\""
+                "value": "\"section\""
               },
               {
                 "value": "\"aside\""
               },
               {
-                "value": "\"footer\""
+                "value": "\"header\""
               },
               {
-                "value": "\"section\""
+                "value": "\"footer\""
               },
               {
                 "value": "\"nav\""
