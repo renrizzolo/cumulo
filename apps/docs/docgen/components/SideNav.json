@@ -1,0 +1,660 @@
+{
+  "name": "SideNav",
+  "path": "packages/core/src/components/SideNav.tsx",
+  "fileName": "SideNav.tsx",
+  "props": {
+    "aria-label": {
+      "defaultValue": null,
+      "description": "Defines a string value that labels the current element.",
+      "name": "aria-label",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+        "name": "SideNavProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+          "name": "SideNavProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    }
+  },
+  "subcomponents": {
+    "Root": {
+      "name": "SideNav.Root",
+      "props": {
+        "aria-label": {
+          "defaultValue": {
+            "value": "Sidebar navigation"
+          },
+          "description": "Defines a string value that labels the current element.",
+          "name": "aria-label",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Item": {
+      "name": "SideNav.Item",
+      "props": {
+        "icon": {
+          "defaultValue": null,
+          "description": "",
+          "name": "icon",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "label": {
+          "defaultValue": null,
+          "description": "",
+          "name": "label",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "title": {
+          "defaultValue": null,
+          "description": "",
+          "name": "title",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "badge": {
+          "defaultValue": null,
+          "description": "",
+          "name": "badge",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "active": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "",
+          "name": "active",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "disabled": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "href": {
+          "defaultValue": null,
+          "description": "",
+          "name": "href",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "to": {
+          "defaultValue": null,
+          "description": "",
+          "name": "to",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "as": {
+          "defaultValue": null,
+          "description": "",
+          "name": "as",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ElementType<any, keyof IntrinsicElements> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "tooltip": {
+          "defaultValue": null,
+          "description": "Tooltip display when the sidebar is collapsed:\n- `true`: displays the item's label (or title) as a floating tooltip when collapsed.\n- `false`: suppresses tooltip when collapsed.\n- `React.ReactNode`: custom tooltip content.\nIf not specified, tooltips are automatically displayed when the sidebar has `hoverBehaviour=\"tooltip\"`.",
+          "name": "tooltip",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "GroupTrigger": {
+      "name": "SideNav.GroupTrigger",
+      "props": {
+        "badge": {
+          "defaultValue": null,
+          "description": "",
+          "name": "badge",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupTriggerProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupTriggerProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLButtonElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "GroupContent": {
+      "name": "SideNav.GroupContent",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Group": {
+      "name": "SideNav.Group",
+      "props": {
+        "title": {
+          "defaultValue": null,
+          "description": "",
+          "name": "title",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "collapsible": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "",
+          "name": "collapsible",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "defaultOpen": {
+          "defaultValue": {
+            "value": "true"
+          },
+          "description": "",
+          "name": "defaultOpen",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "open": {
+          "defaultValue": null,
+          "description": "",
+          "name": "open",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "onOpenChange": {
+          "defaultValue": null,
+          "description": "",
+          "name": "onOpenChange",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "((open: boolean) => void) | undefined"
+          },
+          "shortPropTypeName": "function"
+        },
+        "disabled": {
+          "defaultValue": null,
+          "description": "",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "badge": {
+          "defaultValue": null,
+          "description": "",
+          "name": "badge",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+            "name": "SideNavGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/SideNav.tsx",
+              "name": "SideNavGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    }
+  }
+}

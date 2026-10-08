@@ -16,7 +16,7 @@ export { CodeBlock, ComponentPreview, PropsTable };
 
 # Switch
 
-A smooth, accessible toggle switch control with tokenized sizing, sliding thumb animations, and field integration.
+An accessible toggle switch with a sliding thumb animation, and Field integration.
 
 ```tsx
 import { Switch } from '@cumulo/core';
@@ -41,11 +41,11 @@ import { Switch } from '@cumulo/core';
   </VStack>
 </ComponentPreview>
 
-## States & Intents
+## States and intents
 
-Switches support checked, unchecked, error, and disabled states with automatic accessibility wiring.
+Switches support checked, unchecked, error, and disabled states. Accessibility attributes are wired automatically.
 
-<ComponentPreview title="Switch States & Intents">
+<ComponentPreview title="Switch states and intents">
   <VStack gap="md">
     <FieldRoot>
       <HStack gap="sm" align="center">
@@ -81,7 +81,7 @@ Switches support checked, unchecked, error, and disabled states with automatic a
   </VStack>
 </ComponentPreview>
 
-## Field Integration
+## Field integration
 
 When used inside a `FieldRoot`, switches automatically synchronize IDs, descriptions, accessibility attributes, and error validation states.
 

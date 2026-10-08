@@ -123,7 +123,7 @@ export const transformStyles = recipe(
 
 export const truncateStyle = style(
   {
-    overflow: 'hidden',
+    overflowX: 'clip',
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },

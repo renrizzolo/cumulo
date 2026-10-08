@@ -1,10 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import React from 'react';
 import { renderHook, act } from '@testing-library/react';
 import { getThemeScript, useTheme } from '../src';
 import {
   isColorMode,
-  isTheme,
   getSystemColorMode,
   resolveColorMode,
   getStoredTheme,
@@ -14,6 +12,8 @@ import {
   applyTheme,
   applyColorScheme,
   createThemeStore,
+  setDefaultTheme,
+  themeStore,
 } from '../src/theme/theme';
 
 describe('Theme and ColorMode utilities and store', () => {
@@ -23,6 +23,9 @@ describe('Theme and ColorMode utilities and store', () => {
     isDarkMedia = false;
     localStorage.clear();
     document.documentElement.style.colorScheme = '';
+    themeStore.setDefaultTheme('default');
+    themeStore.setTheme('default');
+    themeStore.setMode('system');
     document.documentElement.removeAttribute('data-theme');
     window.matchMedia = vi.fn().mockImplementation((query: string) => ({
       matches: isDarkMedia,
@@ -43,14 +46,6 @@ describe('Theme and ColorMode utilities and store', () => {
     expect(isColorMode('unknown')).toBe(false);
     expect(isColorMode(null)).toBe(false);
     expect(isColorMode(123)).toBe(false);
-
-    expect(isTheme('default')).toBe(true);
-    expect(isTheme('docs')).toBe(true);
-    expect(isTheme('cloud')).toBe(true);
-    expect(isTheme('my-custom-theme')).toBe(true);
-    expect(isTheme('')).toBe(false);
-    expect(isTheme(null)).toBe(false);
-    expect(isTheme(123)).toBe(false);
   });
 
   it('detects system theme and resolves color mode based on matchMedia', () => {
@@ -90,9 +85,6 @@ describe('Theme and ColorMode utilities and store', () => {
   it('applies theme attribute and color-scheme to documentElement', () => {
     applyTheme('docs');
     expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
-
-    applyTheme('cloud');
-    expect(document.documentElement.getAttribute('data-theme')).toBe('cloud');
 
     applyColorScheme('dark');
     expect(document.documentElement.style.colorScheme).toBe('dark');
@@ -192,5 +184,49 @@ describe('Theme and ColorMode utilities and store', () => {
     expect(result.current.mode).toBe('light');
     expect(result.current.resolvedMode).toBe('light');
     expect(document.documentElement.style.colorScheme).toBe('light');
+  });
+
+  it('allows overriding default theme with useTheme(defaultTheme)', () => {
+    const { result } = renderHook(() => useTheme('docs'));
+
+    expect(result.current.theme).toBe('docs');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
+  });
+
+  it('preserves existing localStorage preference over defaultTheme in useTheme', () => {
+    setStoredTheme('sunset');
+    const { result } = renderHook(() => useTheme('docs'));
+
+    expect(result.current.theme).toBe('sunset');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('sunset');
+  });
+
+  it('allows injecting default theme outside of render via setDefaultTheme', () => {
+    setDefaultTheme('forest');
+    expect(themeStore.getTheme()).toBe('forest');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('forest');
+
+    setDefaultTheme('ocean');
+    expect(themeStore.getTheme()).toBe('ocean');
+    expect(document.documentElement.getAttribute('data-theme')).toBe('ocean');
+  });
+
+  it('auto-detects data-theme attribute on documentElement when store initializes', () => {
+    document.documentElement.setAttribute('data-theme', 'neon');
+    const store = createThemeStore();
+
+    expect(store.getTheme()).toBe('neon');
+    store.destroy();
+  });
+
+  it('manages localStorage storage correctly when custom default theme is active', () => {
+    const store = createThemeStore({ defaultTheme: 'docs' });
+
+    store.setTheme('default');
+    expect(localStorage.getItem('cumulo-theme')).toBe('default');
+
+    store.setTheme('docs');
+    expect(localStorage.getItem('cumulo-theme')).toBeNull();
+    store.destroy();
   });
 });

@@ -1,239 +1,40 @@
-import { InteractivePlayground } from '../components/InteractivePlayground.tsx';
-import MDXLayout, { CodeBlock, ComponentPreview } from '../components/MDXLayout.tsx';
-import { Link } from '@renr/parcel-rsc-router';
-import {
-  Button,
-  Badge,
-  Card,
-  Input,
-  ThemeToggle,
-  HStack,
-  VStack,
-  Text,
-  Heading,
-  Surface,
-  Table,
-} from '@cumulo/core';
+import Layout, { CodeBlock } from '../components/MDXLayout.tsx';
+import { Badge, Text, HStack } from '@cumulo/core';
+export default Layout;
+export { CodeBlock };
 
 # Cumulo UI
 
-A modern, dependency-free React 19 component library and lightweight CSS engine inspired by StyleX and Vanilla Extract. _Cumulo_ (Italian for _pile_ or _hoard_) represents an accumulation of composable primitives and design tokens.
+#### _Cumulo_ (cù·mu·lo), Italian (n.) - A heap, pile, or accumulation of things.
 
-## Architecture Highlights
+Cumulo is a collection of UI components and related artifacts - a React 19 design system and lightweight CSS engine with no runtime dependencies.
 
-- **100% Dependency-Free**: Zero third-party runtime dependencies. Built purely on React 19 primitives and modern CSS capabilities.
-- **@cumulo/css Engine**: A fast, ~2kB type-safe CSS framework with theme contracts, scoped style rules, keyframes, and deterministic hashing.
-- **Dynamic Surface System**: Contextual depth propagation where nested interactive elements automatically deepen via `--surface-bg-next`.
-- **Mathematical OKLCH Color Seeding**: Live color gamut computation directly in CSS using trigonometric chroma curves and `light-dark()`.
-- **React Server Components**: Statically pre-rendered pages built with Parcel RSC router and selective client hydration.
+{
 
-## Quick Installation
+<HStack gap="xs" align="center">
+  <Badge variant="secondary" intent="info">
+    NOTE
+  </Badge>
+  <Text size="sm">this is a work in progress - expect API and functionality to change rapidly.</Text>
+</HStack>
+}
+
+## Features
+
+- **No runtime dependencies**: Built on React 19 and modern CSS.
+- **Type-safe CSS**: `@cumulo/css` is a ~2kB engine with theme contracts, scoped style rules, keyframes, and deterministic hashing.
+- **Dynamic surfaces**: Nested interactive elements deepen automatically through `--surface-bg-next`.
+- **OKLCH color seeding**: Full color palettes are computed in CSS from a few seed colors, using `light-dark()`.
+
+## Install
 
 ```bash
-# Install @cumulo/css and @cumulo/core
 pnpm add @cumulo/css @cumulo/core
 ```
 
-## Interactive Surface Playground
+## Next steps
 
-Experience real-time OKLCH color seeding and nested surface depth adaptation:
-
-<InteractivePlayground />
-
-## Component Catalog
-
-Explore individual component documentation, interactive stories, and TypeScript prop definitions in the sidebar:
-
-<Table variant="bordered" interactive>
-  <Table.Header>
-    <Table.Row>
-      <Table.Head>Component</Table.Head>
-      <Table.Head>Category</Table.Head>
-      <Table.Head>Description</Table.Head>
-    </Table.Row>
-  </Table.Header>
-  <Table.Body>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/button">Button</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="primary">Action</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Trigger actions across variants, intents, and sizes.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/badge">Badge</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="secondary">Feedback</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Highlight status, tags, and counts.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/card">Card</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="outline">Surfaces</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Elevated surface container with tokenized padding.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/input">Input</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="primary">Forms</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Form input with auto-adapting surface background.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/field">Field</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="outline">Compound</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Accessible form field orchestration across subcomponents.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/surface">Surface</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="secondary">Layout</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Contextual depth and background adaptation.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/stack">Stack</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="secondary">Layout</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Flexbox layout with direction, gap, align, and wrap.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/container">Container</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="secondary">Layout</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Max-width responsive layout constraint.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/heading">Heading</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="outline">Typography</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Semantic heading levels with typographic scale tokens.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/text">Text</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="outline">Typography</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Contextual body, label, display, lead, and caption copy.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/code">Code</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="outline">Typography</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Inline monospace tokens with surface styling.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/divider">Divider</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="secondary">Layout</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Horizontal and vertical visual separators.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/table">Table</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="outline">Data</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Compound table component with interactive hover states.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-    <Table.Row>
-      <Table.Cell>
-        <Link to="/components/theme-toggle">ThemeToggle</Link>
-      </Table.Cell>
-      <Table.Cell>
-        <Badge variant="primary">Theme</Badge>
-      </Table.Cell>
-      <Table.Cell>
-        <Text as="span" size="sm">
-          Smart light/dark/system toggle with hydration matching.
-        </Text>
-      </Table.Cell>
-    </Table.Row>
-  </Table.Body>
-</Table>
+- Browse components in the sidebar for examples and prop tables.
+- Read about [design tokens](/tokens) and theming.
+- Learn how to write styles with [@cumulo/css](/css).
+- Create a custom theme with the [theme builder](/theme-builder).

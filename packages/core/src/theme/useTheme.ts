@@ -29,38 +29,44 @@ export interface UseThemeReturn {
 
 const SERVER_SYSTEM_MODE: ResolvedColorMode = 'light';
 
-export function useTheme(): UseThemeReturn {
+export function useTheme(defaultTheme?: Theme): UseThemeReturn {
+  if (defaultTheme !== undefined) {
+    themeStore.setDefaultTheme(defaultTheme);
+  }
+
   const theme = useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getTheme,
-    () => DEFAULT_THEME,
+    (): Theme => defaultTheme ?? DEFAULT_THEME,
   );
 
   const mode = useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getMode,
-    () => DEFAULT_COLOR_MODE,
+    (): ColorMode => DEFAULT_COLOR_MODE,
   );
 
-  const resolvedMode = useSyncExternalStore(themeStore.subscribe, themeStore.getResolvedMode, () =>
-    resolveColorMode(DEFAULT_COLOR_MODE),
+  const resolvedMode = useSyncExternalStore(
+    themeStore.subscribe,
+    themeStore.getResolvedMode,
+    (): ResolvedColorMode => resolveColorMode(DEFAULT_COLOR_MODE),
   );
 
   const systemMode = useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getSystemMode,
-    () => SERVER_SYSTEM_MODE,
+    (): ResolvedColorMode => SERVER_SYSTEM_MODE,
   );
 
-  const setTheme = useCallback((nextTheme: Theme) => {
+  const setTheme = useCallback((nextTheme: Theme): void => {
     themeStore.setTheme(nextTheme);
   }, []);
 
-  const setMode = useCallback((nextMode: ColorMode) => {
+  const setMode = useCallback((nextMode: ColorMode): void => {
     themeStore.setMode(nextMode);
   }, []);
 
-  const toggleMode = useCallback((cycle?: readonly ColorMode[]) => {
+  const toggleMode = useCallback((cycle?: readonly ColorMode[]): void => {
     themeStore.toggleMode(cycle);
   }, []);
 

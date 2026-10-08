@@ -1,5 +1,18 @@
 import React from 'react';
-import { Table, Badge, Code, Text, HStack } from '@cumulo/core';
+import {
+  Table,
+  Badge,
+  Code,
+  Text,
+  HStack,
+  VStack,
+  TabsRoot,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+  vars,
+} from '@cumulo/core';
+import { style } from '@cumulo/css';
 
 export interface DocgenPropType {
   name: string;
@@ -16,12 +29,20 @@ export interface DocgenProp {
   shortPropTypeName?: string | null;
 }
 
+export interface DocgenSubcomponent {
+  name: string;
+  description?: string;
+  props?: Record<string, DocgenProp>;
+}
+
 export interface DocgenData {
   name: string;
   path?: string;
   fileName?: string;
   description?: string;
   props?: Record<string, DocgenProp>;
+  /** Compound parts keyed by part name (e.g. `Root`, `Trigger`). */
+  subcomponents?: Record<string, DocgenSubcomponent>;
 }
 
 export interface PropsTableProps {
@@ -55,11 +76,198 @@ function formatTypeValue(type: DocgenPropType): React.ReactNode {
 
 const DEFAULT_EXCLUDE_PROPS = ['ref', 'className', 'style'];
 
+/* -------------------------------------------------------------------------------------------------
+ * Description rendering (minimal markdown subset used in JSDoc comments)
+ * -----------------------------------------------------------------------------------------------*/
+
+const descriptionStyle = style(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: vars.spacing.xs,
+  },
+  'props-table-description',
+);
+
+const descriptionListStyle = style(
+  {
+    margin: 0,
+    paddingInlineStart: vars.spacing.md,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: vars.spacing['2xs'],
+  },
+  'props-table-description-list',
+);
+
+type DescriptionBlock = { type: 'paragraph'; text: string } | { type: 'list'; items: string[] };
+
+const LIST_ITEM_PATTERN = /^\s*[-*]\s+/;
+
+function parseDescriptionBlocks(source: string): DescriptionBlock[] {
+  const blocks: DescriptionBlock[] = [];
+
+  for (const rawLine of source.split(/\r?\n/)) {
+    const line = rawLine.trim();
+    const last = blocks.at(-1);
+
+    if (line === '') {
+      // Blank line terminates the current block.
+      if (last) blocks.push({ type: 'paragraph', text: '' });
+      continue;
+    }
+
+    if (LIST_ITEM_PATTERN.test(line)) {
+      const item = line.replace(LIST_ITEM_PATTERN, '');
+      if (last?.type === 'list') last.items.push(item);
+      else blocks.push({ type: 'list', items: [item] });
+      continue;
+    }
+
+    if (last?.type === 'list' && /^\s{2,}/.test(rawLine)) {
+      // Indented continuation of the previous list item.
+      last.items[last.items.length - 1] += ` ${line}`;
+    } else if (last?.type === 'paragraph') {
+      last.text = last.text ? `${last.text} ${line}` : line;
+    } else {
+      blocks.push({ type: 'paragraph', text: line });
+    }
+  }
+
+  return blocks.filter((block) => block.type === 'list' || block.text !== '');
+}
+
+const INLINE_PATTERN = /`([^`]+)`|\*\*([^*]+)\*\*|\[([^\]]+)\]\(([^)\s]+)\)/g;
+
+function renderInline(text: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  let lastIndex = 0;
+
+  for (const match of text.matchAll(INLINE_PATTERN)) {
+    const [full, code, bold, linkText, href] = match;
+    const index = match.index;
+    if (index > lastIndex) nodes.push(text.slice(lastIndex, index));
+
+    if (code !== undefined) {
+      nodes.push(
+        <Code key={index} variant="subtle">
+          {code.replace(/^'|'$/g, '')}
+        </Code>,
+      );
+    } else if (bold !== undefined) {
+      nodes.push(<strong key={index}>{bold}</strong>);
+    } else if (linkText !== undefined && href !== undefined) {
+      nodes.push(
+        <a key={index} href={href}>
+          {linkText}
+        </a>,
+      );
+    }
+
+    lastIndex = index + full.length;
+  }
+
+  if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+  return nodes;
+}
+
+function Description({ source }: { source: string }): React.JSX.Element {
+  const blocks = parseDescriptionBlocks(source);
+
+  return (
+    <div className={descriptionStyle.className}>
+      {blocks.map((block, i) =>
+        block.type === 'list' ? (
+          // oxlint-disable-next-line react/no-array-index-key
+          <ul key={`list-${i}`} className={descriptionListStyle.className}>
+            {block.items.map((item, j) => (
+              // oxlint-disable-next-line react/no-array-index-key
+              <li key={`list-${i}-${j}`}>
+                <Text as="span" type="body" size="xs">
+                  {renderInline(item)}
+                </Text>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          // oxlint-disable-next-line react/no-array-index-key
+          <Text key={i} as="p" type="body" size="xs">
+            {renderInline(block.text)}
+          </Text>
+        ),
+      )}
+    </div>
+  );
+}
+
 export function PropsTable({
   data,
   excludeProps = DEFAULT_EXCLUDE_PROPS,
 }: PropsTableProps): React.JSX.Element {
-  const propKeys = Object.keys(data?.props || {}).filter((key) => !excludeProps.includes(key));
+  const subcomponents = Object.entries(data?.subcomponents ?? {});
+  const hasOwnProps = filterPropKeys(data?.props, excludeProps).length > 0;
+
+  if (subcomponents.length === 0) {
+    return <PropsTableContent props={data?.props} excludeProps={excludeProps} />;
+  }
+
+  const tabs = [
+    ...(hasOwnProps
+      ? [
+          {
+            key: '__component',
+            label: data?.name ?? 'Component',
+            description: data?.description,
+            props: data?.props,
+          },
+        ]
+      : []),
+    ...subcomponents.map(([key, sub]) => ({
+      key,
+      label: sub.name,
+      description: sub.description,
+      props: sub.props,
+    })),
+  ];
+  const [first] = tabs;
+  if (!first) return <PropsTableContent props={data?.props} excludeProps={excludeProps} />;
+
+  return (
+    <TabsRoot defaultValue={first.key} variant="line">
+      <TabsList>
+        {tabs.map((tab) => (
+          <TabsTrigger key={tab.key} value={tab.key}>
+            {tab.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+      {tabs.map((tab) => (
+        <TabsContent key={tab.key} value={tab.key}>
+          <VStack gap="sm">
+            {tab.description ? <Description source={tab.description} /> : null}
+            <PropsTableContent props={tab.props} excludeProps={excludeProps} />
+          </VStack>
+        </TabsContent>
+      ))}
+    </TabsRoot>
+  );
+}
+
+function filterPropKeys(
+  props: Record<string, DocgenProp> | undefined,
+  excludeProps: string[],
+): string[] {
+  return Object.keys(props ?? {}).filter((key) => !excludeProps.includes(key));
+}
+
+function PropsTableContent({
+  props,
+  excludeProps,
+}: {
+  props?: Record<string, DocgenProp>;
+  excludeProps: string[];
+}): React.JSX.Element {
+  const propKeys = filterPropKeys(props, excludeProps);
 
   if (propKeys.length === 0) {
     return (
@@ -81,7 +289,7 @@ export function PropsTable({
       </Table.Header>
       <Table.Body>
         {propKeys.map((key) => {
-          const prop = data?.props?.[key];
+          const prop = props?.[key];
           if (!prop) return null;
           const defaultValue = prop.defaultValue?.value;
           const cleanDefault = defaultValue?.replace(/^["']|["']$/g, '');
@@ -92,7 +300,7 @@ export function PropsTable({
                 <HStack gap="xs" align="center">
                   <Code variant="primary">{prop.name}</Code>
                   {prop.required ? (
-                    <Badge variant="primary" intent="error">
+                    <Badge intent="error" variant="outline" size="2xs">
                       required
                     </Badge>
                   ) : null}
@@ -109,9 +317,13 @@ export function PropsTable({
                 )}
               </Table.Cell>
               <Table.Cell>
-                <Text as="span" type="body" size="sm">
-                  {prop.description || '—'}
-                </Text>
+                {prop.description ? (
+                  <Description source={prop.description} />
+                ) : (
+                  <Text as="span" type="caption" color="muted">
+                    —
+                  </Text>
+                )}
               </Table.Cell>
             </Table.Row>
           );

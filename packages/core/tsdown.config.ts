@@ -15,5 +15,7 @@ export default defineConfig({
   exports: false,
   target: 'es2022',
   unbundle: true,
-  external: ['oxfmt'],
+  deps: {
+    neverBundle: ['oxfmt'],
+  },
 });

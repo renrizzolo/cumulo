@@ -75,13 +75,13 @@
             "value": "\"small\""
           },
           {
-            "value": "\"code\""
-          },
-          {
             "value": "\"div\""
           },
           {
             "value": "\"span\""
+          },
+          {
+            "value": "\"code\""
           },
           {
             "value": "\"label\""
@@ -116,10 +116,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xs\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
+        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"2xs\""
           },
           {
             "value": "\"xs\""
@@ -135,9 +138,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"2xs\""
           },
           {
             "value": "\"2xl\""
@@ -247,16 +247,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"subtle\" | \"muted\" | undefined",
+        "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"inherit\""
           },
           {
-            "value": "\"inherit\""
+            "value": "\"primary\""
           },
           {
             "value": "\"success\""
@@ -271,10 +271,10 @@
             "value": "\"default\""
           },
           {
-            "value": "\"subtle\""
+            "value": "\"muted\""
           },
           {
-            "value": "\"muted\""
+            "value": "\"subtle\""
           }
         ]
       },

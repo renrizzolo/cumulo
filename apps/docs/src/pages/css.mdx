@@ -4,11 +4,11 @@ export { CodeBlock };
   
 # @cumulo/css
 
-A lightweight, type-safe CSS framework inspired by StyleX and Vanilla Extract with **zero runtime dependencies**.
+A type-safe CSS framework with no runtime dependencies, inspired by StyleX and Vanilla Extract.
 
-## 1. Creating Style Rules (`style` / `create`)
+## Style rules
 
-Define scoped, type-safe CSS styles with pseudo-classes, media queries, and tokens:
+Use `style` and `create` to define scoped styles with pseudo-classes, media queries, and tokens:
 
 ```tsx
 import { style, create } from '@cumulo/css';
@@ -51,9 +51,9 @@ export const buttonStyles = create({
 });
 ```
 
-## 2. Zero-Runtime Recipe Variants (`recipe`)
+## Recipes
 
-Create type-safe variant engines (like Vanilla Extract recipes or CVA) with zero runtime CSS injection:
+Use `recipe` to define type-safe variants. Recipes inject no CSS at runtime:
 
 ```tsx
 import { recipe, type RecipeVariants } from '@cumulo/css';
@@ -96,9 +96,9 @@ export type ButtonVariants = RecipeVariants<typeof button>;
 const className = button({ variant: 'secondary', size: 'sm' });
 ```
 
-## 3. Theme Contracts (`createThemeContract` & `createTheme`)
+## Theme contracts
 
-Theme contracts define strongly typed CSS custom properties that can be mapped to themes or overridden inside style recipes via `.$set()`:
+`createThemeContract` and `createTheme` define typed CSS custom properties. Map them to themes, or override them inside recipes with `.$set()`:
 
 ```tsx
 import { createThemeContract, createTheme, recipe } from '@cumulo/css';
@@ -123,7 +123,7 @@ export const darkTheme = createTheme(colorContract, {
   surface: '#0f172a',
 });
 
-// 3. Override contract variables inside recipes or style rules without manual strings
+// 3. Override contract variables inside recipes or style rules
 export const cardRecipe = recipe({
   base: {
     backgroundColor: colorContract.surface,
@@ -140,7 +140,7 @@ export const cardRecipe = recipe({
 });
 ```
 
-## 4. Animations (`keyframes`)
+## Animations
 
 ```tsx
 import { keyframes, style } from '@cumulo/css';
@@ -155,7 +155,9 @@ export const spinner = style({
 });
 ```
 
-## 5. Merging Classes (`cx` & `props`)
+## Merging classes
+
+Use `cx` to merge class names, and `props` to get `className` and `style` together for JSX spreading.
 
 ```tsx
 import { cx, props } from '@cumulo/css';
@@ -165,5 +167,5 @@ const className = cx(buttonStyles.base, isPrimary && buttonStyles.primary, 'cust
 
 // Returns { className, style } for JSX spreading
 const elementProps = props(buttonStyles.base, { style: { marginTop: 8 } });
-<button {...elementProps}>Click</button>;
+<button {...elementProps}>Save</button>;
 ```

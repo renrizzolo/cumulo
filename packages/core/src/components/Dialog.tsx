@@ -101,8 +101,8 @@ export function DialogRoot({
     setOpen(!open);
   }, [open, setOpen]);
 
-  const contextValue = useMemo<DialogContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): DialogContextValue => ({
       id,
       open,
       onOpenToggle,

@@ -113,8 +113,6 @@ describe('Theme Generator & CLI', () => {
     expect(fs.existsSync(outFile)).toBe(true);
     const content = fs.readFileSync(outFile, 'utf-8');
     expect(content).toContain('export const vars = {');
-    expect(content).toContain('export const themeTokens = [');
-    expect(content).toContain('export const themeVars = {');
     expect(content).toContain('/** 8px */');
     expect(content).toContain("md: 'var(--theme-spacing-md)'");
 

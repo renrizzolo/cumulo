@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { create, style } from '@cumulo/css';
-import { Text, vars, type ThemeToken, type VarPath, Button } from '@cumulo/core';
+import { Text, vars, type VarPath, Button } from '@cumulo/core';
 import { Intent } from '@cumulo/core/intents';
 
 type ColorIntent = Intent | 'grey';
@@ -11,7 +11,7 @@ type ColorStep = (typeof STEPS)[number];
 interface IntentScaleItem {
   key: ColorIntent;
   label: string;
-  seed: ThemeToken;
+  seed: string;
   name: VarPath;
 }
 
@@ -19,37 +19,37 @@ const INTENT_SCALES: readonly IntentScaleItem[] = [
   {
     key: 'primary',
     label: 'Primary',
-    seed: '--color-primary-base',
+    seed: vars.seed.primary,
     name: 'vars.seed.primary',
   },
   {
     key: 'success',
     label: 'Success',
-    seed: '--color-success-base',
+    seed: vars.seed.success,
     name: 'vars.seed.success',
   },
   {
     key: 'warning',
     label: 'Warning',
-    seed: '--color-warning-base',
+    seed: vars.seed.warning,
     name: 'vars.seed.warning',
   },
   {
     key: 'error',
     label: 'Error',
-    seed: '--color-error-base',
+    seed: vars.seed.error,
     name: 'vars.seed.error',
   },
   {
     key: 'info',
     label: 'Info',
-    seed: '--color-info-base',
+    seed: vars.seed.info,
     name: 'vars.seed.info',
   },
   {
     key: 'grey',
     label: 'Grey',
-    seed: '--color-grey-base',
+    seed: vars.seed.grey,
     name: 'vars.seed.grey',
   },
 ] as const;
@@ -114,18 +114,19 @@ interface SwatchProps {
 
 function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
   const [copied, setCopied] = useState(false);
-  const cssVar: ThemeToken = `--theme-${intent}-${step}`;
+  const tokenVar = vars[intent][step];
+  const cssVar = tokenVar.replace(/^var\((--[^)]+)\)$/, '$1');
   const isLightStep = step <= 400;
 
   const handleCopy = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(`var(${cssVar})`);
+      await navigator.clipboard.writeText(tokenVar);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
       // Fallback
     }
-  }, [cssVar]);
+  }, [tokenVar]);
 
   return (
     <Button
@@ -134,7 +135,7 @@ function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
       onClick={handleCopy}
       aria-label={`Copy ${cssVar}`}
       style={{
-        backgroundColor: `var(${cssVar})`,
+        backgroundColor: tokenVar,
         color: isLightStep ? 'light-dark(#0f172a, #f8fafc)' : 'light-dark(#ffffff, #0f172a)',
       }}
     >

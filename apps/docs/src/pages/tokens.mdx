@@ -2,40 +2,44 @@ import Layout, { CodeBlock, ColorTokens, TokenTable } from '../components/MDXLay
 export default Layout;
 export { CodeBlock, ColorTokens, TokenTable };
 
-# @cumulo/core Tokens & CSS-First Theming
+# Tokens and theming
 
-Dynamic surfaces, mathematical OKLCH color seeding, and bleeding-edge CSS capabilities.
+Cumulo's token system is built on CSS custom properties. Theming can be easily achieved by overriding these properties in your own stylesheets. See the [interactive theme builder](/theme-builder) to quickly create and test custom themes.
 
-## Dynamic Surface System
+```ts
+import { vars } from '@cumulo/core';
+```
 
-Surfaces define contextual CSS custom properties so that nested interactive elements (inputs, cards, hover states) automatically deepen and darken relative to their container hierarchy.
+## Surfaces
+
+Surfaces define contextual custom properties. Nested interactive elements, such as inputs and buttons are surface-aware.
 
 <TokenTable category="surface" />
 
-## Mathematical OKLCH Color Seeding
+## Color seeds
 
-Themes are seeded from base variables (`--color-primary-base`, `--color-success-base`, etc.) and dynamically calculate full 50–900 stepped palettes live in CSS using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
+Color palettes are built from the following CSS custom properties: `--color-grey-base`, `--color-primary-base`, `--color-success-base`, `--color-warning-base`, `--color-error-base`, and `--color-info-base`. Cumulo's theme stylesheet computes each full 50–900 palette using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
 
 <TokenTable category="seed" />
 
-## Color Palette Shades
+## Color palettes
 
-Each intent palette generates a full 10-step shade scale (50–900) live in CSS with adaptive contrast across light and dark modes.
+Each intent generates a 10-step shade scale (50–900) with contrast that adapts to light and dark modes.
 
 <ColorTokens />
 
-## Spacing Scale
+## Spacing
 
 <TokenTable category="spacing" />
 
-## Border Radii
+## Border radius
 
 <TokenTable category="radius" />
 
-## Typography Scale
+## Typography
 
 <TokenTable category="typography" />
 
-## Elevation & Shadows
+## Shadows
 
 <TokenTable category="shadow" />

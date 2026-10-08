@@ -63,8 +63,8 @@ importers:
         specifier: ^2.16.4
         version: 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@renr/parcel-rsc-router':
-        specifier: ^1.0.0-alpha.8
-        version: 1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: ^1.0.0-alpha.9
+        version: 1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -85,11 +85,11 @@ importers:
         specifier: 2.16.4
         version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@renr/parcel-reporter-docgen':
-        specifier: ^0.0.1-alpha.4
-        version: 0.0.1-alpha.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(typescript@5.9.3)
+        specifier: ^0.1.0-alpha.5
+        version: 0.1.0-alpha.5(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@renr/parcel-reporter-rsc-router':
-        specifier: ^1.0.0-alpha.15
-        version: 1.0.0-alpha.15(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        specifier: ^1.0.0-alpha.16
+        version: 1.0.0-alpha.16(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -1356,16 +1356,16 @@ packages:
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
 
-  '@renr/parcel-reporter-docgen@0.0.1-alpha.4':
-    resolution: {integrity: sha512-Wm0G4GQGPfexlOgJsDxjrmED/2VmM2mfswcrpvy/N5IztHGD/hMs/DwpQ36jtJbnWRtHyEi3OV2N4TLlrVa29w==}
+  '@renr/parcel-reporter-docgen@0.1.0-alpha.5':
+    resolution: {integrity: sha512-eEg6vHYzU1QGMORpJp0Wn/Xdtm2nN+Vg/bI8ZERooCw9PUTrX2wi/UBtjZvvNfOCGDl+DPeuUMeaju9ShHTaTQ==}
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.15':
-    resolution: {integrity: sha512-QkNeLk8hdEhVBX+yKFuZ1S8eQQifL2ZJdid+rlSeEczzrjp4XYzMj/QUWnpdP8jNUT/wPbTLaUO3JHosr3pTpQ==}
+  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.16':
+    resolution: {integrity: sha512-ZISfaGNxWXtSKde+1xjVEINiB8eOsLphgHdbCuFBD+LeZXcLF5PP3EvPB95aTopSFWgq03AVDpAkFBGqRGrvAg==}
     peerDependencies:
-      '@renr/parcel-rsc-router': 1.0.0-alpha.8
+      '@renr/parcel-rsc-router': 1.0.0-alpha.9
 
-  '@renr/parcel-rsc-router@1.0.0-alpha.8':
-    resolution: {integrity: sha512-K8V5ahWm8O72LIKeiJOMDafVqs1aEa7FWueufO3NMHdSvXlKyCNT27a/gl1MYm7Z63Y2KpCcC9/NQHp2eCkn6A==}
+  '@renr/parcel-rsc-router@1.0.0-alpha.9':
+    resolution: {integrity: sha512-FZdS6NLFTpYh5fWnBR0AZWL/1u5vqWkVjDj7sJqD7F1jmAlFRzHdf/dkfwurMPRaWJ9tzR4wcderX7u6vBjRIQ==}
     peerDependencies:
       '@parcel/rsc': ^2
       react: ^19
@@ -1862,6 +1862,10 @@ packages:
 
   '@types/webpack@5.28.5':
     resolution: {integrity: sha512-wR87cgvxj3p6D0Crt1r5avwqffqPXUkNlnQ1mjU93G7gCuFjufZR4I6j8cz5g1F1tTYpfOOFvly+cmIQwL9wvw==}
+
+  '@typescript/typescript6@6.0.2':
+    resolution: {integrity: sha512-mbCddXd+jm7hfx7w2YU64/Av4/NqqeG3GoRZgxPcgoTxYjhrcfJRw9ULch71SS4G+Q3bOXFhRvPqjguN0Hyp5w==}
+    hasBin: true
 
   '@ungap/structured-clone@1.4.0':
     resolution: {integrity: sha512-1mEZtMKPM09vDmQt5y7YvmN2+DFTP7Tg0EWXdic8/C6VRnpb33e4ghisCIE3WZjsE2N8mf+QV1Zqh7ZFYLWInQ==}
@@ -2918,8 +2922,8 @@ packages:
     resolution: {integrity: sha512-u82N74LFzG8ca+dD8puPnplTXoGH4fTPpVGuIbt36G3qvNlkvfD0lEAZSxaly3KX8TS/L1A1gsCEmvKmBcVbkQ==}
     engines: {node: ^10 || ^12 || >=14}
 
-  prettier@3.9.6:
-    resolution: {integrity: sha512-OpN0zzVdiaiAhxpuuj5efpIS4sY9j7bY6uR5mnj5yPzGkdkjNKSJeUThPb60Jw29QuAZgA4o+/iB49kFiaBX6g==}
+  prettier@3.9.9:
+    resolution: {integrity: sha512-Z/CJHIkdujO/OtN7nXUii0Rf3VT5SRuhjBA82Xvu2XhBUgX3nhP67T0LHceBdQLex7OOFGTox+Q5Yg8Jk2Qivg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -3219,6 +3223,11 @@ packages:
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -4591,34 +4600,34 @@ snapshots:
     dependencies:
       quansync: 1.0.0
 
-  '@renr/parcel-reporter-docgen@0.0.1-alpha.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(typescript@5.9.3)':
+  '@renr/parcel-reporter-docgen@0.1.0-alpha.5(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       dedent: 1.7.2
-      prettier: 3.9.6
-      react-docgen-typescript: 2.4.0(typescript@5.9.3)
+      prettier: 3.9.9
+      react-docgen-typescript: 2.4.0(@typescript/typescript6@6.0.2)
       tinyglobby: 0.2.17
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - babel-plugin-macros
-      - napi-wasm
-      - typescript
-
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.15(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
-    dependencies:
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-rsc-router': 1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
-      dedent: 1.7.2
-      prettier: 3.9.6
-      tinyglobby: 0.2.17
+      typescript: '@typescript/typescript6@6.0.2'
     transitivePeerDependencies:
       - '@parcel/core'
       - babel-plugin-macros
       - napi-wasm
 
-  '@renr/parcel-rsc-router@1.0.0-alpha.8(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.16(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
+    dependencies:
+      '@parcel/diagnostic': 2.16.4
+      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@renr/parcel-rsc-router': 1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+      dedent: 1.7.2
+      prettier: 3.9.9
+      tinyglobby: 0.2.17
+    transitivePeerDependencies:
+      - '@parcel/core'
+      - babel-plugin-macros
+      - napi-wasm
+
+  '@renr/parcel-rsc-router@1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@parcel/rsc': 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
@@ -4993,6 +5002,10 @@ snapshots:
       - postcss
       - uglify-js
       - webpack-cli
+
+  '@typescript/typescript6@6.0.2':
+    dependencies:
+      '@typescript/old': typescript@6.0.3
 
   '@ungap/structured-clone@1.4.0': {}
 
@@ -5949,7 +5962,7 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  prettier@3.9.6: {}
+  prettier@3.9.9: {}
 
   pretty-format@27.5.1:
     dependencies:
@@ -5963,9 +5976,9 @@ snapshots:
 
   quansync@1.0.0: {}
 
-  react-docgen-typescript@2.4.0(typescript@5.9.3):
+  react-docgen-typescript@2.4.0(@typescript/typescript6@6.0.2):
     dependencies:
-      typescript: 5.9.3
+      typescript: '@typescript/typescript6@6.0.2'
 
   react-dom@19.2.8(react@19.2.8):
     dependencies:
@@ -6245,6 +6258,8 @@ snapshots:
   type-fest@0.20.2: {}
 
   typescript@5.9.3: {}
+
+  typescript@6.0.3: {}
 
   unconfig-core@7.5.0:
     dependencies:

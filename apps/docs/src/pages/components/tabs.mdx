@@ -17,7 +17,7 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
 <ComponentPreview
   title="Horizontal Tabs"
 >
-  <VStack gap="xl" style={{ width: '100%', maxWidth: '540px' }}>
+  <VStack gap="xl" width="full">
     <TabsRoot defaultValue="account" variant="line">
       <TabsList>
         <TabsTrigger value="account">Account</TabsTrigger>
@@ -67,13 +67,14 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
       </TabsContent>
     </TabsRoot>
 
-  </VStack>
+    </VStack>
+
 </ComponentPreview>
 
 <ComponentPreview
   title="Vertical Tabs"
 >
-  <VStack gap="xl" style={{ width: '100%', maxWidth: '640px' }}>
+  <VStack gap="xl" width="full">
     <TabsRoot defaultValue="account" orientation="vertical" variant="line">
       <TabsList>
         <TabsTrigger value="account">Account</TabsTrigger>
@@ -123,7 +124,8 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
       </TabsContent>
     </TabsRoot>
 
-  </VStack>
+    </VStack>
+
 </ComponentPreview>
 
 ### Component API
