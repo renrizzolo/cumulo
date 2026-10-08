@@ -76,5 +76,165 @@
       },
       "shortPropTypeName": "Union"
     }
+  },
+  "subcomponents": {
+    "Root": {
+      "name": "AppFrame.Root",
+      "description": "Top-level application shell. Lays out a `Sidebar` (or any panel) next to `AppFrame.Main`\nin a horizontal row. Visual sidebar styles (`docked`, `inset`, `floating`) are configured\non `Sidebar` itself.",
+      "props": {
+        "height": {
+          "defaultValue": {
+            "value": "'screen'"
+          },
+          "description": "How the frame is sized vertically:\n- `'screen'`: Locks the frame to the viewport (`100dvh`). Children scroll independently.\n- `'full'`: Fills the parent's height (`100%`). Use when embedding the frame in a sized container.\n- `'auto'`: Grows with content (minimum `100dvh`) so the document itself scrolls.",
+          "name": "height",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",
+            "name": "AppFrameProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",
+              "name": "AppFrameProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | \"screen\" | \"full\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"screen\""
+              },
+              {
+                "value": "\"full\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "Main": {
+      "name": "AppFrame.Main",
+      "description": "Flexible content column that fills the space beside the sidebar. Stack a header `Panel`\nand a scrollable `Panel` inside it.",
+      "props": {
+        "as": {
+          "defaultValue": {
+            "value": "main"
+          },
+          "description": "Element to render. Defaults to `main`; use `div` when a descendant already provides the\npage's `<main>` landmark.",
+          "name": "as",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",
+            "name": "AppFrameMainProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/AppFrame.tsx",
+              "name": "AppFrameMainProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"main\" | \"div\" | \"section\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"div\""
+              },
+              {
+                "value": "\"section\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    }
   }
 }

@@ -22,19 +22,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+        "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"row\""
           },
           {
             "value": "\"column\""
           },
           {
             "value": "\"column-reverse\""
+          },
+          {
+            "value": "\"row\""
           },
           {
             "value": "\"row-reverse\""
@@ -62,16 +62,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"3xs\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"none\""
-          },
-          {
-            "value": "\"3xs\""
           },
           {
             "value": "\"2xs\""
@@ -90,6 +87,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"3xs\""
           },
           {
             "value": "\"2xl\""
@@ -206,16 +206,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
+        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"wrap\""
+            "value": "\"nowrap\""
           },
           {
-            "value": "\"nowrap\""
+            "value": "\"wrap\""
           },
           {
             "value": "\"wrap-reverse\""
@@ -263,13 +263,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "1"
           },
           {
             "value": "\"initial\""
@@ -279,6 +276,9 @@
           },
           {
             "value": "\"auto\""
+          },
+          {
+            "value": "1"
           }
         ]
       },
