@@ -54,12 +54,16 @@ export function getStoredTheme(
   return defaultTheme;
 }
 
-export function setStoredTheme(theme: Theme, storageKey: string = DEFAULT_THEME_STORAGE_KEY): void {
+export function setStoredTheme(
+  theme: Theme,
+  storageKey: string = DEFAULT_THEME_STORAGE_KEY,
+  defaultTheme: Theme = DEFAULT_THEME,
+): void {
   if (typeof window === 'undefined') {
     return;
   }
   try {
-    if (theme === DEFAULT_THEME) {
+    if (theme === defaultTheme) {
       window.localStorage.removeItem(storageKey);
     } else {
       window.localStorage.setItem(storageKey, theme);
@@ -129,6 +133,7 @@ export interface ThemeStoreOptions {
 export interface ThemeStore {
   getTheme(): Theme;
   setTheme(theme: Theme): void;
+  setDefaultTheme(theme: Theme): void;
   getMode(): ColorMode;
   getResolvedMode(): ResolvedColorMode;
   getSystemMode(): ResolvedColorMode;
@@ -141,8 +146,16 @@ export interface ThemeStore {
 export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
   const themeStorageKey = options.themeStorageKey ?? DEFAULT_THEME_STORAGE_KEY;
   const modeStorageKey = options.modeStorageKey ?? DEFAULT_MODE_STORAGE_KEY;
-  const defaultTheme = options.defaultTheme ?? DEFAULT_THEME;
-  const defaultMode = options.defaultMode ?? DEFAULT_COLOR_MODE;
+  let defaultTheme: Theme = options.defaultTheme ?? DEFAULT_THEME;
+  const defaultMode: ColorMode = options.defaultMode ?? DEFAULT_COLOR_MODE;
+
+  // Auto-detect initial theme from DOM if not explicitly passed in options
+  if (options.defaultTheme === undefined && typeof document !== 'undefined') {
+    const domTheme = document.documentElement.getAttribute('data-theme');
+    if (domTheme) {
+      defaultTheme = domTheme;
+    }
+  }
 
   let currentTheme: Theme = getStoredTheme(themeStorageKey, defaultTheme);
   let currentMode: ColorMode = getStoredColorMode(modeStorageKey, defaultMode);
@@ -191,9 +204,35 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
     },
     setTheme(newTheme: Theme): void {
       currentTheme = newTheme;
-      setStoredTheme(newTheme, themeStorageKey);
+      setStoredTheme(newTheme, themeStorageKey, defaultTheme);
       applyTheme(newTheme);
       notify();
+    },
+    setDefaultTheme(newDefaultTheme: Theme): void {
+      defaultTheme = newDefaultTheme;
+      const stored =
+        typeof window !== 'undefined' ? window.localStorage.getItem(themeStorageKey) : null;
+      if (stored !== null) {
+        if (currentTheme !== stored) {
+          currentTheme = stored;
+          applyTheme(stored);
+          if (listeners.size > 0) {
+            queueMicrotask(notify);
+          }
+        }
+      } else {
+        const domTheme =
+          typeof document !== 'undefined'
+            ? document.documentElement.getAttribute('data-theme')
+            : null;
+        if (currentTheme !== newDefaultTheme || domTheme !== newDefaultTheme) {
+          currentTheme = newDefaultTheme;
+          applyTheme(newDefaultTheme);
+          if (listeners.size > 0) {
+            queueMicrotask(notify);
+          }
+        }
+      }
     },
     getMode(): ColorMode {
       return currentMode;
@@ -242,10 +281,8 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
     },
     destroy(): void {
       listeners.clear();
-      if (mediaQueryList) {
-        if (typeof mediaQueryList.removeEventListener === 'function') {
-          mediaQueryList.removeEventListener('change', handleMediaChange);
-        }
+      if (mediaQueryList && typeof mediaQueryList.removeEventListener === 'function') {
+        mediaQueryList.removeEventListener('change', handleMediaChange);
         mediaQueryList = null;
       }
     },
@@ -253,3 +290,7 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
 }
 
 export const themeStore: ThemeStore = createThemeStore();
+
+export function setDefaultTheme(theme: Theme): void {
+  themeStore.setDefaultTheme(theme);
+}

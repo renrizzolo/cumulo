@@ -211,8 +211,8 @@
     --theme-lightness-offset: 0;
 
     /* Step progress t (0.04 to 0.95) */
-    --theme-step-50-t: 0.05;
-    --theme-step-100-t: 0.1;
+    --theme-step-50-t: 0.02;
+    --theme-step-100-t: 0.07;
     --theme-step-200-t: 0.16;
     --theme-step-300-t: 0.28;
     --theme-step-400-t: 0.4;

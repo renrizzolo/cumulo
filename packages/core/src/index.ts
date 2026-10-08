@@ -1,10 +1,7 @@
 export type { ElementProps } from './ElementProps.js';
 
-// Theme Tokens & Contract
-export { themeTokens, themeVars, type ThemeToken } from './tokens/themeTokens.js';
-
 // Contract & Reset
-export { vars, themeContract, type ThemeVars, type VarPath } from './contract.js';
+export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
 export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components

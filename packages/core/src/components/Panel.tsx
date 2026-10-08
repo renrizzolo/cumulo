@@ -20,9 +20,6 @@ export const panelRecipe = recipe(
       ...panelContract.$set({
         dividerColor: vars.surface.border,
       }),
-      borderColor: panelContract.dividerColor,
-      borderStyle: 'solid',
-      borderWidth: 0,
       position: 'relative',
     },
     variants: {
@@ -42,24 +39,31 @@ export const panelRecipe = recipe(
       scrollbar: {
         none: {},
         default: {
-          overflowY: 'auto',
           minHeight: 0,
           minWidth: 0,
         },
         thin: {
-          overflowY: 'auto',
           minHeight: 0,
           minWidth: 0,
           scrollbarWidth: 'thin',
           scrollbarColor: `${vars.surface.border} transparent`,
         },
       },
+      overflow: {
+        x: { overflowX: 'auto', overflowY: 'clip' },
+        y: { overflowY: 'auto', overflowX: 'clip' },
+        both: { overflow: 'auto' },
+      },
       divider: {
         true: { borderWidth: 1 },
         false: {},
         all: { borderWidth: 1 },
         top: { borderTopWidth: 1 },
-        bottom: { borderBottomWidth: 1 },
+        bottom: {
+          borderBottomWidth: 1,
+          borderBottomColor: panelContract.dividerColor,
+          borderBottomStyle: 'solid',
+        },
         left: { borderLeftWidth: 1 },
         right: { borderRightWidth: 1 },
         x: { borderLeftWidth: 1, borderRightWidth: 1 },
@@ -78,10 +82,46 @@ export const panelRecipe = recipe(
         true: { borderRightWidth: 1 },
       },
     },
+    compoundVariants: [
+      {
+        variants: { divider: true },
+        style: {
+          borderColor: panelContract.dividerColor,
+          borderStyle: 'solid',
+        },
+      },
+      {
+        variants: { dividerTop: true },
+        style: {
+          borderTopColor: panelContract.dividerColor,
+          borderTopStyle: 'solid',
+        },
+      },
+      {
+        variants: { dividerBottom: true },
+        style: {
+          borderBottomColor: panelContract.dividerColor,
+          borderBottomStyle: 'solid',
+        },
+      },
+      {
+        variants: { dividerLeft: true },
+        style: {
+          borderLeftColor: panelContract.dividerColor,
+          borderLeftStyle: 'solid',
+        },
+      },
+      {
+        variants: { dividerRight: true },
+        style: {
+          borderRightColor: panelContract.dividerColor,
+          borderRightStyle: 'solid',
+        },
+      },
+    ],
     defaultVariants: {
       direction: 'column',
       scrollbar: 'none',
-      padding: 'none',
       divider: false,
     },
   },
@@ -91,6 +131,7 @@ export const panelRecipe = recipe(
 export type PanelVariants = RecipeVariants<typeof panelRecipe>;
 
 export type PanelScrollbar = NonNullable<PanelVariants['scrollbar']>;
+export type PanelOverflow = NonNullable<PanelVariants['overflow']>;
 export type PanelDividerSide = 'top' | 'bottom' | 'left' | 'right';
 export type PanelDividerProp = boolean | PanelDividerSide | 'x' | 'y' | 'all' | PanelDividerSide[];
 export type PanelTag = 'div' | 'header' | 'main' | 'aside' | 'footer' | 'section' | 'nav';
@@ -110,6 +151,14 @@ export interface PanelProps extends ElementProps<HTMLElement> {
    * @default 'none'
    */
   scrollbar?: PanelScrollbar;
+  /**
+   * Axis that scrolls when `scrollbar` is `'default'` or `'thin'`. Ignored when `scrollbar` is `'none'`.
+   * - `'y'`: vertical scrolling.
+   * - `'x'`: horizontal scrolling.
+   * - `'both'`: scroll in both directions.
+   * @default 'y'
+   */
+  overflow?: PanelOverflow;
   /**
    * Flex layout direction.
    */
@@ -137,6 +186,7 @@ export function PanelRoot({
   as: Component = 'div',
   divider,
   scrollbar = 'none',
+  overflow = 'y',
   direction = 'column',
   flex,
   padding,
@@ -152,6 +202,7 @@ export function PanelRoot({
   const classes = panelRecipe({
     direction,
     scrollbar,
+    overflow: scrollbar === 'none' ? undefined : overflow,
     flex,
     padding,
     width,

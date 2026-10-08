@@ -8,7 +8,7 @@ export const codeRecipe = recipe(
   {
     base: {
       ...textBase,
-      fontWeight: vars.font.weight.light,
+      fontWeight: vars.font.weight.medium,
       fontFamily: vars.font.mono,
       fontSize: vars.font.size['2xs'],
       borderRadius: vars.radius.md,
@@ -22,6 +22,10 @@ export const codeRecipe = recipe(
     },
     variants: {
       variant: {
+        base: {
+          color: vars.grey[700],
+          backgroundColor: vars.grey[50],
+        },
         subtle: {
           backgroundColor: vars.surface.bg.next,
           borderColor: vars.surface.border,
