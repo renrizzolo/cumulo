@@ -6,7 +6,7 @@ import { HighlightedCode } from './HighlightedCode';
 export interface CodeBlockProps extends ElementProps<HTMLDivElement> {
   children: string;
   className?: string;
-  language?: string;
+  language?: 'ts' | 'tsx' | 'css';
 }
 
 const codeBlockContainerStyle = style({
@@ -19,7 +19,7 @@ const codeBlockContainerStyle = style({
 export function CodeBlock({
   children,
   className,
-  language = 'typescript',
+  language = 'tsx',
   ...props
 }: CodeBlockProps): React.JSX.Element {
   return (

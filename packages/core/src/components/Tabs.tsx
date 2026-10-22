@@ -16,6 +16,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Stack } from './Stack.js';
 import { focusRing } from '../intents.js';
+import { Panel } from './Panel.js';
 
 export type TabsOrientation = 'horizontal' | 'vertical';
 export type TabsVariant = 'line' | 'pill' | 'bordered';
@@ -82,8 +83,8 @@ export function TabsRoot({
     [isControlled, onValueChange],
   );
 
-  const contextValue = useMemo<TabsContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): TabsContextValue => ({
       id,
       value,
       setValue,
@@ -174,15 +175,19 @@ export function TabsList({
   const classes = tabsListRecipe({ orientation, variant });
 
   return (
-    <div
+    <Panel
+      scrollbar="thin"
+      overflow={orientation === 'vertical' ? 'y' : 'x'}
+      direction={orientation === 'vertical' ? 'column' : 'row'}
       ref={ref}
       role="tablist"
+      divider={false}
       aria-orientation={orientation}
       className={cx(classes, className)}
       {...props}
     >
       {children}
-    </div>
+    </Panel>
   );
 }
 
@@ -194,7 +199,6 @@ export const tabsTriggerRecipe = recipe(
   {
     extend: [focusRing],
     base: {
-      width: '100%',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -225,7 +229,6 @@ export const tabsTriggerRecipe = recipe(
           borderBottomWidth: 2,
           borderBottomStyle: 'solid',
           borderBottomColor: 'transparent',
-          marginBottom: '-1px',
         },
         pill: {
           borderRadius: vars.radius.md,
@@ -236,7 +239,9 @@ export const tabsTriggerRecipe = recipe(
       },
       orientation: {
         horizontal: {},
-        vertical: {},
+        vertical: {
+          width: '100%',
+        },
       },
       selected: {
         true: {
@@ -256,11 +261,12 @@ export const tabsTriggerRecipe = recipe(
       {
         variants: { variant: 'line', orientation: 'vertical' },
         style: {
-          justifyContent: 'start',
+          width: '100%',
           paddingLeft: 0,
           paddingRight: 0,
         },
       },
+
       {
         variants: { variant: 'pill', selected: true },
         style: {
@@ -275,6 +281,12 @@ export const tabsTriggerRecipe = recipe(
           color: vars.surface.fg,
           backgroundColor: vars.surface.secondary.DEFAULT,
           boxShadow: vars.shadow['0'],
+        },
+      },
+      {
+        variants: { variant: 'pill', orientation: 'vertical' },
+        style: {
+          width: '100%',
         },
       },
     ],

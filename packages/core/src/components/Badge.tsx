@@ -68,7 +68,7 @@ export type BadgeColor = NonNullable<BadgeVariants['color']>;
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
   variant?: Exclude<BadgeVariants['variant'], 'ghost'>;
   intent?: BadgeVariants['intent'];
-  size?: BadgeVariants['size'];
+  size?: Exclude<BadgeVariants['size'], 'lg' | 'xl'>;
   color?: BadgeVariants['color'];
   children?: React.ReactNode;
 }

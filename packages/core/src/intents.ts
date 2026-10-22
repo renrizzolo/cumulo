@@ -225,6 +225,12 @@ export const sizes = recipe(
   {
     variants: {
       size: {
+        '2xs': {
+          height: vars.size['2xs'],
+          paddingLeft: vars.spacing['2xs'],
+          paddingRight: vars.spacing['2xs'],
+          fontSize: vars.font.size['2xs'],
+        },
         xs: {
           height: vars.size.xs,
           paddingLeft: vars.spacing.xs,

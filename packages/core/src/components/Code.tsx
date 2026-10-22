@@ -8,12 +8,13 @@ export const codeRecipe = recipe(
   {
     base: {
       ...textBase,
+      fontWeight: vars.font.weight.medium,
       fontFamily: vars.font.mono,
-      fontSize: vars.font.size.xs,
+      fontSize: vars.font.size['2xs'],
       borderRadius: vars.radius.md,
-      borderWidth: 1,
+      borderWidth: 0,
       borderStyle: 'solid',
-      padding: `${vars.spacing['xs']} ${vars.spacing['xs']}`,
+      padding: `${vars.spacing['2xs']} ${vars.spacing['2xs']}`,
       lineHeight: vars.line.height.normal,
       display: 'inline-block',
       verticalAlign: 'baseline',
@@ -21,6 +22,10 @@ export const codeRecipe = recipe(
     },
     variants: {
       variant: {
+        base: {
+          color: vars.grey[700],
+          backgroundColor: vars.grey[50],
+        },
         subtle: {
           backgroundColor: vars.surface.bg.next,
           borderColor: vars.surface.border,

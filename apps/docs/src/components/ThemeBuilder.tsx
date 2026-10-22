@@ -1327,8 +1327,8 @@ export function ThemeBuilder(): React.JSX.Element {
                   title="Theme CSS"
                   description="Place this in your app's global CSS or inside a scoped container with data-theme."
                   actions={
-                    <Button variant="primary" onClick={handleCopy}>
-                      {copied ? '✓ Copied to Clipboard!' : 'Copy Theme CSS'}
+                    <Button variant="primary" size="xs" onClick={handleCopy}>
+                      {copied ? '✓ Copied to Clipboard' : 'Copy Theme CSS'}
                     </Button>
                   }
                 />
@@ -1343,7 +1343,7 @@ export function ThemeBuilder(): React.JSX.Element {
           </VStack>
         </aside>
 
-        {/* Left Column: Preview Showcase Area */}
+        {/* Preview Showcase Area */}
         <div className={showcaseAreaStyle.className}>
           <VStack gap="xl">
             {/* Live Theme Scoped Preview Container */}
@@ -1354,6 +1354,7 @@ export function ThemeBuilder(): React.JSX.Element {
                 className={fullWidthStyle.className}
               >
                 <VStack gap="xl">
+                  <Heading size="md">Theme preview</Heading>
                   {/* UI Component Showcase Section: 4 Balanced Representative Cards */}
                   <div className={cardGridStyle.className}>
                     {/* Card 1: Registration Form */}

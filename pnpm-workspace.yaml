@@ -10,16 +10,7 @@ allowBuilds:
   msgpackr-extract: true
 
 minimumReleaseAgeExclude:
-  - '@renr/parcel-reporter-rsc-router@1.0.0-alpha.14 || 1.0.0-alpha.15'
-  - '@vitest/browser-playwright@5.0.0'
-  - '@vitest/browser@5.0.0'
-  - '@vitest/mocker@5.0.0'
-  - '@vitest/pretty-format@5.0.0'
-  - '@vitest/spy@5.0.0'
-  - '@vitest/ui@5.0.0'
-  - '@vitest/utils@5.0.0'
-  - vitest@5.0.0
-  - '@renr/parcel-rsc-router@1.0.0-alpha.8'
+  - '@renr/*'
 
 patchedDependencies:
   '@parcel/fs': patches/@parcel__fs.patch

@@ -15,7 +15,7 @@ export { CodeBlock, ComponentPreview, PropsTable };
 
 # Popover
 
-A lightweight non-modal floating overlay built on the native HTML Popover API with automatic top-layer elevation and light-dismiss behavior.
+A lightweight non-modal floating overlay built on the native [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API) with automatic top-layer elevation and light-dismiss behavior.
 
 ```tsx
 import { Popover } from '@cumulo/core';
@@ -27,18 +27,14 @@ import { Popover } from '@cumulo/core';
   <PopoverRoot>
     <PopoverTrigger variant="secondary">Toggle Settings</PopoverTrigger>
     <PopoverContent size="md">
-      <VStack gap="xs">
+      <VStack gap="sm" align="start">
         <Text size="sm" weight="semibold">
           Quick Preferences
         </Text>
         <Text size="xs" color="muted">
           Native popover rendered directly in the top layer without requiring React portals.
         </Text>
-        <PopoverClose
-          variant="outline"
-          size="sm"
-          style={{ marginTop: '0.5rem', alignSelf: 'flex-start' }}
-        >
+        <PopoverClose variant="outline" size="sm">
           Dismiss
         </PopoverClose>
       </VStack>

@@ -2,7 +2,7 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { textSharedRecipe } from '../typography.js';
+import { textSharedRecipe, truncateStyle } from '../typography.js';
 
 export const headingRecipe = recipe(
   {
@@ -62,6 +62,7 @@ export interface HeadingProps extends ElementProps<HTMLElement> {
   weight?: HeadingVariants['weight'];
   color?: HeadingVariants['color'];
   children?: React.ReactNode;
+  truncate?: boolean;
 }
 
 export const defaultSizeForLevel: Record<HeadingLevel, HeadingProps['size']> = {
@@ -82,6 +83,7 @@ export function Heading({
   color = 'default',
   className,
   children,
+  truncate,
   ref,
   ...props
 }: HeadingProps): React.JSX.Element {
@@ -92,7 +94,7 @@ export function Heading({
     Component,
     {
       ref,
-      className: cx(classes, className),
+      className: cx(classes, truncate ? truncateStyle : null, className),
       ...props,
     },
     children,

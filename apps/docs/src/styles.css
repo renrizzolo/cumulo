@@ -23,11 +23,8 @@
   --theme-contrast-scale: 0.95;
 }
 
-[data-theme='cloud'] {
-  --color-primary-base: #6366f1;
-  --color-grey-base: #64748b;
-  --theme-chroma-scale: 0.85;
-  --theme-contrast-scale: 0.95;
+a {
+  color: var(--theme-primary);
 }
 
 :root {

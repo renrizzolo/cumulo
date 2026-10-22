@@ -109,7 +109,7 @@ export const switchThumbRecipe = recipe(
       width: switchContract.thumb.size,
       height: switchContract.thumb.size,
       borderRadius: vars.radius.full,
-      backgroundColor: vars.surface.bg.DEFAULT,
+      backgroundColor: vars.primary.fg,
       transition: `transform ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
       pointerEvents: 'none',
       flexShrink: 0,

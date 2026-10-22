@@ -85,8 +85,8 @@ export function CollapsibleRoot({
     onOpenChange?.(nextOpen);
   }, [disabled, isControlled, onOpenChange, open]);
 
-  const contextValue = useMemo<CollapsibleContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): CollapsibleContextValue => ({
       id,
       open,
       onOpenToggle,
@@ -187,16 +187,21 @@ export const collapsibleContentRecipe = recipe(
       gridTemplateRows: '0fr',
       transition: `grid-template-rows ${vars.duration.normal} ${vars.ease.default}, opacity ${vars.duration.fast} ${vars.ease.default}`,
       opacity: 0,
+      visibility: 'hidden',
+      overflow: 'clip',
+      overflowClipMargin: '6px',
     },
     variants: {
       open: {
         true: {
           gridTemplateRows: '1fr',
           opacity: 1,
+          visibility: 'visible',
         },
         false: {
           gridTemplateRows: '0fr',
           opacity: 0,
+          visibility: 'hidden',
         },
       },
     },
@@ -209,7 +214,6 @@ export const collapsibleContentRecipe = recipe(
 
 const collapsibleInnerStyle = style({
   minHeight: 0,
-  overflow: 'hidden',
 });
 
 export function CollapsibleContent({
@@ -239,7 +243,7 @@ export function CollapsibleContent({
       className={cx(collapsibleContentRecipe({ open }), className)}
       {...props}
     >
-      <div className={cx(collapsibleInnerStyle, innerClassName)}>{children}</div>
+      <div className={cx(collapsibleInnerStyle.className, innerClassName)}>{children}</div>
     </section>
   );
 }

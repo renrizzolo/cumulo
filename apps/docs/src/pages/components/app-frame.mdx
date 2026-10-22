@@ -1,0 +1,141 @@
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import {
+  AppFrame,
+  AppFrameMain,
+  Flow,
+  Sidebar,
+  SidebarHeader,
+  SidebarToggle,
+  Panel,
+  SideNav,
+  SideNavItem,
+  Heading,
+  VStack,
+  Text,
+  Table,
+  Code,
+} from '@cumulo/core';
+import appFrameDoc from '../../../docgen/components/AppFrame.json';
+export default Layout;
+export { CodeBlock, ComponentPreview, PropsTable };
+
+# AppFrame
+
+The top-level application shell. `AppFrame` lays out a sidebar beside `AppFrame.Main` in a row, and `AppFrame.Main` stacks a header above a scrollable content area.
+
+```tsx
+import { AppFrame, Sidebar, Panel } from '@cumulo/core';
+```
+
+`AppFrame` only handles layout. For docked, inset or floating styles, set `variant` on [`Sidebar`](/components/sidebar.html).
+
+### Anatomy
+
+```tsx
+<AppFrame>
+  <Sidebar>{/* navigation */}</Sidebar>
+  <AppFrame.Main>
+    <Panel as="header" divider="bottom">
+      {/* header */}
+    </Panel>
+    <Panel scrollbar="thin">{/* page content */}</Panel>
+  </AppFrame.Main>
+</AppFrame>
+```
+
+### Examples
+
+<ComponentPreview frame title="Sidebar and main content">
+  <div style={{ height: 320, width: '100%' }}>
+    <AppFrame height="full">
+      <Sidebar variant="docked" hoverBehaviour="tooltip" width="200px">
+        <Panel padding="sm" divider="bottom">
+          <SidebarHeader
+            title={
+              <Heading as="h4" size="sm">
+                App
+              </Heading>
+            }
+          >
+            <SidebarToggle />
+          </SidebarHeader>
+        </Panel>
+        <Panel scrollbar="thin" padding="sm">
+          <SideNav aria-label="Example navigation">
+            <SideNavItem label="Dashboard" active />
+            <SideNavItem label="Projects" />
+            <SideNavItem label="Settings" />
+          </SideNav>
+        </Panel>
+      </Sidebar>
+      <AppFrameMain as="div">
+        <Panel as="header" divider="bottom" padding="sm">
+          <VStack style={{ minHeight: 'var(--theme-size-sm)' }} align="center">
+            <Heading as="h4" size="sm">
+              Dashboard
+            </Heading>
+          </VStack>
+        </Panel>
+        <Panel flex={1} scrollbar="thin" padding="md">
+          <Flow>
+            <Heading as="h3">App frame</Heading>
+            {Array.from({ length: 12 }, (_, i) => (
+              <Text key={i} as="p" size="sm">
+                The main area is scrollable
+              </Text>
+            ))}
+          </Flow>
+        </Panel>
+      </AppFrameMain>
+    </AppFrame>
+  </div>
+</ComponentPreview>
+
+### Height
+
+The `height` prop sets how the frame fills vertical space.
+
+<Table variant="bordered">
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>Value</Table.Head>
+      <Table.Head>Behaviour</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        <Code>screen</Code> (default)
+      </Table.Cell>
+      <Table.Cell>
+        Locks the frame to the viewport (<Code>100dvh</Code>). The sidebar and main area scroll on
+        their own.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code>full</Code>
+      </Table.Cell>
+      <Table.Cell>
+        Fills the parent's height (<Code>100%</Code>). Use this to embed the frame in a sized
+        container.
+      </Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code>auto</Code>
+      </Table.Cell>
+      <Table.Cell>
+        Grows with its content (at least <Code>100dvh</Code>), so the whole page scrolls.
+      </Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+
+### Accessibility
+
+`AppFrame.Main` renders a `<main>` landmark by default. If a descendant already renders `<main>`, pass `as="div"` so the page has only one.
+
+### Props
+
+<PropsTable data={appFrameDoc} />

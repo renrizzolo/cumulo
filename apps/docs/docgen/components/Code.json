@@ -22,10 +22,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"subtle\" | \"primary\" | undefined",
+        "raw": "\"base\" | \"subtle\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"base\""
           },
           {
             "value": "\"subtle\""

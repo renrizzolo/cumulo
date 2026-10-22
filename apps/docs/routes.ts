@@ -20,6 +20,12 @@ declare module "@renr/parcel-rsc-router" {
   namespace App {
     interface Routes {
       "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
+      "/components/app-frame": {
+        slug: "app-frame";
+        path: "/components/app-frame";
+        rsc: "/components/app-frame.rsc";
+        html: "/components/app-frame.html";
+      };
       "/components/badge": {
         slug: "badge";
         path: "/components/badge";
@@ -104,6 +110,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/input.rsc";
         html: "/components/input.html";
       };
+      "/components/panel": {
+        slug: "panel";
+        path: "/components/panel";
+        rsc: "/components/panel.rsc";
+        html: "/components/panel.html";
+      };
       "/components/popover": {
         slug: "popover";
         path: "/components/popover";
@@ -115,6 +127,18 @@ declare module "@renr/parcel-rsc-router" {
         path: "/components/radio";
         rsc: "/components/radio.rsc";
         html: "/components/radio.html";
+      };
+      "/components/side-nav": {
+        slug: "side-nav";
+        path: "/components/side-nav";
+        rsc: "/components/side-nav.rsc";
+        html: "/components/side-nav.html";
+      };
+      "/components/sidebar": {
+        slug: "sidebar";
+        path: "/components/sidebar";
+        rsc: "/components/sidebar.rsc";
+        html: "/components/sidebar.html";
       };
       "/components/stack": {
         slug: "stack";
@@ -164,6 +188,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/theme-toggle.rsc";
         html: "/components/theme-toggle.html";
       };
+      "/components/tooltip": {
+        slug: "tooltip";
+        path: "/components/tooltip";
+        rsc: "/components/tooltip.rsc";
+        html: "/components/tooltip.html";
+      };
       "/css": { slug: "css"; path: "/css"; rsc: "/css.rsc"; html: "/css.html" };
       "/theme-builder": {
         slug: "theme-builder";
@@ -187,6 +217,12 @@ export const flatRoutes = [
     slug: "index",
     rsc: "/index.rsc",
     html: "/index.html",
+  },
+  {
+    path: "/components/app-frame",
+    slug: "app-frame",
+    rsc: "/components/app-frame.rsc",
+    html: "/components/app-frame.html",
   },
   {
     path: "/components/badge",
@@ -273,6 +309,12 @@ export const flatRoutes = [
     html: "/components/input.html",
   },
   {
+    path: "/components/panel",
+    slug: "panel",
+    rsc: "/components/panel.rsc",
+    html: "/components/panel.html",
+  },
+  {
     path: "/components/popover",
     slug: "popover",
     rsc: "/components/popover.rsc",
@@ -283,6 +325,18 @@ export const flatRoutes = [
     slug: "radio",
     rsc: "/components/radio.rsc",
     html: "/components/radio.html",
+  },
+  {
+    path: "/components/side-nav",
+    slug: "side-nav",
+    rsc: "/components/side-nav.rsc",
+    html: "/components/side-nav.html",
+  },
+  {
+    path: "/components/sidebar",
+    slug: "sidebar",
+    rsc: "/components/sidebar.rsc",
+    html: "/components/sidebar.html",
   },
   {
     path: "/components/stack",
@@ -333,6 +387,12 @@ export const flatRoutes = [
     html: "/components/theme-toggle.html",
   },
   {
+    path: "/components/tooltip",
+    slug: "tooltip",
+    rsc: "/components/tooltip.rsc",
+    html: "/components/tooltip.html",
+  },
+  {
     path: "/css",
     slug: "css",
     rsc: "/css.rsc",
@@ -358,6 +418,13 @@ export const routeTree = {
   html: "/index.html",
   rsc: "/index.rsc",
   children: [
+    {
+      path: "/components/app-frame",
+      slug: "app-frame",
+      html: "/components/app-frame.html",
+      rsc: "/components/app-frame.rsc",
+      children: [],
+    },
     {
       path: "/components/badge",
       slug: "badge",
@@ -457,6 +524,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/panel",
+      slug: "panel",
+      html: "/components/panel.html",
+      rsc: "/components/panel.rsc",
+      children: [],
+    },
+    {
       path: "/components/popover",
       slug: "popover",
       html: "/components/popover.html",
@@ -468,6 +542,20 @@ export const routeTree = {
       slug: "radio",
       html: "/components/radio.html",
       rsc: "/components/radio.rsc",
+      children: [],
+    },
+    {
+      path: "/components/side-nav",
+      slug: "side-nav",
+      html: "/components/side-nav.html",
+      rsc: "/components/side-nav.rsc",
+      children: [],
+    },
+    {
+      path: "/components/sidebar",
+      slug: "sidebar",
+      html: "/components/sidebar.html",
+      rsc: "/components/sidebar.rsc",
       children: [],
     },
     {
@@ -527,6 +615,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/tooltip",
+      slug: "tooltip",
+      html: "/components/tooltip.html",
+      rsc: "/components/tooltip.rsc",
+      children: [],
+    },
+    {
       path: "/css",
       slug: "css",
       html: "/css.html",
@@ -557,6 +652,12 @@ export const routesByPage = {
     slug: "index",
     rsc: "/index.rsc",
     html: "/index.html",
+  },
+  "/components/app-frame.html": {
+    path: "/components/app-frame",
+    slug: "app-frame",
+    rsc: "/components/app-frame.rsc",
+    html: "/components/app-frame.html",
   },
   "/components/badge.html": {
     path: "/components/badge",
@@ -642,6 +743,12 @@ export const routesByPage = {
     rsc: "/components/input.rsc",
     html: "/components/input.html",
   },
+  "/components/panel.html": {
+    path: "/components/panel",
+    slug: "panel",
+    rsc: "/components/panel.rsc",
+    html: "/components/panel.html",
+  },
   "/components/popover.html": {
     path: "/components/popover",
     slug: "popover",
@@ -653,6 +760,18 @@ export const routesByPage = {
     slug: "radio",
     rsc: "/components/radio.rsc",
     html: "/components/radio.html",
+  },
+  "/components/side-nav.html": {
+    path: "/components/side-nav",
+    slug: "side-nav",
+    rsc: "/components/side-nav.rsc",
+    html: "/components/side-nav.html",
+  },
+  "/components/sidebar.html": {
+    path: "/components/sidebar",
+    slug: "sidebar",
+    rsc: "/components/sidebar.rsc",
+    html: "/components/sidebar.html",
   },
   "/components/stack.html": {
     path: "/components/stack",
@@ -701,6 +820,12 @@ export const routesByPage = {
     slug: "theme-toggle",
     rsc: "/components/theme-toggle.rsc",
     html: "/components/theme-toggle.html",
+  },
+  "/components/tooltip.html": {
+    path: "/components/tooltip",
+    slug: "tooltip",
+    rsc: "/components/tooltip.rsc",
+    html: "/components/tooltip.html",
   },
   "/css.html": {
     path: "/css",

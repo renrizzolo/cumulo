@@ -1,18 +1,18 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import type { PageProps } from '@renr/parcel-rsc-router';
-import { style } from '@cumulo/css';
+import React, { useEffect } from 'react';
 import { Link } from '@renr/parcel-rsc-router';
-import { Surface, HStack, VStack, Button, Heading, Text, vars, useDismissible } from '@cumulo/core';
+import { keyframes, style } from '@cumulo/css';
+import { Button, vars, useDismissible, SidebarToggle, Tooltip, useSidebar } from '@cumulo/core';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { NavContent } from './Nav';
+import { Logo } from './Logo';
 
 const topHeaderStyle = style({
-  padding: `${vars.spacing.sm} ${vars.spacing.xl}`,
+  padding: vars.spacing.sm,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
+  backgroundColor: vars.surface.bg.DEFAULT,
   borderTop: 'none',
   borderLeft: 'none',
   borderRight: 'none',
@@ -20,8 +20,7 @@ const topHeaderStyle = style({
   borderBottomStyle: 'solid',
   borderBottomColor: vars.surface.border,
   borderRadius: 0,
-  minHeight: '3.5rem',
-  boxSizing: 'border-box',
+  zIndex: 10,
   '@media': {
     '(max-width: 768px)': {
       padding: `${vars.spacing.sm} ${vars.spacing.md}`,
@@ -40,11 +39,13 @@ const mobileBrandGroupStyle = style({
   },
 });
 
-const desktopSpacerStyle = style({
+const desktopToggleStyle = style({
   display: 'none',
+  alignItems: 'center',
+  gap: vars.spacing.sm,
   '@media': {
     '(min-width: 960px)': {
-      display: 'block',
+      display: 'flex',
     },
   },
 });
@@ -52,50 +53,8 @@ const desktopSpacerStyle = style({
 const mobileBrandLinkStyle = style({
   textDecoration: 'none',
   color: 'inherit',
-  display: 'flex',
+  display: 'inline-flex',
   alignItems: 'center',
-  gap: vars.spacing['2xs'],
-});
-
-const backdropStyle = style({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: 'rgba(0, 0, 0, 0.45)',
-  backdropFilter: 'blur(4px)',
-  zIndex: 998,
-  '@media': {
-    '(min-width: 960px)': {
-      display: 'none !important',
-    },
-  },
-});
-
-const drawerStyle = style({
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  width: '100vw',
-  maxWidth: '100%',
-  height: '100vh',
-  zIndex: 999,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing.lg,
-  overflowY: 'auto',
-  boxSizing: 'border-box',
-  border: 'none',
-  borderRadius: 0,
-  boxShadow: 'none',
-  '@media': {
-    '(min-width: 960px)': {
-      display: 'none !important',
-    },
-  },
 });
 
 function MenuIcon(): React.JSX.Element {
@@ -118,140 +77,105 @@ function MenuIcon(): React.JSX.Element {
   );
 }
 
-function CloseIcon(): React.JSX.Element {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="18" x2="6" y1="6" y2="18" />
-      <line x1="6" x2="18" y1="6" y2="18" />
-    </svg>
-  );
-}
+const headerAnimation = keyframes({
+  from: {
+    opacity: 0,
+    transform: `translateX(-${vars.spacing.md})`,
+  },
+  to: {
+    opacity: 1,
+    transform: 'translateX(0)',
+  },
+});
 
-export function DocHeader({
-  currentPage,
-}: {
-  currentPage?: PageProps['currentPage'];
-}): React.JSX.Element {
-  const [isOpen, setIsOpen] = useState(false);
+const headerBrandLinkStyle = style({
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'inline-flex',
+  alignItems: 'center',
+  animation: `${headerAnimation} ${vars.duration.slow} ${vars.ease.default}`,
+});
 
-  // Automatically close mobile menu when viewport expands to desktop
+export function DocHeader(): React.JSX.Element {
+  const sidebar = useSidebar();
+  const { setCollapsed } = sidebar;
+  // Sync mobile responsive collapse state & viewport transitions
   useEffect(() => {
     const mql = window.matchMedia('(min-width: 960px)');
+    // If opening on mobile, initialize collapsed
+    if (!mql.matches) {
+      setCollapsed(true);
+    }
+
     const handleViewportChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        setIsOpen(false);
+        setCollapsed(false);
+      } else {
+        setCollapsed(true);
       }
     };
+
     mql.addEventListener('change', handleViewportChange);
     return () => mql.removeEventListener('change', handleViewportChange);
-  }, []);
+  }, [setCollapsed]); // Run on mount and media query events only
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll when mobile sidebar is open
   useEffect(() => {
-    if (isOpen) {
+    if (window.innerWidth < 960 && !sidebar.collapsed) {
       document.body.style.overflow = 'hidden';
       return () => {
         document.body.style.overflow = '';
       };
     }
-  }, [isOpen]);
+  }, [sidebar.collapsed]);
 
-  const dismissRef = useDismissible({
-    onDismiss: () => setIsOpen(false),
-    dismissOnClickOutside: true,
+  useDismissible({
+    onDismiss: () => {
+      if (window.innerWidth < 960 && !sidebar.collapsed) {
+        sidebar.setCollapsed(true);
+      }
+    },
+    dismissOnClickOutside: false,
   });
 
   return (
-    <>
-      <div className={topHeaderStyle.className}>
-        {/* Mobile Header Left: Hamburger & Brand */}
-        <div className={mobileBrandGroupStyle.className}>
-          <Button
-            size="sm"
-            variant="ghost"
-            shape="round"
-            onClick={() => setIsOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={isOpen}
-          >
-            <MenuIcon />
-          </Button>
+    <div className={topHeaderStyle.className}>
+      {/* Mobile Header Left: Hamburger & Brand */}
+      <div className={mobileBrandGroupStyle.className}>
+        <Button
+          size="sm"
+          variant="ghost"
+          shape="round"
+          data-sidebar-toggle="true"
+          onClick={() => sidebar.toggleCollapsed()}
+          aria-label={sidebar.collapsed ? 'Open navigation menu' : 'Close navigation menu'}
+          aria-expanded={!sidebar.collapsed}
+        >
+          <MenuIcon />
+        </Button>
 
-          <Link to="/" className={mobileBrandLinkStyle.className}>
-            <span>📦</span>
-            <Heading as="h4" size="sm">
-              Cumulo UI
-            </Heading>
-          </Link>
-        </div>
-
-        {/* Desktop Spacer */}
-        <div className={desktopSpacerStyle.className} />
-
-        {/* Header Right Controls */}
-        <ThemeSwitcher />
+        <Link to="/" className={mobileBrandLinkStyle.className}>
+          <Logo size="lg" />
+        </Link>
       </div>
 
-      {/* Mobile Drawer Overlay */}
-      {isOpen && (
-        <>
-          <div
-            className={backdropStyle.className}
-            onClick={() => setIsOpen(false)}
-            aria-hidden="true"
-          />
-          <div ref={dismissRef}>
-            <Surface level={2} padding="md" radius="none" className={drawerStyle.className}>
-              {/* Drawer Header with Close Button */}
-              <HStack justify="between" align="center">
-                <Link
-                  to="/"
-                  onClick={() => setIsOpen(false)}
-                  className={mobileBrandLinkStyle.className}
-                >
-                  <HStack gap="xs" align="center">
-                    <span style={{ fontSize: '20px' }}>📦</span>
-                    <VStack gap="3xs">
-                      <Heading as="h4" size="sm">
-                        Cumulo UI
-                      </Heading>
-                      <Text type="caption" color="muted">
-                        Design System
-                      </Text>
-                    </VStack>
-                  </HStack>
-                </Link>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  shape="round"
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close navigation menu"
-                >
-                  <CloseIcon />
-                </Button>
-              </HStack>
+      {/* Desktop Sidebar Toggle & Brand (when collapsed) */}
+      <div className={desktopToggleStyle.className}>
+        <Tooltip.Root>
+          <Tooltip.Trigger as={'span'}>
+            <SidebarToggle />
+          </Tooltip.Trigger>
+          <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
+        </Tooltip.Root>
+        {sidebar.visuallyCollapsed ? (
+          <Link to="/" className={headerBrandLinkStyle.className}>
+            <Logo />
+          </Link>
+        ) : null}
+      </div>
 
-              {/* Navigation Links */}
-              <NavContent
-                currentPage={currentPage}
-                onNavigate={() => setIsOpen(false)}
-                showBrand={false}
-              />
-            </Surface>
-          </div>
-        </>
-      )}
-    </>
+      {/* Header Right Controls */}
+      <ThemeSwitcher />
+    </div>
   );
 }

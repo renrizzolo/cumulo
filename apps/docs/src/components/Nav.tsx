@@ -1,22 +1,27 @@
 'use client';
 
+// Docs Navigation Component updated 2
 import React from 'react';
-import { style, cx } from '@cumulo/css';
+import { style } from '@cumulo/css';
 import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import { routesByPage } from '../../routes';
 import {
-  Surface,
+  SidebarRoot,
+  SidebarHeader,
+  SidebarFooter,
+  Panel,
+  SideNav,
+  SideNavGroup,
+  SideNavItem,
   VStack,
-  HStack,
-  Heading,
   Text,
   Badge,
-  CollapsibleRoot,
-  CollapsibleTrigger,
-  CollapsibleContent,
+  Button,
   vars,
+  useSidebar,
 } from '@cumulo/core';
 import { Version } from './Version';
+import { Logo } from './Logo';
 
 export interface NavItem {
   label: string;
@@ -31,19 +36,7 @@ export interface NavSection {
   collapsible?: boolean;
 }
 
-const navContainerStyle = style({
-  width: '270px',
-  minWidth: '270px',
-  minHeight: '100vh',
-  borderRadius: 0,
-  borderTop: 'none',
-  borderBottom: 'none',
-  borderLeft: 'none',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing.md,
-  boxSizing: 'border-box',
-  overflowY: 'auto',
+const desktopNavContainerStyle = style({
   '@media': {
     '(max-width: 959px)': {
       display: 'none !important',
@@ -51,73 +44,55 @@ const navContainerStyle = style({
   },
 });
 
-const brandLinkStyle = style({
-  textDecoration: 'none',
-  color: 'inherit',
-  paddingLeft: vars.spacing.xs,
-  marginBottom: vars.spacing.xs,
-});
-
-const brandIconStyle = style({
-  fontSize: '24px',
-});
-
-const sectionTriggerStyle = style({
-  width: '100%',
-  padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
-  borderRadius: vars.radius.md,
-  fontWeight: vars.font.weight.semibold,
-  whiteSpace: 'nowrap',
-  border: 'none',
-  cursor: 'pointer',
-  transition: `color ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
-  ':hover': {
-    color: vars.surface.fg,
-    backgroundColor: vars.surface.bg.next,
-  },
-});
-
-const chevronIconStyle = style({
-  transition: `transform ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    '[data-state="open"] &': {
-      transform: 'rotate(90deg)',
+const mobileNavContainerStyle = style({
+  '@media': {
+    '(min-width: 960px)': {
+      display: 'none !important',
     },
   },
 });
 
-const navItemStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-  borderRadius: vars.radius.md,
-  color: vars.surface.fg,
-  fontSize: vars.font.size.xs,
-  textDecoration: 'none',
-  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
-  ':hover': {
-    backgroundColor: vars.surface.bg.next,
+const mobileBackdropStyle = style({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: 'rgba(0, 0, 0, 0.45)',
+  backdropFilter: 'blur(4px)',
+  zIndex: 35,
+  '@media': {
+    '(min-width: 960px)': {
+      display: 'none !important',
+    },
   },
 });
 
-const navItemActiveStyle = style({
-  color: vars.primary.DEFAULT,
-  backgroundColor: vars.surface.bg.next,
-});
+function CloseIcon(): React.JSX.Element {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line x1="18" x2="6" y1="6" y2="18" />
+      <line x1="6" x2="18" y1="6" y2="18" />
+    </svg>
+  );
+}
 
-const footerStyle = style({
-  marginTop: 'auto',
-  paddingLeft: vars.spacing.xs,
-  paddingTop: vars.spacing.md,
-});
-
-const sectionTitleStyle = style({
-  textTransform: 'uppercase',
-  letterSpacing: '0.06em',
-  paddingLeft: vars.spacing.xs,
-  fontSize: '11px',
-  fontWeight: 600,
+const brandLinkStyle = style({
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'flex',
+  alignItems: 'center',
+  minWidth: 0,
 });
 
 export const DOC_SECTIONS: NavSection[] = [
@@ -141,9 +116,33 @@ export const COMPONENT_SECTIONS: NavSection[] = [
   {
     title: 'Layout & Structure',
     items: [
+      {
+        label: 'AppFrame',
+        path: '/components/app-frame',
+        htmlPath: '/components/app-frame.html',
+        badge: 'Compound',
+      },
       { label: 'Container', path: '/components/container', htmlPath: '/components/container.html' },
       { label: 'Divider', path: '/components/divider', htmlPath: '/components/divider.html' },
       { label: 'Flow', path: '/components/flow', htmlPath: '/components/flow.html' },
+      {
+        label: 'Panel',
+        path: '/components/panel',
+        htmlPath: '/components/panel.html',
+        badge: 'New',
+      },
+      {
+        label: 'Sidebar',
+        path: '/components/sidebar',
+        htmlPath: '/components/sidebar.html',
+        badge: 'New',
+      },
+      {
+        label: 'SideNav',
+        path: '/components/side-nav',
+        htmlPath: '/components/side-nav.html',
+        badge: 'New',
+      },
       { label: 'Stack', path: '/components/stack', htmlPath: '/components/stack.html' },
       {
         label: 'Surface',
@@ -219,30 +218,17 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         path: '/components/theme-toggle',
         htmlPath: '/components/theme-toggle.html',
       },
+      {
+        label: 'Tooltip',
+        path: '/components/tooltip',
+        htmlPath: '/components/tooltip.html',
+        badge: 'Native',
+      },
     ],
   },
 ];
 
 export const NAV_SECTIONS: NavSection[] = [...DOC_SECTIONS, ...COMPONENT_SECTIONS];
-
-function ChevronRightIcon(): React.JSX.Element {
-  return (
-    <svg
-      width="12"
-      height="12"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={chevronIconStyle.className}
-    >
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
-  );
-}
 
 export interface NavContentProps {
   currentPage?: PageProps['currentPage'];
@@ -261,90 +247,79 @@ export function NavContent({
 
   const isItemActive = (item: NavItem) => currentPath === item.path || currentUrl === item.htmlPath;
 
-  const renderLink = (item: NavItem) => {
-    const isActive = isItemActive(item);
-
-    return (
-      <Link
-        key={item.path}
-        to={item.path}
-        onClick={onNavigate}
-        className={cx(navItemStyle.className, isActive && navItemActiveStyle.className)}
-      >
-        <span>{item.label}</span>
-        {item.badge ? <Badge variant="outline">{item.badge}</Badge> : null}
-      </Link>
-    );
-  };
-
   return (
     <>
       {showBrand && (
         <Link to="/" onClick={onNavigate} className={brandLinkStyle.className}>
-          <HStack gap="sm" align="center">
-            <span className={brandIconStyle.className}>📦</span>
-            <VStack gap="3xs">
-              <Heading as="h3" size="md">
-                Cumulo UI
-              </Heading>
-              <Text type="caption" color="muted">
-                Design System & Engine
-              </Text>
-            </VStack>
-          </HStack>
+          <Logo size="md" />
         </Link>
       )}
 
       {/* Navigation Sections */}
-      <VStack gap="md">
+      <SideNav aria-label="Documentation navigation">
         {/* Overview / Documentation Section */}
         {DOC_SECTIONS.map((section) => (
-          <VStack key={section.title} gap="xs">
-            <Text type="label" size="xs" color="muted" className={sectionTitleStyle.className}>
-              {section.title}
-            </Text>
-            <VStack gap="3xs">{section.items.map(renderLink)}</VStack>
-          </VStack>
+          <SideNavGroup key={section.title} title={section.title}>
+            {section.items.map((item) => (
+              <SideNavItem
+                key={item.path}
+                as={Link}
+                to={item.path}
+                onClick={onNavigate}
+                active={isItemActive(item)}
+                label={item.label}
+                badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
+              />
+            ))}
+          </SideNavGroup>
         ))}
 
         {/* Components Group */}
-        <VStack gap="xs">
-          <Text type="label" size="xs" color="muted" className={sectionTitleStyle.className}>
-            Components
-          </Text>
-          <VStack gap="2xs">
-            {COMPONENT_SECTIONS.map((section) => {
+        <SideNavGroup title="Components">
+          {(() => {
+            const hasAnyComponentActive = COMPONENT_SECTIONS.some((s) =>
+              s.items.some(isItemActive),
+            );
+            return COMPONENT_SECTIONS.map((section) => {
               const hasActiveItem = section.items.some(isItemActive);
 
               return (
-                <CollapsibleRoot key={section.title} defaultOpen={hasActiveItem || true}>
-                  <CollapsibleTrigger variant="ghost" className={sectionTriggerStyle.className}>
-                    <HStack gap="xs" align="center" flex="auto">
-                      <ChevronRightIcon />
-                      <Text as="span" size="sm" weight="semibold">
-                        {section.title}
-                      </Text>
-                    </HStack>
-                    <Badge variant="secondary">{section.items.length}</Badge>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <VStack gap="3xs" style={{ paddingLeft: vars.spacing.lg }}>
-                      {section.items.map(renderLink)}
-                    </VStack>
-                  </CollapsibleContent>
-                </CollapsibleRoot>
+                <SideNavGroup
+                  key={section.title}
+                  collapsible
+                  defaultOpen={
+                    hasActiveItem ||
+                    (!hasAnyComponentActive && section.title === 'Layout & Structure')
+                  }
+                  title={section.title}
+                  badge={<Badge variant="secondary">{section.items.length}</Badge>}
+                >
+                  {section.items.map((item) => (
+                    <SideNavItem
+                      key={item.path}
+                      as={Link}
+                      to={item.path}
+                      onClick={onNavigate}
+                      active={isItemActive(item)}
+                      label={item.label}
+                      badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
+                    />
+                  ))}
+                </SideNavGroup>
               );
-            })}
-          </VStack>
-        </VStack>
-      </VStack>
+            });
+          })()}
+        </SideNavGroup>
+      </SideNav>
 
-      {/* Footer Info */}
-      <VStack gap="3xs" className={footerStyle.className}>
-        <Text size="xs" color="subtle">
-          Cumulo <Version />
-        </Text>
-      </VStack>
+      {/* Footer Info in standalone drawer */}
+      {showBrand && (
+        <VStack gap="3xs" style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+          <Text size="xs" color="subtle">
+            Cumulo <Version />
+          </Text>
+        </VStack>
+      )}
     </>
   );
 }
@@ -354,10 +329,91 @@ export interface NavProps {
   pages?: PageProps['pages'];
 }
 
-export function Nav({ currentPage, pages }: NavProps): React.JSX.Element {
+export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element {
+  const sidebar = useSidebar();
+  // navigating should collapse the sidebar on small screens
+  const handleNavigate = () => {
+    if (typeof window !== 'undefined' && window.innerWidth < 960) {
+      sidebar.setCollapsed(true);
+    }
+  };
+
   return (
-    <Surface level={1} padding="md" className={navContainerStyle.className}>
-      <NavContent currentPage={currentPage} pages={pages} />
-    </Surface>
+    <>
+      {/* Desktop Sidebar (docked push) */}
+      <SidebarRoot
+        collapsedWidth={'0px'}
+        variant="docked"
+        className={desktopNavContainerStyle.className}
+      >
+        <Panel padding="sm" divider="bottom">
+          <SidebarHeader
+            title={
+              <Link to="/" className={brandLinkStyle.className}>
+                <Logo />
+              </Link>
+            }
+          />
+        </Panel>
+        <Panel scrollbar="thin" padding="sm" flex={1}>
+          <NavContent currentPage={currentPage} pages={pages} showBrand={false} />
+          <SidebarFooter style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+            <Text size="xs" color="subtle">
+              Cumulo <Version />
+            </Text>
+          </SidebarFooter>
+        </Panel>
+      </SidebarRoot>
+
+      {/* Mobile Backdrop Overlay */}
+      {!sidebar.visuallyCollapsed && (
+        <div
+          className={mobileBackdropStyle.className}
+          onClick={() => sidebar.setCollapsed(true)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Mobile Sidebar (overlay) */}
+      <SidebarRoot
+        type="overlay"
+        collapsedWidth={'0px'}
+        variant="docked"
+        className={mobileNavContainerStyle.className}
+      >
+        <Panel padding="sm" divider="bottom">
+          <SidebarHeader
+            title={
+              <Link to="/" onClick={handleNavigate} className={brandLinkStyle.className}>
+                <Logo />
+              </Link>
+            }
+          >
+            <Button
+              size="sm"
+              variant="ghost"
+              shape="round"
+              onClick={() => sidebar.setCollapsed(true)}
+              aria-label="Close navigation menu"
+            >
+              <CloseIcon />
+            </Button>
+          </SidebarHeader>
+        </Panel>
+        <Panel scrollbar="thin" padding="sm">
+          <NavContent
+            currentPage={currentPage}
+            pages={pages}
+            showBrand={false}
+            onNavigate={handleNavigate}
+          />
+          <SidebarFooter style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+            <Text size="xs" color="subtle">
+              Cumulo <Version />
+            </Text>
+          </SidebarFooter>
+        </Panel>
+      </SidebarRoot>
+    </>
   );
 }

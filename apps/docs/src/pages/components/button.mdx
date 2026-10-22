@@ -6,7 +6,7 @@ export { CodeBlock, PropsTable, ComponentPreview };
 
 # Button
 
-Buttons allow users to take actions, make choices, and trigger state changes with a single tap or click.
+Buttons trigger actions with a single click or tap.
 
 ```tsx
 import { Button } from '@cumulo/core';
@@ -19,20 +19,20 @@ import { Button } from '@cumulo/core';
     <Button variant="primary">Primary</Button>
     <Button variant="secondary">Secondary</Button>
     <Button variant="outline" intent="success">
-      Outline Success
+      Outline success
     </Button>
     <Button variant="ghost" intent="error">
-      Ghost Error
+      Ghost error
     </Button>
     <Button size="sm" variant="primary" shape="round">
-      Round Small
+      Round small
     </Button>
   </HStack>
 </ComponentPreview>
 
-## Visual Variants
+## Variants
 
-Cumulo buttons support four core visual variants: `primary`, `secondary`, `outline`, and `ghost`.
+Buttons support four variants: `primary`, `secondary`, `outline`, and `ghost`.
 
 <ComponentPreview>
   <HStack gap="sm" wrap="wrap">
@@ -43,9 +43,9 @@ Cumulo buttons support four core visual variants: `primary`, `secondary`, `outli
   </HStack>
 </ComponentPreview>
 
-## Semantic Intents
+## Intents
 
-Buttons automatically adapt their styling according to system intents (`primary`, `success`, `warning`, `error`, `info`).
+Use an intent to change the color: `primary`, `success`, `warning`, `error`, or `info`.
 
 <ComponentPreview>
   <HStack gap="sm" wrap="wrap">
@@ -67,19 +67,19 @@ Buttons automatically adapt their styling according to system intents (`primary`
   </HStack>
 </ComponentPreview>
 
-## Sizes & Shapes
+## Sizes and shapes
 
-Buttons offer `xs`, `sm`, `md`, `lg`, and `xl` sizes, with `default` and `round` shapes.
+Buttons come in `xs`, `sm`, `md`, `lg`, and `xl` sizes, with `default` and `round` shapes.
 
 <ComponentPreview>
   <HStack gap="sm" align="center" wrap="wrap">
-    <Button size="xs">Extra Small</Button>
+    <Button size="xs">Extra small</Button>
     <Button size="sm">Small</Button>
     <Button size="md">Medium</Button>
     <Button size="lg">Large</Button>
-    <Button size="xl">Extra Large</Button>
+    <Button size="xl">Extra large</Button>
     <Button shape="round" variant="secondary">
-      Round Pill
+      Round
     </Button>
     <Button disabled variant="primary">
       Disabled
