@@ -20,6 +20,7 @@ declare module "@renr/parcel-rsc-router" {
   namespace App {
     interface Routes {
       "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
+      "/ai": { slug: "ai"; path: "/ai"; rsc: "/ai.rsc"; html: "/ai.html" };
       "/components/app-frame": {
         slug: "app-frame";
         path: "/components/app-frame";
@@ -217,6 +218,12 @@ export const flatRoutes = [
     slug: "index",
     rsc: "/index.rsc",
     html: "/index.html",
+  },
+  {
+    path: "/ai",
+    slug: "ai",
+    rsc: "/ai.rsc",
+    html: "/ai.html",
   },
   {
     path: "/components/app-frame",
@@ -418,6 +425,13 @@ export const routeTree = {
   html: "/index.html",
   rsc: "/index.rsc",
   children: [
+    {
+      path: "/ai",
+      slug: "ai",
+      html: "/ai.html",
+      rsc: "/ai.rsc",
+      children: [],
+    },
     {
       path: "/components/app-frame",
       slug: "app-frame",
@@ -652,6 +666,12 @@ export const routesByPage = {
     slug: "index",
     rsc: "/index.rsc",
     html: "/index.html",
+  },
+  "/ai.html": {
+    path: "/ai",
+    slug: "ai",
+    rsc: "/ai.rsc",
+    html: "/ai.html",
   },
   "/components/app-frame.html": {
     path: "/components/app-frame",
