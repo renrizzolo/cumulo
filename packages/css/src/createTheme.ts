@@ -1,6 +1,15 @@
 import { hash } from './hash.js';
 import { sheet } from './sheet.js';
-import type { NullableTokens, MapTokensToVars, MapTokensToValues, CreatedTheme } from './types.js';
+import type {
+  NullableTokens,
+  MapTokensToVars,
+  MapTokensToValues,
+  MapTokensToPartialValues,
+  CSSVariableMap,
+  CheckReservedContractKeys,
+  ThemeContract,
+  CreatedTheme,
+} from './types.js';
 
 function walkTokens<T extends NullableTokens>(
   tokens: T,
@@ -20,7 +29,7 @@ function walkTokens<T extends NullableTokens>(
   return result as MapTokensToVars<T>;
 }
 
-function pathToVarName(path: string[], prefix = 'c'): string {
+function pathToVarName(path: string[], prefix = 'c'): `--${string}` {
   const kebab = path
     .map((segment) => segment.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase())
     .join('-');
@@ -28,26 +37,46 @@ function pathToVarName(path: string[], prefix = 'c'): string {
 }
 
 /**
- * Creates a type-safe theme contract where all values are CSS variables.
+ * Creates a type-safe theme contract where every leaf is a `var(--prefix-path)` reference.
+ * `$set()` builds the matching variable assignments.
+ *
+ * @param contract - Token blueprint; leaf values are `null`.
+ * @param prefix - Custom property prefix. Defaults to `'c'`.
+ *
+ * @example
+ * ```ts
+ * const card = createThemeContract({ bg: null, border: null }, 'card');
+ *
+ * card.bg; // "var(--card-bg)"
+ * card.$set({ bg: 'red' }); // { '--card-bg': 'red' }
+ * ```
  */
 export function createThemeContract<T extends NullableTokens>(
-  contract: T,
+  contract: T & CheckReservedContractKeys<T>,
   prefix = 'c',
-): MapTokensToVars<T> {
-  return walkTokens(contract, [], (path) => `var(${pathToVarName(path, prefix)})`);
+): ThemeContract<T> {
+  const varsObj = walkTokens(contract, [], (path) => `var(${pathToVarName(path, prefix)})`);
+  const contractObj = varsObj as ThemeContract<T>;
+  Object.defineProperty(contractObj, 'prefix', {
+    value: prefix,
+    enumerable: false,
+    configurable: true,
+  });
+  Object.defineProperty(contractObj, '$set', {
+    value: (values: MapTokensToPartialValues<T>): CSSVariableMap =>
+      flattenValues(values, [], prefix),
+    enumerable: false,
+    configurable: true,
+  });
+  return contractObj;
 }
 
-function flattenValues<T extends Record<string, unknown>>(
-  values: T,
-  path: string[] = [],
-  prefix = 'c',
-): Record<string, string> {
-  const result: Record<string, string> = {};
-  for (const key of Object.keys(values)) {
-    const value = values[key];
+function flattenValues(values: object, path: string[] = [], prefix = 'c'): CSSVariableMap {
+  const result: CSSVariableMap = {};
+  for (const [key, value] of Object.entries(values)) {
     const currentPath = [...path, key];
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      Object.assign(result, flattenValues(value as Record<string, unknown>, currentPath, prefix));
+      Object.assign(result, flattenValues(value, currentPath, prefix));
     } else if (value !== undefined && value !== null) {
       result[pathToVarName(currentPath, prefix)] = String(value);
     }
@@ -55,15 +84,37 @@ function flattenValues<T extends Record<string, unknown>>(
   return result;
 }
 
+function resolvePrefix(contract: unknown, prefix?: string): string {
+  if (prefix !== undefined) return prefix;
+  if (
+    contract &&
+    typeof contract === 'object' &&
+    'prefix' in contract &&
+    typeof contract.prefix === 'string'
+  ) {
+    return contract.prefix;
+  }
+  return 'c';
+}
+
 /**
  * Creates a scoped theme class that sets CSS variables matching a theme contract.
+ * The prefix is read from the contract unless passed explicitly.
+ *
+ * @example
+ * ```tsx
+ * const dark = createTheme(colorContract, { surface: '#0f172a' });
+ *
+ * <div className={cx(dark.className, styles)} />
+ * ```
  */
 export function createTheme<T extends NullableTokens>(
-  _contract: MapTokensToVars<T> | T,
+  _contract: ThemeContract<T> | MapTokensToVars<T> | T,
   values: MapTokensToValues<T>,
-  prefix = 'c',
+  prefix?: string,
 ): CreatedTheme {
-  const flattened = flattenValues(values as Record<string, unknown>, [], prefix);
+  const actualPrefix = resolvePrefix(_contract, prefix);
+  const flattened = flattenValues(values, [], actualPrefix);
   const cssBody = Object.entries(flattened)
     .map(([varName, val]) => `${varName}:${val};`)
     .join('');
@@ -105,11 +156,12 @@ export function createGlobalStyles(
  */
 export function createGlobalTheme<T extends NullableTokens>(
   selector: string,
-  _contract: MapTokensToVars<T> | T,
+  _contract: ThemeContract<T> | MapTokensToVars<T> | T,
   values: MapTokensToValues<T>,
-  prefix = 'c',
+  prefix?: string,
 ): { css: string; vars: Record<string, string> } {
-  const flattened = flattenValues(values as Record<string, unknown>, [], prefix);
+  const actualPrefix = resolvePrefix(_contract, prefix);
+  const flattened = flattenValues(values, [], actualPrefix);
   return createGlobalStyles(selector, flattened);
 }
 
@@ -117,9 +169,10 @@ export function createGlobalTheme<T extends NullableTokens>(
  * Converts theme values to an inline style object for dynamic overrides in React.
  */
 export function assignVars<T extends NullableTokens>(
-  _contract: MapTokensToVars<T> | T,
-  values: Partial<MapTokensToValues<T>>,
-  prefix = 'c',
-): Record<string, string> {
-  return flattenValues(values as Record<string, unknown>, [], prefix);
+  _contract: ThemeContract<T> | MapTokensToVars<T> | T,
+  values: MapTokensToPartialValues<T>,
+  prefix?: string,
+): CSSVariableMap {
+  const actualPrefix = resolvePrefix(_contract, prefix);
+  return flattenValues(values, [], actualPrefix);
 }

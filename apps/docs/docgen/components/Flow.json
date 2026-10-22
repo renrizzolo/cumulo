@@ -22,28 +22,28 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"div\" | \"article\" | \"section\" | \"main\" | \"aside\" | \"form\" | undefined",
+        "raw": "\"article\" | \"form\" | \"main\" | \"div\" | \"section\" | \"aside\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"div\""
-          },
-          {
             "value": "\"article\""
           },
           {
-            "value": "\"section\""
+            "value": "\"form\""
           },
           {
             "value": "\"main\""
           },
           {
-            "value": "\"aside\""
+            "value": "\"div\""
           },
           {
-            "value": "\"form\""
+            "value": "\"section\""
+          },
+          {
+            "value": "\"aside\""
           }
         ]
       },

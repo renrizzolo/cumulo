@@ -150,6 +150,19 @@ export function compileStyleRule(
 
 /**
  * Creates a single compiled style rule.
+ *
+ * @example
+ * const styles = style({
+ *   fontSize: '2rem',
+ * });
+ *
+ * export function Component() {
+ *   return (
+ *     <div>
+ *       <header className={styles.className}>Header</header>
+ *     </div>
+ *   );
+ * }
  */
 export function style(rule: StyleRule, prefix = 'c'): CompiledStyle {
   const serialized = JSON.stringify(rule);
@@ -170,6 +183,24 @@ export function style(rule: StyleRule, prefix = 'c'): CompiledStyle {
 
 /**
  * StyleX-like style creation map.
+ * @example
+ * const styles = create({
+ *   header: {
+ *     fontSize: '2rem',
+ *   },
+ *   footer: {
+ *     padding: '10px',
+ *   },
+ * });
+ *
+ * export function Component() {
+ *   return (
+ *     <div>
+ *       <header className={styles.header.className}>Header</header>
+ *       <footer className={styles.footer.className}>Footer</footer>
+ *     </div>
+ *   );
+ * }
  */
 export function create<T extends StyleDefinitions>(
   definitions: T,

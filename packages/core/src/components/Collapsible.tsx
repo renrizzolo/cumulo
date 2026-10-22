@@ -15,6 +15,7 @@ import { recipe, style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
+import { VStack } from './Stack.js';
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
 export type CollapsiblePart = 'trigger' | 'content';
@@ -53,11 +54,6 @@ export interface CollapsibleProps extends ElementProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-const collapsibleRootStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-});
-
 export function CollapsibleRoot({
   open: controlledOpen,
   defaultOpen = false,
@@ -89,8 +85,8 @@ export function CollapsibleRoot({
     onOpenChange?.(nextOpen);
   }, [disabled, isControlled, onOpenChange, open]);
 
-  const contextValue = useMemo<CollapsibleContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): CollapsibleContextValue => ({
       id,
       open,
       onOpenToggle,
@@ -104,16 +100,16 @@ export function CollapsibleRoot({
 
   return (
     <CollapsibleContext.Provider value={contextValue}>
-      <div
+      <VStack
         ref={ref}
         id={id}
         data-state={open ? 'open' : 'closed'}
         data-disabled={disabled ? '' : undefined}
-        className={cx(collapsibleRootStyle, className)}
+        className={className}
         {...props}
       >
         {children}
-      </div>
+      </VStack>
     </CollapsibleContext.Provider>
   );
 }
@@ -191,16 +187,21 @@ export const collapsibleContentRecipe = recipe(
       gridTemplateRows: '0fr',
       transition: `grid-template-rows ${vars.duration.normal} ${vars.ease.default}, opacity ${vars.duration.fast} ${vars.ease.default}`,
       opacity: 0,
+      visibility: 'hidden',
+      overflow: 'clip',
+      overflowClipMargin: '6px',
     },
     variants: {
       open: {
         true: {
           gridTemplateRows: '1fr',
           opacity: 1,
+          visibility: 'visible',
         },
         false: {
           gridTemplateRows: '0fr',
           opacity: 0,
+          visibility: 'hidden',
         },
       },
     },
@@ -213,7 +214,6 @@ export const collapsibleContentRecipe = recipe(
 
 const collapsibleInnerStyle = style({
   minHeight: 0,
-  overflow: 'hidden',
 });
 
 export function CollapsibleContent({
@@ -243,7 +243,7 @@ export function CollapsibleContent({
       className={cx(collapsibleContentRecipe({ open }), className)}
       {...props}
     >
-      <div className={cx(collapsibleInnerStyle, innerClassName)}>{children}</div>
+      <div className={cx(collapsibleInnerStyle.className, innerClassName)}>{children}</div>
     </section>
   );
 }

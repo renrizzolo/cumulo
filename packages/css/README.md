@@ -97,10 +97,10 @@ buttonRecipe({ variant: 'outline', size: 'lg' });
 
 ### `createThemeContract()` & `createTheme()`
 
-Define type-safe CSS custom property contracts and implement themes with zero runtime CSS injection:
+Define type-safe CSS custom property contracts, implement themes, and override scoped variables via `.$set()`:
 
 ```ts
-import { createThemeContract, createTheme } from '@cumulo/css';
+import { createThemeContract, createTheme, recipe } from '@cumulo/css';
 
 export const vars = createThemeContract({
   colors: {
@@ -123,6 +123,24 @@ export const lightTheme = createTheme(vars, {
   radii: {
     sm: '4px',
     md: '8px',
+  },
+});
+
+// Override contract variables in style rules or recipes without manual strings:
+export const buttonRecipe = recipe({
+  base: {
+    backgroundColor: vars.colors.background,
+  },
+  variants: {
+    active: {
+      true: {
+        ...vars.$set({
+          colors: {
+            background: vars.colors.primary,
+          },
+        }),
+      },
+    },
   },
 });
 ```

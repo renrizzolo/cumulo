@@ -3,27 +3,29 @@ import { CodeBlock } from './CodeBlock.js';
 import { ComponentPreviewClient } from './ComponentPreviewClient.js';
 import { reactNodeToJsx } from '../utils/reactNodeToJsx.js';
 
-export interface ComponentPreviewProps {
-  title?: string;
-  description?: string;
-  defaultLevel?: 0 | 1 | 2;
-  children: React.ReactNode;
-}
-
 export function ComponentPreview({
   title,
-  description,
   defaultLevel = 0,
+  code,
+  frame,
   children,
-}: ComponentPreviewProps): React.JSX.Element {
-  const codeString = reactNodeToJsx(children);
+}: {
+  title?: string;
+  defaultLevel?: 0 | 1 | 2;
+  /* Used to pass in the code string for a non-inline component. */
+  code?: string;
+  /* Wraps the content in a bordered panel. */
+  frame?: boolean;
+  children: React.ReactNode;
+}): React.JSX.Element {
+  const codeString = code ?? reactNodeToJsx(children);
   const codeElement = <CodeBlock language="tsx">{codeString}</CodeBlock>;
 
   return (
     <ComponentPreviewClient
       title={title}
-      description={description}
       code={codeElement}
+      frame={frame}
       codeString={codeString}
       defaultLevel={defaultLevel}
     >

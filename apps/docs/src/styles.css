@@ -23,11 +23,8 @@
   --theme-contrast-scale: 0.95;
 }
 
-[data-theme='cloud'] {
-  --color-primary-base: #6366f1;
-  --color-grey-base: #64748b;
-  --theme-chroma-scale: 0.85;
-  --theme-contrast-scale: 0.95;
+a {
+  color: var(--theme-primary);
 }
 
 :root {
@@ -48,6 +45,7 @@
   --shiki-token-changed: var(--theme-warning-600);
 }
 
+pre,
 pre.shiki {
   margin: 0;
   padding: 0;
@@ -56,8 +54,10 @@ pre.shiki {
   font-size: var(--theme-font-size-xs);
   line-height: var(--theme-line-height-relaxed);
   overflow-x: auto;
+  max-width: 100%;
 }
 
+pre code,
 pre.shiki code {
   font-family: inherit;
   font-size: inherit;

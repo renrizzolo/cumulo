@@ -11,10 +11,12 @@ import React, {
   type KeyboardEvent,
   type MouseEvent,
 } from 'react';
-import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { Stack } from './Stack.js';
 import { focusRing } from '../intents.js';
+import { Panel } from './Panel.js';
 
 export type TabsOrientation = 'horizontal' | 'vertical';
 export type TabsVariant = 'line' | 'pill' | 'bordered';
@@ -42,30 +44,6 @@ export const useTabs = useTabsContext;
 /* -------------------------------------------------------------------------------------------------
  * TabsRoot
  * -----------------------------------------------------------------------------------------------*/
-
-export const tabsRootRecipe = recipe(
-  {
-    base: {
-      display: 'flex',
-      width: '100%',
-    },
-    variants: {
-      orientation: {
-        horizontal: {
-          flexDirection: 'column',
-        },
-        vertical: {
-          flexDirection: 'row',
-          gap: vars.spacing.md,
-        },
-      },
-    },
-    defaultVariants: {
-      orientation: 'horizontal',
-    },
-  },
-  'tabs-root',
-);
 
 export interface TabsProps extends ElementProps<HTMLDivElement> {
   value?: string;
@@ -105,8 +83,8 @@ export function TabsRoot({
     [isControlled, onValueChange],
   );
 
-  const contextValue = useMemo<TabsContextValue>(
-    () => ({
+  const contextValue = useMemo(
+    (): TabsContextValue => ({
       id,
       value,
       setValue,
@@ -116,13 +94,22 @@ export function TabsRoot({
     [id, value, setValue, orientation, variant],
   );
 
-  const classes = tabsRootRecipe({ orientation });
+  const isVertical = orientation === 'vertical';
 
   return (
     <TabsContext.Provider value={contextValue}>
-      <div ref={ref} id={id} className={cx(classes, className)} {...props}>
+      <Stack
+        ref={ref}
+        id={id}
+        data-orientation={orientation}
+        direction={isVertical ? 'row' : 'column'}
+        gap={isVertical ? 'md' : 'none'}
+        align={isVertical ? 'start' : 'stretch'}
+        className={className}
+        {...props}
+      >
         {children}
-      </div>
+      </Stack>
     </TabsContext.Provider>
   );
 }
@@ -166,7 +153,7 @@ export const tabsListRecipe = recipe(
         },
         vertical: {
           flexDirection: 'column',
-          alignItems: 'stretch',
+          alignItems: 'start',
         },
       },
     },
@@ -188,15 +175,19 @@ export function TabsList({
   const classes = tabsListRecipe({ orientation, variant });
 
   return (
-    <div
+    <Panel
+      scrollbar="thin"
+      overflow={orientation === 'vertical' ? 'y' : 'x'}
+      direction={orientation === 'vertical' ? 'column' : 'row'}
       ref={ref}
       role="tablist"
+      divider={false}
       aria-orientation={orientation}
       className={cx(classes, className)}
       {...props}
     >
       {children}
-    </div>
+    </Panel>
   );
 }
 
@@ -238,7 +229,6 @@ export const tabsTriggerRecipe = recipe(
           borderBottomWidth: 2,
           borderBottomStyle: 'solid',
           borderBottomColor: 'transparent',
-          marginBottom: '-1px',
         },
         pill: {
           borderRadius: vars.radius.md,
@@ -247,9 +237,14 @@ export const tabsTriggerRecipe = recipe(
           borderRadius: vars.radius.md,
         },
       },
+      orientation: {
+        horizontal: {},
+        vertical: {
+          width: '100%',
+        },
+      },
       selected: {
         true: {
-          color: vars.surface.fg,
           fontWeight: vars.font.weight.semibold,
         },
         false: {},
@@ -264,8 +259,18 @@ export const tabsTriggerRecipe = recipe(
         },
       },
       {
+        variants: { variant: 'line', orientation: 'vertical' },
+        style: {
+          width: '100%',
+          paddingLeft: 0,
+          paddingRight: 0,
+        },
+      },
+
+      {
         variants: { variant: 'pill', selected: true },
         style: {
+          color: vars.surface.fg,
           backgroundColor: vars.surface.bg.DEFAULT,
           boxShadow: vars.shadow['0'],
         },
@@ -273,13 +278,21 @@ export const tabsTriggerRecipe = recipe(
       {
         variants: { variant: 'bordered', selected: true },
         style: {
+          color: vars.surface.fg,
           backgroundColor: vars.surface.secondary.DEFAULT,
           boxShadow: vars.shadow['0'],
+        },
+      },
+      {
+        variants: { variant: 'pill', orientation: 'vertical' },
+        style: {
+          width: '100%',
         },
       },
     ],
     defaultVariants: {
       variant: 'line',
+      orientation: 'horizontal',
       selected: false,
     },
   },
@@ -369,6 +382,7 @@ export function TabsTrigger({
 
   const classes = tabsTriggerRecipe({
     variant,
+    orientation,
     selected: isSelected,
   });
 
@@ -396,10 +410,30 @@ export function TabsTrigger({
  * TabsContent (TabsPanel)
  * -----------------------------------------------------------------------------------------------*/
 
-const tabsContentStyle = style({
-  outline: 'none',
-  paddingTop: vars.spacing.md,
-});
+export const tabsContentRecipe = recipe(
+  {
+    base: {
+      outline: 'none',
+    },
+    variants: {
+      orientation: {
+        horizontal: {
+          paddingTop: vars.spacing.md,
+        },
+        vertical: {
+          paddingTop: 0,
+          flex: 1,
+        },
+      },
+    },
+    defaultVariants: {
+      orientation: 'horizontal',
+    },
+  },
+  'tabs-content',
+);
+
+export type TabsContentVariants = RecipeVariants<typeof tabsContentRecipe>;
 
 export interface TabsContentProps extends ElementProps<HTMLDivElement> {
   value: string;
@@ -413,7 +447,7 @@ export function TabsContent({
   ref,
   ...props
 }: TabsContentProps): React.JSX.Element | null {
-  const { id: rootId, value } = useTabsContext();
+  const { id: rootId, value, orientation } = useTabsContext();
   const isSelected = value === panelValue;
 
   const tabId = `${rootId}-tab-${panelValue}`;
@@ -423,6 +457,8 @@ export function TabsContent({
     return null;
   }
 
+  const classes = tabsContentRecipe({ orientation });
+
   return (
     <div
       ref={ref}
@@ -430,7 +466,7 @@ export function TabsContent({
       role="tabpanel"
       aria-labelledby={tabId}
       tabIndex={0}
-      className={cx(tabsContentStyle, className)}
+      className={cx(classes, className)}
       {...props}
     >
       {children}

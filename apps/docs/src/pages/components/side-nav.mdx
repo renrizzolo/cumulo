@@ -1,0 +1,164 @@
+import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
+import { Sidebar, SideNav, SideNavGroup, SideNavItem, Badge, VStack, Panel } from '@cumulo/core';
+import sideNavDoc from '../../../docgen/components/SideNav.json';
+export default Layout;
+export { CodeBlock, ComponentPreview, PropsTable };
+
+# SideNav
+
+Accessible sidebar navigation supporting collapsible groups, badge counters, active indicators, and automatic icon-only collapse.
+
+```tsx
+import { SideNav, SideNavGroup, SideNavItem } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Grouped & Collapsible Navigation">
+  <VStack>
+    <SideNav aria-label="Sample Navigation">
+      <SideNavGroup title="Overview">
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M3 3v18h18" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+          }
+          label="Analytics"
+          active
+        />
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+          }
+          label="Activity"
+          badge={<Badge variant="secondary">3</Badge>}
+        />
+      </SideNavGroup>
+      <SideNavGroup
+        collapsible
+        defaultOpen={true}
+        title="Management"
+        badge={<Badge variant="outline">2</Badge>}
+      >
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          }
+          label="Users"
+        />
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <rect width="20" height="14" x="2" y="5" rx="2" />
+              <line x1="2" x2="22" y1="10" y2="10" />
+            </svg>
+          }
+          label="Billing"
+        />
+      </SideNavGroup>
+    </SideNav>
+  </VStack>
+</ComponentPreview>
+
+<ComponentPreview title="Icon-Only Mode with Floating Tooltips">
+  <Sidebar variant="docked" position="left" defaultCollapsed hoverBehaviour="tooltip" width="220px">
+    <Panel padding="sm">
+      <SideNav aria-label="Collapsed Navigation">
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M3 3v18h18" />
+              <path d="m19 9-5 5-4-4-3 3" />
+            </svg>
+          }
+          label="Analytics"
+          active
+        />
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+            </svg>
+          }
+          label="Notifications"
+          badge={<Badge variant="secondary">3</Badge>}
+        />
+        <SideNavItem
+          icon={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          }
+          label="Team Members"
+        />
+      </SideNav>
+    </Panel>
+  </Sidebar>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={sideNavDoc} />

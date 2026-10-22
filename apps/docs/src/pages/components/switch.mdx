@@ -16,18 +16,15 @@ export { CodeBlock, ComponentPreview, PropsTable };
 
 # Switch
 
-A smooth, accessible toggle switch control with tokenized sizing, sliding thumb animations, and field integration.
+An accessible toggle switch with a sliding thumb animation, and Field integration.
 
 ```tsx
 import { Switch } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
-<ComponentPreview
-  title="Switch Toggle"
-  description="Explore interactive toggle switches with integrated field labeling."
->
+<ComponentPreview title="Switch Toggle">
   <VStack gap="md">
     <FieldRoot>
       <HStack gap="sm" align="center">
@@ -44,14 +41,11 @@ import { Switch } from '@cumulo/core';
   </VStack>
 </ComponentPreview>
 
-## States & Intents
+## States and intents
 
-Switches support checked, unchecked, error, and disabled states with automatic accessibility wiring.
+Switches support checked, unchecked, error, and disabled states. Accessibility attributes are wired automatically.
 
-<ComponentPreview
-  title="Switch States & Intents"
-  description="Default, checked, error intent, and disabled switches."
->
+<ComponentPreview title="Switch states and intents">
   <VStack gap="md">
     <FieldRoot>
       <HStack gap="sm" align="center">
@@ -87,13 +81,12 @@ Switches support checked, unchecked, error, and disabled states with automatic a
   </VStack>
 </ComponentPreview>
 
-## Field Integration
+## Field integration
 
 When used inside a `FieldRoot`, switches automatically synchronize IDs, descriptions, accessibility attributes, and error validation states.
 
 <ComponentPreview
   title="Form Field Integration"
-  description="Switches configured with valid, invalid, and disabled Field contexts."
 >
   <VStack gap="lg">
     <FieldRoot>
@@ -123,6 +116,6 @@ When used inside a `FieldRoot`, switches automatically synchronize IDs, descript
   </VStack>
 </ComponentPreview>
 
-## Component API
+### Component API
 
 <PropsTable data={switchDoc} />

@@ -16,11 +16,10 @@ export const textareaRecipe = recipe(
       color: vars.surface.fg,
       borderWidth: 1,
       borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      borderRadius: vars.radius.md,
+      borderRadius: `max(${vars.radius.control}, ${vars.spacing.md})`,
       outline: 'none',
       boxSizing: 'border-box',
-      transition: `all ${vars.duration.fast} ${vars.ease.default}`,
+      transition: `border-color ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}`,
       minHeight: '5rem',
       '::placeholder': {
         color: vars.surface.subtle,

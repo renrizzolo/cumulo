@@ -2,6 +2,7 @@ import React from 'react';
 import type { ElementProps } from '../ElementProps.js';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
+import { textBase } from '../typography.js';
 
 const labelStyle = style({
   fontSize: vars.font.size.sm,
@@ -10,6 +11,8 @@ const labelStyle = style({
   color: vars.surface.fg,
   fontFamily: vars.font.sans,
   userSelect: 'none',
+  minWidth: 'max-content',
+  ...textBase,
 });
 
 export interface LabelProps extends ElementProps<HTMLLabelElement> {

@@ -22,10 +22,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"body\" | \"label\" | \"display\" | \"lead\" | \"caption\" | \"code\" | undefined",
+        "raw": "\"display\" | \"code\" | \"body\" | \"label\" | \"lead\" | \"caption\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"display\""
+          },
+          {
+            "value": "\"code\""
           },
           {
             "value": "\"body\""
@@ -34,16 +40,10 @@
             "value": "\"label\""
           },
           {
-            "value": "\"display\""
-          },
-          {
             "value": "\"lead\""
           },
           {
             "value": "\"caption\""
-          },
-          {
-            "value": "\"code\""
           }
         ]
       },
@@ -75,19 +75,19 @@
             "value": "\"small\""
           },
           {
-            "value": "\"label\""
-          },
-          {
-            "value": "\"code\""
-          },
-          {
-            "value": "\"p\""
+            "value": "\"div\""
           },
           {
             "value": "\"span\""
           },
           {
-            "value": "\"div\""
+            "value": "\"code\""
+          },
+          {
+            "value": "\"label\""
+          },
+          {
+            "value": "\"p\""
           },
           {
             "value": "\"strong\""
@@ -116,13 +116,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"3xl\" | \"2xs\" | \"xs\" | \"sm\" | \"base\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"3xl\""
           },
           {
             "value": "\"2xs\""
@@ -132,9 +129,6 @@
           },
           {
             "value": "\"sm\""
-          },
-          {
-            "value": "\"base\""
           },
           {
             "value": "\"md\""
@@ -147,6 +141,12 @@
           },
           {
             "value": "\"2xl\""
+          },
+          {
+            "value": "\"3xl\""
+          },
+          {
+            "value": "\"base\""
           }
         ]
       },
@@ -207,16 +207,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"none\" | \"tight\" | \"relaxed\" | undefined",
+        "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"normal\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"normal\""
           },
           {
             "value": "\"tight\""
@@ -247,13 +247,25 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
+        "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"inherit\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"error\""
           },
           {
             "value": "\"default\""
@@ -263,18 +275,6 @@
           },
           {
             "value": "\"subtle\""
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"warning\""
           }
         ]
       },

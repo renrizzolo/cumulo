@@ -37,6 +37,8 @@ export type {
   NullableTokens,
   MapTokensToVars,
   MapTokensToValues,
+  MapTokensToPartialValues,
+  CSSVariableMap,
   ThemeContract,
   CreatedTheme,
   ClassValue,

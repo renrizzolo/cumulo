@@ -1,4 +1,4 @@
-import { Card, vars, type ElementProps } from '@cumulo/core';
+import { Surface, vars, type ElementProps } from '@cumulo/core';
 import { cx, style } from '@cumulo/css';
 import React from 'react';
 import { HighlightedCode } from './HighlightedCode';
@@ -6,7 +6,7 @@ import { HighlightedCode } from './HighlightedCode';
 export interface CodeBlockProps extends ElementProps<HTMLDivElement> {
   children: string;
   className?: string;
-  language?: string;
+  language?: 'ts' | 'tsx' | 'css';
 }
 
 const codeBlockContainerStyle = style({
@@ -19,12 +19,17 @@ const codeBlockContainerStyle = style({
 export function CodeBlock({
   children,
   className,
-  language = 'typescript',
+  language = 'tsx',
   ...props
 }: CodeBlockProps): React.JSX.Element {
   return (
-    <Card className={cx(codeBlockContainerStyle.className, className)} {...props}>
+    <Surface
+      level={0}
+      padding="md"
+      className={cx(codeBlockContainerStyle.className, className)}
+      {...props}
+    >
       <HighlightedCode code={children} language={language} />
-    </Card>
+    </Surface>
   );
 }

@@ -1,8 +1,16 @@
 import React from 'react';
-import type { PageProps } from '@parcel/rsc';
-import { HStack, VStack, ThemeScript, vars, Container } from '@cumulo/core';
+import type { PageProps } from '@renr/parcel-rsc-router';
+import {
+  AppFrame,
+  AppFrameMain,
+  Panel,
+  ThemeScript,
+  vars,
+  Container,
+  SidebarProvider,
+} from '@cumulo/core';
 import { style } from '@cumulo/css';
-import { Nav } from './components/Nav';
+import { SidebarNav } from './components/Nav';
 import { AppProvider } from './appProvider';
 import { DocHeader } from './components/DocHeader';
 import './styles.css';
@@ -10,15 +18,9 @@ import './styles.css';
 const bodyStyle = style(
   {
     margin: 0,
-    padding: vars.spacing.md,
     minHeight: '100vh',
     backgroundColor: vars.surface.bg.DEFAULT,
     color: vars.surface.fg,
-    '@media': {
-      '(max-width: 768px)': {
-        padding: 0,
-      },
-    },
   },
   'layout-body',
 );
@@ -40,18 +42,20 @@ const contentWrapperStyle = style(
   'layout-content-wrapper',
 );
 
-const navAsideStyle = style(
+const builderWrapperStyle = style(
   {
-    display: 'flex',
-    flexDirection: 'column',
-    flexShrink: 0,
+    flex: 1,
+    padding: vars.spacing.lg,
+    boxSizing: 'border-box',
+    width: '100%',
+    minWidth: 0,
     '@media': {
       '(max-width: 959px)': {
-        display: 'none !important',
+        padding: `${vars.spacing.md} ${vars.spacing.sm} 60px`,
       },
     },
   },
-  'layout-nav-aside',
+  'layout-builder-wrapper',
 );
 
 export default function Layout({
@@ -80,20 +84,31 @@ export default function Layout({
 
       <AppProvider>
         <body className={bodyStyle.className}>
-          <HStack align="stretch" flex="auto" gap="lg">
-            <aside className={navAsideStyle.className}>
-              <Nav currentPage={currentPage} />
-            </aside>
-            <VStack flex="auto">
-              {/* Top Responsive Navigation Bar */}
-              <DocHeader currentPage={currentPage} />
+          <SidebarProvider hoverBehaviour="expand">
+            <AppFrame>
+              <SidebarNav currentPage={currentPage} />
+              <AppFrameMain as="div">
+                {/* Top Responsive Navigation Bar */}
+                <DocHeader />
 
-              {/* Main Content Area */}
-              <main className={contentWrapperStyle.className}>
-                <Container size="lg">{children}</Container>
-              </main>
-            </VStack>
-          </HStack>
+                {/* Main Content Area */}
+                <Panel scrollbar="default" as="main">
+                  {currentPage?.url === '/theme-builder.html' ? (
+                    <div className={builderWrapperStyle.className}>{children}</div>
+                  ) : (
+                    <div className={contentWrapperStyle.className}>
+                      <Container
+                        // prose pages (overview etc.) have a smaller width than component docs
+                        size={currentPage?.url.startsWith('/components/') ? 'lg' : 'md'}
+                      >
+                        {children}
+                      </Container>
+                    </div>
+                  )}
+                </Panel>
+              </AppFrameMain>
+            </AppFrame>
+          </SidebarProvider>
         </body>
       </AppProvider>
     </html>

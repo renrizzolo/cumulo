@@ -14,8 +14,8 @@ export const buttonRecipe = recipe(
       gap: vars.spacing.xs,
       fontFamily: vars.font.sans,
       fontWeight: vars.font.weight.medium,
-      borderRadius: vars.radius.lg,
-
+      borderRadius: vars.radius.control,
+      whiteSpace: 'nowrap',
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'transparent',

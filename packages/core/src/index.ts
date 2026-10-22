@@ -1,10 +1,7 @@
 export type { ElementProps } from './ElementProps.js';
 
-// Theme Tokens & Contract
-export { themeTokens, themeVars, type ThemeToken } from './tokens/themeTokens.js';
-
 // Contract & Reset
-export { vars, themeContract, type ThemeVars, type VarPath } from './contract.js';
+export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
 export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components
@@ -98,6 +95,20 @@ export {
   type PopoverContextValue,
 } from './components/Popover.js';
 
+export {
+  Tooltip,
+  TooltipRoot,
+  TooltipTrigger,
+  TooltipContent,
+  useTooltip,
+  useTooltipContext,
+  type TooltipProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+  type TooltipVariants,
+  type TooltipContextValue,
+} from './components/Tooltip.js';
+
 export { Checkbox, type CheckboxProps, type CheckboxVariants } from './components/Checkbox.js';
 
 export { Switch, type SwitchProps, type SwitchVariants } from './components/Switch.js';
@@ -117,7 +128,30 @@ export {
   type TabsOrientation,
   type TabsVariant,
   type TabsTriggerVariants,
+  type TabsContentVariants,
 } from './components/Tabs.js';
+
+export {
+  ButtonGroup,
+  ButtonGroupRoot,
+  ButtonGroupItem,
+  useButtonGroupContext,
+  type ButtonGroupRootProps,
+  type ButtonGroupItemProps,
+  type ButtonGroupContextValue,
+  type ButtonGroupOrientation,
+  type ButtonGroupSize,
+} from './components/ButtonGroup.js';
+
+export { Radio, type RadioProps, type RadioVariants } from './components/Radio.js';
+
+export {
+  RadioList,
+  useRadioListContext,
+  type RadioListProps,
+  type RadioListOrientation,
+  type RadioListContextValue,
+} from './components/RadioList.js';
 
 // Field
 export {
@@ -127,6 +161,8 @@ export {
   FieldTextarea,
   FieldCheckbox,
   FieldSwitch,
+  FieldRadio,
+  FieldRadioList,
   FieldLabel,
   FieldError,
   FieldDescription,
@@ -134,14 +170,81 @@ export {
   FieldContext,
   useFieldContext,
   type FieldProps,
+  type FieldGroupProps,
+  type FieldGroupVariants,
   type FieldErrorProps,
   type FieldContextValue,
 } from './components/Field.js';
 export { Label, type LabelProps } from './components/Label.js';
+export { Header, type HeaderProps } from './components/Header.js';
 
 export { ThemeScript, getThemeScript, type ThemeScriptOptions } from './theme/ThemeScript.js';
 export { useTheme, type UseThemeReturn } from './theme/useTheme.js';
+export { setDefaultTheme } from './theme/theme.js';
 
 // hooks
 export { useDismissible } from './hooks/useDismissible.js';
 export { useFocus } from './hooks/useFocus.js';
+
+// App Layout & Frame Primitives
+export {
+  Panel,
+  PanelRoot,
+  panelContract,
+  type PanelProps,
+  type PanelVariants,
+  type PanelScrollbar,
+  type PanelDividerSide,
+  type PanelDividerProp,
+  type PanelTag,
+} from './components/Panel.js';
+
+export {
+  Sidebar,
+  SidebarRoot,
+  SidebarProvider,
+  SidebarToggle,
+  SidebarHeader,
+  SidebarFooter,
+  sidebarContract,
+  sidebarRecipe,
+  useSidebar,
+  SidebarContext,
+  type SidebarContextValue,
+  type SidebarProps,
+  type SidebarProviderProps,
+  type SidebarRootProps,
+  type SidebarVariants,
+  type SidebarType,
+  type SidebarVariant,
+  type SidebarPosition,
+  type SidebarHoverBehavior,
+  type SidebarLevel,
+  type SidebarToggleProps,
+  type SidebarHeaderProps,
+  type SidebarFooterProps,
+} from './components/Sidebar.js';
+
+export {
+  SideNav,
+  SideNavRoot,
+  SideNavItem,
+  SideNavGroup,
+  SideNavGroupTrigger,
+  SideNavGroupContent,
+  sideNavContract,
+  type SideNavProps,
+  type SideNavItemProps,
+  type SideNavGroupProps,
+  type SideNavGroupTriggerProps,
+  type SideNavGroupContentProps,
+} from './components/SideNav.js';
+
+export {
+  AppFrame,
+  AppFrameRoot,
+  AppFrameMain,
+  type AppFrameProps,
+  type AppFrameVariants,
+  type AppFrameMainProps,
+} from './components/AppFrame.js';

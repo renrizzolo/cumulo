@@ -20,7 +20,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
+        "raw": "\"primary\" | \"secondary\" | \"outline\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -33,9 +33,6 @@
           },
           {
             "value": "\"outline\""
-          },
-          {
-            "value": "\"ghost\""
           }
         ]
       },
@@ -101,10 +98,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"2xs\""
           },
           {
             "value": "\"xs\""
@@ -114,12 +114,6 @@
           },
           {
             "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
           }
         ]
       },

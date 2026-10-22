@@ -20,28 +20,27 @@ A multi-line text input field supporting resizing controls, intent states, and F
 import { Textarea, FieldTextarea } from '@cumulo/core';
 ```
 
-## Interactive Playground
+### Examples
 
 <ComponentPreview
   title="Textarea within Field"
-  description="Multi-line input integrated with Field label, description, and error messaging."
 >
-  <VStack gap="md" style={{ width: '100%', maxWidth: '480px' }}>
-    <FieldRoot>
-      <FieldLabel>Project Description</FieldLabel>
-      <FieldTextarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
-      <FieldDescription>Brief overview for stakeholders.</FieldDescription>
-    </FieldRoot>
+  <VStack gap="md">
+      <FieldRoot>
+        <FieldLabel>Project Description</FieldLabel>
+        <FieldTextarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
+        <FieldDescription>Brief overview for stakeholders.</FieldDescription>
+      </FieldRoot>
 
-    <FieldRoot isInvalid>
-      <FieldLabel>Feedback</FieldLabel>
-      <FieldTextarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
-      <FieldError>Feedback must be at least 20 characters long.</FieldError>
-    </FieldRoot>
+      <FieldRoot isInvalid>
+        <FieldLabel>Feedback</FieldLabel>
+        <FieldTextarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
+        <FieldError>Feedback must be at least 20 characters long.</FieldError>
+      </FieldRoot>
+    </VStack>
 
-  </VStack>
 </ComponentPreview>
 
-## Component API
+### Component API
 
 <PropsTable data={textareaDoc} />

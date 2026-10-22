@@ -1,17 +1,8 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { style } from '@cumulo/css';
-import {
-  Text,
-  Code,
-  HStack,
-  VStack,
-  vars,
-  type ThemeToken,
-  type VarPath,
-  Button,
-} from '@cumulo/core';
+import { create, style } from '@cumulo/css';
+import { Text, vars, type VarPath, Button } from '@cumulo/core';
 import { Intent } from '@cumulo/core/intents';
 
 type ColorIntent = Intent | 'grey';
@@ -20,7 +11,7 @@ type ColorStep = (typeof STEPS)[number];
 interface IntentScaleItem {
   key: ColorIntent;
   label: string;
-  seed: ThemeToken;
+  seed: string;
   name: VarPath;
 }
 
@@ -28,65 +19,47 @@ const INTENT_SCALES: readonly IntentScaleItem[] = [
   {
     key: 'primary',
     label: 'Primary',
-    seed: '--color-primary-base',
+    seed: vars.seed.primary,
     name: 'vars.seed.primary',
   },
   {
     key: 'success',
     label: 'Success',
-    seed: '--color-success-base',
+    seed: vars.seed.success,
     name: 'vars.seed.success',
   },
   {
     key: 'warning',
     label: 'Warning',
-    seed: '--color-warning-base',
+    seed: vars.seed.warning,
     name: 'vars.seed.warning',
   },
   {
     key: 'error',
     label: 'Error',
-    seed: '--color-error-base',
+    seed: vars.seed.error,
     name: 'vars.seed.error',
   },
   {
     key: 'info',
     label: 'Info',
-    seed: '--color-info-base',
+    seed: vars.seed.info,
     name: 'vars.seed.info',
   },
   {
     key: 'grey',
     label: 'Grey',
-    seed: '--color-grey-base',
+    seed: vars.seed.grey,
     name: 'vars.seed.grey',
   },
 ] as const;
 
 const STEPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900] as const;
 
-const scaleContainerStyle = style({
-  containerType: 'inline-size',
-});
-
-const headerRowStyle = style({
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginBottom: vars.spacing.xs,
-});
-
-const intentTitleStyle = style({
-  fontWeight: vars.font.weight.semibold,
-  fontSize: vars.font.size.sm,
-  textTransform: 'capitalize',
-  color: vars.surface.fg,
-});
-
 const colorGridStyle = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(10, minmax(0, 64px))',
   gap: vars.spacing.xs,
-  marginBottom: vars.spacing.md,
   '@container': {
     '(max-width: 768px)': {
       gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
@@ -94,6 +67,19 @@ const colorGridStyle = style({
     '(max-width: 480px)': {
       gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
     },
+  },
+});
+
+const scaleGrid = create({
+  parent: {
+    display: 'grid',
+    gridTemplateColumns: 'max-content 1fr',
+    alignItems: 'center',
+    gap: vars.spacing.md,
+  },
+  child: {
+    display: 'grid',
+    gridTemplateColumns: 'subgrid',
   },
 });
 
@@ -128,18 +114,19 @@ interface SwatchProps {
 
 function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
   const [copied, setCopied] = useState(false);
-  const cssVar: ThemeToken = `--theme-${intent}-${step}`;
+  const tokenVar = vars[intent][step];
+  const cssVar = tokenVar.replace(/^var\((--[^)]+)\)$/, '$1');
   const isLightStep = step <= 400;
 
   const handleCopy = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(`var(${cssVar})`);
+      await navigator.clipboard.writeText(tokenVar);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
       // Fallback
     }
-  }, [cssVar]);
+  }, [tokenVar]);
 
   return (
     <Button
@@ -148,7 +135,7 @@ function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
       onClick={handleCopy}
       aria-label={`Copy ${cssVar}`}
       style={{
-        backgroundColor: `var(${cssVar})`,
+        backgroundColor: tokenVar,
         color: isLightStep ? 'light-dark(#0f172a, #f8fafc)' : 'light-dark(#ffffff, #0f172a)',
       }}
     >
@@ -163,20 +150,17 @@ function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
 
 export function ColorTokens() {
   return (
-    <VStack gap="lg">
+    <div className={scaleGrid.parent.className}>
       {INTENT_SCALES.map((scale) => (
-        <div key={scale.key} className={scaleContainerStyle.className}>
-          <HStack className={headerRowStyle.className}>
-            <Text className={intentTitleStyle.className}>{scale.label}</Text>
-            <Code variant="subtle">{scale.seed}</Code>
-          </HStack>
+        <React.Fragment key={scale.key}>
+          <Text type="label">{scale.label}</Text>
           <div className={colorGridStyle.className}>
             {STEPS.map((step) => (
               <Swatch key={step} intent={scale.key} step={step} />
             ))}
           </div>
-        </div>
+        </React.Fragment>
       ))}
-    </VStack>
+    </div>
   );
 }

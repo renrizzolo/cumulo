@@ -1,7 +1,7 @@
 export type ColorMode = 'light' | 'dark' | 'system';
 export type ResolvedColorMode = 'light' | 'dark';
 
-export type Theme = 'default' | 'cloud' | 'docs' | (string & {});
+export type Theme = 'default' | (string & {});
 
 export const DEFAULT_THEME: Theme = 'default';
 export const DEFAULT_COLOR_MODE: ColorMode = 'system';
@@ -15,10 +15,6 @@ export function isColorMode(value: unknown): value is ColorMode {
 
 export function isResolvedColorMode(value: unknown): value is ResolvedColorMode {
   return value === 'light' || value === 'dark';
-}
-
-export function isTheme(value: unknown): value is Theme {
-  return typeof value === 'string' && value.trim().length > 0;
 }
 
 export function getSystemColorMode(): ResolvedColorMode {
@@ -48,8 +44,8 @@ export function getStoredTheme(
     return defaultTheme;
   }
   try {
-    const item = window.localStorage.getItem(storageKey);
-    if (item && isTheme(item)) {
+    const item = window.localStorage.getItem(storageKey)?.trim();
+    if (item) {
       return item;
     }
   } catch {
@@ -58,12 +54,16 @@ export function getStoredTheme(
   return defaultTheme;
 }
 
-export function setStoredTheme(theme: Theme, storageKey: string = DEFAULT_THEME_STORAGE_KEY): void {
+export function setStoredTheme(
+  theme: Theme,
+  storageKey: string = DEFAULT_THEME_STORAGE_KEY,
+  defaultTheme: Theme = DEFAULT_THEME,
+): void {
   if (typeof window === 'undefined') {
     return;
   }
   try {
-    if (theme === DEFAULT_THEME) {
+    if (theme === defaultTheme) {
       window.localStorage.removeItem(storageKey);
     } else {
       window.localStorage.setItem(storageKey, theme);
@@ -133,6 +133,8 @@ export interface ThemeStoreOptions {
 export interface ThemeStore {
   getTheme(): Theme;
   setTheme(theme: Theme): void;
+  getDefaultTheme(): Theme;
+  setDefaultTheme(theme: Theme): void;
   getMode(): ColorMode;
   getResolvedMode(): ResolvedColorMode;
   getSystemMode(): ResolvedColorMode;
@@ -145,8 +147,16 @@ export interface ThemeStore {
 export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
   const themeStorageKey = options.themeStorageKey ?? DEFAULT_THEME_STORAGE_KEY;
   const modeStorageKey = options.modeStorageKey ?? DEFAULT_MODE_STORAGE_KEY;
-  const defaultTheme = options.defaultTheme ?? DEFAULT_THEME;
-  const defaultMode = options.defaultMode ?? DEFAULT_COLOR_MODE;
+  let defaultTheme: Theme = options.defaultTheme ?? DEFAULT_THEME;
+  const defaultMode: ColorMode = options.defaultMode ?? DEFAULT_COLOR_MODE;
+
+  // Auto-detect initial theme from DOM if not explicitly passed in options
+  if (options.defaultTheme === undefined && typeof document !== 'undefined') {
+    const domTheme = document.documentElement.getAttribute('data-theme');
+    if (domTheme) {
+      defaultTheme = domTheme;
+    }
+  }
 
   let currentTheme: Theme = getStoredTheme(themeStorageKey, defaultTheme);
   let currentMode: ColorMode = getStoredColorMode(modeStorageKey, defaultMode);
@@ -194,11 +204,26 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
       return currentTheme;
     },
     setTheme(newTheme: Theme): void {
-      if (!isTheme(newTheme)) return;
+      if (!newTheme.trim()) return;
       currentTheme = newTheme;
-      setStoredTheme(newTheme, themeStorageKey);
+      setStoredTheme(newTheme, themeStorageKey, defaultTheme);
       applyTheme(newTheme);
       notify();
+    },
+    getDefaultTheme(): Theme {
+      return defaultTheme;
+    },
+    setDefaultTheme(newDefaultTheme: Theme): void {
+      defaultTheme = newDefaultTheme;
+      const next = getStoredTheme(themeStorageKey, newDefaultTheme);
+      const domInSync =
+        typeof document === 'undefined' ||
+        document.documentElement.getAttribute('data-theme') === next;
+      if (currentTheme === next && domInSync) return;
+      currentTheme = next;
+      applyTheme(next);
+      // Deferred: this can be called during render via `useTheme(defaultTheme)`.
+      if (listeners.size > 0) queueMicrotask(notify);
     },
     getMode(): ColorMode {
       return currentMode;
@@ -247,10 +272,8 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
     },
     destroy(): void {
       listeners.clear();
-      if (mediaQueryList) {
-        if (typeof mediaQueryList.removeEventListener === 'function') {
-          mediaQueryList.removeEventListener('change', handleMediaChange);
-        }
+      if (mediaQueryList && typeof mediaQueryList.removeEventListener === 'function') {
+        mediaQueryList.removeEventListener('change', handleMediaChange);
         mediaQueryList = null;
       }
     },
@@ -258,3 +281,11 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
 }
 
 export const themeStore: ThemeStore = createThemeStore();
+
+/**
+ * Sets the fallback theme used when the user has no stored preference.
+ * Call once at app startup (module scope), outside of render.
+ */
+export function setDefaultTheme(theme: Theme): void {
+  themeStore.setDefaultTheme(theme);
+}
