@@ -189,7 +189,7 @@ export const vars = {
   },
   step: {
     '50': {
-      /** 0.05 */
+      /** 0.02 */
       t: 'var(--theme-step-50-t)',
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
@@ -203,7 +203,7 @@ export const vars = {
       h: 'var(--theme-step-50-h)',
     },
     '100': {
-      /** 0.1 */
+      /** 0.07 */
       t: 'var(--theme-step-100-t)',
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */

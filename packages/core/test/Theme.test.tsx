@@ -186,19 +186,44 @@ describe('Theme and ColorMode utilities and store', () => {
     expect(document.documentElement.style.colorScheme).toBe('light');
   });
 
-  it('allows overriding default theme with useTheme(defaultTheme)', () => {
-    const { result } = renderHook(() => useTheme('docs'));
+  it('useTheme reflects the default set via setDefaultTheme', () => {
+    setDefaultTheme('docs');
+    const { result } = renderHook(() => useTheme());
 
     expect(result.current.theme).toBe('docs');
     expect(document.documentElement.getAttribute('data-theme')).toBe('docs');
   });
 
-  it('preserves existing localStorage preference over defaultTheme in useTheme', () => {
+  it('preserves existing localStorage preference over the default theme', () => {
     setStoredTheme('sunset');
-    const { result } = renderHook(() => useTheme('docs'));
+    setDefaultTheme('docs');
+    const { result } = renderHook(() => useTheme());
 
     expect(result.current.theme).toBe('sunset');
     expect(document.documentElement.getAttribute('data-theme')).toBe('sunset');
+  });
+
+  it('updates a mounted useTheme when the default changes later', async () => {
+    const { result } = renderHook(() => useTheme());
+    expect(result.current.theme).toBe('default');
+
+    await act(async () => {
+      setDefaultTheme('docs');
+      await Promise.resolve();
+    });
+
+    expect(result.current.theme).toBe('docs');
+  });
+
+  it('ignores blank themes in setTheme', () => {
+    const { result } = renderHook(() => useTheme());
+
+    act(() => {
+      result.current.setTheme('  ');
+    });
+
+    expect(result.current.theme).toBe('default');
+    expect(localStorage.getItem('cumulo-theme')).toBeNull();
   });
 
   it('allows injecting default theme outside of render via setDefaultTheme', () => {

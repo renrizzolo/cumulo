@@ -281,6 +281,7 @@ export type VarValue<T = ThemeVars> = T extends string
     : never;
 
 // union of all the var paths ("vars.surface.primary.bg")
+export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends string
   ? Prefix
   : {
       [K in keyof T & string]: T[K] extends string

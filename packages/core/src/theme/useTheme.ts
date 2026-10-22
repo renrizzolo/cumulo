@@ -4,7 +4,6 @@ import {
   type Theme,
   type ColorMode,
   type ResolvedColorMode,
-  DEFAULT_THEME,
   DEFAULT_COLOR_MODE,
   resolveColorMode,
 } from './theme.js';
@@ -29,15 +28,11 @@ export interface UseThemeReturn {
 
 const SERVER_SYSTEM_MODE: ResolvedColorMode = 'light';
 
-export function useTheme(defaultTheme?: Theme): UseThemeReturn {
-  if (defaultTheme !== undefined) {
-    themeStore.setDefaultTheme(defaultTheme);
-  }
-
+export function useTheme(): UseThemeReturn {
   const theme = useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getTheme,
-    (): Theme => defaultTheme ?? DEFAULT_THEME,
+    themeStore.getDefaultTheme,
   );
 
   const mode = useSyncExternalStore(

@@ -290,19 +290,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"outline\""
               },
               {
                 "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
-              },
-              {
-                "value": "\"outline\""
               },
               {
                 "value": "\"ghost\""
@@ -369,16 +369,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -388,6 +385,9 @@
               },
               {
                 "value": "\"lg\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"xl\""
@@ -479,7 +479,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
+            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"menu\" \n|  \"grid\" \n|  \"listbox\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },
@@ -843,16 +843,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"alertdialog\" | \"dialog\" | undefined",
+            "raw": "\"dialog\" | \"alertdialog\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"alertdialog\""
+                "value": "\"dialog\""
               },
               {
-                "value": "\"dialog\""
+                "value": "\"alertdialog\""
               }
             ]
           },
@@ -956,19 +956,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"outline\""
               },
               {
                 "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
-              },
-              {
-                "value": "\"outline\""
               },
               {
                 "value": "\"ghost\""
@@ -1037,16 +1037,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -1056,6 +1053,9 @@
               },
               {
                 "value": "\"lg\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"xl\""

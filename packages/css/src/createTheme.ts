@@ -37,25 +37,18 @@ function pathToVarName(path: string[], prefix = 'c'): `--${string}` {
 }
 
 /**
- * Creates a type-safe theme contract where all values are CSS variables.
+ * Creates a type-safe theme contract where every leaf is a `var(--prefix-path)` reference.
+ * `$set()` builds the matching variable assignments.
  *
- * @param contract - Token blueprint object where leaf values are `null` or placeholder strings.
- * @param prefix - Prefix used for generated CSS custom property names (`--${prefix}-${key}`). Defaults to `'c'`.
- * @returns A `ThemeContract` containing CSS variable references (`var(--...)`) and a `.$set()` method
- * to generate scoped variable assignments without writing raw string property names.
+ * @param contract - Token blueprint; leaf values are `null`.
+ * @param prefix - Custom property prefix. Defaults to `'c'`.
  *
  * @example
  * ```ts
- * export const cardContract = createThemeContract({
- *   bg: null,
- *   border: null,
- * }, 'card');
+ * const card = createThemeContract({ bg: null, border: null }, 'card');
  *
- * // Reading: cardContract.bg -> "var(--card-bg)"
- * // Assigning in a variant or rule:
- * const highlighted = style({
- *   ...cardContract.$set({ bg: 'var(--surface-bg-next)' }),
- * });
+ * card.bg; // "var(--card-bg)"
+ * card.$set({ bg: 'red' }); // { '--card-bg': 'red' }
  * ```
  */
 export function createThemeContract<T extends NullableTokens>(
@@ -71,29 +64,24 @@ export function createThemeContract<T extends NullableTokens>(
   });
   Object.defineProperty(contractObj, '$set', {
     value: (values: MapTokensToPartialValues<T>): CSSVariableMap =>
-      flattenValues(values as Record<string, unknown>, [], prefix),
+      flattenValues(values, [], prefix),
     enumerable: false,
     configurable: true,
   });
   return contractObj;
 }
 
-function flattenValues<T extends Record<string, unknown>>(
-  values: T,
-  path: string[] = [],
-  prefix = 'c',
-): CSSVariableMap {
-  const result: Record<string, string> = {};
-  for (const key of Object.keys(values)) {
-    const value = values[key];
+function flattenValues(values: object, path: string[] = [], prefix = 'c'): CSSVariableMap {
+  const result: CSSVariableMap = {};
+  for (const [key, value] of Object.entries(values)) {
     const currentPath = [...path, key];
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      Object.assign(result, flattenValues(value as Record<string, unknown>, currentPath, prefix));
+      Object.assign(result, flattenValues(value, currentPath, prefix));
     } else if (value !== undefined && value !== null) {
       result[pathToVarName(currentPath, prefix)] = String(value);
     }
   }
-  return result as CSSVariableMap;
+  return result;
 }
 
 function resolvePrefix(contract: unknown, prefix?: string): string {
@@ -111,23 +99,13 @@ function resolvePrefix(contract: unknown, prefix?: string): string {
 
 /**
  * Creates a scoped theme class that sets CSS variables matching a theme contract.
+ * The prefix is read from the contract unless passed explicitly.
  *
  * @example
- * ```ts
- * import { createTheme } from '@cumulo/css';
+ * ```tsx
+ * const dark = createTheme(colorContract, { surface: '#0f172a' });
  *
- * const darkTheme = createTheme(colorContract, {
- *   surface: '#0f172a',
- * });
- *
- * const styles = style({
- *  base: {
- *   backgroundColor: darkTheme.vars.surface,
- *  }
- * });
- *
- * // Usage:
- * <div className={darkTheme.className, styles.className}>...</div>
+ * <div className={cx(dark.className, styles)} />
  * ```
  */
 export function createTheme<T extends NullableTokens>(
@@ -136,7 +114,7 @@ export function createTheme<T extends NullableTokens>(
   prefix?: string,
 ): CreatedTheme {
   const actualPrefix = resolvePrefix(_contract, prefix);
-  const flattened = flattenValues(values as Record<string, unknown>, [], actualPrefix);
+  const flattened = flattenValues(values, [], actualPrefix);
   const cssBody = Object.entries(flattened)
     .map(([varName, val]) => `${varName}:${val};`)
     .join('');
@@ -183,7 +161,7 @@ export function createGlobalTheme<T extends NullableTokens>(
   prefix?: string,
 ): { css: string; vars: Record<string, string> } {
   const actualPrefix = resolvePrefix(_contract, prefix);
-  const flattened = flattenValues(values as Record<string, unknown>, [], actualPrefix);
+  const flattened = flattenValues(values, [], actualPrefix);
   return createGlobalStyles(selector, flattened);
 }
 
@@ -196,5 +174,5 @@ export function assignVars<T extends NullableTokens>(
   prefix?: string,
 ): CSSVariableMap {
   const actualPrefix = resolvePrefix(_contract, prefix);
-  return flattenValues(values as Record<string, unknown>, [], actualPrefix);
+  return flattenValues(values, [], actualPrefix);
 }

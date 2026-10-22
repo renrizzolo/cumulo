@@ -44,8 +44,8 @@ export function getStoredTheme(
     return defaultTheme;
   }
   try {
-    const item = window.localStorage.getItem(storageKey);
-    if (item && item !== null) {
+    const item = window.localStorage.getItem(storageKey)?.trim();
+    if (item) {
       return item;
     }
   } catch {
@@ -133,6 +133,7 @@ export interface ThemeStoreOptions {
 export interface ThemeStore {
   getTheme(): Theme;
   setTheme(theme: Theme): void;
+  getDefaultTheme(): Theme;
   setDefaultTheme(theme: Theme): void;
   getMode(): ColorMode;
   getResolvedMode(): ResolvedColorMode;
@@ -203,36 +204,26 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
       return currentTheme;
     },
     setTheme(newTheme: Theme): void {
+      if (!newTheme.trim()) return;
       currentTheme = newTheme;
       setStoredTheme(newTheme, themeStorageKey, defaultTheme);
       applyTheme(newTheme);
       notify();
     },
+    getDefaultTheme(): Theme {
+      return defaultTheme;
+    },
     setDefaultTheme(newDefaultTheme: Theme): void {
       defaultTheme = newDefaultTheme;
-      const stored =
-        typeof window !== 'undefined' ? window.localStorage.getItem(themeStorageKey) : null;
-      if (stored !== null) {
-        if (currentTheme !== stored) {
-          currentTheme = stored;
-          applyTheme(stored);
-          if (listeners.size > 0) {
-            queueMicrotask(notify);
-          }
-        }
-      } else {
-        const domTheme =
-          typeof document !== 'undefined'
-            ? document.documentElement.getAttribute('data-theme')
-            : null;
-        if (currentTheme !== newDefaultTheme || domTheme !== newDefaultTheme) {
-          currentTheme = newDefaultTheme;
-          applyTheme(newDefaultTheme);
-          if (listeners.size > 0) {
-            queueMicrotask(notify);
-          }
-        }
-      }
+      const next = getStoredTheme(themeStorageKey, newDefaultTheme);
+      const domInSync =
+        typeof document === 'undefined' ||
+        document.documentElement.getAttribute('data-theme') === next;
+      if (currentTheme === next && domInSync) return;
+      currentTheme = next;
+      applyTheme(next);
+      // Deferred: this can be called during render via `useTheme(defaultTheme)`.
+      if (listeners.size > 0) queueMicrotask(notify);
     },
     getMode(): ColorMode {
       return currentMode;
@@ -291,6 +282,10 @@ export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {
 
 export const themeStore: ThemeStore = createThemeStore();
 
+/**
+ * Sets the fallback theme used when the user has no stored preference.
+ * Call once at app startup (module scope), outside of render.
+ */
 export function setDefaultTheme(theme: Theme): void {
   themeStore.setDefaultTheme(theme);
 }

@@ -180,6 +180,7 @@ export { Header, type HeaderProps } from './components/Header.js';
 
 export { ThemeScript, getThemeScript, type ThemeScriptOptions } from './theme/ThemeScript.js';
 export { useTheme, type UseThemeReturn } from './theme/useTheme.js';
+export { setDefaultTheme } from './theme/theme.js';
 
 // hooks
 export { useDismissible } from './hooks/useDismissible.js';
