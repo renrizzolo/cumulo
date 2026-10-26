@@ -41,7 +41,7 @@ export const surfaceRecipe = recipe(
       },
     },
     defaultVariants: {
-      level: 1,
+      level: 0,
       bordered: true,
       variant: 'default',
       padding: 'none',
