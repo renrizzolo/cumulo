@@ -22,19 +22,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"base\" | \"subtle\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"subtle\" | \"base\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"base\""
+            "value": "\"primary\""
           },
           {
             "value": "\"subtle\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"base\""
           }
         ]
       },

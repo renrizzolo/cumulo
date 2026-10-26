@@ -22,7 +22,7 @@ export const checkboxRecipe = recipe(
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       backgroundColor: vars.surface.bg.DEFAULT,
-      color: vars.primary.fg,
+
       cursor: 'pointer',
       userSelect: 'none',
       boxSizing: 'border-box',
@@ -38,6 +38,7 @@ export const checkboxRecipe = recipe(
     variants: {
       checked: {
         true: {
+          color: vars.primary.fg,
           backgroundColor: vars.primary.DEFAULT,
           borderColor: vars.primary.DEFAULT,
           selectors: {
@@ -47,7 +48,10 @@ export const checkboxRecipe = recipe(
             },
           },
         },
-        false: {},
+        false: {
+          // shows the indeterminate icon in the primary colour
+          color: vars.primary.DEFAULT,
+        },
       },
       disabled: {
         true: {
@@ -195,7 +199,7 @@ export function Checkbox({
   );
 
   const classes = checkboxRecipe({
-    checked: isChecked || isIndeterminate,
+    checked: isChecked,
     disabled,
     intent,
   });
