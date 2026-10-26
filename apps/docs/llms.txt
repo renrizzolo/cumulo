@@ -1,0 +1,180 @@
+# Cumulo UI
+
+> Cumulo is a modern React 19 UI component library and zero-runtime, type-safe CSS framework (`@cumulo/core`, `@cumulo/css`). It enforces platform primitives, compound component composition, tokenized styling, and light-dark theming.
+
+## Instructions for AI coding assistants
+
+When generating or refactoring code using Cumulo, follow these rules:
+
+### 1. Negative layout rules (no arbitrary containers)
+- **Never use raw `<div>` for layout, spacing, or flexbox.**
+  - Row layouts $\rightarrow$ `<HStack>`
+  - Column layouts $\rightarrow$ `<VStack>`
+  - Directional or dynamic flexbox $\rightarrow$ `<Stack direction="row" | "column">`
+  - Responsive page or section containers $\rightarrow$ `<Container size="sm" | "md" | "lg" | "xl" | "full">`
+  - Spaced article or document flow $\rightarrow$ `<Flow>`
+  - Application frame $\rightarrow$ `<AppFrame>`, `<Panel>`, `<Sidebar>`, `<SideNav>`, `<Header>`
+
+### 2. Negative form rules (compound components only)
+- **Never use monolithic input elements (`<Input label="..." error="..." />`).**
+- **Always use compound `Field` subcomponents:**
+  - `<Field.Root>` coordinates state (`isInvalid`, IDs, accessibility)
+  - `<Field.Label>` associates with the input via `htmlFor`
+  - `<Field.Input>` and `<Field.Textarea>` inherit invalid intent and accessibility IDs
+  - `<Field.Error>` displays validation errors with `role="alert"`
+  - `<Field.Description>` provides descriptive text (`aria-describedby`)
+  - `<Field.Group>` groups composite radio and checkbox controls
+
+### 3. Negative styling rules (zero Tailwind or inline styles)
+- **Never use Tailwind classes, arbitrary CSS utility classes, or inline styles (`style={{ ... }}`).**
+- **Always use `@cumulo/css` and design tokens from `vars.*` (`@cumulo/core`):**
+  - Static styles: `style({ ... })`
+  - Variant styles: `recipe({ base, variants, defaultVariants })`
+  - Class composition: `cx(...)`
+  - Tokens: `vars.color.*`, `vars.spacing.*`, `vars.radius.*`, `vars.font.*`, `vars.shadow.*`
+  - **Never use raw hex, rgb, or hsl strings.** Every color resolves through `vars.color.*`.
+
+### 4. Native top-layer overlays
+- **Top-layer overlays**: `<Dialog>` uses native `<dialog>`, `<Popover>` uses native `popover="auto"` with CSS anchor positioning, and `<Tooltip>` uses `<Popover>` with `popover="manual"`. Top-layer overlays render on the platform top layer and are never clipped by parent scroll or `overflow` containers.
+
+### 5. Mandatory self-check loop
+Before completing your response, re-read your generated code and verify:
+1. Replace any unstyled `<div>` elements with `<Stack>`, `<HStack>`, `<VStack>`, or `<Container>`.
+2. Replace any monolithic inputs with compound `<Field.*>` components.
+3. Replace any raw colors or inline styles with `@cumulo/css` and `vars.*` tokens.
+
+---
+
+## Documentation pages
+
+- [Working with AI](/ai): Prompt templates, self-test verification, and guidelines.
+- [Zero-runtime CSS engine](/css): `style()`, `recipe()`, `cx()`, and keyframe animations with `@cumulo/css`.
+- [Design tokens and theming](/tokens): Contract tokens, `[data-theme='...']` styling, `useTheme()`, and `<ThemeScript />`.
+- [Component catalog](/components): Directory of 30+ accessible components.
+
+---
+
+## Component directory
+
+### App layout
+- `AppFrame`: Root layout shell with header, sidebar, and content panel slots.
+- `Panel`: Elevated application surface with header, body, and footer sections.
+- `Sidebar`: Collapsible sidebar navigation. Subcomponents: `Sidebar.Toggle`, `Sidebar.Header`, `Sidebar.Body`, `Sidebar.Footer`. Hook: `useSidebar()`.
+- `SideNav`: Vertical navigation link list. Subcomponents: `SideNav.Item`, `SideNav.Group`.
+- `Header`: Application top navigation bar.
+
+### Layout and spacing
+- `HStack`: Horizontal flex container. Props: `gap`, `align`, `justify`, `wrap`.
+- `VStack`: Vertical flex container. Props: `gap`, `align`, `justify`.
+- `Stack`: Directional flex container. Props: `direction` ('row' | 'column'), `gap`, `align`, `justify`.
+- `Container`: Centered layout wrapper. Props: `size` ('sm' | 'md' | 'lg' | 'xl' | 'full'), `padding`.
+- `Flow`: Spaced document flow for prose and articles. Props: `gap`.
+- `Divider`: Visual separator. Props: `orientation` ('horizontal' | 'vertical').
+- `Table`: Tabular layout. Props: `variant` ('bordered' | 'striped' | 'subtle').
+
+### Forms and input
+- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Textarea`, `Field.Error`, `Field.Description`, `Field.Group`).
+- `Input`: Standalone text input. Variants: `intent` ('primary' | 'error'), `size` ('sm' | 'md' | 'lg').
+- `Textarea`: Standalone multi-line text input.
+- `Checkbox`: Accessible native checkbox with label and description.
+- `Radio`: Accessible radio item.
+- `RadioList`: Group of radio options with roving keyboard focus.
+- `Switch`: Toggle switch primitive (`role="switch"`).
+- `Label`: Accessible label component (`htmlFor`).
+
+### Overlays (native top-layer)
+- `Dialog`: Native HTML5 modal dialog with focus trapping and backdrop. Subcomponents: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Portal`, `Dialog.Content`, `Dialog.Close`.
+- `Popover`: Native `popover="auto"` with CSS anchor positioning. Subcomponents: `Popover.Root`, `Popover.Trigger`, `Popover.Content`.
+- `Tooltip`: Native `popover="manual"` tooltip anchored to trigger. Never clipped by scroll boundaries.
+
+### Navigation and tabs
+- `Tabs`: Accessible tabs with roving keyboard focus. Subcomponents: `Tabs.Root`, `Tabs.List`, `Tabs.Trigger`, `Tabs.Content`.
+- `ButtonGroup`: Connected or segmented button container.
+
+### Feedback and display
+- `Button`: Core interactive button. Variants: `variant` ('primary' | 'secondary' | 'outline' | 'ghost'), `intent` ('primary' | 'success' | 'warning' | 'error' | 'neutral'), `size` ('sm' | 'md' | 'lg').
+- `Badge`: Status and counter indicators. Variants: `intent`, `variant` ('solid' | 'subtle' | 'outline'), `size`.
+- `Card`: Surface container with border and elevation. Subcomponents: `Card.Header`, `Card.Body`, `Card.Footer`.
+- `Surface`: Polymorphic surface with elevation tokens. Props: `level` (0 | 1 | 2 | 3).
+- `Collapsible`: Expandable disclosure panel. Subcomponents: `Collapsible.Root`, `Collapsible.Trigger`, `Collapsible.Content`.
+- `ThemeToggle`: Accessible dark and light mode toggle button.
+
+### Typography
+- `Heading`: Semantic headings (`h1` - `h6`). Props: `as`, `size` ('sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl').
+- `Text`: Prose text (`p` or `span`). Props: `as`, `type` ('body' | 'caption' | 'label'), `size`.
+- `Code`: Inline code snippet. Props: `variant` ('subtle' | 'solid').
+
+---
+
+## Design tokens cheat sheet (`vars` from `@cumulo/core`)
+
+```ts
+import { vars } from '@cumulo/core';
+
+// Colors
+vars.color.primary.base;
+vars.color.primary.hover;
+vars.color.primary.contrast;
+vars.color.grey.base;
+vars.color.success.base;
+vars.color.warning.base;
+vars.color.error.base;
+vars.color.background.base;
+vars.color.surface.base;
+
+// Spacing
+vars.spacing.xs;    // 4px
+vars.spacing.sm;    // 8px
+vars.spacing.md;    // 16px
+vars.spacing.lg;    // 24px
+vars.spacing.xl;    // 32px
+vars.spacing['2xl'];// 48px
+
+// Radii
+vars.radius.xs;     // 2px
+vars.radius.sm;     // 4px
+vars.radius.md;     // 8px
+vars.radius.lg;     // 12px
+vars.radius.full;   // 9999px
+
+// Typography
+vars.font.sans;
+vars.font.mono;
+vars.font.size.xs;
+vars.font.size.sm;
+vars.font.size.md;
+vars.font.size.lg;
+vars.font.size.xl;
+```
+
+---
+
+## Styling pattern with `@cumulo/css`
+
+```tsx
+import { style, recipe, cx } from '@cumulo/css';
+import { vars, HStack, Button } from '@cumulo/core';
+
+const headerStyle = style({
+  padding: `${vars.spacing.md} ${vars.spacing.lg}`,
+  backgroundColor: vars.color.background.base,
+  borderBottom: `1px solid ${vars.color.grey[200]}`,
+});
+
+export function Header(): React.JSX.Element {
+  return (
+    <header className={headerStyle.className}>
+      <HStack justify="between" align="center">
+        <Logo />
+        <Button variant="primary">Get Started</Button>
+      </HStack>
+    </header>
+  );
+}
+```
+
+---
+
+## Complete reference
+
+For full TypeScript prop interfaces and comprehensive usage examples, refer to [llms-full.txt](/llms-full.txt).

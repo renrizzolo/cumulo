@@ -1,31 +1,39 @@
 import Layout, { CodeBlock } from '../components/MDXLayout.tsx';
-import { Badge, Text, HStack } from '@cumulo/core';
 export default Layout;
 export { CodeBlock };
 
 # Working with AI
 
-#### How to build with Cumulo using AI coding assistants (Claude Code, Cursor, Copilot, Codex, Antigravity, etc.).
+How to build with Cumulo using AI coding assistants such as Claude Code, Cursor, Copilot, Codex, and Antigravity.
 
 Cumulo is designed so coding assistants can compose accessible, themeable UI without hallucinating styles.
 
-When an AI assistant builds user interfaces, it typically defaults to generic HTML tags (`<div>`), arbitrary utility classes (Tailwind), or monolithic inputs.
+When an AI assistant builds interfaces, it often defaults to generic HTML tags (`<div>`), arbitrary utility classes, or monolithic inputs.
 
-Providing your AI assistant with clear rules on Cumulo's components and design tokens ensures it produces clean, accessible, on-system code on the first try.
+Giving your assistant clear instructions on Cumulo components and design tokens helps it produce clean, accessible, on-system code on the first attempt.
 
-## Copy-Paste Consumer Prompt
+## Agent rules
 
 Add this snippet to your project's `.cursorrules`, `AGENTS.md`, or custom instructions:
 
-```text
-You are building user interfaces with Cumulo UI (@cumulo/core and @cumulo/css).
+<CodeBlock withCopy>
+{`You are building user interfaces with Cumulo UI (@cumulo/core and @cumulo/css).
 
 RULES:
+
 1. Layout: Never use raw <div> for layout or flexbox. Use <HStack>, <VStack>, <Stack>, or <Container>.
 2. Forms: Always use compound <Field.Root>, <Field.Label>, <Field.Input>, <Field.Error> slots.
-3. Styling: Never use Tailwind classes or arbitrary hex values. Use @cumulo/css style() or recipe() with tokens from vars.* (@cumulo/core). Always look for available layout primitives before reaching for custom styles.
-4. Theming: Use data-theme for creating branded themes in css ([data-theme='<theme-name>'] { --color-primary-base: '...' }).
+3. Styling: Never use Tailwind classes or arbitrary hex values. Use @cumulo/css style() or recipe() with tokens from vars.\* (@cumulo/core). Always look for available layout primitives before reaching for custom styles.
+4. Theming: Use data-theme for creating branded themes in CSS ([data-theme='<theme-name>'] { --color-primary-base: ... }).
 
 SELF-CHECK:
-Before completing your response, re-read your generated code and replace any unstyled <div> containers, raw hex colors, or inline styles with Cumulo primitives and vars.* tokens, unless the user explicitly requests otherwise.
-```
+Before completing your response, re-read your generated code and replace any unstyled <div> containers, raw hex colors, or inline styles with Cumulo primitives and vars.\* tokens, unless the user explicitly requests otherwise.`}
+
+</CodeBlock>
+
+## Machine interfaces
+
+For coding agents and tools that consume machine-readable context directly:
+
+- **[`/llms.txt`](/llms.txt)**: Curated index of Cumulo components, negative layout and styling rules, and design tokens contract.
+- **[`/llms-full.txt`](/llms-full.txt)**: Expanded TypeScript prop interfaces and component patterns for large context windows.

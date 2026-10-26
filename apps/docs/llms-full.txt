@@ -1,0 +1,289 @@
+# Cumulo UI — Expanded Machine Specification (llms-full.txt)
+
+> Detailed reference including component APIs, TypeScript signatures, and composition patterns for AI coding assistants.
+
+---
+
+## 1. Core rules for coding assistants
+
+### Layout: use Cumulo primitives instead of `<div>`
+```tsx
+// ❌ WRONG: Raw <div> flex container
+<div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+  <Button>Cancel</Button>
+  <Button variant="primary">Submit</Button>
+</div>
+
+// ✅ CORRECT: Cumulo layout primitives
+<HStack gap="sm" align="center">
+  <Button>Cancel</Button>
+  <Button variant="primary">Submit</Button>
+</HStack>
+```
+
+### Forms: use compound `Field` components
+```tsx
+// ❌ WRONG: Monolithic guessed input
+<Input label="Email address" error={errors.email} value={email} />
+
+// ✅ CORRECT: Compound Field namespace
+<Field.Root isInvalid={Boolean(errors.email)}>
+  <Field.Label>Email address</Field.Label>
+  <Field.Input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="you@example.com"
+  />
+  <Field.Description>We will send account notifications here.</Field.Description>
+  {errors.email && <Field.Error>{errors.email}</Field.Error>}
+</Field.Root>
+```
+
+### Styling: use `@cumulo/css` with design tokens
+```tsx
+// ❌ WRONG: Tailwind or inline style with raw hex
+<div className="flex p-4 bg-[#1e293b] rounded-lg">...</div>
+<div style={{ padding: '16px', background: '#ffffff' }}>...</div>
+
+// ✅ CORRECT: @cumulo/css with vars.* tokens
+import { style } from '@cumulo/css';
+import { vars } from '@cumulo/core';
+
+const cardStyle = style({
+  padding: vars.spacing.md,
+  backgroundColor: vars.color.background.base,
+  borderRadius: vars.radius.md,
+  border: `1px solid ${vars.color.grey.base}`,
+});
+```
+
+---
+
+## 2. Component API reference
+
+### Layout primitives
+
+#### `<HStack>` / `<VStack>` / `<Stack>`
+```ts
+export interface StackProps extends ElementProps<HTMLDivElement> {
+  direction?: 'row' | 'column';
+  gap?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  align?: 'start' | 'center' | 'end' | 'stretch' | 'baseline';
+  justify?: 'start' | 'center' | 'end' | 'between' | 'around';
+  wrap?: boolean;
+}
+```
+
+#### `<Container>`
+```ts
+export interface ContainerProps extends ElementProps<HTMLDivElement> {
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full'; // max-width bounding
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+}
+```
+
+#### `<Flow>`
+```ts
+export interface FlowProps extends ElementProps<HTMLDivElement> {
+  gap?: 'sm' | 'md' | 'lg' | 'xl';
+}
+```
+
+---
+
+### App layout primitives
+
+#### `<AppFrame>`
+Top-level application container coordinating header, sidebar, navigation, and main view regions.
+
+#### `<Sidebar>`
+Collapsible multi-level sidebar navigation.
+```tsx
+import { Sidebar, useSidebar } from '@cumulo/core';
+
+<Sidebar defaultExpanded>
+  <Sidebar.Header>
+    <Sidebar.Toggle />
+  </Sidebar.Header>
+  <Sidebar.Body>
+    <SideNav>
+      <SideNav.Item href="/dashboard" active>Dashboard</SideNav.Item>
+      <SideNav.Item href="/settings">Settings</SideNav.Item>
+    </SideNav>
+  </Sidebar.Body>
+  <Sidebar.Footer>
+    <ThemeToggle />
+  </Sidebar.Footer>
+</Sidebar>
+```
+
+---
+
+### Form primitives
+
+#### Compound `<Field>`
+```tsx
+import { Field } from '@cumulo/core';
+
+// Root coordinates isInvalid, IDs, and dynamic part registration
+<Field.Root isInvalid={false}>
+  <Field.Label>Username</Field.Label>
+  <Field.Input placeholder="Enter username" />
+  <Field.Description>Must be 3-20 characters long.</Field.Description>
+  <Field.Error>Username is already taken.</Field.Error>
+</Field.Root>
+```
+
+#### `<Checkbox>`, `<Radio>`, `<Switch>`
+```tsx
+import { Checkbox, Radio, RadioList, Switch } from '@cumulo/core';
+
+<Checkbox checked={accepted} onChange={setAccepted} label="Agree to terms" />
+
+<Switch checked={notifications} onChange={setNotifications} label="Enable notifications" />
+
+<RadioList value={selectedPlan} onChange={setSelectedPlan}>
+  <Radio value="free" label="Free Tier" />
+  <Radio value="pro" label="Pro Tier" />
+</RadioList>
+```
+
+---
+
+### Overlays (native top-layer)
+
+#### `<Dialog>` (HTML5 `<dialog>`)
+```tsx
+import { Dialog, Button } from '@cumulo/core';
+
+<Dialog.Root>
+  <Dialog.Trigger>
+    <Button variant="primary">Open Dialog</Button>
+  </Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Content>
+      <Dialog.Header>
+        <Dialog.Title>Confirm Action</Dialog.Title>
+      </Dialog.Header>
+      <Dialog.Body>
+        Are you sure you want to proceed?
+      </Dialog.Body>
+      <Dialog.Footer>
+        <Dialog.Close>
+          <Button variant="ghost">Cancel</Button>
+        </Dialog.Close>
+        <Button variant="primary">Confirm</Button>
+      </Dialog.Footer>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+#### `<Popover>` & `<Tooltip>`
+```tsx
+import { Popover, Tooltip, Button } from '@cumulo/core';
+
+<Popover.Root>
+  <Popover.Trigger>
+    <Button>Toggle Menu</Button>
+  </Popover.Trigger>
+  <Popover.Content>
+    Menu options here
+  </Popover.Content>
+</Popover.Root>
+
+<Tooltip content="Edit profile">
+  <Button variant="ghost">Edit</Button>
+</Tooltip>
+```
+
+---
+
+### Feedback and display
+
+#### `<Button>`
+```ts
+export interface ButtonProps extends ElementProps<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  intent?: 'primary' | 'success' | 'warning' | 'error' | 'neutral';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+}
+```
+
+#### `<Badge>`
+```ts
+export interface BadgeProps extends ElementProps<HTMLSpanElement> {
+  variant?: 'solid' | 'subtle' | 'outline';
+  intent?: 'primary' | 'success' | 'warning' | 'error' | 'neutral';
+  size?: 'sm' | 'md' | 'lg';
+}
+```
+
+#### `<Card>`
+```tsx
+import { Card, Heading, Text, Button } from '@cumulo/core';
+
+<Card>
+  <Card.Header>
+    <Heading size="lg">Project Overview</Heading>
+  </Card.Header>
+  <Card.Body>
+    <Text>Active tasks and system health metrics.</Text>
+  </Card.Body>
+  <Card.Footer>
+    <Button variant="secondary">View Details</Button>
+  </Card.Footer>
+</Card>
+```
+
+---
+
+## 3. Styling engine reference (`@cumulo/css`)
+
+### Static styles (`style`)
+```ts
+import { style } from '@cumulo/css';
+import { vars } from '@cumulo/core';
+
+export const containerStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: vars.spacing.md,
+  backgroundColor: vars.color.background.base,
+  padding: vars.spacing.lg,
+  borderRadius: vars.radius.lg,
+});
+```
+
+### Variant recipes (`recipe`)
+```ts
+import { recipe } from '@cumulo/css';
+import { vars } from '@cumulo/core';
+
+export const alertRecipe = recipe({
+  base: {
+    padding: vars.spacing.md,
+    borderRadius: vars.radius.md,
+    fontFamily: vars.font.sans,
+  },
+  variants: {
+    intent: {
+      info: { backgroundColor: vars.color.primary.subtle, color: vars.color.primary.base },
+      error: { backgroundColor: vars.color.error.subtle, color: vars.color.error.base },
+      success: { backgroundColor: vars.color.success.subtle, color: vars.color.success.base },
+    },
+  },
+  defaultVariants: {
+    intent: 'info',
+  },
+});
+```
+
+### Class merging (`cx`)
+```ts
+import { cx } from '@cumulo/css';
+
+const className = cx(alertRecipe({ intent: 'error' }), customClassName);
+```
