@@ -1,14 +1,8 @@
 import React from 'react';
 import type { PageProps } from '@renr/parcel-rsc-router';
-import {
-  AppFrame,
-  AppFrameMain,
-  Panel,
-  ThemeScript,
-  vars,
-  Container,
-  SidebarProvider,
-} from '@cumulo/core';
+import { Panel, ThemeScript, vars, Container } from '@cumulo/core';
+import * as AppFrame from '@cumulo/core/components/AppFrame';
+import * as Sidebar from '@cumulo/core/components/Sidebar';
 import { style } from '@cumulo/css';
 import { SidebarNav } from './components/Nav';
 import { AppProvider } from './appProvider';
@@ -84,10 +78,10 @@ export default function Layout({
 
       <AppProvider>
         <body className={bodyStyle.className}>
-          <SidebarProvider hoverBehaviour="expand">
-            <AppFrame>
+          <Sidebar.Provider hoverBehaviour="expand">
+            <AppFrame.Root>
               <SidebarNav currentPage={currentPage} />
-              <AppFrameMain as="div">
+              <AppFrame.Main as="div">
                 {/* Top Responsive Navigation Bar */}
                 <DocHeader />
 
@@ -106,9 +100,9 @@ export default function Layout({
                     </div>
                   )}
                 </Panel>
-              </AppFrameMain>
-            </AppFrame>
-          </SidebarProvider>
+              </AppFrame.Main>
+            </AppFrame.Root>
+          </Sidebar.Provider>
         </body>
       </AppProvider>
     </html>

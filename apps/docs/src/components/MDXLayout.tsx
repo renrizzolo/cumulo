@@ -1,5 +1,6 @@
-import { Code, Divider, Flow, Heading, Table, Text } from '@cumulo/core';
+import { Flow } from '@cumulo/core';
 import { textBase } from '@cumulo/core/typography';
+import { style } from '@cumulo/css';
 import type { PageProps } from '@renr/parcel-rsc-router';
 import React, { type ReactNode } from 'react';
 import AppLayout from '../Layout';
@@ -8,39 +9,11 @@ import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { PropsTable } from './PropsTable';
 import { TokenTable } from './TokenTable';
-import { style } from '@cumulo/css';
 
 export { CodeBlock, ColorTokens, ComponentPreview, PropsTable, TokenTable };
 
-export const components = {
-  h1: ({ ...props }: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h1" size="3xl" {...props} />
-  ),
-  h2: ({ ...props }: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h2" size="2xl" {...props} />
-  ),
-  h3: ({ ...props }: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h3" size="xl" {...props} />
-  ),
-  h4: ({ ...props }: React.ComponentProps<typeof Heading>) => (
-    <Heading as="h4" size="lg" {...props} />
-  ),
-  p: ({ ...props }: React.ComponentProps<typeof Text>) => <Text as="p" type="body" {...props} />,
-  code: ({ className, ...props }: React.ComponentProps<typeof Code>) => (
-    <Code variant="subtle" className={className} {...props} />
-  ),
-  table: ({ className, ...props }: React.ComponentProps<typeof Table>) => (
-    <Table variant="bordered" className={className} {...props} />
-  ),
-  hr: () => <Divider />,
-  CodeBlock,
-  ColorTokens,
-  TokenTable,
-  PropsTable,
-  ComponentPreview,
-};
+// TODO: figure out how to set up mdx components
 
-// TODO: above components aren't applied to regular markdown.
 // this applies base text styles to the child markdown content.
 const styles = style({
   selectors: {

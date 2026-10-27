@@ -5,7 +5,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Radio } from '../src/components/Radio.js';
 import { RadioList } from '../src/components/RadioList.js';
-import { Field } from '../src/components/Field.js';
+import * as Field from '../src/components/Field.js';
 
 describe('Radio Component', () => {
   it('renders native input type="radio" correctly', () => {
@@ -96,14 +96,14 @@ describe('RadioList Component', () => {
 
   it('wires seamlessly with Field and FieldLabel', () => {
     render(
-      <Field>
+      <Field.Root>
         <Field.Label>Choose option</Field.Label>
         <Field.RadioList defaultValue="val1">
           <label htmlFor="val1">
             <Radio id="val1" value="val1" /> Val 1
           </label>
         </Field.RadioList>
-      </Field>,
+      </Field.Root>,
     );
 
     const label = screen.getByText('Choose option');

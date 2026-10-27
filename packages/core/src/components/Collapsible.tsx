@@ -30,7 +30,7 @@ export interface CollapsibleContextValue {
   registerPart: (part: CollapsiblePart, id: string) => () => void;
 }
 
-export const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
+const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
 
 export const useCollapsibleContext = (): CollapsibleContextValue => {
   const context = use(CollapsibleContext);
@@ -46,7 +46,7 @@ export const useCollapsible = useCollapsibleContext;
  * CollapsibleRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface CollapsibleProps extends ElementProps<HTMLDivElement> {
+interface CollapsibleProps extends ElementProps<HTMLDivElement> {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -54,7 +54,7 @@ export interface CollapsibleProps extends ElementProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export function CollapsibleRoot({
+function CollapsibleRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
@@ -118,9 +118,9 @@ export function CollapsibleRoot({
  * CollapsibleTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export type CollapsibleTriggerProps = ButtonProps;
+type CollapsibleTriggerProps = ButtonProps;
 
-export function CollapsibleTrigger({
+function CollapsibleTrigger({
   id: providedId,
   children,
   onClick,
@@ -175,12 +175,12 @@ export function CollapsibleTrigger({
  * CollapsibleContent
  * -----------------------------------------------------------------------------------------------*/
 
-export interface CollapsibleContentProps extends ElementProps<HTMLElement> {
+interface CollapsibleContentProps extends ElementProps<HTMLElement> {
   children?: ReactNode;
   innerClassName?: string;
 }
 
-export const collapsibleContentRecipe = recipe(
+const collapsibleContentRecipe = recipe(
   {
     base: {
       display: 'grid',
@@ -216,7 +216,7 @@ const collapsibleInnerStyle = style({
   minHeight: 0,
 });
 
-export function CollapsibleContent({
+function CollapsibleContent({
   id: providedId,
   children,
   className,
@@ -252,8 +252,10 @@ CollapsibleRoot.displayName = 'Collapsible.Root';
 CollapsibleTrigger.displayName = 'Collapsible.Trigger';
 CollapsibleContent.displayName = 'Collapsible.Content';
 
-export const Collapsible = Object.assign(CollapsibleRoot, {
-  Root: CollapsibleRoot,
-  Trigger: CollapsibleTrigger,
-  Content: CollapsibleContent,
-});
+export { CollapsibleRoot as Root, CollapsibleTrigger as Trigger, CollapsibleContent as Content };
+
+export type {
+  CollapsibleProps as RootProps,
+  CollapsibleTriggerProps as TriggerProps,
+  CollapsibleContentProps as ContentProps,
+};

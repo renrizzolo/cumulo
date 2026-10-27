@@ -10,7 +10,7 @@ export const tableContract = createThemeContract(
   'table',
 );
 
-export const tableRecipe = recipe(
+const tableRecipe = recipe(
   {
     base: {
       width: '100%',
@@ -69,7 +69,7 @@ const tableWrapper = style({
   overflowX: 'auto',
 });
 
-export const tableHeadCellRecipe = recipe(
+const tableHeadCellRecipe = recipe(
   {
     base: {
       padding: `${vars.spacing.sm} ${vars.spacing.md}`,
@@ -86,7 +86,7 @@ export const tableHeadCellRecipe = recipe(
   'table-th',
 );
 
-export const tableCellRecipe = recipe(
+const tableCellRecipe = recipe(
   {
     base: {
       padding: `${vars.spacing.sm} ${vars.spacing.md}`,
@@ -101,10 +101,10 @@ export const tableCellRecipe = recipe(
   'table-td',
 );
 
-export const tableRowRecipe = recipe({}, 'table-tr');
+const tableRowRecipe = recipe({}, 'table-tr');
 
-export type TableVariants = RecipeVariants<typeof tableRecipe>;
-export type TableRowVariants = RecipeVariants<typeof tableRowRecipe>;
+type TableVariants = RecipeVariants<typeof tableRecipe>;
+type TableRowVariants = RecipeVariants<typeof tableRowRecipe>;
 
 function cleanTableChildren(children: React.ReactNode): React.ReactNode {
   return React.Children.toArray(children).filter(
@@ -112,13 +112,13 @@ function cleanTableChildren(children: React.ReactNode): React.ReactNode {
   );
 }
 
-export interface TableProps extends ElementProps<HTMLTableElement> {
+interface TableProps extends ElementProps<HTMLTableElement> {
   variant?: TableVariants['variant'];
   interactive?: TableVariants['interactive'];
   children?: React.ReactNode;
 }
 
-export function TableRoot({
+function TableRoot({
   variant = 'default',
   interactive = false,
   className,
@@ -137,7 +137,7 @@ export function TableRoot({
   );
 }
 
-export function TableHeader({
+function TableHeader({
   className,
   children,
   ref,
@@ -150,7 +150,7 @@ export function TableHeader({
   );
 }
 
-export function TableBody({
+function TableBody({
   className,
   children,
   ref,
@@ -163,9 +163,9 @@ export function TableBody({
   );
 }
 
-export type TableRowProps = ElementProps<HTMLTableRowElement>;
+type TableRowProps = ElementProps<HTMLTableRowElement>;
 
-export function TableRow({ className, children, ref, ...props }: TableRowProps): React.JSX.Element {
+function TableRow({ className, children, ref, ...props }: TableRowProps): React.JSX.Element {
   return (
     <tr ref={ref} className={className} {...props}>
       {cleanTableChildren(children)}
@@ -173,7 +173,7 @@ export function TableRow({ className, children, ref, ...props }: TableRowProps):
   );
 }
 
-export function TableHead({
+function TableHead({
   className,
   children,
   ref,
@@ -187,7 +187,7 @@ export function TableHead({
   );
 }
 
-export function TableCell({
+function TableCell({
   className,
   children,
   ref,
@@ -201,7 +201,7 @@ export function TableCell({
   );
 }
 
-export function TableCaption({
+function TableCaption({
   className,
   children,
   ref,
@@ -214,20 +214,38 @@ export function TableCaption({
   );
 }
 
-export const Table = Object.assign(TableRoot, {
-  Root: TableRoot,
-  Header: TableHeader,
-  Body: TableBody,
-  Row: TableRow,
-  Head: TableHead,
-  Cell: TableCell,
-  Caption: TableCaption,
-});
-
-TableRoot.displayName = 'Table';
+TableRoot.displayName = 'Table.Root';
 TableHeader.displayName = 'Table.Header';
 TableBody.displayName = 'Table.Body';
 TableRow.displayName = 'Table.Row';
 TableHead.displayName = 'Table.Head';
 TableCell.displayName = 'Table.Cell';
 TableCaption.displayName = 'Table.Caption';
+
+type TableHeaderProps = ElementProps<HTMLTableSectionElement>;
+type TableBodyProps = ElementProps<HTMLTableSectionElement>;
+type TableHeadProps = ElementProps<HTMLTableCellElement>;
+type TableCellProps = ElementProps<HTMLTableCellElement>;
+type TableCaptionProps = ElementProps<HTMLTableCaptionElement>;
+
+export {
+  TableRoot as Root,
+  TableHeader as Header,
+  TableBody as Body,
+  TableRow as Row,
+  TableHead as Head,
+  TableCell as Cell,
+  TableCaption as Caption,
+};
+
+export type {
+  TableProps as RootProps,
+  TableHeaderProps as HeaderProps,
+  TableBodyProps as BodyProps,
+  TableRowProps as RowProps,
+  TableHeadProps as HeadProps,
+  TableCellProps as CellProps,
+  TableCaptionProps as CaptionProps,
+  TableVariants as RootVariants,
+  TableRowVariants as RowVariants,
+};

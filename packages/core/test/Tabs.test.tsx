@@ -3,19 +3,19 @@ import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Tabs } from '../src/components/Tabs.js';
+import * as Tabs from '../src/components/Tabs.js';
 
 describe('Tabs Component', () => {
   it('renders tab list, triggers and default selected content', () => {
     render(
-      <Tabs defaultValue="account">
+      <Tabs.Root defaultValue="account">
         <Tabs.List>
           <Tabs.Trigger value="account">Account</Tabs.Trigger>
           <Tabs.Trigger value="password">Password</Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="account">Account Settings Panel</Tabs.Content>
         <Tabs.Content value="password">Password Settings Panel</Tabs.Content>
-      </Tabs>,
+      </Tabs.Root>,
     );
 
     const accountTab = screen.getByRole('tab', { name: 'Account' });
@@ -33,14 +33,14 @@ describe('Tabs Component', () => {
     const handleValueChange = vi.fn();
 
     render(
-      <Tabs defaultValue="tab1" onValueChange={handleValueChange}>
+      <Tabs.Root defaultValue="tab1" onValueChange={handleValueChange}>
         <Tabs.List>
           <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
           <Tabs.Trigger value="tab2">Tab 2</Tabs.Trigger>
         </Tabs.List>
         <Tabs.Content value="tab1">Content 1</Tabs.Content>
         <Tabs.Content value="tab2">Content 2</Tabs.Content>
-      </Tabs>,
+      </Tabs.Root>,
     );
 
     const tab2 = screen.getByRole('tab', { name: 'Tab 2' });
@@ -53,7 +53,7 @@ describe('Tabs Component', () => {
 
   it('navigates between tabs using arrow keys', async () => {
     render(
-      <Tabs defaultValue="first">
+      <Tabs.Root defaultValue="first">
         <Tabs.List>
           <Tabs.Trigger value="first">First</Tabs.Trigger>
           <Tabs.Trigger value="second">Second</Tabs.Trigger>
@@ -62,7 +62,7 @@ describe('Tabs Component', () => {
         <Tabs.Content value="first">First Panel</Tabs.Content>
         <Tabs.Content value="second">Second Panel</Tabs.Content>
         <Tabs.Content value="third">Third Panel</Tabs.Content>
-      </Tabs>,
+      </Tabs.Root>,
     );
 
     const firstTab = screen.getByRole('tab', { name: 'First' });

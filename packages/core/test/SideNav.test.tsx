@@ -3,8 +3,9 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
-import { SideNav } from '../src/components/SideNav.js';
-import { Sidebar, SidebarContext, type SidebarContextValue } from '../src/components/Sidebar.js';
+import * as SideNav from '../src/components/SideNav.js';
+import * as Sidebar from '../src/components/Sidebar.js';
+import { SidebarContext, type SidebarContextValue } from '../src/components/Sidebar.js';
 
 const mockSidebarContext: SidebarContextValue = {
   type: 'push',
@@ -27,10 +28,10 @@ const renderWithContext = (ui: React.ReactElement) =>
 describe('SideNav component', () => {
   it('renders link when href is provided, button otherwise', () => {
     renderWithContext(
-      <SideNav>
+      <SideNav.Root>
         <SideNav.Item href="/dashboard" label="Dashboard" />
         <SideNav.Item label="Settings" />
-      </SideNav>,
+      </SideNav.Root>,
     );
 
     const link = screen.getByRole('link', { name: 'Dashboard' });
@@ -43,11 +44,11 @@ describe('SideNav component', () => {
 
   it('renders title tooltip attribute on item when sidebar is collapsed', () => {
     render(
-      <Sidebar variant="docked" position="left" hoverBehaviour="none" defaultCollapsed>
-        <SideNav>
+      <Sidebar.Root variant="docked" position="left" hoverBehaviour="none" defaultCollapsed>
+        <SideNav.Root>
           <SideNav.Item icon={<span data-testid="icon">icon</span>} label="Collapsed Nav Item" />
-        </SideNav>
-      </Sidebar>,
+        </SideNav.Root>
+      </Sidebar.Root>,
     );
 
     const item = screen.getByRole('button');
@@ -56,11 +57,11 @@ describe('SideNav component', () => {
 
   it('renders floating tooltip when hoverBehaviour="tooltip"', () => {
     render(
-      <Sidebar variant="docked" position="left" defaultCollapsed hoverBehaviour="tooltip">
-        <SideNav>
+      <Sidebar.Root variant="docked" position="left" defaultCollapsed hoverBehaviour="tooltip">
+        <SideNav.Root>
           <SideNav.Item label="Item with Auto Tooltip" />
-        </SideNav>
-      </Sidebar>,
+        </SideNav.Root>
+      </Sidebar.Root>,
     );
 
     const tooltip = screen.getByRole('tooltip', { hidden: true });
@@ -73,7 +74,7 @@ describe('SideNav component', () => {
     const handleOpenChange = vi.fn();
 
     renderWithContext(
-      <SideNav>
+      <SideNav.Root>
         <SideNav.Group
           collapsible
           defaultOpen={true}
@@ -83,7 +84,7 @@ describe('SideNav component', () => {
           <SideNav.Item label="Nested Item 1" />
           <SideNav.Item label="Nested Item 2" />
         </SideNav.Group>
-      </SideNav>,
+      </SideNav.Root>,
     );
 
     const trigger = screen.getByRole('button', { name: /section/i });
@@ -100,7 +101,7 @@ describe('SideNav component', () => {
     const handleOpenChange = vi.fn();
 
     renderWithContext(
-      <SideNav>
+      <SideNav.Root>
         <SideNav.Group collapsible defaultOpen={false} onOpenChange={handleOpenChange}>
           <SideNav.Group.Trigger badge={<span data-testid="badge">3</span>}>
             Compound Section
@@ -109,7 +110,7 @@ describe('SideNav component', () => {
             <SideNav.Item label="Item A" />
           </SideNav.Group.Content>
         </SideNav.Group>
-      </SideNav>,
+      </SideNav.Root>,
     );
 
     const trigger = screen.getByRole('button', { name: /compound section/i });

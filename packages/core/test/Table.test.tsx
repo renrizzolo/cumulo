@@ -1,22 +1,12 @@
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import {
-  Table,
-  TableRoot,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  TableCaption,
-} from '../src/components/Table.js';
+import * as Table from '../src/components/Table.js';
 
 describe('Table Component', () => {
   it('renders a full table structure with compound subcomponents', () => {
     render(
-      <Table data-testid="table-root" variant="bordered" interactive>
+      <Table.Root data-testid="table-root" variant="bordered" interactive>
         <Table.Caption data-testid="caption">User List</Table.Caption>
         <Table.Header data-testid="thead">
           <Table.Row data-testid="header-row">
@@ -30,7 +20,7 @@ describe('Table Component', () => {
             <Table.Cell data-testid="td-role">Admin</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>,
+      </Table.Root>,
     );
 
     const tableRoot = screen.getByTestId('table-root');
@@ -50,19 +40,19 @@ describe('Table Component', () => {
 
   it('supports direct named component imports', () => {
     render(
-      <TableRoot data-testid="direct-table" interactive>
-        <TableCaption>Direct Caption</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Col</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <TableRow>
-            <TableCell>Val</TableCell>
-          </TableRow>
-        </TableBody>
-      </TableRoot>,
+      <Table.Root data-testid="direct-table" interactive>
+        <Table.Caption>Direct Caption</Table.Caption>
+        <Table.Header>
+          <Table.Row>
+            <Table.Head>Col</Table.Head>
+          </Table.Row>
+        </Table.Header>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>Val</Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table.Root>,
     );
 
     const table = screen.getByTestId('direct-table');

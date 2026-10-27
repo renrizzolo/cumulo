@@ -1,18 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Sidebar,
-  SidebarHeader,
-  Panel,
-  SideNav,
-  SideNavItem,
-  HStack,
-  VStack,
-  Heading,
-  Text,
-  Button,
-} from '@cumulo/core';
+import { Sidebar, Panel, SideNav, HStack, VStack, Heading, Text, Button } from '@cumulo/core';
 
 export function DualSidebarExample(): React.JSX.Element {
   const [isPinned, setIsPinned] = useState(false);
@@ -23,7 +12,7 @@ export function DualSidebarExample(): React.JSX.Element {
       {/* Container coordinating hover and focus across both tiers */}
 
       {/* Tier 1: Permanent Slim Primary Rail */}
-      <Sidebar
+      <Sidebar.Root
         variant="docked"
         defaultCollapsed
         hoverBehaviour="tooltip"
@@ -40,8 +29,8 @@ export function DualSidebarExample(): React.JSX.Element {
         style={{ height: 'auto' }}
       >
         <Panel padding="xs" style={{ alignItems: 'center' }}>
-          <SideNav aria-label="Primary rail">
-            <SideNavItem
+          <SideNav.Root aria-label="Primary rail">
+            <SideNav.Item
               icon={
                 <svg
                   width="16"
@@ -60,7 +49,7 @@ export function DualSidebarExample(): React.JSX.Element {
               label="Dashboard"
               active
             />
-            <SideNavItem
+            <SideNav.Item
               icon={
                 <svg
                   width="16"
@@ -77,7 +66,7 @@ export function DualSidebarExample(): React.JSX.Element {
               }
               label="Issues"
             />
-            <SideNavItem
+            <SideNav.Item
               icon={
                 <svg
                   width="16"
@@ -93,12 +82,12 @@ export function DualSidebarExample(): React.JSX.Element {
               }
               label="Settings"
             />
-          </SideNav>
+          </SideNav.Root>
         </Panel>
-      </Sidebar>
+      </Sidebar.Root>
 
       {/* Tier 2: Secondary Contextual Sidebar (Overlay or Push depending on Pin state) */}
-      <Sidebar
+      <Sidebar.Root
         hoverBehaviour="expand"
         type={isPinned ? 'push' : 'overlay'}
         variant="docked"
@@ -108,7 +97,7 @@ export function DualSidebarExample(): React.JSX.Element {
         style={isPinned ? undefined : { left: '48px' }}
       >
         <Panel padding="sm" divider="bottom">
-          <SidebarHeader
+          <Sidebar.Header
             title={
               <Heading as="h4" size="sm">
                 Issues
@@ -135,17 +124,17 @@ export function DualSidebarExample(): React.JSX.Element {
                 <path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.89A2 2 0 0 1 15 10.76V5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5.76a2 2 0 0 1-1.11 1.79l-1.78.89A2 2 0 0 0 5 15.24Z" />
               </svg>
             </Button>
-          </SidebarHeader>
+          </Sidebar.Header>
         </Panel>
         <Panel scrollbar="thin" padding="sm">
-          <SideNav aria-label="Secondary navigation">
-            <SideNavItem label="All Issues" active />
-            <SideNavItem label="Assigned to Me" />
-            <SideNavItem label="Bookmarked" />
-            <SideNavItem label="History" />
-          </SideNav>
+          <SideNav.Root aria-label="Secondary navigation">
+            <SideNav.Item label="All Issues" active />
+            <SideNav.Item label="Assigned to Me" />
+            <SideNav.Item label="Bookmarked" />
+            <SideNav.Item label="History" />
+          </SideNav.Root>
         </Panel>
-      </Sidebar>
+      </Sidebar.Root>
 
       {/* Main Content Area */}
       <Panel flex={1} padding="md" scrollbar="thin">

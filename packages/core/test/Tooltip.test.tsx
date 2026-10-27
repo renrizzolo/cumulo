@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
-import { Tooltip, TooltipRoot, TooltipTrigger, TooltipContent } from '../src/components/Tooltip.js';
+import * as Tooltip from '../src/components/Tooltip.js';
 
 describe('Tooltip Component', () => {
   beforeEach(() => {
@@ -18,10 +18,10 @@ describe('Tooltip Component', () => {
 
   it('renders tooltip with immutable role="tooltip" and popover="manual"', () => {
     render(
-      <Tooltip id="tooltip-test">
+      <Tooltip.Root id="tooltip-test">
         <Tooltip.Trigger data-testid="trigger">Hover me</Tooltip.Trigger>
         <Tooltip.Content data-testid="tooltip">Tooltip hint</Tooltip.Content>
-      </Tooltip>,
+      </Tooltip.Root>,
     );
 
     const tooltip = screen.getByTestId('tooltip');
@@ -35,10 +35,10 @@ describe('Tooltip Component', () => {
 
   it('links trigger and content via anchor-name and position-anchor', () => {
     render(
-      <TooltipRoot id="anchor-test">
-        <TooltipTrigger data-testid="trigger">Action</TooltipTrigger>
-        <TooltipContent data-testid="content">Hint</TooltipContent>
-      </TooltipRoot>,
+      <Tooltip.Root id="anchor-test">
+        <Tooltip.Trigger data-testid="trigger">Action</Tooltip.Trigger>
+        <Tooltip.Content data-testid="content">Hint</Tooltip.Content>
+      </Tooltip.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -50,10 +50,10 @@ describe('Tooltip Component', () => {
 
   it('opens and closes on pointer enter and pointer leave', () => {
     render(
-      <Tooltip>
+      <Tooltip.Root>
         <Tooltip.Trigger data-testid="trigger">Hover me</Tooltip.Trigger>
         <Tooltip.Content data-testid="content">Tooltip text</Tooltip.Content>
-      </Tooltip>,
+      </Tooltip.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -71,10 +71,10 @@ describe('Tooltip Component', () => {
 
   it('opens on focus and closes on blur', () => {
     render(
-      <Tooltip>
+      <Tooltip.Root>
         <Tooltip.Trigger data-testid="trigger">Focus me</Tooltip.Trigger>
         <Tooltip.Content data-testid="content">Focus hint</Tooltip.Content>
-      </Tooltip>,
+      </Tooltip.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -92,10 +92,10 @@ describe('Tooltip Component', () => {
 
   it('respects delay prop when opening', () => {
     render(
-      <Tooltip delay={200}>
+      <Tooltip.Root delay={200}>
         <Tooltip.Trigger data-testid="trigger">Hover delayed</Tooltip.Trigger>
         <Tooltip.Content data-testid="content">Delayed hint</Tooltip.Content>
-      </Tooltip>,
+      </Tooltip.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -113,10 +113,10 @@ describe('Tooltip Component', () => {
 
   it('closes on Escape key press', () => {
     render(
-      <Tooltip defaultOpen>
+      <Tooltip.Root defaultOpen>
         <Tooltip.Trigger data-testid="trigger">Escape me</Tooltip.Trigger>
         <Tooltip.Content data-testid="content">Escape hint</Tooltip.Content>
-      </Tooltip>,
+      </Tooltip.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');

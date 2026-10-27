@@ -18,8 +18,8 @@ import { Stack } from './Stack.js';
 import { focusRing } from '../intents.js';
 import { Panel } from './Panel.js';
 
-export type TabsOrientation = 'horizontal' | 'vertical';
-export type TabsVariant = 'line' | 'pill' | 'bordered';
+type TabsOrientation = 'horizontal' | 'vertical';
+type TabsVariant = 'line' | 'pill' | 'bordered';
 
 export interface TabsContextValue {
   id: string;
@@ -29,7 +29,7 @@ export interface TabsContextValue {
   variant: TabsVariant;
 }
 
-export const TabsContext = createContext<TabsContextValue | null>(null);
+const TabsContext = createContext<TabsContextValue | null>(null);
 
 export const useTabsContext = (): TabsContextValue => {
   const context = useContext(TabsContext);
@@ -45,7 +45,7 @@ export const useTabs = useTabsContext;
  * TabsRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface TabsProps extends ElementProps<HTMLDivElement> {
+interface TabsProps extends ElementProps<HTMLDivElement> {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
@@ -54,7 +54,7 @@ export interface TabsProps extends ElementProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export function TabsRoot({
+function TabsRoot({
   value: controlledValue,
   defaultValue = '',
   onValueChange,
@@ -118,7 +118,7 @@ export function TabsRoot({
  * TabsList
  * -----------------------------------------------------------------------------------------------*/
 
-export const tabsListRecipe = recipe(
+const tabsListRecipe = recipe(
   {
     base: {
       display: 'inline-flex',
@@ -165,7 +165,7 @@ export const tabsListRecipe = recipe(
   'tabs-list',
 );
 
-export function TabsList({
+function TabsList({
   className,
   children,
   ref,
@@ -195,7 +195,7 @@ export function TabsList({
  * TabsTrigger (TabsTab)
  * -----------------------------------------------------------------------------------------------*/
 
-export const tabsTriggerRecipe = recipe(
+const tabsTriggerRecipe = recipe(
   {
     extend: [focusRing],
     base: {
@@ -299,15 +299,15 @@ export const tabsTriggerRecipe = recipe(
   'tabs-trigger',
 );
 
-export type TabsTriggerVariants = RecipeVariants<typeof tabsTriggerRecipe>;
+type TabsTriggerVariants = RecipeVariants<typeof tabsTriggerRecipe>;
 
-export interface TabsTriggerProps extends ElementProps<HTMLButtonElement> {
+interface TabsTriggerProps extends ElementProps<HTMLButtonElement> {
   value: string;
   disabled?: boolean;
   children?: ReactNode;
 }
 
-export function TabsTrigger({
+function TabsTrigger({
   value: tabValue,
   disabled = false,
   className,
@@ -410,7 +410,7 @@ export function TabsTrigger({
  * TabsContent (TabsPanel)
  * -----------------------------------------------------------------------------------------------*/
 
-export const tabsContentRecipe = recipe(
+const tabsContentRecipe = recipe(
   {
     base: {
       outline: 'none',
@@ -433,14 +433,14 @@ export const tabsContentRecipe = recipe(
   'tabs-content',
 );
 
-export type TabsContentVariants = RecipeVariants<typeof tabsContentRecipe>;
+type TabsContentVariants = RecipeVariants<typeof tabsContentRecipe>;
 
-export interface TabsContentProps extends ElementProps<HTMLDivElement> {
+interface TabsContentProps extends ElementProps<HTMLDivElement> {
   value: string;
   children?: ReactNode;
 }
 
-export function TabsContent({
+function TabsContent({
   value: panelValue,
   className,
   children,
@@ -479,11 +479,17 @@ TabsList.displayName = 'Tabs.List';
 TabsTrigger.displayName = 'Tabs.Trigger';
 TabsContent.displayName = 'Tabs.Content';
 
-export const Tabs = Object.assign(TabsRoot, {
-  Root: TabsRoot,
-  List: TabsList,
-  Trigger: TabsTrigger,
-  Tab: TabsTrigger,
-  Content: TabsContent,
-  Panel: TabsContent,
-});
+type TabsListProps = ElementProps<HTMLDivElement>;
+
+export { TabsRoot as Root, TabsList as List, TabsTrigger as Trigger, TabsContent as Content };
+
+export type {
+  TabsProps as RootProps,
+  TabsListProps as ListProps,
+  TabsTriggerProps as TriggerProps,
+  TabsContentProps as ContentProps,
+  TabsTriggerVariants as TriggerVariants,
+  TabsContentVariants as ContentVariants,
+  TabsOrientation,
+  TabsVariant,
+};

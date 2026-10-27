@@ -1,5 +1,6 @@
 import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import { TabsRoot, TabsList, TabsTrigger, TabsContent, Card, VStack, Text } from '@cumulo/core';
+import { Card, VStack, Text } from '@cumulo/core';
+import * as Tabs from '@cumulo/core/components/Tabs';
 import tabsDoc from '../../../docgen/components/Tabs.json';
 export default Layout;
 export { CodeBlock, ComponentPreview, PropsTable };
@@ -9,7 +10,7 @@ export { CodeBlock, ComponentPreview, PropsTable };
 An accessible compound tabbed interface supporting line, pill, and bordered styles with full keyboard arrow navigation.
 
 ```tsx
-import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
+import { Tabs } from '@cumulo/core';
 ```
 
 ### Examples
@@ -18,54 +19,54 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
   title="Horizontal Tabs"
 >
   <VStack gap="xl" width="full">
-    <TabsRoot defaultValue="account" variant="line">
-      <TabsList>
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
-        <TabsTrigger value="notifications">Notifications</TabsTrigger>
-      </TabsList>
-      <TabsContent value="account">
+    <Tabs.Root defaultValue="account" variant="line">
+      <Tabs.List>
+        <Tabs.Trigger value="account">Account</Tabs.Trigger>
+        <Tabs.Trigger value="password">Password</Tabs.Trigger>
+        <Tabs.Trigger value="notifications">Notifications</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="account">
           <Text size="sm">Manage your profile, email address, and connected accounts.</Text>
-      </TabsContent>
-      <TabsContent value="password">
+      </Tabs.Content>
+      <Tabs.Content value="password">
           <Text size="sm">Update your security credentials and two-factor authentication.</Text>
-      </TabsContent>
-      <TabsContent value="notifications">
+      </Tabs.Content>
+      <Tabs.Content value="notifications">
           <Text size="sm">Configure email, desktop, and SMS alert preferences.</Text>
-      </TabsContent>
-    </TabsRoot>
-    <TabsRoot defaultValue="overview" variant="pill">
-      <TabsList>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        <TabsTrigger value="reports">Reports</TabsTrigger>
-      </TabsList>
-      <TabsContent value="overview">
+      </Tabs.Content>
+    </Tabs.Root>
+    <Tabs.Root defaultValue="overview" variant="pill">
+      <Tabs.List>
+        <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+        <Tabs.Trigger value="analytics">Analytics</Tabs.Trigger>
+        <Tabs.Trigger value="reports">Reports</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="overview">
           <Text size="sm">Overview metrics and summary data.</Text>
-      </TabsContent>
-      <TabsContent value="analytics">
+      </Tabs.Content>
+      <Tabs.Content value="analytics">
           <Text size="sm">Real-time visitor and traffic insights.</Text>
-      </TabsContent>
-      <TabsContent value="reports">
+      </Tabs.Content>
+      <Tabs.Content value="reports">
           <Text size="sm">Exportable weekly and monthly audit logs.</Text>
-      </TabsContent>
-    </TabsRoot>
-    <TabsRoot defaultValue="general" variant="bordered">
-      <TabsList>
-        <TabsTrigger value="general">General</TabsTrigger>
-        <TabsTrigger value="team">Team</TabsTrigger>
-        <TabsTrigger value="billing">Billing</TabsTrigger>
-      </TabsList>
-      <TabsContent value="general">
+      </Tabs.Content>
+    </Tabs.Root>
+    <Tabs.Root defaultValue="general" variant="bordered">
+      <Tabs.List>
+        <Tabs.Trigger value="general">General</Tabs.Trigger>
+        <Tabs.Trigger value="team">Team</Tabs.Trigger>
+        <Tabs.Trigger value="billing">Billing</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="general">
           <Text size="sm">Organization settings, domain verification, and branding.</Text>
-      </TabsContent>
-      <TabsContent value="team">
+      </Tabs.Content>
+      <Tabs.Content value="team">
           <Text size="sm">Member seats, role-based access control, and invitations.</Text>
-      </TabsContent>
-      <TabsContent value="billing">
+      </Tabs.Content>
+      <Tabs.Content value="billing">
           <Text size="sm">Invoices, payment methods, and current billing cycle.</Text>
-      </TabsContent>
-    </TabsRoot>
+      </Tabs.Content>
+    </Tabs.Root>
 
     </VStack>
 
@@ -75,54 +76,54 @@ import { TabsRoot, TabsList, TabsTrigger, TabsContent } from '@cumulo/core';
   title="Vertical Tabs"
 >
   <VStack gap="xl" width="full">
-    <TabsRoot defaultValue="account" orientation="vertical" variant="line">
-      <TabsList>
-        <TabsTrigger value="account">Account</TabsTrigger>
-        <TabsTrigger value="password">Password</TabsTrigger>
-        <TabsTrigger value="notifications">Notifications</TabsTrigger>
-      </TabsList>
-      <TabsContent value="account">
+    <Tabs.Root defaultValue="account" orientation="vertical" variant="line">
+      <Tabs.List>
+        <Tabs.Trigger value="account">Account</Tabs.Trigger>
+        <Tabs.Trigger value="password">Password</Tabs.Trigger>
+        <Tabs.Trigger value="notifications">Notifications</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="account">
           <Text size="sm">Manage your profile, email address, and connected accounts.</Text>
-      </TabsContent>
-      <TabsContent value="password">
+      </Tabs.Content>
+      <Tabs.Content value="password">
           <Text size="sm">Update your security credentials and two-factor authentication.</Text>
-      </TabsContent>
-      <TabsContent value="notifications">
+      </Tabs.Content>
+      <Tabs.Content value="notifications">
           <Text size="sm">Configure email, desktop, and SMS alert preferences.</Text>
-      </TabsContent>
-    </TabsRoot>
-    <TabsRoot defaultValue="overview" orientation="vertical" variant="pill">
-      <TabsList>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        <TabsTrigger value="reports">Reports</TabsTrigger>
-      </TabsList>
-      <TabsContent value="overview">
+      </Tabs.Content>
+    </Tabs.Root>
+    <Tabs.Root defaultValue="overview" orientation="vertical" variant="pill">
+      <Tabs.List>
+        <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+        <Tabs.Trigger value="analytics">Analytics</Tabs.Trigger>
+        <Tabs.Trigger value="reports">Reports</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="overview">
           <Text size="sm">Overview metrics and summary data.</Text>
-      </TabsContent>
-      <TabsContent value="analytics">
+      </Tabs.Content>
+      <Tabs.Content value="analytics">
           <Text size="sm">Real-time visitor and traffic insights.</Text>
-      </TabsContent>
-      <TabsContent value="reports">
+      </Tabs.Content>
+      <Tabs.Content value="reports">
           <Text size="sm">Exportable weekly and monthly audit logs.</Text>
-      </TabsContent>
-    </TabsRoot>
-    <TabsRoot defaultValue="general" orientation="vertical" variant="bordered">
-      <TabsList>
-        <TabsTrigger value="general">General</TabsTrigger>
-        <TabsTrigger value="team">Team</TabsTrigger>
-        <TabsTrigger value="billing">Billing</TabsTrigger>
-      </TabsList>
-      <TabsContent value="general">
+      </Tabs.Content>
+    </Tabs.Root>
+    <Tabs.Root defaultValue="general" orientation="vertical" variant="bordered">
+      <Tabs.List>
+        <Tabs.Trigger value="general">General</Tabs.Trigger>
+        <Tabs.Trigger value="team">Team</Tabs.Trigger>
+        <Tabs.Trigger value="billing">Billing</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="general">
           <Text size="sm">Organization settings, domain verification, and branding.</Text>
-      </TabsContent>
-      <TabsContent value="team">
+      </Tabs.Content>
+      <Tabs.Content value="team">
           <Text size="sm">Member seats, role-based access control, and invitations.</Text>
-      </TabsContent>
-      <TabsContent value="billing">
+      </Tabs.Content>
+      <Tabs.Content value="billing">
           <Text size="sm">Invoices, payment methods, and current billing cycle.</Text>
-      </TabsContent>
-    </TabsRoot>
+      </Tabs.Content>
+    </Tabs.Root>
 
     </VStack>
 

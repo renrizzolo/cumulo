@@ -7,7 +7,7 @@ import type { ElementProps } from '../ElementProps.js';
  * AppFrame
  * -----------------------------------------------------------------------------------------------*/
 
-export const appFrameRecipe = recipe(
+const appFrameRecipe = recipe(
   {
     base: {
       display: 'flex',
@@ -40,9 +40,9 @@ export const appFrameRecipe = recipe(
   'app-frame',
 );
 
-export type AppFrameVariants = RecipeVariants<typeof appFrameRecipe>;
+type AppFrameVariants = RecipeVariants<typeof appFrameRecipe>;
 
-export interface AppFrameProps extends ElementProps<HTMLDivElement> {
+interface AppFrameProps extends ElementProps<HTMLDivElement> {
   /**
    * How the frame is sized vertically:
    * - `'screen'`: Locks the frame to the viewport (`100dvh`). Children scroll independently.
@@ -59,7 +59,7 @@ export interface AppFrameProps extends ElementProps<HTMLDivElement> {
  * in a horizontal row. Visual sidebar styles (`docked`, `inset`, `floating`) are configured
  * on `Sidebar` itself.
  */
-export function AppFrameRoot({
+function AppFrameRoot({
   height,
   className,
   children,
@@ -73,13 +73,13 @@ export function AppFrameRoot({
   );
 }
 
-AppFrameRoot.displayName = 'AppFrame';
+AppFrameRoot.displayName = 'AppFrame.Root';
 
 /* -------------------------------------------------------------------------------------------------
  * AppFrameMain
  * -----------------------------------------------------------------------------------------------*/
 
-export const appFrameMainStyle = style(
+const appFrameMainStyle = style(
   {
     display: 'flex',
     flexDirection: 'column',
@@ -91,7 +91,7 @@ export const appFrameMainStyle = style(
   'app-frame-main',
 );
 
-export interface AppFrameMainProps extends ElementProps<HTMLElement> {
+interface AppFrameMainProps extends ElementProps<HTMLElement> {
   /**
    * Element to render. Defaults to `main`; use `div` when a descendant already provides the
    * page's `<main>` landmark.
@@ -105,7 +105,7 @@ export interface AppFrameMainProps extends ElementProps<HTMLElement> {
  * Flexible content column that fills the space beside the sidebar. Stack a header `Panel`
  * and a scrollable `Panel` inside it.
  */
-export function AppFrameMain({
+function AppFrameMain({
   as: Component = 'main',
   className,
   children,
@@ -125,7 +125,10 @@ export function AppFrameMain({
 
 AppFrameMain.displayName = 'AppFrame.Main';
 
-export const AppFrame = Object.assign(AppFrameRoot, {
-  Root: AppFrameRoot,
-  Main: AppFrameMain,
-});
+export { AppFrameRoot as Root, AppFrameMain as Main };
+
+export type {
+  AppFrameProps as RootProps,
+  AppFrameVariants as RootVariants,
+  AppFrameMainProps as MainProps,
+};

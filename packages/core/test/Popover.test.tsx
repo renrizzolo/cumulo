@@ -2,7 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Popover } from '../src/components/Popover.js';
+import * as Popover from '../src/components/Popover.js';
 
 describe('Popover Component', () => {
   beforeEach(() => {
@@ -13,13 +13,13 @@ describe('Popover Component', () => {
 
   it('renders popover trigger and content', () => {
     render(
-      <Popover>
+      <Popover.Root>
         <Popover.Trigger data-testid="trigger">Toggle Popover</Popover.Trigger>
         <Popover.Content data-testid="content">
           <p>Popover content text</p>
           <Popover.Close data-testid="close">Close</Popover.Close>
         </Popover.Content>
-      </Popover>,
+      </Popover.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -35,10 +35,10 @@ describe('Popover Component', () => {
 
   it('links trigger and content via anchor-name and position-anchor', () => {
     render(
-      <Popover id="test-anchor">
+      <Popover.Root id="test-anchor">
         <Popover.Trigger data-testid="trigger">Open</Popover.Trigger>
         <Popover.Content data-testid="content">Menu</Popover.Content>
-      </Popover>,
+      </Popover.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -50,12 +50,12 @@ describe('Popover Component', () => {
 
   it('closes on tab out by default when reaching the last element', () => {
     render(
-      <Popover defaultOpen>
+      <Popover.Root defaultOpen>
         <Popover.Content data-testid="content" closeOnTabOut>
           <button data-testid="btn-1">Action 1</button>
           <button data-testid="btn-2">Action 2</button>
         </Popover.Content>
-      </Popover>,
+      </Popover.Root>,
     );
 
     const btn2 = screen.getByTestId('btn-2');
@@ -67,12 +67,12 @@ describe('Popover Component', () => {
 
   it('loops focus when loopFocus is true', () => {
     render(
-      <Popover defaultOpen>
+      <Popover.Root defaultOpen>
         <Popover.Content data-testid="content" loopFocus>
           <button data-testid="btn-1">Action 1</button>
           <button data-testid="btn-2">Action 2</button>
         </Popover.Content>
-      </Popover>,
+      </Popover.Root>,
     );
 
     const btn1 = screen.getByTestId('btn-1');
@@ -88,12 +88,12 @@ describe('Popover Component', () => {
 
   it('closes when tabbing backwards from the trigger while open', () => {
     render(
-      <Popover defaultOpen>
+      <Popover.Root defaultOpen>
         <Popover.Trigger data-testid="trigger">Open Popover</Popover.Trigger>
         <Popover.Content data-testid="content">
           <button>Content Button</button>
         </Popover.Content>
-      </Popover>,
+      </Popover.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');

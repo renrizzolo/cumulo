@@ -1,15 +1,6 @@
 import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  Switch,
-  FieldRoot,
-  FieldLabel,
-  FieldDescription,
-  FieldError,
-  FieldSwitch,
-  HStack,
-  VStack,
-  Text,
-} from '@cumulo/core';
+import { Switch, HStack, VStack, Text } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
 import switchDoc from '../../../docgen/components/Switch.json';
 export default Layout;
 export { CodeBlock, ComponentPreview, PropsTable };
@@ -26,18 +17,18 @@ import { Switch } from '@cumulo/core';
 
 <ComponentPreview title="Switch Toggle">
   <VStack gap="md">
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch />
-        <FieldLabel>Enable Feature</FieldLabel>
+        <Field.Switch />
+        <Field.Label>Enable Feature</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch defaultChecked />
-        <FieldLabel>Active by Default</FieldLabel>
+        <Field.Switch defaultChecked />
+        <Field.Label>Active by Default</Field.Label>
       </HStack>
-    </FieldRoot>
+    </Field.Root>
   </VStack>
 </ComponentPreview>
 
@@ -47,37 +38,37 @@ Switches support checked, unchecked, error, and disabled states. Accessibility a
 
 <ComponentPreview title="Switch states and intents">
   <VStack gap="md">
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch />
-        <FieldLabel>Default (Unchecked)</FieldLabel>
+        <Field.Switch />
+        <Field.Label>Default (Unchecked)</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch defaultChecked />
-        <FieldLabel>Checked</FieldLabel>
+        <Field.Switch defaultChecked />
+        <Field.Label>Checked</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot isInvalid>
+    </Field.Root>
+    <Field.Root isInvalid>
       <HStack gap="sm" align="center">
-        <FieldSwitch />
-        <FieldLabel>Error State</FieldLabel>
+        <Field.Switch />
+        <Field.Label>Error State</Field.Label>
       </HStack>
-      <FieldError>This setting requires immediate review.</FieldError>
-    </FieldRoot>
-    <FieldRoot>
+      <Field.Error>This setting requires immediate review.</Field.Error>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch disabled />
-        <FieldLabel>Disabled (Unchecked)</FieldLabel>
+        <Field.Switch disabled />
+        <Field.Label>Disabled (Unchecked)</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch disabled defaultChecked />
-        <FieldLabel>Disabled (Checked)</FieldLabel>
+        <Field.Switch disabled defaultChecked />
+        <Field.Label>Disabled (Checked)</Field.Label>
       </HStack>
-    </FieldRoot>
+    </Field.Root>
   </VStack>
 </ComponentPreview>
 
@@ -89,29 +80,29 @@ When used inside a `FieldRoot`, switches automatically synchronize IDs, descript
   title="Form Field Integration"
 >
   <VStack gap="lg">
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch defaultChecked />
-        <FieldLabel>Push Notifications</FieldLabel>
+        <Field.Switch defaultChecked />
+        <Field.Label>Push Notifications</Field.Label>
       </HStack>
-      <FieldDescription>Receive real-time alerts when activity occurs on your account.</FieldDescription>
-    </FieldRoot>
+      <Field.Description>Receive real-time alerts when activity occurs on your account.</Field.Description>
+    </Field.Root>
 
-    <FieldRoot isInvalid>
+    <Field.Root isInvalid>
       <HStack gap="sm" align="center">
-        <FieldSwitch />
-        <FieldLabel>Require Two-Factor Authentication</FieldLabel>
+        <Field.Switch />
+        <Field.Label>Require Two-Factor Authentication</Field.Label>
       </HStack>
-      <FieldError>Two-factor authentication must be enabled for administrator accounts.</FieldError>
-    </FieldRoot>
+      <Field.Error>Two-factor authentication must be enabled for administrator accounts.</Field.Error>
+    </Field.Root>
 
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="sm" align="center">
-        <FieldSwitch disabled />
-        <FieldLabel>Automatic Cloud Backups (Pro Feature)</FieldLabel>
+        <Field.Switch disabled />
+        <Field.Label>Automatic Cloud Backups (Pro Feature)</Field.Label>
       </HStack>
-      <FieldDescription>Upgrade your subscription plan to enable automated cloud backups.</FieldDescription>
-    </FieldRoot>
+      <Field.Description>Upgrade your subscription plan to enable automated cloud backups.</Field.Description>
+    </Field.Root>
 
   </VStack>
 </ComponentPreview>

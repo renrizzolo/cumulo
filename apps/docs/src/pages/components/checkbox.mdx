@@ -1,15 +1,6 @@
 import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  Checkbox,
-  FieldRoot,
-  FieldLabel,
-  FieldDescription,
-  FieldError,
-  FieldCheckbox,
-  HStack,
-  VStack,
-  Text,
-} from '@cumulo/core';
+import { Checkbox, HStack, VStack, Text } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
 import checkboxDoc from '../../../docgen/components/Checkbox.json';
 export default Layout;
 export { CodeBlock, ComponentPreview, PropsTable };
@@ -26,60 +17,60 @@ import { Checkbox } from '@cumulo/core';
 
 <ComponentPreview title="Checkbox Control">
   <VStack gap="md">
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox />
-        <FieldLabel>Enable Setting</FieldLabel>
+        <Field.Checkbox />
+        <Field.Label>Enable Setting</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox defaultChecked />
-        <FieldLabel>Checked by Default</FieldLabel>
+        <Field.Checkbox defaultChecked />
+        <Field.Label>Checked by Default</Field.Label>
       </HStack>
-    </FieldRoot>
+    </Field.Root>
   </VStack>
 </ComponentPreview>
 
 <ComponentPreview title="Checkbox States & Intents">
   <VStack gap="md">
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox />
-        <FieldLabel>Unchecked</FieldLabel>
+        <Field.Checkbox />
+        <Field.Label>Unchecked</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox defaultChecked />
-        <FieldLabel>Checked</FieldLabel>
+        <Field.Checkbox defaultChecked />
+        <Field.Label>Checked</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox defaultIndeterminate />
-        <FieldLabel>Indeterminate</FieldLabel>
+        <Field.Checkbox defaultIndeterminate />
+        <Field.Label>Indeterminate</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot isInvalid>
+    </Field.Root>
+    <Field.Root isInvalid>
       <HStack gap="xs" align="center">
-        <FieldCheckbox />
-        <FieldLabel>Error State</FieldLabel>
+        <Field.Checkbox />
+        <Field.Label>Error State</Field.Label>
       </HStack>
-      <FieldError>This selection is required to proceed.</FieldError>
-    </FieldRoot>
-    <FieldRoot>
+      <Field.Error>This selection is required to proceed.</Field.Error>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox disabled />
-        <FieldLabel>Disabled</FieldLabel>
+        <Field.Checkbox disabled />
+        <Field.Label>Disabled</Field.Label>
       </HStack>
-    </FieldRoot>
-    <FieldRoot>
+    </Field.Root>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox disabled defaultChecked />
-        <FieldLabel>Disabled Checked</FieldLabel>
+        <Field.Checkbox disabled defaultChecked />
+        <Field.Label>Disabled Checked</Field.Label>
       </HStack>
-    </FieldRoot>
+    </Field.Root>
   </VStack>
 </ComponentPreview>
 
@@ -87,29 +78,29 @@ import { Checkbox } from '@cumulo/core';
   title="Form Field Integration"
 >
   <VStack gap="lg">
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox defaultChecked />
-        <FieldLabel>Subscribe to developer updates</FieldLabel>
+        <Field.Checkbox defaultChecked />
+        <Field.Label>Subscribe to developer updates</Field.Label>
       </HStack>
-      <FieldDescription>Receive weekly digests of new components, features, and releases.</FieldDescription>
-    </FieldRoot>
+      <Field.Description>Receive weekly digests of new components, features, and releases.</Field.Description>
+    </Field.Root>
 
-    <FieldRoot isInvalid>
+    <Field.Root isInvalid>
       <HStack gap="xs" align="center">
-        <FieldCheckbox />
-        <FieldLabel>I accept the Terms of Service & Privacy Policy</FieldLabel>
+        <Field.Checkbox />
+        <Field.Label>I accept the Terms of Service & Privacy Policy</Field.Label>
       </HStack>
-      <FieldError>You must accept the terms of service to create your account.</FieldError>
-    </FieldRoot>
+      <Field.Error>You must accept the terms of service to create your account.</Field.Error>
+    </Field.Root>
 
-    <FieldRoot>
+    <Field.Root>
       <HStack gap="xs" align="center">
-        <FieldCheckbox disabled defaultChecked />
-        <FieldLabel>Early Access Preview (Managed by Admin)</FieldLabel>
+        <Field.Checkbox disabled defaultChecked />
+        <Field.Label>Early Access Preview (Managed by Admin)</Field.Label>
       </HStack>
-      <FieldDescription>This setting is locked by your organization administrator.</FieldDescription>
-    </FieldRoot>
+      <Field.Description>This setting is locked by your organization administrator.</Field.Description>
+    </Field.Root>
 
   </VStack>
 </ComponentPreview>

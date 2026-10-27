@@ -12,31 +12,14 @@ import {
   Divider,
   Code,
   Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
   Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  DialogRoot,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
+  Dialog,
   Field,
   Header,
   HStack,
   VStack,
   ThemeToggle,
   vars,
-  FieldGroup,
-  FieldLabel,
-  FieldInput,
   ButtonGroup,
 } from '@cumulo/core';
 import { ColorTokens } from './ColorTokens';
@@ -665,9 +648,9 @@ function ColorPickerField({
   onChange: (key: keyof ThemeConfig['colors'], value: string) => void;
 }) {
   return (
-    <Field>
-      <FieldGroup gap="xs">
-        <FieldLabel>{label}</FieldLabel>
+    <Field.Root>
+      <Field.Group gap="xs">
+        <Field.Label>{label}</Field.Label>
         <HStack gap="xs" align="center" className={fullWidthStyle.className}>
           <input
             type="color"
@@ -676,7 +659,7 @@ function ColorPickerField({
             className={colorInputStyle.className}
             aria-label={`${label} color picker`}
           />
-          <FieldInput
+          <Field.Input
             size="sm"
             value={value}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -684,8 +667,8 @@ function ColorPickerField({
             }
           />
         </HStack>
-      </FieldGroup>
-    </Field>
+      </Field.Group>
+    </Field.Root>
   );
 }
 
@@ -701,14 +684,14 @@ interface ScaleSliderFieldProps {
 
 function ScaleSliderField({ label, code, value, min, max, step, onChange }: ScaleSliderFieldProps) {
   return (
-    <Field>
+    <Field.Root>
       <HStack justify="between" align="center" className={fullWidthStyle.className}>
-        <FieldLabel>
+        <Field.Label>
           {label}: {value}x
-        </FieldLabel>
+        </Field.Label>
         <Code>{code}</Code>
       </HStack>
-      <FieldInput
+      <Field.Input
         type="range"
         min={min}
         max={max}
@@ -717,7 +700,7 @@ function ScaleSliderField({ label, code, value, min, max, step, onChange }: Scal
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(parseFloat(e.target.value))}
         className={sliderInputStyle.className}
       />
-    </Field>
+    </Field.Root>
   );
 }
 
@@ -729,14 +712,14 @@ interface TokenInputFieldProps {
 
 function TokenInputField({ label, value, onChange }: TokenInputFieldProps) {
   return (
-    <Field>
-      <FieldLabel>{label}</FieldLabel>
-      <FieldInput
+    <Field.Root>
+      <Field.Label>{label}</Field.Label>
+      <Field.Input
         size="sm"
         value={value}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}
       />
-    </Field>
+    </Field.Root>
   );
 }
 
@@ -1065,11 +1048,11 @@ export function ThemeBuilder(): React.JSX.Element {
             {/* Configuration Controls Card */}
             <Card level={0} padding="md">
               <VStack gap="lg">
-                <Field>
-                  <FieldGroup direction="row" align="center" justify="between">
-                    <FieldLabel>Theme ID</FieldLabel>
+                <Field.Root>
+                  <Field.Group direction="row" align="center" justify="between">
+                    <Field.Label>Theme ID</Field.Label>
 
-                    <FieldInput
+                    <Field.Input
                       size="sm"
                       value={theme.name}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -1077,23 +1060,23 @@ export function ThemeBuilder(): React.JSX.Element {
                       }
                       placeholder="e.g. brand-theme"
                     />
-                  </FieldGroup>
-                </Field>
+                  </Field.Group>
+                </Field.Root>
 
-                <Tabs
+                <Tabs.Root
                   defaultValue={activeTab}
                   onValueChange={(val: string) => setActiveTab(val)}
                   variant="line"
                 >
-                  <TabsList>
-                    <TabsTrigger value="colors">Colors</TabsTrigger>
-                    <TabsTrigger value="radii">Radii</TabsTrigger>
-                    <TabsTrigger value="spacing">Spacing</TabsTrigger>
-                    <TabsTrigger value="typography">Typography</TabsTrigger>
-                  </TabsList>
+                  <Tabs.List>
+                    <Tabs.Trigger value="colors">Colors</Tabs.Trigger>
+                    <Tabs.Trigger value="radii">Radii</Tabs.Trigger>
+                    <Tabs.Trigger value="spacing">Spacing</Tabs.Trigger>
+                    <Tabs.Trigger value="typography">Typography</Tabs.Trigger>
+                  </Tabs.List>
 
                   {/* Colors & Tuning Tab */}
-                  <TabsContent value="colors">
+                  <Tabs.Content value="colors">
                     <VStack gap="lg" className={tabContentStyle.className}>
                       <div className={colorGridStyle.className}>
                         {COLOR_CONFIGS.map((cfg) => (
@@ -1163,10 +1146,10 @@ export function ThemeBuilder(): React.JSX.Element {
                         />
                       </VStack>
                     </VStack>
-                  </TabsContent>
+                  </Tabs.Content>
 
                   {/* Border Radii Tab */}
-                  <TabsContent value="radii">
+                  <Tabs.Content value="radii">
                     <VStack gap="lg" className={tabContentStyle.className}>
                       <ButtonGroup.Root
                         wrap="wrap"
@@ -1208,10 +1191,10 @@ export function ThemeBuilder(): React.JSX.Element {
                         ))}
                       </div>
                     </VStack>
-                  </TabsContent>
+                  </Tabs.Content>
 
                   {/* Spacing Scale Tab */}
-                  <TabsContent value="spacing">
+                  <Tabs.Content value="spacing">
                     <VStack gap="lg" className={tabContentStyle.className}>
                       <ButtonGroup.Root
                         wrap="wrap"
@@ -1253,10 +1236,10 @@ export function ThemeBuilder(): React.JSX.Element {
                         ))}
                       </div>
                     </VStack>
-                  </TabsContent>
+                  </Tabs.Content>
 
                   {/* Typography Tab */}
-                  <TabsContent value="typography">
+                  <Tabs.Content value="typography">
                     <VStack gap="lg" className={tabContentStyle.className}>
                       <ButtonGroup.Root
                         wrap="wrap"
@@ -1285,9 +1268,9 @@ export function ThemeBuilder(): React.JSX.Element {
                       <Divider />
 
                       <VStack gap="lg">
-                        <Field>
-                          <FieldLabel>Sans-Serif Font Stack</FieldLabel>
-                          <FieldInput
+                        <Field.Root>
+                          <Field.Label>Sans-Serif Font Stack</Field.Label>
+                          <Field.Input
                             size="sm"
                             value={theme.fonts.sans}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -1297,11 +1280,11 @@ export function ThemeBuilder(): React.JSX.Element {
                               }))
                             }
                           />
-                        </Field>
+                        </Field.Root>
 
-                        <Field>
-                          <FieldLabel>Monospace Font Stack</FieldLabel>
-                          <FieldInput
+                        <Field.Root>
+                          <Field.Label>Monospace Font Stack</Field.Label>
+                          <Field.Input
                             size="sm"
                             value={theme.fonts.mono}
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -1311,11 +1294,11 @@ export function ThemeBuilder(): React.JSX.Element {
                               }))
                             }
                           />
-                        </Field>
+                        </Field.Root>
                       </VStack>
                     </VStack>
-                  </TabsContent>
-                </Tabs>
+                  </Tabs.Content>
+                </Tabs.Root>
               </VStack>
             </Card>
 
@@ -1504,50 +1487,50 @@ export function ThemeBuilder(): React.JSX.Element {
                           </Text>
                         </VStack>
 
-                        <Table variant="default" interactive>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Member</TableHead>
-                              <TableHead>Role</TableHead>
-                              <TableHead>Status</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            <TableRow>
-                              <TableCell>Alex Rivera</TableCell>
-                              <TableCell>
+                        <Table.Root variant="default" interactive>
+                          <Table.Header>
+                            <Table.Row>
+                              <Table.Head>Member</Table.Head>
+                              <Table.Head>Role</Table.Head>
+                              <Table.Head>Status</Table.Head>
+                            </Table.Row>
+                          </Table.Header>
+                          <Table.Body>
+                            <Table.Row>
+                              <Table.Cell>Alex Rivera</Table.Cell>
+                              <Table.Cell>
                                 <Badge variant="primary">Admin</Badge>
-                              </TableCell>
-                              <TableCell>
+                              </Table.Cell>
+                              <Table.Cell>
                                 <Badge variant="secondary" intent="success">
                                   Active
                                 </Badge>
-                              </TableCell>
-                            </TableRow>
-                            <TableRow>
-                              <TableCell>Morgan Blake</TableCell>
-                              <TableCell>
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>Morgan Blake</Table.Cell>
+                              <Table.Cell>
                                 <Badge variant="secondary">Editor</Badge>
-                              </TableCell>
-                              <TableCell>
+                              </Table.Cell>
+                              <Table.Cell>
                                 <Badge variant="secondary" intent="warning">
                                   Pending
                                 </Badge>
-                              </TableCell>
-                            </TableRow>
-                            <TableRow>
-                              <TableCell>Taylor Reed</TableCell>
-                              <TableCell>
+                              </Table.Cell>
+                            </Table.Row>
+                            <Table.Row>
+                              <Table.Cell>Taylor Reed</Table.Cell>
+                              <Table.Cell>
                                 <Badge variant="outline">Viewer</Badge>
-                              </TableCell>
-                              <TableCell>
+                              </Table.Cell>
+                              <Table.Cell>
                                 <Badge variant="secondary" intent="error">
                                   Paused
                                 </Badge>
-                              </TableCell>
-                            </TableRow>
-                          </TableBody>
-                        </Table>
+                              </Table.Cell>
+                            </Table.Row>
+                          </Table.Body>
+                        </Table.Root>
 
                         <HStack
                           justify="between"
@@ -1644,31 +1627,31 @@ export function ThemeBuilder(): React.JSX.Element {
 
                         {/* Native Modal Dialog */}
                         <div className={marginTopAutoStyle.className}>
-                          <DialogRoot>
-                            <DialogTrigger variant="secondary" size="sm" width="full">
+                          <Dialog.Root>
+                            <Dialog.Trigger variant="secondary" size="sm" width="full">
                               Open Theme Modal Dialog
-                            </DialogTrigger>
-                            <DialogContent>
+                            </Dialog.Trigger>
+                            <Dialog.Content>
                               <VStack gap="lg">
-                                <DialogHeader>
-                                  <DialogTitle>Custom Theme Modal</DialogTitle>
-                                  <DialogDescription>
+                                <Dialog.Header>
+                                  <Dialog.Title>Custom Theme Modal</Dialog.Title>
+                                  <Dialog.Description>
                                     This is a native HTML5 dialog styled with the active theme
                                     tokens.
-                                  </DialogDescription>
-                                </DialogHeader>
+                                  </Dialog.Description>
+                                </Dialog.Header>
 
                                 <HStack justify="end" gap="sm">
-                                  <DialogClose variant="ghost" size="sm">
+                                  <Dialog.Close variant="ghost" size="sm">
                                     Dismiss
-                                  </DialogClose>
-                                  <DialogClose variant="primary" size="sm">
+                                  </Dialog.Close>
+                                  <Dialog.Close variant="primary" size="sm">
                                     Confirm
-                                  </DialogClose>
+                                  </Dialog.Close>
                                 </HStack>
                               </VStack>
-                            </DialogContent>
-                          </DialogRoot>
+                            </Dialog.Content>
+                          </Dialog.Root>
                         </div>
                       </VStack>
                     </Card>

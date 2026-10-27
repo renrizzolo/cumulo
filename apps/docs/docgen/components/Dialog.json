@@ -24,7 +24,9 @@
       "shortPropTypeName": null
     },
     "defaultOpen": {
-      "defaultValue": null,
+      "defaultValue": {
+        "value": "false"
+      },
       "description": "",
       "name": "defaultOpen",
       "parent": {
@@ -85,93 +87,6 @@
     }
   },
   "subcomponents": {
-    "Root": {
-      "name": "Dialog.Root",
-      "props": {
-        "open": {
-          "defaultValue": null,
-          "description": "",
-          "name": "open",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-            "name": "DialogProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-              "name": "DialogProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "defaultOpen": {
-          "defaultValue": {
-            "value": "false"
-          },
-          "description": "",
-          "name": "defaultOpen",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-            "name": "DialogProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-              "name": "DialogProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "onOpenChange": {
-          "defaultValue": null,
-          "description": "",
-          "name": "onOpenChange",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-            "name": "DialogProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-              "name": "DialogProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "((open: boolean) => void) | undefined"
-          },
-          "shortPropTypeName": "function"
-        },
-        "id": {
-          "defaultValue": null,
-          "description": "",
-          "name": "id",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-            "name": "DialogProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
-              "name": "DialogProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": null
-        }
-      }
-    },
     "Trigger": {
       "name": "Dialog.Trigger",
       "props": {
@@ -497,13 +412,10 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"full\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\" | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "\"full\""
               },
               {
                 "value": "\"sm\""
@@ -516,6 +428,9 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"full\""
               }
             ]
           },
@@ -628,9 +543,6 @@
                 "value": "undefined"
               },
               {
-                "value": "\"div\""
-              },
-              {
                 "value": "\"h1\""
               },
               {
@@ -647,6 +559,9 @@
               },
               {
                 "value": "\"h6\""
+              },
+              {
+                "value": "\"div\""
               },
               {
                 "value": "\"span\""
@@ -762,16 +677,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+            "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"inherit\""
+                "value": "\"primary\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"inherit\""
               },
               {
                 "value": "\"success\""
@@ -873,16 +788,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"display\" | \"code\" | \"body\" | \"label\" | \"lead\" | \"caption\" | undefined",
+            "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"display\""
-              },
-              {
-                "value": "\"code\""
               },
               {
                 "value": "\"body\""
@@ -895,6 +807,9 @@
               },
               {
                 "value": "\"caption\""
+              },
+              {
+                "value": "\"code\""
               }
             ]
           },
@@ -932,10 +847,10 @@
                 "value": "\"span\""
               },
               {
-                "value": "\"code\""
+                "value": "\"label\""
               },
               {
-                "value": "\"label\""
+                "value": "\"code\""
               },
               {
                 "value": "\"p\""
@@ -1098,16 +1013,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+            "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"inherit\""
+                "value": "\"primary\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"inherit\""
               },
               {
                 "value": "\"success\""
@@ -1473,10 +1388,6 @@
           "shortPropTypeName": "Union"
         }
       }
-    },
-    "Context": {
-      "name": "Dialog.Context",
-      "props": {}
     }
   }
 }

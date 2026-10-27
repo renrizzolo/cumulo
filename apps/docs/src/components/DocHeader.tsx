@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { Link } from '@renr/parcel-rsc-router';
 import { keyframes, style } from '@cumulo/css';
-import { Button, vars, useDismissible, SidebarToggle, Tooltip, useSidebar } from '@cumulo/core';
+import { Button, vars, useDismissible, Sidebar, Tooltip, useSidebar } from '@cumulo/core';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Logo } from './Logo';
 
@@ -161,16 +161,18 @@ export function DocHeader(): React.JSX.Element {
 
       {/* Desktop Sidebar Toggle & Brand (when collapsed) */}
       <div className={desktopToggleStyle.className}>
-        <Tooltip.Root>
-          <Tooltip.Trigger as={'span'}>
-            <SidebarToggle />
-          </Tooltip.Trigger>
-          <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
-        </Tooltip.Root>
         {sidebar.visuallyCollapsed ? (
-          <Link to="/" className={headerBrandLinkStyle.className}>
-            <Logo />
-          </Link>
+          <>
+            <Tooltip.Root>
+              <Tooltip.Trigger as={'span'}>
+                <Sidebar.Toggle />
+              </Tooltip.Trigger>
+              <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
+            </Tooltip.Root>
+            <Link to="/" className={headerBrandLinkStyle.className}>
+              <Logo />
+            </Link>
+          </>
         ) : null}
       </div>
 

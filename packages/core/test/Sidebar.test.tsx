@@ -3,7 +3,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/vitest';
-import { Sidebar, useSidebar } from '../src/components/Sidebar.js';
+import * as Sidebar from '../src/components/Sidebar.js';
+import { useSidebar } from '../src/components/Sidebar.js';
 
 function TestSidebarConsumer() {
   useSidebar();
@@ -24,10 +25,10 @@ describe('Sidebar component', () => {
   it('renders in expanded state by default and toggles via Sidebar.Toggle in uncontrolled mode', async () => {
     const user = userEvent.setup();
     render(
-      <Sidebar variant="docked" position="left" hoverBehaviour="none" data-testid="sidebar">
+      <Sidebar.Root variant="docked" position="left" hoverBehaviour="none" data-testid="sidebar">
         <Sidebar.Toggle />
         <div>Sidebar Content</div>
-      </Sidebar>,
+      </Sidebar.Root>,
     );
 
     const sidebar = screen.getByTestId('sidebar');
@@ -50,7 +51,7 @@ describe('Sidebar component', () => {
     function ControlledTest() {
       const [collapsed, setCollapsed] = useState(false);
       return (
-        <Sidebar
+        <Sidebar.Root
           variant="docked"
           position="left"
           hoverBehaviour="none"
@@ -62,7 +63,7 @@ describe('Sidebar component', () => {
           data-testid="sidebar"
         >
           <Sidebar.Toggle />
-        </Sidebar>
+        </Sidebar.Root>
       );
     }
 
@@ -217,14 +218,14 @@ describe('Sidebar component', () => {
             <Sidebar.Toggle data-testid="outer-toggle" />
           </Sidebar.Root>
           <div data-testid="preview-container">
-            <Sidebar
+            <Sidebar.Root
               variant="docked"
               position="left"
               hoverBehaviour="none"
               data-testid="inner-sidebar"
             >
               <Sidebar.Toggle data-testid="inner-toggle" />
-            </Sidebar>
+            </Sidebar.Root>
           </div>
         </Sidebar.Provider>,
       );

@@ -1,13 +1,6 @@
 import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  Textarea,
-  FieldRoot,
-  FieldLabel,
-  FieldDescription,
-  FieldError,
-  FieldTextarea,
-  VStack,
-} from '@cumulo/core';
+import { Textarea, VStack } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
 import textareaDoc from '../../../docgen/components/Textarea.json';
 export default Layout;
 export { CodeBlock, ComponentPreview, PropsTable };
@@ -17,7 +10,7 @@ export { CodeBlock, ComponentPreview, PropsTable };
 A multi-line text input field supporting resizing controls, intent states, and Field compound integration.
 
 ```tsx
-import { Textarea, FieldTextarea } from '@cumulo/core';
+import { Textarea, Field } from '@cumulo/core';
 ```
 
 ### Examples
@@ -26,17 +19,17 @@ import { Textarea, FieldTextarea } from '@cumulo/core';
   title="Textarea within Field"
 >
   <VStack gap="md">
-      <FieldRoot>
-        <FieldLabel>Project Description</FieldLabel>
-        <FieldTextarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
-        <FieldDescription>Brief overview for stakeholders.</FieldDescription>
-      </FieldRoot>
+      <Field.Root>
+        <Field.Label>Project Description</Field.Label>
+        <Field.Textarea placeholder="Describe the project milestones and scope..." size="md" rows={4} />
+        <Field.Description>Brief overview for stakeholders.</Field.Description>
+      </Field.Root>
 
-      <FieldRoot isInvalid>
-        <FieldLabel>Feedback</FieldLabel>
-        <FieldTextarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
-        <FieldError>Feedback must be at least 20 characters long.</FieldError>
-      </FieldRoot>
+      <Field.Root isInvalid>
+        <Field.Label>Feedback</Field.Label>
+        <Field.Textarea placeholder="Your feedback..." defaultValue="Too short" size="md" />
+        <Field.Error>Feedback must be at least 20 characters long.</Field.Error>
+      </Field.Root>
     </VStack>
 
 </ComponentPreview>

@@ -5,8 +5,9 @@ import { recipe, style, cx, createThemeContract, createTheme } from '@cumulo/css
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { focusRing, focusRingStyles } from '../intents.js';
-import { CollapsibleRoot, CollapsibleContent, useCollapsibleContext } from './Collapsible.js';
-import { TooltipRoot, TooltipTrigger, TooltipContent } from './Tooltip.js';
+import * as Collapsible from './Collapsible.js';
+import { useCollapsibleContext } from './Collapsible.js';
+import * as Tooltip from './Tooltip.js';
 import { useSidebar } from './Sidebar.js';
 
 export const sideNavContract = createThemeContract(
@@ -24,7 +25,7 @@ const sideNavTheme = createTheme(sideNavContract, {
   itemSize: vars.size.sm,
 });
 
-export const sideNavStyle = style({
+const sideNavStyle = style({
   display: 'flex',
   flexDirection: 'column',
   width: '100%',
@@ -36,12 +37,12 @@ export const sideNavStyle = style({
   overflowClipMargin: '6px',
 });
 
-export interface SideNavProps extends ElementProps<HTMLElement> {
+interface SideNavProps extends ElementProps<HTMLElement> {
   'aria-label'?: string;
   children?: React.ReactNode;
 }
 
-export function SideNavRoot({
+function SideNavRoot({
   'aria-label': ariaLabel = 'Sidebar navigation',
   className,
   children,
@@ -60,7 +61,7 @@ export function SideNavRoot({
   );
 }
 
-SideNavRoot.displayName = 'SideNav';
+SideNavRoot.displayName = 'SideNav.Root';
 
 /* -------------------------------------------------------------------------------------------------
  * SideNavItem
@@ -68,7 +69,7 @@ SideNavRoot.displayName = 'SideNav';
 
 const collapsedSelector = '[data-visually-collapsed="true"] &';
 
-export const sideNavItemRecipe = recipe(
+const sideNavItemRecipe = recipe(
   {
     extend: [focusRing],
     base: {
@@ -200,7 +201,7 @@ const itemFallbackContainerStyle = style({
   },
 });
 
-export interface SideNavItemProps extends ElementProps<HTMLElement> {
+interface SideNavItemProps extends ElementProps<HTMLElement> {
   icon?: React.ReactNode;
   label?: React.ReactNode;
   title?: string;
@@ -221,7 +222,7 @@ export interface SideNavItemProps extends ElementProps<HTMLElement> {
   children?: React.ReactNode;
 }
 
-export function SideNavItem({
+function SideNavItem({
   icon,
   label,
   badge,
@@ -273,8 +274,8 @@ export function SideNavItem({
 
   if (showTooltip && tooltipContent) {
     return (
-      <TooltipRoot>
-        <TooltipTrigger
+      <Tooltip.Root>
+        <Tooltip.Trigger
           as={Component}
           ref={ref}
           href={href || to}
@@ -288,11 +289,11 @@ export function SideNavItem({
           {...props}
         >
           {content}
-        </TooltipTrigger>
-        <TooltipContent placement={position === 'right' ? 'left' : 'right'}>
+        </Tooltip.Trigger>
+        <Tooltip.Content placement={position === 'right' ? 'left' : 'right'}>
           {tooltipContent}
-        </TooltipContent>
-      </TooltipRoot>
+        </Tooltip.Content>
+      </Tooltip.Root>
     );
   }
 
@@ -510,12 +511,12 @@ const groupCollapsibleInnerStyle = style({
   },
 });
 
-export interface SideNavGroupTriggerProps extends ElementProps<HTMLButtonElement> {
+interface SideNavGroupTriggerProps extends ElementProps<HTMLButtonElement> {
   badge?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-export function SideNavGroupTrigger({
+function SideNavGroupTrigger({
   id: providedId,
   badge,
   className,
@@ -568,8 +569,8 @@ export function SideNavGroupTrigger({
 
   if (showTooltip && typeof children === 'string') {
     return (
-      <TooltipRoot>
-        <TooltipTrigger
+      <Tooltip.Root>
+        <Tooltip.Trigger
           as="button"
           ref={ref}
           id={id}
@@ -584,11 +585,11 @@ export function SideNavGroupTrigger({
           {...props}
         >
           {triggerContent}
-        </TooltipTrigger>
-        <TooltipContent placement={position === 'right' ? 'left' : 'right'}>
+        </Tooltip.Trigger>
+        <Tooltip.Content placement={position === 'right' ? 'left' : 'right'}>
           {children}
-        </TooltipContent>
-      </TooltipRoot>
+        </Tooltip.Content>
+      </Tooltip.Root>
     );
   }
 
@@ -613,31 +614,31 @@ export function SideNavGroupTrigger({
 
 SideNavGroupTrigger.displayName = 'SideNav.GroupTrigger';
 
-export interface SideNavGroupContentProps extends ElementProps<HTMLElement> {
+interface SideNavGroupContentProps extends ElementProps<HTMLElement> {
   children?: React.ReactNode;
 }
 
-export function SideNavGroupContent({
+function SideNavGroupContent({
   className,
   children,
   ref,
   ...props
 }: SideNavGroupContentProps): React.JSX.Element {
   return (
-    <CollapsibleContent
+    <Collapsible.Content
       ref={ref}
       className={className}
       innerClassName={groupCollapsibleInnerStyle.className}
       {...props}
     >
       {children}
-    </CollapsibleContent>
+    </Collapsible.Content>
   );
 }
 
 SideNavGroupContent.displayName = 'SideNav.GroupContent';
 
-export interface SideNavGroupProps extends ElementProps<HTMLDivElement> {
+interface SideNavGroupProps extends ElementProps<HTMLDivElement> {
   title?: React.ReactNode;
   collapsible?: boolean;
   defaultOpen?: boolean;
@@ -648,7 +649,7 @@ export interface SideNavGroupProps extends ElementProps<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export function SideNavGroup({
+function SideNavGroup({
   title,
   collapsible = false,
   defaultOpen = true,
@@ -671,7 +672,7 @@ export function SideNavGroup({
   }
 
   return (
-    <CollapsibleRoot
+    <Collapsible.Root
       ref={ref}
       open={open}
       defaultOpen={defaultOpen}
@@ -688,19 +689,29 @@ export function SideNavGroup({
       ) : (
         children
       )}
-    </CollapsibleRoot>
+    </Collapsible.Root>
   );
 }
 
 SideNavGroup.displayName = 'SideNav.Group';
 
-export const SideNav = Object.assign(SideNavRoot, {
-  Root: SideNavRoot,
-  Item: SideNavItem,
-  Group: Object.assign(SideNavGroup, {
-    Trigger: SideNavGroupTrigger,
-    Content: SideNavGroupContent,
-  }),
-  GroupTrigger: SideNavGroupTrigger,
-  GroupContent: SideNavGroupContent,
+const SideNavGroupCompound = Object.assign(SideNavGroup, {
+  Trigger: SideNavGroupTrigger,
+  Content: SideNavGroupContent,
 });
+
+export {
+  SideNavRoot as Root,
+  SideNavItem as Item,
+  SideNavGroupCompound as Group,
+  SideNavGroupTrigger as GroupTrigger,
+  SideNavGroupContent as GroupContent,
+};
+
+export type {
+  SideNavProps as RootProps,
+  SideNavItemProps as ItemProps,
+  SideNavGroupProps as GroupProps,
+  SideNavGroupTriggerProps as GroupTriggerProps,
+  SideNavGroupContentProps as GroupContentProps,
+};

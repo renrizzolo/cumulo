@@ -1,17 +1,7 @@
+'use client';
+
 import React from 'react';
-import {
-  Table,
-  Badge,
-  Code,
-  Text,
-  HStack,
-  VStack,
-  TabsRoot,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-  vars,
-} from '@cumulo/core';
+import { Table, Badge, Code, Text, HStack, VStack, Tabs, vars } from '@cumulo/core';
 import { style } from '@cumulo/css';
 
 export interface DocgenPropType {
@@ -233,23 +223,23 @@ export function PropsTable({
   if (!first) return <PropsTableContent props={data?.props} excludeProps={excludeProps} />;
 
   return (
-    <TabsRoot defaultValue={first.key} variant="line">
-      <TabsList>
+    <Tabs.Root defaultValue={first.key} variant="line">
+      <Tabs.List>
         {tabs.map((tab) => (
-          <TabsTrigger key={tab.key} value={tab.key}>
+          <Tabs.Trigger key={tab.key} value={tab.key}>
             {tab.label}
-          </TabsTrigger>
+          </Tabs.Trigger>
         ))}
-      </TabsList>
+      </Tabs.List>
       {tabs.map((tab) => (
-        <TabsContent key={tab.key} value={tab.key}>
+        <Tabs.Content key={tab.key} value={tab.key}>
           <VStack gap="sm">
             {tab.description ? <Description source={tab.description} /> : null}
             <PropsTableContent props={tab.props} excludeProps={excludeProps} />
           </VStack>
-        </TabsContent>
+        </Tabs.Content>
       ))}
-    </TabsRoot>
+    </Tabs.Root>
   );
 }
 
@@ -278,7 +268,7 @@ function PropsTableContent({
   }
 
   return (
-    <Table interactive>
+    <Table.Root interactive>
       <Table.Header>
         <Table.Row>
           <Table.Head>Prop</Table.Head>
@@ -329,6 +319,6 @@ function PropsTableContent({
           );
         })}
       </Table.Body>
-    </Table>
+    </Table.Root>
   );
 }

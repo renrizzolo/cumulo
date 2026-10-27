@@ -6,19 +6,16 @@ import { style } from '@cumulo/css';
 import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import { routesByPage } from '../../routes';
 import {
-  SidebarRoot,
-  SidebarHeader,
-  SidebarFooter,
-  Panel,
+  Sidebar,
   SideNav,
-  SideNavGroup,
-  SideNavItem,
+  Panel,
   VStack,
   Text,
   Badge,
   Button,
   vars,
   useSidebar,
+  Tooltip,
 } from '@cumulo/core';
 import { Version } from './Version';
 import { Logo } from './Logo';
@@ -238,6 +235,17 @@ export interface NavContentProps {
   showBrand?: boolean;
 }
 
+export function SidebarNavToggle(): React.JSX.Element {
+  return (
+    <Tooltip.Root>
+      <Tooltip.Trigger as={'span'}>
+        <Sidebar.Toggle />
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
+    </Tooltip.Root>
+  );
+}
+
 export function NavContent({
   currentPage,
   onNavigate,
@@ -257,12 +265,12 @@ export function NavContent({
       )}
 
       {/* Navigation Sections */}
-      <SideNav aria-label="Documentation navigation">
+      <SideNav.Root aria-label="Documentation navigation">
         {/* Overview / Documentation Section */}
         {DOC_SECTIONS.map((section) => (
-          <SideNavGroup key={section.title} title={section.title}>
+          <SideNav.Group key={section.title} title={section.title}>
             {section.items.map((item) => (
-              <SideNavItem
+              <SideNav.Item
                 key={item.path}
                 as={Link}
                 to={item.path}
@@ -272,11 +280,11 @@ export function NavContent({
                 badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
               />
             ))}
-          </SideNavGroup>
+          </SideNav.Group>
         ))}
 
         {/* Components Group */}
-        <SideNavGroup title="Components">
+        <SideNav.Group title="Components">
           {(() => {
             const hasAnyComponentActive = COMPONENT_SECTIONS.some((s) =>
               s.items.some(isItemActive),
@@ -285,7 +293,7 @@ export function NavContent({
               const hasActiveItem = section.items.some(isItemActive);
 
               return (
-                <SideNavGroup
+                <SideNav.Group
                   key={section.title}
                   collapsible
                   defaultOpen={
@@ -296,7 +304,7 @@ export function NavContent({
                   badge={<Badge variant="secondary">{section.items.length}</Badge>}
                 >
                   {section.items.map((item) => (
-                    <SideNavItem
+                    <SideNav.Item
                       key={item.path}
                       as={Link}
                       to={item.path}
@@ -306,12 +314,12 @@ export function NavContent({
                       badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
                     />
                   ))}
-                </SideNavGroup>
+                </SideNav.Group>
               );
             });
           })()}
-        </SideNavGroup>
-      </SideNav>
+        </SideNav.Group>
+      </SideNav.Root>
 
       {/* Footer Info in standalone drawer */}
       {showBrand && (
@@ -342,29 +350,31 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
   return (
     <>
       {/* Desktop Sidebar (docked push) */}
-      <SidebarRoot
+      <Sidebar.Root
         collapsedWidth={'0px'}
         variant="docked"
         className={desktopNavContainerStyle.className}
       >
         <Panel padding="sm" divider="bottom">
-          <SidebarHeader
+          <Sidebar.Header
             title={
               <Link to="/" className={brandLinkStyle.className}>
                 <Logo />
               </Link>
             }
-          />
+          >
+            {!sidebar.visuallyCollapsed ? <SidebarNavToggle /> : null}
+          </Sidebar.Header>
         </Panel>
         <Panel scrollbar="thin" padding="sm" flex={1}>
           <NavContent currentPage={currentPage} pages={pages} showBrand={false} />
-          <SidebarFooter style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+          <Sidebar.Footer style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
             <Text size="xs" color="subtle">
               Cumulo <Version />
             </Text>
-          </SidebarFooter>
+          </Sidebar.Footer>
         </Panel>
-      </SidebarRoot>
+      </Sidebar.Root>
 
       {/* Mobile Backdrop Overlay */}
       {!sidebar.visuallyCollapsed && (
@@ -376,14 +386,14 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
       )}
 
       {/* Mobile Sidebar (overlay) */}
-      <SidebarRoot
+      <Sidebar.Root
         type="overlay"
         collapsedWidth={'0px'}
         variant="docked"
         className={mobileNavContainerStyle.className}
       >
         <Panel padding="sm" divider="bottom">
-          <SidebarHeader
+          <Sidebar.Header
             title={
               <Link to="/" onClick={handleNavigate} className={brandLinkStyle.className}>
                 <Logo />
@@ -399,7 +409,7 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
             >
               <CloseIcon />
             </Button>
-          </SidebarHeader>
+          </Sidebar.Header>
         </Panel>
         <Panel scrollbar="thin" padding="sm">
           <NavContent
@@ -408,13 +418,13 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
             showBrand={false}
             onNavigate={handleNavigate}
           />
-          <SidebarFooter style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
+          <Sidebar.Footer style={{ marginTop: 'auto', paddingTop: vars.spacing.md }}>
             <Text size="xs" color="subtle">
               Cumulo <Version />
             </Text>
-          </SidebarFooter>
+          </Sidebar.Footer>
         </Panel>
-      </SidebarRoot>
+      </Sidebar.Root>
     </>
   );
 }

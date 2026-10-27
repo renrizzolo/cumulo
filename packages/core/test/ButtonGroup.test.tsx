@@ -3,7 +3,7 @@ import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ButtonGroup } from '../src/components/ButtonGroup.js';
+import * as ButtonGroup from '../src/components/ButtonGroup.js';
 
 describe('ButtonGroup Component', () => {
   it('renders button group and items with proper roles and initial pressed state', () => {

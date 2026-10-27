@@ -2,19 +2,7 @@
 
 import React from 'react';
 import { style } from '@cumulo/css';
-import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableHead,
-  TableCell,
-  Code,
-  Text,
-  vars,
-  type VarPath,
-  type VarValue,
-} from '@cumulo/core';
+import { Table, Code, Text, vars, type VarPath, type VarValue } from '@cumulo/core';
 
 export type TokenName = VarPath;
 export type TokenVariable = VarValue;
@@ -363,28 +351,28 @@ export function TokenTable({
   const resolvedTokens = customTokens || PREDEFINED_TOKENS[normalizedKey] || [];
 
   return (
-    <Table variant="bordered">
-      <TableHeader>
-        <TableRow>
-          <TableHead>Token (JS Accessor)</TableHead>
-          <TableHead>CSS Custom Property</TableHead>
-          <TableHead>Value / Description</TableHead>
-          <TableHead>Preview</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+    <Table.Root variant="bordered">
+      <Table.Header>
+        <Table.Row>
+          <Table.Head>Token (JS Accessor)</Table.Head>
+          <Table.Head>CSS Custom Property</Table.Head>
+          <Table.Head>Value / Description</Table.Head>
+          <Table.Head>Preview</Table.Head>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {resolvedTokens.map((token) => (
-          <TableRow key={token.name}>
-            <TableCell>
+          <Table.Row key={token.name}>
+            <Table.Cell>
               <Code variant="base">{token.name}</Code>
-            </TableCell>
-            <TableCell>
+            </Table.Cell>
+            <Table.Cell>
               <Code variant="base">{token.variable}</Code>
-            </TableCell>
-            <TableCell>
+            </Table.Cell>
+            <Table.Cell>
               <Text size="sm">{token.value || token.description}</Text>
-            </TableCell>
-            <TableCell>
+            </Table.Cell>
+            <Table.Cell>
               {token.category === 'spacing' && (
                 <div
                   className={previewBarStyle.className}
@@ -426,10 +414,10 @@ export function TokenTable({
                   }}
                 />
               )}
-            </TableCell>
-          </TableRow>
+            </Table.Cell>
+          </Table.Row>
         ))}
-      </TableBody>
-    </Table>
+      </Table.Body>
+    </Table.Root>
   );
 }

@@ -2,17 +2,8 @@
 
 import React, { type ReactNode } from 'react';
 import type { ElementProps } from '../ElementProps.js';
-import {
-  PopoverRoot,
-  PopoverTrigger,
-  PopoverContent,
-  usePopoverContext,
-  usePopover,
-  type PopoverProps,
-  type PopoverTriggerProps,
-  type PopoverVariants,
-  type PopoverContextValue,
-} from './Popover.js';
+import * as Popover from './Popover.js';
+import { usePopoverContext, usePopover, type PopoverContextValue } from './Popover.js';
 
 export type TooltipContextValue = PopoverContextValue;
 
@@ -23,7 +14,7 @@ export const useTooltip = usePopover;
  * TooltipRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface TooltipProps extends PopoverProps {
+interface TooltipProps extends Popover.RootProps {
   /**
    * Whether the tooltip is currently open (controlled).
    */
@@ -52,53 +43,50 @@ export interface TooltipProps extends PopoverProps {
   children?: ReactNode;
 }
 
-export function TooltipRoot(props: TooltipProps): React.JSX.Element {
-  return <PopoverRoot {...props} />;
+function TooltipRoot(props: TooltipProps): React.JSX.Element {
+  return <Popover.Root {...props} />;
 }
 
 /* -------------------------------------------------------------------------------------------------
  * TooltipTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export interface TooltipTriggerProps extends Omit<PopoverTriggerProps, 'trigger'> {}
+interface TooltipTriggerProps extends Omit<Popover.TriggerProps, 'trigger'> {}
 
-export function TooltipTrigger(props: TooltipTriggerProps): React.JSX.Element {
-  return <PopoverTrigger trigger="hover" {...props} />;
+function TooltipTrigger(props: TooltipTriggerProps): React.JSX.Element {
+  return <Popover.Trigger trigger="hover" {...props} />;
 }
 
 /* -------------------------------------------------------------------------------------------------
  * TooltipContent
  * -----------------------------------------------------------------------------------------------*/
 
-export type TooltipVariants = {
-  placement?: PopoverVariants['placement'];
+type TooltipVariants = {
+  placement?: Popover.ContentVariants['placement'];
 };
 
-export interface TooltipContentProps extends Omit<
-  ElementProps<HTMLDivElement>,
-  'role' | 'popover'
-> {
+interface TooltipContentProps extends Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> {
   /**
    * Placement direction of the tooltip relative to its trigger anchor.
    * @default 'top'
    */
-  placement?: PopoverVariants['placement'];
+  placement?: Popover.ContentVariants['placement'];
   /**
    * Tooltip overlay content.
    */
   children?: ReactNode;
 }
 
-export function TooltipContent({
+function TooltipContent({
   placement = 'top',
   className,
   children,
   ...props
 }: TooltipContentProps): React.JSX.Element {
   return (
-    <PopoverContent variant="tooltip" placement={placement} className={className} {...props}>
+    <Popover.Content variant="tooltip" placement={placement} className={className} {...props}>
       {children}
-    </PopoverContent>
+    </Popover.Content>
   );
 }
 
@@ -106,8 +94,11 @@ TooltipRoot.displayName = 'Tooltip.Root';
 TooltipTrigger.displayName = 'Tooltip.Trigger';
 TooltipContent.displayName = 'Tooltip.Content';
 
-export const Tooltip = Object.assign(TooltipRoot, {
-  Root: TooltipRoot,
-  Trigger: TooltipTrigger,
-  Content: TooltipContent,
-});
+export { TooltipRoot as Root, TooltipTrigger as Trigger, TooltipContent as Content };
+
+export type {
+  TooltipProps as RootProps,
+  TooltipTriggerProps as TriggerProps,
+  TooltipContentProps as ContentProps,
+  TooltipVariants as ContentVariants,
+};

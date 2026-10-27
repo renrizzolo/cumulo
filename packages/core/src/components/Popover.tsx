@@ -32,7 +32,7 @@ export interface PopoverContextValue {
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-export const PopoverContext = createContext<PopoverContextValue | null>(null);
+const PopoverContext = createContext<PopoverContextValue | null>(null);
 
 export const usePopoverContext = (): PopoverContextValue => {
   const context = useContext(PopoverContext);
@@ -48,7 +48,7 @@ export const usePopover = usePopoverContext;
  * PopoverRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface PopoverProps {
+interface PopoverProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -61,7 +61,7 @@ export interface PopoverProps {
   id?: string;
 }
 
-export function PopoverRoot({
+function PopoverRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
@@ -157,7 +157,7 @@ export function PopoverRoot({
  * PopoverTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export interface PopoverTriggerProps extends ElementProps<HTMLElement> {
+interface PopoverTriggerProps extends ElementProps<HTMLElement> {
   as?: React.ElementType;
   trigger?: 'click' | 'hover';
   variant?: ButtonProps['variant'];
@@ -172,7 +172,7 @@ export interface PopoverTriggerProps extends ElementProps<HTMLElement> {
   disabled?: boolean;
 }
 
-export function PopoverTrigger({
+function PopoverTrigger({
   as: Component = Button,
   trigger = 'click',
   children,
@@ -359,7 +359,7 @@ export function PopoverTrigger({
  * PopoverContent
  * -----------------------------------------------------------------------------------------------*/
 
-export const popoverRecipe = recipe(
+const popoverRecipe = recipe(
   {
     base: {
       position: 'fixed',
@@ -489,14 +489,14 @@ export const popoverRecipe = recipe(
   'popover-content',
 );
 
-export type PopoverVariants = RecipeVariants<typeof popoverRecipe>;
+type PopoverVariants = RecipeVariants<typeof popoverRecipe>;
 
-export type PopoverContentProps = Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> & {
+type PopoverContentProps = Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> & {
   placement?: PopoverVariants['placement'];
   children?: ReactNode;
 } & (PopoverDialogOptions | PopoverTooltipOptions);
 
-export interface PopoverDialogOptions {
+interface PopoverDialogOptions {
   /**
    * The variant styling of the popover content.
    * @default 'popover'
@@ -532,7 +532,7 @@ export interface PopoverDialogOptions {
   closeOnTabOut?: boolean;
 }
 
-export interface PopoverTooltipOptions {
+interface PopoverTooltipOptions {
   /**
    * Tooltip variant used by `<Tooltip>` under the hood.
    */
@@ -544,7 +544,7 @@ export interface PopoverTooltipOptions {
   role?: never;
 }
 
-export function PopoverContent({
+function PopoverContent({
   id: providedId,
   variant = 'popover',
   popover,
@@ -721,7 +721,7 @@ export function PopoverContent({
  * PopoverClose
  * -----------------------------------------------------------------------------------------------*/
 
-export interface PopoverCloseProps extends ButtonProps {
+interface PopoverCloseProps extends ButtonProps {
   /**
    * Accessible label for screen readers.
    * @default 'Close popover'
@@ -729,7 +729,7 @@ export interface PopoverCloseProps extends ButtonProps {
   'aria-label'?: string;
 }
 
-export function PopoverClose({
+function PopoverClose({
   onClick,
   children = 'Close',
   variant = 'ghost',
@@ -779,9 +779,17 @@ PopoverTrigger.displayName = 'Popover.Trigger';
 PopoverContent.displayName = 'Popover.Content';
 PopoverClose.displayName = 'Popover.Close';
 
-export const Popover = Object.assign(PopoverRoot, {
-  Root: PopoverRoot,
-  Trigger: PopoverTrigger,
-  Content: PopoverContent,
-  Close: PopoverClose,
-});
+export {
+  PopoverRoot as Root,
+  PopoverTrigger as Trigger,
+  PopoverContent as Content,
+  PopoverClose as Close,
+};
+
+export type {
+  PopoverProps as RootProps,
+  PopoverTriggerProps as TriggerProps,
+  PopoverContentProps as ContentProps,
+  PopoverCloseProps as CloseProps,
+  PopoverVariants as ContentVariants,
+};
