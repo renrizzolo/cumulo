@@ -26,7 +26,6 @@ export function ComponentPreview({
       title={title}
       code={codeElement}
       frame={frame}
-      codeString={codeString}
       defaultLevel={defaultLevel}
     >
       {children}

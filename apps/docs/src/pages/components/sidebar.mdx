@@ -1,5 +1,6 @@
 import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
 import { DualSidebarExample } from '../../components/DualSidebarExample.tsx';
+import dualSidebarCode from 'raw-text:../../components/DualSidebarExample.tsx';
 import { Panel, Surface, VStack, HStack, Heading, Text } from '@cumulo/core';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
 import * as SideNav from '@cumulo/core/components/SideNav';
@@ -472,93 +473,7 @@ import { Sidebar, useSidebar } from '@cumulo/core';
 
 A two-tier navigation pattern pairing a permanent slim rail with an adjacent secondary sidebar that toggles between `type="overlay"` (expanding on hover/focus over page content without layout shift) and `type="push"` (pinned in document flow, shifting content).
 
-<ComponentPreview 
-  frame
-  title="Dual Sidebar (Rail & Overlay / Push)"
-  code={`function DualSidebarDemo() {
-  const [isPinned, setIsPinned] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-return (
-
-  <HStack width="full" align="stretch" gap="sm" style={{ minHeight: '260px' }}>
-    {/* Container coordinating hover and focus across both tiers */}
-    <div
-      style={{ display: 'flex', height: '100%', position: 'relative' }}
-      onPointerEnter={() => setIsHovered(true)}
-      onPointerLeave={() => setIsHovered(false)}
-      onFocus={() => setIsHovered(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) {
-          setIsHovered(false);
-        }
-      }}
-    >
-      {/* Tier 1: Permanent Slim Primary Rail */}
-      <Sidebar.Root
-        variant="docked"
-        defaultCollapsed
-        hoverBehaviour="tooltip"
-        width="48px"
-        collapsedWidth="48px"
-      >
-        <Panel padding="xs" style={{ alignItems: 'center' }}>
-          <SideNav.Root aria-label="Primary rail">
-            <SideNav.Item icon={<DashboardIcon />} label="Dashboard" active />
-            <SideNav.Item icon={<IssuesIcon />} label="Issues" />
-            <SideNav.Item icon={<SettingsIcon />} label="Settings" />
-          </SideNav.Root>
-        </Panel>
-      </Sidebar.Root>
-
-    {/* Tier 2: Secondary Contextual Sidebar (Overlay or Push depending on Pin state) */}
-
-      <Sidebar.Root
-        type={isPinned ? 'push' : 'overlay'}
-        variant="docked"
-        collapsed={isPinned ? false : !isHovered}
-        width="200px"
-        collapsedWidth="0px"
-        style={{ left: '48px', height: 'auto' }}
-      >
-        <Panel padding="sm" divider="bottom">
-          <Sidebar.Header title={<Heading as="h4" size="sm">Issues</Heading>}>
-            <Button
-              size="xs"
-              variant={isPinned ? 'primary' : 'ghost'}
-              onClick={() => setIsPinned((prev) => !prev)}
-              aria-label={isPinned ? 'Unpin sidebar' : 'Pin sidebar'}
-            >
-              <PinIcon pinned={isPinned} />
-            </Button>
-          </Sidebar.Header>
-        </Panel>
-        <Panel scrollbar="thin" padding="sm">
-          <SideNav.Root aria-label="Secondary navigation">
-            <SideNav.Item label="All Issues" active />
-            <SideNav.Item label="Assigned to Me" />
-            <SideNav.Item label="Bookmarked" />
-            <SideNav.Item label="History" />
-          </SideNav.Root>
-        </Panel>
-      </Sidebar.Root>
-    </div>
-
-    {/* Main Content Area */}
-
-    <Panel flex={1} padding="md">
-      <Heading as="h4" size="md">Dashboard Content</Heading>
-      <Text size="sm">
-        {isPinned
-          ? 'The secondary sidebar is pinned into layout flow (push mode).'
-          : 'Hover or focus rail items to expand the secondary overlay sidebar.'}
-      </Text>
-    </Panel>
-
-  </HStack>
-);
-}`}
->
+<ComponentPreview frame title="Dual Sidebar (Rail & Overlay / Push)" code={dualSidebarCode}>
   <DualSidebarExample />
 </ComponentPreview>
 

@@ -214,6 +214,7 @@ const collapsibleContentRecipe = recipe(
 
 const collapsibleInnerStyle = style({
   minHeight: 0,
+  minWidth: 0,
 });
 
 function CollapsibleContent({

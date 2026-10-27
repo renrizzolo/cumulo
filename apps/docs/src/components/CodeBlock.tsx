@@ -29,7 +29,7 @@ export function CodeBlock({
   children,
   className,
   language = 'tsx',
-  withCopy = false,
+  withCopy = true,
   ...props
 }: CodeBlockProps): React.JSX.Element {
   return (
