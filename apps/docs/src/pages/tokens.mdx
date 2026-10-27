@@ -4,7 +4,7 @@ export { CodeBlock, ColorTokens, TokenTable };
 
 # Tokens and theming
 
-Cumulo's token system is built on CSS custom properties. Theming can be easily achieved by overriding these properties in your own stylesheets. See the [interactive theme builder](/theme-builder) to quickly create and test custom themes.
+Cumulo's token system is built on CSS custom properties. Customize themes by overriding these properties in your stylesheets, or use the [theme builder](/theme-builder) to test themes interactively.
 
 ```ts
 import { vars } from '@cumulo/core';
@@ -12,7 +12,7 @@ import { vars } from '@cumulo/core';
 
 ## Surfaces
 
-Surfaces define contextual custom properties. Nested interactive elements, such as inputs and buttons are surface-aware.
+Surfaces define contextual styles. Nested interactive elements, such as inputs and buttons, are surface-aware.
 
 <TokenTable category="surface" />
 

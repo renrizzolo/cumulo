@@ -100,6 +100,7 @@ export const DOC_SECTIONS: NavSection[] = [
     title: 'Docs',
     items: [
       { label: 'Overview', path: '/', htmlPath: '/index.html' },
+      { label: 'Working with AI', path: '/ai', htmlPath: '/ai.html', badge: 'AI' },
       { label: '@cumulo/css Engine', path: '/css', htmlPath: '/css.html' },
       { label: '@cumulo/core Tokens', path: '/tokens', htmlPath: '/tokens.html' },
       {

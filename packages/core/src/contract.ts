@@ -580,7 +580,7 @@ export const vars = {
       /** var(--theme-border) */
       border: 'var(--surface-secondary-border)',
     },
-    /** var(--theme-shadow-0) */
+    /** none */
     shadow: 'var(--surface-shadow)',
   },
   yellow: {

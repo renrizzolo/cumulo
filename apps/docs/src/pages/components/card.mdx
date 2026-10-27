@@ -15,20 +15,18 @@ import { Card } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Card Elevation & Padding">
-  <VStack gap="md">
+  <HStack gap="md">
     <Card level={1} padding="md">
-      <VStack gap="xs">
-        <Heading as="h4" size="md">
-          Container Card (Level 1)
-        </Heading>
+      <VStack gap="md">
+        <Card.Header size="sm" title="Container Card" description="Level 1"/>
         <Text type="body" size="sm" color="muted">
-          Standard surface container for cards and sections.
+         Standard surface container for cards and sections. Standard surface container for cards and sections.
         </Text>
       </VStack>
     </Card>
     <Card level={2} padding="lg">
       <VStack gap="xs">
-        <Heading as="h4" size="md">
+        <Heading as="h4" size="sm">
           Elevated Card (Level 2)
         </Heading>
         <Text type="body" size="sm" color="muted">
@@ -36,7 +34,8 @@ import { Card } from '@cumulo/core';
         </Text>
       </VStack>
     </Card>
-  </VStack>
+
+  </HStack>
 </ComponentPreview>
 
 ### Component API

@@ -1,0 +1,40 @@
+# Cumulo Monorepo — Cursor Rules (.cursorrules)
+
+Instructions for Cursor and AI assistants contributing to or authoring code **within the Cumulo repository**. See [AGENTS.md](./AGENTS.md) for full details.
+
+## Monorepo TypeScript and architecture invariants
+
+- **Zero `any` and no `as` casting**: Use `unknown` with narrowing, type guards (`is`), or discriminated unions. Throw invariant errors in tests instead of casting DOM elements.
+- **Zero intermediate barrel files (`oxc/no-barrel-file`)**: Import directly from target source modules (`import { useFocus } from '../hooks/useFocus.js';`). Never create or import from `index.ts` sub-barrels.
+- **React 19 component authoring**: Accept `ref?: React.Ref<T>` directly as a standard prop (never use `React.forwardRef`). Merge refs with `useMergeRefs(...)`.
+- **Extend `ElementProps<T>`**: Component props must extend `ElementProps<T>` from `packages/core/src/ElementProps.ts`, not raw `React.HTMLAttributes<T>`.
+- **Strict function return typing**: Annotate return types directly on functions and factory callbacks (`(): ReturnType => ...`), not on outer generic parameters.
+- **Behavior-based testing**: Never assert CSS class names or recipe outputs in unit tests. Test DOM semantics, accessibility (`aria-*`), and event state transitions.
+
+## Cumulo UI and styling patterns (components, demos, and docs)
+
+- **Negative layout rules**: Never use raw `<div>` for layout or spacing.
+  - Rows $\rightarrow$ `<HStack>`
+  - Columns $\rightarrow$ `<VStack>`
+  - Directional flexbox $\rightarrow$ `<Stack>`
+  - Responsive wrappers $\rightarrow$ `<Container>`
+  - Spaced article or document flow $\rightarrow$ `<Flow>`
+  - Application frame $\rightarrow$ `<AppFrame>`, `<Panel>`, `<Sidebar>`, `<SideNav>`
+- **Negative form rules**: Never author monolithic inputs. Use compound `<Field.*>` subcomponents (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Error`, `Field.Description`, `Field.Group`).
+- **Styling**: Never use Tailwind classes or arbitrary inline styles. Use `@cumulo/css` (`style()`, `recipe()`, `cx()`) and design tokens from `vars.*` (`@cumulo/core`). Never use raw hex, rgb, or hsl literals.
+
+## Mandatory self-check loop
+
+Before completing your response:
+1. Did you use any `any` or `as Type` casts? Narrow strictly with type guards or invariants instead.
+2. Are all imports pointing directly to target source files with no intermediate barrel files?
+3. Are all refs accepted directly without `React.forwardRef` and merged with `useMergeRefs`?
+4. Are all visual elements styled with `vars.*` tokens rather than hardcoded colors or pixel values?
+5. Are all layouts composed with Cumulo primitives instead of flex `<div>`s?
+
+## Pre-commit verification commands
+
+```bash
+pnpm check        # Runs: type-check + lint:fix + format
+pnpm test         # Runs all unit and bundler tests
+```

@@ -13,7 +13,7 @@ export const cardRecipe = recipe(
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
-      boxShadow: vars.shadow['0'],
+      // boxShadow: vars.shadow['0'],
     },
     variants: {},
     defaultVariants: {

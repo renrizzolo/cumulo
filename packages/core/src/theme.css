@@ -71,7 +71,7 @@
   h4,
   h5,
   h6 {
-    text-wrap: balance;
+    text-wrap: pretty;
   }
 
   p,
@@ -1224,7 +1224,7 @@
     --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-300));
     --surface-secondary-fg: var(--theme-fg);
     --surface-secondary-border: var(--theme-border);
-    --surface-shadow: var(--theme-shadow-0);
+    --surface-shadow: none;
   }
 
   .surface-1 {
@@ -1242,7 +1242,7 @@
     --surface-secondary-hover: light-dark(var(--theme-grey-100), var(--theme-grey-200));
     --surface-secondary-fg: var(--theme-fg);
     --surface-secondary-border: var(--theme-border);
-    --surface-shadow: var(--theme-shadow-1);
+    --surface-shadow: var(--theme-shadow-0);
   }
 
   .surface-2 {
@@ -1260,7 +1260,7 @@
     --surface-secondary-hover: light-dark(var(--theme-grey-200), var(--theme-grey-300));
     --surface-secondary-fg: var(--theme-fg);
     --surface-secondary-border: var(--theme-border);
-    --surface-shadow: var(--theme-shadow-2);
+    --surface-shadow: var(--theme-shadow-1);
   }
 
   .surface-primary {

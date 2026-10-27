@@ -1,0 +1,54 @@
+# Cumulo UI
+
+> Cumulo is a modern React 19 UI component library and zero-runtime, type-safe CSS framework (`@cumulo/core`, `@cumulo/css`). It enforces platform primitives, compound component composition, tokenized styling, and light-dark theming.
+
+## Instructions for AI coding assistants
+
+When generating or refactoring code using Cumulo, follow these rules:
+
+### 1. Negative layout rules (no arbitrary containers)
+- **Never use raw `<div>` for layout, spacing, or flexbox.**
+  - Row layouts $\rightarrow$ `<HStack>`
+  - Column layouts $\rightarrow$ `<VStack>`
+  - Directional or dynamic flexbox $\rightarrow$ `<Stack direction="row" | "column">`
+  - Responsive page or section containers $\rightarrow$ `<Container size="sm" | "md" | "lg" | "xl" | "full">`
+  - Spaced article or document flow $\rightarrow$ `<Flow>`
+  - Application frame $\rightarrow$ `<AppFrame>`, `<Panel>`, `<Sidebar>`, `<SideNav>`, `<Header>`
+
+### 2. Negative form rules (compound components only)
+- **Never use monolithic input elements (`<Input label="..." error="..." />`).**
+- **Always use compound `Field` subcomponents:**
+  - `<Field.Root>` coordinates state (`isInvalid`, IDs, accessibility)
+  - `<Field.Label>` associates with the input via `htmlFor`
+  - `<Field.Input>` and `<Field.Textarea>` inherit invalid intent and accessibility IDs
+  - `<Field.Error>` displays validation errors with `role="alert"`
+  - `<Field.Description>` provides descriptive text (`aria-describedby`)
+  - `<Field.Group>` groups composite radio and checkbox controls
+
+### 3. Negative styling rules (zero Tailwind or inline styles)
+- **Never use Tailwind classes, arbitrary CSS utility classes, or inline styles (`style={{ ... }}`).**
+- **Always use `@cumulo/css` and design tokens from `vars.*` (`@cumulo/core`):**
+  - Static styles: `style({ ... })`
+  - Variant styles: `recipe({ base, variants, defaultVariants })`
+  - Class composition: `cx(...)`
+  - Tokens: `vars.color.*`, `vars.spacing.*`, `vars.radius.*`, `vars.font.*`, `vars.shadow.*`
+  - **Never use raw hex, rgb, or hsl strings.** Every color resolves through `vars.color.*`.
+
+### 4. Native top-layer overlays
+- **Top-layer overlays**: `<Dialog>` uses native `<dialog>`, `<Popover>` uses native `popover="auto"` with CSS anchor positioning, and `<Tooltip>` uses `<Popover>` with `popover="manual"`. Top-layer overlays render on the platform top layer and are never clipped by parent scroll or `overflow` containers.
+
+### 5. Mandatory self-check loop
+Before completing your response, re-read your generated code and verify:
+1. Replace any unstyled `<div>` elements with `<Stack>`, `<HStack>`, `<VStack>`, or `<Container>`.
+2. Replace any monolithic inputs with compound `<Field.*>` components.
+3. Replace any raw colors or inline styles with `@cumulo/css` and `vars.*` tokens.
+
+---
+
+## Documentation pages
+
+- [Working with AI](https://cumulo.dev/ai): Prompt templates, self-test verification, and guidelines.
+- [Zero-runtime CSS engine](https://cumulo.dev/css): `style()`, `recipe()`, `cx()`, and keyframe animations with `@cumulo/css`.
+- [Design tokens and theming](https://cumulo.dev/tokens): Contract tokens, `[data-theme='...']` styling, `useTheme()`, and `<ThemeScript />`.
+- [Component catalog](https://cumulo.dev/components): Directory of 30+ accessible components.
+- [Expanded machine reference](https://cumulo.dev/llms-full.txt): Complete TypeScript signatures and component patterns.

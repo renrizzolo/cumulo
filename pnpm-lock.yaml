@@ -63,8 +63,8 @@ importers:
         specifier: ^2.16.4
         version: 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@renr/parcel-rsc-router':
-        specifier: ^1.0.0-alpha.9
-        version: 1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: ^1.0.0-beta.10
+        version: 1.0.0-beta.10(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -85,11 +85,11 @@ importers:
         specifier: 2.16.4
         version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@renr/parcel-reporter-docgen':
-        specifier: ^0.1.0-alpha.5
-        version: 0.1.0-alpha.5(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+        specifier: ^0.1.0-beta.6
+        version: 0.1.0-beta.6(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@renr/parcel-reporter-rsc-router':
-        specifier: ^1.0.0-alpha.16
-        version: 1.0.0-alpha.16(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        specifier: ^1.0.0-beta.17
+        version: 1.0.0-beta.17(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-beta.10(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -1356,16 +1356,16 @@ packages:
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
 
-  '@renr/parcel-reporter-docgen@0.1.0-alpha.5':
-    resolution: {integrity: sha512-eEg6vHYzU1QGMORpJp0Wn/Xdtm2nN+Vg/bI8ZERooCw9PUTrX2wi/UBtjZvvNfOCGDl+DPeuUMeaju9ShHTaTQ==}
+  '@renr/parcel-reporter-docgen@0.1.0-beta.6':
+    resolution: {integrity: sha512-/VfHxKHu1plifyIvcoAyGZ1vQAHoo5mcU4DTSuouqoRXNfYaLVWZ9ohdylQkvMenomwoaW3peYlTclB3srWeaw==}
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.16':
-    resolution: {integrity: sha512-ZISfaGNxWXtSKde+1xjVEINiB8eOsLphgHdbCuFBD+LeZXcLF5PP3EvPB95aTopSFWgq03AVDpAkFBGqRGrvAg==}
+  '@renr/parcel-reporter-rsc-router@1.0.0-beta.17':
+    resolution: {integrity: sha512-LFqHCgYwYS6x32nfz9VqTPnqMZ3NOxy9WNfGFaARRi2IIv80YGUUjf+lNP86AfyMmF25EAL+dR2vchRKXEotyA==}
     peerDependencies:
-      '@renr/parcel-rsc-router': 1.0.0-alpha.9
+      '@renr/parcel-rsc-router': 1.0.0-beta.10
 
-  '@renr/parcel-rsc-router@1.0.0-alpha.9':
-    resolution: {integrity: sha512-FZdS6NLFTpYh5fWnBR0AZWL/1u5vqWkVjDj7sJqD7F1jmAlFRzHdf/dkfwurMPRaWJ9tzR4wcderX7u6vBjRIQ==}
+  '@renr/parcel-rsc-router@1.0.0-beta.10':
+    resolution: {integrity: sha512-Ufl5huhPzQjNrmHCehZvQmjC11hZqviRlT17bPJwvUCPlAreKtkDlsAPOTgDczxq6wM2N7SdLl/jCI+y0KRrYw==}
     peerDependencies:
       '@parcel/rsc': ^2
       react: ^19
@@ -4600,7 +4600,7 @@ snapshots:
     dependencies:
       quansync: 1.0.0
 
-  '@renr/parcel-reporter-docgen@0.1.0-alpha.5(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
+  '@renr/parcel-reporter-docgen@0.1.0-beta.6(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -4614,11 +4614,11 @@ snapshots:
       - babel-plugin-macros
       - napi-wasm
 
-  '@renr/parcel-reporter-rsc-router@1.0.0-alpha.16(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
+  '@renr/parcel-reporter-rsc-router@1.0.0-beta.17(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-beta.10(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
     dependencies:
       '@parcel/diagnostic': 2.16.4
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-rsc-router': 1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+      '@renr/parcel-rsc-router': 1.0.0-beta.10(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       dedent: 1.7.2
       prettier: 3.9.9
       tinyglobby: 0.2.17
@@ -4627,7 +4627,7 @@ snapshots:
       - babel-plugin-macros
       - napi-wasm
 
-  '@renr/parcel-rsc-router@1.0.0-alpha.9(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@renr/parcel-rsc-router@1.0.0-beta.10(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@parcel/rsc': 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
