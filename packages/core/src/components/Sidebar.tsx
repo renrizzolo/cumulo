@@ -319,7 +319,12 @@ function SidebarProvider({
     isHoveredRef.current = hovered;
     setHoveredState(hovered);
   }, []);
-  const [isFocused, setFocused] = useState(false);
+  const isFocusedRef = useRef(false);
+  const [isFocused, setFocusedState] = useState(false);
+  const setFocused = useCallback((focused: boolean) => {
+    isFocusedRef.current = focused;
+    setFocusedState(focused);
+  }, []);
 
   const isControlled = controlledCollapsed !== undefined;
   const isCollapsed = isControlled ? controlledCollapsed : uncontrolledCollapsed;
@@ -333,7 +338,7 @@ function SidebarProvider({
       if (!isControlled) {
         setUncontrolledCollapsed(collapsed);
       }
-      if (collapsed && isHoveredRef.current) {
+      if (collapsed && (isHoveredRef.current || isFocusedRef.current)) {
         setHoverSuppressed(true);
       } else {
         setHoverSuppressed(false);

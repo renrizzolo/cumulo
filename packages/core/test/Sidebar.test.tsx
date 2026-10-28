@@ -21,6 +21,15 @@ function VisualStateConsumer() {
   );
 }
 
+function NavItemCloseTest() {
+  const { setCollapsed } = useSidebar();
+  return (
+    <button type="button" data-testid="nav-item" onClick={() => setCollapsed(true)}>
+      Navigate
+    </button>
+  );
+}
+
 describe('Sidebar component', () => {
   it('renders in expanded state by default and toggles via Sidebar.Toggle in uncontrolled mode', async () => {
     const user = userEvent.setup();
@@ -202,6 +211,28 @@ describe('Sidebar component', () => {
       // Focus re-enters sidebar -> clears suppression to allow expansion
       fireEvent.focus(root);
       expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+    });
+
+    it('visually collapses when setCollapsed(true) is called from a focused navigation item without pointer hover', async () => {
+      const user = userEvent.setup();
+
+      render(
+        <Sidebar.Provider position="left" hoverBehaviour="expand">
+          <Sidebar.Root variant="docked" data-testid="sidebar-root">
+            <NavItemCloseTest />
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const root = screen.getByTestId('sidebar-root');
+      const navItem = screen.getByTestId('nav-item');
+
+      // Focus and click the navigation item (as happens on mobile tap or keyboard Enter)
+      fireEvent.focus(navItem);
+      await user.click(navItem);
+
+      expect(root).toHaveAttribute('data-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
     });
 
     it('throws a descriptive error when useSidebar is used outside of SidebarProvider or Sidebar', () => {

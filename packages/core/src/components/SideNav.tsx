@@ -364,6 +364,9 @@ const groupHeaderStyle = style({
     transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
   },
   selectors: {
+    ':first-child > &': {
+      marginTop: 0,
+    },
     [collapsedSelector]: {
       color: 'transparent',
       userSelect: 'none',
