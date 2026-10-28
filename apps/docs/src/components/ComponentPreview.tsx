@@ -22,7 +22,6 @@ export function ComponentPreview({
   children: React.ReactNode;
 }): React.JSX.Element {
   const codeString = code ?? reactNodeToJsx(children);
-  console.log(codeString);
   const codeElement = <CodeBlock lang={lang}>{codeString}</CodeBlock>;
 
   return (

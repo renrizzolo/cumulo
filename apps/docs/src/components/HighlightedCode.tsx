@@ -21,7 +21,6 @@ export async function HighlightedCode({
 
   // we can't format plain text.
   if (lang !== 'txt') {
-    console.log(JSON.stringify(cleanCode));
     // see https://oxc.rs/docs/guide/usage/formatter/language-support.html#native
     const formatted = await format(`code.${lang}`, cleanCode, { insertFinalNewline: false });
 
