@@ -1,25 +1,14 @@
 'use client';
 
-import {
-  Button,
-  ButtonGroup,
-  Collapsible,
-  HStack,
-  Panel,
-  Surface,
-  Text,
-  vars,
-  VStack,
-} from '@cumulo/core';
+import { ButtonGroup, Collapsible, HStack, Panel, Surface, Text, vars, VStack } from '@cumulo/core';
 import { style } from '@cumulo/css';
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 
 export interface ComponentPreviewClientProps {
   title?: string;
   description?: string;
   frame?: boolean;
   code: React.ReactNode;
-  codeString: string;
   defaultLevel?: 0 | 1 | 2;
   children: React.ReactNode;
 }
@@ -74,28 +63,22 @@ const toolbarFooterStyle = style({
   gap: vars.spacing.sm,
 });
 
-const codeInnerStyleOffset = style({ marginTop: vars.spacing.md });
+const codeInnerStyleOffset = style({
+  marginTop: vars.spacing.md,
+  display: 'block',
+  width: '100%',
+  minWidth: 0,
+});
 
 export function ComponentPreviewClient({
   title,
   code,
-  codeString,
   defaultLevel = 0,
   frame,
   children,
 }: ComponentPreviewClientProps): React.JSX.Element {
   const [level, setLevel] = useState<0 | 1 | 2>(defaultLevel);
   const [showCode, setShowCode] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = useCallback(async () => {
-    if (!codeString) return;
-    try {
-      await navigator.clipboard.writeText(codeString);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {}
-  }, [codeString]);
 
   return (
     <>
@@ -147,11 +130,6 @@ export function ComponentPreviewClient({
 
               {/* Code Actions */}
               <HStack gap="2xs" align="center">
-                {showCode && (
-                  <Button size="xs" variant="ghost" onClick={handleCopy}>
-                    {copied ? 'Copied!' : 'Copy'}
-                  </Button>
-                )}
                 <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
                   {showCode ? 'Hide Code' : 'View Code'}
                 </Collapsible.Trigger>

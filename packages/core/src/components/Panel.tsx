@@ -11,7 +11,7 @@ export const panelContract = createThemeContract(
   'panel',
 );
 
-export const panelRecipe = recipe(
+const panelRecipe = recipe(
   {
     extend: [flexStyles, paddingStyles],
     base: {
@@ -227,6 +227,8 @@ export function PanelRoot({
 
 PanelRoot.displayName = 'Panel';
 
-export const Panel = Object.assign(PanelRoot, {
-  Root: PanelRoot,
-});
+export const Panel = PanelRoot;
+
+export { PanelRoot as Root };
+
+export type { PanelProps as RootProps };

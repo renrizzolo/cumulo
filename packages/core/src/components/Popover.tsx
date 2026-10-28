@@ -32,23 +32,21 @@ export interface PopoverContextValue {
   triggerRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-export const PopoverContext = createContext<PopoverContextValue | null>(null);
+const PopoverContext = createContext<PopoverContextValue | null>(null);
 
-export const usePopoverContext = (): PopoverContextValue => {
+export const usePopover = (): PopoverContextValue => {
   const context = useContext(PopoverContext);
   if (!context) {
-    throw new Error('usePopoverContext must be used within a Popover.Root');
+    throw new Error('usePopover must be used within a Popover.Root');
   }
   return context;
 };
-
-export const usePopover = usePopoverContext;
 
 /* -------------------------------------------------------------------------------------------------
  * PopoverRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface PopoverProps {
+interface PopoverProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -61,7 +59,7 @@ export interface PopoverProps {
   id?: string;
 }
 
-export function PopoverRoot({
+function PopoverRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
@@ -157,7 +155,7 @@ export function PopoverRoot({
  * PopoverTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export interface PopoverTriggerProps extends ElementProps<HTMLElement> {
+interface PopoverTriggerProps extends ElementProps<HTMLElement> {
   as?: React.ElementType;
   trigger?: 'click' | 'hover';
   variant?: ButtonProps['variant'];
@@ -172,7 +170,7 @@ export interface PopoverTriggerProps extends ElementProps<HTMLElement> {
   disabled?: boolean;
 }
 
-export function PopoverTrigger({
+function PopoverTrigger({
   as: Component = Button,
   trigger = 'click',
   children,
@@ -188,7 +186,7 @@ export function PopoverTrigger({
   'aria-describedby': ariaDescribedByProp,
   ...props
 }: PopoverTriggerProps): React.JSX.Element {
-  const { id, open, close, toggle, show, hide, popoverRef, triggerRef } = usePopoverContext();
+  const { id, open, close, toggle, show, hide, popoverRef, triggerRef } = usePopover();
 
   const anchorName = useMemo(() => `--popover-${id}`, [id]);
   const anchorStyle = useMemo(
@@ -359,7 +357,7 @@ export function PopoverTrigger({
  * PopoverContent
  * -----------------------------------------------------------------------------------------------*/
 
-export const popoverRecipe = recipe(
+const popoverRecipe = recipe(
   {
     base: {
       position: 'fixed',
@@ -489,14 +487,14 @@ export const popoverRecipe = recipe(
   'popover-content',
 );
 
-export type PopoverVariants = RecipeVariants<typeof popoverRecipe>;
+type PopoverVariants = RecipeVariants<typeof popoverRecipe>;
 
-export type PopoverContentProps = Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> & {
+type PopoverContentProps = Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> & {
   placement?: PopoverVariants['placement'];
   children?: ReactNode;
 } & (PopoverDialogOptions | PopoverTooltipOptions);
 
-export interface PopoverDialogOptions {
+interface PopoverDialogOptions {
   /**
    * The variant styling of the popover content.
    * @default 'popover'
@@ -532,7 +530,7 @@ export interface PopoverDialogOptions {
   closeOnTabOut?: boolean;
 }
 
-export interface PopoverTooltipOptions {
+interface PopoverTooltipOptions {
   /**
    * Tooltip variant used by `<Tooltip>` under the hood.
    */
@@ -544,7 +542,7 @@ export interface PopoverTooltipOptions {
   role?: never;
 }
 
-export function PopoverContent({
+function PopoverContent({
   id: providedId,
   variant = 'popover',
   popover,
@@ -560,7 +558,7 @@ export function PopoverContent({
   ref,
   ...props
 }: PopoverContentProps): React.JSX.Element {
-  const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopoverContext();
+  const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopover();
   const id = providedId || rootId;
   const isTooltip = variant === 'tooltip';
 
@@ -721,7 +719,7 @@ export function PopoverContent({
  * PopoverClose
  * -----------------------------------------------------------------------------------------------*/
 
-export interface PopoverCloseProps extends ButtonProps {
+interface PopoverCloseProps extends ButtonProps {
   /**
    * Accessible label for screen readers.
    * @default 'Close popover'
@@ -729,7 +727,7 @@ export interface PopoverCloseProps extends ButtonProps {
   'aria-label'?: string;
 }
 
-export function PopoverClose({
+function PopoverClose({
   onClick,
   children = 'Close',
   variant = 'ghost',
@@ -737,7 +735,7 @@ export function PopoverClose({
   'aria-label': ariaLabel = 'Close popover',
   ...props
 }: PopoverCloseProps): React.JSX.Element {
-  const { close, popoverRef, id } = usePopoverContext();
+  const { close, popoverRef, id } = usePopover();
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -779,9 +777,17 @@ PopoverTrigger.displayName = 'Popover.Trigger';
 PopoverContent.displayName = 'Popover.Content';
 PopoverClose.displayName = 'Popover.Close';
 
-export const Popover = Object.assign(PopoverRoot, {
-  Root: PopoverRoot,
-  Trigger: PopoverTrigger,
-  Content: PopoverContent,
-  Close: PopoverClose,
-});
+export {
+  PopoverRoot as Root,
+  PopoverTrigger as Trigger,
+  PopoverContent as Content,
+  PopoverClose as Close,
+};
+
+export type {
+  PopoverProps as RootProps,
+  PopoverTriggerProps as TriggerProps,
+  PopoverContentProps as ContentProps,
+  PopoverCloseProps as CloseProps,
+  PopoverVariants as ContentVariants,
+};

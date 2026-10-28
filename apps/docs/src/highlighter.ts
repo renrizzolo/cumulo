@@ -15,6 +15,19 @@ const supportedLangs: BundledLanguage[] = [
   'mdx',
 ];
 
+const fileTypeToSupportedLang: Record<string, BundledLanguage> = {
+  sh: 'shell',
+  tsx: 'tsx',
+  ts: 'ts',
+  css: 'css',
+  html: 'html',
+  md: 'markdown',
+  mdx: 'mdx',
+  js: 'javascript',
+  jsx: 'jsx',
+  json: 'json',
+};
+
 export async function highlightCode(code: string, lang = 'tsx'): Promise<string | null> {
   try {
     const highlighter = await getSingletonHighlighter({
@@ -22,8 +35,8 @@ export async function highlightCode(code: string, lang = 'tsx'): Promise<string 
       themes: [cumuloTheme],
     });
 
-    const isSupported = (supportedLangs as readonly string[]).includes(lang);
-    const resolvedLang = (isSupported ? lang : 'tsx') as BundledLanguage;
+    const isSupported = !!fileTypeToSupportedLang[lang];
+    const resolvedLang = isSupported ? lang : 'txt';
 
     return highlighter.codeToHtml(code, {
       lang: resolvedLang,

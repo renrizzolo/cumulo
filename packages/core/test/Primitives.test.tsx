@@ -61,7 +61,7 @@ describe('Layout and Typography Primitives', () => {
 
   it('renders Table structure', () => {
     render(
-      <Table>
+      <Table.Root>
         <Table.Header>
           <Table.Row>
             <Table.Head>Name</Table.Head>
@@ -72,7 +72,7 @@ describe('Layout and Typography Primitives', () => {
             <Table.Cell>Alice</Table.Cell>
           </Table.Row>
         </Table.Body>
-      </Table>,
+      </Table.Root>,
     );
     expect(screen.getByRole('table')).toBeInTheDocument();
     expect(screen.getByText('Name')).toBeInTheDocument();

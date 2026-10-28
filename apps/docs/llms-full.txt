@@ -100,22 +100,20 @@ Top-level application container coordinating header, sidebar, navigation, and ma
 #### `<Sidebar>`
 Collapsible multi-level sidebar navigation.
 ```tsx
-import { Sidebar, useSidebar } from '@cumulo/core';
+import { Sidebar, SideNav, ThemeToggle, useSidebar } from '@cumulo/core';
 
-<Sidebar defaultExpanded>
-  <Sidebar.Header>
+<Sidebar.Root defaultCollapsed={false}>
+  <Sidebar.Header title="App">
     <Sidebar.Toggle />
   </Sidebar.Header>
-  <Sidebar.Body>
-    <SideNav>
-      <SideNav.Item href="/dashboard" active>Dashboard</SideNav.Item>
-      <SideNav.Item href="/settings">Settings</SideNav.Item>
-    </SideNav>
-  </Sidebar.Body>
+  <SideNav.Root>
+    <SideNav.Item href="/dashboard" label="Dashboard" active />
+    <SideNav.Item href="/settings" label="Settings" />
+  </SideNav.Root>
   <Sidebar.Footer>
     <ThemeToggle />
   </Sidebar.Footer>
-</Sidebar>
+</Sidebar.Root>
 ```
 
 ---
@@ -161,22 +159,15 @@ import { Dialog, Button } from '@cumulo/core';
   <Dialog.Trigger>
     <Button variant="primary">Open Dialog</Button>
   </Dialog.Trigger>
-  <Dialog.Portal>
-    <Dialog.Content>
-      <Dialog.Header>
-        <Dialog.Title>Confirm Action</Dialog.Title>
-      </Dialog.Header>
-      <Dialog.Body>
-        Are you sure you want to proceed?
-      </Dialog.Body>
-      <Dialog.Footer>
-        <Dialog.Close>
-          <Button variant="ghost">Cancel</Button>
-        </Dialog.Close>
-        <Button variant="primary">Confirm</Button>
-      </Dialog.Footer>
-    </Dialog.Content>
-  </Dialog.Portal>
+  <Dialog.Content>
+    <Dialog.Header>
+      <Dialog.Title>Confirm Action</Dialog.Title>
+      <Dialog.Description>Are you sure you want to proceed?</Dialog.Description>
+    </Dialog.Header>
+    <Dialog.Close>
+      <Button variant="ghost">Cancel</Button>
+    </Dialog.Close>
+  </Dialog.Content>
 </Dialog.Root>
 ```
 
@@ -193,9 +184,12 @@ import { Popover, Tooltip, Button } from '@cumulo/core';
   </Popover.Content>
 </Popover.Root>
 
-<Tooltip content="Edit profile">
-  <Button variant="ghost">Edit</Button>
-</Tooltip>
+<Tooltip.Root>
+  <Tooltip.Trigger>
+    <Button variant="ghost">Edit</Button>
+  </Tooltip.Trigger>
+  <Tooltip.Content>Edit profile</Tooltip.Content>
+</Tooltip.Root>
 ```
 
 ---

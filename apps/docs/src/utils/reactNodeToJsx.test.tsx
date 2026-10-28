@@ -110,22 +110,22 @@ describe('reactNodeToJsx', () => {
 
   it('serializes Table compound components', () => {
     const jsx = reactNodeToJsx(
-      <Table variant="bordered">
+      <Table.Root variant="bordered">
         <Table.Header>
           <Table.Row>
             <Table.Head>Feature</Table.Head>
           </Table.Row>
         </Table.Header>
-      </Table>,
+      </Table.Root>,
     );
 
-    const expected = `<Table variant="bordered">
+    const expected = `<Table.Root variant="bordered">
   <Table.Header>
     <Table.Row>
       <Table.Head>Feature</Table.Head>
     </Table.Row>
   </Table.Header>
-</Table>`;
+</Table.Root>`;
 
     expect(jsx).toBe(expected);
   });

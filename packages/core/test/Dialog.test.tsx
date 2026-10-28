@@ -2,8 +2,8 @@ import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { Dialog } from '../src/components/Dialog.js';
-import { Popover } from '../src/components/Popover.js';
+import * as Dialog from '../src/components/Dialog.js';
+import * as Popover from '../src/components/Popover.js';
 
 describe('Dialog Component', () => {
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('Dialog Component', () => {
 
   it('renders closed by default and opens on trigger click', () => {
     render(
-      <Dialog>
+      <Dialog.Root>
         <Dialog.Trigger data-testid="trigger">Open Dialog</Dialog.Trigger>
         <Dialog.Content data-testid="content">
           <Dialog.Header>
@@ -30,7 +30,7 @@ describe('Dialog Component', () => {
           </Dialog.Header>
           <Dialog.Close data-testid="close">Close</Dialog.Close>
         </Dialog.Content>
-      </Dialog>,
+      </Dialog.Root>,
     );
 
     const trigger = screen.getByTestId('trigger');
@@ -49,14 +49,14 @@ describe('Dialog Component', () => {
 
   it('connects aria-labelledby and aria-describedby automatically', () => {
     render(
-      <Dialog defaultOpen>
+      <Dialog.Root defaultOpen>
         <Dialog.Content data-testid="content">
           <Dialog.Header>
             <Dialog.Title data-testid="title">Accessible Title</Dialog.Title>
             <Dialog.Description data-testid="desc">Accessible Description</Dialog.Description>
           </Dialog.Header>
         </Dialog.Content>
-      </Dialog>,
+      </Dialog.Root>,
     );
 
     const content = screen.getByTestId('content');
@@ -69,13 +69,13 @@ describe('Dialog Component', () => {
 
   it('traps focus when navigating with Tab and Shift+Tab', () => {
     render(
-      <Dialog defaultOpen>
+      <Dialog.Root defaultOpen>
         <Dialog.Content data-testid="content">
           <button data-testid="btn-1">First Button</button>
           <button data-testid="btn-2">Second Button</button>
           <Dialog.Close data-testid="btn-close">Close</Dialog.Close>
         </Dialog.Content>
-      </Dialog>,
+      </Dialog.Root>,
     );
 
     const btn1 = screen.getByTestId('btn-1');
@@ -98,16 +98,16 @@ describe('Dialog Component', () => {
     const onPopoverClose = vi.fn();
 
     render(
-      <Dialog defaultOpen onOpenChange={(open) => !open && onDialogClose()}>
+      <Dialog.Root defaultOpen onOpenChange={(open) => !open && onDialogClose()}>
         <Dialog.Content data-testid="dialog-content">
-          <Popover defaultOpen onOpenChange={(open) => !open && onPopoverClose()}>
+          <Popover.Root defaultOpen onOpenChange={(open) => !open && onPopoverClose()}>
             <Popover.Trigger data-testid="popover-trigger">Options</Popover.Trigger>
             <Popover.Content data-testid="popover-content">
               <button data-testid="popover-btn">Inner Action</button>
             </Popover.Content>
-          </Popover>
+          </Popover.Root>
         </Dialog.Content>
-      </Dialog>,
+      </Dialog.Root>,
     );
 
     const popoverContent = screen.getByTestId('popover-content');

@@ -1,5 +1,5 @@
 {
-  "name": "Popover",
+  "name": "Popover.Root",
   "path": "packages/core/src/components/Popover.tsx",
   "fileName": "Popover.tsx",
   "props": {
@@ -24,7 +24,9 @@
       "shortPropTypeName": null
     },
     "defaultOpen": {
-      "defaultValue": null,
+      "defaultValue": {
+        "value": "false"
+      },
       "description": "",
       "name": "defaultOpen",
       "parent": {
@@ -107,115 +109,6 @@
     }
   },
   "subcomponents": {
-    "Root": {
-      "name": "Popover.Root",
-      "props": {
-        "open": {
-          "defaultValue": null,
-          "description": "",
-          "name": "open",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "defaultOpen": {
-          "defaultValue": {
-            "value": "false"
-          },
-          "description": "",
-          "name": "defaultOpen",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "onOpenChange": {
-          "defaultValue": null,
-          "description": "",
-          "name": "onOpenChange",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "((open: boolean) => void) | undefined"
-          },
-          "shortPropTypeName": "function"
-        },
-        "delay": {
-          "defaultValue": {
-            "value": "0"
-          },
-          "description": "Delay in milliseconds before opening when triggered by hover or focus.",
-          "name": "delay",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "number | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "id": {
-          "defaultValue": null,
-          "description": "",
-          "name": "id",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": null
-        }
-      }
-    },
     "Trigger": {
       "name": "Popover.Trigger",
       "props": {
@@ -1240,10 +1133,6 @@
           "shortPropTypeName": "Union"
         }
       }
-    },
-    "Context": {
-      "name": "Popover.Context",
-      "props": {}
     }
   }
 }

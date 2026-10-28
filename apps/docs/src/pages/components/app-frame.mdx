@@ -1,27 +1,15 @@
-import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  AppFrame,
-  AppFrameMain,
-  Flow,
-  Sidebar,
-  SidebarHeader,
-  SidebarToggle,
-  Panel,
-  SideNav,
-  SideNavItem,
-  Heading,
-  VStack,
-  Text,
-  Table,
-  Code,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Flow, Panel, Heading, VStack, Text, Code } from '@cumulo/core';
+import * as AppFrame from '@cumulo/core/components/AppFrame';
+import * as Sidebar from '@cumulo/core/components/Sidebar';
+import * as SideNav from '@cumulo/core/components/SideNav';
+import * as Table from '@cumulo/core/components/Table';
 import appFrameDoc from '../../../docgen/components/AppFrame.json';
 export default Layout;
-export { CodeBlock, ComponentPreview, PropsTable };
 
 # AppFrame
 
-The top-level application shell. `AppFrame` lays out a sidebar beside `AppFrame.Main` in a row, and `AppFrame.Main` stacks a header above a scrollable content area.
+The top-level application shell. `AppFrame.Root` lays out a sidebar beside `AppFrame.Main` in a row, and `AppFrame.Main` stacks a header above a scrollable content area.
 
 ```tsx
 import { AppFrame, Sidebar, Panel } from '@cumulo/core';
@@ -32,43 +20,43 @@ import { AppFrame, Sidebar, Panel } from '@cumulo/core';
 ### Anatomy
 
 ```tsx
-<AppFrame>
-  <Sidebar>{/* navigation */}</Sidebar>
+<AppFrame.Root>
+  <Sidebar.Root>{/* navigation */}</Sidebar.Root>
   <AppFrame.Main>
     <Panel as="header" divider="bottom">
       {/* header */}
     </Panel>
     <Panel scrollbar="thin">{/* page content */}</Panel>
   </AppFrame.Main>
-</AppFrame>
+</AppFrame.Root>
 ```
 
 ### Examples
 
 <ComponentPreview frame title="Sidebar and main content">
   <div style={{ height: 320, width: '100%' }}>
-    <AppFrame height="full">
-      <Sidebar variant="docked" hoverBehaviour="tooltip" width="200px">
+    <AppFrame.Root height="full">
+      <Sidebar.Root variant="docked" hoverBehaviour="tooltip" width="200px">
         <Panel padding="sm" divider="bottom">
-          <SidebarHeader
+          <Sidebar.Header
             title={
               <Heading as="h4" size="sm">
                 App
               </Heading>
             }
           >
-            <SidebarToggle />
-          </SidebarHeader>
+            <Sidebar.Toggle />
+          </Sidebar.Header>
         </Panel>
         <Panel scrollbar="thin" padding="sm">
-          <SideNav aria-label="Example navigation">
-            <SideNavItem label="Dashboard" active />
-            <SideNavItem label="Projects" />
-            <SideNavItem label="Settings" />
-          </SideNav>
+          <SideNav.Root aria-label="Example navigation">
+            <SideNav.Item label="Dashboard" active />
+            <SideNav.Item label="Projects" />
+            <SideNav.Item label="Settings" />
+          </SideNav.Root>
         </Panel>
-      </Sidebar>
-      <AppFrameMain as="div">
+      </Sidebar.Root>
+      <AppFrame.Main as="div">
         <Panel as="header" divider="bottom" padding="sm">
           <VStack style={{ minHeight: 'var(--theme-size-sm)' }} align="center">
             <Heading as="h4" size="sm">
@@ -86,8 +74,8 @@ import { AppFrame, Sidebar, Panel } from '@cumulo/core';
             ))}
           </Flow>
         </Panel>
-      </AppFrameMain>
-    </AppFrame>
+      </AppFrame.Main>
+    </AppFrame.Root>
   </div>
 </ComponentPreview>
 
@@ -95,7 +83,7 @@ import { AppFrame, Sidebar, Panel } from '@cumulo/core';
 
 The `height` prop sets how the frame fills vertical space.
 
-<Table variant="bordered">
+<Table.Root variant="bordered">
   <Table.Header>
     <Table.Row>
       <Table.Head>Value</Table.Head>
@@ -130,7 +118,7 @@ The `height` prop sets how the frame fills vertical space.
       </Table.Cell>
     </Table.Row>
   </Table.Body>
-</Table>
+</Table.Root>
 
 ### Accessibility
 

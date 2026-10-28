@@ -27,6 +27,7 @@
     "@changesets/cli": "^3.0.1",
     "@parcel/packager-react-static": "2.16.4",
     "@parcel/runtime-rsc": "2.16.4",
+    "@parcel/transformer-inline-string": "2.16.4",
     "@parcel/transformer-react-static": "2.16.4",
     "@types/node": "^24",
     "buffer": "^6.0.3",

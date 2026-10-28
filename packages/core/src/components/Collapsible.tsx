@@ -30,23 +30,21 @@ export interface CollapsibleContextValue {
   registerPart: (part: CollapsiblePart, id: string) => () => void;
 }
 
-export const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
+const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
 
-export const useCollapsibleContext = (): CollapsibleContextValue => {
+export const useCollapsible = (): CollapsibleContextValue => {
   const context = use(CollapsibleContext);
   if (!context) {
-    throw new Error('useCollapsibleContext must be used within a Collapsible.Root');
+    throw new Error('useCollapsible must be used within a Collapsible.Root');
   }
   return context;
 };
-
-export const useCollapsible = useCollapsibleContext;
 
 /* -------------------------------------------------------------------------------------------------
  * CollapsibleRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface CollapsibleProps extends ElementProps<HTMLDivElement> {
+interface CollapsibleProps extends ElementProps<HTMLDivElement> {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -54,7 +52,7 @@ export interface CollapsibleProps extends ElementProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export function CollapsibleRoot({
+function CollapsibleRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
@@ -118,9 +116,9 @@ export function CollapsibleRoot({
  * CollapsibleTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export type CollapsibleTriggerProps = ButtonProps;
+type CollapsibleTriggerProps = ButtonProps;
 
-export function CollapsibleTrigger({
+function CollapsibleTrigger({
   id: providedId,
   children,
   onClick,
@@ -130,8 +128,7 @@ export function CollapsibleTrigger({
   'aria-controls': ariaControls,
   ...props
 }: CollapsibleTriggerProps): React.JSX.Element {
-  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } =
-    useCollapsibleContext();
+  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } = useCollapsible();
   const id = providedId || triggerId;
 
   useEffect(() => {
@@ -175,12 +172,12 @@ export function CollapsibleTrigger({
  * CollapsibleContent
  * -----------------------------------------------------------------------------------------------*/
 
-export interface CollapsibleContentProps extends ElementProps<HTMLElement> {
+interface CollapsibleContentProps extends ElementProps<HTMLElement> {
   children?: ReactNode;
   innerClassName?: string;
 }
 
-export const collapsibleContentRecipe = recipe(
+const collapsibleContentRecipe = recipe(
   {
     base: {
       display: 'grid',
@@ -214,9 +211,10 @@ export const collapsibleContentRecipe = recipe(
 
 const collapsibleInnerStyle = style({
   minHeight: 0,
+  minWidth: 0,
 });
 
-export function CollapsibleContent({
+function CollapsibleContent({
   id: providedId,
   children,
   className,
@@ -225,7 +223,7 @@ export function CollapsibleContent({
   'aria-labelledby': ariaLabelledby,
   ...props
 }: CollapsibleContentProps): React.JSX.Element {
-  const { open, contentId, triggerId, registerPart } = useCollapsibleContext();
+  const { open, contentId, triggerId, registerPart } = useCollapsible();
   const id = providedId || contentId;
 
   useEffect(() => {
@@ -252,8 +250,10 @@ CollapsibleRoot.displayName = 'Collapsible.Root';
 CollapsibleTrigger.displayName = 'Collapsible.Trigger';
 CollapsibleContent.displayName = 'Collapsible.Content';
 
-export const Collapsible = Object.assign(CollapsibleRoot, {
-  Root: CollapsibleRoot,
-  Trigger: CollapsibleTrigger,
-  Content: CollapsibleContent,
-});
+export { CollapsibleRoot as Root, CollapsibleTrigger as Trigger, CollapsibleContent as Content };
+
+export type {
+  CollapsibleProps as RootProps,
+  CollapsibleTriggerProps as TriggerProps,
+  CollapsibleContentProps as ContentProps,
+};

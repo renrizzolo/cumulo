@@ -57,10 +57,10 @@ Before completing your response, re-read your generated code and verify:
 ## Component directory
 
 ### App layout
-- `AppFrame`: Root layout shell with header, sidebar, and content panel slots.
+- `AppFrame`: Root layout shell placing a sidebar beside the main column. Subcomponents: `AppFrame.Root`, `AppFrame.Main`.
 - `Panel`: Elevated application surface with header, body, and footer sections.
-- `Sidebar`: Collapsible sidebar navigation. Subcomponents: `Sidebar.Toggle`, `Sidebar.Header`, `Sidebar.Body`, `Sidebar.Footer`. Hook: `useSidebar()`.
-- `SideNav`: Vertical navigation link list. Subcomponents: `SideNav.Item`, `SideNav.Group`.
+- `Sidebar`: Collapsible sidebar navigation. Subcomponents: `Sidebar.Root`, `Sidebar.Provider`, `Sidebar.Toggle`, `Sidebar.Header`, `Sidebar.Footer`. Hook: `useSidebar()`.
+- `SideNav`: Vertical navigation link list. Subcomponents: `SideNav.Root`, `SideNav.Item`, `SideNav.Group`, `SideNav.GroupTrigger`, `SideNav.GroupContent`.
 - `Header`: Application top navigation bar.
 
 ### Layout and spacing
@@ -70,10 +70,10 @@ Before completing your response, re-read your generated code and verify:
 - `Container`: Centered layout wrapper. Props: `size` ('sm' | 'md' | 'lg' | 'xl' | 'full'), `padding`.
 - `Flow`: Spaced document flow for prose and articles. Props: `gap`.
 - `Divider`: Visual separator. Props: `orientation` ('horizontal' | 'vertical').
-- `Table`: Tabular layout. Props: `variant` ('bordered' | 'striped' | 'subtle').
+- `Table`: Tabular layout. Subcomponents: `Table.Root`, `Table.Caption`, `Table.Header`, `Table.Body`, `Table.Row`, `Table.Head`, `Table.Cell`. Props on `Table.Root`: `variant`, `interactive`.
 
 ### Forms and input
-- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Textarea`, `Field.Error`, `Field.Description`, `Field.Group`).
+- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Radio`, `Field.RadioList`, `Field.Error`, `Field.Description`, `Field.Group`).
 - `Input`: Standalone text input. Variants: `intent` ('primary' | 'error'), `size` ('sm' | 'md' | 'lg').
 - `Textarea`: Standalone multi-line text input.
 - `Checkbox`: Accessible native checkbox with label and description.
@@ -83,13 +83,13 @@ Before completing your response, re-read your generated code and verify:
 - `Label`: Accessible label component (`htmlFor`).
 
 ### Overlays (native top-layer)
-- `Dialog`: Native HTML5 modal dialog with focus trapping and backdrop. Subcomponents: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Portal`, `Dialog.Content`, `Dialog.Close`.
+- `Dialog`: Native HTML5 modal dialog with focus trapping and backdrop. Subcomponents: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`, `Dialog.Header`, `Dialog.Title`, `Dialog.Description`, `Dialog.Close`.
 - `Popover`: Native `popover="auto"` with CSS anchor positioning. Subcomponents: `Popover.Root`, `Popover.Trigger`, `Popover.Content`.
-- `Tooltip`: Native `popover="manual"` tooltip anchored to trigger. Never clipped by scroll boundaries.
+- `Tooltip`: Native `popover="manual"` tooltip anchored to trigger. Never clipped by scroll boundaries. Subcomponents: `Tooltip.Root`, `Tooltip.Trigger`, `Tooltip.Content`.
 
 ### Navigation and tabs
 - `Tabs`: Accessible tabs with roving keyboard focus. Subcomponents: `Tabs.Root`, `Tabs.List`, `Tabs.Trigger`, `Tabs.Content`.
-- `ButtonGroup`: Connected or segmented button container.
+- `ButtonGroup`: Connected or segmented button container. Subcomponents: `ButtonGroup.Root`, `ButtonGroup.Item`.
 
 ### Feedback and display
 - `Button`: Core interactive button. Variants: `variant` ('primary' | 'secondary' | 'outline' | 'ghost'), `intent` ('primary' | 'success' | 'warning' | 'error' | 'neutral'), `size` ('sm' | 'md' | 'lg').

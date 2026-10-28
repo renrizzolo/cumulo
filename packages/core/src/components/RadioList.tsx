@@ -23,7 +23,7 @@ export interface RadioListContextValue {
 
 export const RadioListContext = createContext<RadioListContextValue | null>(null);
 
-export const useRadioListContext = (): RadioListContextValue | null => {
+export const useRadioList = (): RadioListContextValue | null => {
   return useContext(RadioListContext);
 };
 

@@ -1,22 +1,9 @@
-import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import {
-  Radio,
-  RadioList,
-  Field,
-  FieldRoot,
-  FieldLabel,
-  FieldDescription,
-  FieldError,
-  FieldRadio,
-  FieldRadioList,
-  HStack,
-  VStack,
-  Text,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Radio, RadioList, HStack, VStack, Text } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
 import radioDoc from '../../../docgen/components/Radio.json';
 import radioListDoc from '../../../docgen/components/RadioList.json';
 export default Layout;
-export { CodeBlock, PropsTable, ComponentPreview };
 
 # Radio & RadioList
 
@@ -103,39 +90,39 @@ When used inside a `FieldRoot`, `FieldRadioList` and `FieldRadio` seamlessly wir
   title="Field RadioList Integration"
 >
   <VStack gap="lg">
-    <FieldRoot>
-      <FieldLabel>Notification Channel</FieldLabel>
-      <FieldDescription>Choose where you would like to receive product notifications.</FieldDescription>
-      <FieldRadioList defaultValue="email">
+    <Field.Root>
+      <Field.Label>Notification Channel</Field.Label>
+      <Field.Description>Choose where you would like to receive product notifications.</Field.Description>
+      <Field.RadioList defaultValue="email">
         <HStack gap="xs" align="center">
-          <FieldRadio id="notify-email" value="email" />
+          <Field.Radio id="notify-email" value="email" />
           <label htmlFor="notify-email">Email Notifications</label>
         </HStack>
         <HStack gap="xs" align="center">
-          <FieldRadio id="notify-sms" value="sms" />
+          <Field.Radio id="notify-sms" value="sms" />
           <label htmlFor="notify-sms">SMS Notifications</label>
         </HStack>
         <HStack gap="xs" align="center">
-          <FieldRadio id="notify-slack" value="slack" />
+          <Field.Radio id="notify-slack" value="slack" />
           <label htmlFor="notify-slack">Slack Direct Message</label>
         </HStack>
-      </FieldRadioList>
-    </FieldRoot>
+      </Field.RadioList>
+    </Field.Root>
 
-    <FieldRoot isInvalid>
-      <FieldLabel>Shipping Speed</FieldLabel>
-      <FieldRadioList>
+    <Field.Root isInvalid>
+      <Field.Label>Shipping Speed</Field.Label>
+      <Field.RadioList>
         <HStack gap="xs" align="center">
-          <FieldRadio id="ship-standard" value="standard" />
+          <Field.Radio id="ship-standard" value="standard" />
           <label htmlFor="ship-standard">Standard (3-5 business days)</label>
         </HStack>
         <HStack gap="xs" align="center">
-          <FieldRadio id="ship-express" value="express" />
+          <Field.Radio id="ship-express" value="express" />
           <label htmlFor="ship-express">Express (Next day)</label>
         </HStack>
-      </FieldRadioList>
-      <FieldError>Please choose a shipping speed to continue.</FieldError>
-    </FieldRoot>
+      </Field.RadioList>
+      <Field.Error>Please choose a shipping speed to continue.</Field.Error>
+    </Field.Root>
 
   </VStack>
 </ComponentPreview>

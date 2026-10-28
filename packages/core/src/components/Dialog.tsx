@@ -39,23 +39,21 @@ export interface DialogContextValue {
   registerPart: (part: DialogPart, id: string) => () => void;
 }
 
-export const DialogContext = createContext<DialogContextValue | null>(null);
+const DialogContext = createContext<DialogContextValue | null>(null);
 
-export const useDialogContext = (): DialogContextValue => {
+export const useDialog = (): DialogContextValue => {
   const context = useContext(DialogContext);
   if (!context) {
-    throw new Error('useDialogContext must be used within a Dialog.Root');
+    throw new Error('useDialog must be used within a Dialog.Root');
   }
   return context;
 };
-
-export const useDialog = useDialogContext;
 
 /* -------------------------------------------------------------------------------------------------
  * DialogRoot
  * -----------------------------------------------------------------------------------------------*/
 
-export interface DialogProps {
+interface DialogProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -63,7 +61,7 @@ export interface DialogProps {
   id?: string;
 }
 
-export function DialogRoot({
+function DialogRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
@@ -124,9 +122,9 @@ export function DialogRoot({
  * DialogTrigger
  * -----------------------------------------------------------------------------------------------*/
 
-export type DialogTriggerProps = ButtonProps;
+type DialogTriggerProps = ButtonProps;
 
-export function DialogTrigger({
+function DialogTrigger({
   id: providedId,
   children,
   onClick,
@@ -134,7 +132,7 @@ export function DialogTrigger({
   'aria-controls': ariaControls,
   ...props
 }: DialogTriggerProps): React.JSX.Element {
-  const { onOpenToggle, contentId } = useDialogContext();
+  const { onOpenToggle, contentId } = useDialog();
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -165,7 +163,7 @@ export function DialogTrigger({
  * DialogContent
  * -----------------------------------------------------------------------------------------------*/
 
-export const dialogRecipe = recipe(
+const dialogRecipe = recipe(
   {
     base: {
       margin: 'auto',
@@ -204,14 +202,14 @@ export const dialogRecipe = recipe(
   'dialog-content',
 );
 
-export type DialogVariants = RecipeVariants<typeof dialogRecipe>;
+type DialogVariants = RecipeVariants<typeof dialogRecipe>;
 
-export interface DialogContentProps extends ElementProps<HTMLDialogElement> {
+interface DialogContentProps extends ElementProps<HTMLDialogElement> {
   size?: DialogVariants['size'];
   children?: ReactNode;
 }
 
-export function DialogContent({
+function DialogContent({
   id: providedId,
   size = 'md',
   className,
@@ -221,8 +219,7 @@ export function DialogContent({
   ref,
   ...props
 }: DialogContentProps): React.JSX.Element {
-  const { open, setOpen, dialogRef, titleId, descriptionId, contentId, registerPart } =
-    useDialogContext();
+  const { open, setOpen, dialogRef, titleId, descriptionId, contentId, registerPart } = useDialog();
   const id = providedId || contentId;
 
   const handleClose = useCallback(() => {
@@ -288,7 +285,7 @@ export function DialogContent({
  * DialogHeader
  * -----------------------------------------------------------------------------------------------*/
 
-export function DialogHeader({
+function DialogHeader({
   className,
   children,
   ref,
@@ -305,7 +302,7 @@ export function DialogHeader({
  * DialogTitle
  * -----------------------------------------------------------------------------------------------*/
 
-export function DialogTitle({
+function DialogTitle({
   id: providedId,
   className,
   children,
@@ -313,7 +310,7 @@ export function DialogTitle({
   as = 'h2',
   ...props
 }: HeadingProps): React.JSX.Element {
-  const { titleId, registerPart } = useDialogContext();
+  const { titleId, registerPart } = useDialog();
   const id = providedId || titleId;
 
   useEffect(() => {
@@ -333,14 +330,14 @@ export function DialogTitle({
  * DialogDescription
  * -----------------------------------------------------------------------------------------------*/
 
-export function DialogDescription({
+function DialogDescription({
   id: providedId,
   className,
   children,
   color = 'default',
   ...props
 }: TextProps): React.JSX.Element {
-  const { descriptionId, registerPart } = useDialogContext();
+  const { descriptionId, registerPart } = useDialog();
   const id = providedId || descriptionId;
 
   useEffect(() => {
@@ -360,13 +357,13 @@ export function DialogDescription({
  * DialogClose
  * -----------------------------------------------------------------------------------------------*/
 
-export function DialogClose({
+function DialogClose({
   onClick,
   children,
   variant = 'secondary',
   ...props
 }: ButtonProps): React.JSX.Element {
-  const { close } = useDialogContext();
+  const { close } = useDialog();
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -390,15 +387,31 @@ DialogTrigger.displayName = 'Dialog.Trigger';
 DialogContent.displayName = 'Dialog.Content';
 DialogHeader.displayName = 'Dialog.Header';
 DialogTitle.displayName = 'Dialog.Title';
-DialogDescription.displayName = 'Dialog.Description';
+DialogDescription.displayName = 'Di alog.Description';
 DialogClose.displayName = 'Dialog.Close';
 
-export const Dialog = Object.assign(DialogRoot, {
-  Root: DialogRoot,
-  Trigger: DialogTrigger,
-  Content: DialogContent,
-  Header: DialogHeader,
-  Title: DialogTitle,
-  Description: DialogDescription,
-  Close: DialogClose,
-});
+type DialogHeaderProps = ElementProps<HTMLDivElement>;
+type DialogTitleProps = HeadingProps;
+type DialogDescriptionProps = TextProps;
+type DialogCloseProps = ButtonProps;
+
+export {
+  DialogRoot as Root,
+  DialogTrigger as Trigger,
+  DialogContent as Content,
+  DialogHeader as Header,
+  DialogTitle as Title,
+  DialogDescription as Description,
+  DialogClose as Close,
+};
+
+export type {
+  DialogProps as RootProps,
+  DialogTriggerProps as TriggerProps,
+  DialogContentProps as ContentProps,
+  DialogHeaderProps as HeaderProps,
+  DialogTitleProps as TitleProps,
+  DialogDescriptionProps as DescriptionProps,
+  DialogCloseProps as CloseProps,
+  DialogVariants as ContentVariants,
+};

@@ -19,7 +19,7 @@ export const sidebarContract = createThemeContract(
 
 const defaultFloatingMargin = vars.spacing.sm;
 
-export const sidebarRecipe = recipe(
+const sidebarRecipe = recipe(
   {
     base: {
       display: 'flex',
@@ -166,12 +166,12 @@ export const sidebarRecipe = recipe(
   'sidebar',
 );
 
-export type SidebarVariants = RecipeVariants<typeof sidebarRecipe>;
-export type SidebarType = NonNullable<SidebarVariants['type']>;
-export type SidebarVariant = NonNullable<SidebarVariants['variant']>;
-export type SidebarPosition = NonNullable<SidebarVariants['position']>;
-export type SidebarHoverBehavior = 'expand' | 'tooltip' | 'none';
-export type SidebarLevel = 0 | 1 | 2;
+type SidebarVariants = RecipeVariants<typeof sidebarRecipe>;
+type SidebarType = NonNullable<SidebarVariants['type']>;
+type SidebarVariant = NonNullable<SidebarVariants['variant']>;
+type SidebarPosition = NonNullable<SidebarVariants['position']>;
+type SidebarHoverBehavior = 'expand' | 'tooltip' | 'none';
+type SidebarLevel = 0 | 1 | 2;
 
 export interface SidebarContextValue {
   /**
@@ -249,7 +249,7 @@ export function useSidebar(): SidebarContextValue {
   return contextValue;
 }
 
-export interface SidebarProviderProps {
+interface SidebarProviderProps {
   /**
    * Expansion type of the sidebar:
    * - `'push'`: Expands within document flow, pushing adjacent content.
@@ -300,7 +300,7 @@ export interface SidebarProviderProps {
   children?: React.ReactNode;
 }
 
-export function SidebarProvider({
+function SidebarProvider({
   type = 'push',
   collapsed: controlledCollapsed,
   defaultCollapsed = false,
@@ -319,7 +319,12 @@ export function SidebarProvider({
     isHoveredRef.current = hovered;
     setHoveredState(hovered);
   }, []);
-  const [isFocused, setFocused] = useState(false);
+  const isFocusedRef = useRef(false);
+  const [isFocused, setFocusedState] = useState(false);
+  const setFocused = useCallback((focused: boolean) => {
+    isFocusedRef.current = focused;
+    setFocusedState(focused);
+  }, []);
 
   const isControlled = controlledCollapsed !== undefined;
   const isCollapsed = isControlled ? controlledCollapsed : uncontrolledCollapsed;
@@ -333,7 +338,7 @@ export function SidebarProvider({
       if (!isControlled) {
         setUncontrolledCollapsed(collapsed);
       }
-      if (collapsed && isHoveredRef.current) {
+      if (collapsed && (isHoveredRef.current || isFocusedRef.current)) {
         setHoverSuppressed(true);
       } else {
         setHoverSuppressed(false);
@@ -385,7 +390,7 @@ export function SidebarProvider({
 
 SidebarProvider.displayName = 'Sidebar.Provider';
 
-export interface SidebarRootProps extends ElementProps<HTMLDivElement> {
+interface SidebarRootProps extends ElementProps<HTMLDivElement> {
   /**
    * Override expansion type (`'push'` or `'overlay'`). If omitted, uses type from SidebarProvider.
    * @default 'push'
@@ -433,7 +438,7 @@ export interface SidebarRootProps extends ElementProps<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export function SidebarRoot({
+function SidebarRoot({
   type: typeProp,
   variant: variantProp,
   position: positionProp,
@@ -551,7 +556,7 @@ export function SidebarRoot({
 
 SidebarRoot.displayName = 'Sidebar.Root';
 
-export type SidebarProps = SidebarProviderProps & SidebarRootProps;
+type SidebarProps = SidebarProviderProps & SidebarRootProps;
 
 const toggleIconStyle = style({
   width: '18px',
@@ -559,11 +564,11 @@ const toggleIconStyle = style({
   flexShrink: 0,
 });
 
-export interface SidebarToggleProps extends ButtonProps {
+interface SidebarToggleProps extends ButtonProps {
   children?: React.ReactNode;
 }
 
-export function SidebarToggle({
+function SidebarToggle({
   className,
   children,
   onClick,
@@ -666,7 +671,7 @@ const sidebarHeaderActionsStyle = style({
   marginLeft: 'auto',
 });
 
-export interface SidebarHeaderProps extends ElementProps<HTMLDivElement> {
+interface SidebarHeaderProps extends ElementProps<HTMLDivElement> {
   /**
    * Title content displayed when the sidebar is expanded.
    */
@@ -681,7 +686,7 @@ export interface SidebarHeaderProps extends ElementProps<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export function SidebarHeader({
+function SidebarHeader({
   title,
   titleCollapsed,
   className,
@@ -742,11 +747,11 @@ const sidebarFooterContentStyle = style({
   },
 });
 
-export interface SidebarFooterProps extends ElementProps<HTMLDivElement> {
+interface SidebarFooterProps extends ElementProps<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
-export function SidebarFooter({
+function SidebarFooter({
   className,
   children,
   ref,
@@ -761,7 +766,7 @@ export function SidebarFooter({
 
 SidebarFooter.displayName = 'Sidebar.Footer';
 
-export function SidebarCombined({
+function SidebarCombined({
   type,
   collapsed,
   defaultCollapsed,
@@ -807,10 +812,39 @@ export function SidebarCombined({
 
 SidebarCombined.displayName = 'Sidebar';
 
-export const Sidebar = Object.assign(SidebarCombined, {
-  Root: SidebarRoot,
-  Provider: SidebarProvider,
-  Toggle: SidebarToggle,
-  Header: SidebarHeader,
-  Footer: SidebarFooter,
-});
+function SidebarSmartRoot(props: SidebarProps): React.JSX.Element {
+  const context = use(SidebarContext);
+  const hasProviderProps =
+    props.collapsed !== undefined ||
+    props.defaultCollapsed !== undefined ||
+    props.onCollapsedChange !== undefined ||
+    props.hoverBehaviour !== undefined;
+
+  if (context && !hasProviderProps) {
+    return <SidebarRoot {...props} />;
+  }
+  return <SidebarCombined {...props} />;
+}
+SidebarSmartRoot.displayName = 'Sidebar.Root';
+
+export {
+  SidebarSmartRoot as Root,
+  SidebarProvider as Provider,
+  SidebarToggle as Toggle,
+  SidebarHeader as Header,
+  SidebarFooter as Footer,
+};
+
+export type {
+  SidebarProps as RootProps,
+  SidebarProviderProps as ProviderProps,
+  SidebarToggleProps as ToggleProps,
+  SidebarHeaderProps as HeaderProps,
+  SidebarFooterProps as FooterProps,
+  SidebarVariants as ContentVariants,
+  SidebarType,
+  SidebarVariant,
+  SidebarPosition,
+  SidebarHoverBehavior,
+  SidebarLevel,
+};

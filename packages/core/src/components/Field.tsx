@@ -25,10 +25,10 @@ export interface FieldContextValue {
 
 export const FieldContext = createContext<FieldContextValue | null>(null);
 
-export const useFieldContext = (): FieldContextValue => {
+export const useField = (): FieldContextValue => {
   const field = use(FieldContext);
   if (!field) {
-    throw new Error('useFieldContext must be used within a FieldRoot');
+    throw new Error('useField must be used within a Field.Root');
   }
   return field;
 };
@@ -39,9 +39,9 @@ const fieldIds = {
   label: (id: string) => `${id}-label`,
 };
 
-export type FieldGroupVariants = StackVariants;
+type FieldGroupVariants = StackVariants;
 
-export interface FieldGroupProps extends StackProps {}
+interface FieldGroupProps extends StackProps {}
 
 const fieldDescriptionStyle = style({
   fontSize: vars.font.size.xs,
@@ -59,12 +59,12 @@ const fieldErrorStyle = style({
   fontFamily: vars.font.sans,
 });
 
-export interface FieldProps extends StackProps {
+interface FieldProps extends StackProps {
   children?: React.ReactNode;
   isInvalid?: boolean;
 }
 
-export function FieldRoot({
+function FieldRoot({
   id: providedId,
   className,
   children,
@@ -107,14 +107,14 @@ export interface UseFieldItemOptions {
   intent?: 'default' | 'error';
 }
 
-export function useFieldItem({
+function useFieldItem({
   part = 'input',
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
   intent,
 }: UseFieldItemOptions = {}) {
-  const { hasError: fieldHasError, getPartId, id: fieldId, registerPart } = useFieldContext();
+  const { hasError: fieldHasError, getPartId, id: fieldId, registerPart } = useField();
   const id = providedId || fieldId;
 
   useEffect(() => {
@@ -142,7 +142,7 @@ export function useFieldItem({
   };
 }
 
-export function FieldInput({
+function FieldInput({
   className,
   type,
   value,
@@ -179,7 +179,7 @@ export function FieldInput({
   );
 }
 
-export function FieldGroup({
+function FieldGroup({
   direction = 'column',
   gap = 'md',
   align = 'stretch',
@@ -188,13 +188,13 @@ export function FieldGroup({
   return <Stack direction={direction} gap={gap} align={align} {...props} />;
 }
 
-export function FieldDescription({
+function FieldDescription({
   children,
   id: providedId,
   className,
   ...props
 }: ElementProps<HTMLParagraphElement>) {
-  const { id: fieldId, registerPart } = useFieldContext();
+  const { id: fieldId, registerPart } = useField();
   const id = providedId || fieldIds.description(fieldId);
 
   useEffect(() => {
@@ -208,12 +208,12 @@ export function FieldDescription({
   );
 }
 
-export interface FieldErrorProps extends ElementProps<HTMLParagraphElement> {
+interface FieldErrorProps extends ElementProps<HTMLParagraphElement> {
   children?: React.ReactNode;
 }
 
-export function FieldError({ children, id: providedId, className, ...props }: FieldErrorProps) {
-  const { id: fieldId, registerPart } = useFieldContext();
+function FieldError({ children, id: providedId, className, ...props }: FieldErrorProps) {
+  const { id: fieldId, registerPart } = useField();
   const id = providedId || fieldIds.error(fieldId);
 
   useEffect(() => {
@@ -227,13 +227,8 @@ export function FieldError({ children, id: providedId, className, ...props }: Fi
   );
 }
 
-export function FieldLabel({
-  children,
-  id: providedId,
-  htmlFor: providedHtmlFor,
-  ...props
-}: LabelProps) {
-  const { registerPart, getPartId, id: fieldId } = useFieldContext();
+function FieldLabel({ children, id: providedId, htmlFor: providedHtmlFor, ...props }: LabelProps) {
+  const { registerPart, getPartId, id: fieldId } = useField();
   const id = providedId || fieldIds.label(fieldId);
   const htmlFor = providedHtmlFor || getPartId('input') || fieldId;
 
@@ -248,7 +243,7 @@ export function FieldLabel({
   );
 }
 
-export function FieldTextarea({
+function FieldTextarea({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
@@ -277,7 +272,7 @@ export function FieldTextarea({
   );
 }
 
-export function FieldCheckbox({
+function FieldCheckbox({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
@@ -306,7 +301,7 @@ export function FieldCheckbox({
   );
 }
 
-export function FieldSwitch({
+function FieldSwitch({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
@@ -335,7 +330,7 @@ export function FieldSwitch({
   );
 }
 
-export function FieldRadio({
+function FieldRadio({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
@@ -364,7 +359,7 @@ export function FieldRadio({
   );
 }
 
-export function FieldRadioList({
+function FieldRadioList({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
@@ -401,16 +396,40 @@ FieldError.displayName = 'Field.Error';
 FieldDescription.displayName = 'Field.Description';
 FieldGroup.displayName = 'Field.Group';
 
-export const Field = Object.assign(FieldRoot, {
-  Root: FieldRoot,
-  Input: FieldInput,
-  Textarea: FieldTextarea,
-  Checkbox: FieldCheckbox,
-  Switch: FieldSwitch,
-  Radio: FieldRadio,
-  RadioList: FieldRadioList,
-  Label: FieldLabel,
-  Error: FieldError,
-  Description: FieldDescription,
-  Group: FieldGroup,
-});
+type FieldInputProps = InputProps;
+type FieldTextareaProps = TextareaProps;
+type FieldCheckboxProps = CheckboxProps;
+type FieldSwitchProps = SwitchProps;
+type FieldRadioProps = RadioProps;
+type FieldRadioListProps = RadioListProps;
+type FieldLabelProps = LabelProps;
+type FieldDescriptionProps = ElementProps<HTMLParagraphElement>;
+
+export {
+  FieldRoot as Root,
+  FieldInput as Input,
+  FieldTextarea as Textarea,
+  FieldCheckbox as Checkbox,
+  FieldSwitch as Switch,
+  FieldRadio as Radio,
+  FieldRadioList as RadioList,
+  FieldLabel as Label,
+  FieldError as Error,
+  FieldDescription as Description,
+  FieldGroup as Group,
+};
+
+export type {
+  FieldProps as RootProps,
+  FieldInputProps as InputProps,
+  FieldTextareaProps as TextareaProps,
+  FieldCheckboxProps as CheckboxProps,
+  FieldSwitchProps as SwitchProps,
+  FieldRadioProps as RadioProps,
+  FieldRadioListProps as RadioListProps,
+  FieldLabelProps as LabelProps,
+  FieldErrorProps as ErrorProps,
+  FieldDescriptionProps as DescriptionProps,
+  FieldGroupProps as GroupProps,
+  FieldGroupVariants as GroupVariants,
+};

@@ -14,8 +14,8 @@ import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { Stack, StackProps } from './Stack.js';
 
-export type ButtonGroupOrientation = 'horizontal' | 'vertical';
-export type ButtonGroupSize = NonNullable<ButtonVariants['size']>;
+type ButtonGroupOrientation = 'horizontal' | 'vertical';
+type ButtonGroupSize = NonNullable<ButtonVariants['size']>;
 
 export interface ButtonGroupContextValue {
   value?: string;
@@ -25,17 +25,17 @@ export interface ButtonGroupContextValue {
   orientation?: ButtonGroupOrientation;
 }
 
-export const ButtonGroupContext = createContext<ButtonGroupContextValue | null>(null);
+const ButtonGroupContext = createContext<ButtonGroupContextValue | null>(null);
 
-export const useButtonGroupContext = (): ButtonGroupContextValue => {
+export const useButtonGroup = (): ButtonGroupContextValue => {
   const context = useContext(ButtonGroupContext);
   if (!context) {
-    throw new Error('useButtonGroupContext must be used within a ButtonGroupRoot');
+    throw new Error('useButtonGroup must be used within a ButtonGroup.Root');
   }
   return context;
 };
 
-export interface ButtonGroupRootProps<T extends string = string> extends Omit<
+interface ButtonGroupRootProps<T extends string = string> extends Omit<
   StackProps,
   'defaultValue' | 'onChange'
 > {
@@ -49,7 +49,7 @@ export interface ButtonGroupRootProps<T extends string = string> extends Omit<
   children?: ReactNode;
 }
 
-export function ButtonGroupRoot<T extends string>({
+function ButtonGroupRoot<T extends string>({
   value: controlledValue,
   defaultValue = '',
   onValueChange,
@@ -128,12 +128,12 @@ export function ButtonGroupRoot<T extends string>({
   );
 }
 
-export interface ButtonGroupItemProps extends Omit<ButtonProps, 'value'> {
+interface ButtonGroupItemProps extends Omit<ButtonProps, 'value'> {
   value: string;
   active?: boolean;
 }
 
-export function ButtonGroupItem({
+function ButtonGroupItem({
   value,
   active: propActive,
   disabled: itemDisabled,
@@ -179,7 +179,11 @@ export function ButtonGroupItem({
 ButtonGroupRoot.displayName = 'ButtonGroup.Root';
 ButtonGroupItem.displayName = 'ButtonGroup.Item';
 
-export const ButtonGroup = Object.assign(ButtonGroupRoot, {
-  Root: ButtonGroupRoot,
-  Item: ButtonGroupItem,
-});
+export { ButtonGroupRoot as Root, ButtonGroupItem as Item };
+
+export type {
+  ButtonGroupRootProps as RootProps,
+  ButtonGroupItemProps as ItemProps,
+  ButtonGroupOrientation,
+  ButtonGroupSize,
+};

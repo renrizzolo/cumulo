@@ -1,17 +1,8 @@
-import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  Tooltip,
-  TooltipRoot,
-  TooltipTrigger,
-  TooltipContent,
-  Button,
-  VStack,
-  HStack,
-  Text,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { HStack } from '@cumulo/core';
+import * as Tooltip from '@cumulo/core/components/Tooltip';
 import tooltipDoc from '../../../docgen/components/Tooltip.json';
 export default Layout;
-export { CodeBlock, ComponentPreview, PropsTable };
 
 # Tooltip
 
@@ -25,19 +16,19 @@ import { Tooltip } from '@cumulo/core';
 
 <ComponentPreview title="Native Tooltip">
   <HStack gap="md" align="center">
-    <TooltipRoot>
-      <TooltipTrigger variant="secondary">Hover for details</TooltipTrigger>
-      <TooltipContent placement="top">
+    <Tooltip.Root>
+      <Tooltip.Trigger variant="secondary">Hover for details</Tooltip.Trigger>
+      <Tooltip.Content placement="top">
         Contextual hint displayed in the top layer
-      </TooltipContent>
-    </TooltipRoot>
+      </Tooltip.Content>
+    </Tooltip.Root>
 
-    <TooltipRoot delay={200}>
-      <TooltipTrigger variant="outline">Delayed Tooltip</TooltipTrigger>
-      <TooltipContent placement="bottom">
+    <Tooltip.Root delay={200}>
+      <Tooltip.Trigger variant="outline">Delayed Tooltip</Tooltip.Trigger>
+      <Tooltip.Content placement="bottom">
         Opens with a 200ms delay
-      </TooltipContent>
-    </TooltipRoot>
+      </Tooltip.Content>
+    </Tooltip.Root>
 
   </HStack>
 </ComponentPreview>
@@ -46,30 +37,30 @@ import { Tooltip } from '@cumulo/core';
 
 <ComponentPreview title="Tooltip Placements">
   <HStack gap="sm" wrap="wrap">
-    <TooltipRoot>
-      <TooltipTrigger size="sm" variant="ghost">
+    <Tooltip.Root>
+      <Tooltip.Trigger size="sm" variant="ghost">
         Top
-      </TooltipTrigger>
-      <TooltipContent placement="top">Top tooltip</TooltipContent>
-    </TooltipRoot>
-    <TooltipRoot>
-      <TooltipTrigger size="sm" variant="ghost">
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="top">Top tooltip</Tooltip.Content>
+    </Tooltip.Root>
+    <Tooltip.Root>
+      <Tooltip.Trigger size="sm" variant="ghost">
         Right
-      </TooltipTrigger>
-      <TooltipContent placement="right">Right tooltip</TooltipContent>
-    </TooltipRoot>
-    <TooltipRoot>
-      <TooltipTrigger size="sm" variant="ghost">
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="right">Right tooltip</Tooltip.Content>
+    </Tooltip.Root>
+    <Tooltip.Root>
+      <Tooltip.Trigger size="sm" variant="ghost">
         Bottom
-      </TooltipTrigger>
-      <TooltipContent placement="bottom">Bottom tooltip</TooltipContent>
-    </TooltipRoot>
-    <TooltipRoot>
-      <TooltipTrigger size="sm" variant="ghost">
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="bottom">Bottom tooltip</Tooltip.Content>
+    </Tooltip.Root>
+    <Tooltip.Root>
+      <Tooltip.Trigger size="sm" variant="ghost">
         Left
-      </TooltipTrigger>
-      <TooltipContent placement="left">Left tooltip</TooltipContent>
-    </TooltipRoot>
+      </Tooltip.Trigger>
+      <Tooltip.Content placement="left">Left tooltip</Tooltip.Content>
+    </Tooltip.Root>
   </HStack>
 </ComponentPreview>
 

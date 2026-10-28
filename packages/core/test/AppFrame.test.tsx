@@ -2,33 +2,33 @@ import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
-import { AppFrame } from '../src/components/AppFrame.js';
-import { Sidebar } from '../src/components/Sidebar.js';
+import * as AppFrame from '../src/components/AppFrame.js';
+import * as Sidebar from '../src/components/Sidebar.js';
 import { Panel } from '../src/components/Panel.js';
-import { SideNav } from '../src/components/SideNav.js';
+import * as SideNav from '../src/components/SideNav.js';
 
 describe('AppFrame component', () => {
   it('renders without crashing', () => {
-    render(<AppFrame data-testid="frame">Frame Content</AppFrame>);
+    render(<AppFrame.Root data-testid="frame">Frame Content</AppFrame.Root>);
     expect(screen.getByTestId('frame')).toBeInTheDocument();
   });
 
   it('renders AppFrame.Main as a main landmark by default', () => {
     render(
-      <AppFrame>
+      <AppFrame.Root>
         <AppFrame.Main>Content</AppFrame.Main>
-      </AppFrame>,
+      </AppFrame.Root>,
     );
     expect(screen.getByRole('main')).toHaveTextContent('Content');
   });
 
   it('renders AppFrame.Main as a custom element via `as`', () => {
     render(
-      <AppFrame>
+      <AppFrame.Root>
         <AppFrame.Main as="div" data-testid="main">
           Content
         </AppFrame.Main>
-      </AppFrame>,
+      </AppFrame.Root>,
     );
     expect(screen.queryByRole('main')).not.toBeInTheDocument();
     expect(screen.getByTestId('main').tagName).toBe('DIV');
@@ -36,17 +36,17 @@ describe('AppFrame component', () => {
 
   it('composes full application structure with Sidebar, Panels, and AppFrame.Main', () => {
     render(
-      <AppFrame data-testid="app-frame">
-        <Sidebar variant="docked" position="left" hoverBehaviour="none" data-testid="sidebar">
+      <AppFrame.Root data-testid="app-frame">
+        <Sidebar.Root variant="docked" position="left" hoverBehaviour="none" data-testid="sidebar">
           <Panel divider="bottom" data-testid="sidebar-header">
             <Sidebar.Toggle />
           </Panel>
           <Panel scrollbar="thin" data-testid="sidebar-nav-panel">
-            <SideNav aria-label="App navigation">
+            <SideNav.Root aria-label="App navigation">
               <SideNav.Item label="Dashboard" />
-            </SideNav>
+            </SideNav.Root>
           </Panel>
-        </Sidebar>
+        </Sidebar.Root>
         <AppFrame.Main data-testid="main-content">
           <Panel as="header" divider="bottom" data-testid="main-header">
             Header Title
@@ -55,7 +55,7 @@ describe('AppFrame component', () => {
             Main Application Content
           </Panel>
         </AppFrame.Main>
-      </AppFrame>,
+      </AppFrame.Root>,
     );
 
     expect(screen.getByTestId('sidebar')).toBeInTheDocument();

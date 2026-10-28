@@ -1,33 +1,28 @@
-import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import {
-  FieldRoot,
-  FieldLabel,
-  FieldInput,
-  FieldDescription,
-  FieldError,
-  Container,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Container } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
 import fieldDoc from '../../../docgen/components/Field.json';
 export default Layout;
-export { CodeBlock, PropsTable, ComponentPreview };
 
 # Field
 
 Accessible compound form field coordinating labels, inputs, descriptions, and error states.
 
 ```tsx
-import { FieldRoot, FieldLabel, FieldInput, FieldDescription, FieldError } from '@cumulo/core';
+import { Field } from '@cumulo/core';
 ```
 
 ### Examples
 
 <ComponentPreview>
   <Container size="sm" padding="none">
-    <FieldRoot intent="primary">
-      <FieldLabel>Work Email</FieldLabel>
-      <FieldInput placeholder="you@company.com" />
-      <FieldDescription>We'll only use this for critical workspace notifications.</FieldDescription>
-    </FieldRoot>
+    <Field.Root intent="primary">
+      <Field.Label>Work Email</Field.Label>
+      <Field.Input placeholder="you@company.com" />
+      <Field.Description>
+        We'll only use this for critical workspace notifications.
+      </Field.Description>
+    </Field.Root>
   </Container>
 </ComponentPreview>
 
@@ -35,11 +30,11 @@ import { FieldRoot, FieldLabel, FieldInput, FieldDescription, FieldError } from 
 
 <ComponentPreview>
   <Container size="sm" padding="none">
-    <FieldRoot isInvalid>
-      <FieldLabel>Username</FieldLabel>
-      <FieldInput value="invalid_user@" readOnly />
-      <FieldError>Username cannot contain special symbols.</FieldError>
-    </FieldRoot>
+    <Field.Root isInvalid>
+      <Field.Label>Username</Field.Label>
+      <Field.Input value="invalid_user@" readOnly />
+      <Field.Error>Username cannot contain special symbols.</Field.Error>
+    </Field.Root>
   </Container>
 </ComponentPreview>
 

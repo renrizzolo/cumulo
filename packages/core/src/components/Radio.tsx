@@ -13,7 +13,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { focusRing, controlInput } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import { useRadioListContext } from './RadioList.js';
+import { useRadioList } from './RadioList.js';
 
 const radioContract = createThemeContract({
   size: null,
@@ -130,7 +130,7 @@ export function Radio({
   ref,
   ...props
 }: RadioProps): React.JSX.Element {
-  const context = useRadioListContext();
+  const context = useRadioList();
   const [uncontrolledChecked, setUncontrolledChecked] = useState(defaultChecked);
 
   const isGrouped = context !== null;

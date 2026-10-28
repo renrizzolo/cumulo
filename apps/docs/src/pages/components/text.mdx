@@ -1,8 +1,7 @@
-import Layout, { CodeBlock, PropsTable, ComponentPreview } from '../../components/MDXLayout.tsx';
-import { Text, VStack } from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Text, Flow } from '@cumulo/core';
 import textDoc from '../../../docgen/components/Text.json';
 export default Layout;
-export { CodeBlock, PropsTable, ComponentPreview };
 
 # Text
 
@@ -15,7 +14,7 @@ import { Text } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview>
-  <VStack gap="sm">
+  <Flow>
     <Text type="display" size="2xl">
       Display Typography
     </Text>
@@ -28,7 +27,7 @@ import { Text } from '@cumulo/core';
     <Text type="caption" color="muted">
       Caption or helper footnote
     </Text>
-  </VStack>
+  </Flow>
 </ComponentPreview>
 
 ### Component API

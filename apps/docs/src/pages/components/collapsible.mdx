@@ -1,34 +1,26 @@
-import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  CollapsibleRoot,
-  CollapsibleTrigger,
-  CollapsibleContent,
-  Button,
-  Card,
-  Text,
-  VStack,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Button, Card, Text, VStack } from '@cumulo/core';
+import * as Collapsible from '@cumulo/core/components/Collapsible';
 import collapsibleDoc from '../../../docgen/components/Collapsible.json';
 export default Layout;
-export { CodeBlock, ComponentPreview, PropsTable };
 
 # Collapsible
 
 An interactive compound component that expands and collapses content with smooth CSS Grid animations.
 
 ```tsx
-import { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent } from '@cumulo/core';
+import { Collapsible } from '@cumulo/core';
 ```
 
 ### Examples
 
 <ComponentPreview title="Basic Collapsible">
-  <CollapsibleRoot>
+  <Collapsible.Root>
     <VStack gap="xs">
-      <CollapsibleTrigger variant="secondary" width="full">
+      <Collapsible.Trigger variant="secondary" width="full">
         Toggle Details
-      </CollapsibleTrigger>
-      <CollapsibleContent>
+      </Collapsible.Trigger>
+      <Collapsible.Content>
         <Card padding="md">
           <VStack gap="xs">
             <Text size="sm" weight="semibold">
@@ -40,9 +32,9 @@ import { CollapsibleRoot, CollapsibleTrigger, CollapsibleContent } from '@cumulo
             </Text>
           </VStack>
         </Card>
-      </CollapsibleContent>
+      </Collapsible.Content>
     </VStack>
-  </CollapsibleRoot>
+  </Collapsible.Root>
 </ComponentPreview>
 
 ### Component API

@@ -15,5 +15,16 @@
     "oxc/no-barrel-file": ["error", { "threshold": 1 }],
     "oxc/no-accumulating-spread": "error",
     "oxc/no-map-spread": "error"
-  }
+  },
+  "overrides": [
+    {
+      // The package entrypoint is the one place that publishes compound components
+      // as namespaces (`export * as Popover from ...`) so server components can
+      // access parts as `Popover.Trigger`.
+      "files": ["packages/core/src/index.ts"],
+      "rules": {
+        "oxc/no-barrel-file": "off"
+      }
+    }
+  ]
 }

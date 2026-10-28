@@ -1,17 +1,8 @@
-import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  Popover,
-  PopoverRoot,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverClose,
-  Button,
-  VStack,
-  Text,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Button, VStack, Text } from '@cumulo/core';
+import * as Popover from '@cumulo/core/components/Popover';
 import popoverDoc from '../../../docgen/components/Popover.json';
 export default Layout;
-export { CodeBlock, ComponentPreview, PropsTable };
 
 # Popover
 
@@ -24,9 +15,9 @@ import { Popover } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Native Popover">
-  <PopoverRoot>
-    <PopoverTrigger variant="secondary">Toggle Settings</PopoverTrigger>
-    <PopoverContent size="md">
+  <Popover.Root>
+    <Popover.Trigger variant="secondary">Toggle Settings</Popover.Trigger>
+    <Popover.Content size="md">
       <VStack gap="sm" align="start">
         <Text size="sm" weight="semibold">
           Quick Preferences
@@ -34,12 +25,12 @@ import { Popover } from '@cumulo/core';
         <Text size="xs" color="muted">
           Native popover rendered directly in the top layer without requiring React portals.
         </Text>
-        <PopoverClose variant="outline" size="sm">
+        <Popover.Close variant="outline" size="sm">
           Dismiss
-        </PopoverClose>
+        </Popover.Close>
       </VStack>
-    </PopoverContent>
-  </PopoverRoot>
+    </Popover.Content>
+  </Popover.Root>
 </ComponentPreview>
 
 ### Component API

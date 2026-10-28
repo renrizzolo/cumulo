@@ -1,26 +1,9 @@
-import Layout, { CodeBlock, ComponentPreview, PropsTable } from '../../components/MDXLayout.tsx';
-import {
-  Dialog,
-  DialogRoot,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-  Popover,
-  PopoverRoot,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverClose,
-  Button,
-  VStack,
-  HStack,
-  Text,
-} from '@cumulo/core';
+import Layout from '../../components/MDXLayout.tsx';
+import { Button, VStack, HStack, Text } from '@cumulo/core';
+import * as Dialog from '@cumulo/core/components/Dialog';
+import * as Popover from '@cumulo/core/components/Popover';
 import dialogDoc from '../../../docgen/components/Dialog.json';
 export default Layout;
-export { CodeBlock, ComponentPreview, PropsTable };
 
 # Dialog
 
@@ -33,20 +16,20 @@ import { Dialog } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Native Modal Dialog">
-  <DialogRoot>
-    <DialogTrigger variant="primary">Open Dialog</DialogTrigger>
-    <DialogContent size="md">
+  <Dialog.Root>
+    <Dialog.Trigger variant="primary">Open Dialog</Dialog.Trigger>
+    <Dialog.Content size="md">
       <VStack gap="lg">
-        <DialogHeader>
-          <DialogTitle>Confirm Action</DialogTitle>
-          <DialogDescription>
+        <Dialog.Header>
+          <Dialog.Title>Confirm Action</Dialog.Title>
+          <Dialog.Description>
             This action will apply changes immediately. Are you sure you want to proceed?
-          </DialogDescription>
-        </DialogHeader>
+          </Dialog.Description>
+        </Dialog.Header>
         <HStack justify="end" gap="sm">
-          <PopoverRoot>
-            <PopoverTrigger variant="secondary">Toggle Settings</PopoverTrigger>
-            <PopoverContent size="md">
+          <Popover.Root>
+            <Popover.Trigger variant="secondary">Toggle Settings</Popover.Trigger>
+            <Popover.Content size="md">
               <VStack gap="sm" align="start">
                 <Text size="sm" weight="semibold">
                   Quick Preferences
@@ -54,18 +37,18 @@ import { Dialog } from '@cumulo/core';
                 <Text size="xs" color="muted">
                   Native popover rendered directly in the top layer without requiring React portals.
                 </Text>
-                <PopoverClose variant="outline" size="sm">
+                <Popover.Close variant="outline" size="sm">
                   Dismiss
-                </PopoverClose>
+                </Popover.Close>
               </VStack>
-            </PopoverContent>
-          </PopoverRoot>
-          <DialogClose variant="secondary">Cancel</DialogClose>
-          <DialogClose variant="primary">Confirm</DialogClose>
+            </Popover.Content>
+          </Popover.Root>
+          <Dialog.Close variant="secondary">Cancel</Dialog.Close>
+          <Dialog.Close variant="primary">Confirm</Dialog.Close>
         </HStack>
       </VStack>
-    </DialogContent>
-  </DialogRoot>
+    </Dialog.Content>
+  </Dialog.Root>
 </ComponentPreview>
 
 ### Component API
