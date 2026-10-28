@@ -132,44 +132,6 @@
     "Trigger": {
       "name": "Tooltip.Trigger",
       "props": {
-        "variant": {
-          "defaultValue": null,
-          "description": "",
-          "name": "variant",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverTriggerProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverTriggerProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"outline\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"primary\""
-              },
-              {
-                "value": "\"secondary\""
-              },
-              {
-                "value": "\"ghost\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
         "size": {
           "defaultValue": null,
           "description": "",
@@ -187,13 +149,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -205,19 +170,36 @@
                 "value": "\"lg\""
               },
               {
-                "value": "\"xs\""
-              },
-              {
                 "value": "\"xl\""
               }
             ]
           },
           "shortPropTypeName": null
         },
-        "width": {
+        "disabled": {
           "defaultValue": null,
           "description": "",
-          "name": "width",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+            "name": "PopoverTriggerProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+              "name": "PopoverTriggerProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "type": {
+          "defaultValue": null,
+          "description": "",
+          "name": "type",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Popover.tsx",
             "name": "PopoverTriggerProps"
@@ -231,19 +213,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"auto\" | \"full\" | \"square\" | undefined",
+            "raw": "\"submit\" | \"reset\" | \"button\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"auto\""
+                "value": "\"submit\""
               },
               {
-                "value": "\"full\""
+                "value": "\"reset\""
               },
               {
-                "value": "\"square\""
+                "value": "\"button\""
               }
             ]
           },
@@ -285,34 +267,14 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"menu\" \n|  \"grid\" \n|  \"listbox\" \n|  \"tree\" \n|  undefined\n"
+            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  \"grid\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },
-        "disabled": {
+        "variant": {
           "defaultValue": null,
           "description": "",
-          "name": "disabled",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-            "name": "PopoverTriggerProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
-              "name": "PopoverTriggerProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "type": {
-          "defaultValue": null,
-          "description": "",
-          "name": "type",
+          "name": "variant",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Popover.tsx",
             "name": "PopoverTriggerProps"
@@ -326,19 +288,22 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"button\" | \"submit\" | \"reset\" | undefined",
+            "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"button\""
+                "value": "\"primary\""
               },
               {
-                "value": "\"submit\""
+                "value": "\"secondary\""
               },
               {
-                "value": "\"reset\""
+                "value": "\"outline\""
+              },
+              {
+                "value": "\"ghost\""
               }
             ]
           },
@@ -380,6 +345,41 @@
               },
               {
                 "value": "\"info\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "width": {
+          "defaultValue": null,
+          "description": "",
+          "name": "width",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+            "name": "PopoverTriggerProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+              "name": "PopoverTriggerProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | \"full\" | \"square\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"full\""
+              },
+              {
+                "value": "\"square\""
               }
             ]
           },

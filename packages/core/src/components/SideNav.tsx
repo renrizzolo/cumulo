@@ -6,7 +6,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { focusRing, focusRingStyles } from '../intents.js';
 import * as Collapsible from './Collapsible.js';
-import { useCollapsibleContext } from './Collapsible.js';
+import { useCollapsible } from './Collapsible.js';
 import * as Tooltip from './Tooltip.js';
 import { useSidebar } from './Sidebar.js';
 
@@ -525,8 +525,7 @@ function SideNavGroupTrigger({
   ref,
   ...props
 }: SideNavGroupTriggerProps): React.JSX.Element {
-  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } =
-    useCollapsibleContext();
+  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } = useCollapsible();
   const { collapsed, hoverBehaviour, position } = useSidebar();
   const id = providedId || triggerId;
 

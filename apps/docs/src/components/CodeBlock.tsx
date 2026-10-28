@@ -1,13 +1,13 @@
 import { Surface, vars, type ElementProps } from '@cumulo/core';
 import { cx, style } from '@cumulo/css';
 import React from 'react';
-import { HighlightedCode } from './HighlightedCode';
+import { HighlightedCode, SupportedLanguages } from './HighlightedCode';
 import { CopyButton } from './CopyButton';
 
 export interface CodeBlockProps extends ElementProps<HTMLDivElement> {
   children: string;
   className?: string;
-  language?: 'ts' | 'tsx' | 'css';
+  lang?: SupportedLanguages;
   withCopy?: boolean;
 }
 
@@ -28,7 +28,9 @@ const copyButtonStyles = style({
 export function CodeBlock({
   children,
   className,
-  language = 'tsx',
+  // we need to match what code fences in mdx use
+  // e.g ```ts
+  lang = 'tsx',
   withCopy = true,
   ...props
 }: CodeBlockProps): React.JSX.Element {
@@ -39,7 +41,7 @@ export function CodeBlock({
       className={cx(codeBlockContainerStyle.className, className)}
       {...props}
     >
-      <HighlightedCode code={children} language={language} />
+      <HighlightedCode code={children} lang={lang} />
       {withCopy && <CopyButton text={children} className={copyButtonStyles.className} />}
     </Surface>
   );

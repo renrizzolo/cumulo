@@ -41,15 +41,13 @@ export interface DialogContextValue {
 
 const DialogContext = createContext<DialogContextValue | null>(null);
 
-export const useDialogContext = (): DialogContextValue => {
+export const useDialog = (): DialogContextValue => {
   const context = useContext(DialogContext);
   if (!context) {
-    throw new Error('useDialogContext must be used within a Dialog.Root');
+    throw new Error('useDialog must be used within a Dialog.Root');
   }
   return context;
 };
-
-export const useDialog = useDialogContext;
 
 /* -------------------------------------------------------------------------------------------------
  * DialogRoot
@@ -134,7 +132,7 @@ function DialogTrigger({
   'aria-controls': ariaControls,
   ...props
 }: DialogTriggerProps): React.JSX.Element {
-  const { onOpenToggle, contentId } = useDialogContext();
+  const { onOpenToggle, contentId } = useDialog();
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -221,8 +219,7 @@ function DialogContent({
   ref,
   ...props
 }: DialogContentProps): React.JSX.Element {
-  const { open, setOpen, dialogRef, titleId, descriptionId, contentId, registerPart } =
-    useDialogContext();
+  const { open, setOpen, dialogRef, titleId, descriptionId, contentId, registerPart } = useDialog();
   const id = providedId || contentId;
 
   const handleClose = useCallback(() => {
@@ -313,7 +310,7 @@ function DialogTitle({
   as = 'h2',
   ...props
 }: HeadingProps): React.JSX.Element {
-  const { titleId, registerPart } = useDialogContext();
+  const { titleId, registerPart } = useDialog();
   const id = providedId || titleId;
 
   useEffect(() => {
@@ -340,7 +337,7 @@ function DialogDescription({
   color = 'default',
   ...props
 }: TextProps): React.JSX.Element {
-  const { descriptionId, registerPart } = useDialogContext();
+  const { descriptionId, registerPart } = useDialog();
   const id = providedId || descriptionId;
 
   useEffect(() => {
@@ -366,7 +363,7 @@ function DialogClose({
   variant = 'secondary',
   ...props
 }: ButtonProps): React.JSX.Element {
-  const { close } = useDialogContext();
+  const { close } = useDialog();
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {
@@ -390,7 +387,7 @@ DialogTrigger.displayName = 'Dialog.Trigger';
 DialogContent.displayName = 'Dialog.Content';
 DialogHeader.displayName = 'Dialog.Header';
 DialogTitle.displayName = 'Dialog.Title';
-DialogDescription.displayName = 'Dialog.Description';
+DialogDescription.displayName = 'Di alog.Description';
 DialogClose.displayName = 'Dialog.Close';
 
 type DialogHeaderProps = ElementProps<HTMLDivElement>;

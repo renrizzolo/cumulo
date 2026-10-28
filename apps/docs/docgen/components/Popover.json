@@ -372,7 +372,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"dialog\" \n|  \"menu\" \n|  \"true\" \n|  \"false\" \n|  \"grid\" \n|  \"listbox\" \n|  \"tree\" \n|  undefined\n"
+            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  \"grid\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },
@@ -736,16 +736,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"dialog\" | \"alertdialog\" | undefined",
+            "raw": "\"alertdialog\" | \"dialog\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"dialog\""
+                "value": "\"alertdialog\""
               },
               {
-                "value": "\"alertdialog\""
+                "value": "\"dialog\""
               }
             ]
           },

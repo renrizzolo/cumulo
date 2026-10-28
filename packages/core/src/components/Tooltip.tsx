@@ -3,11 +3,10 @@
 import React, { type ReactNode } from 'react';
 import type { ElementProps } from '../ElementProps.js';
 import * as Popover from './Popover.js';
-import { usePopoverContext, usePopover, type PopoverContextValue } from './Popover.js';
+import { usePopover, type PopoverContextValue } from './Popover.js';
 
 export type TooltipContextValue = PopoverContextValue;
 
-export const useTooltipContext = usePopoverContext;
 export const useTooltip = usePopover;
 
 /* -------------------------------------------------------------------------------------------------

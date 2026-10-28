@@ -25,10 +25,10 @@ export interface FieldContextValue {
 
 export const FieldContext = createContext<FieldContextValue | null>(null);
 
-export const useFieldContext = (): FieldContextValue => {
+export const useField = (): FieldContextValue => {
   const field = use(FieldContext);
   if (!field) {
-    throw new Error('useFieldContext must be used within a Field.Root');
+    throw new Error('useField must be used within a Field.Root');
   }
   return field;
 };
@@ -114,7 +114,7 @@ function useFieldItem({
   'aria-describedby': ariaDescribedby,
   intent,
 }: UseFieldItemOptions = {}) {
-  const { hasError: fieldHasError, getPartId, id: fieldId, registerPart } = useFieldContext();
+  const { hasError: fieldHasError, getPartId, id: fieldId, registerPart } = useField();
   const id = providedId || fieldId;
 
   useEffect(() => {
@@ -194,7 +194,7 @@ function FieldDescription({
   className,
   ...props
 }: ElementProps<HTMLParagraphElement>) {
-  const { id: fieldId, registerPart } = useFieldContext();
+  const { id: fieldId, registerPart } = useField();
   const id = providedId || fieldIds.description(fieldId);
 
   useEffect(() => {
@@ -213,7 +213,7 @@ interface FieldErrorProps extends ElementProps<HTMLParagraphElement> {
 }
 
 function FieldError({ children, id: providedId, className, ...props }: FieldErrorProps) {
-  const { id: fieldId, registerPart } = useFieldContext();
+  const { id: fieldId, registerPart } = useField();
   const id = providedId || fieldIds.error(fieldId);
 
   useEffect(() => {
@@ -228,7 +228,7 @@ function FieldError({ children, id: providedId, className, ...props }: FieldErro
 }
 
 function FieldLabel({ children, id: providedId, htmlFor: providedHtmlFor, ...props }: LabelProps) {
-  const { registerPart, getPartId, id: fieldId } = useFieldContext();
+  const { registerPart, getPartId, id: fieldId } = useField();
   const id = providedId || fieldIds.label(fieldId);
   const htmlFor = providedHtmlFor || getPartId('input') || fieldId;
 

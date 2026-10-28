@@ -36,13 +36,13 @@ ol {
 
 :root {
   /* Shiki CSS variables theme */
-  --shiki-foreground: var(--surface-fg);
+  --shiki-foreground: var(--theme-beige-fg);
   --shiki-background: transparent;
-  --shiki-token-comment: var(--theme-muted);
+  --shiki-token-comment: var(--surface-fg);
   --shiki-token-keyword: var(--theme-purple-fg);
   --shiki-token-string: var(--theme-green-fg);
   --shiki-token-function: var(--theme-blue-fg);
-  --shiki-token-constant: var(--theme-yellow-fg);
+  --shiki-token-constant: var(--theme-sky-fg);
   --shiki-token-parameter: var(--theme-sky-fg);
   --shiki-token-punctuation: var(--theme-subtle);
   --shiki-token-string-expression: var(--theme-pink-fg);

@@ -27,10 +27,10 @@ export interface ButtonGroupContextValue {
 
 const ButtonGroupContext = createContext<ButtonGroupContextValue | null>(null);
 
-export const useButtonGroupContext = (): ButtonGroupContextValue => {
+export const useButtonGroup = (): ButtonGroupContextValue => {
   const context = useContext(ButtonGroupContext);
   if (!context) {
-    throw new Error('useButtonGroupContext must be used within a ButtonGroup.Root');
+    throw new Error('useButtonGroup must be used within a ButtonGroup.Root');
   }
   return context;
 };

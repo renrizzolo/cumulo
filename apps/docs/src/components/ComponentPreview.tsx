@@ -2,6 +2,7 @@ import React from 'react';
 import { CodeBlock } from './CodeBlock.js';
 import { ComponentPreviewClient } from './ComponentPreviewClient.js';
 import { reactNodeToJsx } from '../utils/reactNodeToJsx.js';
+import { SupportedLanguages } from './HighlightedCode.js';
 
 export function ComponentPreview({
   title,
@@ -9,6 +10,7 @@ export function ComponentPreview({
   code,
   frame,
   children,
+  lang = 'tsx',
 }: {
   title?: string;
   defaultLevel?: 0 | 1 | 2;
@@ -16,10 +18,12 @@ export function ComponentPreview({
   code?: string;
   /* Wraps the content in a bordered panel. */
   frame?: boolean;
+  lang?: SupportedLanguages;
   children: React.ReactNode;
 }): React.JSX.Element {
   const codeString = code ?? reactNodeToJsx(children);
-  const codeElement = <CodeBlock language="tsx">{codeString}</CodeBlock>;
+  console.log(codeString);
+  const codeElement = <CodeBlock lang={lang}>{codeString}</CodeBlock>;
 
   return (
     <ComponentPreviewClient

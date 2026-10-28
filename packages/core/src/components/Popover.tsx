@@ -34,15 +34,13 @@ export interface PopoverContextValue {
 
 const PopoverContext = createContext<PopoverContextValue | null>(null);
 
-export const usePopoverContext = (): PopoverContextValue => {
+export const usePopover = (): PopoverContextValue => {
   const context = useContext(PopoverContext);
   if (!context) {
-    throw new Error('usePopoverContext must be used within a Popover.Root');
+    throw new Error('usePopover must be used within a Popover.Root');
   }
   return context;
 };
-
-export const usePopover = usePopoverContext;
 
 /* -------------------------------------------------------------------------------------------------
  * PopoverRoot
@@ -188,7 +186,7 @@ function PopoverTrigger({
   'aria-describedby': ariaDescribedByProp,
   ...props
 }: PopoverTriggerProps): React.JSX.Element {
-  const { id, open, close, toggle, show, hide, popoverRef, triggerRef } = usePopoverContext();
+  const { id, open, close, toggle, show, hide, popoverRef, triggerRef } = usePopover();
 
   const anchorName = useMemo(() => `--popover-${id}`, [id]);
   const anchorStyle = useMemo(
@@ -560,7 +558,7 @@ function PopoverContent({
   ref,
   ...props
 }: PopoverContentProps): React.JSX.Element {
-  const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopoverContext();
+  const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopover();
   const id = providedId || rootId;
   const isTooltip = variant === 'tooltip';
 
@@ -737,7 +735,7 @@ function PopoverClose({
   'aria-label': ariaLabel = 'Close popover',
   ...props
 }: PopoverCloseProps): React.JSX.Element {
-  const { close, popoverRef, id } = usePopoverContext();
+  const { close, popoverRef, id } = usePopover();
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLButtonElement>) => {

@@ -32,15 +32,13 @@ export interface CollapsibleContextValue {
 
 const CollapsibleContext = createContext<CollapsibleContextValue | null>(null);
 
-export const useCollapsibleContext = (): CollapsibleContextValue => {
+export const useCollapsible = (): CollapsibleContextValue => {
   const context = use(CollapsibleContext);
   if (!context) {
-    throw new Error('useCollapsibleContext must be used within a Collapsible.Root');
+    throw new Error('useCollapsible must be used within a Collapsible.Root');
   }
   return context;
 };
-
-export const useCollapsible = useCollapsibleContext;
 
 /* -------------------------------------------------------------------------------------------------
  * CollapsibleRoot
@@ -130,8 +128,7 @@ function CollapsibleTrigger({
   'aria-controls': ariaControls,
   ...props
 }: CollapsibleTriggerProps): React.JSX.Element {
-  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } =
-    useCollapsibleContext();
+  const { open, onOpenToggle, disabled, contentId, triggerId, registerPart } = useCollapsible();
   const id = providedId || triggerId;
 
   useEffect(() => {
@@ -226,7 +223,7 @@ function CollapsibleContent({
   'aria-labelledby': ariaLabelledby,
   ...props
 }: CollapsibleContentProps): React.JSX.Element {
-  const { open, contentId, triggerId, registerPart } = useCollapsibleContext();
+  const { open, contentId, triggerId, registerPart } = useCollapsible();
   const id = providedId || contentId;
 
   useEffect(() => {

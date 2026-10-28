@@ -31,15 +31,13 @@ export interface TabsContextValue {
 
 const TabsContext = createContext<TabsContextValue | null>(null);
 
-export const useTabsContext = (): TabsContextValue => {
+export const useTabs = (): TabsContextValue => {
   const context = useContext(TabsContext);
   if (!context) {
-    throw new Error('useTabsContext must be used within a Tabs.Root');
+    throw new Error('useTabs must be used within a Tabs.Root');
   }
   return context;
 };
-
-export const useTabs = useTabsContext;
 
 /* -------------------------------------------------------------------------------------------------
  * TabsRoot
@@ -171,7 +169,7 @@ function TabsList({
   ref,
   ...props
 }: ElementProps<HTMLDivElement>): React.JSX.Element {
-  const { orientation, variant } = useTabsContext();
+  const { orientation, variant } = useTabs();
   const classes = tabsListRecipe({ orientation, variant });
 
   return (
@@ -317,7 +315,7 @@ function TabsTrigger({
   ref,
   ...props
 }: TabsTriggerProps): React.JSX.Element {
-  const { id: rootId, value, setValue, variant, orientation } = useTabsContext();
+  const { id: rootId, value, setValue, variant, orientation } = useTabs();
   const isSelected = value === tabValue;
 
   const tabId = `${rootId}-tab-${tabValue}`;
@@ -447,7 +445,7 @@ function TabsContent({
   ref,
   ...props
 }: TabsContentProps): React.JSX.Element | null {
-  const { id: rootId, value, orientation } = useTabsContext();
+  const { id: rootId, value, orientation } = useTabs();
   const isSelected = value === panelValue;
 
   const tabId = `${rootId}-tab-${panelValue}`;
