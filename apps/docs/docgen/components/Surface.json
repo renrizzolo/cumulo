@@ -77,16 +77,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           }
         ]
       },
@@ -156,16 +156,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"auto\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"control\" | \"full\" | undefined",
+        "raw": "\"auto\" | \"none\" | \"full\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"control\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
+            "value": "\"auto\""
+          },
+          {
             "value": "\"none\""
           },
           {
-            "value": "\"auto\""
+            "value": "\"full\""
           },
           {
             "value": "\"md\""
@@ -181,9 +184,6 @@
           },
           {
             "value": "\"control\""
-          },
-          {
-            "value": "\"full\""
           }
         ]
       },
@@ -206,13 +206,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "1 | \"initial\" | \"none\" | \"auto\" | undefined",
+        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "1"
+            "value": "\"auto\""
           },
           {
             "value": "\"initial\""
@@ -221,7 +221,7 @@
             "value": "\"none\""
           },
           {
-            "value": "\"auto\""
+            "value": "1"
           }
         ]
       },
@@ -244,16 +244,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
+        "raw": "\"hidden\" | \"auto\" | \"scroll\" | \"visible\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"auto\""
+            "value": "\"hidden\""
           },
           {
-            "value": "\"hidden\""
+            "value": "\"auto\""
           },
           {
             "value": "\"scroll\""

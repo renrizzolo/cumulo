@@ -1,5 +1,5 @@
 {
-  "name": "Popover",
+  "name": "Popover.Root",
   "path": "packages/core/src/components/Popover.tsx",
   "fileName": "Popover.tsx",
   "props": {
@@ -372,7 +372,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  \"grid\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
+            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },

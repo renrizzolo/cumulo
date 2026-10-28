@@ -1,5 +1,5 @@
 {
-  "name": "Dialog",
+  "name": "Dialog.Root",
   "path": "packages/core/src/components/Dialog.tsx",
   "fileName": "Dialog.tsx",
   "props": {
@@ -412,10 +412,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\" | undefined",
+            "raw": "\"full\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"full\""
               },
               {
                 "value": "\"sm\""
@@ -428,9 +431,6 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"full\""
               }
             ]
           },
@@ -543,6 +543,9 @@
                 "value": "undefined"
               },
               {
+                "value": "\"div\""
+              },
+              {
                 "value": "\"h1\""
               },
               {
@@ -559,9 +562,6 @@
               },
               {
                 "value": "\"h6\""
-              },
-              {
-                "value": "\"div\""
               },
               {
                 "value": "\"span\""
@@ -677,16 +677,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+            "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"primary\""
+                "value": "\"inherit\""
               },
               {
-                "value": "\"inherit\""
+                "value": "\"primary\""
               },
               {
                 "value": "\"success\""
@@ -788,13 +788,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
+            "raw": "\"display\" | \"code\" | \"body\" | \"label\" | \"lead\" | \"caption\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"display\""
+              },
+              {
+                "value": "\"code\""
               },
               {
                 "value": "\"body\""
@@ -807,9 +810,6 @@
               },
               {
                 "value": "\"caption\""
-              },
-              {
-                "value": "\"code\""
               }
             ]
           },
@@ -847,10 +847,10 @@
                 "value": "\"span\""
               },
               {
-                "value": "\"label\""
+                "value": "\"code\""
               },
               {
-                "value": "\"code\""
+                "value": "\"label\""
               },
               {
                 "value": "\"p\""
@@ -1013,16 +1013,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+            "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"primary\""
+                "value": "\"inherit\""
               },
               {
-                "value": "\"inherit\""
+                "value": "\"primary\""
               },
               {
                 "value": "\"success\""

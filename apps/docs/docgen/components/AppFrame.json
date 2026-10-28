@@ -1,5 +1,5 @@
 {
-  "name": "AppFrame",
+  "name": "AppFrame.Root",
   "description": "Top-level application shell. Lays out a `Sidebar` (or any panel) next to `AppFrame.Main`\nin a horizontal row. Visual sidebar styles (`docked`, `inset`, `floating`) are configured\non `Sidebar` itself.",
   "path": "packages/core/src/components/AppFrame.tsx",
   "fileName": "AppFrame.tsx",

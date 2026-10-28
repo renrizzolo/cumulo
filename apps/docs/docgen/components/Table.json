@@ -1,5 +1,5 @@
 {
-  "name": "Table",
+  "name": "Table.Root",
   "path": "packages/core/src/components/Table.tsx",
   "fileName": "Table.tsx",
   "props": {

@@ -1,5 +1,5 @@
 {
-  "name": "Sidebar",
+  "name": "Sidebar.Root",
   "path": "packages/core/src/components/Sidebar.tsx",
   "fileName": "Sidebar.tsx",
   "props": {
@@ -26,16 +26,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"push\" | \"overlay\" | undefined",
+        "raw": "\"overlay\" | \"push\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"push\""
+            "value": "\"overlay\""
           },
           {
-            "value": "\"overlay\""
+            "value": "\"push\""
           }
         ]
       },
@@ -404,16 +404,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"push\" | \"overlay\" | undefined",
+            "raw": "\"overlay\" | \"push\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"push\""
+                "value": "\"overlay\""
               },
               {
-                "value": "\"overlay\""
+                "value": "\"push\""
               }
             ]
           },
@@ -1070,6 +1070,11 @@
           "shortPropTypeName": "Union"
         }
       }
+    },
+    "useSidebar": {
+      "name": "Sidebar.useSidebar",
+      "description": "Accesses the active sidebar state and controls.",
+      "props": {}
     }
   }
 }

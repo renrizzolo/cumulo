@@ -1,5 +1,5 @@
 {
-  "name": "Collapsible",
+  "name": "Collapsible.Root",
   "path": "packages/core/src/components/Collapsible.tsx",
   "fileName": "Collapsible.tsx",
   "props": {

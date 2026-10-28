@@ -116,16 +116,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"row\" | \"column\" | undefined",
+        "raw": "\"column\" | \"row\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"row\""
+            "value": "\"column\""
           },
           {
-            "value": "\"column\""
+            "value": "\"row\""
           }
         ]
       },
@@ -276,16 +276,16 @@
             "value": "\"div\""
           },
           {
-            "value": "\"header\""
+            "value": "\"section\""
           },
           {
             "value": "\"aside\""
           },
           {
-            "value": "\"footer\""
+            "value": "\"header\""
           },
           {
-            "value": "\"section\""
+            "value": "\"footer\""
           },
           {
             "value": "\"nav\""

@@ -1,5 +1,5 @@
 {
-  "name": "SideNav",
+  "name": "SideNav.Root",
   "path": "packages/core/src/components/SideNav.tsx",
   "fileName": "SideNav.tsx",
   "props": {
@@ -308,8 +308,8 @@
         }
       }
     },
-    "GroupCompound": {
-      "name": "SideNav.GroupCompound",
+    "Group": {
+      "name": "SideNav.Group",
       "props": {
         "title": {
           "defaultValue": null,
