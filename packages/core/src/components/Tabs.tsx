@@ -126,11 +126,7 @@ const tabsListRecipe = recipe(
     },
     variants: {
       variant: {
-        line: {
-          borderBottomWidth: 1,
-          borderBottomStyle: 'solid',
-          borderBottomColor: vars.surface.border,
-        },
+        line: {},
         pill: {
           padding: vars.spacing['xs'],
           backgroundColor: vars.surface.secondary.DEFAULT,
@@ -155,6 +151,24 @@ const tabsListRecipe = recipe(
         },
       },
     },
+    compoundVariants: [
+      {
+        variants: { variant: 'line', orientation: 'horizontal' },
+        style: {
+          borderBottomWidth: 1,
+          borderBottomStyle: 'solid',
+          borderBottomColor: vars.surface.border,
+        },
+      },
+      {
+        variants: { variant: 'line', orientation: 'vertical' },
+        style: {
+          borderLeftWidth: 1,
+          borderLeftStyle: 'solid',
+          borderLeftColor: vars.surface.border,
+        },
+      },
+    ],
     defaultVariants: {
       variant: 'line',
       orientation: 'horizontal',
@@ -224,9 +238,6 @@ const tabsTriggerRecipe = recipe(
       variant: {
         line: {
           borderRadius: 0,
-          borderBottomWidth: 2,
-          borderBottomStyle: 'solid',
-          borderBottomColor: 'transparent',
         },
         pill: {
           borderRadius: vars.radius.md,
@@ -250,7 +261,15 @@ const tabsTriggerRecipe = recipe(
     },
     compoundVariants: [
       {
-        variants: { variant: 'line', selected: true },
+        variants: { variant: 'line', orientation: 'horizontal' },
+        style: {
+          borderBottomWidth: 2,
+          borderBottomStyle: 'solid',
+          borderBottomColor: 'transparent',
+        },
+      },
+      {
+        variants: { variant: 'line', orientation: 'horizontal', selected: true },
         style: {
           borderBottomColor: vars.primary.DEFAULT,
           color: vars.primary.DEFAULT,
@@ -260,8 +279,17 @@ const tabsTriggerRecipe = recipe(
         variants: { variant: 'line', orientation: 'vertical' },
         style: {
           width: '100%',
-          paddingLeft: 0,
-          paddingRight: 0,
+          justifyContent: 'flex-start',
+          borderLeftWidth: 2,
+          borderLeftStyle: 'solid',
+          borderLeftColor: 'transparent',
+        },
+      },
+      {
+        variants: { variant: 'line', orientation: 'vertical', selected: true },
+        style: {
+          borderLeftColor: vars.primary.DEFAULT,
+          color: vars.primary.DEFAULT,
         },
       },
 
@@ -435,11 +463,17 @@ type TabsContentVariants = RecipeVariants<typeof tabsContentRecipe>;
 
 interface TabsContentProps extends ElementProps<HTMLDivElement> {
   value: string;
+  /**
+   * Whether to keep the tab panel mounted in the DOM when inactive (using `hidden`).
+   * @default false
+   */
+  keepMounted?: boolean;
   children?: ReactNode;
 }
 
 function TabsContent({
   value: panelValue,
+  keepMounted = false,
   className,
   children,
   ref,
@@ -451,7 +485,7 @@ function TabsContent({
   const tabId = `${rootId}-tab-${panelValue}`;
   const panelId = `${rootId}-panel-${panelValue}`;
 
-  if (!isSelected) {
+  if (!isSelected && !keepMounted) {
     return null;
   }
 
@@ -463,7 +497,8 @@ function TabsContent({
       id={panelId}
       role="tabpanel"
       aria-labelledby={tabId}
-      tabIndex={0}
+      tabIndex={isSelected ? 0 : -1}
+      hidden={!isSelected ? true : undefined}
       className={cx(classes, className)}
       {...props}
     >

@@ -205,6 +205,25 @@ describe('Field accessibility', () => {
     expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Last Name')).toBeInTheDocument();
   });
+
+  it('connects Field.Select with label, description, and error state', () => {
+    render(
+      <Field.Root id="role-field">
+        <Field.Label>Role</Field.Label>
+        <Field.Select placeholder="Choose a role" defaultValue="">
+          <option value="admin">Admin</option>
+          <option value="editor">Editor</option>
+        </Field.Select>
+        <Field.Description>Select the user role.</Field.Description>
+        <Field.Error>Role is required.</Field.Error>
+      </Field.Root>,
+    );
+
+    const select = screen.getByRole('combobox', { name: 'Role' });
+    expect(select).toHaveAttribute('id', 'role-field');
+    expect(select).toHaveAttribute('aria-describedby', 'role-field-description role-field-error');
+    expect(select).toHaveAttribute('aria-invalid', 'true');
+  });
 });
 
 function DynamicDescForm() {

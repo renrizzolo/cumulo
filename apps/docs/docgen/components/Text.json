@@ -22,16 +22,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"display\" | \"code\" | \"body\" | \"label\" | \"lead\" | \"caption\" | undefined",
+        "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"display\""
-          },
-          {
-            "value": "\"code\""
           },
           {
             "value": "\"body\""
@@ -44,6 +41,9 @@
           },
           {
             "value": "\"caption\""
+          },
+          {
+            "value": "\"code\""
           }
         ]
       },
@@ -81,10 +81,10 @@
             "value": "\"span\""
           },
           {
-            "value": "\"code\""
+            "value": "\"label\""
           },
           {
-            "value": "\"label\""
+            "value": "\"code\""
           },
           {
             "value": "\"p\""
@@ -247,16 +247,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"inherit\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"inherit\""
           },
           {
             "value": "\"success\""
@@ -277,6 +277,140 @@
             "value": "\"subtle\""
           }
         ]
+      },
+      "shortPropTypeName": null
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "",
+      "name": "align",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"left\" | \"right\" | \"justify\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"left\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"justify\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"balance\""
+          },
+          {
+            "value": "\"pretty\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "transform": {
+      "defaultValue": null,
+      "description": "",
+      "name": "transform",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"uppercase\""
+          },
+          {
+            "value": "\"capitalize\""
+          },
+          {
+            "value": "\"lowercase\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "truncate": {
+      "defaultValue": null,
+      "description": "",
+      "name": "truncate",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
       },
       "shortPropTypeName": null
     },

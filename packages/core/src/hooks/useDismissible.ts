@@ -4,16 +4,16 @@ import { useEffect, useId, useRef } from 'react';
 
 const dismissibleStack = new Map<string, () => void>();
 
-function isTopLayer(id: string) {
+function isTopLayer(id: string): boolean {
   return id === Array.from(dismissibleStack.keys()).at(-1);
 }
 
-export function hasHigherLayer(id: string) {
+export function hasHigherLayer(id: string): boolean {
   const idx = Array.from(dismissibleStack.keys()).indexOf(id);
   return idx !== -1 && idx < dismissibleStack.size - 1;
 }
 
-function addLayer(id: string, onDismiss: () => void) {
+function addLayer(id: string, onDismiss: () => void): void {
   if (dismissibleStack.has(id)) {
     throw new Error('unexpected dismissible layer id exists');
   }
@@ -21,18 +21,19 @@ function addLayer(id: string, onDismiss: () => void) {
   dismissibleStack.set(id, onDismiss);
 }
 
-function removeLayer(id: string) {
+function removeLayer(id: string): void {
   dismissibleStack.delete(id);
 }
 
 export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
   onDismiss: () => void;
   dismissOnClickOutside: boolean;
-}) {
+  ignoreRefs?: ReadonlyArray<React.RefObject<HTMLElement | null>>;
+}): React.RefObject<T | null> {
   const ref = useRef<T | null>(null);
   const id = useId();
 
-  const { onDismiss } = props;
+  const { onDismiss, ignoreRefs } = props;
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -62,7 +63,12 @@ export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
         return;
       }
 
-      if (ref.current && !ref.current.contains(event.target as Node)) {
+      const target = event.target;
+      if (ref.current && target instanceof Node && !ref.current.contains(target)) {
+        const isIgnored = ignoreRefs?.some((ignoreRef) => ignoreRef.current?.contains(target));
+        if (isIgnored) {
+          return;
+        }
         event.preventDefault();
         event.stopPropagation();
         event.stopImmediatePropagation();
@@ -82,7 +88,7 @@ export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
       document.removeEventListener('pointerdown', handleClickOutside);
       removeLayer(id);
     };
-  }, [id, onDismiss, props.dismissOnClickOutside]);
+  }, [id, ignoreRefs, onDismiss, props.dismissOnClickOutside]);
 
   return ref;
 }

@@ -22,16 +22,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           }
         ]
       },
@@ -83,6 +83,46 @@
             "value": "\"xl\""
           }
         ]
+      },
+      "shortPropTypeName": null
+    },
+    "leading": {
+      "defaultValue": null,
+      "description": "Optional icon or adornment rendered at the start of the input.",
+      "name": "leading",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Input.tsx",
+        "name": "InputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Input.tsx",
+          "name": "InputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      },
+      "shortPropTypeName": null
+    },
+    "trailing": {
+      "defaultValue": null,
+      "description": "Optional icon, badge, or action button rendered at the end of the input.",
+      "name": "trailing",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Input.tsx",
+        "name": "InputProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Input.tsx",
+          "name": "InputProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
       },
       "shortPropTypeName": null
     },

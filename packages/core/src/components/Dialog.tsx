@@ -18,6 +18,7 @@ import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
 import { Heading, type HeadingProps } from './Heading.js';
 import { Text, type TextProps } from './Text.js';
+import { HStack, VStack, type StackProps } from './Stack.js';
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { useFocus } from '../hooks/useFocus.js';
@@ -37,6 +38,7 @@ export interface DialogContextValue {
   descriptionId: string;
   contentId: string;
   registerPart: (part: DialogPart, id: string) => () => void;
+  getPartId: (part: DialogPart) => string | undefined;
 }
 
 const DialogContext = createContext<DialogContextValue | null>(null);
@@ -75,7 +77,7 @@ function DialogRoot({
   const generatedId = useId();
   const id = providedId || generatedId;
   const dialogRef = useRef<HTMLDialogElement | null>(null);
-  const { registerPart, parts } = usePartsRegistry<DialogPart>();
+  const { registerPart, getPartId, parts } = usePartsRegistry<DialogPart>();
 
   const titleId = parts.title || `${id}-title`;
   const descriptionId = parts.description || `${id}-desc`;
@@ -111,8 +113,20 @@ function DialogRoot({
       descriptionId,
       contentId,
       registerPart,
+      getPartId,
     }),
-    [id, open, onOpenToggle, setOpen, close, titleId, descriptionId, contentId, registerPart],
+    [
+      id,
+      open,
+      onOpenToggle,
+      setOpen,
+      close,
+      titleId,
+      descriptionId,
+      contentId,
+      registerPart,
+      getPartId,
+    ],
   );
 
   return <DialogContext.Provider value={contextValue}>{children}</DialogContext.Provider>;
@@ -181,7 +195,7 @@ const dialogRecipe = recipe(
       overflowY: 'auto',
       selectors: {
         '&::backdrop': {
-          backgroundColor: 'rgba(0, 0, 0, 0.45)',
+          backgroundColor: `color-mix(in oklch, ${vars.fg} 35%, transparent)`,
           backdropFilter: 'blur(4px)',
         },
       },
@@ -219,7 +233,7 @@ function DialogContent({
   ref,
   ...props
 }: DialogContentProps): React.JSX.Element {
-  const { open, setOpen, dialogRef, titleId, descriptionId, contentId, registerPart } = useDialog();
+  const { open, setOpen, dialogRef, contentId, registerPart, getPartId } = useDialog();
   const id = providedId || contentId;
 
   const handleClose = useCallback(() => {
@@ -239,10 +253,8 @@ function DialogContent({
   });
 
   useEffect(() => {
-    if (providedId) {
-      return registerPart('content', providedId);
-    }
-  }, [providedId, registerPart]);
+    return registerPart('content', id);
+  }, [id, registerPart]);
 
   // Handle native HTML5 showModal / close lifecycle
   useEffect(() => {
@@ -262,6 +274,8 @@ function DialogContent({
 
   const classes = dialogRecipe({ size });
   const mergedRef = useMergeRefs(dialogRef, focusRef, dismissibleRef, ref);
+  const resolvedLabelledBy = ariaLabelledby || getPartId('title');
+  const resolvedDescribedBy = ariaDescribedby || getPartId('description');
 
   return (
     /* oxlint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions */
@@ -269,14 +283,13 @@ function DialogContent({
       ref={mergedRef}
       id={id}
       closedby="any"
-      aria-labelledby={ariaLabelledby || titleId}
-      aria-describedby={ariaDescribedby || descriptionId}
-      // onCancel={handleCancel}
+      aria-labelledby={resolvedLabelledBy}
+      aria-describedby={resolvedDescribedBy}
       onClose={handleClose}
       className={cx(classes, className)}
       {...props}
     >
-      {children}
+      <VStack gap="md">{children}</VStack>
     </dialog>
   );
 }
@@ -299,6 +312,43 @@ function DialogHeader({
 }
 
 /* -------------------------------------------------------------------------------------------------
+ * DialogBody
+ * -----------------------------------------------------------------------------------------------*/
+
+function DialogBody({
+  className,
+  children,
+  ref,
+  ...props
+}: ElementProps<HTMLDivElement>): React.JSX.Element {
+  return (
+    <Flow ref={ref} className={className} {...props}>
+      {children}
+    </Flow>
+  );
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * DialogFooter
+ * -----------------------------------------------------------------------------------------------*/
+
+function DialogFooter({
+  gap = 'xs',
+  justify = 'end',
+  align = 'center',
+  className,
+  children,
+  ref,
+  ...props
+}: StackProps): React.JSX.Element {
+  return (
+    <HStack ref={ref} gap={gap} justify={justify} align={align} className={className} {...props}>
+      {children}
+    </HStack>
+  );
+}
+
+/* -------------------------------------------------------------------------------------------------
  * DialogTitle
  * -----------------------------------------------------------------------------------------------*/
 
@@ -314,10 +364,8 @@ function DialogTitle({
   const id = providedId || titleId;
 
   useEffect(() => {
-    if (providedId) {
-      return registerPart('title', providedId);
-    }
-  }, [providedId, registerPart]);
+    return registerPart('title', id);
+  }, [id, registerPart]);
 
   return (
     <Heading id={id} as={as} size={size} className={className} {...props}>
@@ -341,10 +389,8 @@ function DialogDescription({
   const id = providedId || descriptionId;
 
   useEffect(() => {
-    if (providedId) {
-      return registerPart('description', providedId);
-    }
-  }, [providedId, registerPart]);
+    return registerPart('description', id);
+  }, [id, registerPart]);
 
   return (
     <Text id={id} color={color} className={className} {...props}>
@@ -386,11 +432,15 @@ DialogRoot.displayName = 'Dialog.Root';
 DialogTrigger.displayName = 'Dialog.Trigger';
 DialogContent.displayName = 'Dialog.Content';
 DialogHeader.displayName = 'Dialog.Header';
+DialogBody.displayName = 'Dialog.Body';
+DialogFooter.displayName = 'Dialog.Footer';
 DialogTitle.displayName = 'Dialog.Title';
-DialogDescription.displayName = 'Di alog.Description';
+DialogDescription.displayName = 'Dialog.Description';
 DialogClose.displayName = 'Dialog.Close';
 
 type DialogHeaderProps = ElementProps<HTMLDivElement>;
+type DialogBodyProps = ElementProps<HTMLDivElement>;
+type DialogFooterProps = StackProps;
 type DialogTitleProps = HeadingProps;
 type DialogDescriptionProps = TextProps;
 type DialogCloseProps = ButtonProps;
@@ -400,6 +450,8 @@ export {
   DialogTrigger as Trigger,
   DialogContent as Content,
   DialogHeader as Header,
+  DialogBody as Body,
+  DialogFooter as Footer,
   DialogTitle as Title,
   DialogDescription as Description,
   DialogClose as Close,
@@ -410,6 +462,8 @@ export type {
   DialogTriggerProps as TriggerProps,
   DialogContentProps as ContentProps,
   DialogHeaderProps as HeaderProps,
+  DialogBodyProps as BodyProps,
+  DialogFooterProps as FooterProps,
   DialogTitleProps as TitleProps,
   DialogDescriptionProps as DescriptionProps,
   DialogCloseProps as CloseProps,

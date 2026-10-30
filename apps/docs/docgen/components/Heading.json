@@ -31,6 +31,9 @@
             "value": "\"div\""
           },
           {
+            "value": "\"span\""
+          },
+          {
             "value": "\"h1\""
           },
           {
@@ -47,9 +50,6 @@
           },
           {
             "value": "\"h6\""
-          },
-          {
-            "value": "\"span\""
           }
         ]
       },
@@ -164,16 +164,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"inherit\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"inherit\""
           },
           {
             "value": "\"success\""
@@ -192,6 +192,120 @@
           },
           {
             "value": "\"subtle\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "align": {
+      "defaultValue": null,
+      "description": "",
+      "name": "align",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"left\" | \"right\" | \"justify\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"left\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
+            "value": "\"justify\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"balance\""
+          },
+          {
+            "value": "\"pretty\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "transform": {
+      "defaultValue": null,
+      "description": "",
+      "name": "transform",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+        "name": "HeadingProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+          "name": "HeadingProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"uppercase\""
+          },
+          {
+            "value": "\"capitalize\""
+          },
+          {
+            "value": "\"lowercase\""
           }
         ]
       },

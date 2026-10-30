@@ -1,0 +1,41 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Link, VStack, HStack, Text } from '@cumulo/core';
+import linkDoc from '../../../docgen/components/Link.json';
+export default Layout;
+
+# Link
+
+Accessible anchor component with focus ring styling, underline offset variants (`default`, `subtle`, `plain`), and automatic `target="_blank" rel="noopener noreferrer"` security attributes when `external` is enabled.
+
+```tsx
+import { Link } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Link Variants">
+  <VStack gap="md" align="start">
+    <HStack gap="lg" align="center">
+      <Link href="#default" variant="default">
+        Default Link
+      </Link>
+      <Link href="#subtle" variant="subtle">
+        Subtle Link
+      </Link>
+      <Link href="#plain" variant="plain">
+        Plain Link
+      </Link>
+    </HStack>
+    <Text size="sm" color="muted">
+      Read the{' '}
+      <Link href="https://developer.mozilla.org" external>
+        MDN Web Docs
+      </Link>{' '}
+      for platform specifications.
+    </Text>
+  </VStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={linkDoc} />

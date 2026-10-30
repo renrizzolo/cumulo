@@ -1,0 +1,222 @@
+{
+  "name": "Link",
+  "path": "packages/core/src/components/Link.tsx",
+  "fileName": "Link.tsx",
+  "props": {
+    "as": {
+      "defaultValue": {
+        "value": "a"
+      },
+      "description": "",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ElementType<any, keyof IntrinsicElements> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"subtle\" | \"plain\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"subtle\""
+          },
+          {
+            "value": "\"plain\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "weight": {
+      "defaultValue": null,
+      "description": "",
+      "name": "weight",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"normal\""
+          },
+          {
+            "value": "\"bold\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"semibold\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "href": {
+      "defaultValue": null,
+      "description": "",
+      "name": "href",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "rel": {
+      "defaultValue": null,
+      "description": "",
+      "name": "rel",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "to": {
+      "defaultValue": null,
+      "description": "",
+      "name": "to",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "external": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "external",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLAnchorElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

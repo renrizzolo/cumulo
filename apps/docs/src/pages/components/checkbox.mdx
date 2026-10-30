@@ -31,6 +31,29 @@ import { Checkbox } from '@cumulo/core';
   </VStack>
 </ComponentPreview>
 
+<ComponentPreview title="Checkbox Sizes">
+  <HStack gap="lg" align="center">
+    <Field.Root>
+      <HStack gap="xs" align="center">
+        <Field.Checkbox size="sm" defaultChecked />
+        <Field.Label>Small</Field.Label>
+      </HStack>
+    </Field.Root>
+    <Field.Root>
+      <HStack gap="xs" align="center">
+        <Field.Checkbox size="md" defaultChecked />
+        <Field.Label>Medium</Field.Label>
+      </HStack>
+    </Field.Root>
+    <Field.Root>
+      <HStack gap="xs" align="center">
+        <Field.Checkbox size="lg" defaultChecked />
+        <Field.Label>Large</Field.Label>
+      </HStack>
+    </Field.Root>
+  </HStack>
+</ComponentPreview>
+
 <ComponentPreview title="Checkbox States & Intents">
   <VStack gap="md">
     <Field.Root>

@@ -1,0 +1,98 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Button, VStack } from '@cumulo/core';
+import * as Alert from '@cumulo/core/components/Alert';
+import alertDoc from '../../../docgen/components/Alert.json';
+export default Layout;
+
+# Alert
+
+Compound inline callout and status banner for communicating contextual feedback, warnings, errors, and system notices.
+
+```tsx
+import { Alert } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Alert Intents">
+  <VStack gap="md" width="full">
+    <Alert.Root intent="info">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>Scheduled Maintenance</Alert.Title>
+        <Alert.Description>
+          Database read replicas will undergo routine maintenance on Sunday at 02:00 UTC.
+        </Alert.Description>
+      </Alert.Content>
+    </Alert.Root>
+
+    <Alert.Root intent="success">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>Deployment Succeeded</Alert.Title>
+        <Alert.Description>
+          Production build v2.4.0 is live across all edge locations.
+        </Alert.Description>
+      </Alert.Content>
+    </Alert.Root>
+
+    <Alert.Root intent="warning">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>Approaching Rate Limit</Alert.Title>
+        <Alert.Description>
+          Your workspace has consumed 85% of its monthly API request quota.
+        </Alert.Description>
+      </Alert.Content>
+    </Alert.Root>
+
+    <Alert.Root intent="error">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>Webhook Delivery Failed</Alert.Title>
+        <Alert.Description>
+          Endpoint returned HTTP 503 across 3 consecutive retry attempts.
+        </Alert.Description>
+      </Alert.Content>
+    </Alert.Root>
+
+  </VStack>
+</ComponentPreview>
+
+## Variants and actions
+
+Alerts support `secondary` (default), `outline`, and `primary` visual variants, plus an optional `Alert.Actions` slot for inline recovery buttons.
+
+<ComponentPreview title="Variants & Inline Actions">
+  <VStack gap="md" width="full">
+    <Alert.Root variant="outline" intent="primary">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>New SDK Version Available</Alert.Title>
+        <Alert.Description>
+          Upgrade to @cumulo/core 1.2 for native CSS anchor positioning support.
+        </Alert.Description>
+      </Alert.Content>
+      <Alert.Actions>
+        <Button size="xs" variant="secondary">
+          Release Notes
+        </Button>
+      </Alert.Actions>
+    </Alert.Root>
+
+    <Alert.Root variant="primary" intent="error">
+      <Alert.Icon />
+      <Alert.Content>
+        <Alert.Title>Revoked API Token</Alert.Title>
+        <Alert.Description>
+          The active service token was revoked by an administrator. Rotate credentials to restore access.
+        </Alert.Description>
+      </Alert.Content>
+    </Alert.Root>
+
+  </VStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={alertDoc} />

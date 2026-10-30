@@ -20,7 +20,7 @@ Add this snippet to your project's `.cursorrules`, `AGENTS.md`, or custom instru
 
 RULES:
 
-1. Layout: Never use raw <div> for layout or flexbox. Use <HStack>, <VStack>, <Stack>, or <Container>.
+1. Layout: Never use raw <div> for layout or flexbox. Use <HStack>, <VStack>, <Stack>, or <Container>. Because <Heading> and <Text> apply CSS text-box-trim, use at least gap="sm" (not 2xs/xs) when stacking text vertically in <VStack>.
 2. Forms: Always use compound <Field.Root>, <Field.Label>, <Field.Input>, <Field.Error> slots.
 3. Styling: Never use Tailwind classes or arbitrary hex values. Use @cumulo/css style() or recipe() with tokens from vars.\* (@cumulo/core). Always look for available layout primitives before reaching for custom styles.
 4. Theming: Use data-theme for creating branded themes in CSS ([data-theme='<theme-name>'] { --color-primary-base: ... }).

@@ -9,7 +9,7 @@ When generating or refactoring code using Cumulo, follow these rules:
 ### 1. Negative layout rules (no arbitrary containers)
 - **Never use raw `<div>` for layout, spacing, or flexbox.**
   - Row layouts $\rightarrow$ `<HStack>`
-  - Column layouts $\rightarrow$ `<VStack>`
+  - Column layouts $\rightarrow$ `<VStack>` (because `<Heading>` and `<Text>` use `text-box: trim-both cap alphabetic`, use at least `gap="sm"` rather than `2xs`/`xs` when stacking text vertically)
   - Directional or dynamic flexbox $\rightarrow$ `<Stack direction="row" | "column">`
   - Responsive page or section containers $\rightarrow$ `<Container size="sm" | "md" | "lg" | "xl" | "full">`
   - Spaced article or document flow $\rightarrow$ `<Flow>`
@@ -64,45 +64,52 @@ Before completing your response, re-read your generated code and verify:
 - `Header`: Application top navigation bar.
 
 ### Layout and spacing
-- `HStack`: Horizontal flex container. Props: `gap`, `align`, `justify`, `wrap`.
-- `VStack`: Vertical flex container. Props: `gap`, `align`, `justify`.
-- `Stack`: Directional flex container. Props: `direction` ('row' | 'column'), `gap`, `align`, `justify`.
+- `HStack`: Horizontal flex container. Props: `gap`, `align`, `justify`, `wrap`, `as`.
+- `VStack`: Vertical flex container. Props: `gap`, `align`, `justify`, `as`.
+- `Stack`: Directional flex container. Props: `direction` ('row' | 'column'), `gap`, `align`, `justify`, `as`.
+- `Grid`: CSS Grid layout container. Subcomponents: `Grid.Item`. Props: `columns`, `minColumnWidth`, `gap`, `padding`, `align`, `justify`, `flex`, `as`.
 - `Container`: Centered layout wrapper. Props: `size` ('sm' | 'md' | 'lg' | 'xl' | 'full'), `padding`.
 - `Flow`: Spaced document flow for prose and articles. Props: `gap`.
-- `Divider`: Visual separator. Props: `orientation` ('horizontal' | 'vertical').
+- `Divider`: Visual separator. Props: `orientation` ('horizontal' | 'vertical'), `spacing`, `variant` ('solid' | 'dashed').
 - `Table`: Tabular layout. Subcomponents: `Table.Root`, `Table.Caption`, `Table.Header`, `Table.Body`, `Table.Row`, `Table.Head`, `Table.Cell`. Props on `Table.Root`: `variant`, `interactive`.
 
 ### Forms and input
-- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Radio`, `Field.RadioList`, `Field.Error`, `Field.Description`, `Field.Group`).
-- `Input`: Standalone text input. Variants: `intent` ('primary' | 'error'), `size` ('sm' | 'md' | 'lg').
+- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Select`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Radio`, `Field.RadioList`, `Field.Error`, `Field.Description`, `Field.Group`).
+- `Input`: Standalone text input. Props: `leading`, `trailing`, `intent` ('default' | 'error' | 'success'), `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg').
+- `Select`: Native select dropdown with custom chevron indicator. Variants: `variant` ('outline' | 'filled' | 'ghost'), `intent`, `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg').
 - `Textarea`: Standalone multi-line text input.
-- `Checkbox`: Accessible native checkbox with label and description.
-- `Radio`: Accessible radio item.
-- `RadioList`: Group of radio options with roving keyboard focus.
-- `Switch`: Toggle switch primitive (`role="switch"`).
+- `Checkbox`: Accessible native checkbox with `size` ('sm' | 'md' | 'lg'), indeterminate, and error states.
+- `Radio`: Accessible radio item with `size` ('sm' | 'md' | 'lg') and error intent inheritance.
+- `RadioList`: Group of radio options with roving keyboard focus and `intent` ('default' | 'error').
+- `Switch`: Toggle switch primitive (`role="switch"`) with `size` ('sm' | 'md' | 'lg').
 - `Label`: Accessible label component (`htmlFor`).
 
 ### Overlays (native top-layer)
-- `Dialog`: Native HTML5 modal dialog with focus trapping and backdrop. Subcomponents: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`, `Dialog.Header`, `Dialog.Title`, `Dialog.Description`, `Dialog.Close`.
-- `Popover`: Native `popover="auto"` with CSS anchor positioning. Subcomponents: `Popover.Root`, `Popover.Trigger`, `Popover.Content`.
+- `Dialog`: Native HTML5 modal dialog with focus trapping and backdrop. Subcomponents: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Content`, `Dialog.Header`, `Dialog.Body`, `Dialog.Footer`, `Dialog.Title`, `Dialog.Description`, `Dialog.Close`.
+- `Menu`: Native `popover="auto"` action dropdown menu with CSS anchor positioning and arrow-key navigation. Subcomponents: `Menu.Root`, `Menu.Trigger`, `Menu.Content`, `Menu.Item`, `Menu.Group`, `Menu.Label`, `Menu.Separator`.
+- `Popover`: Native `popover="auto"` with CSS anchor positioning. Subcomponents: `Popover.Root`, `Popover.Trigger`, `Popover.Content`, `Popover.Close`.
 - `Tooltip`: Native `popover="manual"` tooltip anchored to trigger. Never clipped by scroll boundaries. Subcomponents: `Tooltip.Root`, `Tooltip.Trigger`, `Tooltip.Content`.
 
 ### Navigation and tabs
-- `Tabs`: Accessible tabs with roving keyboard focus. Subcomponents: `Tabs.Root`, `Tabs.List`, `Tabs.Trigger`, `Tabs.Content`.
-- `ButtonGroup`: Connected or segmented button container. Subcomponents: `ButtonGroup.Root`, `ButtonGroup.Item`.
+- `Tabs`: Accessible tabs with roving keyboard focus. Subcomponents: `Tabs.Root`, `Tabs.List`, `Tabs.Trigger`, `Tabs.Content` (supports `keepMounted`).
+- `ButtonGroup`: Connected or segmented button container. Subcomponents: `ButtonGroup.Root` (supports `attached`, `activeVariant`, `inactiveVariant`, `intent`), `ButtonGroup.Item`.
+- `Link`: Accessible anchor component with focus ring and `external` security attributes. Variants: `variant` ('default' | 'subtle' | 'plain').
 
 ### Feedback and display
-- `Button`: Core interactive button. Variants: `variant` ('primary' | 'secondary' | 'outline' | 'ghost'), `intent` ('primary' | 'success' | 'warning' | 'error' | 'neutral'), `size` ('sm' | 'md' | 'lg').
-- `Badge`: Status and counter indicators. Variants: `intent`, `variant` ('solid' | 'subtle' | 'outline'), `size`.
-- `Card`: Surface container with border and elevation. Subcomponents: `Card.Header`, `Card.Body`, `Card.Footer`.
-- `Surface`: Polymorphic surface with elevation tokens. Props: `level` (0 | 1 | 2 | 3).
+- `Alert`: Compound status banner. Subcomponents: `Alert.Root`, `Alert.Icon`, `Alert.Title`, `Alert.Description`, `Alert.Actions`.
+- `Button`: Core interactive button. Props: `loading`, `variant` ('primary' | 'secondary' | 'outline' | 'ghost'), `intent` ('primary' | 'success' | 'warning' | 'error' | 'info'), `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl').
+- `Badge`: Status and counter indicators. Variants: `intent`, `variant`, `size`.
+- `Card`: Surface container with border and elevation. Subcomponents: `Card.Root`, `Card.Header`, `Card.Body`, `Card.Footer`.
+- `Surface`: Polymorphic surface with elevation tokens. Props: `level` (0 | 1 | 2), `as`.
+- `Spinner`: Accessible SVG loading indicator. Props: `size` ('xs' | 'sm' | 'md' | 'lg' | 'inherit'), `intent`.
 - `Collapsible`: Expandable disclosure panel. Subcomponents: `Collapsible.Root`, `Collapsible.Trigger`, `Collapsible.Content`.
 - `ThemeToggle`: Accessible dark and light mode toggle button.
 
 ### Typography
-- `Heading`: Semantic headings (`h1` - `h6`). Props: `as`, `size` ('sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl').
-- `Text`: Prose text (`p` or `span`). Props: `as`, `type` ('body' | 'caption' | 'label'), `size`.
-- `Code`: Inline code snippet. Props: `variant` ('subtle' | 'solid').
+- `Heading`: Semantic headings (`h1` - `h6`). Props: `as`, `size`, `align`, `wrap`, `transform`, `truncate`.
+- `Text`: Prose text (`p` or `span`). Props: `as`, `type` ('display' | 'body' | 'caption' | 'label'), `size`, `align`, `wrap`, `transform`, `truncate`.
+- `Code`: Inline code snippet.
+- `Kbd`: Keyboard shortcut keycap (`<kbd>`). Props: `size` ('sm' | 'md' | 'lg').
 
 ---
 

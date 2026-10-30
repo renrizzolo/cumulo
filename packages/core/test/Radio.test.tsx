@@ -111,4 +111,24 @@ describe('RadioList Component', () => {
 
     expect(group).toHaveAttribute('aria-labelledby', label.id);
   });
+
+  it('propagates Field error state and aria-invalid to RadioList and child Radios', () => {
+    render(
+      <Field.Root>
+        <Field.Label>Plan</Field.Label>
+        <Field.RadioList defaultValue="starter">
+          <label htmlFor="starter">
+            <Radio id="starter" value="starter" /> Starter
+          </label>
+        </Field.RadioList>
+        <Field.Error>Please select a valid plan.</Field.Error>
+      </Field.Root>,
+    );
+
+    const group = screen.getByRole('radiogroup');
+    const radio = screen.getByRole('radio', { name: /Starter/i });
+
+    expect(group).toHaveAttribute('aria-invalid', 'true');
+    expect(radio).toHaveAttribute('data-invalid', 'true');
+  });
 });

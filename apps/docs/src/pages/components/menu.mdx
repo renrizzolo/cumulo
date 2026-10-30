@@ -1,0 +1,43 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { HStack, Kbd } from '@cumulo/core';
+import * as Menu from '@cumulo/core/components/Menu';
+import menuDoc from '../../../docgen/components/Menu.json';
+export default Layout;
+
+# Menu
+
+Accessible action menu built on native HTML5 `popover="auto"` and CSS Anchor Positioning, featuring full spatial arrow-key navigation (`ArrowDown`, `ArrowUp`, `Home`, `End`, `Escape`).
+
+```tsx
+import { Menu } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Dropdown Action Menu">
+  <HStack gap="md">
+    <Menu.Root>
+      <Menu.Trigger variant="secondary">Workspace Actions</Menu.Trigger>
+      <Menu.Content placement="bottom-start">
+        <Menu.Group>
+          <Menu.Label>Project</Menu.Label>
+          <Menu.Item shortcut={<Kbd>⌘E</Kbd>}>Edit Settings</Menu.Item>
+          <Menu.Item shortcut={<Kbd>⌘D</Kbd>}>Duplicate Project</Menu.Item>
+          <Menu.Item shortcut={<Kbd>⇧⌘S</Kbd>}>Share Invite Link</Menu.Item>
+        </Menu.Group>
+        <Menu.Separator />
+        <Menu.Group>
+          <Menu.Label>Danger Zone</Menu.Label>
+          <Menu.Item disabled>Archive Workspace</Menu.Item>
+          <Menu.Item intent="error" shortcut={<Kbd>⌘⌫</Kbd>}>
+            Delete Workspace
+          </Menu.Item>
+        </Menu.Group>
+      </Menu.Content>
+    </Menu.Root>
+  </HStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={menuDoc} />

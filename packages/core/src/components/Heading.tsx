@@ -61,6 +61,9 @@ export interface HeadingProps extends ElementProps<HTMLElement> {
   size?: HeadingVariants['size'];
   weight?: HeadingVariants['weight'];
   color?: HeadingVariants['color'];
+  align?: HeadingVariants['align'];
+  wrap?: HeadingVariants['wrap'];
+  transform?: HeadingVariants['transform'];
   children?: React.ReactNode;
   truncate?: boolean;
 }
@@ -81,6 +84,9 @@ export function Heading({
   size,
   weight = 'bold',
   color = 'default',
+  align,
+  wrap,
+  transform,
   className,
   children,
   truncate,
@@ -88,7 +94,7 @@ export function Heading({
   ...props
 }: HeadingProps): React.JSX.Element {
   const resolvedSize = size ?? defaultSizeForLevel[Component] ?? 'xl';
-  const classes = headingRecipe({ size: resolvedSize, weight, color });
+  const classes = headingRecipe({ size: resolvedSize, weight, color, align, wrap, transform });
 
   return React.createElement(
     Component,

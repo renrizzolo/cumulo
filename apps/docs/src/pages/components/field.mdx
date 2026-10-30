@@ -1,12 +1,12 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Container } from '@cumulo/core';
+import { Container, VStack } from '@cumulo/core';
 import * as Field from '@cumulo/core/components/Field';
 import fieldDoc from '../../../docgen/components/Field.json';
 export default Layout;
 
 # Field
 
-Accessible compound form field coordinating labels, inputs, descriptions, and error states.
+Accessible compound form field coordinating labels, inputs, selects, textareas, checkboxes, switches, radio groups, descriptions, and error states.
 
 ```tsx
 import { Field } from '@cumulo/core';
@@ -14,15 +14,30 @@ import { Field } from '@cumulo/core';
 
 ### Examples
 
-<ComponentPreview>
+<ComponentPreview title="Compound Form Fields">
   <Container size="sm" padding="none">
-    <Field.Root intent="primary">
-      <Field.Label>Work Email</Field.Label>
-      <Field.Input placeholder="you@company.com" />
-      <Field.Description>
-        We'll only use this for critical workspace notifications.
-      </Field.Description>
-    </Field.Root>
+    <VStack gap="lg">
+      <Field.Root intent="primary">
+        <Field.Label>Work Email</Field.Label>
+        <Field.Input placeholder="you@company.com" />
+        <Field.Description>
+          We'll only use this for critical workspace notifications.
+        </Field.Description>
+      </Field.Root>
+
+      <Field.Root>
+        <Field.Label>Workspace Role</Field.Label>
+        <Field.Select defaultValue="developer">
+          <option value="developer">Developer</option>
+          <option value="admin">Administrator</option>
+          <option value="viewer">Read-Only Viewer</option>
+        </Field.Select>
+        <Field.Description>
+          Controls default repository and deployment permissions.
+        </Field.Description>
+      </Field.Root>
+    </VStack>
+
   </Container>
 </ComponentPreview>
 

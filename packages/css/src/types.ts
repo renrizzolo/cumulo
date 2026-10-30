@@ -1,7 +1,18 @@
 import type * as React from 'react';
 
-export type CSSProperties = React.CSSProperties & {
+export interface CSSProperties extends Omit<
+  React.CSSProperties,
+  | 'appearance'
+  | 'anchorName'
+  | 'positionAnchor'
+  | 'positionArea'
+  | 'positionTryFallbacks'
+  | 'positionTry'
+  | 'positionTryOrder'
+> {
   [key: `--${string}`]: string | number | undefined;
+  appearance?: React.CSSProperties['appearance'] | 'base-select';
+  interpolateSize?: 'allow-keywords' | 'numeric-only';
   anchorName?: string;
   positionAnchor?: string;
   positionArea?: string;
@@ -13,7 +24,7 @@ export type CSSProperties = React.CSSProperties & {
   cornerTopRightShape?: string;
   cornerBottomRightShape?: string;
   cornerBottomLeftShape?: string;
-};
+}
 
 export type PseudoClass =
   | ':hover'

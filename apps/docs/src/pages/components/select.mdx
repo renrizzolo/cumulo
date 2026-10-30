@@ -1,0 +1,111 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Select, Container, VStack, HStack } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
+import selectDoc from '../../../docgen/components/Select.json';
+export default Layout;
+
+# Select
+
+Customizable `<select>` dropdown control (`appearance: base-select`) with styled `::picker(select)` popup, options, checkmarks, option groups, variants, intents, sizing scales, and compound `Field.Select` integration.
+
+```tsx
+import { Select, Field } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Field Select Integration">
+  <Container size="sm" padding="none">
+    <VStack gap="lg">
+      <Field.Root>
+        <Field.Label>Deployment Region</Field.Label>
+        <Field.Select defaultValue="us-east">
+          <optgroup label="Americas">
+            <option value="us-east">US East (N. Virginia)</option>
+            <option value="us-west">US West (Oregon)</option>
+          </optgroup>
+          <optgroup label="Europe & Asia">
+            <option value="eu-central">EU Central (Frankfurt)</option>
+            <option value="ap-south">Asia Pacific (Singapore)</option>
+          </optgroup>
+        </Field.Select>
+        <Field.Description>
+          Choose the primary region closest to your application users.
+        </Field.Description>
+      </Field.Root>
+
+      <Field.Root isInvalid>
+        <Field.Label>Environment Tier</Field.Label>
+        <Field.Select defaultValue="">
+          <option value="" disabled>
+            Select a tier...
+          </option>
+          <option value="Hobby">Hobby</option>
+          <option value="Pro">Pro</option>
+          <option value="Enterprise">Enterprise</option>
+        </Field.Select>
+        <Field.Error>Please select an environment tier before deploying.</Field.Error>
+      </Field.Root>
+    </VStack>
+
+  </Container>
+</ComponentPreview>
+
+## Variants and intents
+
+Supports `outline`, `filled`, and `ghost` variants along with `default`, `error`, and `success` intents.
+
+<ComponentPreview title="Select Variants & Intents">
+  <Container size="sm" padding="none">
+    <VStack gap="md">
+      <Select variant="outline" defaultValue="outline" aria-label="Outline select">
+        <option value="outline">Outline Variant (Default)</option>
+        <option value="other">Other Option</option>
+      </Select>
+      <Select variant="filled" defaultValue="filled" aria-label="Filled select">
+        <option value="filled">Filled Variant</option>
+        <option value="other">Other Option</option>
+      </Select>
+      <Select variant="ghost" defaultValue="ghost" aria-label="Ghost select">
+        <option value="ghost">Ghost Variant</option>
+        <option value="other">Other Option</option>
+      </Select>
+      <Select intent="success" defaultValue="valid" aria-label="Success select">
+        <option value="valid">Success Intent</option>
+      </Select>
+      <Select intent="error" defaultValue="invalid" aria-label="Error select">
+        <option value="invalid">Error Intent</option>
+      </Select>
+    </VStack>
+  </Container>
+</ComponentPreview>
+
+## Sizes
+
+Matches `Button` and `Input` control heights across `2xs`, `xs`, `sm`, `md`, and `lg`.
+
+<ComponentPreview title="Select Sizes">
+  <Container size="sm" padding="none">
+    <VStack gap="sm">
+      <Select size="2xs" defaultValue="2xs" aria-label="2xs select">
+        <option value="2xs">2XS Select (24px)</option>
+      </Select>
+      <Select size="xs" defaultValue="xs" aria-label="xs select">
+        <option value="xs">XS Select (28px)</option>
+      </Select>
+      <Select size="sm" defaultValue="sm" aria-label="sm select">
+        <option value="sm">Small Select (32px)</option>
+      </Select>
+      <Select size="md" defaultValue="md" aria-label="md select">
+        <option value="md">Medium Select (36px)</option>
+      </Select>
+      <Select size="lg" defaultValue="lg" aria-label="lg select">
+        <option value="lg">Large Select (44px)</option>
+      </Select>
+    </VStack>
+  </Container>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={selectDoc} />

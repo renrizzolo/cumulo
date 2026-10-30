@@ -53,7 +53,18 @@ export const surfaceRecipe = recipe(
 
 export type SurfaceVariants = RecipeVariants<typeof surfaceRecipe>;
 
-export interface SurfaceProps extends ElementProps<HTMLDivElement> {
+export type SurfaceTag =
+  | 'div'
+  | 'section'
+  | 'article'
+  | 'header'
+  | 'footer'
+  | 'nav'
+  | 'aside'
+  | 'main';
+
+export interface SurfaceProps extends ElementProps<HTMLElement> {
+  as?: SurfaceTag;
   /** Sometimes it's desired to have the background colour only. */
   bordered?: SurfaceVariants['bordered'];
   level?: SurfaceVariants['level'];
@@ -66,6 +77,7 @@ export interface SurfaceProps extends ElementProps<HTMLDivElement> {
 }
 
 export function Surface({
+  as: Component = 'div',
   level = 1,
   variant,
   padding,
@@ -88,18 +100,18 @@ export function Surface({
     overflow,
   });
 
-  return (
-    <div
-      ref={ref}
-      className={cx(
+  return React.createElement(
+    Component,
+    {
+      ref,
+      className: cx(
         variant === 'primary' && 'surface-primary',
         `surface-${level}`,
         recipeClasses,
         className,
-      )}
-      {...props}
-    >
-      {children}
-    </div>
+      ),
+      ...props,
+    },
+    children,
   );
 }

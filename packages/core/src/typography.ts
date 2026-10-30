@@ -140,7 +140,14 @@ export const textBaseStyles = style(textBase);
 
 export const textSharedRecipe = recipe(
   {
-    extend: [weightStyles, lineHeightStyles, textColorStyles],
+    extend: [
+      weightStyles,
+      lineHeightStyles,
+      textColorStyles,
+      alignStyles,
+      wrapStyles,
+      transformStyles,
+    ],
     base: {
       fontFamily: vars.font.sans,
       color: vars.surface.fg,

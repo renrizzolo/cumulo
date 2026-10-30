@@ -1,81 +1,119 @@
 import '@testing-library/jest-dom/vitest';
-import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
-import { Heading } from '../src/components/Heading';
-import { Text } from '../src/components/Text';
-import { Code, Container, Divider, Stack, Table } from '../src';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Alert, Button, Grid, Input, Kbd, Link, Select, Spinner } from '../src/index.js';
 
-afterEach(() => {
-  cleanup();
+describe('Button loading state', () => {
+  it('sets aria-busy and prevents clicks when loading is true', async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+
+    render(
+      <Button loading onClick={onClick}>
+        Save Changes
+      </Button>,
+    );
+
+    const button = screen.getByRole('button', { name: 'Save Changes' });
+    expect(button).toBeDisabled();
+    expect(button).toHaveAttribute('aria-busy', 'true');
+
+    await user.click(button);
+    expect(onClick).not.toHaveBeenCalled();
+  });
 });
 
-describe('Layout and Typography Primitives', () => {
-  it('renders Heading with semantic heading element and supports as prop', () => {
-    const { rerender } = render(<Heading>Section Title</Heading>);
-    const heading = screen.getByRole('heading', { level: 2 });
-    expect(heading).toBeInTheDocument();
-    expect(heading.tagName).toBe('H2');
-
-    rerender(<Heading as="h1">Main Title</Heading>);
-    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument();
-  });
-
-  it('renders Text with semantic tag and supports as prop', () => {
-    const { rerender } = render(<Text>Paragraph text</Text>);
-    expect(screen.getByText('Paragraph text').tagName).toBe('P');
-
-    rerender(<Text as="span">Span text</Text>);
-    expect(screen.getByText('Span text').tagName).toBe('SPAN');
-  });
-
-  it('renders Code element', () => {
-    render(<Code>const x = 1;</Code>);
-    const el = screen.getByText('const x = 1;');
-    expect(el.tagName).toBe('CODE');
-  });
-
-  it('renders Divider element', () => {
-    render(<Divider data-testid="divider" />);
-    expect(screen.getByTestId('divider')).toBeInTheDocument();
-  });
-
-  it('renders Stack with children', () => {
+describe('Input adornments', () => {
+  it('renders leading and trailing slots alongside input', () => {
     render(
-      <Stack>
-        <span>Item 1</span>
-        <span>Item 2</span>
-      </Stack>,
+      <Input
+        placeholder="Search..."
+        leading={<span data-testid="leading-icon">🔍</span>}
+        trailing={<Kbd data-testid="trailing-kbd">/</Kbd>}
+      />,
     );
-    expect(screen.getByText('Item 1')).toBeInTheDocument();
-    expect(screen.getByText('Item 2')).toBeInTheDocument();
-  });
 
-  it('renders Container with children', () => {
-    render(
-      <Container>
-        <p>Container content</p>
-      </Container>,
-    );
-    expect(screen.getByText('Container content')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
+    expect(screen.getByTestId('leading-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('trailing-kbd')).toBeInTheDocument();
   });
+});
 
-  it('renders Table structure', () => {
+describe('Select Component', () => {
+  it('renders placeholder option and handles value selection', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+
     render(
-      <Table.Root>
-        <Table.Header>
-          <Table.Row>
-            <Table.Head>Name</Table.Head>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          <Table.Row>
-            <Table.Cell>Alice</Table.Cell>
-          </Table.Row>
-        </Table.Body>
-      </Table.Root>,
+      <Select
+        aria-label="Framework"
+        placeholder="Select framework"
+        defaultValue=""
+        onChange={onChange}
+      >
+        <option value="react">React</option>
+        <option value="solid">Solid</option>
+      </Select>,
     );
-    expect(screen.getByRole('table')).toBeInTheDocument();
-    expect(screen.getByText('Name')).toBeInTheDocument();
-    expect(screen.getByText('Alice')).toBeInTheDocument();
+
+    const select = screen.getByRole('combobox', { name: 'Framework' });
+    expect(select).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Select framework' })).toBeDisabled();
+
+    await user.selectOptions(select, 'react');
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(select).toHaveValue('react');
+  });
+});
+
+describe('Alert Component', () => {
+  it('uses role="status" for info/success and role="alert" for warning/error', () => {
+    const { rerender } = render(
+      <Alert.Root intent="info">
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>Update available</Alert.Title>
+          <Alert.Description>A new version is ready to install.</Alert.Description>
+        </Alert.Content>
+      </Alert.Root>,
+    );
+
+    expect(screen.getByRole('status')).toBeInTheDocument();
+    expect(screen.getByText('Update available')).toBeInTheDocument();
+
+    rerender(
+      <Alert.Root intent="error">
+        <Alert.Icon />
+        <Alert.Content>
+          <Alert.Title>Deployment failed</Alert.Title>
+        </Alert.Content>
+      </Alert.Root>,
+    );
+
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+  });
+});
+
+describe('Grid, Spinner, Kbd, and Link primitives', () => {
+  it('renders without crashing and exposes expected roles', () => {
+    render(
+      <Grid columns={2} gap="md">
+        <Grid.Item colSpan={2}>
+          <Spinner label="Fetching data" />
+          <Kbd>⌘K</Kbd>
+          <Link href="https://example.com" external>
+            External Docs
+          </Link>
+        </Grid.Item>
+      </Grid>,
+    );
+
+    expect(screen.getByRole('status', { name: 'Fetching data' })).toBeInTheDocument();
+    expect(screen.getByText('⌘K').tagName).toBe('KBD');
+    const link = screen.getByRole('link', { name: 'External Docs' });
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 });

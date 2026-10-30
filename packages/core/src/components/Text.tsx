@@ -2,7 +2,7 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { textSharedRecipe } from '../typography.js';
+import { textSharedRecipe, truncateStyle } from '../typography.js';
 
 export const textRecipe = recipe(
   {
@@ -78,6 +78,10 @@ export interface TextProps extends ElementProps<HTMLElement> {
   weight?: TextVariants['weight'];
   lineHeight?: TextVariants['lineHeight'];
   color?: TextVariants['color'];
+  align?: TextVariants['align'];
+  wrap?: TextVariants['wrap'];
+  transform?: TextVariants['transform'];
+  truncate?: boolean;
   children?: React.ReactNode;
 }
 
@@ -98,6 +102,10 @@ export function Text({
   weight,
   lineHeight,
   color = 'default',
+  align,
+  wrap,
+  transform,
+  truncate,
   className,
   children,
   ref,
@@ -110,13 +118,16 @@ export function Text({
     weight,
     lineHeight,
     color,
+    align,
+    wrap,
+    transform,
   });
 
   return React.createElement(
     Component,
     {
       ref,
-      className: cx(classes, className),
+      className: cx(classes, truncate ? truncateStyle : null, className),
       ...props,
     },
     children,

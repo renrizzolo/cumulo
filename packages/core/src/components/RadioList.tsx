@@ -19,6 +19,7 @@ export interface RadioListContextValue {
   setValue: (value: string) => void;
   disabled?: boolean;
   orientation?: RadioListOrientation;
+  intent?: 'default' | 'error';
 }
 
 export const RadioListContext = createContext<RadioListContextValue | null>(null);
@@ -34,6 +35,7 @@ export interface RadioListProps extends Omit<StackProps, 'defaultValue' | 'onCha
   onValueChange?: (value: string) => void;
   orientation?: RadioListOrientation;
   disabled?: boolean;
+  intent?: 'default' | 'error';
   children?: ReactNode;
 }
 
@@ -44,6 +46,7 @@ export function RadioList({
   onValueChange,
   orientation = 'vertical',
   disabled = false,
+  intent,
   direction,
   gap,
   align,
@@ -80,8 +83,9 @@ export function RadioList({
       setValue,
       disabled,
       orientation,
+      intent,
     }),
-    [name, value, setValue, disabled, orientation],
+    [name, value, setValue, disabled, orientation, intent],
   );
 
   const resolvedDirection = direction ?? (orientation === 'horizontal' ? 'row' : 'column');
@@ -94,6 +98,8 @@ export function RadioList({
         ref={ref}
         role="radiogroup"
         aria-orientation={orientation}
+        aria-invalid={props['aria-invalid'] ?? (intent === 'error' ? true : undefined)}
+        data-invalid={intent === 'error' ? 'true' : undefined}
         direction={resolvedDirection}
         gap={resolvedGap}
         align={resolvedAlign}

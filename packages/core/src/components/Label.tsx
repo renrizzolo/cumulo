@@ -20,7 +20,14 @@ export interface LabelProps extends ElementProps<HTMLLabelElement> {
   children?: React.ReactNode;
 }
 
-export function Label({ className, children, htmlFor, id, ref, ...props }: LabelProps) {
+export function Label({
+  className,
+  children,
+  htmlFor,
+  id,
+  ref,
+  ...props
+}: LabelProps): React.JSX.Element {
   return (
     <label ref={ref} id={id} htmlFor={htmlFor} className={cx(labelStyle, className)} {...props}>
       {children}

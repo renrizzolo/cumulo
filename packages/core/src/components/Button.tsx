@@ -3,6 +3,7 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import { type ElementProps } from '../ElementProps.js';
 import { allIntentStyles, sizes, focusRing } from '../intents.js';
+import { Spinner } from './Spinner.js';
 
 export const buttonRecipe = recipe(
   {
@@ -105,6 +106,11 @@ export interface ButtonProps extends ElementProps<HTMLButtonElement> {
   width?: ButtonVariants['width'];
   shape?: ButtonVariants['shape'];
   disabled?: boolean;
+  /**
+   * Displays an inline loading spinner and disables user interaction while setting `aria-busy="true"`.
+   * @default false
+   */
+  loading?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'start' | 'end';
   children?: React.ReactNode;
@@ -117,6 +123,7 @@ export function Button({
   width = 'auto',
   shape = 'default',
   disabled,
+  loading = false,
   icon,
   iconPosition = 'start',
   className,
@@ -125,12 +132,20 @@ export function Button({
   ...props
 }: ButtonProps): React.JSX.Element {
   const classes = buttonRecipe({ variant, intent, size, width, shape });
+  const isDisabled = disabled || loading;
+  const resolvedIcon = loading ? <Spinner size="inherit" aria-hidden="true" /> : icon;
 
   return (
-    <button ref={ref} disabled={disabled} className={cx(classes, className)} {...props}>
-      {icon && iconPosition === 'start' ? icon : null}
+    <button
+      ref={ref}
+      disabled={isDisabled}
+      aria-busy={loading ? true : undefined}
+      className={cx(classes, className)}
+      {...props}
+    >
+      {resolvedIcon && iconPosition === 'start' ? resolvedIcon : null}
       {children}
-      {icon && iconPosition === 'end' ? icon : null}
+      {resolvedIcon && iconPosition === 'end' ? resolvedIcon : null}
     </button>
   );
 }

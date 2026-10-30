@@ -66,12 +66,13 @@ Use an intent to change the color: `primary`, `success`, `warning`, `error`, or 
   </HStack>
 </ComponentPreview>
 
-## Sizes and shapes
+## Sizes, shapes, and loading state
 
-Buttons come in `xs`, `sm`, `md`, `lg`, and `xl` sizes, with `default` and `round` shapes.
+Buttons come in `2xs`, `xs`, `sm`, `md`, `lg`, and `xl` sizes, with `default` and `round` shapes and a built-in `loading` state (`aria-busy="true"`).
 
 <ComponentPreview>
   <HStack gap="sm" align="center" wrap="wrap">
+    <Button size="2xs">2XS</Button>
     <Button size="xs">Extra small</Button>
     <Button size="sm">Small</Button>
     <Button size="md">Medium</Button>
@@ -79,6 +80,9 @@ Buttons come in `xs`, `sm`, `md`, `lg`, and `xl` sizes, with `default` and `roun
     <Button size="xl">Extra large</Button>
     <Button shape="round" variant="secondary">
       Round
+    </Button>
+    <Button loading variant="primary">
+      Deploying...
     </Button>
     <Button disabled variant="primary">
       Disabled
