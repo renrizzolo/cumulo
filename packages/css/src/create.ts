@@ -1,7 +1,7 @@
 import { hash } from './hash.js';
 import { sheet } from './sheet.js';
 import type {
-  CSSProperties,
+  StyleProperties,
   StyleRule,
   StyleDefinitions,
   CompiledStyle,
@@ -64,7 +64,7 @@ function formatValue(prop: string, value: unknown): string {
   return String(value);
 }
 
-function serializeProperties(properties: CSSProperties): string {
+function serializeProperties(properties: StyleProperties | object): string {
   const declarations: string[] = [];
   const entries = Object.entries(properties);
   for (const [key, val] of entries) {
@@ -90,7 +90,7 @@ export function compileStyleRule(
   for (const [key, subRule] of ruleEntries) {
     if (key.startsWith(':') || key.startsWith('&')) {
       if (typeof subRule === 'object' && subRule !== null) {
-        const decls = serializeProperties(subRule as CSSProperties);
+        const decls = serializeProperties(subRule);
         if (decls) {
           const selector = key.startsWith('&')
             ? key.replace(/&/g, `.${className}`)

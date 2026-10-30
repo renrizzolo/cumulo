@@ -24,7 +24,7 @@
     "bench": "vitest bench"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
+    "csstype": "^3.2.3",
     "tsdown": "^0.22.14",
     "typescript": "^5.8.2"
   },
@@ -35,5 +35,8 @@
     "react": {
       "optional": true
     }
+  },
+  "inlinedDependencies": {
+    "csstype": "3.2.3"
   }
 }

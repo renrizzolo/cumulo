@@ -1,11 +1,10 @@
-import type * as React from 'react';
 import type { ClassValue, CompiledStyle, CreatedTheme, CSSProperties } from './types.js';
 
 function isCompiledStyleOrTheme(val: object): val is CompiledStyle | CreatedTheme {
   return 'className' in val && typeof (val as { className: unknown }).className === 'string';
 }
 
-function hasStyleProp(val: object): val is { style?: React.CSSProperties & CSSProperties } {
+function hasStyleProp(val: object): val is { style?: CSSProperties } {
   return 'style' in val && !('className' in val);
 }
 
@@ -55,14 +54,12 @@ export function cx(...inputs: ClassValue[]): string {
 /**
  * Merges styles and returns a JSX-friendly props object `{ className, style }`.
  */
-export function props(
-  ...inputs: (ClassValue | { style?: React.CSSProperties & CSSProperties })[]
-): {
+export function props(...inputs: (ClassValue | { style?: CSSProperties })[]): {
   className: string;
-  style?: React.CSSProperties & CSSProperties;
+  style?: CSSProperties;
 } {
   const classInputs: ClassValue[] = [];
-  let inlineStyle: (React.CSSProperties & CSSProperties) | undefined;
+  let inlineStyle: CSSProperties | undefined;
 
   for (const input of inputs) {
     if (input && typeof input === 'object' && hasStyleProp(input) && input.style) {
