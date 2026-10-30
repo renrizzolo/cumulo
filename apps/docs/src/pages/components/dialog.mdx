@@ -19,34 +19,38 @@ import { Dialog } from '@cumulo/core';
   <Dialog.Root>
     <Dialog.Trigger variant="primary">Open Dialog</Dialog.Trigger>
     <Dialog.Content size="md">
-      <VStack gap="lg">
-        <Dialog.Header>
-          <Dialog.Title>Confirm Action</Dialog.Title>
-          <Dialog.Description>
-            This action will apply changes immediately. Are you sure you want to proceed?
-          </Dialog.Description>
-        </Dialog.Header>
-        <HStack justify="end" gap="sm">
-          <Popover.Root>
-            <Popover.Trigger variant="secondary">Toggle Settings</Popover.Trigger>
-            <Popover.Content size="md">
-              <VStack gap="sm" align="start">
-                <Text size="sm" weight="semibold">
-                  Quick Preferences
-                </Text>
-                <Text size="xs" color="muted">
-                  Native popover rendered directly in the top layer without requiring React portals.
-                </Text>
-                <Popover.Close variant="outline" size="sm">
-                  Dismiss
-                </Popover.Close>
-              </VStack>
-            </Popover.Content>
-          </Popover.Root>
-          <Dialog.Close variant="secondary">Cancel</Dialog.Close>
-          <Dialog.Close variant="primary">Confirm</Dialog.Close>
-        </HStack>
-      </VStack>
+      <Dialog.Header>
+        <Dialog.Title>Confirm Action</Dialog.Title>
+        <Dialog.Description>
+          This action will apply changes immediately. Are you sure you want to proceed?
+        </Dialog.Description>
+      </Dialog.Header>
+      <Dialog.Body>
+        <Text size="sm" color="muted">
+          Dialog content automatically links its title and description via ARIA attributes only when
+          those subcomponents are mounted.
+        </Text>
+      </Dialog.Body>
+      <Dialog.Footer>
+        <Popover.Root>
+          <Popover.Trigger variant="secondary">Toggle Settings</Popover.Trigger>
+          <Popover.Content size="md">
+            <VStack gap="sm" align="start">
+              <Text size="sm" weight="semibold">
+                Quick Preferences
+              </Text>
+              <Text size="xs" color="muted">
+                Native popover rendered directly in the top layer without requiring React portals.
+              </Text>
+              <Popover.Close variant="outline" size="sm">
+                Dismiss
+              </Popover.Close>
+            </VStack>
+          </Popover.Content>
+        </Popover.Root>
+        <Dialog.Close variant="secondary">Cancel</Dialog.Close>
+        <Dialog.Close variant="primary">Confirm</Dialog.Close>
+      </Dialog.Footer>
     </Dialog.Content>
   </Dialog.Root>
 </ComponentPreview>

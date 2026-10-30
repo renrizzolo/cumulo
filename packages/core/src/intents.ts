@@ -399,6 +399,9 @@ export const fieldIntentStyles = recipe(
           ':focus-visible': {
             borderColor: vars.error.bg,
           },
+          ':focus-within': {
+            borderColor: vars.error.bg,
+          },
         },
       },
     },

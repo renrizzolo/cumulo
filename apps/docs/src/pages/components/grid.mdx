@@ -1,0 +1,83 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Grid, Surface, Text, VStack } from '@cumulo/core';
+import gridDoc from '../../../docgen/components/Grid.json';
+export default Layout;
+
+# Grid
+
+CSS Grid layout primitive supporting fixed column counts, responsive auto-fit (`minColumnWidth`), token spacing, and `Grid.Item` column/row spanning.
+
+```tsx
+import { Grid } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Fixed Column Grid & Spanning">
+  <Grid columns={3} gap="md">
+    <Surface level={1} padding="md" radius="lg">
+      <Text type="label" size="sm">
+        Column 1
+      </Text>
+    </Surface>
+    <Surface level={1} padding="md" radius="lg">
+      <Text type="label" size="sm">
+        Column 2
+      </Text>
+    </Surface>
+    <Surface level={1} padding="md" radius="lg">
+      <Text type="label" size="sm">
+        Column 3
+      </Text>
+    </Surface>
+    <Grid.Item colSpan={2}>
+      <Surface level={2} padding="md" radius="lg">
+        <Text type="label" size="sm">
+          Spanning 2 Columns (colSpan=2)
+        </Text>
+      </Surface>
+    </Grid.Item>
+    <Surface level={1} padding="md" radius="lg">
+      <Text type="label" size="sm">
+        Column 3
+      </Text>
+    </Surface>
+  </Grid>
+</ComponentPreview>
+
+## Responsive auto-fit grid
+
+Use `columns="auto-fit"` with `minColumnWidth` to create responsive card grids without media query breakpoints.
+
+<ComponentPreview title="Responsive Auto-Fit">
+  <Grid columns="auto-fit" minColumnWidth="180px" gap="md">
+    <Surface level={1} padding="md" radius="lg">
+      <VStack gap="sm">
+        <Text type="label">Throughput</Text>
+        <Text size="md" weight="semibold">
+          14.2k req/s
+        </Text>
+      </VStack>
+    </Surface>
+    <Surface level={1} padding="md" radius="lg">
+      <VStack gap="sm">
+        <Text type="label">P99 Latency</Text>
+        <Text size="md" weight="semibold">
+          18ms
+        </Text>
+      </VStack>
+    </Surface>
+    <Surface level={1} padding="md" radius="lg">
+      <VStack gap="sm">
+        <Text type="label">Error Rate</Text>
+        <Text size="md" weight="semibold">
+          0.01%
+        </Text>
+      </VStack>
+    </Surface>
+  </Grid>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={gridDoc} />

@@ -1,0 +1,189 @@
+{
+  "name": "Select",
+  "path": "packages/core/src/components/Select.tsx",
+  "fileName": "Select.tsx",
+  "props": {
+    "variant": {
+      "defaultValue": {
+        "value": "field"
+      },
+      "description": "Visual surface variant of the select control.",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"field\" | \"outline\" | \"filled\" | \"ghost\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"field\""
+          },
+          {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"filled\""
+          },
+          {
+            "value": "\"ghost\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "Visual validation intent of the select control.",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"error\" | \"success\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "Height and typography scale of the select control.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"inherit\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "placeholder": {
+      "defaultValue": null,
+      "description": "Optional placeholder text rendered as a disabled initial `<option value=\"\">`.",
+      "name": "placeholder",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLSelectElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

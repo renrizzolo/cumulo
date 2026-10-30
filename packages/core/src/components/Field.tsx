@@ -7,6 +7,7 @@ import type { ElementProps } from '../ElementProps.js';
 import { Stack, VStack, type StackProps, type StackVariants } from './Stack.js';
 import { Input, type InputProps } from './Input.js';
 import { Textarea, type TextareaProps } from './Textarea.js';
+import { Select, type SelectProps } from './Select.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
 import { Switch, type SwitchProps } from './Switch.js';
 import { Label, type LabelProps } from './Label.js';
@@ -14,6 +15,7 @@ import { Radio, type RadioProps } from './Radio.js';
 import { RadioList, type RadioListProps } from './RadioList.js';
 
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
+import { textBase } from '../typography.js';
 
 export interface FieldContextValue {
   id: string;
@@ -44,6 +46,7 @@ type FieldGroupVariants = StackVariants;
 interface FieldGroupProps extends StackProps {}
 
 const fieldDescriptionStyle = style({
+  ...textBase,
   fontSize: vars.font.size.xs,
   color: vars.surface.muted,
   margin: 0,
@@ -51,6 +54,7 @@ const fieldDescriptionStyle = style({
 });
 
 const fieldErrorStyle = style({
+  ...textBase,
   fontSize: vars.font.size.sm,
   fontWeight: vars.font.weight.normal,
   color: vars.error.secondary.fg,
@@ -69,10 +73,10 @@ function FieldRoot({
   className,
   children,
   isInvalid,
-  gap = 'xs',
+  gap = 'sm',
   ref,
   ...props
-}: FieldProps) {
+}: FieldProps): React.JSX.Element {
   const generatedId = useId();
   const id = providedId || generatedId;
   const { registerPart, getPartId, hasPart, parts } = usePartsRegistry();
@@ -80,7 +84,7 @@ function FieldRoot({
   const hasError = isInvalid ?? Boolean(parts['error']);
 
   const contextValue = React.useMemo(
-    () => ({
+    (): FieldContextValue => ({
       id,
       hasError,
       registerPart,
@@ -107,13 +111,21 @@ export interface UseFieldItemOptions {
   intent?: 'default' | 'error';
 }
 
+interface UseFieldItemReturn {
+  id: string;
+  labelledBy: string | undefined;
+  describedBy: string | undefined;
+  hasError: boolean;
+  resolvedIntent: 'default' | 'error';
+}
+
 function useFieldItem({
   part = 'input',
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
   intent,
-}: UseFieldItemOptions = {}) {
+}: UseFieldItemOptions = {}): UseFieldItemReturn {
   const { hasError: fieldHasError, getPartId, id: fieldId, registerPart } = useField();
   const id = providedId || fieldId;
 
@@ -153,7 +165,7 @@ function FieldInput({
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: InputProps) {
+}: InputProps): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -179,6 +191,35 @@ function FieldInput({
   );
 }
 
+function FieldSelect({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: SelectProps): React.JSX.Element {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent: intent === 'error' ? 'error' : 'default',
+  });
+
+  return (
+    <Select
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      intent={hasError ? 'error' : (intent ?? resolvedIntent)}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
+      {...props}
+    />
+  );
+}
+
 function FieldGroup({
   direction = 'column',
   gap = 'md',
@@ -193,7 +234,7 @@ function FieldDescription({
   id: providedId,
   className,
   ...props
-}: ElementProps<HTMLParagraphElement>) {
+}: ElementProps<HTMLParagraphElement>): React.JSX.Element {
   const { id: fieldId, registerPart } = useField();
   const id = providedId || fieldIds.description(fieldId);
 
@@ -212,7 +253,12 @@ interface FieldErrorProps extends ElementProps<HTMLParagraphElement> {
   children?: React.ReactNode;
 }
 
-function FieldError({ children, id: providedId, className, ...props }: FieldErrorProps) {
+function FieldError({
+  children,
+  id: providedId,
+  className,
+  ...props
+}: FieldErrorProps): React.JSX.Element {
   const { id: fieldId, registerPart } = useField();
   const id = providedId || fieldIds.error(fieldId);
 
@@ -227,7 +273,12 @@ function FieldError({ children, id: providedId, className, ...props }: FieldErro
   );
 }
 
-function FieldLabel({ children, id: providedId, htmlFor: providedHtmlFor, ...props }: LabelProps) {
+function FieldLabel({
+  children,
+  id: providedId,
+  htmlFor: providedHtmlFor,
+  ...props
+}: LabelProps): React.JSX.Element {
   const { registerPart, getPartId, id: fieldId } = useField();
   const id = providedId || fieldIds.label(fieldId);
   const htmlFor = providedHtmlFor || getPartId('input') || fieldId;
@@ -250,7 +301,7 @@ function FieldTextarea({
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: TextareaProps) {
+}: TextareaProps): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -279,7 +330,7 @@ function FieldCheckbox({
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: CheckboxProps) {
+}: CheckboxProps): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -308,7 +359,7 @@ function FieldSwitch({
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: SwitchProps) {
+}: SwitchProps): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -337,7 +388,7 @@ function FieldRadio({
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: RadioProps) {
+}: RadioProps): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -364,13 +415,15 @@ function FieldRadioList({
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
+  intent,
   ...props
-}: RadioListProps) {
-  const { id, labelledBy, describedBy } = useFieldItem({
+}: RadioListProps): React.JSX.Element {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
     'aria-labelledby': ariaLabelledby,
     'aria-describedby': ariaDescribedby,
+    intent,
   });
 
   return (
@@ -378,6 +431,8 @@ function FieldRadioList({
       id={id}
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
+      intent={resolvedIntent}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
       className={className}
       {...props}
     />
@@ -386,6 +441,7 @@ function FieldRadioList({
 
 FieldRoot.displayName = 'Field.Root';
 FieldInput.displayName = 'Field.Input';
+FieldSelect.displayName = 'Field.Select';
 FieldTextarea.displayName = 'Field.Textarea';
 FieldCheckbox.displayName = 'Field.Checkbox';
 FieldSwitch.displayName = 'Field.Switch';
@@ -397,6 +453,7 @@ FieldDescription.displayName = 'Field.Description';
 FieldGroup.displayName = 'Field.Group';
 
 type FieldInputProps = InputProps;
+type FieldSelectProps = SelectProps;
 type FieldTextareaProps = TextareaProps;
 type FieldCheckboxProps = CheckboxProps;
 type FieldSwitchProps = SwitchProps;
@@ -408,6 +465,7 @@ type FieldDescriptionProps = ElementProps<HTMLParagraphElement>;
 export {
   FieldRoot as Root,
   FieldInput as Input,
+  FieldSelect as Select,
   FieldTextarea as Textarea,
   FieldCheckbox as Checkbox,
   FieldSwitch as Switch,
@@ -422,6 +480,7 @@ export {
 export type {
   FieldProps as RootProps,
   FieldInputProps as InputProps,
+  FieldSelectProps as SelectProps,
   FieldTextareaProps as TextareaProps,
   FieldCheckboxProps as CheckboxProps,
   FieldSwitchProps as SwitchProps,

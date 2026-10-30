@@ -32,7 +32,7 @@ Button groups can be oriented horizontally or vertically. Arrow keys automatical
 <ComponentPreview
   title="Horizontal and Vertical Orientation">
   <HStack gap="xl" align="start">
-    <VStack gap="xs" align="start">
+    <VStack gap="sm" align="start">
       <Text type="label" size="xs" color="muted">Horizontal</Text>
       <ButtonGroup.Root defaultValue="list" orientation="horizontal" size="sm">
         <ButtonGroup.Item value="list">List</ButtonGroup.Item>
@@ -41,7 +41,7 @@ Button groups can be oriented horizontally or vertically. Arrow keys automatical
       </ButtonGroup.Root>
     </VStack>
 
-    <VStack gap="xs" align="start">
+    <VStack gap="sm" align="start">
       <Text type="label" size="xs" color="muted">Vertical</Text>
       <ButtonGroup.Root defaultValue="account" orientation="vertical" size="sm">
         <ButtonGroup.Item value="account">Account</ButtonGroup.Item>
@@ -65,6 +65,37 @@ Because `ButtonGroup.Root` renders `Flex`, you can pass standard layout props li
     <ButtonGroup.Item value="tag4">Color Palettes</ButtonGroup.Item>
     <ButtonGroup.Item value="tag5">Performance</ButtonGroup.Item>
     <ButtonGroup.Item value="tag6">Responsive Layouts</ButtonGroup.Item>
+  </ButtonGroup.Root>
+</ComponentPreview>
+
+## Active & Inactive Variants
+
+Configure `activeVariant`, `inactiveVariant`, `intent`, and `attached` on `ButtonGroup.Root` (or override `activeVariant` / `inactiveVariant` per `ButtonGroup.Item`) without breaking the selection state.
+
+<ComponentPreview title="Active & Inactive Variants">
+  <VStack gap="md" align="start">
+    <ButtonGroup.Root
+      defaultValue="month"
+      activeVariant="primary"
+      inactiveVariant="outline"
+      size="sm"
+    >
+      <ButtonGroup.Item value="day">Day</ButtonGroup.Item>
+      <ButtonGroup.Item value="week">Week</ButtonGroup.Item>
+      <ButtonGroup.Item value="month">Month</ButtonGroup.Item>
+    </ButtonGroup.Root>
+
+  </VStack>
+</ComponentPreview>
+
+## Attached
+
+<ComponentPreview title="Attached">
+  <ButtonGroup.Root defaultValue="published" inactiveVariant="outline" attached size="sm">
+    <ButtonGroup.Item value="draft">Draft</ButtonGroup.Item>
+    <ButtonGroup.Item value="pending">Pending</ButtonGroup.Item>
+    <ButtonGroup.Item value="published">Published</ButtonGroup.Item>
+    <ButtonGroup.Item value="archived">Archived</ButtonGroup.Item>
   </ButtonGroup.Root>
 </ComponentPreview>
 

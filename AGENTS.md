@@ -71,6 +71,7 @@ When writing components, templates, or documentation pages inside this repo:
 
 - **No raw `<div>` for layout or spacing** $\rightarrow$ Use Cumulo layout primitives:
   - Row / column layouts $\rightarrow$ `<HStack>`, `<VStack>`, `<Stack>`
+  - Stacked `<Heading>` / `<Text>` pairs $\rightarrow$ Because typography primitives use `text-box: trim-both cap alphabetic`, use at least `gap="sm"` (or `<Flow>`) rather than `2xs`/`xs` when stacking text vertically.
   - Main responsive wrappers $\rightarrow$ `<Container>`
   - Spaced article / document flow $\rightarrow$ `<Flow>`
   - Application shell $\rightarrow$ `<AppFrame>`, `<Panel>`, `<Sidebar>`, `<SideNav>`

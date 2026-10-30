@@ -67,6 +67,30 @@ describe('Dialog Component', () => {
     expect(content.getAttribute('aria-describedby')).toBe(desc.id);
   });
 
+  it('omits aria-describedby when Dialog.Description is not rendered', () => {
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Content data-testid="content">
+          <Dialog.Header>
+            <Dialog.Title data-testid="title">Title Only</Dialog.Title>
+          </Dialog.Header>
+          <Dialog.Body data-testid="body">Body text</Dialog.Body>
+          <Dialog.Footer data-testid="footer">
+            <Dialog.Close>Cancel</Dialog.Close>
+          </Dialog.Footer>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    const content = screen.getByTestId('content');
+    const title = screen.getByTestId('title');
+
+    expect(content.getAttribute('aria-labelledby')).toBe(title.id);
+    expect(content).not.toHaveAttribute('aria-describedby');
+    expect(screen.getByTestId('body')).toBeInTheDocument();
+    expect(screen.getByTestId('footer')).toBeInTheDocument();
+  });
+
   it('traps focus when navigating with Tab and Shift+Tab', () => {
     render(
       <Dialog.Root defaultOpen>

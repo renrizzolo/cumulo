@@ -53,6 +53,27 @@ import { Radio, RadioList, Field } from '@cumulo/core';
   </RadioList>
 </ComponentPreview>
 
+## Sizes
+
+Radios support `sm` (16px), `md` (20px, default), and `lg` (24px) size scales.
+
+<ComponentPreview title="Radio Sizes">
+  <HStack gap="lg" align="center">
+    <HStack gap="xs" align="center">
+      <Radio id="size-sm" size="sm" defaultChecked />
+      <label htmlFor="size-sm">Small</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="size-md" size="md" defaultChecked />
+      <label htmlFor="size-md">Medium</label>
+    </HStack>
+    <HStack gap="xs" align="center">
+      <Radio id="size-lg" size="lg" defaultChecked />
+      <label htmlFor="size-lg">Large</label>
+    </HStack>
+  </HStack>
+</ComponentPreview>
+
 ## States and intents
 
 Radios support unchecked, checked, error intent, and disabled states.

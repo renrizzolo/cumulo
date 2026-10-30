@@ -1,19 +1,37 @@
-import type * as React from 'react';
+import type * as CSSType from 'csstype';
 
-export type CSSProperties = React.CSSProperties & {
+/**
+ * like React.CSSProperties, with cornerShape and custom property types.
+ */
+export interface CSSProperties extends CSSType.Properties<string | number> {
   [key: `--${string}`]: string | number | undefined;
-  anchorName?: string;
-  positionAnchor?: string;
-  positionArea?: string;
-  positionTryFallbacks?: string;
-  positionTry?: string;
-  positionTryOrder?: string;
-  cornerShape?: string;
-  cornerTopLeftShape?: string;
-  cornerTopRightShape?: string;
-  cornerBottomRightShape?: string;
-  cornerBottomLeftShape?: string;
-};
+  cornerShape?: CornerShape;
+  cornerTopLeftShape?: CornerShape;
+  cornerTopRightShape?: CornerShape;
+  cornerBottomRightShape?: CornerShape;
+  cornerBottomLeftShape?: CornerShape;
+}
+
+/**
+ * This is a supertype of CSSProperties, so we keep it separate
+ * to avoid conflicts.
+ *
+ * i.e `style()` and `recipe()` can use this, but they return
+ * CSSProperties to remain compatible.
+ **/
+export interface StyleProperties extends Omit<CSSProperties, 'appearance'> {
+  appearance?: CSSType.Properties['appearance'] | 'base-select';
+}
+
+type CornerShape =
+  | CSSType.Globals
+  | 'bevel'
+  | 'notch'
+  | 'round'
+  | 'scoop'
+  | 'square'
+  | 'squircle'
+  | `superellipse(${number | 'infinity'})`;
 
 export type PseudoClass =
   | ':hover'
@@ -32,23 +50,23 @@ export type PseudoClass =
 export type PseudoElement = '::before' | '::after' | '::placeholder' | '::selection' | '::backdrop';
 
 export type SelectorBlock = {
-  [selector: string]: CSSProperties | ComplexStyleRule;
+  [selector: string]: StyleProperties | ComplexStyleRule;
 };
 
-export interface ComplexStyleRule extends CSSProperties {
-  selectors?: Record<string, CSSProperties>;
-  '@media'?: Record<string, CSSProperties>;
-  '@container'?: Record<string, CSSProperties>;
-  '@supports'?: Record<string, CSSProperties>;
-  ':hover'?: CSSProperties;
-  ':focus'?: CSSProperties;
-  ':focus-visible'?: CSSProperties;
-  ':focus-within'?: CSSProperties;
-  ':active'?: CSSProperties;
-  ':disabled'?: CSSProperties;
-  '::before'?: CSSProperties;
-  '::after'?: CSSProperties;
-  '::placeholder'?: CSSProperties;
+export interface ComplexStyleRule extends StyleProperties {
+  selectors?: Record<string, StyleProperties>;
+  '@media'?: Record<string, StyleProperties>;
+  '@container'?: Record<string, StyleProperties>;
+  '@supports'?: Record<string, StyleProperties>;
+  ':hover'?: StyleProperties;
+  ':focus'?: StyleProperties;
+  ':focus-visible'?: StyleProperties;
+  ':focus-within'?: StyleProperties;
+  ':active'?: StyleProperties;
+  ':disabled'?: StyleProperties;
+  '::before'?: StyleProperties;
+  '::after'?: StyleProperties;
+  '::placeholder'?: StyleProperties;
 }
 
 export type StyleRule = ComplexStyleRule;

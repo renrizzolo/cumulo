@@ -5,11 +5,30 @@ export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js
 export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components
-export { Surface, type SurfaceProps, type SurfaceVariants } from './components/Surface.js';
+export {
+  Surface,
+  type SurfaceProps,
+  type SurfaceVariants,
+  type SurfaceTag,
+} from './components/Surface.js';
 export { Button, type ButtonProps, type ButtonVariants } from './components/Button.js';
+export { Spinner, type SpinnerProps, type SpinnerVariants } from './components/Spinner.js';
 export { Card, type CardProps, type CardVariants } from './components/Card.js';
 export { Input, type InputProps, type InputVariants } from './components/Input.js';
+export { Select, type SelectProps, type SelectVariants } from './components/Select.js';
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
+export { Kbd, type KbdProps, type KbdVariants } from './components/Kbd.js';
+export { Link, type LinkProps, type LinkVariants } from './components/Link.js';
+export * as Alert from './components/Alert.js';
+export {
+  useAlert,
+  type AlertContextValue,
+  type AlertVariants,
+  type AlertIntent,
+  type AlertVariant,
+} from './components/Alert.js';
+export * as Menu from './components/Menu.js';
+export { useMenu, type MenuContextValue } from './components/Menu.js';
 export {
   ThemeToggle,
   SunIcon,
@@ -18,7 +37,22 @@ export {
   type ThemeToggleProps,
 } from './components/ThemeToggle.js';
 
-export { Stack, HStack, VStack, type StackProps, type StackVariants } from './components/Stack.js';
+export {
+  Stack,
+  HStack,
+  VStack,
+  type StackProps,
+  type StackVariants,
+  type StackTag,
+} from './components/Stack.js';
+export {
+  Grid,
+  gridContract,
+  type GridProps,
+  type GridVariants,
+  type GridItemProps,
+  type GridItemVariants,
+} from './components/Grid.js';
 
 export { Container, type ContainerProps, type ContainerVariants } from './components/Container.js';
 

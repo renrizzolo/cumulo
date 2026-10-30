@@ -92,11 +92,47 @@ export const switchRecipe = recipe(
           },
         },
       },
+      size: {
+        sm: switchContract.$set({
+          track: {
+            width: vars.size.xs,
+            height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+            padding: vars.spacing['3xs'],
+            borderWidth: '1px',
+          },
+          thumb: {
+            size: `calc(${vars.size['4xs']} - 2px)`,
+          },
+        }),
+        md: switchContract.$set({
+          track: {
+            width: vars.size.sm,
+            height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+            padding: vars.spacing['3xs'],
+            borderWidth: '1px',
+          },
+          thumb: {
+            size: vars.size['4xs'],
+          },
+        }),
+        lg: switchContract.$set({
+          track: {
+            width: vars.size.md,
+            height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+            padding: vars.spacing['3xs'],
+            borderWidth: '1px',
+          },
+          thumb: {
+            size: vars.size['3xs'],
+          },
+        }),
+      },
     },
     defaultVariants: {
       checked: false,
       disabled: false,
       intent: 'default',
+      size: 'md',
     },
   },
   'switch',
@@ -137,6 +173,7 @@ export interface SwitchProps extends ElementProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   intent?: SwitchVariants['intent'];
+  size?: SwitchVariants['size'];
   onCheckedChange?: (checked: boolean) => void;
 }
 
@@ -144,6 +181,7 @@ export function Switch({
   checked: controlledChecked,
   defaultChecked = false,
   intent = 'default',
+  size = 'md',
   disabled = false,
   className,
   id,
@@ -172,6 +210,7 @@ export function Switch({
     checked: isChecked,
     disabled,
     intent,
+    size,
   });
 
   const thumbClasses = switchThumbRecipe({

@@ -86,11 +86,17 @@ export const radioRecipe = recipe(
           },
         },
       },
+      size: {
+        sm: radioContract.$set({ size: vars.size['3xs'] }),
+        md: radioContract.$set({ size: vars.size['2xs'] }),
+        lg: radioContract.$set({ size: vars.size.xs }),
+      },
     },
     defaultVariants: {
       checked: false,
       disabled: false,
       intent: 'default',
+      size: 'md',
     },
   },
   'radio',
@@ -113,6 +119,7 @@ export interface RadioProps extends ElementProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   intent?: RadioVariants['intent'];
+  size?: RadioVariants['size'];
   onCheckedChange?: (checked: boolean) => void;
 }
 
@@ -121,7 +128,8 @@ export function Radio({
   name: providedName,
   checked: controlledChecked,
   defaultChecked = false,
-  intent = 'default',
+  intent: providedIntent,
+  size = 'md',
   disabled: itemDisabled,
   className,
   id,
@@ -143,6 +151,7 @@ export function Radio({
 
   const isDisabled = itemDisabled ?? context?.disabled ?? false;
   const name = providedName ?? context?.name;
+  const resolvedIntent = providedIntent ?? context?.intent ?? 'default';
 
   const inputRef = useRef<HTMLInputElement>(null);
   const mergedRef = useMergeRefs(ref, inputRef);
@@ -165,7 +174,8 @@ export function Radio({
   const classes = radioRecipe({
     checked: isChecked,
     disabled: isDisabled,
-    intent,
+    intent: resolvedIntent,
+    size,
   });
 
   return (
@@ -180,7 +190,7 @@ export function Radio({
         disabled={isDisabled}
         onChange={handleChange}
         className={controlInput.className}
-        data-invalid={intent === 'error' ? true : undefined}
+        data-invalid={resolvedIntent === 'error' ? 'true' : undefined}
         {...props}
       />
       {isChecked ? <span className={dotStyle.className} /> : null}

@@ -1,0 +1,163 @@
+{
+  "name": "Spinner",
+  "path": "packages/core/src/components/Spinner.tsx",
+  "fileName": "Spinner.tsx",
+  "props": {
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "Size of the spinner icon. Use `'inherit'` inside buttons or text to match `1em`.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+        "name": "SpinnerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+          "name": "SpinnerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"inherit\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "inherit"
+      },
+      "description": "Color intent of the spinner.",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+        "name": "SpinnerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+          "name": "SpinnerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"info\" | \"muted\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"info\""
+          },
+          {
+            "value": "\"muted\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "label": {
+      "defaultValue": {
+        "value": "Loading"
+      },
+      "description": "Accessible label for screen readers when rendered standalone.",
+      "name": "label",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+        "name": "SpinnerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+          "name": "SpinnerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<SVGSVGElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  }
+}

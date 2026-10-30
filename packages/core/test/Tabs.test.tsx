@@ -79,4 +79,27 @@ describe('Tabs Component', () => {
     fireEvent.keyDown(thirdTab, { key: 'Home' });
     expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
   });
+
+  it('keeps inactive tab panels mounted with hidden attribute when keepMounted is true', () => {
+    render(
+      <Tabs.Root defaultValue="first">
+        <Tabs.List>
+          <Tabs.Trigger value="first">First</Tabs.Trigger>
+          <Tabs.Trigger value="second">Second</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="first" keepMounted>
+          First Panel
+        </Tabs.Content>
+        <Tabs.Content value="second" keepMounted>
+          Second Panel
+        </Tabs.Content>
+      </Tabs.Root>,
+    );
+
+    const firstPanel = screen.getByText('First Panel');
+    const secondPanel = screen.getByText('Second Panel');
+
+    expect(firstPanel).not.toHaveAttribute('hidden');
+    expect(secondPanel).toHaveAttribute('hidden');
+  });
 });

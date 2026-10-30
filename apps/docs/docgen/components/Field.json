@@ -23,6 +23,68 @@
       },
       "shortPropTypeName": null
     },
+    "as": {
+      "defaultValue": null,
+      "description": "",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "StackTag | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"section\""
+          },
+          {
+            "value": "\"article\""
+          },
+          {
+            "value": "\"header\""
+          },
+          {
+            "value": "\"footer\""
+          },
+          {
+            "value": "\"nav\""
+          },
+          {
+            "value": "\"aside\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"form\""
+          },
+          {
+            "value": "\"ul\""
+          },
+          {
+            "value": "\"ol\""
+          },
+          {
+            "value": "\"span\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "direction": {
       "defaultValue": null,
       "description": "",
@@ -40,19 +102,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
+        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"row\""
           },
           {
             "value": "\"column\""
           },
           {
             "value": "\"column-reverse\""
-          },
-          {
-            "value": "\"row\""
           },
           {
             "value": "\"row-reverse\""
@@ -63,7 +125,7 @@
     },
     "gap": {
       "defaultValue": {
-        "value": "xs"
+        "value": "sm"
       },
       "description": "",
       "name": "gap",
@@ -80,13 +142,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"3xs\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
           },
           {
             "value": "\"2xs\""
@@ -105,9 +170,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"3xs\""
           },
           {
             "value": "\"2xl\""
@@ -133,19 +195,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"baseline\""
@@ -174,19 +236,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"between\""
@@ -218,16 +280,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"nowrap\""
+            "value": "\"wrap\""
           },
           {
-            "value": "\"wrap\""
+            "value": "\"nowrap\""
           },
           {
             "value": "\"wrap-reverse\""
@@ -273,7 +335,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -282,13 +344,13 @@
             "value": "\"auto\""
           },
           {
+            "value": "1"
+          },
+          {
             "value": "\"initial\""
           },
           {
             "value": "\"none\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -355,9 +417,9 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLDivElement> | undefined"
+        "name": "Ref<HTMLElement> | undefined"
       },
-      "shortPropTypeName": "Union"
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
@@ -381,16 +443,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -443,6 +505,46 @@
           },
           "shortPropTypeName": null
         },
+        "leading": {
+          "defaultValue": null,
+          "description": "Optional icon or adornment rendered at the start of the input.",
+          "name": "leading",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Input.tsx",
+            "name": "InputProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Input.tsx",
+              "name": "InputProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "trailing": {
+          "defaultValue": null,
+          "description": "Optional icon, badge, or action button rendered at the end of the input.",
+          "name": "trailing",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Input.tsx",
+            "name": "InputProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Input.tsx",
+              "name": "InputProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
         "className": {
           "defaultValue": null,
           "description": "",
@@ -476,6 +578,193 @@
           "required": false,
           "type": {
             "name": "Ref<HTMLInputElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "Select": {
+      "name": "Field.Select",
+      "props": {
+        "variant": {
+          "defaultValue": {
+            "value": "'field'"
+          },
+          "description": "Visual surface variant of the select control.",
+          "name": "variant",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Select.tsx",
+            "name": "SelectProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Select.tsx",
+              "name": "SelectProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"outline\" | \"field\" | \"filled\" | \"ghost\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"outline\""
+              },
+              {
+                "value": "\"field\""
+              },
+              {
+                "value": "\"filled\""
+              },
+              {
+                "value": "\"ghost\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "intent": {
+          "defaultValue": {
+            "value": "'default'"
+          },
+          "description": "Visual validation intent of the select control.",
+          "name": "intent",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Select.tsx",
+            "name": "SelectProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Select.tsx",
+              "name": "SelectProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"default\" | \"error\" | \"success\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"error\""
+              },
+              {
+                "value": "\"success\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": {
+            "value": "'md'"
+          },
+          "description": "Height and typography scale of the select control.",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Select.tsx",
+            "name": "SelectProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Select.tsx",
+              "name": "SelectProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"inherit\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"inherit\""
+              },
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "placeholder": {
+          "defaultValue": null,
+          "description": "Optional placeholder text rendered as a disabled initial `<option value=\"\">`.",
+          "name": "placeholder",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Select.tsx",
+            "name": "SelectProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Select.tsx",
+              "name": "SelectProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLSelectElement> | undefined"
           },
           "shortPropTypeName": "Union"
         }
@@ -583,16 +872,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -736,16 +1025,51 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+            "name": "CheckboxProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Checkbox.tsx",
+              "name": "CheckboxProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
               }
             ]
           },
@@ -889,16 +1213,51 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+            "name": "SwitchProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+              "name": "SwitchProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
               }
             ]
           },
@@ -1042,16 +1401,51 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+            "name": "RadioProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+              "name": "RadioProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
               }
             ]
           },
@@ -1250,6 +1644,38 @@
           },
           "shortPropTypeName": null
         },
+        "intent": {
+          "defaultValue": null,
+          "description": "",
+          "name": "intent",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/RadioList.tsx",
+            "name": "RadioListProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/RadioList.tsx",
+              "name": "RadioListProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"default\" | \"error\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"error\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
         "className": {
           "defaultValue": null,
           "description": "",
@@ -1270,26 +1696,6 @@
           },
           "shortPropTypeName": "string | function"
         },
-        "inline": {
-          "defaultValue": null,
-          "description": "",
-          "name": "inline",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-            "name": "StackProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-              "name": "StackProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
-          },
-          "shortPropTypeName": "Union"
-        },
         "flex": {
           "defaultValue": null,
           "description": "",
@@ -1307,7 +1713,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1316,13 +1722,51 @@
                 "value": "\"auto\""
               },
               {
+                "value": "1"
+              },
+              {
                 "value": "\"initial\""
               },
               {
                 "value": "\"none\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "direction": {
+          "defaultValue": null,
+          "description": "",
+          "name": "direction",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
               },
               {
-                "value": "1"
+                "value": "\"row\""
+              },
+              {
+                "value": "\"column\""
+              },
+              {
+                "value": "\"column-reverse\""
+              },
+              {
+                "value": "\"row-reverse\""
               }
             ]
           },
@@ -1374,13 +1818,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"3xs\" | \"2xl\" | undefined",
+            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"none\""
+              },
+              {
+                "value": "\"3xs\""
               },
               {
                 "value": "\"2xs\""
@@ -1401,19 +1848,16 @@
                 "value": "\"xl\""
               },
               {
-                "value": "\"3xs\""
-              },
-              {
                 "value": "\"2xl\""
               }
             ]
           },
           "shortPropTypeName": null
         },
-        "wrap": {
+        "inline": {
           "defaultValue": null,
           "description": "",
-          "name": "wrap",
+          "name": "inline",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Stack.tsx",
             "name": "StackProps"
@@ -1426,62 +1870,9 @@
           ],
           "required": false,
           "type": {
-            "name": "enum",
-            "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"nowrap\""
-              },
-              {
-                "value": "\"wrap\""
-              },
-              {
-                "value": "\"wrap-reverse\""
-              }
-            ]
+            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
           },
-          "shortPropTypeName": null
-        },
-        "direction": {
-          "defaultValue": null,
-          "description": "",
-          "name": "direction",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-            "name": "StackProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-              "name": "StackProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"column\""
-              },
-              {
-                "value": "\"column-reverse\""
-              },
-              {
-                "value": "\"row\""
-              },
-              {
-                "value": "\"row-reverse\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
+          "shortPropTypeName": "Union"
         },
         "align": {
           "defaultValue": null,
@@ -1500,19 +1891,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"baseline\""
@@ -1541,19 +1932,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"between\""
@@ -1563,6 +1954,41 @@
               },
               {
                 "value": "\"evenly\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"wrap\""
+              },
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"wrap-reverse\""
               }
             ]
           },
@@ -1580,9 +2006,71 @@
           ],
           "required": false,
           "type": {
-            "name": "Ref<HTMLDivElement> | undefined"
+            "name": "Ref<HTMLElement> | undefined"
           },
-          "shortPropTypeName": "Union"
+          "shortPropTypeName": null
+        },
+        "as": {
+          "defaultValue": null,
+          "description": "",
+          "name": "as",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "StackTag | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"div\""
+              },
+              {
+                "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
+              },
+              {
+                "value": "\"header\""
+              },
+              {
+                "value": "\"footer\""
+              },
+              {
+                "value": "\"nav\""
+              },
+              {
+                "value": "\"aside\""
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
+              },
+              {
+                "value": "\"ul\""
+              },
+              {
+                "value": "\"ol\""
+              },
+              {
+                "value": "\"span\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
         }
       }
     },
@@ -1732,6 +2220,68 @@
     "Group": {
       "name": "Field.Group",
       "props": {
+        "as": {
+          "defaultValue": null,
+          "description": "",
+          "name": "as",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "StackTag | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"div\""
+              },
+              {
+                "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
+              },
+              {
+                "value": "\"header\""
+              },
+              {
+                "value": "\"footer\""
+              },
+              {
+                "value": "\"nav\""
+              },
+              {
+                "value": "\"aside\""
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
+              },
+              {
+                "value": "\"ul\""
+              },
+              {
+                "value": "\"ol\""
+              },
+              {
+                "value": "\"span\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
         "direction": {
           "defaultValue": {
             "value": "column"
@@ -1751,19 +2301,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
+            "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"row\""
               },
               {
                 "value": "\"column\""
               },
               {
                 "value": "\"column-reverse\""
-              },
-              {
-                "value": "\"row\""
               },
               {
                 "value": "\"row-reverse\""
@@ -1791,13 +2341,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"3xs\" | \"2xl\" | undefined",
+            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"none\""
+              },
+              {
+                "value": "\"3xs\""
               },
               {
                 "value": "\"2xs\""
@@ -1816,9 +2369,6 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"3xs\""
               },
               {
                 "value": "\"2xl\""
@@ -1846,19 +2396,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"baseline\""
@@ -1887,19 +2437,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"between\""
@@ -1931,16 +2481,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+            "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"nowrap\""
+                "value": "\"wrap\""
               },
               {
-                "value": "\"wrap\""
+                "value": "\"nowrap\""
               },
               {
                 "value": "\"wrap-reverse\""
@@ -1986,7 +2536,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1995,13 +2545,13 @@
                 "value": "\"auto\""
               },
               {
+                "value": "1"
+              },
+              {
                 "value": "\"initial\""
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "1"
               }
             ]
           },
@@ -2068,9 +2618,9 @@
           ],
           "required": false,
           "type": {
-            "name": "Ref<HTMLDivElement> | undefined"
+            "name": "Ref<HTMLElement> | undefined"
           },
-          "shortPropTypeName": "Union"
+          "shortPropTypeName": null
         }
       }
     },

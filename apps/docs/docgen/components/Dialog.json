@@ -107,7 +107,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -116,10 +116,10 @@
                 "value": "\"primary\""
               },
               {
-                "value": "\"secondary\""
+                "value": "\"outline\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"secondary\""
               },
               {
                 "value": "\"ghost\""
@@ -284,6 +284,28 @@
           "defaultValue": null,
           "description": "",
           "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "loading": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
+          "name": "loading",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Button.tsx",
             "name": "ButtonProps"
@@ -412,13 +434,10 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"full\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\" | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "\"full\""
               },
               {
                 "value": "\"sm\""
@@ -431,6 +450,9 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"full\""
               }
             ]
           },
@@ -515,6 +537,454 @@
         }
       }
     },
+    "Body": {
+      "name": "Dialog.Body",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "Footer": {
+      "name": "Dialog.Footer",
+      "props": {
+        "as": {
+          "defaultValue": null,
+          "description": "",
+          "name": "as",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "StackTag | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"form\""
+              },
+              {
+                "value": "\"article\""
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"div\""
+              },
+              {
+                "value": "\"section\""
+              },
+              {
+                "value": "\"header\""
+              },
+              {
+                "value": "\"footer\""
+              },
+              {
+                "value": "\"nav\""
+              },
+              {
+                "value": "\"aside\""
+              },
+              {
+                "value": "\"ul\""
+              },
+              {
+                "value": "\"ol\""
+              },
+              {
+                "value": "\"span\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "direction": {
+          "defaultValue": null,
+          "description": "",
+          "name": "direction",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"row\""
+              },
+              {
+                "value": "\"column\""
+              },
+              {
+                "value": "\"column-reverse\""
+              },
+              {
+                "value": "\"row-reverse\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "gap": {
+          "defaultValue": {
+            "value": "xs"
+          },
+          "description": "",
+          "name": "gap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"3xs\" | \"2xl\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"3xs\""
+              },
+              {
+                "value": "\"2xl\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "align": {
+          "defaultValue": {
+            "value": "center"
+          },
+          "description": "",
+          "name": "align",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"end\""
+              },
+              {
+                "value": "\"start\""
+              },
+              {
+                "value": "\"baseline\""
+              },
+              {
+                "value": "\"stretch\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "justify": {
+          "defaultValue": {
+            "value": "end"
+          },
+          "description": "",
+          "name": "justify",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"end\""
+              },
+              {
+                "value": "\"start\""
+              },
+              {
+                "value": "\"between\""
+              },
+              {
+                "value": "\"around\""
+              },
+              {
+                "value": "\"evenly\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"wrap\""
+              },
+              {
+                "value": "\"wrap-reverse\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "inline": {
+          "defaultValue": null,
+          "description": "",
+          "name": "inline",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "flex": {
+          "defaultValue": null,
+          "description": "",
+          "name": "flex",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"initial\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "1"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "width": {
+          "defaultValue": null,
+          "description": "",
+          "name": "width",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"full\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"full\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
     "Title": {
       "name": "Dialog.Title",
       "props": {
@@ -546,6 +1016,9 @@
                 "value": "\"div\""
               },
               {
+                "value": "\"span\""
+              },
+              {
                 "value": "\"h1\""
               },
               {
@@ -562,9 +1035,6 @@
               },
               {
                 "value": "\"h6\""
-              },
-              {
-                "value": "\"span\""
               }
             ]
           },
@@ -639,19 +1109,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+            "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "\"normal\""
               },
               {
                 "value": "\"bold\""
               },
               {
                 "value": "\"medium\""
+              },
+              {
+                "value": "\"normal\""
               },
               {
                 "value": "\"semibold\""
@@ -677,16 +1147,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+            "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"inherit\""
+                "value": "\"primary\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"inherit\""
               },
               {
                 "value": "\"success\""
@@ -705,6 +1175,120 @@
               },
               {
                 "value": "\"subtle\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "align": {
+          "defaultValue": null,
+          "description": "",
+          "name": "align",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+            "name": "HeadingProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+              "name": "HeadingProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"left\" | \"right\" | \"center\" | \"justify\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"justify\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+            "name": "HeadingProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+              "name": "HeadingProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"nowrap\" | \"wrap\" | \"balance\" | \"pretty\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"wrap\""
+              },
+              {
+                "value": "\"balance\""
+              },
+              {
+                "value": "\"pretty\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "transform": {
+          "defaultValue": null,
+          "description": "",
+          "name": "transform",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+            "name": "HeadingProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Heading.tsx",
+              "name": "HeadingProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"uppercase\""
+              },
+              {
+                "value": "\"capitalize\""
+              },
+              {
+                "value": "\"lowercase\""
               }
             ]
           },
@@ -788,16 +1372,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"display\" | \"code\" | \"body\" | \"label\" | \"lead\" | \"caption\" | undefined",
+            "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"display\""
-              },
-              {
-                "value": "\"code\""
               },
               {
                 "value": "\"body\""
@@ -810,6 +1391,9 @@
               },
               {
                 "value": "\"caption\""
+              },
+              {
+                "value": "\"code\""
               }
             ]
           },
@@ -847,10 +1431,10 @@
                 "value": "\"span\""
               },
               {
-                "value": "\"code\""
+                "value": "\"label\""
               },
               {
-                "value": "\"label\""
+                "value": "\"code\""
               },
               {
                 "value": "\"p\""
@@ -935,19 +1519,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+            "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "\"normal\""
               },
               {
                 "value": "\"bold\""
               },
               {
                 "value": "\"medium\""
+              },
+              {
+                "value": "\"normal\""
               },
               {
                 "value": "\"semibold\""
@@ -1013,16 +1597,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"inherit\" | \"primary\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+            "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"inherit\""
+                "value": "\"primary\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"inherit\""
               },
               {
                 "value": "\"success\""
@@ -1043,6 +1627,140 @@
                 "value": "\"subtle\""
               }
             ]
+          },
+          "shortPropTypeName": null
+        },
+        "align": {
+          "defaultValue": null,
+          "description": "",
+          "name": "align",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"left\" | \"right\" | \"center\" | \"justify\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"justify\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"nowrap\" | \"wrap\" | \"balance\" | \"pretty\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"wrap\""
+              },
+              {
+                "value": "\"balance\""
+              },
+              {
+                "value": "\"pretty\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "transform": {
+          "defaultValue": null,
+          "description": "",
+          "name": "transform",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"uppercase\""
+              },
+              {
+                "value": "\"capitalize\""
+              },
+              {
+                "value": "\"lowercase\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "truncate": {
+          "defaultValue": null,
+          "description": "",
+          "name": "truncate",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
           },
           "shortPropTypeName": null
         },
@@ -1106,7 +1824,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1115,10 +1833,10 @@
                 "value": "\"primary\""
               },
               {
-                "value": "\"secondary\""
+                "value": "\"outline\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"secondary\""
               },
               {
                 "value": "\"ghost\""
@@ -1283,6 +2001,28 @@
           "defaultValue": null,
           "description": "",
           "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "loading": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
+          "name": "loading",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Button.tsx",
             "name": "ButtonProps"

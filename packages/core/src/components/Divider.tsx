@@ -24,13 +24,55 @@ export const dividerRecipe = recipe(
       },
       spacing: {
         none: { margin: 0 },
-        xs: { margin: `${vars.spacing.xs} 0` },
-        sm: { margin: `${vars.spacing.sm} 0` },
-        md: { margin: `${vars.spacing.md} 0` },
-        lg: { margin: `${vars.spacing.lg} 0` },
-        xl: { margin: `${vars.spacing.xl} 0` },
+        xs: {},
+        sm: {},
+        md: {},
+        lg: {},
+        xl: {},
       },
     },
+    compoundVariants: [
+      {
+        variants: { orientation: 'horizontal', spacing: 'xs' },
+        style: { margin: `${vars.spacing.xs} 0` },
+      },
+      {
+        variants: { orientation: 'horizontal', spacing: 'sm' },
+        style: { margin: `${vars.spacing.sm} 0` },
+      },
+      {
+        variants: { orientation: 'horizontal', spacing: 'md' },
+        style: { margin: `${vars.spacing.md} 0` },
+      },
+      {
+        variants: { orientation: 'horizontal', spacing: 'lg' },
+        style: { margin: `${vars.spacing.lg} 0` },
+      },
+      {
+        variants: { orientation: 'horizontal', spacing: 'xl' },
+        style: { margin: `${vars.spacing.xl} 0` },
+      },
+      {
+        variants: { orientation: 'vertical', spacing: 'xs' },
+        style: { margin: `0 ${vars.spacing.xs}` },
+      },
+      {
+        variants: { orientation: 'vertical', spacing: 'sm' },
+        style: { margin: `0 ${vars.spacing.sm}` },
+      },
+      {
+        variants: { orientation: 'vertical', spacing: 'md' },
+        style: { margin: `0 ${vars.spacing.md}` },
+      },
+      {
+        variants: { orientation: 'vertical', spacing: 'lg' },
+        style: { margin: `0 ${vars.spacing.lg}` },
+      },
+      {
+        variants: { orientation: 'vertical', spacing: 'xl' },
+        style: { margin: `0 ${vars.spacing.xl}` },
+      },
+    ],
     defaultVariants: {
       orientation: 'horizontal',
       spacing: 'none',

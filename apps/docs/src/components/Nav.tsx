@@ -341,6 +341,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         keywords: ['prose', 'article', 'vertical rhythm', 'spacing'],
       },
       {
+        label: 'Grid',
+        path: '/components/grid',
+        htmlPath: '/components/grid.html',
+        keywords: ['css grid', 'columns', 'rows', 'colspan', 'auto-fit', 'layout'],
+      },
+      {
         label: 'Panel',
         path: '/components/panel',
         htmlPath: '/components/panel.html',
@@ -368,6 +374,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         path: '/components/collapsible',
         htmlPath: '/components/collapsible.html',
         keywords: ['accordion', 'disclosure', 'expand', 'collapse', 'details'],
+      },
+      {
+        label: 'Link',
+        path: '/components/link',
+        htmlPath: '/components/link.html',
+        keywords: ['anchor', 'href', 'url', 'external', 'navigation'],
       },
       {
         label: 'Sidebar',
@@ -429,6 +441,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         keywords: ['radiolist', 'option', 'single-select', 'choice', 'form'],
       },
       {
+        label: 'Select',
+        path: '/components/select',
+        htmlPath: '/components/select.html',
+        keywords: ['dropdown', 'option', 'picker', 'choice', 'form'],
+      },
+      {
         label: 'Switch',
         path: '/components/switch',
         htmlPath: '/components/switch.html',
@@ -446,6 +464,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
     title: 'Data Display',
     items: [
       {
+        label: 'Alert',
+        path: '/components/alert',
+        htmlPath: '/components/alert.html',
+        keywords: ['banner', 'callout', 'notice', 'warning', 'error', 'status', 'feedback'],
+      },
+      {
         label: 'Badge',
         path: '/components/badge',
         htmlPath: '/components/badge.html',
@@ -456,6 +480,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         path: '/components/card',
         htmlPath: '/components/card.html',
         keywords: ['box', 'panel', 'tile', 'container', 'surface'],
+      },
+      {
+        label: 'Spinner',
+        path: '/components/spinner',
+        htmlPath: '/components/spinner.html',
+        keywords: ['loading', 'progress', 'indicator', 'busy', 'wait'],
       },
       {
         label: 'Table',
@@ -487,6 +517,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         keywords: ['h1', 'h2', 'h3', 'h4', 'title', 'header', 'typography'],
       },
       {
+        label: 'Kbd',
+        path: '/components/kbd',
+        htmlPath: '/components/kbd.html',
+        keywords: ['keyboard', 'shortcut', 'hotkey', 'keycap', 'command'],
+      },
+      {
         label: 'Text',
         path: '/components/text',
         htmlPath: '/components/text.html',
@@ -502,6 +538,12 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         path: '/components/dialog',
         htmlPath: '/components/dialog.html',
         keywords: ['modal', 'popup', 'alert', 'confirm', 'overlay'],
+      },
+      {
+        label: 'Menu',
+        path: '/components/menu',
+        htmlPath: '/components/menu.html',
+        keywords: ['dropdown', 'actions', 'context', 'menuitem', 'popover', 'overlay'],
       },
       {
         label: 'Popover',

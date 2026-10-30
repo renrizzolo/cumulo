@@ -75,11 +75,26 @@ export const checkboxRecipe = recipe(
           },
         },
       },
+      size: {
+        sm: {
+          width: vars.size['3xs'],
+          height: vars.size['3xs'],
+        },
+        md: {
+          width: vars.size['2xs'],
+          height: vars.size['2xs'],
+        },
+        lg: {
+          width: vars.size.xs,
+          height: vars.size.xs,
+        },
+      },
     },
     defaultVariants: {
       checked: false,
       disabled: false,
       intent: 'default',
+      size: 'md',
     },
   },
   'checkbox',
@@ -135,6 +150,7 @@ export interface CheckboxProps extends ElementProps<HTMLInputElement> {
   indeterminate?: boolean;
   defaultIndeterminate?: boolean;
   intent?: CheckboxVariants['intent'];
+  size?: CheckboxVariants['size'];
   onCheckedChange?: (checked: boolean) => void;
   onIndeterminateChange?: (indeterminate: boolean) => void;
 }
@@ -145,6 +161,7 @@ export function Checkbox({
   indeterminate: controlledIndeterminate,
   defaultIndeterminate = false,
   intent = 'default',
+  size = 'md',
   disabled = false,
   className,
   id,
@@ -202,6 +219,7 @@ export function Checkbox({
     checked: isChecked,
     disabled,
     intent,
+    size,
   });
 
   return (

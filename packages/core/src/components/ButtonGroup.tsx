@@ -9,6 +9,7 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
+import { recipe, cx } from '@cumulo/css';
 import { Button, type ButtonProps, type ButtonVariants } from './Button.js';
 import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
@@ -16,11 +17,72 @@ import { Stack, StackProps } from './Stack.js';
 
 type ButtonGroupOrientation = 'horizontal' | 'vertical';
 type ButtonGroupSize = NonNullable<ButtonVariants['size']>;
+type ButtonGroupVariant = NonNullable<ButtonVariants['variant']>;
+type ButtonGroupIntent = NonNullable<ButtonVariants['intent']>;
+
+const buttonGroupRecipe = recipe(
+  {
+    variants: {
+      attached: {
+        true: {},
+        false: {},
+      },
+      orientation: {
+        horizontal: {},
+        vertical: {},
+      },
+    },
+    compoundVariants: [
+      {
+        variants: { attached: true, orientation: 'horizontal' },
+        style: {
+          selectors: {
+            '& > button:not(:first-child)': {
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0,
+            },
+            '& > button:not(:last-child)': {
+              borderTopRightRadius: 0,
+              borderBottomRightRadius: 0,
+              marginInlineEnd: '-1px',
+            },
+            '& > button[data-state="active"]': {
+              zIndex: 1,
+            },
+          },
+        },
+      },
+      {
+        variants: { attached: true, orientation: 'vertical' },
+        style: {
+          selectors: {
+            '& > button:not(:first-child)': {
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            },
+            '& > button:not(:last-child)': {
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            },
+          },
+        },
+      },
+    ],
+    defaultVariants: {
+      attached: false,
+      orientation: 'horizontal',
+    },
+  },
+  'button-group',
+);
 
 export interface ButtonGroupContextValue {
   value?: string;
   setValue: (value: string) => void;
   size?: ButtonGroupSize;
+  activeVariant?: ButtonGroupVariant;
+  inactiveVariant?: ButtonGroupVariant;
+  intent?: ButtonGroupIntent;
   disabled?: boolean;
   orientation?: ButtonGroupOrientation;
 }
@@ -35,26 +97,32 @@ export const useButtonGroup = (): ButtonGroupContextValue => {
   return context;
 };
 
-interface ButtonGroupRootProps<T extends string = string> extends Omit<
-  StackProps,
-  'defaultValue' | 'onChange'
-> {
-  value?: T;
+interface ButtonGroupRootProps extends Omit<StackProps, 'defaultValue' | 'onChange'> {
+  value?: string;
   defaultValue?: string;
-  onValueChange?: (value: T) => void;
+  onValueChange?: (value: string) => void;
   orientation?: ButtonGroupOrientation;
   size?: ButtonGroupSize;
+  /** Button variant applied to the currently selected item (default: 'secondary') */
+  activeVariant?: ButtonGroupVariant;
+  /** Button variant applied to unselected items (default: 'ghost') */
+  inactiveVariant?: ButtonGroupVariant;
+  /** Default button intent inherited by items in the group */
+  intent?: ButtonGroupIntent;
   disabled?: boolean;
   attached?: boolean;
   children?: ReactNode;
 }
 
-function ButtonGroupRoot<T extends string>({
+function ButtonGroupRoot({
   value: controlledValue,
   defaultValue = '',
   onValueChange,
   orientation = 'horizontal',
   size = 'sm',
+  activeVariant = 'secondary',
+  inactiveVariant = 'ghost',
+  intent,
   disabled = false,
   attached = false,
   direction,
@@ -68,17 +136,17 @@ function ButtonGroupRoot<T extends string>({
   children,
   ref,
   ...props
-}: ButtonGroupRootProps<T>): React.JSX.Element {
+}: ButtonGroupRootProps): React.JSX.Element {
   const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
   const isControlled = controlledValue !== undefined;
   const value = isControlled ? controlledValue : uncontrolledValue;
 
   const setValue = useCallback(
-    (nextValue: string) => {
+    (nextValue: string): void => {
       if (!isControlled) {
         setUncontrolledValue(nextValue);
       }
-      onValueChange?.(nextValue as T);
+      onValueChange?.(nextValue);
     },
     [isControlled, onValueChange],
   );
@@ -88,10 +156,13 @@ function ButtonGroupRoot<T extends string>({
       value,
       setValue,
       size,
+      activeVariant,
+      inactiveVariant,
+      intent,
       disabled,
       orientation,
     }),
-    [value, setValue, size, disabled, orientation],
+    [value, setValue, size, activeVariant, inactiveVariant, intent, disabled, orientation],
   );
 
   const focusRef = useFocus({
@@ -104,6 +175,7 @@ function ButtonGroupRoot<T extends string>({
   const resolvedDirection = direction ?? (orientation === 'vertical' ? 'column' : 'row');
   const resolvedGap = attached ? 'none' : (gap ?? '3xs');
   const resolvedAlign = align ?? (orientation === 'vertical' ? 'stretch' : 'center');
+  const groupClasses = buttonGroupRecipe({ attached, orientation });
 
   return (
     <ButtonGroupContext.Provider value={contextValue}>
@@ -112,6 +184,7 @@ function ButtonGroupRoot<T extends string>({
         // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
         role="group"
         data-orientation={orientation}
+        data-attached={attached ? 'true' : undefined}
         direction={resolvedDirection}
         gap={resolvedGap}
         align={resolvedAlign}
@@ -119,7 +192,7 @@ function ButtonGroupRoot<T extends string>({
         wrap={wrap}
         inline={inline}
         flex={flex}
-        className={className}
+        className={cx(groupClasses, className)}
         {...props}
       >
         {children}
@@ -128,14 +201,21 @@ function ButtonGroupRoot<T extends string>({
   );
 }
 
-interface ButtonGroupItemProps extends Omit<ButtonProps, 'value'> {
+interface ButtonGroupItemProps extends Omit<ButtonProps, 'value' | 'variant'> {
   value: string;
   active?: boolean;
+  /** Override the group's activeVariant for this specific item */
+  activeVariant?: ButtonGroupVariant;
+  /** Override the group's inactiveVariant for this specific item */
+  inactiveVariant?: ButtonGroupVariant;
 }
 
 function ButtonGroupItem({
   value,
   active: propActive,
+  activeVariant,
+  inactiveVariant,
+  intent: itemIntent,
   disabled: itemDisabled,
   size: itemSize,
   width = 'auto',
@@ -149,8 +229,11 @@ function ButtonGroupItem({
   const isSelected = propActive ?? (context ? context.value === value : false);
   const isDisabled = itemDisabled ?? context?.disabled ?? false;
   const resolvedSize = itemSize ?? context?.size ?? 'sm';
+  const resolvedActiveVariant = activeVariant ?? context?.activeVariant ?? 'secondary';
+  const resolvedInactiveVariant = inactiveVariant ?? context?.inactiveVariant ?? 'ghost';
+  const resolvedIntent = itemIntent ?? context?.intent;
 
-  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (e: MouseEvent<HTMLButtonElement>): void => {
     onClick?.(e);
     if (!isDisabled && context) {
       context.setValue(value);
@@ -163,7 +246,8 @@ function ButtonGroupItem({
       type="button"
       data-state={isSelected ? 'active' : 'inactive'}
       aria-pressed={isSelected}
-      variant={isSelected ? 'secondary' : 'ghost'}
+      variant={isSelected ? resolvedActiveVariant : resolvedInactiveVariant}
+      intent={resolvedIntent}
       size={resolvedSize}
       width={width}
       disabled={isDisabled}
@@ -186,4 +270,6 @@ export type {
   ButtonGroupItemProps as ItemProps,
   ButtonGroupOrientation,
   ButtonGroupSize,
+  ButtonGroupVariant,
+  ButtonGroupIntent,
 };

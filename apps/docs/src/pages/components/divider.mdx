@@ -1,11 +1,11 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Divider, VStack, Text } from '@cumulo/core';
+import { Divider, VStack, HStack, Text } from '@cumulo/core';
 import dividerDoc from '../../../docgen/components/Divider.json';
 export default Layout;
 
 # Divider
 
-Separates content horizontally or vertically with intent and dashed styling options.
+Separates content horizontally or vertically with orientation-aware spacing (`none`, `xs`, `sm`, `md`, `lg`, `xl`) and solid or dashed styling.
 
 ```tsx
 import { Divider } from '@cumulo/core';
@@ -13,13 +13,19 @@ import { Divider } from '@cumulo/core';
 
 ### Examples
 
-<ComponentPreview>
+<ComponentPreview title="Horizontal & Vertical Dividers">
   <VStack gap="md">
-    <Text>Section Above</Text>
-    <Divider />
-    <Text>Section Below</Text>
-    <Divider variant="dashed" />
-    <Text>Dashed Divider Below</Text>
+    <Text size="sm">Section Above</Text>
+    <Divider spacing="xs" />
+    <Text size="sm">Section Below</Text>
+    <Divider variant="dashed" spacing="xs" />
+    <HStack align="center" gap="none">
+      <Text size="sm">Docs</Text>
+      <Divider orientation="vertical" spacing="md" />
+      <Text size="sm">Components</Text>
+      <Divider orientation="vertical" spacing="md" />
+      <Text size="sm">Tokens</Text>
+    </HStack>
   </VStack>
 </ComponentPreview>
 

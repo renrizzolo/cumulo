@@ -31,6 +31,33 @@ import { Switch } from '@cumulo/core';
   </VStack>
 </ComponentPreview>
 
+## Sizes
+
+Switches come in `sm`, `md` (default), and `lg` sizes.
+
+<ComponentPreview title="Switch Sizes">
+  <HStack gap="lg" align="center">
+    <Field.Root>
+      <HStack gap="sm" align="center">
+        <Field.Switch size="sm" defaultChecked />
+        <Field.Label>Small</Field.Label>
+      </HStack>
+    </Field.Root>
+    <Field.Root>
+      <HStack gap="sm" align="center">
+        <Field.Switch size="md" defaultChecked />
+        <Field.Label>Medium</Field.Label>
+      </HStack>
+    </Field.Root>
+    <Field.Root>
+      <HStack gap="sm" align="center">
+        <Field.Switch size="lg" defaultChecked />
+        <Field.Label>Large</Field.Label>
+      </HStack>
+    </Field.Root>
+  </HStack>
+</ComponentPreview>
+
 ## States and intents
 
 Switches support checked, unchecked, error, and disabled states. Accessibility attributes are wired automatically.

@@ -141,25 +141,37 @@
       },
       "shortPropTypeName": null
     },
-    "className": {
+    "intent": {
       "defaultValue": null,
       "description": "",
-      "name": "className",
+      "name": "intent",
       "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
+        "fileName": "cumulo/packages/core/src/components/RadioList.tsx",
+        "name": "RadioListProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
+          "fileName": "cumulo/packages/core/src/components/RadioList.tsx",
+          "name": "RadioListProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | undefined"
+        "name": "enum",
+        "raw": "\"error\" | \"default\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"default\""
+          }
+        ]
       },
-      "shortPropTypeName": "string | function"
+      "shortPropTypeName": null
     },
     "inline": {
       "defaultValue": null,
@@ -198,13 +210,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "raw": "\"initial\" | \"none\" | \"auto\" | 1 | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"auto\""
           },
           {
             "value": "\"initial\""
@@ -213,7 +222,63 @@
             "value": "\"none\""
           },
           {
+            "value": "\"auto\""
+          },
+          {
             "value": "1"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "gap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
           }
         ]
       },
@@ -248,93 +313,25 @@
       },
       "shortPropTypeName": null
     },
-    "gap": {
+    "className": {
       "defaultValue": null,
       "description": "",
-      "name": "gap",
+      "name": "className",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
         }
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"3xs\" | \"2xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xl\""
-          }
-        ]
+        "name": "string | undefined"
       },
-      "shortPropTypeName": null
-    },
-    "wrap": {
-      "defaultValue": null,
-      "description": "",
-      "name": "wrap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"wrap-reverse\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
+      "shortPropTypeName": "string | function"
     },
     "direction": {
       "defaultValue": null,
@@ -353,19 +350,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
+        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"row\""
           },
           {
             "value": "\"column\""
           },
           {
             "value": "\"column-reverse\""
-          },
-          {
-            "value": "\"row\""
           },
           {
             "value": "\"row-reverse\""
@@ -459,6 +456,103 @@
       },
       "shortPropTypeName": null
     },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"wrap-reverse\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "as": {
+      "defaultValue": null,
+      "description": "",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "StackTag | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"article\""
+          },
+          {
+            "value": "\"form\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"section\""
+          },
+          {
+            "value": "\"header\""
+          },
+          {
+            "value": "\"footer\""
+          },
+          {
+            "value": "\"nav\""
+          },
+          {
+            "value": "\"aside\""
+          },
+          {
+            "value": "\"ul\""
+          },
+          {
+            "value": "\"ol\""
+          },
+          {
+            "value": "\"span\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -471,9 +565,9 @@
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLDivElement> | undefined"
+        "name": "Ref<HTMLElement> | undefined"
       },
-      "shortPropTypeName": "Union"
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {

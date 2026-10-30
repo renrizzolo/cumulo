@@ -21,6 +21,12 @@ declare module "@renr/parcel-rsc-router" {
     interface Routes {
       "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
       "/ai": { slug: "ai"; path: "/ai"; rsc: "/ai.rsc"; html: "/ai.html" };
+      "/components/alert": {
+        slug: "alert";
+        path: "/components/alert";
+        rsc: "/components/alert.rsc";
+        html: "/components/alert.html";
+      };
       "/components/app-frame": {
         slug: "app-frame";
         path: "/components/app-frame";
@@ -99,6 +105,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/flow.rsc";
         html: "/components/flow.html";
       };
+      "/components/grid": {
+        slug: "grid";
+        path: "/components/grid";
+        rsc: "/components/grid.rsc";
+        html: "/components/grid.html";
+      };
       "/components/heading": {
         slug: "heading";
         path: "/components/heading";
@@ -110,6 +122,24 @@ declare module "@renr/parcel-rsc-router" {
         path: "/components/input";
         rsc: "/components/input.rsc";
         html: "/components/input.html";
+      };
+      "/components/kbd": {
+        slug: "kbd";
+        path: "/components/kbd";
+        rsc: "/components/kbd.rsc";
+        html: "/components/kbd.html";
+      };
+      "/components/link": {
+        slug: "link";
+        path: "/components/link";
+        rsc: "/components/link.rsc";
+        html: "/components/link.html";
+      };
+      "/components/menu": {
+        slug: "menu";
+        path: "/components/menu";
+        rsc: "/components/menu.rsc";
+        html: "/components/menu.html";
       };
       "/components/panel": {
         slug: "panel";
@@ -129,6 +159,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/radio.rsc";
         html: "/components/radio.html";
       };
+      "/components/select": {
+        slug: "select";
+        path: "/components/select";
+        rsc: "/components/select.rsc";
+        html: "/components/select.html";
+      };
       "/components/side-nav": {
         slug: "side-nav";
         path: "/components/side-nav";
@@ -140,6 +176,12 @@ declare module "@renr/parcel-rsc-router" {
         path: "/components/sidebar";
         rsc: "/components/sidebar.rsc";
         html: "/components/sidebar.html";
+      };
+      "/components/spinner": {
+        slug: "spinner";
+        path: "/components/spinner";
+        rsc: "/components/spinner.rsc";
+        html: "/components/spinner.html";
       };
       "/components/stack": {
         slug: "stack";
@@ -226,6 +268,12 @@ export const flatRoutes = [
     html: "/ai.html",
   },
   {
+    path: "/components/alert",
+    slug: "alert",
+    rsc: "/components/alert.rsc",
+    html: "/components/alert.html",
+  },
+  {
     path: "/components/app-frame",
     slug: "app-frame",
     rsc: "/components/app-frame.rsc",
@@ -304,6 +352,12 @@ export const flatRoutes = [
     html: "/components/flow.html",
   },
   {
+    path: "/components/grid",
+    slug: "grid",
+    rsc: "/components/grid.rsc",
+    html: "/components/grid.html",
+  },
+  {
     path: "/components/heading",
     slug: "heading",
     rsc: "/components/heading.rsc",
@@ -314,6 +368,24 @@ export const flatRoutes = [
     slug: "input",
     rsc: "/components/input.rsc",
     html: "/components/input.html",
+  },
+  {
+    path: "/components/kbd",
+    slug: "kbd",
+    rsc: "/components/kbd.rsc",
+    html: "/components/kbd.html",
+  },
+  {
+    path: "/components/link",
+    slug: "link",
+    rsc: "/components/link.rsc",
+    html: "/components/link.html",
+  },
+  {
+    path: "/components/menu",
+    slug: "menu",
+    rsc: "/components/menu.rsc",
+    html: "/components/menu.html",
   },
   {
     path: "/components/panel",
@@ -334,6 +406,12 @@ export const flatRoutes = [
     html: "/components/radio.html",
   },
   {
+    path: "/components/select",
+    slug: "select",
+    rsc: "/components/select.rsc",
+    html: "/components/select.html",
+  },
+  {
     path: "/components/side-nav",
     slug: "side-nav",
     rsc: "/components/side-nav.rsc",
@@ -344,6 +422,12 @@ export const flatRoutes = [
     slug: "sidebar",
     rsc: "/components/sidebar.rsc",
     html: "/components/sidebar.html",
+  },
+  {
+    path: "/components/spinner",
+    slug: "spinner",
+    rsc: "/components/spinner.rsc",
+    html: "/components/spinner.html",
   },
   {
     path: "/components/stack",
@@ -430,6 +514,13 @@ export const routeTree = {
       slug: "ai",
       html: "/ai.html",
       rsc: "/ai.rsc",
+      children: [],
+    },
+    {
+      path: "/components/alert",
+      slug: "alert",
+      html: "/components/alert.html",
+      rsc: "/components/alert.rsc",
       children: [],
     },
     {
@@ -524,6 +615,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/grid",
+      slug: "grid",
+      html: "/components/grid.html",
+      rsc: "/components/grid.rsc",
+      children: [],
+    },
+    {
       path: "/components/heading",
       slug: "heading",
       html: "/components/heading.html",
@@ -535,6 +633,27 @@ export const routeTree = {
       slug: "input",
       html: "/components/input.html",
       rsc: "/components/input.rsc",
+      children: [],
+    },
+    {
+      path: "/components/kbd",
+      slug: "kbd",
+      html: "/components/kbd.html",
+      rsc: "/components/kbd.rsc",
+      children: [],
+    },
+    {
+      path: "/components/link",
+      slug: "link",
+      html: "/components/link.html",
+      rsc: "/components/link.rsc",
+      children: [],
+    },
+    {
+      path: "/components/menu",
+      slug: "menu",
+      html: "/components/menu.html",
+      rsc: "/components/menu.rsc",
       children: [],
     },
     {
@@ -559,6 +678,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: "/components/select",
+      slug: "select",
+      html: "/components/select.html",
+      rsc: "/components/select.rsc",
+      children: [],
+    },
+    {
       path: "/components/side-nav",
       slug: "side-nav",
       html: "/components/side-nav.html",
@@ -570,6 +696,13 @@ export const routeTree = {
       slug: "sidebar",
       html: "/components/sidebar.html",
       rsc: "/components/sidebar.rsc",
+      children: [],
+    },
+    {
+      path: "/components/spinner",
+      slug: "spinner",
+      html: "/components/spinner.html",
+      rsc: "/components/spinner.rsc",
       children: [],
     },
     {
@@ -673,6 +806,12 @@ export const routesByPage = {
     rsc: "/ai.rsc",
     html: "/ai.html",
   },
+  "/components/alert.html": {
+    path: "/components/alert",
+    slug: "alert",
+    rsc: "/components/alert.rsc",
+    html: "/components/alert.html",
+  },
   "/components/app-frame.html": {
     path: "/components/app-frame",
     slug: "app-frame",
@@ -751,6 +890,12 @@ export const routesByPage = {
     rsc: "/components/flow.rsc",
     html: "/components/flow.html",
   },
+  "/components/grid.html": {
+    path: "/components/grid",
+    slug: "grid",
+    rsc: "/components/grid.rsc",
+    html: "/components/grid.html",
+  },
   "/components/heading.html": {
     path: "/components/heading",
     slug: "heading",
@@ -762,6 +907,24 @@ export const routesByPage = {
     slug: "input",
     rsc: "/components/input.rsc",
     html: "/components/input.html",
+  },
+  "/components/kbd.html": {
+    path: "/components/kbd",
+    slug: "kbd",
+    rsc: "/components/kbd.rsc",
+    html: "/components/kbd.html",
+  },
+  "/components/link.html": {
+    path: "/components/link",
+    slug: "link",
+    rsc: "/components/link.rsc",
+    html: "/components/link.html",
+  },
+  "/components/menu.html": {
+    path: "/components/menu",
+    slug: "menu",
+    rsc: "/components/menu.rsc",
+    html: "/components/menu.html",
   },
   "/components/panel.html": {
     path: "/components/panel",
@@ -781,6 +944,12 @@ export const routesByPage = {
     rsc: "/components/radio.rsc",
     html: "/components/radio.html",
   },
+  "/components/select.html": {
+    path: "/components/select",
+    slug: "select",
+    rsc: "/components/select.rsc",
+    html: "/components/select.html",
+  },
   "/components/side-nav.html": {
     path: "/components/side-nav",
     slug: "side-nav",
@@ -792,6 +961,12 @@ export const routesByPage = {
     slug: "sidebar",
     rsc: "/components/sidebar.rsc",
     html: "/components/sidebar.html",
+  },
+  "/components/spinner.html": {
+    path: "/components/spinner",
+    slug: "spinner",
+    rsc: "/components/spinner.rsc",
+    html: "/components/spinner.html",
   },
   "/components/stack.html": {
     path: "/components/stack",

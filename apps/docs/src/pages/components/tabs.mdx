@@ -128,6 +128,25 @@ import { Tabs } from '@cumulo/core';
 
 </ComponentPreview>
 
+## Preserving inactive tab state (`keepMounted`)
+
+Pass `keepMounted` on `Tabs.Content` to keep inactive panels mounted in the DOM (hidden via `hidden`) so stateful children retain their state across tab switches.
+
+<ComponentPreview title="Keep Mounted Panels">
+  <Tabs.Root defaultValue="first" variant="line">
+    <Tabs.List>
+      <Tabs.Trigger value="first">First Panel</Tabs.Trigger>
+      <Tabs.Trigger value="second">Second Panel (keepMounted)</Tabs.Trigger>
+    </Tabs.List>
+    <Tabs.Content value="first" keepMounted>
+      <Text size="sm">This panel stays mounted in the DOM even when switching tabs.</Text>
+    </Tabs.Content>
+    <Tabs.Content value="second" keepMounted>
+      <Text size="sm">Switching back and forth preserves internal component state.</Text>
+    </Tabs.Content>
+  </Tabs.Root>
+</ComponentPreview>
+
 ### Component API
 
 <PropsTable data={tabsDoc} />

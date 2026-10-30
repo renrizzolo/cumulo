@@ -1,11 +1,11 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Input, Container, VStack } from '@cumulo/core';
+import { Input, Container, VStack, Kbd, Text } from '@cumulo/core';
 import inputDoc from '../../../docgen/components/Input.json';
 export default Layout;
 
 # Input
 
-Text input field with variant, intent, and sizing support.
+Text input field with variant, intent, sizing (`2xs` through `lg`), and `leading` / `trailing` adornment slots.
 
 ```tsx
 import { Input } from '@cumulo/core';
@@ -13,13 +13,37 @@ import { Input } from '@cumulo/core';
 
 ### Examples
 
-<ComponentPreview>
+<ComponentPreview title="Inputs & Adornments">
   <Container size="sm" padding="none">
     <VStack gap="md">
       <Input placeholder="Default Input" />
+      <Input
+        leading={
+          <Text size="xs" color="muted">
+            https://
+          </Text>
+        }
+        trailing={<Kbd size="sm">⌘K</Kbd>}
+        placeholder="cumulo.dev"
+      />
       <Input intent="success" defaultValue="Valid input value" />
       <Input intent="error" defaultValue="Invalid input value" />
-      <Input size="sm" placeholder="Small Input" />
+    </VStack>
+  </Container>
+</ComponentPreview>
+
+## Sizes
+
+Supports `2xs`, `xs`, `sm`, `md`, and `lg` control heights matching `Button` and `Select`.
+
+<ComponentPreview title="Input Sizes">
+  <Container size="sm" padding="none">
+    <VStack gap="sm">
+      <Input size="2xs" placeholder="2XS Input (24px)" />
+      <Input size="xs" placeholder="XS Input (28px)" />
+      <Input size="sm" placeholder="Small Input (32px)" />
+      <Input size="md" placeholder="Medium Input (36px)" />
+      <Input size="lg" placeholder="Large Input (44px)" />
     </VStack>
   </Container>
 </ComponentPreview>
