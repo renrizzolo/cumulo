@@ -4,12 +4,12 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlInput } from '../intents.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 
 export const checkboxRecipe = recipe(
   {
-    extend: [focusRing],
+    extend: [focusRing, controlIntent],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -60,20 +60,6 @@ export const checkboxRecipe = recipe(
           pointerEvents: 'none',
         },
         false: {},
-      },
-      intent: {
-        default: {},
-        error: {
-          borderColor: vars.error.bg,
-          ':focus-visible': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-          ':has(:focus-visible)': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-        },
       },
       size: {
         sm: {

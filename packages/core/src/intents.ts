@@ -433,6 +433,65 @@ export const focusRing = recipe(
 );
 
 /**
+ * Shared intent styles for custom selection controls (e.g. Checkbox, Radio, Switch).
+ */
+export const controlIntent = recipe(
+  {
+    variants: {
+      checked: {
+        true: {},
+        false: {},
+      },
+      intent: {
+        default: {},
+        error: {
+          borderColor: vars.error.bg,
+          selectors: {
+            '&:has(input:hover)': {
+              borderColor: vars.error.hover,
+            },
+          },
+          ':focus-visible': {
+            borderColor: vars.error.bg,
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+          },
+          ':has(:focus-visible)': {
+            borderColor: vars.error.bg,
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+          },
+        },
+      },
+    },
+    compoundVariants: [
+      {
+        variants: { intent: 'error', checked: true },
+        style: {
+          backgroundColor: vars.error.bg,
+          borderColor: vars.error.bg,
+          color: vars.error.fg,
+          selectors: {
+            '&:has(input:hover)': {
+              backgroundColor: vars.error.hover,
+              borderColor: vars.error.hover,
+            },
+          },
+        },
+      },
+      {
+        variants: { intent: 'error', checked: false },
+        style: {
+          color: vars.error.bg,
+        },
+      },
+    ],
+    defaultVariants: {
+      intent: 'default',
+    },
+  },
+  'control-intent',
+);
+
+/**
  * Accessible visually hidden style for hidden input elements and screen-reader content.
  */
 export const visuallyHidden = style(

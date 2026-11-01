@@ -82,25 +82,23 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           }
         ]
       },
       "shortPropTypeName": null
     },
     "size": {
-      "defaultValue": {
-        "value": "md"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "size",
       "parent": {
@@ -189,6 +187,12 @@
         "name": "Ref<HTMLInputElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    }
+  },
+  "subcomponents": {
+    "GroupContext": {
+      "name": "Radio.GroupContext",
+      "props": {}
     }
   }
 }

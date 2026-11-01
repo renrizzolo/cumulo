@@ -12,7 +12,7 @@ import { Checkbox, type CheckboxProps } from './Checkbox.js';
 import { Switch, type SwitchProps } from './Switch.js';
 import { Label, type LabelProps } from './Label.js';
 import { Radio, type RadioProps } from './Radio.js';
-import { RadioList, type RadioListProps } from './RadioList.js';
+import { Root as RadioGroupRoot, type RadioGroupRootProps } from './RadioGroup.js';
 
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 import { textBase } from '../typography.js';
@@ -191,14 +191,14 @@ function FieldInput({
   );
 }
 
-function FieldSelect({
+function FieldSelect<T extends string = string>({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: SelectProps): React.JSX.Element {
+}: SelectProps<T>): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -208,7 +208,7 @@ function FieldSelect({
   });
 
   return (
-    <Select
+    <Select<T>
       id={id}
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
@@ -381,14 +381,14 @@ function FieldSwitch({
   );
 }
 
-function FieldRadio({
+function FieldRadio<T extends string = string>({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: RadioProps): React.JSX.Element {
+}: RadioProps<T>): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -398,7 +398,7 @@ function FieldRadio({
   });
 
   return (
-    <Radio
+    <Radio<T>
       id={id}
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
@@ -410,14 +410,14 @@ function FieldRadio({
   );
 }
 
-function FieldRadioList({
+function FieldRadioGroup<T extends string = string>({
   className,
   id: providedId,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
   intent,
   ...props
-}: RadioListProps): React.JSX.Element {
+}: RadioGroupRootProps<T>): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
     part: 'input',
     id: providedId,
@@ -427,7 +427,7 @@ function FieldRadioList({
   });
 
   return (
-    <RadioList
+    <RadioGroupRoot<T>
       id={id}
       aria-labelledby={labelledBy}
       aria-describedby={describedBy}
@@ -446,19 +446,19 @@ FieldTextarea.displayName = 'Field.Textarea';
 FieldCheckbox.displayName = 'Field.Checkbox';
 FieldSwitch.displayName = 'Field.Switch';
 FieldRadio.displayName = 'Field.Radio';
-FieldRadioList.displayName = 'Field.RadioList';
+FieldRadioGroup.displayName = 'Field.RadioGroup';
 FieldLabel.displayName = 'Field.Label';
 FieldError.displayName = 'Field.Error';
 FieldDescription.displayName = 'Field.Description';
 FieldGroup.displayName = 'Field.Group';
 
 type FieldInputProps = InputProps;
-type FieldSelectProps = SelectProps;
+type FieldSelectProps<T extends string = string> = SelectProps<T>;
 type FieldTextareaProps = TextareaProps;
 type FieldCheckboxProps = CheckboxProps;
 type FieldSwitchProps = SwitchProps;
-type FieldRadioProps = RadioProps;
-type FieldRadioListProps = RadioListProps;
+type FieldRadioProps<T extends string = string> = RadioProps<T>;
+type FieldRadioGroupProps<T extends string = string> = RadioGroupRootProps<T>;
 type FieldLabelProps = LabelProps;
 type FieldDescriptionProps = ElementProps<HTMLParagraphElement>;
 
@@ -470,7 +470,7 @@ export {
   FieldCheckbox as Checkbox,
   FieldSwitch as Switch,
   FieldRadio as Radio,
-  FieldRadioList as RadioList,
+  FieldRadioGroup as RadioGroup,
   FieldLabel as Label,
   FieldError as Error,
   FieldDescription as Description,
@@ -485,7 +485,7 @@ export type {
   FieldCheckboxProps as CheckboxProps,
   FieldSwitchProps as SwitchProps,
   FieldRadioProps as RadioProps,
-  FieldRadioListProps as RadioListProps,
+  FieldRadioGroupProps as RadioGroupProps,
   FieldLabelProps as LabelProps,
   FieldErrorProps as ErrorProps,
   FieldDescriptionProps as DescriptionProps,

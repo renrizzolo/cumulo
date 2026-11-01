@@ -1,19 +1,19 @@
 'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useMemo,
-  type ReactNode,
-  type MouseEvent,
-} from 'react';
+import React, { createContext, useContext, useMemo, type ReactNode, type MouseEvent } from 'react';
 import { recipe, cx } from '@cumulo/css';
 import { Button, type ButtonProps, type ButtonVariants } from './Button.js';
 import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import { Stack, StackProps } from './Stack.js';
+import {
+  useValueGroup,
+  createTypedGroup,
+  type ValueGroupProps,
+  type ValueItemProps,
+  type ValueGroupContextBase,
+  type TypedGroup,
+} from '../hooks/useValueGroup.js';
+import { Stack, type StackProps } from './Stack.js';
 
 type ButtonGroupOrientation = 'horizontal' | 'vertical';
 type ButtonGroupSize = NonNullable<ButtonVariants['size']>;
@@ -76,9 +76,9 @@ const buttonGroupRecipe = recipe(
   'button-group',
 );
 
-export interface ButtonGroupContextValue {
-  value?: string;
-  setValue: (value: string) => void;
+export interface ButtonGroupContextValue<
+  T extends string = string,
+> extends ValueGroupContextBase<T> {
   size?: ButtonGroupSize;
   activeVariant?: ButtonGroupVariant;
   inactiveVariant?: ButtonGroupVariant;
@@ -97,10 +97,8 @@ export const useButtonGroup = (): ButtonGroupContextValue => {
   return context;
 };
 
-interface ButtonGroupRootProps extends Omit<StackProps, 'defaultValue' | 'onChange'> {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string) => void;
+interface ButtonGroupRootProps<T extends string = string>
+  extends Omit<StackProps, 'defaultValue' | 'onChange' | 'value'>, ValueGroupProps<T> {
   orientation?: ButtonGroupOrientation;
   size?: ButtonGroupSize;
   /** Button variant applied to the currently selected item (default: 'secondary') */
@@ -114,9 +112,9 @@ interface ButtonGroupRootProps extends Omit<StackProps, 'defaultValue' | 'onChan
   children?: ReactNode;
 }
 
-function ButtonGroupRoot({
+function ButtonGroupRoot<T extends string = string>({
   value: controlledValue,
-  defaultValue = '',
+  defaultValue,
   onValueChange,
   orientation = 'horizontal',
   size = 'sm',
@@ -136,23 +134,15 @@ function ButtonGroupRoot({
   children,
   ref,
   ...props
-}: ButtonGroupRootProps): React.JSX.Element {
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
-  const isControlled = controlledValue !== undefined;
-  const value = isControlled ? controlledValue : uncontrolledValue;
-
-  const setValue = useCallback(
-    (nextValue: string): void => {
-      if (!isControlled) {
-        setUncontrolledValue(nextValue);
-      }
-      onValueChange?.(nextValue);
-    },
-    [isControlled, onValueChange],
-  );
+}: ButtonGroupRootProps<T>): React.JSX.Element {
+  const { value, setValue } = useValueGroup<T>({
+    value: controlledValue,
+    defaultValue,
+    onValueChange,
+  });
 
   const contextValue = useMemo(
-    (): ButtonGroupContextValue => ({
+    (): ButtonGroupContextValue<T> => ({
       value,
       setValue,
       size,
@@ -201,8 +191,8 @@ function ButtonGroupRoot({
   );
 }
 
-interface ButtonGroupItemProps extends Omit<ButtonProps, 'value' | 'variant'> {
-  value: string;
+interface ButtonGroupItemProps<T extends string = string>
+  extends Omit<ButtonProps, 'value' | 'variant'>, ValueItemProps<T> {
   active?: boolean;
   /** Override the group's activeVariant for this specific item */
   activeVariant?: ButtonGroupVariant;
@@ -210,7 +200,7 @@ interface ButtonGroupItemProps extends Omit<ButtonProps, 'value' | 'variant'> {
   inactiveVariant?: ButtonGroupVariant;
 }
 
-function ButtonGroupItem({
+function ButtonGroupItem<T extends string = string>({
   value,
   active: propActive,
   activeVariant,
@@ -224,7 +214,7 @@ function ButtonGroupItem({
   onClick,
   ref,
   ...props
-}: ButtonGroupItemProps): React.JSX.Element {
+}: ButtonGroupItemProps<T>): React.JSX.Element {
   const context = useContext(ButtonGroupContext);
   const isSelected = propActive ?? (context ? context.value === value : false);
   const isDisabled = itemDisabled ?? context?.disabled ?? false;
@@ -263,9 +253,26 @@ function ButtonGroupItem({
 ButtonGroupRoot.displayName = 'ButtonGroup.Root';
 ButtonGroupItem.displayName = 'ButtonGroup.Item';
 
-export { ButtonGroupRoot as Root, ButtonGroupItem as Item };
+export type TypedButtonGroup<T extends string> = TypedGroup<
+  ButtonGroupRootProps<T>,
+  ButtonGroupItemProps<T>
+>;
+
+/**
+ * Creates a strictly typed `ButtonGroup` (`{ Root, Item }`) constrained to value union `T`.
+ */
+export function createButtonGroup<T extends string>(): TypedButtonGroup<T> {
+  return createTypedGroup<ButtonGroupRootProps<T>, ButtonGroupItemProps<T>>(
+    ButtonGroupRoot,
+    ButtonGroupItem,
+  );
+}
+
+export { ButtonGroupRoot as Root, ButtonGroupItem as Item, createButtonGroup as create };
 
 export type {
+  ButtonGroupRootProps,
+  ButtonGroupItemProps,
   ButtonGroupRootProps as RootProps,
   ButtonGroupItemProps as ItemProps,
   ButtonGroupOrientation,

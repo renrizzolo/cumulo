@@ -1,10 +1,18 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { fieldIntentStyles, sizes } from '../intents.js';
+import {
+  useValueGroup,
+  notifyStringValue,
+  createTypedCompound,
+  type ValueGroupProps,
+  type ValueItemProps,
+  type TypedGroup,
+} from '../hooks/useValueGroup.js';
 
 export const selectRecipe = recipe(
   {
@@ -236,7 +244,14 @@ const chevronSvgStyle = style({
 
 export type SelectVariants = RecipeVariants<typeof selectRecipe>;
 
-export interface SelectProps extends Omit<ElementProps<HTMLSelectElement>, 'size'> {
+export interface SelectProps<T extends string = string>
+  extends
+    Omit<ElementProps<HTMLSelectElement>, 'size' | 'value' | 'defaultValue'>,
+    Omit<ValueGroupProps<T>, 'defaultValue'> {
+  /**
+   * Initial selected value when uncontrolled (use `""` to select the placeholder option).
+   */
+  defaultValue?: T | '';
   /**
    * Visual surface variant of the select control.
    * @default 'field'
@@ -259,7 +274,11 @@ export interface SelectProps extends Omit<ElementProps<HTMLSelectElement>, 'size
   children?: React.ReactNode;
 }
 
-export function Select({
+function SelectRoot<T extends string = string>({
+  value: controlledValue,
+  defaultValue,
+  onValueChange,
+  onChange,
   variant = 'field',
   intent = 'default',
   size = 'md',
@@ -269,12 +288,33 @@ export function Select({
   children,
   ref,
   ...props
-}: SelectProps): React.JSX.Element {
+}: SelectProps<T>): React.JSX.Element {
+  const valueController = useValueGroup<T>({
+    value: controlledValue,
+    defaultValue: defaultValue && defaultValue !== '' ? defaultValue : undefined,
+    onValueChange,
+  });
+
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>): void => {
+      onChange?.(event);
+      if (!event.defaultPrevented) {
+        notifyStringValue(valueController, event.currentTarget.value);
+      }
+    },
+    [onChange, valueController],
+  );
+
   const classes = selectRecipe({
     variant,
     intent,
     size: size === 'inherit' ? 'inherit' : size,
   });
+
+  const resolvedDefaultValue =
+    controlledValue === undefined
+      ? (defaultValue ?? (placeholder !== undefined ? '' : undefined))
+      : undefined;
 
   return (
     <div
@@ -284,7 +324,10 @@ export function Select({
     >
       <select
         ref={ref}
+        value={controlledValue}
+        defaultValue={resolvedDefaultValue}
         disabled={disabled}
+        onChange={handleChange}
         aria-invalid={props['aria-invalid'] ?? (intent === 'error' ? true : undefined)}
         className={cx(classes, className)}
         {...props}
@@ -313,4 +356,84 @@ export function Select({
   );
 }
 
-Select.displayName = 'Select';
+export interface SelectOptionProps<T extends string = string>
+  extends Omit<ElementProps<HTMLOptionElement>, 'value' | 'defaultValue'>, ValueItemProps<T> {
+  children?: React.ReactNode;
+}
+
+function SelectOption<T extends string = string>({
+  value,
+  children,
+  ref,
+  ...props
+}: SelectOptionProps<T>): React.JSX.Element {
+  return (
+    <option ref={ref} value={value} {...props}>
+      {children}
+    </option>
+  );
+}
+
+export interface SelectOptGroupProps extends ElementProps<HTMLOptGroupElement> {
+  children?: React.ReactNode;
+}
+
+function SelectOptGroup({ children, ref, ...props }: SelectOptGroupProps): React.JSX.Element {
+  return (
+    <optgroup ref={ref} {...props}>
+      {children}
+    </optgroup>
+  );
+}
+
+SelectRoot.displayName = 'Select';
+SelectOption.displayName = 'Select.Option';
+SelectOptGroup.displayName = 'Select.OptGroup';
+
+export interface TypedSelect<T extends string> extends TypedGroup<
+  SelectProps<T>,
+  SelectOptionProps<T>
+> {
+  Option: (props: SelectOptionProps<T>) => React.JSX.Element;
+  OptGroup: (props: SelectOptGroupProps) => React.JSX.Element;
+  Group: (props: SelectOptGroupProps) => React.JSX.Element;
+}
+
+/**
+ * Creates a strictly typed `Select` (`{ Root, Item, Option, Group, OptGroup }`) constrained to value union `T`.
+ */
+export function createSelect<T extends string>(): TypedSelect<T> {
+  return createTypedCompound({
+    Root: SelectRoot,
+    Item: SelectOption,
+    Option: SelectOption,
+    Group: SelectOptGroup,
+    OptGroup: SelectOptGroup,
+  });
+}
+
+export const Select = Object.assign(SelectRoot, {
+  Root: SelectRoot,
+  Item: SelectOption,
+  Option: SelectOption,
+  Group: SelectOptGroup,
+  OptGroup: SelectOptGroup,
+  create: createSelect,
+});
+
+export {
+  SelectRoot as Root,
+  SelectOption as Item,
+  SelectOption as Option,
+  SelectOptGroup as Group,
+  SelectOptGroup as OptGroup,
+  createSelect as create,
+};
+
+export type {
+  SelectProps as RootProps,
+  SelectOptionProps as ItemProps,
+  SelectOptionProps as OptionProps,
+  SelectOptGroupProps as GroupProps,
+  SelectOptGroupProps as OptGroupProps,
+};

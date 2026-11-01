@@ -4,6 +4,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as ButtonGroup from '../src/components/ButtonGroup.js';
+import { createButtonGroup } from '../src/components/ButtonGroup.js';
 
 describe('ButtonGroup Component', () => {
   it('renders button group and items with proper roles and initial pressed state', () => {
@@ -96,5 +97,23 @@ describe('ButtonGroup Component', () => {
 
     expect(opt1).toHaveAttribute('aria-pressed', 'false');
     expect(opt2).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('supports strictly typed createButtonGroup / ButtonGroup.create factory', async () => {
+    const user = userEvent.setup();
+    type ViewMode = 'list' | 'grid' | 'board';
+    const ViewButtonGroup = createButtonGroup<ViewMode>();
+    const onValueChange = vi.fn<(value: ViewMode) => void>();
+
+    render(
+      <ViewButtonGroup.Root defaultValue="list" onValueChange={onValueChange}>
+        <ViewButtonGroup.Item value="list">List</ViewButtonGroup.Item>
+        <ViewButtonGroup.Item value="grid">Grid</ViewButtonGroup.Item>
+        <ViewButtonGroup.Item value="board">Board</ViewButtonGroup.Item>
+      </ViewButtonGroup.Root>,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Grid' }));
+    expect(onValueChange).toHaveBeenCalledWith('grid');
   });
 });

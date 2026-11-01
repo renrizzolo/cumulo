@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useState, useRef } from 'react';
+import React, { createContext, useContext, useCallback, useState, useRef } from 'react';
 import {
   recipe,
   style,
@@ -11,11 +11,13 @@ import {
 } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlInput } from '../intents.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import { useRadioList } from './RadioList.js';
+import type { ValueGroupContextBase } from '../hooks/useValueGroup.js';
 
-const radioContract = createThemeContract({
+export type RadioGroupOrientation = 'horizontal' | 'vertical';
+
+export const radioContract = createThemeContract({
   size: null,
 });
 
@@ -25,7 +27,7 @@ const radioTheme = createTheme(radioContract, {
 
 export const radioRecipe = recipe(
   {
-    extend: [focusRing],
+    extend: [focusRing, controlIntent],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -72,20 +74,6 @@ export const radioRecipe = recipe(
         },
         false: {},
       },
-      intent: {
-        default: {},
-        error: {
-          borderColor: vars.error.bg,
-          ':focus-visible': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-          ':has(:focus-visible)': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-        },
-      },
       size: {
         sm: radioContract.$set({ size: vars.size['3xs'] }),
         md: radioContract.$set({ size: vars.size['2xs'] }),
@@ -104,6 +92,18 @@ export const radioRecipe = recipe(
 
 export type RadioVariants = RecipeVariants<typeof radioRecipe>;
 
+export interface RadioGroupContextValue<
+  T extends string = string,
+> extends ValueGroupContextBase<T> {
+  name: string;
+  disabled?: boolean;
+  orientation?: RadioGroupOrientation;
+  intent?: 'default' | 'error';
+  size?: RadioVariants['size'];
+}
+
+export const RadioGroupContext = createContext<RadioGroupContextValue | null>(null);
+
 const dotStyle = style({
   width: `calc(${radioContract.size} / 2.5)`,
   height: `calc(${radioContract.size} / 2.5)`,
@@ -114,8 +114,11 @@ const dotStyle = style({
   transition: `transform ${vars.duration.fast} ${vars.ease.default}`,
 });
 
-export interface RadioProps extends ElementProps<HTMLInputElement> {
-  value?: string;
+export interface RadioProps<T extends string = string> extends Omit<
+  ElementProps<HTMLInputElement>,
+  'value' | 'defaultValue'
+> {
+  value?: T;
   checked?: boolean;
   defaultChecked?: boolean;
   intent?: RadioVariants['intent'];
@@ -123,13 +126,13 @@ export interface RadioProps extends ElementProps<HTMLInputElement> {
   onCheckedChange?: (checked: boolean) => void;
 }
 
-export function Radio({
+export function Radio<T extends string = string>({
   value,
   name: providedName,
   checked: controlledChecked,
   defaultChecked = false,
   intent: providedIntent,
-  size = 'md',
+  size: itemSize,
   disabled: itemDisabled,
   className,
   id,
@@ -137,8 +140,8 @@ export function Radio({
   onCheckedChange,
   ref,
   ...props
-}: RadioProps): React.JSX.Element {
-  const context = useRadioList();
+}: RadioProps<T>): React.JSX.Element {
+  const context = useContext(RadioGroupContext);
   const [uncontrolledChecked, setUncontrolledChecked] = useState(defaultChecked);
 
   const isGrouped = context !== null;
@@ -152,12 +155,13 @@ export function Radio({
   const isDisabled = itemDisabled ?? context?.disabled ?? false;
   const name = providedName ?? context?.name;
   const resolvedIntent = providedIntent ?? context?.intent ?? 'default';
+  const resolvedSize = itemSize ?? context?.size ?? 'md';
 
   const inputRef = useRef<HTMLInputElement>(null);
   const mergedRef = useMergeRefs(ref, inputRef);
 
   const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
+    (event: React.ChangeEvent<HTMLInputElement>): void => {
       const nextChecked = event.target.checked;
       if (!isGrouped && !isCheckedControlled) {
         setUncontrolledChecked(nextChecked);
@@ -175,7 +179,7 @@ export function Radio({
     checked: isChecked,
     disabled: isDisabled,
     intent: resolvedIntent,
-    size,
+    size: resolvedSize,
   });
 
   return (

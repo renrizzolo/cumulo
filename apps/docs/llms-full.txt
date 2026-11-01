@@ -133,18 +133,18 @@ import { Field } from '@cumulo/core';
 </Field.Root>
 ```
 
-#### `<Checkbox>`, `<Radio>`, `<Switch>`
+#### `<Checkbox>`, `<Radio>`, `<RadioGroup>`, `<Switch>`
 ```tsx
-import { Checkbox, Radio, RadioList, Switch } from '@cumulo/core';
+import { Checkbox, Radio, RadioGroup, Switch } from '@cumulo/core';
 
 <Checkbox checked={accepted} onChange={setAccepted} label="Agree to terms" />
 
 <Switch checked={notifications} onChange={setNotifications} label="Enable notifications" />
 
-<RadioList value={selectedPlan} onChange={setSelectedPlan}>
-  <Radio value="free" label="Free Tier" />
-  <Radio value="pro" label="Pro Tier" />
-</RadioList>
+<RadioGroup.Root value={selectedPlan} onValueChange={setSelectedPlan}>
+  <RadioGroup.Item value="free" />
+  <RadioGroup.Item value="pro" />
+</RadioGroup.Root>
 ```
 
 ---

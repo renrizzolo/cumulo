@@ -70,6 +70,10 @@ const codeInnerStyleOffset = style({
   minWidth: 0,
 });
 
+const SurfaceLevelGroup = ButtonGroup.create<'0' | '1' | '2'>();
+const LEVEL_TO_VALUE: Record<0 | 1 | 2, '0' | '1' | '2'> = { 0: '0', 1: '1', 2: '2' };
+const VALUE_TO_LEVEL: Record<'0' | '1' | '2', 0 | 1 | 2> = { '0': 0, '1': 1, '2': 2 };
+
 export function ComponentPreviewClient({
   title,
   code,
@@ -117,15 +121,15 @@ export function ComponentPreviewClient({
                 <Text type="label" size="xs" color="muted">
                   Surface:
                 </Text>
-                <ButtonGroup.Root
-                  value={String(level)}
-                  onValueChange={(val) => setLevel(Number(val) as 0 | 1 | 2)}
+                <SurfaceLevelGroup.Root
+                  value={LEVEL_TO_VALUE[level]}
+                  onValueChange={(val) => setLevel(VALUE_TO_LEVEL[val])}
                   size="xs"
                 >
-                  <ButtonGroup.Item value="0">Canvas</ButtonGroup.Item>
-                  <ButtonGroup.Item value="1">Surface</ButtonGroup.Item>
-                  <ButtonGroup.Item value="2">Elevated</ButtonGroup.Item>
-                </ButtonGroup.Root>
+                  <SurfaceLevelGroup.Item value="0">Canvas</SurfaceLevelGroup.Item>
+                  <SurfaceLevelGroup.Item value="1">Surface</SurfaceLevelGroup.Item>
+                  <SurfaceLevelGroup.Item value="2">Elevated</SurfaceLevelGroup.Item>
+                </SurfaceLevelGroup.Root>
               </HStack>
 
               {/* Code Actions */}

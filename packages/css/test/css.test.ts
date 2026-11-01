@@ -426,6 +426,52 @@ describe('@cumulo/css', () => {
       expect(getSheetCss()).toContain('outline:1px solid darkred;');
     });
 
+    it('inherits compound variants from extended recipes and applies them on child recipe invocations', () => {
+      const parent = recipe({
+        variants: {
+          checked: { true: {}, false: {} },
+          intent: { default: {}, error: { borderColor: 'red' } },
+        },
+        compoundVariants: [
+          {
+            variants: { checked: true, intent: 'error' },
+            style: { backgroundColor: 'red', borderColor: 'red' },
+          },
+        ],
+        defaultVariants: {
+          intent: 'default',
+        },
+      });
+
+      const child = recipe({
+        extend: [parent],
+        variants: {
+          checked: {
+            true: { backgroundColor: 'blue', borderColor: 'blue' },
+            false: {},
+          },
+        },
+        defaultVariants: {
+          checked: false,
+        },
+      });
+
+      // Default: unchecked, default intent -> no compound variant class
+      expect(child()).not.toContain('child-cv-0');
+
+      // Checked with default intent: blue -> no compound variant class
+      const checkedDefault = child({ checked: true });
+      expect(checkedDefault).toContain(child.classNames.variants.checked.true);
+      expect(checkedDefault).not.toContain(child.classNames.compoundVariants[0]?.className);
+
+      // Checked with error intent: compound variant applies and compiles red styles
+      const checkedError = child({ checked: true, intent: 'error' });
+      const compoundClass = child.classNames.compoundVariants[0]?.className;
+      expect(compoundClass).toBeDefined();
+      expect(checkedError).toContain(compoundClass);
+      expect(getSheetCss()).toContain('background-color:red;border-color:red;');
+    });
+
     it('handles recipe options objects in extend as well as recipe functions', () => {
       const rawOptions = {
         variants: {

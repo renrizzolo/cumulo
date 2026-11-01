@@ -438,7 +438,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         label: 'Radio',
         path: '/components/radio',
         htmlPath: '/components/radio.html',
-        keywords: ['radiolist', 'option', 'single-select', 'choice', 'form'],
+        keywords: ['radiogroup', 'option', 'single-select', 'choice', 'form'],
       },
       {
         label: 'Select',

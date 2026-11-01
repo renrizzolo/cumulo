@@ -8,6 +8,7 @@ import { CodeBlock } from './CodeBlock';
 import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { PropsTable } from './PropsTable';
+import { RscAlert } from './RscAlert';
 import { TokenTable } from './TokenTable';
 
 /**
@@ -38,6 +39,8 @@ const components = {
   TokenTable,
   PropsTable,
   ComponentPreview,
+  RscAlert,
+  RSCAlert: RscAlert,
 };
 
 // this applies base text styles to the child markdown content.

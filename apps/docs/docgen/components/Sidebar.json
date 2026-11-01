@@ -646,7 +646,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"secondary\" | \"outline\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -655,10 +655,10 @@
                 "value": "\"primary\""
               },
               {
-                "value": "\"secondary\""
+                "value": "\"outline\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"secondary\""
               },
               {
                 "value": "\"ghost\""
@@ -823,6 +823,28 @@
           "defaultValue": null,
           "description": "",
           "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "loading": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
+          "name": "loading",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Button.tsx",
             "name": "ButtonProps"

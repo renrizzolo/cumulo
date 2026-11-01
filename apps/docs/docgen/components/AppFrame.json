@@ -23,7 +23,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"screen\" | \"full\" | undefined",
+        "raw": "\"auto\" | \"full\" | \"screen\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -32,10 +32,10 @@
             "value": "\"auto\""
           },
           {
-            "value": "\"screen\""
+            "value": "\"full\""
           },
           {
-            "value": "\"full\""
+            "value": "\"screen\""
           }
         ]
       },

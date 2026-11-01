@@ -604,10 +604,10 @@
                 "value": "undefined"
               },
               {
-                "value": "\"form\""
+                "value": "\"article\""
               },
               {
-                "value": "\"article\""
+                "value": "\"form\""
               },
               {
                 "value": "\"main\""
@@ -700,10 +700,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"3xs\" | \"2xl\" | undefined",
+            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"3xs\""
               },
               {
                 "value": "\"2xs\""
@@ -722,12 +728,6 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"none\""
-              },
-              {
-                "value": "\"3xs\""
               },
               {
                 "value": "\"2xl\""
@@ -842,16 +842,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+            "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"nowrap\""
+                "value": "\"wrap\""
               },
               {
-                "value": "\"wrap\""
+                "value": "\"nowrap\""
               },
               {
                 "value": "\"wrap-reverse\""
@@ -1109,7 +1109,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
+            "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1118,10 +1118,10 @@
                 "value": "\"bold\""
               },
               {
-                "value": "\"medium\""
+                "value": "\"normal\""
               },
               {
-                "value": "\"normal\""
+                "value": "\"medium\""
               },
               {
                 "value": "\"semibold\""
@@ -1235,16 +1235,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"nowrap\" | \"wrap\" | \"balance\" | \"pretty\" | undefined",
+            "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"nowrap\""
+                "value": "\"wrap\""
               },
               {
-                "value": "\"wrap\""
+                "value": "\"nowrap\""
               },
               {
                 "value": "\"balance\""
@@ -1519,7 +1519,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
+            "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1528,10 +1528,10 @@
                 "value": "\"bold\""
               },
               {
-                "value": "\"medium\""
+                "value": "\"normal\""
               },
               {
-                "value": "\"normal\""
+                "value": "\"medium\""
               },
               {
                 "value": "\"semibold\""
@@ -1685,16 +1685,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"nowrap\" | \"wrap\" | \"balance\" | \"pretty\" | undefined",
+            "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"nowrap\""
+                "value": "\"wrap\""
               },
               {
-                "value": "\"wrap\""
+                "value": "\"nowrap\""
               },
               {
                 "value": "\"balance\""

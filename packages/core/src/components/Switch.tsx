@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { recipe, cx, type RecipeVariants, createThemeContract, createTheme } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlInput } from '../intents.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 
 const switchContract = createThemeContract({
   track: {
@@ -32,7 +32,7 @@ const switchTheme = createTheme(switchContract, {
 
 export const switchRecipe = recipe(
   {
-    extend: [focusRing],
+    extend: [focusRing, controlIntent],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -77,20 +77,6 @@ export const switchRecipe = recipe(
           pointerEvents: 'none',
         },
         false: {},
-      },
-      intent: {
-        default: {},
-        error: {
-          borderColor: vars.error.bg,
-          ':focus-visible': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-          ':has(:focus-visible)': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-        },
       },
       size: {
         sm: switchContract.$set({

@@ -22,13 +22,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"full\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"full\""
           },
           {
             "value": "\"sm\""
@@ -41,6 +38,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"full\""
           }
         ]
       },

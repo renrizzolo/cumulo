@@ -60,6 +60,13 @@ describe('Switch Component', () => {
     const switchEl = screen.getByRole('switch');
     expect(switchEl.id).toBe('notifications-field');
   });
+
+  it('supports intent="error" when checked', () => {
+    render(<Switch aria-label="Notifications" checked intent="error" />);
+    const switchEl = screen.getByRole('switch', { name: 'Notifications' });
+    expect(switchEl).toBeChecked();
+    expect(switchEl).toBeInvalid();
+  });
 });
 
 function ControlledSwitch() {

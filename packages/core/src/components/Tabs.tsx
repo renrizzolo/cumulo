@@ -3,7 +3,6 @@
 import React, {
   createContext,
   useContext,
-  useState,
   useCallback,
   useId,
   useMemo,
@@ -17,14 +16,19 @@ import type { ElementProps } from '../ElementProps.js';
 import { Stack } from './Stack.js';
 import { focusRing } from '../intents.js';
 import { Panel } from './Panel.js';
+import {
+  useValueGroup,
+  createTypedCompound,
+  type ValueGroupProps,
+  type ValueItemProps,
+  type ValueGroupContextBase,
+} from '../hooks/useValueGroup.js';
 
 type TabsOrientation = 'horizontal' | 'vertical';
 type TabsVariant = 'line' | 'pill' | 'bordered';
 
-export interface TabsContextValue {
+export interface TabsContextValue<T extends string = string> extends ValueGroupContextBase<T> {
   id: string;
-  value: string;
-  setValue: (value: string) => void;
   orientation: TabsOrientation;
   variant: TabsVariant;
 }
@@ -43,18 +47,16 @@ export const useTabs = (): TabsContextValue => {
  * TabsRoot
  * -----------------------------------------------------------------------------------------------*/
 
-interface TabsProps extends ElementProps<HTMLDivElement> {
-  value?: string;
-  defaultValue?: string;
-  onValueChange?: (value: string) => void;
+interface TabsProps<T extends string = string>
+  extends Omit<ElementProps<HTMLDivElement>, 'defaultValue' | 'onChange'>, ValueGroupProps<T> {
   orientation?: TabsOrientation;
   variant?: TabsVariant;
   children?: ReactNode;
 }
 
-function TabsRoot({
+function TabsRoot<T extends string = string>({
   value: controlledValue,
-  defaultValue = '',
+  defaultValue,
   onValueChange,
   orientation = 'horizontal',
   variant = 'line',
@@ -63,26 +65,18 @@ function TabsRoot({
   children,
   ref,
   ...props
-}: TabsProps): React.JSX.Element {
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
-  const isControlled = controlledValue !== undefined;
-  const value = isControlled ? controlledValue : uncontrolledValue;
+}: TabsProps<T>): React.JSX.Element {
+  const { value, setValue } = useValueGroup<T>({
+    value: controlledValue,
+    defaultValue,
+    onValueChange,
+  });
 
   const generatedId = useId();
   const id = providedId || generatedId;
 
-  const setValue = useCallback(
-    (nextValue: string) => {
-      if (!isControlled) {
-        setUncontrolledValue(nextValue);
-      }
-      onValueChange?.(nextValue);
-    },
-    [isControlled, onValueChange],
-  );
-
   const contextValue = useMemo(
-    (): TabsContextValue => ({
+    (): TabsContextValue<T> => ({
       id,
       value,
       setValue,
@@ -327,13 +321,13 @@ const tabsTriggerRecipe = recipe(
 
 type TabsTriggerVariants = RecipeVariants<typeof tabsTriggerRecipe>;
 
-interface TabsTriggerProps extends ElementProps<HTMLButtonElement> {
-  value: string;
+interface TabsTriggerProps<T extends string = string>
+  extends Omit<ElementProps<HTMLButtonElement>, 'value' | 'defaultValue'>, ValueItemProps<T> {
   disabled?: boolean;
   children?: ReactNode;
 }
 
-function TabsTrigger({
+function TabsTrigger<T extends string = string>({
   value: tabValue,
   disabled = false,
   className,
@@ -342,7 +336,7 @@ function TabsTrigger({
   onKeyDown,
   ref,
   ...props
-}: TabsTriggerProps): React.JSX.Element {
+}: TabsTriggerProps<T>): React.JSX.Element {
   const { id: rootId, value, setValue, variant, orientation } = useTabs();
   const isSelected = value === tabValue;
 
@@ -461,8 +455,8 @@ const tabsContentRecipe = recipe(
 
 type TabsContentVariants = RecipeVariants<typeof tabsContentRecipe>;
 
-interface TabsContentProps extends ElementProps<HTMLDivElement> {
-  value: string;
+interface TabsContentProps<T extends string = string>
+  extends Omit<ElementProps<HTMLDivElement>, 'defaultValue'>, ValueItemProps<T> {
   /**
    * Whether to keep the tab panel mounted in the DOM when inactive (using `hidden`).
    * @default false
@@ -471,14 +465,14 @@ interface TabsContentProps extends ElementProps<HTMLDivElement> {
   children?: ReactNode;
 }
 
-function TabsContent({
+function TabsContent<T extends string = string>({
   value: panelValue,
   keepMounted = false,
   className,
   children,
   ref,
   ...props
-}: TabsContentProps): React.JSX.Element | null {
+}: TabsContentProps<T>): React.JSX.Element | null {
   const { id: rootId, value, orientation } = useTabs();
   const isSelected = value === panelValue;
 
@@ -514,9 +508,38 @@ TabsContent.displayName = 'Tabs.Content';
 
 type TabsListProps = ElementProps<HTMLDivElement>;
 
-export { TabsRoot as Root, TabsList as List, TabsTrigger as Trigger, TabsContent as Content };
+export interface TypedTabs<T extends string> {
+  Root: (props: TabsProps<T>) => React.JSX.Element;
+  List: (props: TabsListProps) => React.JSX.Element;
+  Trigger: (props: TabsTriggerProps<T>) => React.JSX.Element;
+  Content: (props: TabsContentProps<T>) => React.JSX.Element | null;
+}
+
+/**
+ * Creates a strictly typed `Tabs` (`{ Root, List, Trigger, Content }`) constrained to value union `T`.
+ */
+export function createTabs<T extends string>(): TypedTabs<T> {
+  return createTypedCompound({
+    Root: TabsRoot,
+    List: TabsList,
+    Trigger: TabsTrigger,
+    Content: TabsContent,
+  });
+}
+
+export {
+  TabsRoot as Root,
+  TabsList as List,
+  TabsTrigger as Trigger,
+  TabsContent as Content,
+  createTabs as create,
+};
 
 export type {
+  TabsProps,
+  TabsListProps,
+  TabsTriggerProps,
+  TabsContentProps,
   TabsProps as RootProps,
   TabsListProps as ListProps,
   TabsTriggerProps as TriggerProps,

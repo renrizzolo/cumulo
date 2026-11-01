@@ -79,16 +79,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"normal\""
+            "value": "\"bold\""
           },
           {
-            "value": "\"bold\""
+            "value": "\"normal\""
           },
           {
             "value": "\"medium\""

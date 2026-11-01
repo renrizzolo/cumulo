@@ -4,7 +4,8 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Radio } from '../src/components/Radio.js';
-import { RadioList } from '../src/components/RadioList.js';
+import * as RadioGroup from '../src/components/RadioGroup.js';
+import { createRadioGroup } from '../src/components/RadioGroup.js';
 import * as Field from '../src/components/Field.js';
 
 describe('Radio Component', () => {
@@ -42,22 +43,29 @@ describe('Radio Component', () => {
     await user.click(radio);
     expect(onCheckedChange).not.toHaveBeenCalled();
   });
+
+  it('supports intent="error" when checked', () => {
+    render(<Radio aria-label="Test radio" checked intent="error" />);
+    const radio = screen.getByRole('radio', { name: 'Test radio' });
+    expect(radio).toBeChecked();
+    expect(radio).toHaveAttribute('data-invalid', 'true');
+  });
 });
 
-describe('RadioList Component', () => {
+describe('RadioGroup Component', () => {
   it('groups radios with role="radiogroup" and manages selection', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
 
     render(
-      <RadioList defaultValue="opt1" onValueChange={onValueChange}>
+      <RadioGroup.Root defaultValue="opt1" onValueChange={onValueChange}>
         <label htmlFor="opt1">
-          <Radio id="opt1" value="opt1" /> Option 1
+          <RadioGroup.Item id="opt1" value="opt1" /> Option 1
         </label>
         <label htmlFor="opt2">
-          <Radio id="opt2" value="opt2" /> Option 2
+          <RadioGroup.Item id="opt2" value="opt2" /> Option 2
         </label>
-      </RadioList>,
+      </RadioGroup.Root>,
     );
 
     const group = screen.getByRole('radiogroup');
@@ -75,16 +83,37 @@ describe('RadioList Component', () => {
     expect(opt1).not.toBeChecked();
   });
 
+  it('supports strictly typed createRadioGroup / RadioGroup.create factory', async () => {
+    const user = userEvent.setup();
+    type PlanTier = 'free' | 'pro' | 'enterprise';
+    const PlanRadioGroup = createRadioGroup<PlanTier>();
+    const onValueChange = vi.fn<(value: PlanTier) => void>();
+
+    render(
+      <PlanRadioGroup.Root defaultValue="free" onValueChange={onValueChange}>
+        <label htmlFor="plan-free">
+          <PlanRadioGroup.Item id="plan-free" value="free" /> Free
+        </label>
+        <label htmlFor="plan-pro">
+          <PlanRadioGroup.Item id="plan-pro" value="pro" /> Pro
+        </label>
+      </PlanRadioGroup.Root>,
+    );
+
+    await user.click(screen.getByRole('radio', { name: /Pro/i }));
+    expect(onValueChange).toHaveBeenCalledWith('pro');
+  });
+
   it('propagates disabled to group items', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
 
     render(
-      <RadioList disabled onValueChange={onValueChange}>
+      <RadioGroup.Root disabled onValueChange={onValueChange}>
         <label htmlFor="opt1-disabled">
-          <Radio id="opt1-disabled" value="opt1" /> Option 1
+          <RadioGroup.Item id="opt1-disabled" value="opt1" /> Option 1
         </label>
-      </RadioList>,
+      </RadioGroup.Root>,
     );
 
     const opt1 = screen.getByRole('radio', { name: /Option 1/i });
@@ -98,11 +127,11 @@ describe('RadioList Component', () => {
     render(
       <Field.Root>
         <Field.Label>Choose option</Field.Label>
-        <Field.RadioList defaultValue="val1">
+        <Field.RadioGroup defaultValue="val1">
           <label htmlFor="val1">
-            <Radio id="val1" value="val1" /> Val 1
+            <RadioGroup.Item id="val1" value="val1" /> Val 1
           </label>
-        </Field.RadioList>
+        </Field.RadioGroup>
       </Field.Root>,
     );
 
@@ -112,15 +141,15 @@ describe('RadioList Component', () => {
     expect(group).toHaveAttribute('aria-labelledby', label.id);
   });
 
-  it('propagates Field error state and aria-invalid to RadioList and child Radios', () => {
+  it('propagates Field error state and aria-invalid to RadioGroup and child Radios', () => {
     render(
       <Field.Root>
         <Field.Label>Plan</Field.Label>
-        <Field.RadioList defaultValue="starter">
+        <Field.RadioGroup defaultValue="starter">
           <label htmlFor="starter">
-            <Radio id="starter" value="starter" /> Starter
+            <RadioGroup.Item id="starter" value="starter" /> Starter
           </label>
-        </Field.RadioList>
+        </Field.RadioGroup>
         <Field.Error>Please select a valid plan.</Field.Error>
       </Field.Root>,
     );

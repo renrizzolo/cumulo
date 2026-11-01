@@ -9,8 +9,13 @@ export default Layout;
 A segmented button toggle and action grouping component built on top of `Flex`. Supports single selection, keyboard arrow navigation, roving tab index, and full layout customization via flex props.
 
 ```tsx
-import { ButtonGroup } from '@cumulo/core';
+import { ButtonGroup, createButtonGroup } from '@cumulo/core';
+
+// Optional: create a strictly typed ButtonGroup
+const PeriodButtonGroup = createButtonGroup<'daily' | 'weekly' | 'monthly' | 'yearly'>();
 ```
+
+<RscAlert component="ButtonGroup" />
 
 ### Examples
 

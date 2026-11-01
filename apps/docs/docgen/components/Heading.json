@@ -124,16 +124,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"normal\""
+            "value": "\"bold\""
           },
           {
-            "value": "\"bold\""
+            "value": "\"normal\""
           },
           {
             "value": "\"medium\""
@@ -214,19 +214,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"left\" | \"right\" | \"justify\" | undefined",
+        "raw": "\"left\" | \"right\" | \"center\" | \"justify\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"center\""
           },
           {
             "value": "\"left\""
           },
           {
             "value": "\"right\""
+          },
+          {
+            "value": "\"center\""
           },
           {
             "value": "\"justify\""

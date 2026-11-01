@@ -9,8 +9,13 @@ export default Layout;
 An accessible compound tabbed interface supporting line, pill, and bordered styles with full keyboard arrow navigation.
 
 ```tsx
-import { Tabs } from '@cumulo/core';
+import { Tabs, createTabs } from '@cumulo/core';
+
+// Optional: create a strictly typed Tabs group
+const SettingsTabs = createTabs<'account' | 'password' | 'notifications'>();
 ```
+
+<RscAlert component="Tabs" />
 
 ### Examples
 

@@ -3,7 +3,17 @@ import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Alert, Button, Grid, Input, Kbd, Link, Select, Spinner } from '../src/index.js';
+import {
+  Alert,
+  Button,
+  Grid,
+  Input,
+  Kbd,
+  Link,
+  Select,
+  createSelect,
+  Spinner,
+} from '../src/index.js';
 
 describe('Button loading state', () => {
   it('sets aria-busy and prevents clicks when loading is true', async () => {
@@ -65,6 +75,28 @@ describe('Select Component', () => {
     await user.selectOptions(select, 'react');
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(select).toHaveValue('react');
+  });
+
+  it('supports strictly typed createSelect / Select.create factory and onValueChange', async () => {
+    const user = userEvent.setup();
+    type Framework = 'react' | 'solid';
+    const FrameworkSelect = createSelect<Framework>();
+    const onValueChange = vi.fn<(value: Framework) => void>();
+
+    render(
+      <FrameworkSelect.Root
+        aria-label="Typed Framework"
+        defaultValue="react"
+        onValueChange={onValueChange}
+      >
+        <FrameworkSelect.Option value="react">React</FrameworkSelect.Option>
+        <FrameworkSelect.Option value="solid">Solid</FrameworkSelect.Option>
+      </FrameworkSelect.Root>,
+    );
+
+    const select = screen.getByRole('combobox', { name: 'Typed Framework' });
+    await user.selectOptions(select, 'solid');
+    expect(onValueChange).toHaveBeenCalledWith('solid');
   });
 });
 

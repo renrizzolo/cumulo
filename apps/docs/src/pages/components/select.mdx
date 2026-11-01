@@ -9,7 +9,10 @@ export default Layout;
 Customizable `<select>` dropdown control (`appearance: base-select`) with styled `::picker(select)` popup, options, checkmarks, option groups, variants, intents, sizing scales, and compound `Field.Select` integration.
 
 ```tsx
-import { Select, Field } from '@cumulo/core';
+import { Select, createSelect, Field } from '@cumulo/core';
+
+// Optional: create a strictly typed Select
+const RegionSelect = createSelect<'us-east' | 'us-west' | 'eu-central' | 'ap-south'>();
 ```
 
 ### Examples
