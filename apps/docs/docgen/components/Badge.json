@@ -20,7 +20,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"secondary\" | \"outline\" | undefined",
+        "raw": "\"primary\" | \"outline\" | \"secondary\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -29,10 +29,10 @@
             "value": "\"primary\""
           },
           {
-            "value": "\"secondary\""
+            "value": "\"outline\""
           },
           {
-            "value": "\"outline\""
+            "value": "\"secondary\""
           }
         ]
       },

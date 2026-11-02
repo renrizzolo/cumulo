@@ -1098,12 +1098,14 @@ export function ThemeBuilder(): React.JSX.Element {
                           wrap="wrap"
                           direction="row"
                           value={theme.intentStyle}
-                          onValueChange={(val) =>
-                            setTheme((prev) => ({
-                              ...prev,
-                              intentStyle: val,
-                            }))
-                          }
+                          onValueChange={(val) => {
+                            if (val === 'solid' || val === 'pastel' || val === 'pastel-dark') {
+                              setTheme((prev) => ({
+                                ...prev,
+                                intentStyle: val,
+                              }));
+                            }
+                          }}
                         >
                           <ButtonGroup.Item value="solid">Solid</ButtonGroup.Item>
                           <ButtonGroup.Item value="pastel">Pastel</ButtonGroup.Item>

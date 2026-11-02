@@ -3,68 +3,6 @@
   "path": "packages/core/src/components/Tabs.tsx",
   "fileName": "Tabs.tsx",
   "props": {
-    "value": {
-      "defaultValue": null,
-      "description": "",
-      "name": "value",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-        "name": "TabsProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-          "name": "TabsProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "defaultValue": {
-      "defaultValue": {
-        "value": ""
-      },
-      "description": "",
-      "name": "defaultValue",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-        "name": "TabsProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-          "name": "TabsProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "onValueChange": {
-      "defaultValue": null,
-      "description": "",
-      "name": "onValueChange",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-        "name": "TabsProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-          "name": "TabsProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "((value: string) => void) | undefined"
-      },
-      "shortPropTypeName": "function"
-    },
     "orientation": {
       "defaultValue": {
         "value": "horizontal"
@@ -171,6 +109,66 @@
         "name": "Ref<HTMLDivElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "Controlled selected value.",
+      "name": "value",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "Initial selected value when uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "onValueChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected value changes.",
+      "name": "onValueChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: T) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
     }
   },
   "subcomponents": {
@@ -218,26 +216,6 @@
     "Trigger": {
       "name": "Tabs.Trigger",
       "props": {
-        "value": {
-          "defaultValue": null,
-          "description": "",
-          "name": "value",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-            "name": "TabsTriggerProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-              "name": "TabsTriggerProps"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "string"
-          },
-          "shortPropTypeName": null
-        },
         "disabled": {
           "defaultValue": {
             "value": "false"
@@ -295,16 +273,38 @@
             "name": "Ref<HTMLButtonElement> | undefined"
           },
           "shortPropTypeName": "Union"
+        },
+        "value": {
+          "defaultValue": null,
+          "description": "Unique value identifying this item within the group.",
+          "name": "value",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+            "name": "ValueItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+              "name": "ValueItemProps"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "string"
+          },
+          "shortPropTypeName": null
         }
       }
     },
     "Content": {
       "name": "Tabs.Content",
       "props": {
-        "value": {
-          "defaultValue": null,
-          "description": "",
-          "name": "value",
+        "keepMounted": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Whether to keep the tab panel mounted in the DOM when inactive (using `hidden`).",
+          "name": "keepMounted",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
             "name": "TabsContentProps"
@@ -315,9 +315,9 @@
               "name": "TabsContentProps"
             }
           ],
-          "required": true,
+          "required": false,
           "type": {
-            "name": "string"
+            "name": "boolean | undefined"
           },
           "shortPropTypeName": null
         },
@@ -356,8 +356,33 @@
             "name": "Ref<HTMLDivElement> | undefined"
           },
           "shortPropTypeName": "Union"
+        },
+        "value": {
+          "defaultValue": null,
+          "description": "Unique value identifying this item within the group.",
+          "name": "value",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+            "name": "ValueItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+              "name": "ValueItemProps"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "string"
+          },
+          "shortPropTypeName": null
         }
       }
+    },
+    "createTabs": {
+      "name": "Tabs.createTabs",
+      "description": "Creates a strictly typed `Tabs` (`{ Root, List, Trigger, Content }`) constrained to value union `T`.",
+      "props": {}
     }
   }
 }

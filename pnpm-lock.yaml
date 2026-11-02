@@ -149,9 +149,9 @@ importers:
         specifier: ^19.0.0
         version: 19.2.8
     devDependencies:
-      '@types/react':
-        specifier: ^19.0.0
-        version: 19.2.18
+      csstype:
+        specifier: ^3.2.3
+        version: 3.2.3
       tsdown:
         specifier: ^0.22.14
         version: 0.22.14(@tsdown/css@0.22.14)(typescript@5.9.3)

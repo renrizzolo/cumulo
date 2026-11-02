@@ -1,0 +1,48 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Kbd, HStack, Text } from '@cumulo/core';
+import kbdDoc from '../../../docgen/components/Kbd.json';
+export default Layout;
+
+# Kbd
+
+Semantic `<kbd>` keyboard keycap primitive with subtle key-edge elevation for displaying hotkeys and command shortcuts.
+
+```tsx
+import { Kbd } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Keyboard Shortcuts">
+  <HStack gap="lg" align="center" wrap="wrap">
+    <HStack gap="2xs" align="center">
+      <Kbd>⌘+K</Kbd>
+    </HStack>
+    <HStack gap="2xs" align="center">
+      <Kbd>Ctrl</Kbd>
+      <Text size="xs" color="muted">
+        +
+      </Text>
+      <Kbd>Shift</Kbd>
+      <Text size="xs" color="muted">
+        +
+      </Text>
+      <Kbd>P</Kbd>
+    </HStack>
+    <HStack gap="2xs" align="center">
+      <Kbd>Esc</Kbd>
+    </HStack>
+  </HStack>
+</ComponentPreview>
+
+<ComponentPreview title="Sizes">
+  <HStack gap="2xs" align="center">
+    <Kbd size="xs">XS</Kbd>
+    <Kbd size="sm">SM</Kbd>
+    <Kbd size="md">MD</Kbd>
+  </HStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={kbdDoc} />

@@ -4,7 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { recipe, cx, type RecipeVariants, createThemeContract, createTheme } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlInput } from '../intents.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 
 const switchContract = createThemeContract({
   track: {
@@ -32,7 +32,7 @@ const switchTheme = createTheme(switchContract, {
 
 export const switchRecipe = recipe(
   {
-    extend: [focusRing],
+    extend: [focusRing, controlIntent],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -78,25 +78,47 @@ export const switchRecipe = recipe(
         },
         false: {},
       },
-      intent: {
-        default: {},
-        error: {
-          borderColor: vars.error.bg,
-          ':focus-visible': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+      size: {
+        sm: switchContract.$set({
+          track: {
+            width: vars.size.xs,
+            height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+            padding: vars.spacing['3xs'],
+            borderWidth: '1px',
           },
-          ':has(:focus-visible)': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+          thumb: {
+            size: `calc(${vars.size['4xs']} - 2px)`,
           },
-        },
+        }),
+        md: switchContract.$set({
+          track: {
+            width: vars.size.sm,
+            height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+            padding: vars.spacing['3xs'],
+            borderWidth: '1px',
+          },
+          thumb: {
+            size: vars.size['4xs'],
+          },
+        }),
+        lg: switchContract.$set({
+          track: {
+            width: vars.size.md,
+            height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+            padding: vars.spacing['3xs'],
+            borderWidth: '1px',
+          },
+          thumb: {
+            size: vars.size['3xs'],
+          },
+        }),
       },
     },
     defaultVariants: {
       checked: false,
       disabled: false,
       intent: 'default',
+      size: 'md',
     },
   },
   'switch',
@@ -137,6 +159,7 @@ export interface SwitchProps extends ElementProps<HTMLInputElement> {
   checked?: boolean;
   defaultChecked?: boolean;
   intent?: SwitchVariants['intent'];
+  size?: SwitchVariants['size'];
   onCheckedChange?: (checked: boolean) => void;
 }
 
@@ -144,6 +167,7 @@ export function Switch({
   checked: controlledChecked,
   defaultChecked = false,
   intent = 'default',
+  size = 'md',
   disabled = false,
   className,
   id,
@@ -172,6 +196,7 @@ export function Switch({
     checked: isChecked,
     disabled,
     intent,
+    size,
   });
 
   const thumbClasses = switchThumbRecipe({

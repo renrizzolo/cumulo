@@ -11,7 +11,11 @@ type HTMLAttributesFor<T> = T extends HTMLInputElement
         ? React.TextareaHTMLAttributes<T>
         : T extends HTMLSelectElement
           ? React.SelectHTMLAttributes<T>
-          : React.HTMLAttributes<T>;
+          : T extends HTMLOptionElement
+            ? React.OptionHTMLAttributes<T>
+            : T extends HTMLOptGroupElement
+              ? React.OptgroupHTMLAttributes<T>
+              : React.HTMLAttributes<T>;
 
 /**
  * Components that extend HTML elements omit noisy/rarely-used global HTML attributes,

@@ -4,6 +4,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as Tabs from '../src/components/Tabs.js';
+import { createTabs } from '../src/components/Tabs.js';
 
 describe('Tabs Component', () => {
   it('renders tab list, triggers and default selected content', () => {
@@ -78,5 +79,50 @@ describe('Tabs Component', () => {
     const thirdTab = screen.getByRole('tab', { name: 'Third' });
     fireEvent.keyDown(thirdTab, { key: 'Home' });
     expect(screen.getByRole('tab', { name: 'First' })).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('keeps inactive tab panels mounted with hidden attribute when keepMounted is true', () => {
+    render(
+      <Tabs.Root defaultValue="first">
+        <Tabs.List>
+          <Tabs.Trigger value="first">First</Tabs.Trigger>
+          <Tabs.Trigger value="second">Second</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="first" keepMounted>
+          First Panel
+        </Tabs.Content>
+        <Tabs.Content value="second" keepMounted>
+          Second Panel
+        </Tabs.Content>
+      </Tabs.Root>,
+    );
+
+    const firstPanel = screen.getByText('First Panel');
+    const secondPanel = screen.getByText('Second Panel');
+
+    expect(firstPanel).not.toHaveAttribute('hidden');
+    expect(secondPanel).toHaveAttribute('hidden');
+  });
+
+  it('supports strictly typed createTabs / Tabs.create factory', async () => {
+    const user = userEvent.setup();
+    type SectionTab = 'overview' | 'metrics';
+    const SectionTabs = createTabs<SectionTab>();
+    const onValueChange = vi.fn<(value: SectionTab) => void>();
+
+    render(
+      <SectionTabs.Root defaultValue="overview" onValueChange={onValueChange}>
+        <SectionTabs.List>
+          <SectionTabs.Trigger value="overview">Overview</SectionTabs.Trigger>
+          <SectionTabs.Trigger value="metrics">Metrics</SectionTabs.Trigger>
+        </SectionTabs.List>
+        <SectionTabs.Content value="overview">Overview Body</SectionTabs.Content>
+        <SectionTabs.Content value="metrics">Metrics Body</SectionTabs.Content>
+      </SectionTabs.Root>,
+    );
+
+    await user.click(screen.getByRole('tab', { name: 'Metrics' }));
+    expect(onValueChange).toHaveBeenCalledWith('metrics');
+    expect(screen.getByText('Metrics Body')).toBeInTheDocument();
   });
 });

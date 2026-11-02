@@ -27,6 +27,7 @@ export {
 
 export type {
   CSSProperties,
+  StyleProperties,
   PseudoClass,
   PseudoElement,
   ComplexStyleRule,

@@ -20,6 +20,47 @@ import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { useFocus } from '../hooks/useFocus.js';
 import { useDismissible } from '../hooks/useDismissible.js';
 
+function safeHidePopover(el: HTMLElement | null): boolean {
+  if (el && 'hidePopover' in el && typeof el.hidePopover === 'function') {
+    try {
+      el.hidePopover();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
+function safeTogglePopover(el: HTMLElement | null): boolean {
+  if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
+    try {
+      el.togglePopover();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
+function safeShowPopover(el: HTMLElement | null): void {
+  if (!el || !('showPopover' in el) || typeof el.showPopover !== 'function') return;
+  try {
+    let isOpen = false;
+    try {
+      isOpen = el.matches?.(':popover-open') ?? false;
+    } catch {
+      isOpen = false;
+    }
+    if (!isOpen) {
+      el.showPopover();
+    }
+  } catch {
+    // Ignore if element is not in document yet or transitions
+  }
+}
+
 export interface PopoverContextValue {
   id: string;
   open: boolean;
@@ -200,19 +241,17 @@ function PopoverTrigger({
 
   const handleClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
-      onClick?.(event as MouseEvent<HTMLButtonElement>);
+      onClick?.(event);
       if (event.defaultPrevented) return;
 
       if (trigger === 'hover') return;
 
       const el = popoverRef.current;
       // In synthetic environments (like JSDOM / Vitest) where button popoverTarget is not dispatched by browser engine
-      if (el && typeof el.togglePopover === 'function') {
+      if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
         const button = event.currentTarget;
         if (!('popoverTargetElement' in button) && !('popoverTargetAction' in button)) {
-          try {
-            (el as HTMLElement & { togglePopover: () => void }).togglePopover();
-          } catch {
+          if (!safeTogglePopover(el)) {
             toggle();
           }
         }
@@ -265,7 +304,7 @@ function PopoverTrigger({
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLElement>) => {
-      onKeyDown?.(event as React.KeyboardEvent<HTMLButtonElement>);
+      onKeyDown?.(event);
       if (event.defaultPrevented) return;
 
       if (event.key === 'Escape' && open) {
@@ -276,17 +315,7 @@ function PopoverTrigger({
       // If popover is open and user tabs backwards from the trigger, dismiss the popover
       if (open && event.key === 'Tab' && event.shiftKey) {
         close();
-        const el = popoverRef.current;
-        if (
-          el &&
-          typeof (el as HTMLElement & { hidePopover?: () => void }).hidePopover === 'function'
-        ) {
-          try {
-            (el as HTMLElement & { hidePopover: () => void }).hidePopover();
-          } catch {
-            // Ignore
-          }
-        }
+        safeHidePopover(popoverRef.current);
       }
     },
     [close, onKeyDown, open, popoverRef],
@@ -586,17 +615,7 @@ function PopoverContent({
 
   const handleTabOut = useCallback(() => {
     close();
-    const el = popoverRef.current;
-    if (
-      el &&
-      typeof (el as HTMLElement & { hidePopover?: () => void }).hidePopover === 'function'
-    ) {
-      try {
-        (el as HTMLElement & { hidePopover: () => void }).hidePopover();
-      } catch {
-        // Ignore
-      }
-    }
+    safeHidePopover(popoverRef.current);
   }, [close, popoverRef]);
 
   const focusRef = useFocus<HTMLDivElement>({
@@ -608,23 +627,16 @@ function PopoverContent({
     restoreFocusOnUnmount: !isTooltip,
   });
 
+  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
+
   const dismissibleRef = useDismissible<HTMLDivElement>({
     onDismiss: () => {
       if (isTooltip) return;
       close();
-      const el = popoverRef.current;
-      if (
-        el &&
-        typeof (el as HTMLElement & { hidePopover?: () => void }).hidePopover === 'function'
-      ) {
-        try {
-          (el as HTMLElement & { hidePopover: () => void }).hidePopover();
-        } catch {
-          // Ignore
-        }
-      }
+      safeHidePopover(popoverRef.current);
     },
     dismissOnClickOutside: !isTooltip,
+    ignoreRefs,
   });
 
   // Close popover if focus moves completely outside trigger and popover
@@ -634,26 +646,16 @@ function PopoverContent({
     const handleDocumentFocusIn = (event: FocusEvent) => {
       const popoverEl = popoverRef.current;
       const triggerEl = triggerRef.current;
-      const target = event.target as Node | null;
+      const target = event.target;
 
-      if (!target) return;
+      if (!(target instanceof Node)) return;
 
       const isInsidePopover = popoverEl?.contains(target);
       const isInsideTrigger = triggerEl?.contains(target);
 
       if (!isInsidePopover && !isInsideTrigger) {
         close();
-        if (
-          popoverEl &&
-          typeof (popoverEl as HTMLElement & { hidePopover?: () => void }).hidePopover ===
-            'function'
-        ) {
-          try {
-            (popoverEl as HTMLElement & { hidePopover: () => void }).hidePopover();
-          } catch {
-            // Ignore
-          }
-        }
+        safeHidePopover(popoverEl);
       }
     };
 
@@ -666,30 +668,12 @@ function PopoverContent({
   // Controlled open/close with native API if available
   useEffect(() => {
     const el = popoverRef.current;
-    if (!el || !('showPopover' in el)) return;
+    if (!el) return;
 
-    try {
-      const popoverEl = el as HTMLElement & {
-        showPopover: () => void;
-        hidePopover: () => void;
-        matches?: (selector: string) => boolean;
-      };
-      let isOpen = false;
-      try {
-        isOpen = popoverEl.matches?.(':popover-open') ?? false;
-      } catch {
-        isOpen = false;
-      }
-
-      if (open) {
-        if (!isOpen) {
-          popoverEl.showPopover();
-        }
-      } else {
-        popoverEl.hidePopover();
-      }
-    } catch {
-      // Ignore if element is not in document yet or transitions
+    if (open) {
+      safeShowPopover(el);
+    } else {
+      safeHidePopover(el);
     }
   }, [open, popoverRef]);
 
@@ -742,14 +726,7 @@ function PopoverClose({
       onClick?.(event);
       if (event.defaultPrevented) return;
 
-      const el = popoverRef.current;
-      if (el && typeof el.hidePopover === 'function') {
-        try {
-          (el as HTMLElement & { hidePopover: () => void }).hidePopover();
-        } catch {
-          close();
-        }
-      } else {
+      if (!safeHidePopover(popoverRef.current)) {
         close();
       }
     },

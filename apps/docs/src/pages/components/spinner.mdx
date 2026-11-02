@@ -1,0 +1,38 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Spinner, HStack, VStack, Text } from '@cumulo/core';
+import spinnerDoc from '../../../docgen/components/Spinner.json';
+export default Layout;
+
+# Spinner
+
+Accessible SVG loading indicator with smooth rotation, size tokens (`xs`, `sm`, `md`, `lg`, `inherit`), and semantic color intents.
+
+```tsx
+import { Spinner } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Spinner Sizes & Intents">
+  <VStack gap="lg" align="start">
+    <HStack gap="lg" align="center">
+      <Spinner size="xs" />
+      <Spinner size="sm" />
+      <Spinner size="md" />
+      <Spinner size="lg" />
+    </HStack>
+
+    <HStack gap="lg" align="center">
+      <Spinner intent="primary" size="md" />
+      <Spinner intent="muted" size="md" />
+      <Spinner intent="success" size="md" />
+      <Spinner intent="warning" size="md" />
+      <Spinner intent="error" size="md" />
+    </HStack>
+
+  </VStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={spinnerDoc} />

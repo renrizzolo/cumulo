@@ -13,18 +13,27 @@ import { Card } from '@cumulo/core';
 
 ### Examples
 
-<ComponentPreview title="Card Elevation & Padding">
-  <HStack gap="md">
-    <Card level={1} padding="md">
-      <VStack gap="md">
-        <Card.Header size="sm" title="Container Card" description="Level 1"/>
+<ComponentPreview title="Compound Card Structure & Elevation">
+  <HStack gap="md" align="stretch" wrap="wrap">
+    <Card.Root level={1}>
+      <Card.Header
+        size="sm"
+        title="Compound Card"
+        description="Structured with Header, Body, and Footer"
+      />
+      <Card.Body>
         <Text type="body" size="sm" color="muted">
-         Standard surface container for cards and sections. Standard surface container for cards and sections.
+          Card.Body and Card.Footer automatically inherit parent surface padding via CSS variables.
         </Text>
-      </VStack>
-    </Card>
+      </Card.Body>
+      <Card.Footer justify="end">
+        <Button size="xs" variant="secondary">Cancel</Button>
+        <Button size="xs" variant="primary">Save</Button>
+      </Card.Footer>
+    </Card.Root>
+
     <Card level={2} padding="lg">
-      <VStack gap="xs">
+      <VStack gap="sm">
         <Heading as="h4" size="sm">
           Elevated Card (Level 2)
         </Heading>

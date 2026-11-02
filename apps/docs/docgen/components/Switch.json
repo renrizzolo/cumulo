@@ -64,16 +64,53 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
           }
         ]
       },

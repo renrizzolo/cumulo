@@ -93,6 +93,13 @@ describe('Checkbox Component', () => {
     const input = screen.getByRole('checkbox');
     expect(input).toBeInvalid();
   });
+
+  it('supports intent="error" when checked', () => {
+    render(<Checkbox aria-label="Accept terms" checked intent="error" />);
+    const input = screen.getByRole('checkbox', { name: 'Accept terms' });
+    expect(input).toBeChecked();
+    expect(input).toBeInvalid();
+  });
 });
 
 function ControlledCheckbox() {

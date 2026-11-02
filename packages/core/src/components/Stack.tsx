@@ -58,7 +58,22 @@ export const stackRecipe = recipe(
 
 export type StackVariants = RecipeVariants<typeof stackRecipe>;
 
-export interface StackProps extends ElementProps<HTMLDivElement> {
+export type StackTag =
+  | 'div'
+  | 'section'
+  | 'article'
+  | 'header'
+  | 'footer'
+  | 'nav'
+  | 'aside'
+  | 'main'
+  | 'form'
+  | 'ul'
+  | 'ol'
+  | 'span';
+
+export interface StackProps extends ElementProps<HTMLElement> {
+  as?: StackTag;
   direction?: StackVariants['direction'];
   gap?: StackVariants['gap'];
   align?: StackVariants['align'];
@@ -71,6 +86,7 @@ export interface StackProps extends ElementProps<HTMLDivElement> {
 }
 
 export function Stack({
+  as: Component = 'div',
   direction = 'column',
   gap = 'none',
   align = 'stretch',
@@ -86,10 +102,14 @@ export function Stack({
 }: StackProps): React.JSX.Element {
   const classes = stackRecipe({ direction, gap, align, justify, wrap, inline, flex, width });
 
-  return (
-    <div ref={ref} className={cx(classes, className)} {...props}>
-      {children}
-    </div>
+  return React.createElement(
+    Component,
+    {
+      ref,
+      className: cx(classes, className),
+      ...props,
+    },
+    children,
   );
 }
 

@@ -56,7 +56,7 @@ export interface UseFocusNavigationOptions {
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), details, [tabindex]:not([tabindex="-1"])';
 
-function getItems(container: HTMLElement, selector: string) {
+function getItems(container: HTMLElement, selector: string): HTMLElement[] {
   const elements = Array.from(container.querySelectorAll<HTMLElement>(selector));
   return elements.filter((el) => {
     const style = window.getComputedStyle(el);
@@ -72,20 +72,17 @@ function getItems(container: HTMLElement, selector: string) {
 /**
  * if in a textarea or input, don't prevent navigation if the cursor is not at the beginning or end
  **/
-function shouldPreventInputNavigation(target: EventTarget | null) {
-  if (!(target instanceof HTMLElement)) {
-    return false;
-  }
-
-  if (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT') {
-    const textarea = target as HTMLTextAreaElement;
-    return textarea.selectionStart === 0 || textarea.selectionEnd === textarea.value.length;
+function shouldPreventInputNavigation(target: EventTarget | null): boolean {
+  if (target instanceof HTMLTextAreaElement || target instanceof HTMLInputElement) {
+    return target.selectionStart === 0 || target.selectionEnd === target.value.length;
   }
 
   return false;
 }
 
-export function useFocus<T extends HTMLElement = HTMLElement>(options: UseFocusOptions) {
+export function useFocus<T extends HTMLElement = HTMLElement>(
+  options: UseFocusOptions,
+): React.RefObject<T | null> {
   const {
     loop = true,
     onEscape,
@@ -106,13 +103,14 @@ export function useFocus<T extends HTMLElement = HTMLElement>(options: UseFocusO
     const container = ref.current;
     if (!container) return;
 
-    if (restoreFocus) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
+    if (restoreFocus && document.activeElement instanceof HTMLElement) {
+      previousFocusRef.current = document.activeElement;
     }
 
     if (type === 'navigation' && rovingTabIndex) {
       const items = getItems(container, itemSelector);
-      const activeIndex = items.indexOf(document.activeElement as HTMLElement);
+      const activeIndex =
+        document.activeElement instanceof HTMLElement ? items.indexOf(document.activeElement) : -1;
       items.forEach((item, index) => {
         if (activeIndex !== -1) {
           item.tabIndex = index === activeIndex ? 0 : -1;
@@ -211,7 +209,10 @@ export function useFocus<T extends HTMLElement = HTMLElement>(options: UseFocusO
         const items = getItems(container, itemSelector);
         if (items.length === 0) return;
 
-        const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+        const currentIndex =
+          document.activeElement instanceof HTMLElement
+            ? items.indexOf(document.activeElement)
+            : -1;
         let nextIndex = currentIndex;
 
         if (isFirst) {
@@ -244,7 +245,7 @@ export function useFocus<T extends HTMLElement = HTMLElement>(options: UseFocusO
     if (!container || !rovingTabIndex) return;
 
     const items = getItems(container, itemSelector);
-    if (items.includes(e.target as HTMLElement)) {
+    if (e.target instanceof HTMLElement && items.includes(e.target)) {
       items.forEach((item) => {
         item.tabIndex = item === e.target ? 0 : -1;
       });

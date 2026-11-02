@@ -4,12 +4,12 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlInput } from '../intents.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 
 export const checkboxRecipe = recipe(
   {
-    extend: [focusRing],
+    extend: [focusRing, controlIntent],
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -61,18 +61,18 @@ export const checkboxRecipe = recipe(
         },
         false: {},
       },
-      intent: {
-        default: {},
-        error: {
-          borderColor: vars.error.bg,
-          ':focus-visible': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
-          ':has(:focus-visible)': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
-          },
+      size: {
+        sm: {
+          width: vars.size['3xs'],
+          height: vars.size['3xs'],
+        },
+        md: {
+          width: vars.size['2xs'],
+          height: vars.size['2xs'],
+        },
+        lg: {
+          width: vars.size.xs,
+          height: vars.size.xs,
         },
       },
     },
@@ -80,6 +80,7 @@ export const checkboxRecipe = recipe(
       checked: false,
       disabled: false,
       intent: 'default',
+      size: 'md',
     },
   },
   'checkbox',
@@ -135,6 +136,7 @@ export interface CheckboxProps extends ElementProps<HTMLInputElement> {
   indeterminate?: boolean;
   defaultIndeterminate?: boolean;
   intent?: CheckboxVariants['intent'];
+  size?: CheckboxVariants['size'];
   onCheckedChange?: (checked: boolean) => void;
   onIndeterminateChange?: (indeterminate: boolean) => void;
 }
@@ -145,6 +147,7 @@ export function Checkbox({
   indeterminate: controlledIndeterminate,
   defaultIndeterminate = false,
   intent = 'default',
+  size = 'md',
   disabled = false,
   className,
   id,
@@ -202,6 +205,7 @@ export function Checkbox({
     checked: isChecked,
     disabled,
     intent,
+    size,
   });
 
   return (

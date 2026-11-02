@@ -5,11 +5,38 @@ export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js
 export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components
-export { Surface, type SurfaceProps, type SurfaceVariants } from './components/Surface.js';
+export {
+  Surface,
+  type SurfaceProps,
+  type SurfaceVariants,
+  type SurfaceTag,
+} from './components/Surface.js';
 export { Button, type ButtonProps, type ButtonVariants } from './components/Button.js';
+export { Spinner, type SpinnerProps, type SpinnerVariants } from './components/Spinner.js';
 export { Card, type CardProps, type CardVariants } from './components/Card.js';
 export { Input, type InputProps, type InputVariants } from './components/Input.js';
+export {
+  Select,
+  createSelect,
+  type SelectProps,
+  type SelectOptionProps,
+  type SelectOptGroupProps,
+  type SelectVariants,
+  type TypedSelect,
+} from './components/Select.js';
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
+export { Kbd, type KbdProps, type KbdVariants } from './components/Kbd.js';
+export { Link, type LinkProps, type LinkVariants } from './components/Link.js';
+export * as Alert from './components/Alert.js';
+export {
+  useAlert,
+  type AlertContextValue,
+  type AlertVariants,
+  type AlertIntent,
+  type AlertVariant,
+} from './components/Alert.js';
+export * as Menu from './components/Menu.js';
+export { useMenu, type MenuContextValue } from './components/Menu.js';
 export {
   ThemeToggle,
   SunIcon,
@@ -18,7 +45,22 @@ export {
   type ThemeToggleProps,
 } from './components/ThemeToggle.js';
 
-export { Stack, HStack, VStack, type StackProps, type StackVariants } from './components/Stack.js';
+export {
+  Stack,
+  HStack,
+  VStack,
+  type StackProps,
+  type StackVariants,
+  type StackTag,
+} from './components/Stack.js';
+export {
+  Grid,
+  gridContract,
+  type GridProps,
+  type GridVariants,
+  type GridItemProps,
+  type GridItemVariants,
+} from './components/Grid.js';
 
 export { Container, type ContainerProps, type ContainerVariants } from './components/Container.js';
 
@@ -62,20 +104,50 @@ export { Switch, type SwitchProps, type SwitchVariants } from './components/Swit
 export { Textarea, type TextareaProps, type TextareaVariants } from './components/Textarea.js';
 
 export * as Tabs from './components/Tabs.js';
-export { useTabs, type TabsContextValue } from './components/Tabs.js';
+export {
+  createTabs,
+  useTabs,
+  type TypedTabs,
+  type TabsContextValue,
+  type TabsProps,
+  type TabsListProps,
+  type TabsTriggerProps,
+  type TabsContentProps,
+  type TabsOrientation,
+  type TabsVariant,
+} from './components/Tabs.js';
 
 export * as ButtonGroup from './components/ButtonGroup.js';
-export { useButtonGroup, type ButtonGroupContextValue } from './components/ButtonGroup.js';
-
-export { Radio, type RadioProps, type RadioVariants } from './components/Radio.js';
+export {
+  createButtonGroup,
+  useButtonGroup,
+  type TypedButtonGroup,
+  type ButtonGroupContextValue,
+  type ButtonGroupRootProps,
+  type ButtonGroupItemProps,
+  type ButtonGroupOrientation,
+  type ButtonGroupSize,
+  type ButtonGroupVariant,
+  type ButtonGroupIntent,
+} from './components/ButtonGroup.js';
 
 export {
-  RadioList,
-  useRadioList,
-  type RadioListProps,
-  type RadioListOrientation,
-  type RadioListContextValue,
-} from './components/RadioList.js';
+  Radio,
+  RadioGroupContext,
+  type RadioProps,
+  type RadioVariants,
+  type RadioGroupOrientation,
+  type RadioGroupContextValue,
+} from './components/Radio.js';
+
+export * as RadioGroup from './components/RadioGroup.js';
+export {
+  createRadioGroup,
+  useRadioGroup,
+  type TypedRadioGroup,
+  type RadioGroupRootProps,
+  type RadioGroupItemProps,
+} from './components/RadioGroup.js';
 
 // Field
 export * as Field from './components/Field.js';
@@ -91,6 +163,16 @@ export { setDefaultTheme } from './theme/theme.js';
 // hooks
 export { useDismissible } from './hooks/useDismissible.js';
 export { useFocus } from './hooks/useFocus.js';
+export {
+  useValueGroup,
+  createTypedGroup,
+  createTypedCompound,
+  type ValueGroupProps,
+  type ValueItemProps,
+  type ValueGroupContextBase,
+  type UseValueGroupReturn,
+  type TypedGroup,
+} from './hooks/useValueGroup.js';
 
 // App Layout & Frame Primitives
 export {

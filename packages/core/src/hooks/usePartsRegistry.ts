@@ -31,11 +31,11 @@ export function usePartsRegistry<T extends string = string>(): PartsRegistry<T> 
     };
   }, []);
 
-  const getPartId = useCallback((part: T) => parts[part], [parts]);
-  const hasPart = useCallback((part: T) => Boolean(parts[part]), [parts]);
+  const getPartId = useCallback((part: T): string | undefined => parts[part], [parts]);
+  const hasPart = useCallback((part: T): boolean => Boolean(parts[part]), [parts]);
 
   return useMemo(
-    () => ({ parts, registerPart, getPartId, hasPart }),
+    (): PartsRegistry<T> => ({ parts, registerPart, getPartId, hasPart }),
     [parts, registerPart, getPartId, hasPart],
   );
 }

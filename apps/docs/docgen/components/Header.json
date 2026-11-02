@@ -71,6 +71,9 @@
             "value": "\"div\""
           },
           {
+            "value": "\"span\""
+          },
+          {
             "value": "\"h1\""
           },
           {
@@ -87,9 +90,6 @@
           },
           {
             "value": "\"h6\""
-          },
-          {
-            "value": "\"span\""
           }
         ]
       },
@@ -164,13 +164,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"3xs\" | \"2xl\" | undefined",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
           },
           {
             "value": "\"2xs\""
@@ -189,9 +192,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"3xs\""
           },
           {
             "value": "\"2xl\""

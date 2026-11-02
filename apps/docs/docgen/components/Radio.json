@@ -66,9 +66,7 @@
       "shortPropTypeName": null
     },
     "intent": {
-      "defaultValue": {
-        "value": "default"
-      },
+      "defaultValue": null,
       "description": "",
       "name": "intent",
       "parent": {
@@ -84,16 +82,51 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+        "name": "RadioProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+          "name": "RadioProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
           }
         ]
       },
@@ -154,6 +187,12 @@
         "name": "Ref<HTMLInputElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    }
+  },
+  "subcomponents": {
+    "GroupContext": {
+      "name": "Radio.GroupContext",
+      "props": {}
     }
   }
 }
