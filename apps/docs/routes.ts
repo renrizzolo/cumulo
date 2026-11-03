@@ -21,6 +21,12 @@ declare module "@renr/parcel-rsc-router" {
     interface Routes {
       "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
       "/ai": { slug: "ai"; path: "/ai"; rsc: "/ai.rsc"; html: "/ai.html" };
+      "/bundlers": {
+        slug: "bundlers";
+        path: "/bundlers";
+        rsc: "/bundlers.rsc";
+        html: "/bundlers.html";
+      };
       "/components/alert": {
         slug: "alert";
         path: "/components/alert";
@@ -266,6 +272,12 @@ export const flatRoutes = [
     slug: "ai",
     rsc: "/ai.rsc",
     html: "/ai.html",
+  },
+  {
+    path: "/bundlers",
+    slug: "bundlers",
+    rsc: "/bundlers.rsc",
+    html: "/bundlers.html",
   },
   {
     path: "/components/alert",
@@ -514,6 +526,13 @@ export const routeTree = {
       slug: "ai",
       html: "/ai.html",
       rsc: "/ai.rsc",
+      children: [],
+    },
+    {
+      path: "/bundlers",
+      slug: "bundlers",
+      html: "/bundlers.html",
+      rsc: "/bundlers.rsc",
       children: [],
     },
     {
@@ -805,6 +824,12 @@ export const routesByPage = {
     slug: "ai",
     rsc: "/ai.rsc",
     html: "/ai.html",
+  },
+  "/bundlers.html": {
+    path: "/bundlers",
+    slug: "bundlers",
+    rsc: "/bundlers.rsc",
+    html: "/bundlers.html",
   },
   "/components/alert.html": {
     path: "/components/alert",

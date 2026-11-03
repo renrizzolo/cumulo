@@ -17,11 +17,13 @@ import {
   vars,
   useSidebar,
   Tooltip,
+  Divider,
 } from '@cumulo/core';
 import { Version } from './Version';
 import { Logo } from './Logo';
+import { useMobileNav } from './MobileNavContext';
 
-export interface NavItem {
+interface NavItem {
   label: string;
   path: RoutePath;
   htmlPath: RouteHtml;
@@ -29,20 +31,41 @@ export interface NavItem {
   keywords?: string[];
 }
 
-export interface NavSection {
+interface NavSection {
   title: string;
   items: NavItem[];
 }
 
-const desktopNavContainerStyle = style({
-  '@media': {
-    '(max-width: 959px)': {
-      display: 'none !important',
+const desktopNavContainerStyle = style(
+  {
+    position: 'sticky',
+    top: 0,
+    height: '100dvh',
+    alignSelf: 'flex-start',
+    selectors: {
+      '&&': {
+        position: 'sticky',
+        top: 0,
+        height: '100dvh',
+        alignSelf: 'flex-start',
+      },
+    },
+    '@media': {
+      '(max-width: 959px)': {
+        display: 'none !important',
+      },
     },
   },
-});
+  'desktop-nav',
+);
 
 const mobileNavContainerStyle = style({
+  selectors: {
+    '&[data-visually-collapsed="true"]': {
+      visibility: 'hidden',
+      pointerEvents: 'none',
+    },
+  },
   '@media': {
     '(min-width: 960px)': {
       display: 'none !important',
@@ -81,6 +104,8 @@ const brandLinkStyle = style({
   color: 'inherit',
   display: 'inline-flex',
   alignItems: 'center',
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
   minWidth: 0,
 });
 
@@ -273,7 +298,7 @@ function ClearIcon(): React.JSX.Element {
   );
 }
 
-export const DOC_SECTIONS: NavSection[] = [
+const DOC_SECTIONS: NavSection[] = [
   {
     title: 'Getting Started',
     items: [
@@ -282,6 +307,25 @@ export const DOC_SECTIONS: NavSection[] = [
         path: '/',
         htmlPath: '/index.html',
         keywords: ['introduction', 'install', 'getting started', 'home'],
+      },
+      {
+        label: 'Bundler Setup',
+        path: '/bundlers',
+        htmlPath: '/bundlers.html',
+        badge: 'Required',
+        keywords: [
+          'bundler',
+          'vite',
+          'webpack',
+          'nextjs',
+          'next',
+          'rollup',
+          'esbuild',
+          'parcel',
+          'unplugin',
+          'plugin',
+          'css extraction',
+        ],
       },
       {
         label: 'Tokens & Theming',
@@ -312,7 +356,7 @@ export const DOC_SECTIONS: NavSection[] = [
   },
 ];
 
-export const COMPONENT_SECTIONS: NavSection[] = [
+const COMPONENT_SECTIONS: NavSection[] = [
   {
     title: 'Layout',
     items: [
@@ -561,9 +605,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
   },
 ];
 
-export const NAV_SECTIONS: NavSection[] = [...DOC_SECTIONS, ...COMPONENT_SECTIONS];
-
-export interface NavContentProps {
+interface NavContentProps {
   currentPage?: PageProps['currentPage'];
   pages?: PageProps['pages'];
   onNavigate?: () => void;
@@ -573,7 +615,7 @@ export interface NavContentProps {
   searchInputRef?: React.RefObject<HTMLInputElement | null>;
 }
 
-export function SidebarNavToggle(): React.JSX.Element {
+function SidebarNavToggle(): React.JSX.Element {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger as={'span'}>
@@ -593,10 +635,9 @@ function matchesItem(item: NavItem, sectionTitle: string, normalizedQuery: strin
   return false;
 }
 
-export function NavContent({
+function NavContent({
   currentPage,
   onNavigate,
-  showBrand = true,
   query: controlledQuery,
   onQueryChange,
   searchInputRef: externalInputRef,
@@ -744,12 +785,6 @@ export function NavContent({
 
   return (
     <>
-      {showBrand && (
-        <Link to="/" onClick={handleItemNavigate} className={brandLinkStyle.className}>
-          <Logo size="md" />
-        </Link>
-      )}
-
       {/* Pinned Search Filter */}
       <div className={searchStickyWrapperStyle.className}>
         <Field.Root gap="none">
@@ -818,6 +853,7 @@ export function NavContent({
           ) : (
             <>
               {DOC_SECTIONS.map(renderSection)}
+              <Divider />
               {COMPONENT_SECTIONS.map(renderSection)}
             </>
           )}
@@ -827,7 +863,7 @@ export function NavContent({
   );
 }
 
-export interface NavProps {
+interface NavProps {
   currentPage?: PageProps['currentPage'];
   pages?: PageProps['pages'];
 }
@@ -845,73 +881,70 @@ function isEditableElement(target: EventTarget | null): boolean {
 
 export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element {
   const sidebar = useSidebar();
+  const { isOpen: isMobileOpen, close: closeMobileNav, open: openMobileNav } = useMobileNav();
   const [query, setQuery] = useState('');
   const desktopInputRef = useRef<HTMLInputElement | null>(null);
   const mobileInputRef = useRef<HTMLInputElement | null>(null);
   const prevUrlRef = useRef(currentPage?.url);
 
-  const collapseMobileSidebar = useCallback(() => {
-    sidebar.setCollapsed(true);
-    sidebar.setFocused(false);
-    sidebar.setHovered(false);
-    sidebar.setHoverSuppressed(true);
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
-  }, [sidebar]);
-
-  // Navigating clears the search filter and collapses the mobile sidebar on small screens
+  // Navigating clears the search filter and collapses the mobile sidebar
   const handleNavigate = useCallback(() => {
     setQuery('');
-    if (typeof window !== 'undefined' && window.innerWidth < 960) {
-      collapseMobileSidebar();
-    }
-  }, [collapseMobileSidebar]);
+    closeMobileNav();
+  }, [closeMobileNav]);
 
   // Also reset filter and close mobile drawer when route changes via page links or history
   useEffect(() => {
     if (prevUrlRef.current !== currentPage?.url) {
       prevUrlRef.current = currentPage?.url;
       setQuery('');
-      if (typeof window !== 'undefined' && window.innerWidth < 960) {
-        collapseMobileSidebar();
-      }
+      closeMobileNav();
     }
-  }, [currentPage?.url, collapseMobileSidebar]);
+  }, [currentPage?.url, closeMobileNav]);
 
   // Global '/' shortcut to focus the component filter (and open sidebar if closed)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey) return;
-      if (e.key !== '/') return;
-      if (isEditableElement(e.target) || isEditableElement(document.activeElement)) return;
+      if (e.defaultPrevented || e.metaKey || e.altKey) return;
+      if ((e.key === '/' && !e.ctrlKey) || (e.key === 'k' && e.ctrlKey)) {
+        if (e.key === '/') {
+          if (isEditableElement(e.target) || isEditableElement(document.activeElement)) return;
+        }
 
-      e.preventDefault();
+        e.preventDefault();
 
-      const isMobile = window.innerWidth < 960;
-      const targetInput = isMobile ? mobileInputRef.current : desktopInputRef.current;
-      const wasCollapsed = sidebar.collapsed || sidebar.visuallyCollapsed;
+        const isMobile = window.innerWidth < 960;
+        if (isMobile) {
+          openMobileNav();
+          requestAnimationFrame(() => {
+            mobileInputRef.current?.focus();
+            mobileInputRef.current?.select();
+          });
+        } else {
+          const wasCollapsed = sidebar.collapsed || sidebar.visuallyCollapsed;
 
-      if (sidebar.collapsed) {
-        sidebar.setCollapsed(false);
-      }
-      sidebar.setHoverSuppressed(false);
-      sidebar.setFocused(true);
+          if (sidebar.collapsed) {
+            sidebar.setCollapsed(false);
+          }
+          sidebar.setHoverSuppressed(false);
+          sidebar.setFocused(true);
 
-      targetInput?.focus();
-      targetInput?.select();
+          desktopInputRef.current?.focus();
+          desktopInputRef.current?.select();
 
-      if (wasCollapsed) {
-        requestAnimationFrame(() => {
-          targetInput?.focus();
-          targetInput?.select();
-        });
+          if (wasCollapsed) {
+            requestAnimationFrame(() => {
+              desktopInputRef.current?.focus();
+              desktopInputRef.current?.select();
+            });
+          }
+        }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [sidebar]);
+  }, [sidebar, openMobileNav]);
 
   const brandTitle = (onBrandClick?: () => void) => (
     <HStack gap="xs" align="center">
@@ -930,6 +963,7 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
       <Sidebar.Root
         collapsedWidth={'0px'}
         variant="docked"
+        level={1}
         className={desktopNavContainerStyle.className}
       >
         <Panel padding="sm" divider="bottom">
@@ -941,7 +975,6 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
           <NavContent
             currentPage={currentPage}
             pages={pages}
-            showBrand={false}
             onNavigate={handleNavigate}
             query={query}
             onQueryChange={setQuery}
@@ -951,10 +984,10 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
       </Sidebar.Root>
 
       {/* Mobile Backdrop Overlay */}
-      {!sidebar.visuallyCollapsed && (
+      {isMobileOpen && (
         <div
           className={mobileBackdropStyle.className}
-          onClick={collapseMobileSidebar}
+          onClick={closeMobileNav}
           aria-hidden="true"
         />
       )}
@@ -964,6 +997,14 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
         type="overlay"
         collapsedWidth={'0px'}
         variant="docked"
+        collapsed={!isMobileOpen}
+        onCollapsedChange={(collapsed) => {
+          if (collapsed) {
+            closeMobileNav();
+          } else {
+            openMobileNav();
+          }
+        }}
         className={mobileNavContainerStyle.className}
       >
         <Panel padding="sm" divider="bottom">
@@ -972,7 +1013,7 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
               size="sm"
               variant="ghost"
               shape="round"
-              onClick={collapseMobileSidebar}
+              onClick={closeMobileNav}
               aria-label="Close navigation menu"
             >
               <CloseIcon />
@@ -983,7 +1024,6 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
           <NavContent
             currentPage={currentPage}
             pages={pages}
-            showBrand={false}
             onNavigate={handleNavigate}
             query={query}
             onQueryChange={setQuery}

@@ -28,12 +28,6 @@
             "value": "undefined"
           },
           {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"span\""
-          },
-          {
             "value": "\"h1\""
           },
           {
@@ -50,6 +44,12 @@
           },
           {
             "value": "\"h6\""
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"span\""
           }
         ]
       },
@@ -124,16 +124,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"bold\""
+            "value": "\"normal\""
           },
           {
-            "value": "\"normal\""
+            "value": "\"bold\""
           },
           {
             "value": "\"medium\""
@@ -164,25 +164,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
-          },
-          {
             "value": "\"inherit\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"warning\""
-          },
-          {
-            "value": "\"error\""
           },
           {
             "value": "\"default\""
@@ -192,6 +180,18 @@
           },
           {
             "value": "\"subtle\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
           }
         ]
       },

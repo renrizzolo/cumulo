@@ -4,10 +4,14 @@ import React, { useEffect } from 'react';
 import { Link } from '@renr/parcel-rsc-router';
 import { keyframes, style } from '@cumulo/css';
 import { Button, vars, useDismissible, Sidebar, Tooltip, useSidebar } from '@cumulo/core';
+import { useMobileNav } from './MobileNavContext';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Logo } from './Logo';
 
 const topHeaderStyle = style({
+  position: 'sticky',
+  top: 0,
+  zIndex: 20,
   padding: vars.spacing.sm,
   display: 'flex',
   alignItems: 'center',
@@ -20,7 +24,6 @@ const topHeaderStyle = style({
   borderBottomStyle: 'solid',
   borderBottomColor: vars.surface.border,
   borderRadius: 0,
-  zIndex: 10,
   '@media': {
     '(max-width: 768px)': {
       padding: `${vars.spacing.sm} ${vars.spacing.md}`,
@@ -98,41 +101,35 @@ const headerBrandLinkStyle = style({
 
 export function DocHeader(): React.JSX.Element {
   const sidebar = useSidebar();
-  const { setCollapsed } = sidebar;
-  // Sync mobile responsive collapse state & viewport transitions
+  const { isOpen: isMobileOpen, toggle: toggleMobileNav, close: closeMobileNav } = useMobileNav();
+
+  // Close mobile drawer when resizing across desktop breakpoint
   useEffect(() => {
     const mql = window.matchMedia('(min-width: 960px)');
-    // If opening on mobile, initialize collapsed
-    if (!mql.matches) {
-      setCollapsed(true);
-    }
-
     const handleViewportChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        setCollapsed(false);
-      } else {
-        setCollapsed(true);
+        closeMobileNav();
       }
     };
 
     mql.addEventListener('change', handleViewportChange);
     return () => mql.removeEventListener('change', handleViewportChange);
-  }, [setCollapsed]); // Run on mount and media query events only
+  }, [closeMobileNav]);
 
   // Lock body scroll when mobile sidebar is open
   useEffect(() => {
-    if (window.innerWidth < 960 && !sidebar.collapsed) {
+    if (isMobileOpen) {
       document.body.style.overflow = 'hidden';
       return () => {
         document.body.style.overflow = '';
       };
     }
-  }, [sidebar.collapsed]);
+  }, [isMobileOpen]);
 
   useDismissible({
     onDismiss: () => {
-      if (window.innerWidth < 960 && !sidebar.collapsed) {
-        sidebar.setCollapsed(true);
+      if (isMobileOpen) {
+        closeMobileNav();
       }
     },
     dismissOnClickOutside: false,
@@ -147,9 +144,9 @@ export function DocHeader(): React.JSX.Element {
           variant="ghost"
           shape="round"
           data-sidebar-toggle="true"
-          onClick={() => sidebar.toggleCollapsed()}
-          aria-label={sidebar.collapsed ? 'Open navigation menu' : 'Close navigation menu'}
-          aria-expanded={!sidebar.collapsed}
+          onClick={toggleMobileNav}
+          aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileOpen}
         >
           <MenuIcon />
         </Button>

@@ -1,39 +1,110 @@
 import Layout from '../components/MDXLayout.tsx';
 import { Badge, Text, HStack, Card } from '@cumulo/core';
+import * as Alert from '@cumulo/core/components/Alert';
 export default Layout;
 
 # Cumulo UI
 
-> _Cumulo_ (cù·mu·lo), Italian (n.) — a heap, pile, or accumulation of things.
+_Cumulo_ (cù·mu·lo), Italian (n.) — a heap, pile, or accumulation of things.
 
-Cumulo is a collection of UI components and related tooling: a React 19 design system and a lightweight CSS engine with zero runtime dependencies.
+Cumulo is a React 19 component library and type-safe CSS framework with zero third-party runtime dependencies.
 
 <Card variant="primary">
   <HStack gap="xs" align="center">
     <Badge variant="secondary" intent="primary">
       NOTE
     </Badge>
-    <Text size="sm">This is a work in progress. APIs and features may change rapidly.</Text>
+    <Text size="sm">Cumulo is in active development. APIs may change between alpha releases.</Text>
   </HStack>
 </Card>
 
-## Features
+### Core features
 
-- **Zero runtime dependencies**: Built on React 19 and modern CSS.
-- **Type-safe CSS**: `@cumulo/css` is a ~2kB engine with theme contracts, scoped style rules, keyframes, and deterministic hashing.
-- **Dynamic surfaces**: Nested interactive elements deepen automatically through `--surface-bg-next`.
-- **OKLCH color seeding**: Full color palettes are computed in CSS from seed colors using `light-dark()`.
+- **Platform-first components**: Uses native HTML `<dialog>`, `popover="auto"`, and CSS Anchor Positioning for overlays.
+- **Compound components**: Components like `<Field>` coordinates accessibility state, validation, and ARIA attributes across inputs, labels, and error messages.
+- **Type-safe CSS**: `@cumulo/css` generates scoped class names, theme contracts, and variant recipes.
+- **Surface depth**: Components like button and fields automatically increase their depth based on the surface they're currently in.
+- **OKLCH color seeding**: Cumulo computes full 50–900 color scales directly in CSS using trigonometric chroma curves and `light-dark()`.
 
-## Installation
+<Alert.Root intent="warning">
+  <Alert.Icon />
+  <Alert.Content>
+    <Alert.Title>Bleeding-edge web standards & browser compatibility</Alert.Title>
+    <Alert.Description>
+      Cumulo is intentionally platform-first, relying on modern native browser standards rather than
+      runtime polyfills or third-party positioning engines. Ensure your target environments support
+      these modern web platform capabilities.
+    </Alert.Description>
+    <details>
+    <summary><strong>Modern web features used & browser support</strong></summary>
+      
+      - **CSS Anchor Positioning**: Powers overlay tethering for `Popover`, `Tooltip`, and `Menu` (`anchor-name`, `position-anchor`, `@position-try`). Supported in Chrome/Edge 125+ (standard syntax 134+) and Safari 18.2+. Firefox lands baseline support in v147+ (Cumulo provides an automatic centered fallback for older engines via `@supports not (position-anchor: --a)`).
+      - **Popover API & Top Layer**: Native `popover="auto"` and `<dialog>` with `::backdrop` and light-dismiss behaviors. Baseline Widely Available across Chrome 114+, Safari 17+, and Firefox 125+.
+      - **CSS `light-dark()`**: Manages zero-runtime color scheme calculations (`color-scheme: light dark`) without runtime stylesheet injection. Baseline Widely Available across Chrome 123+, Firefox 120+, and Safari 17.5+.
+      - **CSS `contrast-color()`**: Dynamically computes accessible foreground text against dynamic theme surfaces (`@supports (color: contrast-color(white))`). Supported in bleeding-edge engines (Safari 26, Firefox 146+, Chrome 147+), with automatic progressive fallback to precomputed WCAG-compliant design token pairs.
+      - **CSS `text-box` (Leading Trim)**: Trims half-leading font whitespace for precise optical vertical rhythm (`text-box: trim-both cap alphabetic`). Supported in Chrome 133+ and Safari 18.2+; ignored gracefully in browsers without support.
 
-```txt
-pnpm add @cumulo/css @cumulo/core
+    </details>
+
+  </Alert.Content>
+</Alert.Root>
+
+### Installation
+
+Install the core component library and CSS framework:
+
+```bash
+pnpm add @cumulo/core @cumulo/css
 ```
 
-## Next steps
+<Alert.Root intent="error">
+  <Alert.Icon />
+  <Alert.Content>
+    <Alert.Title>Bundler plugin required</Alert.Title>
+    <Alert.Description>
+      Cumulo components and styles rely on compile-time static CSS extraction. Both{' '}
+      <code>@cumulo/core</code> and <code>@cumulo/css</code> <strong>will not work</strong> without
+      a bundler plugin configured in your build system. See the{' '}
+      <a href="/bundlers">Bundler Setup guide</a> for complete instructions.
+    </Alert.Description>
+  </Alert.Content>
+</Alert.Root>
 
-- Browse components in the sidebar for live previews and prop tables.
-- Read about [design tokens](/tokens) and theming.
-- Learn how to write styles with [@cumulo/css](/css).
+Install the universal bundler plugin (or <code>@cumulo/parcel-transformer</code> if using Parcel):
+
+```bash
+pnpm add -D @cumulo/unplugin
+```
+
+Configure the plugin in your bundler (e.g. Vite):
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { cumulo } from '@cumulo/unplugin/vite';
+
+export default defineConfig({
+  plugins: [react(), cumulo()],
+});
+```
+
+See [Bundler Setup](/bundlers) for Next.js, Webpack, Rollup, esbuild, and Parcel configurations.
+
+### Runtime dependencies and architecture
+
+Understand how Cumulo handles runtime dependencies and code execution:
+
+- **Zero third-party runtime dependencies**: Neither `@cumulo/core` nor `@cumulo/css` installs third-party production dependencies. `@cumulo/core` only depends on `@cumulo/css`.
+- **React 19 platform foundation**: All components target React 19 primitives, passing `ref` directly without `forwardRef`. React is an optional peer dependency.
+- **Static CSS compilation**: `@cumulo/unplugin` extracts static CSS into `.css` files at build time. The production client bundle includes no CSS parser and injects no runtime `<style>` tags.
+- **Runtime execution boundaries**: Dynamic behavior stays in userland JavaScript. `recipe()` resolves variant class names, `cx()` concatenates classes, and compound `Field` contexts coordinate form state.
+
+### Next steps
+
+- Set up your build tool with the [Bundler Setup guide](/bundlers).
+- Browse components in the sidebar for previews and prop tables.
+- Read the [design tokens](/tokens) reference.
+- Learn how to author styles with [@cumulo/css](/css).
 - Create a custom theme with the [theme builder](/theme-builder).
-- Set up coding assistants with the [AI guide](/ai).
+- Configure coding assistants using the [AI guide](/ai).

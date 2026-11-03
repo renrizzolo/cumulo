@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "parcel --no-cache",
-    "build": "parcel build --no-cache",
+    "dev": "parcel --no-cache --watch-ignore apps/docs/dist,dist",
+    "build": "rm -rf dist && parcel build --no-cache",
     "start": "npx http-server ./dist",
     "type-check": "tsc --noEmit"
   },
@@ -34,6 +34,7 @@
   "targets": {
     "react-static": {
       "source": "src/pages/**/*",
+      "distDir": "dist",
       "context": "react-server",
       "includeNodeModules": {
         "oxfmt": false,

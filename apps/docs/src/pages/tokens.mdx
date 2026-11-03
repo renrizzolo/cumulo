@@ -9,36 +9,36 @@ Cumulo's token system is built on CSS custom properties. Customize themes by ove
 import { vars } from '@cumulo/core';
 ```
 
-## Surfaces
+### Surfaces
 
 Surfaces define contextual styles. Nested interactive elements, such as inputs and buttons, are surface-aware.
 
 <TokenTable category="surface" />
 
-## Color seeds
+### Color seeds
 
 Color palettes are built from the following CSS custom properties: `--color-grey-base`, `--color-primary-base`, `--color-success-base`, `--color-warning-base`, `--color-error-base`, and `--color-info-base`. Cumulo's theme stylesheet computes each full 50–900 palette using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
 
 <TokenTable category="seed" />
 
-## Color palettes
+### Color palettes
 
 Each intent generates a 10-step shade scale (50–900) with contrast that adapts to light and dark modes.
 
 <ColorTokens />
 
-## Spacing
+### Spacing
 
 <TokenTable category="spacing" />
 
-## Border radius
+### Border radius
 
 <TokenTable category="radius" />
 
-## Typography
+### Typography
 
 <TokenTable category="typography" />
 
-## Shadows
+### Shadows
 
 <TokenTable category="shadow" />

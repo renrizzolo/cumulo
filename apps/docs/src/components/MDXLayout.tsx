@@ -1,9 +1,10 @@
-import { Code, Divider, Flow, Heading, Text } from '@cumulo/core';
+import { Code, Divider, Flow, Heading, Text, Link } from '@cumulo/core';
 import { textBase } from '@cumulo/core/typography';
 import { style } from '@cumulo/css';
-import { type PageProps } from '@renr/parcel-rsc-router';
+import { Link as RouterLink, type PageProps, type RoutePath } from '@renr/parcel-rsc-router';
 import React, { type ReactNode } from 'react';
-import AppLayout from '../Layout';
+import AppLayout, { type DocsLayoutMode } from '../Layout';
+import { flatRoutes } from '../../routes';
 import { CodeBlock } from './CodeBlock';
 import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
@@ -22,17 +23,120 @@ function MDXParagraph(props: React.ComponentProps<typeof Text>): React.JSX.Eleme
   return <Text as="p" type="body" {...props} />;
 }
 
-const components = {
-  a: (props: React.JSX.IntrinsicElements['a']) => (
+const routePathSet = new Set<string>(flatRoutes.map((route) => route.path));
+
+function isRoutePath(path: string): path is RoutePath {
+  return routePathSet.has(path);
+}
+
+interface ParsedInternalRoute {
+  to: RoutePath;
+  hash?: string;
+  search?: Record<string, string>;
+}
+
+function parseInternalRoute(href: string): ParsedInternalRoute | null {
+  if (
+    href.startsWith('//') ||
+    href.startsWith('http://') ||
+    href.startsWith('https://') ||
+    href.startsWith('mailto:') ||
+    href.startsWith('tel:')
+  ) {
+    return null;
+  }
+
+  if (!href.startsWith('/') && !href.startsWith('.')) {
+    return null;
+  }
+
+  try {
+    const url = new URL(href, 'http://localhost');
+    let pathname = url.pathname;
+    if (pathname.endsWith('.html')) {
+      pathname = pathname.slice(0, -5);
+      if (pathname === '/index') {
+        pathname = '/';
+      }
+    }
+    if (isRoutePath(pathname)) {
+      const hash = url.hash.length > 1 ? url.hash.slice(1) : undefined;
+      const search: Record<string, string> = {};
+      let hasSearch = false;
+      for (const [key, value] of url.searchParams.entries()) {
+        search[key] = value;
+        hasSearch = true;
+      }
+      return {
+        to: pathname,
+        hash,
+        search: hasSearch ? search : undefined,
+      };
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function MDXAnchor({
+  href,
+  children,
+  target,
+  rel,
+  ...props
+}: React.JSX.IntrinsicElements['a']): React.JSX.Element {
+  if (!href) {
+    return (
+      <Link target={target} rel={rel} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  if (href.startsWith('#')) {
+    return (
+      <Link href={href} target={target} rel={rel} {...props}>
+        {children}
+      </Link>
+    );
+  }
+
+  const internalRoute = parseInternalRoute(href);
+  if (internalRoute && (!target || target === '_self')) {
+    return (
+      <Link
+        as={RouterLink}
+        to={internalRoute.to}
+        hash={internalRoute.hash}
+        search={internalRoute.search}
+        target={target}
+        rel={rel}
+        {...props}
+      >
+        {children}
+      </Link>
+    );
+  }
+
+  return (
     // oxlint-disable-next-line jsx-a11y/anchor-has-content
-    <a target="_blank" rel="noreferrer noopener" {...props} />
-  ),
+    <a href={href} target={target ?? '_blank'} rel={rel ?? 'noreferrer noopener'} {...props}>
+      {children}
+    </a>
+  );
+}
+
+const components = {
+  a: MDXAnchor,
+  Link,
   h1: (props: React.ComponentProps<typeof Heading>) => <Heading as="h1" size="3xl" {...props} />,
   h2: (props: React.ComponentProps<typeof Heading>) => <Heading as="h2" size="2xl" {...props} />,
   h3: (props: React.ComponentProps<typeof Heading>) => <Heading as="h3" size="xl" {...props} />,
   h4: (props: React.ComponentProps<typeof Heading>) => <Heading as="h4" size="lg" {...props} />,
   p: MDXParagraph,
-  code: (props: React.ComponentProps<typeof Code>) => <Code variant="subtle" {...props} />,
+  code: (props: React.ComponentProps<typeof Code>) => <Code {...props} />,
   hr: () => <Divider />,
   CodeBlock,
   ColorTokens,
@@ -53,20 +157,19 @@ const styles = style({
 export default function MDXLayout({
   children,
   currentPage,
+  layout,
 }: {
   children: ReactNode;
   currentPage: PageProps['currentPage'];
+  layout?: DocsLayoutMode;
 }): React.JSX.Element {
   const title = currentPage?.tableOfContents?.[0]?.title;
   const body = withMDXComponents(children);
+  const isFullWidth = layout === 'full' || currentPage?.url === '/theme-builder.html';
 
   return (
-    <AppLayout title={title} currentPage={currentPage}>
-      {currentPage?.url === '/theme-builder.html' ? (
-        children
-      ) : (
-        <Flow className={styles.className}>{body}</Flow>
-      )}
+    <AppLayout title={title} currentPage={currentPage} layout={layout}>
+      {isFullWidth ? children : <Flow className={styles.className}>{body}</Flow>}
     </AppLayout>
   );
 }

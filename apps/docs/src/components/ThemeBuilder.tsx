@@ -58,8 +58,8 @@ const sidebarStyle = style(
     width: `${sidebarContract.width}`,
     maxWidth: '100%',
     position: 'sticky',
-    top: '1rem',
-    maxHeight: 'calc(100vh - 2rem)',
+    top: `calc(53px + ${vars.spacing.md})`,
+    maxHeight: `calc(100vh - 53px - (${vars.spacing.md} * 2))`,
     overflowY: 'auto',
     '@media': {
       '(max-width: 1500px)': {

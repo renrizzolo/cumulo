@@ -1,13 +1,71 @@
 import Layout from '../components/MDXLayout.tsx';
 export default Layout;
-  
+
 # @cumulo/css
 
-A type-safe CSS framework with no runtime dependencies, inspired by StyleX and Vanilla Extract.
+A type-safe CSS framework with zero external runtime dependencies.
 
-## Style rules
+### Runtime dependencies and execution
 
-Use `style` and `create` to define scoped styles with pseudo-classes, media queries, and tokens:
+Understand where `@cumulo/css` runs and what dependencies it requires:
+
+- **Zero production dependencies**: `@cumulo/css` has zero external dependencies in `package.json`. It adds no third-party libraries to your client bundle.
+- **Optional peer dependency**: React 19 is an optional peer dependency. You only need React if you use `props()` to spread typed attributes onto JSX elements.
+- **Build-time dependency**: Install `@cumulo/unplugin` as a development dependency (`devDependencies`). At build time, the plugin extracts CSS rules from `style()`, `create()`, and `keyframes()` into static `.css` files.
+- **Zero runtime CSS injection**: In production, the client bundle contains no CSS parser and injects no `<style>` tags into the document head.
+- **Runtime JavaScript execution**:
+  - `recipe()` evaluates variant options in JavaScript to select pre-compiled class names.
+  - `cx()` concatenates and filters class name strings.
+  - `props()` returns `{ className, style }` objects for JSX element spreading.
+
+### Installation
+
+Install `@cumulo/css`:
+
+```bash
+pnpm add @cumulo/css
+```
+
+To extract static CSS at build time, install `@cumulo/unplugin` as a development dependency. **A bundler plugin is required** to extract CSS into static stylesheets:
+
+```bash
+pnpm add -D @cumulo/unplugin
+```
+
+Configure the plugin in your bundler:
+
+##### Vite
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import { cumulo } from '@cumulo/unplugin/vite';
+
+export default defineConfig({
+  plugins: [cumulo()],
+});
+```
+
+##### Webpack
+
+```ts
+// webpack.config.js
+const { cumulo } = require('@cumulo/unplugin/webpack');
+
+module.exports = {
+  plugins: [
+    cumulo({
+      include: ['./src/**/*.{ts,tsx}'],
+    }),
+  ],
+};
+```
+
+For Next.js, Rollup, esbuild, and Parcel configurations, see the dedicated [Bundler Setup guide](/bundlers).
+
+### Style rules
+
+Use `style()` to define scoped, atomic class names. Use `create()` to define multiple rules in one object:
 
 ```tsx
 import { style, create } from '@cumulo/css';
@@ -16,9 +74,9 @@ import { vars } from '@cumulo/core';
 // Single style definition
 export const card = style({
   padding: vars.spacing.lg,
-  backgroundColor: vars.surface.bg.DEFAULT,
+  backgroundColor: vars.bg['0'],
   borderRadius: vars.radius.md,
-  border: `1px solid ${vars.surface.border}`,
+  border: `1px solid ${vars.border}`,
   boxShadow: vars.shadow['1'],
   ':hover': {
     boxShadow: vars.shadow['2'],
@@ -30,7 +88,7 @@ export const card = style({
   },
 });
 
-// Multi-rule definition (StyleX style)
+// Multi-rule definition
 export const buttonStyles = create({
   base: {
     display: 'inline-flex',
@@ -44,15 +102,19 @@ export const buttonStyles = create({
     color: vars.primary.fg,
   },
   outline: {
-    border: `1px solid ${vars.surface.border}`,
+    border: `1px solid ${vars.border}`,
     backgroundColor: 'transparent',
   },
 });
 ```
 
-## Recipes
+At build time, the extractor replaces each rule with a hashed class name and outputs static CSS.
 
-Use `recipe` to define type-safe variants. Recipes inject no CSS at runtime:
+### Recipes
+
+Use `recipe()` to define multi-variant styles with default variants and compound variants.
+
+`recipe()` compiles variant CSS rules ahead of time. At runtime, the returned function joins the matching class names:
 
 ```tsx
 import { recipe, type RecipeVariants } from '@cumulo/css';
@@ -69,8 +131,8 @@ export const button = recipe({
   variants: {
     variant: {
       primary: { backgroundColor: vars.primary.DEFAULT, color: vars.primary.fg },
-      secondary: { backgroundColor: vars.surface.secondary.DEFAULT, color: vars.surface.fg },
-      outline: { backgroundColor: 'transparent', borderColor: vars.surface.border },
+      secondary: { backgroundColor: vars.bg['1'], color: vars.fg },
+      outline: { backgroundColor: 'transparent', borderColor: vars.border },
     },
     size: {
       sm: { height: vars.size.sm, padding: '0 12px' },
@@ -91,13 +153,15 @@ export const button = recipe({
 
 export type ButtonVariants = RecipeVariants<typeof button>;
 
-// Usage:
+// Call the recipe function at runtime:
 const className = button({ variant: 'secondary', size: 'sm' });
 ```
 
-## Theme contracts
+### Theme contracts
 
-`createThemeContract` and `createTheme` define typed CSS custom properties. Map them to themes, or override them inside recipes with `.$set()`:
+Use `createThemeContract()` to create type-safe CSS custom properties without values.
+
+Implement themes with `createTheme()`, or override contract variables inside recipes using `.$set()`:
 
 ```tsx
 import { createThemeContract, createTheme, recipe } from '@cumulo/css';
@@ -113,12 +177,12 @@ export const colorContract = createThemeContract(
 
 // 2. Create themes matching the contract
 export const lightTheme = createTheme(colorContract, {
-  brand: '#6366f1',
+  brand: '#2563eb',
   surface: '#ffffff',
 });
 
 export const darkTheme = createTheme(colorContract, {
-  brand: '#818cf8',
+  brand: '#3b82f6',
   surface: '#0f172a',
 });
 
@@ -139,7 +203,11 @@ export const cardRecipe = recipe({
 });
 ```
 
-## Animations
+Themes generate scoped class names and inject no client-side runtime styles when compiled with `@cumulo/unplugin`.
+
+### Keyframe animations
+
+Use `keyframes()` to define scoped CSS animation keyframes:
 
 ```tsx
 import { keyframes, style } from '@cumulo/css';
@@ -154,17 +222,23 @@ export const spinner = style({
 });
 ```
 
-## Merging classes
+### Class merging and JSX props
 
-Use `cx` to merge class names, and `props` to get `className` and `style` together for JSX spreading.
+Use `cx()` to merge class names, conditional values, and compiled styles.
+
+Use `props()` to merge class names and inline styles into an object for JSX spreading:
 
 ```tsx
 import { cx, props } from '@cumulo/css';
+import { buttonStyles } from './button.js';
 
-// Returns merged class string
+// Merge class names:
 const className = cx(buttonStyles.base, isPrimary && buttonStyles.primary, 'custom-class');
 
-// Returns { className, style } for JSX spreading
+// Return { className, style } for JSX spreading:
 const elementProps = props(buttonStyles.base, { style: { marginTop: 8 } });
+
 <button {...elementProps}>Save</button>;
 ```
+
+Both `cx()` and `props()` run in JavaScript at runtime. They perform string concatenation and object assignment without DOM side effects.
