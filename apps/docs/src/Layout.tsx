@@ -82,7 +82,7 @@ const frameFullStyle = style(
 const docsHoverZoneRestrictedStyle = style(
   {
     width: `calc(max(0px, (100vw - 1440px) / 2) + ${vars.spacing.md})`,
-    zIndex: 35,
+    zIndex: 0,
     '@media': {
       '(max-width: 959px)': {
         display: 'none !important',
@@ -95,7 +95,7 @@ const docsHoverZoneRestrictedStyle = style(
 const docsHoverZoneFullStyle = style(
   {
     width: vars.spacing.md,
-    zIndex: 35,
+    zIndex: 0,
     '@media': {
       '(max-width: 959px)': {
         display: 'none !important',
