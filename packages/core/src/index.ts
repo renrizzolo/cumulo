@@ -26,7 +26,7 @@ export {
 } from './components/Select.js';
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
 export { Kbd, type KbdProps, type KbdVariants } from './components/Kbd.js';
-export { Link, type LinkProps, type LinkVariants } from './components/Link.js';
+export { Link, type LinkProps, type LinkBaseProps, type LinkVariants } from './components/Link.js';
 export * as Alert from './components/Alert.js';
 export {
   useAlert,
@@ -192,6 +192,8 @@ export {
   useSidebar,
   SidebarContext,
   type SidebarContextValue,
+  type SidebarHoverTargetProps,
+  type SidebarHoverZoneProps,
 } from './components/Sidebar.js';
 
 export * as SideNav from './components/SideNav.js';

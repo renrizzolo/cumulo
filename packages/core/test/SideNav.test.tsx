@@ -20,6 +20,10 @@ const mockSidebarContext: SidebarContextValue = {
   setHovered: vi.fn(),
   setFocused: vi.fn(),
   variant: 'docked',
+  hoverTargetProps: {
+    onPointerEnter: vi.fn(),
+    onPointerLeave: vi.fn(),
+  },
 };
 
 const renderWithContext = (ui: React.ReactElement) =>

@@ -1232,7 +1232,7 @@
     --surface-bg-next: var(--theme-bg-2);
     --surface-fg: var(--theme-fg);
     --surface-muted: var(--theme-muted);
-    --surface-subtle: var(--theme-subtle);
+    --surface-subtle: var(--theme-grey-600);
     --surface-border: var(--theme-border);
     --surface-primary: var(--theme-surface-primary);
     --surface-primary-hover: light-dark(var(--theme-primary-100), var(--theme-primary-200));
@@ -1250,7 +1250,7 @@
     --surface-bg-next: var(--theme-bg-3);
     --surface-fg: var(--theme-fg);
     --surface-muted: var(--theme-muted);
-    --surface-subtle: var(--theme-subtle);
+    --surface-subtle: var(--theme-grey-600);
     --surface-border: var(--theme-border);
     --surface-primary: var(--theme-surface-primary);
     --surface-primary-hover: light-dark(var(--theme-primary-200), var(--theme-primary-300));

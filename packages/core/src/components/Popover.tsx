@@ -334,6 +334,23 @@ function PopoverTrigger({
       ? id
       : undefined;
 
+  const isButtonLike = Component === Button || Component === 'button' || props.role !== undefined;
+  const ariaExpanded =
+    props['aria-expanded'] !== undefined
+      ? props['aria-expanded']
+      : trigger === 'hover'
+        ? undefined
+        : isButtonLike
+          ? open
+          : undefined;
+
+  const ariaControls =
+    props['aria-controls'] !== undefined
+      ? props['aria-controls']
+      : trigger === 'hover'
+        ? undefined
+        : id;
+
   if (Component === Button) {
     return (
       <Button
@@ -342,8 +359,8 @@ function PopoverTrigger({
         popoverTarget={trigger === 'click' ? id : undefined}
         popoverTargetAction={trigger === 'click' ? 'toggle' : undefined}
         aria-haspopup={ariaHasPopup}
-        aria-expanded={open}
-        aria-controls={id}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
         aria-describedby={ariaDescribedBy}
         onClick={handleClick}
         onPointerEnter={handlePointerEnter}
@@ -366,8 +383,8 @@ function PopoverTrigger({
       popoverTarget: trigger === 'click' ? id : undefined,
       popoverTargetAction: trigger === 'click' ? 'toggle' : undefined,
       'aria-haspopup': ariaHasPopup,
-      'aria-expanded': open,
-      'aria-controls': id,
+      'aria-expanded': ariaExpanded,
+      'aria-controls': ariaControls,
       'aria-describedby': ariaDescribedBy,
       onClick: handleClick,
       onPointerEnter: handlePointerEnter,
