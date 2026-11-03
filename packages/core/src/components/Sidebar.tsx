@@ -1012,6 +1012,9 @@ export interface SidebarHoverZoneProps extends ElementProps<HTMLDivElement> {
   children?: React.ReactNode;
 }
 
+/**
+ * A hover zone for expanding the sidebar on hover.
+ */
 function SidebarHoverZone({
   variant = 'edge',
   position: positionProp,

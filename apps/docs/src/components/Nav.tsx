@@ -18,6 +18,7 @@ import {
   useSidebar,
   Tooltip,
   Divider,
+  Kbd,
 } from '@cumulo/core';
 import { Version } from './Version';
 import { Logo } from './Logo';
@@ -128,70 +129,11 @@ const searchStickyWrapperStyle = style({
   },
 });
 
-const searchInputWrapperStyle = style({
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-});
-
-const searchIconContainerStyle = style({
-  position: 'absolute',
-  insetInlineStart: 0,
-  width: vars.size.sm,
-  height: vars.size.sm,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: vars.surface.subtle,
-  pointerEvents: 'none',
-  transition: `color ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    '[data-search-wrapper="true"]:focus-within &': {
-      color: vars.surface.fg,
-    },
-  },
-});
-
-const searchInputStyle = style({
-  selectors: {
-    '&&': {
-      paddingLeft: vars.size.sm,
-      paddingRight: vars.size.sm,
-      fontSize: vars.font.size.xs,
-    },
-  },
-});
-
-const searchTrailingStyle = style({
-  position: 'absolute',
-  insetInlineEnd: vars.spacing.xs,
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
-
 const searchKbdStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  paddingInline: vars.spacing['2xs'],
-  paddingBlock: vars.spacing['3xs'],
-  fontFamily: vars.font.mono,
-  fontSize: vars.font.size['2xs'],
-  fontWeight: vars.font.weight.medium,
-  lineHeight: vars.line.height.none,
-  color: vars.surface.subtle,
-  backgroundColor: vars.surface.bg.next,
-  borderWidth: 1,
-  borderStyle: 'solid',
-  borderColor: vars.surface.border,
-  borderRadius: vars.radius.md,
-  userSelect: 'none',
   pointerEvents: 'none',
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
   selectors: {
-    '[data-search-wrapper="true"]:focus-within &': {
+    '[data-input-wrapper="true"]:focus-within &': {
       opacity: 0,
     },
   },
@@ -788,29 +730,24 @@ function NavContent({
       {/* Pinned Search Filter */}
       <div className={searchStickyWrapperStyle.className}>
         <Field.Root gap="none">
-          <div data-search-wrapper="true" className={searchInputWrapperStyle.className}>
-            <span className={searchIconContainerStyle.className}>
-              <SearchIcon />
-            </span>
-            <Field.Input
-              ref={inputRef}
-              aria-label="Filter components"
-              size="sm"
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleSearchKeyDown}
-              onFocus={() => {
-                if (sidebar.collapsed) {
-                  sidebar.setCollapsed(false);
-                }
-              }}
-              placeholder="Filter components..."
-              autoComplete="off"
-              className={searchInputStyle.className}
-            />
-            <span className={searchTrailingStyle.className}>
-              {query.length > 0 ? (
+          <Field.Input
+            ref={inputRef}
+            aria-label="Filter components"
+            size="sm"
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleSearchKeyDown}
+            onFocus={() => {
+              if (sidebar.collapsed) {
+                sidebar.setCollapsed(false);
+              }
+            }}
+            placeholder="Filter components..."
+            autoComplete="off"
+            leading={<SearchIcon />}
+            trailing={
+              query.length > 0 ? (
                 <button
                   type="button"
                   onClick={handleClear}
@@ -820,12 +757,12 @@ function NavContent({
                   <ClearIcon />
                 </button>
               ) : (
-                <kbd className={searchKbdStyle.className} aria-hidden="true">
+                <Kbd size="xs" className={searchKbdStyle.className} aria-hidden="true">
                   /
-                </kbd>
-              )}
-            </span>
-          </div>
+                </Kbd>
+              )
+            }
+          />
         </Field.Root>
       </div>
 

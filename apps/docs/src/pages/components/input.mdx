@@ -13,21 +13,74 @@ import { Input } from '@cumulo/core';
 
 ### Examples
 
-<ComponentPreview title="Inputs & Adornments">
+<ComponentPreview title="Default Input">
   <Container size="sm" padding="none">
     <VStack gap="md">
       <Input placeholder="Default Input" />
+      <Input intent="success" defaultValue="Valid input value" />
+      <Input intent="error" defaultValue="Invalid input value" />
+    </VStack>
+  </Container>
+</ComponentPreview>
+
+## Adornments
+
+Inputs support `leading` and `trailing` props to render icons, prefix/suffix text, keyboard shortcut badges (`<Kbd>`), or interactive action controls.
+
+- **`leading`**: Adornment rendered before the input text (e.g. search icons, currency symbols, protocol prefixes).
+- **`trailing`**: Adornment rendered after the input text (e.g. keyboard shortcuts, clear triggers, unit labels).
+
+When adornments are provided, `Input` renders a wrapper that manages flex alignment, focus-within states (`:focus-within`), and transitions adornment icons between subtle and foreground colors on focus. All native input props and the `ref` are forwarded directly to the underlying `<input>`.
+
+<ComponentPreview title="Leading & Trailing Adornments">
+  <Container size="sm" padding="none">
+    <VStack gap="md">
+      <Input
+        leading={
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        }
+        trailing={<Kbd size="xs">⌘K</Kbd>}
+        placeholder="Quick search..."
+      />
       <Input
         leading={
           <Text size="xs" color="muted">
             https://
           </Text>
         }
-        trailing={<Kbd size="sm">⌘K</Kbd>}
-        placeholder="cumulo.dev"
+        trailing={
+          <Text size="xs" color="muted">
+            .cumulo.dev
+          </Text>
+        }
+        placeholder="workspace"
       />
-      <Input intent="success" defaultValue="Valid input value" />
-      <Input intent="error" defaultValue="Invalid input value" />
+      <Input
+        leading={
+          <Text size="xs" color="muted">
+            $
+          </Text>
+        }
+        trailing={
+          <Text size="xs" color="muted">
+            USD
+          </Text>
+        }
+        defaultValue="250.00"
+        type="number"
+      />
     </VStack>
   </Container>
 </ComponentPreview>

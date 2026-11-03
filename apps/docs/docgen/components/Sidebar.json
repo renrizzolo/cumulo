@@ -1240,6 +1240,7 @@
     },
     "HoverZone": {
       "name": "Sidebar.HoverZone",
+      "description": "A hover zone for expanding the sidebar on hover.",
       "props": {
         "variant": {
           "defaultValue": {

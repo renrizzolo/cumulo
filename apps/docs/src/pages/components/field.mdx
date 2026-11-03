@@ -1,5 +1,5 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Container, VStack } from '@cumulo/core';
+import { Container, VStack, Kbd, Text } from '@cumulo/core';
 import * as Field from '@cumulo/core/components/Field';
 import fieldDoc from '../../../docgen/components/Field.json';
 export default Layout;
@@ -36,6 +36,63 @@ import { Field } from '@cumulo/core';
         </Field.Select>
         <Field.Description>
           Controls default repository and deployment permissions.
+        </Field.Description>
+      </Field.Root>
+    </VStack>
+
+  </Container>
+</ComponentPreview>
+
+## Adornments
+
+`Field.Input` supports `leading` and `trailing` adornments, allowing you to add icons, prefixes, keyboard shortcut indicators (`<Kbd>`), and action controls while maintaining full accessibility associations (`aria-labelledby` with `Field.Label`, `aria-describedby` with `Field.Description` and `Field.Error`).
+
+<ComponentPreview title="Field with Adornments">
+  <Container size="sm" padding="none">
+    <VStack gap="lg">
+      <Field.Root>
+        <Field.Label>Search components</Field.Label>
+        <Field.Input
+          leading={
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          }
+          trailing={<Kbd size="xs">⌘K</Kbd>}
+          placeholder="Filter components..."
+        />
+        <Field.Description>
+          Quickly filter components, primitives, and headless hooks.
+        </Field.Description>
+      </Field.Root>
+
+      <Field.Root>
+        <Field.Label>Custom Domain</Field.Label>
+        <Field.Input
+          leading={
+            <Text size="xs" color="muted">
+              https://
+            </Text>
+          }
+          trailing={
+            <Text size="xs" color="muted">
+              .cumulo.app
+            </Text>
+          }
+          placeholder="my-workspace"
+        />
+        <Field.Description>
+          Enter the subdomain you wish to configure for your workspace.
         </Field.Description>
       </Field.Root>
     </VStack>
