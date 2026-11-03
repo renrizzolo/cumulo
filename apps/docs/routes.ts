@@ -12,800 +12,795 @@ import type {
   RouteHtml,
   RouteNode,
   RoutePath,
-} from "@renr/parcel-rsc-router";
+} from '@renr/parcel-rsc-router';
 
 export type { Page, PageProps, RouteHtml, RoutePath };
 
-declare module "@renr/parcel-rsc-router" {
+declare module '@renr/parcel-rsc-router' {
   namespace App {
     interface Routes {
-      "/": { slug: "index"; path: "/"; rsc: "/index.rsc"; html: "/index.html" };
-      "/ai": { slug: "ai"; path: "/ai"; rsc: "/ai.rsc"; html: "/ai.html" };
-      "/bundlers": {
-        slug: "bundlers";
-        path: "/bundlers";
-        rsc: "/bundlers.rsc";
-        html: "/bundlers.html";
+      '/': { slug: 'index'; path: '/'; rsc: '/index.rsc'; html: '/index.html' };
+      '/ai': { slug: 'ai'; path: '/ai'; rsc: '/ai.rsc'; html: '/ai.html' };
+      '/bundlers': {
+        slug: 'bundlers';
+        path: '/bundlers';
+        rsc: '/bundlers.rsc';
+        html: '/bundlers.html';
       };
-      "/components/alert": {
-        slug: "alert";
-        path: "/components/alert";
-        rsc: "/components/alert.rsc";
-        html: "/components/alert.html";
+      '/components/alert': {
+        slug: 'alert';
+        path: '/components/alert';
+        rsc: '/components/alert.rsc';
+        html: '/components/alert.html';
       };
-      "/components/app-frame": {
-        slug: "app-frame";
-        path: "/components/app-frame";
-        rsc: "/components/app-frame.rsc";
-        html: "/components/app-frame.html";
+      '/components/app-frame': {
+        slug: 'app-frame';
+        path: '/components/app-frame';
+        rsc: '/components/app-frame.rsc';
+        html: '/components/app-frame.html';
       };
-      "/components/badge": {
-        slug: "badge";
-        path: "/components/badge";
-        rsc: "/components/badge.rsc";
-        html: "/components/badge.html";
+      '/components/badge': {
+        slug: 'badge';
+        path: '/components/badge';
+        rsc: '/components/badge.rsc';
+        html: '/components/badge.html';
       };
-      "/components/button": {
-        slug: "button";
-        path: "/components/button";
-        rsc: "/components/button.rsc";
-        html: "/components/button.html";
+      '/components/button': {
+        slug: 'button';
+        path: '/components/button';
+        rsc: '/components/button.rsc';
+        html: '/components/button.html';
       };
-      "/components/button-group": {
-        slug: "button-group";
-        path: "/components/button-group";
-        rsc: "/components/button-group.rsc";
-        html: "/components/button-group.html";
+      '/components/button-group': {
+        slug: 'button-group';
+        path: '/components/button-group';
+        rsc: '/components/button-group.rsc';
+        html: '/components/button-group.html';
       };
-      "/components/card": {
-        slug: "card";
-        path: "/components/card";
-        rsc: "/components/card.rsc";
-        html: "/components/card.html";
+      '/components/card': {
+        slug: 'card';
+        path: '/components/card';
+        rsc: '/components/card.rsc';
+        html: '/components/card.html';
       };
-      "/components/checkbox": {
-        slug: "checkbox";
-        path: "/components/checkbox";
-        rsc: "/components/checkbox.rsc";
-        html: "/components/checkbox.html";
+      '/components/checkbox': {
+        slug: 'checkbox';
+        path: '/components/checkbox';
+        rsc: '/components/checkbox.rsc';
+        html: '/components/checkbox.html';
       };
-      "/components/code": {
-        slug: "code";
-        path: "/components/code";
-        rsc: "/components/code.rsc";
-        html: "/components/code.html";
+      '/components/code': {
+        slug: 'code';
+        path: '/components/code';
+        rsc: '/components/code.rsc';
+        html: '/components/code.html';
       };
-      "/components/collapsible": {
-        slug: "collapsible";
-        path: "/components/collapsible";
-        rsc: "/components/collapsible.rsc";
-        html: "/components/collapsible.html";
+      '/components/collapsible': {
+        slug: 'collapsible';
+        path: '/components/collapsible';
+        rsc: '/components/collapsible.rsc';
+        html: '/components/collapsible.html';
       };
-      "/components/container": {
-        slug: "container";
-        path: "/components/container";
-        rsc: "/components/container.rsc";
-        html: "/components/container.html";
+      '/components/container': {
+        slug: 'container';
+        path: '/components/container';
+        rsc: '/components/container.rsc';
+        html: '/components/container.html';
       };
-      "/components/dialog": {
-        slug: "dialog";
-        path: "/components/dialog";
-        rsc: "/components/dialog.rsc";
-        html: "/components/dialog.html";
+      '/components/dialog': {
+        slug: 'dialog';
+        path: '/components/dialog';
+        rsc: '/components/dialog.rsc';
+        html: '/components/dialog.html';
       };
-      "/components/divider": {
-        slug: "divider";
-        path: "/components/divider";
-        rsc: "/components/divider.rsc";
-        html: "/components/divider.html";
+      '/components/divider': {
+        slug: 'divider';
+        path: '/components/divider';
+        rsc: '/components/divider.rsc';
+        html: '/components/divider.html';
       };
-      "/components/field": {
-        slug: "field";
-        path: "/components/field";
-        rsc: "/components/field.rsc";
-        html: "/components/field.html";
+      '/components/field': {
+        slug: 'field';
+        path: '/components/field';
+        rsc: '/components/field.rsc';
+        html: '/components/field.html';
       };
-      "/components/flow": {
-        slug: "flow";
-        path: "/components/flow";
-        rsc: "/components/flow.rsc";
-        html: "/components/flow.html";
+      '/components/flow': {
+        slug: 'flow';
+        path: '/components/flow';
+        rsc: '/components/flow.rsc';
+        html: '/components/flow.html';
       };
-      "/components/grid": {
-        slug: "grid";
-        path: "/components/grid";
-        rsc: "/components/grid.rsc";
-        html: "/components/grid.html";
+      '/components/grid': {
+        slug: 'grid';
+        path: '/components/grid';
+        rsc: '/components/grid.rsc';
+        html: '/components/grid.html';
       };
-      "/components/heading": {
-        slug: "heading";
-        path: "/components/heading";
-        rsc: "/components/heading.rsc";
-        html: "/components/heading.html";
+      '/components/heading': {
+        slug: 'heading';
+        path: '/components/heading';
+        rsc: '/components/heading.rsc';
+        html: '/components/heading.html';
       };
-      "/components/input": {
-        slug: "input";
-        path: "/components/input";
-        rsc: "/components/input.rsc";
-        html: "/components/input.html";
+      '/components/input': {
+        slug: 'input';
+        path: '/components/input';
+        rsc: '/components/input.rsc';
+        html: '/components/input.html';
       };
-      "/components/kbd": {
-        slug: "kbd";
-        path: "/components/kbd";
-        rsc: "/components/kbd.rsc";
-        html: "/components/kbd.html";
+      '/components/kbd': {
+        slug: 'kbd';
+        path: '/components/kbd';
+        rsc: '/components/kbd.rsc';
+        html: '/components/kbd.html';
       };
-      "/components/link": {
-        slug: "link";
-        path: "/components/link";
-        rsc: "/components/link.rsc";
-        html: "/components/link.html";
+      '/components/link': {
+        slug: 'link';
+        path: '/components/link';
+        rsc: '/components/link.rsc';
+        html: '/components/link.html';
       };
-      "/components/menu": {
-        slug: "menu";
-        path: "/components/menu";
-        rsc: "/components/menu.rsc";
-        html: "/components/menu.html";
+      '/components/menu': {
+        slug: 'menu';
+        path: '/components/menu';
+        rsc: '/components/menu.rsc';
+        html: '/components/menu.html';
       };
-      "/components/panel": {
-        slug: "panel";
-        path: "/components/panel";
-        rsc: "/components/panel.rsc";
-        html: "/components/panel.html";
+      '/components/panel': {
+        slug: 'panel';
+        path: '/components/panel';
+        rsc: '/components/panel.rsc';
+        html: '/components/panel.html';
       };
-      "/components/popover": {
-        slug: "popover";
-        path: "/components/popover";
-        rsc: "/components/popover.rsc";
-        html: "/components/popover.html";
+      '/components/popover': {
+        slug: 'popover';
+        path: '/components/popover';
+        rsc: '/components/popover.rsc';
+        html: '/components/popover.html';
       };
-      "/components/radio": {
-        slug: "radio";
-        path: "/components/radio";
-        rsc: "/components/radio.rsc";
-        html: "/components/radio.html";
+      '/components/radio': {
+        slug: 'radio';
+        path: '/components/radio';
+        rsc: '/components/radio.rsc';
+        html: '/components/radio.html';
       };
-      "/components/select": {
-        slug: "select";
-        path: "/components/select";
-        rsc: "/components/select.rsc";
-        html: "/components/select.html";
+      '/components/select': {
+        slug: 'select';
+        path: '/components/select';
+        rsc: '/components/select.rsc';
+        html: '/components/select.html';
       };
-      "/components/side-nav": {
-        slug: "side-nav";
-        path: "/components/side-nav";
-        rsc: "/components/side-nav.rsc";
-        html: "/components/side-nav.html";
+      '/components/side-nav': {
+        slug: 'side-nav';
+        path: '/components/side-nav';
+        rsc: '/components/side-nav.rsc';
+        html: '/components/side-nav.html';
       };
-      "/components/sidebar": {
-        slug: "sidebar";
-        path: "/components/sidebar";
-        rsc: "/components/sidebar.rsc";
-        html: "/components/sidebar.html";
+      '/components/sidebar': {
+        slug: 'sidebar';
+        path: '/components/sidebar';
+        rsc: '/components/sidebar.rsc';
+        html: '/components/sidebar.html';
       };
-      "/components/spinner": {
-        slug: "spinner";
-        path: "/components/spinner";
-        rsc: "/components/spinner.rsc";
-        html: "/components/spinner.html";
+      '/components/spinner': {
+        slug: 'spinner';
+        path: '/components/spinner';
+        rsc: '/components/spinner.rsc';
+        html: '/components/spinner.html';
       };
-      "/components/stack": {
-        slug: "stack";
-        path: "/components/stack";
-        rsc: "/components/stack.rsc";
-        html: "/components/stack.html";
+      '/components/stack': {
+        slug: 'stack';
+        path: '/components/stack';
+        rsc: '/components/stack.rsc';
+        html: '/components/stack.html';
       };
-      "/components/surface": {
-        slug: "surface";
-        path: "/components/surface";
-        rsc: "/components/surface.rsc";
-        html: "/components/surface.html";
+      '/components/surface': {
+        slug: 'surface';
+        path: '/components/surface';
+        rsc: '/components/surface.rsc';
+        html: '/components/surface.html';
       };
-      "/components/switch": {
-        slug: "switch";
-        path: "/components/switch";
-        rsc: "/components/switch.rsc";
-        html: "/components/switch.html";
+      '/components/switch': {
+        slug: 'switch';
+        path: '/components/switch';
+        rsc: '/components/switch.rsc';
+        html: '/components/switch.html';
       };
-      "/components/table": {
-        slug: "table";
-        path: "/components/table";
-        rsc: "/components/table.rsc";
-        html: "/components/table.html";
+      '/components/table': {
+        slug: 'table';
+        path: '/components/table';
+        rsc: '/components/table.rsc';
+        html: '/components/table.html';
       };
-      "/components/tabs": {
-        slug: "tabs";
-        path: "/components/tabs";
-        rsc: "/components/tabs.rsc";
-        html: "/components/tabs.html";
+      '/components/tabs': {
+        slug: 'tabs';
+        path: '/components/tabs';
+        rsc: '/components/tabs.rsc';
+        html: '/components/tabs.html';
       };
-      "/components/text": {
-        slug: "text";
-        path: "/components/text";
-        rsc: "/components/text.rsc";
-        html: "/components/text.html";
+      '/components/text': {
+        slug: 'text';
+        path: '/components/text';
+        rsc: '/components/text.rsc';
+        html: '/components/text.html';
       };
-      "/components/textarea": {
-        slug: "textarea";
-        path: "/components/textarea";
-        rsc: "/components/textarea.rsc";
-        html: "/components/textarea.html";
+      '/components/textarea': {
+        slug: 'textarea';
+        path: '/components/textarea';
+        rsc: '/components/textarea.rsc';
+        html: '/components/textarea.html';
       };
-      "/components/theme-toggle": {
-        slug: "theme-toggle";
-        path: "/components/theme-toggle";
-        rsc: "/components/theme-toggle.rsc";
-        html: "/components/theme-toggle.html";
+      '/components/theme-toggle': {
+        slug: 'theme-toggle';
+        path: '/components/theme-toggle';
+        rsc: '/components/theme-toggle.rsc';
+        html: '/components/theme-toggle.html';
       };
-      "/components/tooltip": {
-        slug: "tooltip";
-        path: "/components/tooltip";
-        rsc: "/components/tooltip.rsc";
-        html: "/components/tooltip.html";
+      '/components/tooltip': {
+        slug: 'tooltip';
+        path: '/components/tooltip';
+        rsc: '/components/tooltip.rsc';
+        html: '/components/tooltip.html';
       };
-      "/css": { slug: "css"; path: "/css"; rsc: "/css.rsc"; html: "/css.html" };
-      "/theme-builder": {
-        slug: "theme-builder";
-        path: "/theme-builder";
-        rsc: "/theme-builder.rsc";
-        html: "/theme-builder.html";
+      '/css': { slug: 'css'; path: '/css'; rsc: '/css.rsc'; html: '/css.html' };
+      '/theme-builder': {
+        slug: 'theme-builder';
+        path: '/theme-builder';
+        rsc: '/theme-builder.rsc';
+        html: '/theme-builder.html';
       };
-      "/tokens": {
-        slug: "tokens";
-        path: "/tokens";
-        rsc: "/tokens.rsc";
-        html: "/tokens.html";
-      };
+      '/tokens': { slug: 'tokens'; path: '/tokens'; rsc: '/tokens.rsc'; html: '/tokens.html' };
     }
   }
 }
 
 export const flatRoutes = [
   {
-    path: "/",
-    slug: "index",
-    rsc: "/index.rsc",
-    html: "/index.html",
+    path: '/',
+    slug: 'index',
+    rsc: '/index.rsc',
+    html: '/index.html',
   },
   {
-    path: "/ai",
-    slug: "ai",
-    rsc: "/ai.rsc",
-    html: "/ai.html",
+    path: '/ai',
+    slug: 'ai',
+    rsc: '/ai.rsc',
+    html: '/ai.html',
   },
   {
-    path: "/bundlers",
-    slug: "bundlers",
-    rsc: "/bundlers.rsc",
-    html: "/bundlers.html",
+    path: '/bundlers',
+    slug: 'bundlers',
+    rsc: '/bundlers.rsc',
+    html: '/bundlers.html',
   },
   {
-    path: "/components/alert",
-    slug: "alert",
-    rsc: "/components/alert.rsc",
-    html: "/components/alert.html",
+    path: '/components/alert',
+    slug: 'alert',
+    rsc: '/components/alert.rsc',
+    html: '/components/alert.html',
   },
   {
-    path: "/components/app-frame",
-    slug: "app-frame",
-    rsc: "/components/app-frame.rsc",
-    html: "/components/app-frame.html",
+    path: '/components/app-frame',
+    slug: 'app-frame',
+    rsc: '/components/app-frame.rsc',
+    html: '/components/app-frame.html',
   },
   {
-    path: "/components/badge",
-    slug: "badge",
-    rsc: "/components/badge.rsc",
-    html: "/components/badge.html",
+    path: '/components/badge',
+    slug: 'badge',
+    rsc: '/components/badge.rsc',
+    html: '/components/badge.html',
   },
   {
-    path: "/components/button",
-    slug: "button",
-    rsc: "/components/button.rsc",
-    html: "/components/button.html",
+    path: '/components/button',
+    slug: 'button',
+    rsc: '/components/button.rsc',
+    html: '/components/button.html',
   },
   {
-    path: "/components/button-group",
-    slug: "button-group",
-    rsc: "/components/button-group.rsc",
-    html: "/components/button-group.html",
+    path: '/components/button-group',
+    slug: 'button-group',
+    rsc: '/components/button-group.rsc',
+    html: '/components/button-group.html',
   },
   {
-    path: "/components/card",
-    slug: "card",
-    rsc: "/components/card.rsc",
-    html: "/components/card.html",
+    path: '/components/card',
+    slug: 'card',
+    rsc: '/components/card.rsc',
+    html: '/components/card.html',
   },
   {
-    path: "/components/checkbox",
-    slug: "checkbox",
-    rsc: "/components/checkbox.rsc",
-    html: "/components/checkbox.html",
+    path: '/components/checkbox',
+    slug: 'checkbox',
+    rsc: '/components/checkbox.rsc',
+    html: '/components/checkbox.html',
   },
   {
-    path: "/components/code",
-    slug: "code",
-    rsc: "/components/code.rsc",
-    html: "/components/code.html",
+    path: '/components/code',
+    slug: 'code',
+    rsc: '/components/code.rsc',
+    html: '/components/code.html',
   },
   {
-    path: "/components/collapsible",
-    slug: "collapsible",
-    rsc: "/components/collapsible.rsc",
-    html: "/components/collapsible.html",
+    path: '/components/collapsible',
+    slug: 'collapsible',
+    rsc: '/components/collapsible.rsc',
+    html: '/components/collapsible.html',
   },
   {
-    path: "/components/container",
-    slug: "container",
-    rsc: "/components/container.rsc",
-    html: "/components/container.html",
+    path: '/components/container',
+    slug: 'container',
+    rsc: '/components/container.rsc',
+    html: '/components/container.html',
   },
   {
-    path: "/components/dialog",
-    slug: "dialog",
-    rsc: "/components/dialog.rsc",
-    html: "/components/dialog.html",
+    path: '/components/dialog',
+    slug: 'dialog',
+    rsc: '/components/dialog.rsc',
+    html: '/components/dialog.html',
   },
   {
-    path: "/components/divider",
-    slug: "divider",
-    rsc: "/components/divider.rsc",
-    html: "/components/divider.html",
+    path: '/components/divider',
+    slug: 'divider',
+    rsc: '/components/divider.rsc',
+    html: '/components/divider.html',
   },
   {
-    path: "/components/field",
-    slug: "field",
-    rsc: "/components/field.rsc",
-    html: "/components/field.html",
+    path: '/components/field',
+    slug: 'field',
+    rsc: '/components/field.rsc',
+    html: '/components/field.html',
   },
   {
-    path: "/components/flow",
-    slug: "flow",
-    rsc: "/components/flow.rsc",
-    html: "/components/flow.html",
+    path: '/components/flow',
+    slug: 'flow',
+    rsc: '/components/flow.rsc',
+    html: '/components/flow.html',
   },
   {
-    path: "/components/grid",
-    slug: "grid",
-    rsc: "/components/grid.rsc",
-    html: "/components/grid.html",
+    path: '/components/grid',
+    slug: 'grid',
+    rsc: '/components/grid.rsc',
+    html: '/components/grid.html',
   },
   {
-    path: "/components/heading",
-    slug: "heading",
-    rsc: "/components/heading.rsc",
-    html: "/components/heading.html",
+    path: '/components/heading',
+    slug: 'heading',
+    rsc: '/components/heading.rsc',
+    html: '/components/heading.html',
   },
   {
-    path: "/components/input",
-    slug: "input",
-    rsc: "/components/input.rsc",
-    html: "/components/input.html",
+    path: '/components/input',
+    slug: 'input',
+    rsc: '/components/input.rsc',
+    html: '/components/input.html',
   },
   {
-    path: "/components/kbd",
-    slug: "kbd",
-    rsc: "/components/kbd.rsc",
-    html: "/components/kbd.html",
+    path: '/components/kbd',
+    slug: 'kbd',
+    rsc: '/components/kbd.rsc',
+    html: '/components/kbd.html',
   },
   {
-    path: "/components/link",
-    slug: "link",
-    rsc: "/components/link.rsc",
-    html: "/components/link.html",
+    path: '/components/link',
+    slug: 'link',
+    rsc: '/components/link.rsc',
+    html: '/components/link.html',
   },
   {
-    path: "/components/menu",
-    slug: "menu",
-    rsc: "/components/menu.rsc",
-    html: "/components/menu.html",
+    path: '/components/menu',
+    slug: 'menu',
+    rsc: '/components/menu.rsc',
+    html: '/components/menu.html',
   },
   {
-    path: "/components/panel",
-    slug: "panel",
-    rsc: "/components/panel.rsc",
-    html: "/components/panel.html",
+    path: '/components/panel',
+    slug: 'panel',
+    rsc: '/components/panel.rsc',
+    html: '/components/panel.html',
   },
   {
-    path: "/components/popover",
-    slug: "popover",
-    rsc: "/components/popover.rsc",
-    html: "/components/popover.html",
+    path: '/components/popover',
+    slug: 'popover',
+    rsc: '/components/popover.rsc',
+    html: '/components/popover.html',
   },
   {
-    path: "/components/radio",
-    slug: "radio",
-    rsc: "/components/radio.rsc",
-    html: "/components/radio.html",
+    path: '/components/radio',
+    slug: 'radio',
+    rsc: '/components/radio.rsc',
+    html: '/components/radio.html',
   },
   {
-    path: "/components/select",
-    slug: "select",
-    rsc: "/components/select.rsc",
-    html: "/components/select.html",
+    path: '/components/select',
+    slug: 'select',
+    rsc: '/components/select.rsc',
+    html: '/components/select.html',
   },
   {
-    path: "/components/side-nav",
-    slug: "side-nav",
-    rsc: "/components/side-nav.rsc",
-    html: "/components/side-nav.html",
+    path: '/components/side-nav',
+    slug: 'side-nav',
+    rsc: '/components/side-nav.rsc',
+    html: '/components/side-nav.html',
   },
   {
-    path: "/components/sidebar",
-    slug: "sidebar",
-    rsc: "/components/sidebar.rsc",
-    html: "/components/sidebar.html",
+    path: '/components/sidebar',
+    slug: 'sidebar',
+    rsc: '/components/sidebar.rsc',
+    html: '/components/sidebar.html',
   },
   {
-    path: "/components/spinner",
-    slug: "spinner",
-    rsc: "/components/spinner.rsc",
-    html: "/components/spinner.html",
+    path: '/components/spinner',
+    slug: 'spinner',
+    rsc: '/components/spinner.rsc',
+    html: '/components/spinner.html',
   },
   {
-    path: "/components/stack",
-    slug: "stack",
-    rsc: "/components/stack.rsc",
-    html: "/components/stack.html",
+    path: '/components/stack',
+    slug: 'stack',
+    rsc: '/components/stack.rsc',
+    html: '/components/stack.html',
   },
   {
-    path: "/components/surface",
-    slug: "surface",
-    rsc: "/components/surface.rsc",
-    html: "/components/surface.html",
+    path: '/components/surface',
+    slug: 'surface',
+    rsc: '/components/surface.rsc',
+    html: '/components/surface.html',
   },
   {
-    path: "/components/switch",
-    slug: "switch",
-    rsc: "/components/switch.rsc",
-    html: "/components/switch.html",
+    path: '/components/switch',
+    slug: 'switch',
+    rsc: '/components/switch.rsc',
+    html: '/components/switch.html',
   },
   {
-    path: "/components/table",
-    slug: "table",
-    rsc: "/components/table.rsc",
-    html: "/components/table.html",
+    path: '/components/table',
+    slug: 'table',
+    rsc: '/components/table.rsc',
+    html: '/components/table.html',
   },
   {
-    path: "/components/tabs",
-    slug: "tabs",
-    rsc: "/components/tabs.rsc",
-    html: "/components/tabs.html",
+    path: '/components/tabs',
+    slug: 'tabs',
+    rsc: '/components/tabs.rsc',
+    html: '/components/tabs.html',
   },
   {
-    path: "/components/text",
-    slug: "text",
-    rsc: "/components/text.rsc",
-    html: "/components/text.html",
+    path: '/components/text',
+    slug: 'text',
+    rsc: '/components/text.rsc',
+    html: '/components/text.html',
   },
   {
-    path: "/components/textarea",
-    slug: "textarea",
-    rsc: "/components/textarea.rsc",
-    html: "/components/textarea.html",
+    path: '/components/textarea',
+    slug: 'textarea',
+    rsc: '/components/textarea.rsc',
+    html: '/components/textarea.html',
   },
   {
-    path: "/components/theme-toggle",
-    slug: "theme-toggle",
-    rsc: "/components/theme-toggle.rsc",
-    html: "/components/theme-toggle.html",
+    path: '/components/theme-toggle',
+    slug: 'theme-toggle',
+    rsc: '/components/theme-toggle.rsc',
+    html: '/components/theme-toggle.html',
   },
   {
-    path: "/components/tooltip",
-    slug: "tooltip",
-    rsc: "/components/tooltip.rsc",
-    html: "/components/tooltip.html",
+    path: '/components/tooltip',
+    slug: 'tooltip',
+    rsc: '/components/tooltip.rsc',
+    html: '/components/tooltip.html',
   },
   {
-    path: "/css",
-    slug: "css",
-    rsc: "/css.rsc",
-    html: "/css.html",
+    path: '/css',
+    slug: 'css',
+    rsc: '/css.rsc',
+    html: '/css.html',
   },
   {
-    path: "/theme-builder",
-    slug: "theme-builder",
-    rsc: "/theme-builder.rsc",
-    html: "/theme-builder.html",
+    path: '/theme-builder',
+    slug: 'theme-builder',
+    rsc: '/theme-builder.rsc',
+    html: '/theme-builder.html',
   },
   {
-    path: "/tokens",
-    slug: "tokens",
-    rsc: "/tokens.rsc",
-    html: "/tokens.html",
+    path: '/tokens',
+    slug: 'tokens',
+    rsc: '/tokens.rsc',
+    html: '/tokens.html',
   },
 ] as const satisfies RouteData[];
 
 export const routeTree = {
-  path: "/",
-  slug: "index",
-  html: "/index.html",
-  rsc: "/index.rsc",
+  path: '/',
+  slug: 'index',
+  html: '/index.html',
+  rsc: '/index.rsc',
   children: [
     {
-      path: "/ai",
-      slug: "ai",
-      html: "/ai.html",
-      rsc: "/ai.rsc",
+      path: '/ai',
+      slug: 'ai',
+      html: '/ai.html',
+      rsc: '/ai.rsc',
       children: [],
     },
     {
-      path: "/bundlers",
-      slug: "bundlers",
-      html: "/bundlers.html",
-      rsc: "/bundlers.rsc",
+      path: '/bundlers',
+      slug: 'bundlers',
+      html: '/bundlers.html',
+      rsc: '/bundlers.rsc',
       children: [],
     },
     {
-      path: "/components/alert",
-      slug: "alert",
-      html: "/components/alert.html",
-      rsc: "/components/alert.rsc",
+      path: '/components/alert',
+      slug: 'alert',
+      html: '/components/alert.html',
+      rsc: '/components/alert.rsc',
       children: [],
     },
     {
-      path: "/components/app-frame",
-      slug: "app-frame",
-      html: "/components/app-frame.html",
-      rsc: "/components/app-frame.rsc",
+      path: '/components/app-frame',
+      slug: 'app-frame',
+      html: '/components/app-frame.html',
+      rsc: '/components/app-frame.rsc',
       children: [],
     },
     {
-      path: "/components/badge",
-      slug: "badge",
-      html: "/components/badge.html",
-      rsc: "/components/badge.rsc",
+      path: '/components/badge',
+      slug: 'badge',
+      html: '/components/badge.html',
+      rsc: '/components/badge.rsc',
       children: [],
     },
     {
-      path: "/components/button",
-      slug: "button",
-      html: "/components/button.html",
-      rsc: "/components/button.rsc",
+      path: '/components/button',
+      slug: 'button',
+      html: '/components/button.html',
+      rsc: '/components/button.rsc',
       children: [],
     },
     {
-      path: "/components/button-group",
-      slug: "button-group",
-      html: "/components/button-group.html",
-      rsc: "/components/button-group.rsc",
+      path: '/components/button-group',
+      slug: 'button-group',
+      html: '/components/button-group.html',
+      rsc: '/components/button-group.rsc',
       children: [],
     },
     {
-      path: "/components/card",
-      slug: "card",
-      html: "/components/card.html",
-      rsc: "/components/card.rsc",
+      path: '/components/card',
+      slug: 'card',
+      html: '/components/card.html',
+      rsc: '/components/card.rsc',
       children: [],
     },
     {
-      path: "/components/checkbox",
-      slug: "checkbox",
-      html: "/components/checkbox.html",
-      rsc: "/components/checkbox.rsc",
+      path: '/components/checkbox',
+      slug: 'checkbox',
+      html: '/components/checkbox.html',
+      rsc: '/components/checkbox.rsc',
       children: [],
     },
     {
-      path: "/components/code",
-      slug: "code",
-      html: "/components/code.html",
-      rsc: "/components/code.rsc",
+      path: '/components/code',
+      slug: 'code',
+      html: '/components/code.html',
+      rsc: '/components/code.rsc',
       children: [],
     },
     {
-      path: "/components/collapsible",
-      slug: "collapsible",
-      html: "/components/collapsible.html",
-      rsc: "/components/collapsible.rsc",
+      path: '/components/collapsible',
+      slug: 'collapsible',
+      html: '/components/collapsible.html',
+      rsc: '/components/collapsible.rsc',
       children: [],
     },
     {
-      path: "/components/container",
-      slug: "container",
-      html: "/components/container.html",
-      rsc: "/components/container.rsc",
+      path: '/components/container',
+      slug: 'container',
+      html: '/components/container.html',
+      rsc: '/components/container.rsc',
       children: [],
     },
     {
-      path: "/components/dialog",
-      slug: "dialog",
-      html: "/components/dialog.html",
-      rsc: "/components/dialog.rsc",
+      path: '/components/dialog',
+      slug: 'dialog',
+      html: '/components/dialog.html',
+      rsc: '/components/dialog.rsc',
       children: [],
     },
     {
-      path: "/components/divider",
-      slug: "divider",
-      html: "/components/divider.html",
-      rsc: "/components/divider.rsc",
+      path: '/components/divider',
+      slug: 'divider',
+      html: '/components/divider.html',
+      rsc: '/components/divider.rsc',
       children: [],
     },
     {
-      path: "/components/field",
-      slug: "field",
-      html: "/components/field.html",
-      rsc: "/components/field.rsc",
+      path: '/components/field',
+      slug: 'field',
+      html: '/components/field.html',
+      rsc: '/components/field.rsc',
       children: [],
     },
     {
-      path: "/components/flow",
-      slug: "flow",
-      html: "/components/flow.html",
-      rsc: "/components/flow.rsc",
+      path: '/components/flow',
+      slug: 'flow',
+      html: '/components/flow.html',
+      rsc: '/components/flow.rsc',
       children: [],
     },
     {
-      path: "/components/grid",
-      slug: "grid",
-      html: "/components/grid.html",
-      rsc: "/components/grid.rsc",
+      path: '/components/grid',
+      slug: 'grid',
+      html: '/components/grid.html',
+      rsc: '/components/grid.rsc',
       children: [],
     },
     {
-      path: "/components/heading",
-      slug: "heading",
-      html: "/components/heading.html",
-      rsc: "/components/heading.rsc",
+      path: '/components/heading',
+      slug: 'heading',
+      html: '/components/heading.html',
+      rsc: '/components/heading.rsc',
       children: [],
     },
     {
-      path: "/components/input",
-      slug: "input",
-      html: "/components/input.html",
-      rsc: "/components/input.rsc",
+      path: '/components/input',
+      slug: 'input',
+      html: '/components/input.html',
+      rsc: '/components/input.rsc',
       children: [],
     },
     {
-      path: "/components/kbd",
-      slug: "kbd",
-      html: "/components/kbd.html",
-      rsc: "/components/kbd.rsc",
+      path: '/components/kbd',
+      slug: 'kbd',
+      html: '/components/kbd.html',
+      rsc: '/components/kbd.rsc',
       children: [],
     },
     {
-      path: "/components/link",
-      slug: "link",
-      html: "/components/link.html",
-      rsc: "/components/link.rsc",
+      path: '/components/link',
+      slug: 'link',
+      html: '/components/link.html',
+      rsc: '/components/link.rsc',
       children: [],
     },
     {
-      path: "/components/menu",
-      slug: "menu",
-      html: "/components/menu.html",
-      rsc: "/components/menu.rsc",
+      path: '/components/menu',
+      slug: 'menu',
+      html: '/components/menu.html',
+      rsc: '/components/menu.rsc',
       children: [],
     },
     {
-      path: "/components/panel",
-      slug: "panel",
-      html: "/components/panel.html",
-      rsc: "/components/panel.rsc",
+      path: '/components/panel',
+      slug: 'panel',
+      html: '/components/panel.html',
+      rsc: '/components/panel.rsc',
       children: [],
     },
     {
-      path: "/components/popover",
-      slug: "popover",
-      html: "/components/popover.html",
-      rsc: "/components/popover.rsc",
+      path: '/components/popover',
+      slug: 'popover',
+      html: '/components/popover.html',
+      rsc: '/components/popover.rsc',
       children: [],
     },
     {
-      path: "/components/radio",
-      slug: "radio",
-      html: "/components/radio.html",
-      rsc: "/components/radio.rsc",
+      path: '/components/radio',
+      slug: 'radio',
+      html: '/components/radio.html',
+      rsc: '/components/radio.rsc',
       children: [],
     },
     {
-      path: "/components/select",
-      slug: "select",
-      html: "/components/select.html",
-      rsc: "/components/select.rsc",
+      path: '/components/select',
+      slug: 'select',
+      html: '/components/select.html',
+      rsc: '/components/select.rsc',
       children: [],
     },
     {
-      path: "/components/side-nav",
-      slug: "side-nav",
-      html: "/components/side-nav.html",
-      rsc: "/components/side-nav.rsc",
+      path: '/components/side-nav',
+      slug: 'side-nav',
+      html: '/components/side-nav.html',
+      rsc: '/components/side-nav.rsc',
       children: [],
     },
     {
-      path: "/components/sidebar",
-      slug: "sidebar",
-      html: "/components/sidebar.html",
-      rsc: "/components/sidebar.rsc",
+      path: '/components/sidebar',
+      slug: 'sidebar',
+      html: '/components/sidebar.html',
+      rsc: '/components/sidebar.rsc',
       children: [],
     },
     {
-      path: "/components/spinner",
-      slug: "spinner",
-      html: "/components/spinner.html",
-      rsc: "/components/spinner.rsc",
+      path: '/components/spinner',
+      slug: 'spinner',
+      html: '/components/spinner.html',
+      rsc: '/components/spinner.rsc',
       children: [],
     },
     {
-      path: "/components/stack",
-      slug: "stack",
-      html: "/components/stack.html",
-      rsc: "/components/stack.rsc",
+      path: '/components/stack',
+      slug: 'stack',
+      html: '/components/stack.html',
+      rsc: '/components/stack.rsc',
       children: [],
     },
     {
-      path: "/components/surface",
-      slug: "surface",
-      html: "/components/surface.html",
-      rsc: "/components/surface.rsc",
+      path: '/components/surface',
+      slug: 'surface',
+      html: '/components/surface.html',
+      rsc: '/components/surface.rsc',
       children: [],
     },
     {
-      path: "/components/switch",
-      slug: "switch",
-      html: "/components/switch.html",
-      rsc: "/components/switch.rsc",
+      path: '/components/switch',
+      slug: 'switch',
+      html: '/components/switch.html',
+      rsc: '/components/switch.rsc',
       children: [],
     },
     {
-      path: "/components/table",
-      slug: "table",
-      html: "/components/table.html",
-      rsc: "/components/table.rsc",
+      path: '/components/table',
+      slug: 'table',
+      html: '/components/table.html',
+      rsc: '/components/table.rsc',
       children: [],
     },
     {
-      path: "/components/tabs",
-      slug: "tabs",
-      html: "/components/tabs.html",
-      rsc: "/components/tabs.rsc",
+      path: '/components/tabs',
+      slug: 'tabs',
+      html: '/components/tabs.html',
+      rsc: '/components/tabs.rsc',
       children: [],
     },
     {
-      path: "/components/text",
-      slug: "text",
-      html: "/components/text.html",
-      rsc: "/components/text.rsc",
+      path: '/components/text',
+      slug: 'text',
+      html: '/components/text.html',
+      rsc: '/components/text.rsc',
       children: [],
     },
     {
-      path: "/components/textarea",
-      slug: "textarea",
-      html: "/components/textarea.html",
-      rsc: "/components/textarea.rsc",
+      path: '/components/textarea',
+      slug: 'textarea',
+      html: '/components/textarea.html',
+      rsc: '/components/textarea.rsc',
       children: [],
     },
     {
-      path: "/components/theme-toggle",
-      slug: "theme-toggle",
-      html: "/components/theme-toggle.html",
-      rsc: "/components/theme-toggle.rsc",
+      path: '/components/theme-toggle',
+      slug: 'theme-toggle',
+      html: '/components/theme-toggle.html',
+      rsc: '/components/theme-toggle.rsc',
       children: [],
     },
     {
-      path: "/components/tooltip",
-      slug: "tooltip",
-      html: "/components/tooltip.html",
-      rsc: "/components/tooltip.rsc",
+      path: '/components/tooltip',
+      slug: 'tooltip',
+      html: '/components/tooltip.html',
+      rsc: '/components/tooltip.rsc',
       children: [],
     },
     {
-      path: "/css",
-      slug: "css",
-      html: "/css.html",
-      rsc: "/css.rsc",
+      path: '/css',
+      slug: 'css',
+      html: '/css.html',
+      rsc: '/css.rsc',
       children: [],
     },
     {
-      path: "/theme-builder",
-      slug: "theme-builder",
-      html: "/theme-builder.html",
-      rsc: "/theme-builder.rsc",
+      path: '/theme-builder',
+      slug: 'theme-builder',
+      html: '/theme-builder.html',
+      rsc: '/theme-builder.rsc',
       children: [],
     },
     {
-      path: "/tokens",
-      slug: "tokens",
-      html: "/tokens.html",
-      rsc: "/tokens.rsc",
+      path: '/tokens',
+      slug: 'tokens',
+      html: '/tokens.html',
+      rsc: '/tokens.rsc',
       children: [],
     },
   ],
@@ -813,258 +808,258 @@ export const routeTree = {
 
 // lookup routes by PageProps url
 export const routesByPage = {
-  "/index.html": {
-    path: "/",
-    slug: "index",
-    rsc: "/index.rsc",
-    html: "/index.html",
+  '/index.html': {
+    path: '/',
+    slug: 'index',
+    rsc: '/index.rsc',
+    html: '/index.html',
   },
-  "/ai.html": {
-    path: "/ai",
-    slug: "ai",
-    rsc: "/ai.rsc",
-    html: "/ai.html",
+  '/ai.html': {
+    path: '/ai',
+    slug: 'ai',
+    rsc: '/ai.rsc',
+    html: '/ai.html',
   },
-  "/bundlers.html": {
-    path: "/bundlers",
-    slug: "bundlers",
-    rsc: "/bundlers.rsc",
-    html: "/bundlers.html",
+  '/bundlers.html': {
+    path: '/bundlers',
+    slug: 'bundlers',
+    rsc: '/bundlers.rsc',
+    html: '/bundlers.html',
   },
-  "/components/alert.html": {
-    path: "/components/alert",
-    slug: "alert",
-    rsc: "/components/alert.rsc",
-    html: "/components/alert.html",
+  '/components/alert.html': {
+    path: '/components/alert',
+    slug: 'alert',
+    rsc: '/components/alert.rsc',
+    html: '/components/alert.html',
   },
-  "/components/app-frame.html": {
-    path: "/components/app-frame",
-    slug: "app-frame",
-    rsc: "/components/app-frame.rsc",
-    html: "/components/app-frame.html",
+  '/components/app-frame.html': {
+    path: '/components/app-frame',
+    slug: 'app-frame',
+    rsc: '/components/app-frame.rsc',
+    html: '/components/app-frame.html',
   },
-  "/components/badge.html": {
-    path: "/components/badge",
-    slug: "badge",
-    rsc: "/components/badge.rsc",
-    html: "/components/badge.html",
+  '/components/badge.html': {
+    path: '/components/badge',
+    slug: 'badge',
+    rsc: '/components/badge.rsc',
+    html: '/components/badge.html',
   },
-  "/components/button.html": {
-    path: "/components/button",
-    slug: "button",
-    rsc: "/components/button.rsc",
-    html: "/components/button.html",
+  '/components/button.html': {
+    path: '/components/button',
+    slug: 'button',
+    rsc: '/components/button.rsc',
+    html: '/components/button.html',
   },
-  "/components/button-group.html": {
-    path: "/components/button-group",
-    slug: "button-group",
-    rsc: "/components/button-group.rsc",
-    html: "/components/button-group.html",
+  '/components/button-group.html': {
+    path: '/components/button-group',
+    slug: 'button-group',
+    rsc: '/components/button-group.rsc',
+    html: '/components/button-group.html',
   },
-  "/components/card.html": {
-    path: "/components/card",
-    slug: "card",
-    rsc: "/components/card.rsc",
-    html: "/components/card.html",
+  '/components/card.html': {
+    path: '/components/card',
+    slug: 'card',
+    rsc: '/components/card.rsc',
+    html: '/components/card.html',
   },
-  "/components/checkbox.html": {
-    path: "/components/checkbox",
-    slug: "checkbox",
-    rsc: "/components/checkbox.rsc",
-    html: "/components/checkbox.html",
+  '/components/checkbox.html': {
+    path: '/components/checkbox',
+    slug: 'checkbox',
+    rsc: '/components/checkbox.rsc',
+    html: '/components/checkbox.html',
   },
-  "/components/code.html": {
-    path: "/components/code",
-    slug: "code",
-    rsc: "/components/code.rsc",
-    html: "/components/code.html",
+  '/components/code.html': {
+    path: '/components/code',
+    slug: 'code',
+    rsc: '/components/code.rsc',
+    html: '/components/code.html',
   },
-  "/components/collapsible.html": {
-    path: "/components/collapsible",
-    slug: "collapsible",
-    rsc: "/components/collapsible.rsc",
-    html: "/components/collapsible.html",
+  '/components/collapsible.html': {
+    path: '/components/collapsible',
+    slug: 'collapsible',
+    rsc: '/components/collapsible.rsc',
+    html: '/components/collapsible.html',
   },
-  "/components/container.html": {
-    path: "/components/container",
-    slug: "container",
-    rsc: "/components/container.rsc",
-    html: "/components/container.html",
+  '/components/container.html': {
+    path: '/components/container',
+    slug: 'container',
+    rsc: '/components/container.rsc',
+    html: '/components/container.html',
   },
-  "/components/dialog.html": {
-    path: "/components/dialog",
-    slug: "dialog",
-    rsc: "/components/dialog.rsc",
-    html: "/components/dialog.html",
+  '/components/dialog.html': {
+    path: '/components/dialog',
+    slug: 'dialog',
+    rsc: '/components/dialog.rsc',
+    html: '/components/dialog.html',
   },
-  "/components/divider.html": {
-    path: "/components/divider",
-    slug: "divider",
-    rsc: "/components/divider.rsc",
-    html: "/components/divider.html",
+  '/components/divider.html': {
+    path: '/components/divider',
+    slug: 'divider',
+    rsc: '/components/divider.rsc',
+    html: '/components/divider.html',
   },
-  "/components/field.html": {
-    path: "/components/field",
-    slug: "field",
-    rsc: "/components/field.rsc",
-    html: "/components/field.html",
+  '/components/field.html': {
+    path: '/components/field',
+    slug: 'field',
+    rsc: '/components/field.rsc',
+    html: '/components/field.html',
   },
-  "/components/flow.html": {
-    path: "/components/flow",
-    slug: "flow",
-    rsc: "/components/flow.rsc",
-    html: "/components/flow.html",
+  '/components/flow.html': {
+    path: '/components/flow',
+    slug: 'flow',
+    rsc: '/components/flow.rsc',
+    html: '/components/flow.html',
   },
-  "/components/grid.html": {
-    path: "/components/grid",
-    slug: "grid",
-    rsc: "/components/grid.rsc",
-    html: "/components/grid.html",
+  '/components/grid.html': {
+    path: '/components/grid',
+    slug: 'grid',
+    rsc: '/components/grid.rsc',
+    html: '/components/grid.html',
   },
-  "/components/heading.html": {
-    path: "/components/heading",
-    slug: "heading",
-    rsc: "/components/heading.rsc",
-    html: "/components/heading.html",
+  '/components/heading.html': {
+    path: '/components/heading',
+    slug: 'heading',
+    rsc: '/components/heading.rsc',
+    html: '/components/heading.html',
   },
-  "/components/input.html": {
-    path: "/components/input",
-    slug: "input",
-    rsc: "/components/input.rsc",
-    html: "/components/input.html",
+  '/components/input.html': {
+    path: '/components/input',
+    slug: 'input',
+    rsc: '/components/input.rsc',
+    html: '/components/input.html',
   },
-  "/components/kbd.html": {
-    path: "/components/kbd",
-    slug: "kbd",
-    rsc: "/components/kbd.rsc",
-    html: "/components/kbd.html",
+  '/components/kbd.html': {
+    path: '/components/kbd',
+    slug: 'kbd',
+    rsc: '/components/kbd.rsc',
+    html: '/components/kbd.html',
   },
-  "/components/link.html": {
-    path: "/components/link",
-    slug: "link",
-    rsc: "/components/link.rsc",
-    html: "/components/link.html",
+  '/components/link.html': {
+    path: '/components/link',
+    slug: 'link',
+    rsc: '/components/link.rsc',
+    html: '/components/link.html',
   },
-  "/components/menu.html": {
-    path: "/components/menu",
-    slug: "menu",
-    rsc: "/components/menu.rsc",
-    html: "/components/menu.html",
+  '/components/menu.html': {
+    path: '/components/menu',
+    slug: 'menu',
+    rsc: '/components/menu.rsc',
+    html: '/components/menu.html',
   },
-  "/components/panel.html": {
-    path: "/components/panel",
-    slug: "panel",
-    rsc: "/components/panel.rsc",
-    html: "/components/panel.html",
+  '/components/panel.html': {
+    path: '/components/panel',
+    slug: 'panel',
+    rsc: '/components/panel.rsc',
+    html: '/components/panel.html',
   },
-  "/components/popover.html": {
-    path: "/components/popover",
-    slug: "popover",
-    rsc: "/components/popover.rsc",
-    html: "/components/popover.html",
+  '/components/popover.html': {
+    path: '/components/popover',
+    slug: 'popover',
+    rsc: '/components/popover.rsc',
+    html: '/components/popover.html',
   },
-  "/components/radio.html": {
-    path: "/components/radio",
-    slug: "radio",
-    rsc: "/components/radio.rsc",
-    html: "/components/radio.html",
+  '/components/radio.html': {
+    path: '/components/radio',
+    slug: 'radio',
+    rsc: '/components/radio.rsc',
+    html: '/components/radio.html',
   },
-  "/components/select.html": {
-    path: "/components/select",
-    slug: "select",
-    rsc: "/components/select.rsc",
-    html: "/components/select.html",
+  '/components/select.html': {
+    path: '/components/select',
+    slug: 'select',
+    rsc: '/components/select.rsc',
+    html: '/components/select.html',
   },
-  "/components/side-nav.html": {
-    path: "/components/side-nav",
-    slug: "side-nav",
-    rsc: "/components/side-nav.rsc",
-    html: "/components/side-nav.html",
+  '/components/side-nav.html': {
+    path: '/components/side-nav',
+    slug: 'side-nav',
+    rsc: '/components/side-nav.rsc',
+    html: '/components/side-nav.html',
   },
-  "/components/sidebar.html": {
-    path: "/components/sidebar",
-    slug: "sidebar",
-    rsc: "/components/sidebar.rsc",
-    html: "/components/sidebar.html",
+  '/components/sidebar.html': {
+    path: '/components/sidebar',
+    slug: 'sidebar',
+    rsc: '/components/sidebar.rsc',
+    html: '/components/sidebar.html',
   },
-  "/components/spinner.html": {
-    path: "/components/spinner",
-    slug: "spinner",
-    rsc: "/components/spinner.rsc",
-    html: "/components/spinner.html",
+  '/components/spinner.html': {
+    path: '/components/spinner',
+    slug: 'spinner',
+    rsc: '/components/spinner.rsc',
+    html: '/components/spinner.html',
   },
-  "/components/stack.html": {
-    path: "/components/stack",
-    slug: "stack",
-    rsc: "/components/stack.rsc",
-    html: "/components/stack.html",
+  '/components/stack.html': {
+    path: '/components/stack',
+    slug: 'stack',
+    rsc: '/components/stack.rsc',
+    html: '/components/stack.html',
   },
-  "/components/surface.html": {
-    path: "/components/surface",
-    slug: "surface",
-    rsc: "/components/surface.rsc",
-    html: "/components/surface.html",
+  '/components/surface.html': {
+    path: '/components/surface',
+    slug: 'surface',
+    rsc: '/components/surface.rsc',
+    html: '/components/surface.html',
   },
-  "/components/switch.html": {
-    path: "/components/switch",
-    slug: "switch",
-    rsc: "/components/switch.rsc",
-    html: "/components/switch.html",
+  '/components/switch.html': {
+    path: '/components/switch',
+    slug: 'switch',
+    rsc: '/components/switch.rsc',
+    html: '/components/switch.html',
   },
-  "/components/table.html": {
-    path: "/components/table",
-    slug: "table",
-    rsc: "/components/table.rsc",
-    html: "/components/table.html",
+  '/components/table.html': {
+    path: '/components/table',
+    slug: 'table',
+    rsc: '/components/table.rsc',
+    html: '/components/table.html',
   },
-  "/components/tabs.html": {
-    path: "/components/tabs",
-    slug: "tabs",
-    rsc: "/components/tabs.rsc",
-    html: "/components/tabs.html",
+  '/components/tabs.html': {
+    path: '/components/tabs',
+    slug: 'tabs',
+    rsc: '/components/tabs.rsc',
+    html: '/components/tabs.html',
   },
-  "/components/text.html": {
-    path: "/components/text",
-    slug: "text",
-    rsc: "/components/text.rsc",
-    html: "/components/text.html",
+  '/components/text.html': {
+    path: '/components/text',
+    slug: 'text',
+    rsc: '/components/text.rsc',
+    html: '/components/text.html',
   },
-  "/components/textarea.html": {
-    path: "/components/textarea",
-    slug: "textarea",
-    rsc: "/components/textarea.rsc",
-    html: "/components/textarea.html",
+  '/components/textarea.html': {
+    path: '/components/textarea',
+    slug: 'textarea',
+    rsc: '/components/textarea.rsc',
+    html: '/components/textarea.html',
   },
-  "/components/theme-toggle.html": {
-    path: "/components/theme-toggle",
-    slug: "theme-toggle",
-    rsc: "/components/theme-toggle.rsc",
-    html: "/components/theme-toggle.html",
+  '/components/theme-toggle.html': {
+    path: '/components/theme-toggle',
+    slug: 'theme-toggle',
+    rsc: '/components/theme-toggle.rsc',
+    html: '/components/theme-toggle.html',
   },
-  "/components/tooltip.html": {
-    path: "/components/tooltip",
-    slug: "tooltip",
-    rsc: "/components/tooltip.rsc",
-    html: "/components/tooltip.html",
+  '/components/tooltip.html': {
+    path: '/components/tooltip',
+    slug: 'tooltip',
+    rsc: '/components/tooltip.rsc',
+    html: '/components/tooltip.html',
   },
-  "/css.html": {
-    path: "/css",
-    slug: "css",
-    rsc: "/css.rsc",
-    html: "/css.html",
+  '/css.html': {
+    path: '/css',
+    slug: 'css',
+    rsc: '/css.rsc',
+    html: '/css.html',
   },
-  "/theme-builder.html": {
-    path: "/theme-builder",
-    slug: "theme-builder",
-    rsc: "/theme-builder.rsc",
-    html: "/theme-builder.html",
+  '/theme-builder.html': {
+    path: '/theme-builder',
+    slug: 'theme-builder',
+    rsc: '/theme-builder.rsc',
+    html: '/theme-builder.html',
   },
-  "/tokens.html": {
-    path: "/tokens",
-    slug: "tokens",
-    rsc: "/tokens.rsc",
-    html: "/tokens.html",
+  '/tokens.html': {
+    path: '/tokens',
+    slug: 'tokens',
+    rsc: '/tokens.rsc',
+    html: '/tokens.html',
   },
 } satisfies {
-  [Key in keyof App.Routes as App.Routes[Key]["html"]]: App.Routes[Key];
+  [Key in keyof App.Routes as App.Routes[Key]['html']]: App.Routes[Key];
 };
