@@ -58,6 +58,14 @@ const cardStyle = style({
 });
 ```
 
+### Theming: load `@cumulo/core/theme.css` or provide a custom stylesheet
+`@cumulo/core` ships with a prebuilt `theme.css` containing CSS reset styles and default token variables:
+```ts
+// src/main.tsx
+import '@cumulo/core/theme.css';
+```
+Or define custom CSS variables on `:root` or `[data-theme='...']` in your own stylesheet.
+
 ---
 
 ## 2. Component API reference

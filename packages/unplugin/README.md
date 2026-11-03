@@ -48,12 +48,15 @@ export default {
 };
 ```
 
-2. **Add `@cumulo;`** to your global stylesheet (`app/globals.css` for App Router, or `styles/globals.css` for Pages Router):
+2. **Import `@cumulo/core/theme.css` and add `@cumulo;`** to your global stylesheet (`app/globals.css` for App Router, or `styles/globals.css` for Pages Router):
 
 ```css
 /* app/globals.css or styles/globals.css */
+@import '@cumulo/core/theme.css';
 @cumulo;
 ```
+
+`@cumulo/core/theme.css` provides the CSS reset and default theme variables. `@cumulo;` marks where PostCSS injects extracted component styles. If you maintain a custom stylesheet with your own CSS variables, import your custom stylesheet instead.
 
 #### Option B: Webpack via `withCumulo`
 

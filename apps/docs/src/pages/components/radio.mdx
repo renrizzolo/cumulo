@@ -40,7 +40,7 @@ const PlanRadioGroup = createRadioGroup<'standard' | 'pro' | 'enterprise'>();
 
 ## Orientation and custom layout
 
-`RadioGroup.Root` renders a `Stack` container under the hood, allowing easy switching between `vertical` and `horizontal` orientations and accepting all flex props (`gap`, `wrap`, `justify`, `align`).
+`RadioGroup.Root` renders a `Stack` container under the hood. It supports switching between `vertical` and `horizontal` orientations and accepts all flex props (`gap`, `wrap`, `justify`, `align`).
 
 <ComponentPreview title="Horizontal RadioGroup">
   <RadioGroup.Root defaultValue="light" orientation="horizontal" gap="lg">

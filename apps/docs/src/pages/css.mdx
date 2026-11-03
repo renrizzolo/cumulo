@@ -26,7 +26,7 @@ Install `@cumulo/css`:
 pnpm add @cumulo/css
 ```
 
-To extract static CSS at build time, install `@cumulo/unplugin` as a development dependency. **A bundler plugin is required** to extract CSS into static stylesheets:
+To extract static CSS at build time, install `@cumulo/unplugin` as a development dependency. You must configure a bundler plugin to extract static CSS at build time:
 
 ```bash
 pnpm add -D @cumulo/unplugin
@@ -65,7 +65,9 @@ For Next.js, Rollup, esbuild, and Parcel configurations, see the dedicated [Bund
 
 ### Style rules
 
-Use `style()` to define scoped, atomic class names. Use `create()` to define multiple rules in one object:
+Use `style()` to define scoped, atomic class names. Use `create()` to define multiple rules in one object.
+
+Design tokens imported from `vars` reference CSS variables provided by `@cumulo/core/theme.css`. Import `@cumulo/core/theme.css` at your application root to supply these CSS variables and reset styles, or provide your own stylesheet defining the variables.
 
 ```tsx
 import { style, create } from '@cumulo/css';

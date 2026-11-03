@@ -21,9 +21,9 @@ Cumulo is a React 19 component library and type-safe CSS framework with zero thi
 ### Core features
 
 - **Platform-first components**: Uses native HTML `<dialog>`, `popover="auto"`, and CSS Anchor Positioning for overlays.
-- **Compound components**: Components like `<Field>` coordinates accessibility state, validation, and ARIA attributes across inputs, labels, and error messages.
+- **Compound components**: Components like `<Field>` coordinate accessibility state, validation, and ARIA attributes across inputs, labels, and error messages.
 - **Type-safe CSS**: `@cumulo/css` generates scoped class names, theme contracts, and variant recipes.
-- **Surface depth**: Components like button and fields automatically increase their depth based on the surface they're currently in.
+- **Surface depth**: `<Button>` and `<Field>` components increase visual depth based on their parent surface.
 - **OKLCH color seeding**: Cumulo computes full 50–900 color scales directly in CSS using trigonometric chroma curves and `light-dark()`.
 
 <Alert.Root intent="warning">
@@ -90,6 +90,37 @@ export default defineConfig({
 ```
 
 See [Bundler Setup](/bundlers) for Next.js, Webpack, Rollup, esbuild, and Parcel configurations.
+
+### Load theme styles
+
+`@cumulo/core` ships with a prebuilt stylesheet at `@cumulo/core/theme.css`. It provides two layers:
+
+- **Reset styles** (`@layer reset`): Box-sizing, margin resets, baseline body styling, and form element font inheritance.
+- **Theme tokens** (`@layer base`): CSS variables for colors, surfaces, spacing, border radii, and typography scales.
+
+You have two options to load theme styles:
+
+#### Option 1: Import the prebuilt stylesheet
+
+Import `@cumulo/core/theme.css` in your application root file (such as `main.tsx` or `App.tsx`):
+
+```ts
+// src/main.tsx
+import '@cumulo/core/theme.css';
+```
+
+Or import it in your global stylesheet:
+
+```css
+/* src/styles.css */
+@import '@cumulo/core/theme.css';
+```
+
+#### Option 2: Provide a custom stylesheet
+
+If you manage your own design tokens and CSS reset, create a stylesheet defining the required CSS variables. Define the token variables on `:root` or scoped `[data-theme='...']` attributes. When providing your own stylesheet, skip importing `@cumulo/core/theme.css`.
+
+See the [Tokens and theming](/tokens) reference for the complete list of CSS variables.
 
 ### Runtime dependencies and architecture
 

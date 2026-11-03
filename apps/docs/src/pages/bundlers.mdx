@@ -59,6 +59,15 @@ export default defineConfig({
 });
 ```
 
+Load the theme stylesheet at your application root:
+
+```ts
+// src/main.tsx
+import '@cumulo/core/theme.css';
+```
+
+`@cumulo/core/theme.css` provides the CSS reset and theme variables. If you maintain a custom stylesheet defining the variables, import your custom file instead.
+
 #### Next.js
 
 Cumulo supports Next.js with both **Turbopack** (the default engine in Next.js 16+) and **Webpack**, across App Router and Pages Router.
@@ -78,12 +87,15 @@ export default {
 };
 ```
 
-2. **Add `@cumulo;`** to your global stylesheet (`app/globals.css` for App Router, or `styles/globals.css` for Pages Router):
+2. **Import `@cumulo/core/theme.css` and add `@cumulo;`** to your global stylesheet (`app/globals.css` for App Router, or `styles/globals.css` for Pages Router):
 
 ```css
 /* app/globals.css or styles/globals.css */
+@import '@cumulo/core/theme.css';
 @cumulo;
 ```
+
+`@cumulo/core/theme.css` provides the CSS reset and default theme variables. `@cumulo;` marks where PostCSS injects the extracted component styles. If you maintain a custom stylesheet with your own CSS variables, import your custom stylesheet instead of `@cumulo/core/theme.css`.
 
 ##### Option B: Webpack via `withCumulo`
 
