@@ -48,6 +48,7 @@ Before completing your response, re-read your generated code and verify:
 ## Documentation pages
 
 - [Working with AI](/ai): Prompt templates, self-test verification, and guidelines.
+- [Bundler integration](/bundlers): Setup guides for Vite, Next.js (Turbopack & Webpack), Webpack, Rollup, esbuild, and Parcel.
 - [Zero-runtime CSS engine](/css): `style()`, `recipe()`, `cx()`, and keyframe animations with `@cumulo/css`.
 - [Design tokens and theming](/tokens): Contract tokens, `[data-theme='...']` styling, `useTheme()`, and `<ThemeScript />`.
 - [Component catalog](/components): Directory of 30+ accessible components.

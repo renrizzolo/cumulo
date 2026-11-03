@@ -1,0 +1,268 @@
+import Layout from '../components/MDXLayout.tsx';
+import * as Alert from '@cumulo/core/components/Alert';
+import { Card, HStack, Badge, Text, Table, Code } from '@cumulo/core';
+export default Layout;
+
+# Bundler Integration
+
+Cumulo requires a build-time bundler plugin to compile and extract CSS.
+
+<Alert.Root intent="error">
+  <Alert.Icon />
+  <Alert.Content>
+    <Alert.Title>Bundler plugin is mandatory</Alert.Title>
+    <Alert.Description>
+      Cumulo is a zero-runtime CSS framework. Both <code>@cumulo/core</code> and{' '}
+      <code>@cumulo/css</code> generate scoped, atomic class names in JavaScript, but the actual CSS
+      rules are extracted ahead-of-time at build time. Without configuring a bundler plugin, no CSS
+      rules will be emitted and your components will render completely unstyled.
+    </Alert.Description>
+  </Alert.Content>
+</Alert.Root>
+
+### Why a bundler integration is required
+
+Traditional CSS-in-JS libraries inject runtime `<style>` tags into the DOM during browser execution. Cumulo rejects this approach for performance, security, and React Server Components (RSC) compatibility:
+
+- **Zero-runtime client overhead**: Production bundles contain no CSS parser, no runtime style injector, and zero CSS AST overhead.
+- **Pure static CSS output**: Styles written with `style()`, `recipe()`, and design tokens from `@cumulo/core` compile into standard `.css` files managed by your bundler.
+- **Full React 19 & RSC support**: Because no runtime DOM mutations occur during style resolution, Cumulo runs seamlessly across Server Components, SSR, static generation, and client islands.
+
+To make this possible, `@cumulo/unplugin` (or `@cumulo/parcel-transformer`) intercepts your modules at build time, evaluates style declarations in isolated contexts, and attaches extracted styles directly to your bundler's asset graph.
+
+### Installation
+
+Install the build plugin as a development dependency:
+
+```bash
+# For Vite, Webpack, Next.js, Rollup, or esbuild:
+pnpm add -D @cumulo/unplugin
+
+# For Parcel:
+pnpm add -D @cumulo/parcel-transformer
+```
+
+### Bundler configurations
+
+#### Vite
+
+Import `cumulo` from `@cumulo/unplugin/vite` and register it in `plugins`:
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { cumulo } from '@cumulo/unplugin/vite';
+
+export default defineConfig({
+  plugins: [react(), cumulo()],
+});
+```
+
+#### Next.js
+
+Cumulo supports Next.js with both **Turbopack** (the default engine in Next.js 16+) and **Webpack**, across App Router and Pages Router.
+
+##### Option A: PostCSS (Recommended for Turbopack & Webpack)
+
+Because Turbopack processes CSS via PostCSS rather than Webpack plugins, use `@cumulo/unplugin/postcss`. This requires **zero** changes to `next.config.mjs` and works identically under Turbopack and Webpack.
+
+1. **Add the PostCSS plugin** in `postcss.config.mjs`:
+
+```js
+// postcss.config.mjs
+export default {
+  plugins: {
+    '@cumulo/unplugin/postcss': {},
+  },
+};
+```
+
+2. **Add `@cumulo;`** to your global stylesheet (`app/globals.css` for App Router, or `styles/globals.css` for Pages Router):
+
+```css
+/* app/globals.css or styles/globals.css */
+@cumulo;
+```
+
+##### Option B: Webpack via `withCumulo`
+
+If you are using Next.js with Webpack (`next build --webpack` or Next.js 14/15) and prefer not to use PostCSS, wrap your `next.config.mjs` with `withCumulo` from `@cumulo/unplugin/next`:
+
+```js
+// next.config.mjs
+import { withCumulo } from '@cumulo/unplugin/next';
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Your Next.js config options
+};
+
+export default withCumulo(nextConfig);
+```
+
+#### Webpack
+
+Import `cumulo` from `@cumulo/unplugin/webpack`. Pair it with `mini-css-extract-plugin` and `css-loader`:
+
+```js
+// webpack.config.js
+const { cumulo } = require('@cumulo/unplugin/webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+  plugins: [
+    cumulo(),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+    }),
+  ],
+};
+```
+
+#### Rollup
+
+Import `cumulo` from `@cumulo/unplugin/rollup`:
+
+```js
+// rollup.config.js
+import { cumulo } from '@cumulo/unplugin/rollup';
+
+export default {
+  plugins: [cumulo()],
+};
+```
+
+#### esbuild
+
+Import `cumulo` from `@cumulo/unplugin/esbuild`:
+
+```js
+// build.js
+import * as esbuild from 'esbuild';
+import { cumulo } from '@cumulo/unplugin/esbuild';
+
+await esbuild.build({
+  entryPoints: ['src/index.tsx'],
+  bundle: true,
+  outdir: 'dist',
+  plugins: [cumulo()],
+});
+```
+
+#### Parcel
+
+Parcel uses a dedicated transformer plugin `@cumulo/parcel-transformer`. Register it in your `.parcelrc`:
+
+```json
+// .parcelrc
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.{ts,tsx,js,jsx}": ["@cumulo/parcel-transformer", "..."]
+  }
+}
+```
+
+### How static extraction works
+
+```
+Component / Style File
+       │
+       ▼
+[@cumulo/unplugin Hook]
+       │
+       ├─► Evaluates module via isolated Jiti context
+       ├─► Collects compiled CSS rules from @cumulo/css
+       │
+       ▼
+Virtual Module (.cumulo.css)
+       │
+       ▼
+Host Bundler CSS Pipeline ──► Emits static styles.css
+```
+
+1. **File Scanning**: The plugin monitors source files and `@cumulo/*` packages in `node_modules` for calls to `style()`, `create()`, `recipe()`, `keyframes()`, and theme contracts.
+2. **Evaluation**: Matches are evaluated via an isolated Node runtime loader (`jiti`), executing the style functions and capturing CSS in the internal stylesheet registry.
+3. **Virtual CSS Injection**: The plugin injects an import to a virtual stylesheet (e.g. `App.tsx.cumulo.css`) at the top of the module.
+4. **Bundler Hand-off**: The host bundler (Vite, Webpack, etc.) treats the virtual module as standard CSS, applying PostCSS, autoprefixing, minification, and code splitting.
+
+### Plugin options
+
+The `cumulo()` plugin factory accepts an optional configuration object:
+
+```ts
+cumulo({
+  include: ['./src/**/*.{ts,tsx}'],
+  exclude: ['**/*.stories.{ts,tsx}'],
+});
+```
+
+<Table.Root variant="bordered">
+  <Table.Header>
+    <Table.Row>
+      <Table.Head>Option</Table.Head>
+      <Table.Head>Type</Table.Head>
+      <Table.Head>Default</Table.Head>
+      <Table.Head>Description</Table.Head>
+    </Table.Row>
+  </Table.Header>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>
+        <Code variant="primary">include</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">(string | RegExp)[]</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">undefined</Code>
+      </Table.Cell>
+      <Table.Cell>Custom file path globs or regular expressions to explicitly process.</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code variant="primary">exclude</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">(string | RegExp)[]</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">undefined</Code>
+      </Table.Cell>
+      <Table.Cell>File path globs or regular expressions to skip during compilation.</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code variant="primary">virtualModuleId</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">string</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">'.cumulo.css'</Code>
+      </Table.Cell>
+      <Table.Cell>Virtual CSS module suffix or identifier.</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code variant="primary">injectStyles</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">boolean</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">true</Code>
+      </Table.Cell>
+      <Table.Cell>Whether to automatically inject styles in development environments.</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table.Root>

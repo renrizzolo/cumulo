@@ -1,4 +1,4 @@
 import { unplugin } from './index.js';
 
-export const esbuildPlugin = unplugin.esbuild;
-export default esbuildPlugin;
+export const cumulo = unplugin.esbuild;
+export default cumulo;

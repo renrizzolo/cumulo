@@ -72,4 +72,6 @@ export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
   },
 );
 
+export const cumulo = unplugin;
+
 export default unplugin;

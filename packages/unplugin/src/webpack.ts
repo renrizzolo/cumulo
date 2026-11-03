@@ -1,4 +1,4 @@
 import { unplugin } from './index.js';
 
-export const webpackPlugin = unplugin.webpack;
-export default webpackPlugin;
+export const cumulo = unplugin.webpack;
+export default cumulo;

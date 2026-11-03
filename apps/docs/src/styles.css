@@ -31,7 +31,11 @@ ol {
   padding-left: var(--theme-spacing-md);
   display: flex;
   flex-direction: column;
-  gap: var(--theme-spacing-xs);
+  gap: var(--theme-spacing-sm);
+}
+
+strong {
+  font-weight: 600;
 }
 
 :root {
