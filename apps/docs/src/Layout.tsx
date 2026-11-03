@@ -22,8 +22,7 @@ const bodyStyle = style(
 
 const mainStyle = style(
   {
-    background: 'linear-gradient(0deg, #b0ff6e21, transparent 140px)',
-    backgroundAttachment: 'fixed',
+    background: 'linear-gradient(0deg, #fff56e19, transparent 140px)',
   },
   'layout-main',
 );
