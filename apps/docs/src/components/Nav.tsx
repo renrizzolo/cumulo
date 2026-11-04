@@ -311,6 +311,12 @@ const COMPONENT_SECTIONS: NavSection[] = [
         keywords: ['wrapper', 'max-width', 'responsive', 'center'],
       },
       {
+        label: 'DescriptionList',
+        path: '/components/description-list',
+        htmlPath: '/components/description-list.html',
+        keywords: ['dl', 'dt', 'dd', 'description list', 'definition list', 'term', 'layout'],
+      },
+      {
         label: 'Divider',
         path: '/components/divider',
         htmlPath: '/components/divider.html',
@@ -327,6 +333,12 @@ const COMPONENT_SECTIONS: NavSection[] = [
         path: '/components/grid',
         htmlPath: '/components/grid.html',
         keywords: ['css grid', 'columns', 'rows', 'colspan', 'auto-fit', 'layout'],
+      },
+      {
+        label: 'List',
+        path: '/components/list',
+        htmlPath: '/components/list.html',
+        keywords: ['bullet', 'ordered', 'unordered', 'icon list', 'item', 'marker', 'layout'],
       },
       {
         label: 'Panel',

@@ -83,6 +83,26 @@ export { Code, type CodeProps, type CodeVariants } from './components/Code.js';
 export { Divider, type DividerProps, type DividerVariants } from './components/Divider.js';
 
 export * as Table from './components/Table.js';
+export * as List from './components/List.js';
+export {
+  type ListRootProps,
+  type ListItemProps,
+  type ListIconProps,
+  type ListContentProps,
+  type ListVariants,
+  type ListItemVariants,
+  type ListIconVariants,
+  type ListVariant,
+} from './components/List.js';
+export * as DescriptionList from './components/DescriptionList.js';
+export {
+  type DescriptionListRootProps,
+  type DescriptionListTermProps,
+  type DescriptionListDescriptionProps,
+  type DescriptionListIconProps,
+  type DescriptionListVariants,
+  type DescriptionListIconVariants,
+} from './components/DescriptionList.js';
 export { Flow, type FlowProps, type FlowVariants } from './components/Flow.js';
 
 export * as Collapsible from './components/Collapsible.js';

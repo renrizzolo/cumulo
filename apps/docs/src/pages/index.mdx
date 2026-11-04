@@ -1,6 +1,7 @@
 import Layout from '../components/MDXLayout.tsx';
 import { Badge, Text, HStack, Card } from '@cumulo/core';
 import * as Alert from '@cumulo/core/components/Alert';
+import * as List from '@cumulo/core/components/List';
 export default Layout;
 
 <Logo size="xl" />
@@ -22,11 +23,25 @@ Cumulo is a React 19 component library and type-safe CSS framework with zero thi
 
 ### Core features
 
-- **Platform-first components**: Uses native HTML `<dialog>`, `popover="auto"`, and CSS Anchor Positioning for overlays.
-- **Compound components**: Components like `<Field>` coordinate accessibility state, validation, and ARIA attributes across inputs, labels, and error messages.
-- **Type-safe CSS**: `@cumulo/css` generates scoped class names, theme contracts, and variant recipes.
-- **Surface depth**: `<Button>` and `<Field>` components increase visual depth based on their parent surface.
-- **OKLCH color seeding**: Cumulo computes full 50–900 color scales directly in CSS using trigonometric chroma curves and `light-dark()`.
+<List.Root as="dl">
+  <List.Item icon="🌐" term="Platform-first components">
+    Uses native HTML `<dialog>`, `popover="auto"`, and CSS Anchor Positioning for overlays.
+  </List.Item>
+  <List.Item icon="🧩" term="Compound components">
+    Components like `<Field>` coordinate accessibility state, validation, and ARIA attributes
+    across inputs, labels, and error messages.
+  </List.Item>
+  <List.Item icon="🛡️" term="Type-safe CSS">
+    `@cumulo/css` generates scoped class names, theme contracts, and variant recipes.
+  </List.Item>
+  <List.Item icon="🏔️" term="Surface depth">
+    `<Button>` and `<Field>` components increase visual depth based on their parent surface.
+  </List.Item>
+  <List.Item icon="🎨" term="OKLCH color seeding">
+    Cumulo computes full 50–900 color scales directly in CSS using trigonometric chroma curves and
+    `light-dark()`.
+  </List.Item>
+</List.Root>
 
 <Alert.Root intent="warning">
   <Alert.Icon />

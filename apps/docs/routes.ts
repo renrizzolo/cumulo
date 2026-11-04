@@ -87,6 +87,12 @@ declare module '@renr/parcel-rsc-router' {
         rsc: '/components/container.rsc';
         html: '/components/container.html';
       };
+      '/components/description-list': {
+        slug: 'description-list';
+        path: '/components/description-list';
+        rsc: '/components/description-list.rsc';
+        html: '/components/description-list.html';
+      };
       '/components/dialog': {
         slug: 'dialog';
         path: '/components/dialog';
@@ -140,6 +146,12 @@ declare module '@renr/parcel-rsc-router' {
         path: '/components/link';
         rsc: '/components/link.rsc';
         html: '/components/link.html';
+      };
+      '/components/list': {
+        slug: 'list';
+        path: '/components/list';
+        rsc: '/components/list.rsc';
+        html: '/components/list.html';
       };
       '/components/menu': {
         slug: 'menu';
@@ -335,6 +347,12 @@ export const flatRoutes = [
     html: '/components/container.html',
   },
   {
+    path: '/components/description-list',
+    slug: 'description-list',
+    rsc: '/components/description-list.rsc',
+    html: '/components/description-list.html',
+  },
+  {
     path: '/components/dialog',
     slug: 'dialog',
     rsc: '/components/dialog.rsc',
@@ -387,6 +405,12 @@ export const flatRoutes = [
     slug: 'link',
     rsc: '/components/link.rsc',
     html: '/components/link.html',
+  },
+  {
+    path: '/components/list',
+    slug: 'list',
+    rsc: '/components/list.rsc',
+    html: '/components/list.html',
   },
   {
     path: '/components/menu',
@@ -601,6 +625,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: '/components/description-list',
+      slug: 'description-list',
+      html: '/components/description-list.html',
+      rsc: '/components/description-list.rsc',
+      children: [],
+    },
+    {
       path: '/components/dialog',
       slug: 'dialog',
       html: '/components/dialog.html',
@@ -661,6 +692,13 @@ export const routeTree = {
       slug: 'link',
       html: '/components/link.html',
       rsc: '/components/link.rsc',
+      children: [],
+    },
+    {
+      path: '/components/list',
+      slug: 'list',
+      html: '/components/list.html',
+      rsc: '/components/list.rsc',
       children: [],
     },
     {
@@ -886,6 +924,12 @@ export const routesByPage = {
     rsc: '/components/container.rsc',
     html: '/components/container.html',
   },
+  '/components/description-list.html': {
+    path: '/components/description-list',
+    slug: 'description-list',
+    rsc: '/components/description-list.rsc',
+    html: '/components/description-list.html',
+  },
   '/components/dialog.html': {
     path: '/components/dialog',
     slug: 'dialog',
@@ -939,6 +983,12 @@ export const routesByPage = {
     slug: 'link',
     rsc: '/components/link.rsc',
     html: '/components/link.html',
+  },
+  '/components/list.html': {
+    path: '/components/list',
+    slug: 'list',
+    rsc: '/components/list.rsc',
+    html: '/components/list.html',
   },
   '/components/menu.html': {
     path: '/components/menu',
