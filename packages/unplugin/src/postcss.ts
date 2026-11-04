@@ -55,16 +55,12 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
       const matchedFiles: string[] = [];
 
       for (const pattern of patterns) {
-        try {
-          const files = fs.globSync(pattern, {
-            cwd,
-            exclude: shouldExclude,
-          });
-          for (const file of files) {
-            matchedFiles.push(path.isAbsolute(file) ? file : path.resolve(cwd, file));
-          }
-        } catch {
-          // Fallback if pattern fails
+        const files = fs.globSync(pattern, {
+          cwd,
+          exclude: shouldExclude,
+        });
+        for (const file of files) {
+          matchedFiles.push(path.isAbsolute(file) ? file : path.resolve(cwd, file));
         }
       }
 
@@ -121,10 +117,7 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
         if (node.type === 'atrule') {
           const name = typeof node.name === 'string' ? node.name : '';
           const params = typeof node.params === 'string' ? node.params : '';
-          if (
-            name === 'cumulo' ||
-            (name === 'import' && (params.includes('@cumulo/css') || params.includes('@cumulo')))
-          ) {
+          if (name === 'cumulo' || (name === 'import' && params.includes('@cumulo'))) {
             node.remove();
           }
         }

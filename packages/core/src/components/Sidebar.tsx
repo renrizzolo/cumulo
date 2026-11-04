@@ -1,7 +1,15 @@
 'use client';
 
 import { createThemeContract, cx, recipe, style, type RecipeVariants } from '@cumulo/css';
-import React, { createContext, use, useCallback, useMemo, useRef, useState } from 'react';
+import React, {
+  createContext,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
@@ -346,36 +354,34 @@ function SidebarProvider({
   }, []);
 
   const setHovered = useCallback(
-    (hovered: boolean, options?: { immediate?: boolean; delay?: number }) => {
+    (hovered: boolean) => {
       clearHoverTimeout();
 
       if (hovered) {
         isHoveredRef.current = true;
         setHoveredState(true);
+        return;
+      }
+
+      const commitLeave = (): void => {
+        isHoveredRef.current = false;
+        setHoveredState(false);
+        setHoverSuppressed(false);
+      };
+
+      if (hoverLeaveDelay <= 0) {
+        commitLeave();
       } else {
-        const delay = options?.immediate ? 0 : (options?.delay ?? hoverLeaveDelay);
-        if (delay <= 0) {
-          isHoveredRef.current = false;
-          setHoveredState(false);
-          setHoverSuppressed(false);
-        } else {
-          hoverTimeoutRef.current = setTimeout(() => {
-            isHoveredRef.current = false;
-            setHoveredState(false);
-            setHoverSuppressed(false);
-            hoverTimeoutRef.current = null;
-          }, delay);
-        }
+        hoverTimeoutRef.current = setTimeout(() => {
+          hoverTimeoutRef.current = null;
+          commitLeave();
+        }, hoverLeaveDelay);
       }
     },
     [clearHoverTimeout, hoverLeaveDelay],
   );
 
-  React.useEffect(() => {
-    return () => {
-      clearHoverTimeout();
-    };
-  }, [clearHoverTimeout]);
+  useEffect(() => clearHoverTimeout, [clearHoverTimeout]);
 
   const isFocusedRef = useRef(false);
   const [isFocused, setFocusedState] = useState(false);
@@ -396,26 +402,15 @@ function SidebarProvider({
       if (!isControlled) {
         setUncontrolledCollapsed(collapsed);
       }
-      if (collapsed) {
-        clearHoverTimeout();
-        if (isHoveredRef.current || isFocusedRef.current) {
-          setHoverSuppressed(true);
-        }
-      } else {
-        clearHoverTimeout();
-        setHoverSuppressed(false);
-      }
+      clearHoverTimeout();
+      setHoverSuppressed(collapsed && (isHoveredRef.current || isFocusedRef.current));
       onCollapsedChange?.(collapsed);
     },
     [isControlled, onCollapsedChange, clearHoverTimeout],
   );
 
   const toggleCollapsed = useCallback(() => {
-    if (!visuallyCollapsed) {
-      setCollapsed(true);
-    } else {
-      setCollapsed(false);
-    }
+    setCollapsed(!visuallyCollapsed);
   }, [setCollapsed, visuallyCollapsed]);
 
   const hoverTargetProps = useMemo(
@@ -851,6 +846,11 @@ function SidebarFooter({
 
 SidebarFooter.displayName = 'Sidebar.Footer';
 
+const noShrinkNoWrap: { flexShrink: number; whiteSpace: 'nowrap' } = {
+  flexShrink: 0,
+  whiteSpace: 'nowrap',
+};
+
 const sidebarContentRecipe = recipe(
   {
     base: {
@@ -871,20 +871,14 @@ const sidebarContentRecipe = recipe(
         clip: {
           whiteSpace: 'nowrap',
           selectors: {
-            '& > *': {
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-            },
+            '& > *': noShrinkNoWrap,
           },
         },
         fade: {
           whiteSpace: 'nowrap',
           transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
           selectors: {
-            '& > *': {
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-            },
+            '& > *': noShrinkNoWrap,
             [collapsedHeaderSelector]: {
               opacity: 0,
               pointerEvents: 'none',
@@ -895,10 +889,7 @@ const sidebarContentRecipe = recipe(
           whiteSpace: 'nowrap',
           transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
           selectors: {
-            '& > *': {
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-            },
+            '& > *': noShrinkNoWrap,
             [collapsedHeaderSelector]: {
               opacity: 0,
               pointerEvents: 'none',
@@ -1163,7 +1154,6 @@ export type {
   SidebarHoverZoneVariants as HoverZoneVariants,
   SidebarContentVariants,
   SidebarVariants as RootVariants,
-  SidebarVariants as ContentVariants,
   SidebarType,
   SidebarVariant,
   SidebarPosition,

@@ -19,7 +19,8 @@ describe('Next.js withCumulo helper', () => {
     expect(enhancedConfig.transpilePackages).toEqual(['some-pkg']);
     expect(typeof enhancedConfig.webpack).toBe('function');
 
-    const webpackConfig = { plugins: [] as unknown[] };
+    const plugins: unknown[] = [];
+    const webpackConfig = { plugins };
     if (typeof enhancedConfig.webpack === 'function') {
       const result = enhancedConfig.webpack(webpackConfig, {
         buildId: 'test',

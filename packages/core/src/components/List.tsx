@@ -6,7 +6,47 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { gapStyles, type GapVariant } from '../layout.js';
 
-export type ListVariant = 'plain' | 'bullet' | 'ordered' | 'icon';
+/**
+ * Shared base styles for inline marker icons (list bullets, description list term icons).
+ */
+export const markerIconBase: {
+  display: 'inline-flex';
+  alignItems: 'center';
+  justifyContent: 'center';
+  flexShrink: number;
+  lineHeight: string;
+  userSelect: 'none';
+} = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  lineHeight: vars.line.height.none,
+  userSelect: 'none',
+};
+
+/**
+ * Shared `size` variant styles for inline marker icons.
+ */
+export const markerIconSizes = {
+  sm: {
+    width: vars.size['3xs'],
+    height: vars.size['3xs'],
+    fontSize: vars.font.size.sm,
+  },
+  md: {
+    width: vars.size['2xs'],
+    height: vars.size['2xs'],
+    fontSize: vars.font.size.base,
+  },
+  lg: {
+    width: vars.size.xs,
+    height: vars.size.xs,
+    fontSize: vars.font.size.lg,
+  },
+};
+
+export type ListVariant = 'plain' | 'bullet' | 'ordered';
 
 interface ListContextValue {
   variant?: ListVariant;
@@ -64,32 +104,9 @@ const listItemRecipe = recipe(
 
 const listIconRecipe = recipe(
   {
-    base: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      lineHeight: vars.line.height.none,
-      userSelect: 'none',
-    },
+    base: markerIconBase,
     variants: {
-      size: {
-        sm: {
-          width: vars.size['3xs'],
-          height: vars.size['3xs'],
-          fontSize: vars.font.size.sm,
-        },
-        md: {
-          width: vars.size['2xs'],
-          height: vars.size['2xs'],
-          fontSize: vars.font.size.base,
-        },
-        lg: {
-          width: vars.size.xs,
-          height: vars.size.xs,
-          fontSize: vars.font.size.lg,
-        },
-      },
+      size: markerIconSizes,
     },
     defaultVariants: {
       size: 'md',
@@ -246,6 +263,7 @@ function ListRoot({
         defaultTag,
         {
           ref,
+          role: 'list',
           className: cx(listRecipe({ gap, variant }), className),
           ...props,
         },
@@ -283,6 +301,7 @@ function ListContent({ className, children, ref, ...props }: ListContentProps): 
 }
 
 function ListItem({
+  variant: _variant,
   icon,
   iconSize = 'md',
   gap = 'sm',

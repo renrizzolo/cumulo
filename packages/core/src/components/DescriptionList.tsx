@@ -5,6 +5,7 @@ import { recipe, cx, type RecipeVariants, style } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import type { GapVariant } from '../layout.js';
+import { markerIconBase, markerIconSizes } from './List.js';
 
 const GAP_PRESETS: Record<
   NonNullable<GapVariant>,
@@ -107,32 +108,9 @@ const descriptionListDescriptionStyle = style(
 
 const descriptionListIconRecipe = recipe(
   {
-    base: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexShrink: 0,
-      lineHeight: vars.line.height.none,
-      userSelect: 'none',
-    },
+    base: markerIconBase,
     variants: {
-      size: {
-        sm: {
-          width: vars.size['3xs'],
-          height: vars.size['3xs'],
-          fontSize: vars.font.size.sm,
-        },
-        md: {
-          width: vars.size['2xs'],
-          height: vars.size['2xs'],
-          fontSize: vars.font.size.base,
-        },
-        lg: {
-          width: vars.size.xs,
-          height: vars.size.xs,
-          fontSize: vars.font.size.lg,
-        },
-      },
+      size: markerIconSizes,
     },
     defaultVariants: {
       size: 'md',
@@ -164,7 +142,7 @@ export interface DescriptionListRootProps extends ElementProps<HTMLDListElement>
   gapY?: GapVariant;
   /**
    * Layout arrangement for the description list.
-   * @default 'grid'
+   * @default 'default'
    */
   layout?: DescriptionListVariants['layout'];
   className?: string;
