@@ -3,7 +3,7 @@ import { Badge, Text, HStack, Card } from '@cumulo/core';
 import * as Alert from '@cumulo/core/components/Alert';
 export default Layout;
 
-# Cumulo UI
+<Logo size="xl" />
 
 _Cumulo_ (cù·mu·lo), Italian (n.) — a heap, pile, or accumulation of things.
 
@@ -17,6 +17,8 @@ Cumulo is a React 19 component library and type-safe CSS framework with zero thi
     <Text size="sm">Cumulo is in active development. APIs may change between alpha releases.</Text>
   </HStack>
 </Card>
+
+---
 
 ### Core features
 
@@ -57,18 +59,7 @@ Install the core component library and CSS framework:
 pnpm add @cumulo/core @cumulo/css
 ```
 
-<Alert.Root intent="error">
-  <Alert.Icon />
-  <Alert.Content>
-    <Alert.Title>Bundler plugin required</Alert.Title>
-    <Alert.Description>
-      Cumulo components and styles rely on compile-time static CSS extraction. Both{' '}
-      <code>@cumulo/core</code> and <code>@cumulo/css</code> <strong>will not work</strong> without
-      a bundler plugin configured in your build system. See the{' '}
-      <a href="/bundlers">Bundler Setup guide</a> for complete instructions.
-    </Alert.Description>
-  </Alert.Content>
-</Alert.Root>
+<BundlerAlert />
 
 Install the universal bundler plugin (or <code>@cumulo/parcel-transformer</code> if using Parcel):
 
@@ -118,7 +109,11 @@ Or import it in your global stylesheet:
 
 #### Option 2: Provide a custom stylesheet
 
-If you manage your own design tokens and CSS reset, create a stylesheet defining the required CSS variables. Define the token variables on `:root` or scoped `[data-theme='...']` attributes. When providing your own stylesheet, skip importing `@cumulo/core/theme.css`.
+If you prefer to manage your own design tokens and CSS reset, create a stylesheet defining the required CSS variables.
+
+Define the token variables on `:root` or scoped `[data-theme='...']` attributes. By providing your own stylesheet, you may skip importing `@cumulo/core/theme.css`.
+
+In most cases you will want to import `@cumulo/core/theme.css` and override select CSS variables.
 
 See the [Tokens and theming](/tokens) reference for the complete list of CSS variables.
 

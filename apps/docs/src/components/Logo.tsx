@@ -23,6 +23,9 @@ export const logoRecipe = recipe({
       lg: {
         gap: vars.spacing.sm,
       },
+      xl: {
+        gap: vars.spacing.md,
+      },
     },
   },
   defaultVariants: {
@@ -52,6 +55,9 @@ export const logoTextRecipe = recipe({
       },
       lg: {
         fontSize: vars.font.size.lg,
+      },
+      xl: {
+        fontSize: vars.font.size.xl,
       },
     },
   },
@@ -104,6 +110,7 @@ const MARK_SIZES = {
   sm: 16,
   md: 20,
   lg: 24,
+  xl: 48,
 } as const;
 
 export interface LogoProps extends ElementProps<HTMLDivElement> {

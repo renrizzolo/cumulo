@@ -22,7 +22,7 @@ const bodyStyle = style(
 
 const mainStyle = style(
   {
-    background: 'linear-gradient(0deg, #fff56e19, transparent 140px)',
+    background: 'linear-gradient(20deg, #fff56e19, transparent 140px)',
   },
   'layout-main',
 );

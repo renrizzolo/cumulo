@@ -5,20 +5,7 @@ export default Layout;
 
 # Bundler Integration
 
-Cumulo requires a build-time bundler plugin to compile and extract CSS.
-
-<Alert.Root intent="error">
-  <Alert.Icon />
-  <Alert.Content>
-    <Alert.Title>Bundler plugin is mandatory</Alert.Title>
-    <Alert.Description>
-      Cumulo is a zero-runtime CSS framework. Both <code>@cumulo/core</code> and{' '}
-      <code>@cumulo/css</code> generate scoped, atomic class names in JavaScript, but the actual CSS
-      rules are extracted ahead-of-time at build time. Without configuring a bundler plugin, no CSS
-      rules will be emitted and your components will render completely unstyled.
-    </Alert.Description>
-  </Alert.Content>
-</Alert.Root>
+<BundlerAlert />
 
 ### Why a bundler integration is required
 
@@ -186,11 +173,12 @@ Parcel uses a dedicated transformer plugin `@cumulo/parcel-transformer`. Registe
 
 ### How static extraction works
 
-```
-Component / Style File
+{/* prettier-ignore */}
+<CodeBlock lang="txt" withCopy={false}>
+ {`Component / Style File
        │
        ▼
-[@cumulo/unplugin Hook]
+  [@cumulo/unplugin Hook]
        │
        ├─► Evaluates module via isolated Jiti context
        ├─► Collects compiled CSS rules from @cumulo/css
@@ -199,8 +187,8 @@ Component / Style File
 Virtual Module (.cumulo.css)
        │
        ▼
-Host Bundler CSS Pipeline ──► Emits static styles.css
-```
+Host Bundler CSS Pipeline ──► Emits static styles.css`}
+</CodeBlock>
 
 1. **File Scanning**: The plugin monitors source files and `@cumulo/*` packages in `node_modules` for calls to `style()`, `create()`, `recipe()`, `keyframes()`, and theme contracts.
 2. **Evaluation**: Matches are evaluated via an isolated Node runtime loader (`jiti`), executing the style functions and capturing CSS in the internal stylesheet registry.

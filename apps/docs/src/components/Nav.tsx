@@ -39,10 +39,6 @@ interface NavSection {
 
 const desktopNavContainerStyle = style(
   {
-    position: 'sticky',
-    top: 0,
-    height: '100dvh',
-    alignSelf: 'flex-start',
     selectors: {
       '&&': {
         position: 'sticky',
@@ -117,7 +113,7 @@ const searchStickyWrapperStyle = style({
   backgroundColor: vars.surface.bg.DEFAULT,
   marginTop: `calc(-1 * ${vars.spacing.sm})`,
   paddingTop: vars.spacing.sm,
-  paddingBottom: vars.spacing.xs,
+  paddingBottom: vars.spacing.md,
   marginInline: `calc(-1 * ${vars.spacing['2xs']})`,
   paddingInline: vars.spacing['2xs'],
   transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
@@ -622,7 +618,7 @@ function NavContent({
     if (!isFiltering) return DOC_SECTIONS;
     return DOC_SECTIONS.map((section): NavSection => ({
       ...section,
-      items: section.items.filter((item) => item.label.toLowerCase().includes(normalizedQuery)),
+      items: section.items.filter((item) => matchesItem(item, section.title, normalizedQuery)),
     })).filter((section) => section.items.length > 0);
   }, [isFiltering, normalizedQuery]);
 
