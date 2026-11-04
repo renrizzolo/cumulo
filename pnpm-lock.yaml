@@ -145,10 +145,6 @@ importers:
         version: 5.9.3
 
   packages/css:
-    dependencies:
-      react:
-        specifier: ^19.0.0
-        version: 19.2.8
     devDependencies:
       csstype:
         specifier: ^3.2.3
