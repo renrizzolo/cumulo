@@ -13,7 +13,7 @@ Traditional CSS-in-JS libraries inject runtime `<style>` tags into the DOM durin
 
 - **Zero-runtime client overhead**: Production bundles contain no CSS parser, no runtime style injector, and zero CSS AST overhead.
 - **Pure static CSS output**: Styles written with `style()`, `recipe()`, and design tokens from `@cumulo/core` compile into standard `.css` files managed by your bundler.
-- **Full React 19 & RSC support**: Because no runtime DOM mutations occur during style resolution, Cumulo runs seamlessly across Server Components, SSR, static generation, and client islands.
+- **Full React 19 & RSC support**: Cumulo runs seamlessly across Server Components, SSR, static generation, and client islands.
 
 To make this possible, `@cumulo/unplugin` (or `@cumulo/parcel-transformer`) intercepts your modules at build time, evaluates style declarations in isolated contexts, and attaches extracted styles directly to your bundler's asset graph.
 

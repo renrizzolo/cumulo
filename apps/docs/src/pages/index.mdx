@@ -42,7 +42,7 @@ Cumulo is a React 19 component library and type-safe CSS framework with zero thi
       
       - **CSS Anchor Positioning**: Powers overlay tethering for `Popover`, `Tooltip`, and `Menu` (`anchor-name`, `position-anchor`, `@position-try`). Supported in Chrome/Edge 125+ (standard syntax 134+) and Safari 18.2+. Firefox lands baseline support in v147+ (Cumulo provides an automatic centered fallback for older engines via `@supports not (position-anchor: --a)`).
       - **Popover API & Top Layer**: Native `popover="auto"` and `<dialog>` with `::backdrop` and light-dismiss behaviors. Baseline Widely Available across Chrome 114+, Safari 17+, and Firefox 125+.
-      - **CSS `light-dark()`**: Manages zero-runtime color scheme calculations (`color-scheme: light dark`) without runtime stylesheet injection. Baseline Widely Available across Chrome 123+, Firefox 120+, and Safari 17.5+.
+      - **CSS `light-dark()`**: Handles color scheme calculations (`color-scheme: light dark`). Baseline Widely Available across Chrome 123+, Firefox 120+, and Safari 17.5+.
       - **CSS `contrast-color()`**: Dynamically computes accessible foreground text against dynamic theme surfaces (`@supports (color: contrast-color(white))`). Supported in bleeding-edge engines (Safari 26, Firefox 146+, Chrome 147+), with automatic progressive fallback to precomputed WCAG-compliant design token pairs.
       - **CSS `text-box` (Leading Trim)**: Trims half-leading font whitespace for precise optical vertical rhythm (`text-box: trim-both cap alphabetic`). Supported in Chrome 133+ and Safari 18.2+; ignored gracefully in browsers without support.
 
@@ -116,15 +116,6 @@ Define the token variables on `:root` or scoped `[data-theme='...']` attributes.
 In most cases you will want to import `@cumulo/core/theme.css` and override select CSS variables.
 
 See the [Tokens and theming](/tokens) reference for the complete list of CSS variables.
-
-### Runtime dependencies and architecture
-
-Understand how Cumulo handles runtime dependencies and code execution:
-
-- **Zero third-party runtime dependencies**: Neither `@cumulo/core` nor `@cumulo/css` installs third-party production dependencies. `@cumulo/core` only depends on `@cumulo/css`.
-- **React 19 platform foundation**: All components target React 19 primitives, passing `ref` directly without `forwardRef`. React is an optional peer dependency.
-- **Static CSS compilation**: `@cumulo/unplugin` extracts static CSS into `.css` files at build time. The production client bundle includes no CSS parser and injects no runtime `<style>` tags.
-- **Runtime execution boundaries**: Dynamic behavior stays in userland JavaScript. `recipe()` resolves variant class names, `cx()` concatenates classes, and compound `Field` contexts coordinate form state.
 
 ### Next steps
 

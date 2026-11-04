@@ -9,12 +9,11 @@ A type-safe CSS framework with zero external runtime dependencies.
 
 Understand where `@cumulo/css` runs and what dependencies it requires:
 
-- **Zero production dependencies**: `@cumulo/css` has zero external dependencies in `package.json`. It adds no third-party libraries to your client bundle.
-- **Optional peer dependency**: React 19 is an optional peer dependency. You only need React if you use `props()` to spread typed attributes onto JSX elements.
+- **Zero production dependencies**: `@cumulo/css` has no external dependencies in `package.json`. It adds no third-party libraries to your client bundle.
 - **Build-time dependency**: Install `@cumulo/unplugin` as a development dependency (`devDependencies`). At build time, the plugin extracts CSS rules from `style()`, `create()`, and `keyframes()` into static `.css` files.
 - **Zero runtime CSS injection**: In production, the client bundle contains no CSS parser and injects no `<style>` tags into the document head.
 - **Runtime JavaScript execution**:
-  - `recipe()` evaluates variant options in JavaScript to select pre-compiled class names.
+  - `recipe()` returns a function that computes pre-compiled class names based on variant options.
   - `cx()` concatenates and filters class name strings.
   - `props()` returns `{ className, style }` objects for JSX element spreading.
 
