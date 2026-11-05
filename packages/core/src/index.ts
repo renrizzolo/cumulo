@@ -1,8 +1,7 @@
 export type { ElementProps } from './ElementProps.js';
 
-// Contract & Reset
+// Contract
 export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
-export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components
 export {
