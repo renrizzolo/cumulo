@@ -44,7 +44,6 @@ export const surfaceRecipe = recipe(
       level: 0,
       bordered: true,
       variant: 'default',
-      padding: 'none',
       radius: 'xl',
     },
   },

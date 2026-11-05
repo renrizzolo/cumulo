@@ -58,6 +58,14 @@ const cardStyle = style({
 });
 ```
 
+### Theming: load `@cumulo/core/theme.css` or provide a custom stylesheet
+`@cumulo/core` ships with a prebuilt `theme.css` containing CSS reset styles and default token variables:
+```ts
+// src/main.tsx
+import '@cumulo/core/theme.css';
+```
+Or define custom CSS variables on `:root` or `[data-theme='...']` in your own stylesheet.
+
 ---
 
 ## 2. Component API reference
@@ -280,4 +288,72 @@ export const alertRecipe = recipe({
 import { cx } from '@cumulo/css';
 
 const className = cx(alertRecipe({ intent: 'error' }), customClassName);
+```
+
+---
+
+## 4. Bundler integration (mandatory for CSS extraction)
+
+Cumulo is a zero-runtime CSS system. A bundler integration is mandatory for `@cumulo/core` and `@cumulo/css` to emit static CSS at build time.
+
+### Vite
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { cumulo } from '@cumulo/unplugin/vite';
+
+export default defineConfig({
+  plugins: [react(), cumulo()],
+});
+```
+
+### Next.js (Turbopack & Webpack, App Router & Pages Router)
+PostCSS is the recommended zero-config integration for Next.js across Turbopack and Webpack:
+
+1. In `postcss.config.mjs`:
+```js
+export default {
+  plugins: {
+    '@cumulo/unplugin/postcss': {},
+  },
+};
+```
+
+2. In your global stylesheet (`app/globals.css` or `styles/globals.css`):
+```css
+@cumulo;
+```
+
+### Webpack
+```js
+// webpack.config.js
+const { cumulo } = require('@cumulo/unplugin/webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      },
+    ],
+  },
+  plugins: [
+    cumulo(),
+    new MiniCssExtractPlugin({ filename: '[name].css' }),
+  ],
+};
+```
+
+### Parcel
+In `.parcelrc`:
+```json
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.{ts,tsx}": ["@cumulo/parcel-transformer", "..."]
+  }
+}
 ```

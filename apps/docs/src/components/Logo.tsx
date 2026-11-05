@@ -9,6 +9,8 @@ export const logoRecipe = recipe({
     userSelect: 'none',
     lineHeight: 1,
     minWidth: 0,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
   },
   variants: {
     size: {
@@ -20,6 +22,9 @@ export const logoRecipe = recipe({
       },
       lg: {
         gap: vars.spacing.sm,
+      },
+      xl: {
+        gap: vars.spacing.md,
       },
     },
   },
@@ -51,6 +56,9 @@ export const logoTextRecipe = recipe({
       lg: {
         fontSize: vars.font.size.lg,
       },
+      xl: {
+        fontSize: vars.font.size.xl,
+      },
     },
   },
   defaultVariants: {
@@ -70,6 +78,10 @@ export interface LogoMarkProps {
   className?: string;
 }
 
+export const logoMarkSvgStyle = style({
+  flexShrink: 0,
+});
+
 export function LogoMark({ size = 'sm', className }: LogoMarkProps): React.JSX.Element {
   const sizeValue = MARK_SIZES[size];
 
@@ -77,7 +89,7 @@ export function LogoMark({ size = 'sm', className }: LogoMarkProps): React.JSX.E
     <svg
       width={sizeValue}
       height={sizeValue}
-      className={className}
+      className={cx(logoMarkSvgStyle.className, className)}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -98,6 +110,7 @@ const MARK_SIZES = {
   sm: 16,
   md: 20,
   lg: 24,
+  xl: 48,
 } as const;
 
 export interface LogoProps extends ElementProps<HTMLDivElement> {

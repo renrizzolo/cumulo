@@ -1,0 +1,465 @@
+{
+  "name": "DescriptionList.Root",
+  "path": "packages/core/src/components/DescriptionList.tsx",
+  "fileName": "DescriptionList.tsx",
+  "props": {
+    "gap": {
+      "defaultValue": {
+        "value": "'sm'"
+      },
+      "description": "Proportional gap preset where the x-axis gap is wider than the y-axis gap.",
+      "name": "gap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gapX": {
+      "defaultValue": null,
+      "description": "Explicit horizontal column gap spacing between terms and descriptions.\nOverrides the horizontal gap from `gap`.",
+      "name": "gapX",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gapY": {
+      "defaultValue": null,
+      "description": "Explicit vertical row gap spacing between items.\nOverrides the vertical gap from `gap`.",
+      "name": "gapY",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "layout": {
+      "defaultValue": {
+        "value": "'default'"
+      },
+      "description": "Layout arrangement for the description list.",
+      "name": "layout",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"stacked\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"stacked\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDListElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  },
+  "subcomponents": {
+    "Term": {
+      "name": "DescriptionList.Term",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListTermBaseProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermBaseProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "icon": {
+          "defaultValue": null,
+          "description": "Icon or emoji marker displayed before the term text.",
+          "name": "icon",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListTermIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermIconProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermNoIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "iconSize": {
+          "defaultValue": {
+            "value": "md"
+          },
+          "description": "Size of the icon marker.",
+          "name": "iconSize",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListTermIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermIconProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermNoIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Description": {
+      "name": "DescriptionList.Description",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListDescriptionProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListDescriptionProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Icon": {
+      "name": "DescriptionList.Icon",
+      "props": {
+        "size": {
+          "defaultValue": {
+            "value": "'md'"
+          },
+          "description": "Size of the icon marker.",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLSpanElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    }
+  }
+}

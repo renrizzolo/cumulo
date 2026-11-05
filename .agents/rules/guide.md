@@ -32,7 +32,7 @@ cumulo/
 │   │       ├── createTheme.ts # createThemeContract(), createTheme(), assignVars()
 │   │       ├── keyframes.ts   # keyframes() animation definition
 │   │       └── cx.ts          # cx() class merging utility
-│   ├── unplugin/              # Compile-time CSS extraction unplugin (Vite, Rollup, Webpack, esbuild, Parcel)
+│   ├── unplugin/              # Compile-time CSS extraction unplugin (Vite, Rollup, Webpack, esbuild, Parcel, Next.js, PostCSS)
 │   ├── parcel-transformer/    # Custom Parcel transformer for CSS extraction & static/RSC compilation
 │   └── fixtures/              # Bundler integration tests & Vitest Playwright browser visual tests
 ├── apps/
@@ -138,6 +138,15 @@ Cumulo uses an atomic, compile-time extracted CSS engine. **Do not use arbitrary
   - `<Dialog>` uses native `<dialog>` with `.showModal()`, backdrop styling via `::backdrop`, and native `closedby="any"` / `cancel` events.
   - `<Popover>` uses native `popover="auto"` with CSS Anchor Positioning (`position-anchor`, `anchor-name`, `@position-try`).
   - `<Tooltip>` uses `<Popover>` under the hood (`popover="manual"`, `variant="tooltip"`). Because tooltips use native top-layer, they are **never clipped by parent scroll containers** (`overflow-y: auto` in `<Sidebar>`).
+
+### 4. Bundler Integrations & CSS Extraction
+
+Cumulo extracts styles ahead-of-time at build time:
+
+- **`@cumulo/unplugin`**: Universal unplugin with dedicated entrypoints for `/vite`, `/webpack`, `/rollup`, `/esbuild`, `/parcel`, `/next`, and `/postcss`. Every entrypoint exports `cumulo` and `default`.
+- **Next.js (Turbopack & Webpack)**: PostCSS is the recommended zero-config integration across Turbopack and Webpack. Add `'@cumulo/unplugin/postcss': {}` in `postcss.config.mjs` and `@cumulo;` to your global stylesheet (`app/globals.css` or `styles/globals.css`), requiring zero modifications to `next.config.mjs`.
+- **`@cumulo/unplugin/next`**: Optional `withCumulo` wrapper specifically for Next.js Webpack workflows that do not use PostCSS.
+- **`@cumulo/parcel-transformer`**: Custom Parcel transformer for static and RSC CSS compilation.
 
 ---
 

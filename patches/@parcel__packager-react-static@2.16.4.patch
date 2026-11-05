@@ -1,0 +1,110 @@
+diff --git a/lib/ReactStaticPackager.js b/lib/ReactStaticPackager.js
+index 4c9b2ef5e81b54d313705c3c474e7bfc99d02dc7..bf52727d6608c8460e105150520fa513d3fcbbc8 100644
+--- a/lib/ReactStaticPackager.js
++++ b/lib/ReactStaticPackager.js
+@@ -88,7 +88,7 @@ let serverResolver;
+ let packagingBundles = new Map();
+ let moduleCache = new Map();
+ let loadedBundles = new Map();
+-let context = _vm().default.createContext();
++let context = createContext({ env: process.env });
+ let bundleLookupCache = new WeakMap();
+ var _default = exports.default = new (_plugin().Packager)({
+   async loadConfig({
+@@ -154,8 +154,23 @@ var _default = exports.default = new (_plugin().Packager)({
+     bundleGraph,
+     getInlineBundleContents,
+     config,
+-    bundleConfig
++    bundleConfig,
++    options
+   }) {
++    if (!context || typeof context.TextEncoder === 'undefined') {
++      context = createContext(options || { env: process.env });
++    }
++    if (!serverResolver && options) {
++      clientResolver = new (_nodeResolverCore().ResolverBase)(options.projectRoot, {
++        mode: 2,
++        packageExports: true
++      });
++      serverResolver = new (_nodeResolverCore().ResolverBase)(options.projectRoot, {
++        mode: 2,
++        packageExports: true,
++        conditions: 1 << 16 // "react-server"
++      });
++    }
+     if (bundle.env.shouldScopeHoist) {
+       throw new Error('Scope hoisting is not supported with SSG');
+     }
+@@ -570,7 +585,7 @@ async function loadBundleUncached(bundle, bundleGraph, getInlineBundleContents)
+     assets
+   };
+ }
+-function createContext(options) {
++function createContext(options = {}) {
+   // Create a fresh global context to execute code in on each build to avoid memory leaks.
+   // $FlowFixMe
+   let context = _vm().default.createContext(_vm().default.constants.DONT_CONTEXTIFY);
+@@ -580,7 +595,7 @@ function createContext(options) {
+     get(target, prop, receiver) {
+       // Expose the provided environment variables from Parcel instead of the global ones.
+       if (prop === 'env') {
+-        return options.env;
++        return (options && options.env) || process.env;
+       }
+       return Reflect.get(target, prop, receiver);
+     }
+diff --git a/src/ReactStaticPackager.js b/src/ReactStaticPackager.js
+index 6c6b17ef894bfca014813317fd5a8039c0598fa8..24f9112a3a99bfecda0698344f4c6e232e77c666 100644
+--- a/src/ReactStaticPackager.js
++++ b/src/ReactStaticPackager.js
+@@ -44,7 +44,7 @@ let serverResolver: ResolverBase;
+ let packagingBundles = new Map<NamedBundle, Async<{|contents: Blob|}>>();
+ let moduleCache = new Map<string, ParcelModule>();
+ let loadedBundles = new Map<NamedBundle, any>();
+-let context: any = vm.createContext();
++let context: any = createContext({ env: process.env });
+ let bundleLookupCache = new WeakMap();
+ 
+ export default (new Packager({
+@@ -111,7 +111,22 @@ export default (new Packager({
+     getInlineBundleContents,
+     config,
+     bundleConfig,
++    options,
+   }) {
++    if (!context || typeof context.TextEncoder === 'undefined') {
++      context = createContext(options || { env: process.env });
++    }
++    if (!serverResolver && options) {
++      clientResolver = new ResolverBase(options.projectRoot, {
++        mode: 2,
++        packageExports: true,
++      });
++      serverResolver = new ResolverBase(options.projectRoot, {
++        mode: 2,
++        packageExports: true,
++        conditions: 1 << 16, // "react-server"
++      });
++    }
+     if (bundle.env.shouldScopeHoist) {
+       throw new Error('Scope hoisting is not supported with SSG');
+     }
+@@ -607,7 +622,7 @@ async function loadBundleUncached(
+   return {load: loadAsset, loadModule, assets};
+ }
+ 
+-function createContext(options) {
++function createContext(options: any = {}): any {
+   // Create a fresh global context to execute code in on each build to avoid memory leaks.
+   // $FlowFixMe
+   let context: any = vm.createContext(vm.constants.DONT_CONTEXTIFY);
+@@ -617,7 +632,7 @@ function createContext(options) {
+     get(target, prop, receiver) {
+       // Expose the provided environment variables from Parcel instead of the global ones.
+       if (prop === 'env') {
+-        return options.env;
++        return (options && options.env) || process.env;
+       }
+ 
+       return Reflect.get(target, prop, receiver);

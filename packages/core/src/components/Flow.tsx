@@ -23,7 +23,7 @@ export const flowRecipe = recipe(
       },
     },
     defaultVariants: {
-      space: 'md',
+      space: 'lg',
     },
   },
   'flow',

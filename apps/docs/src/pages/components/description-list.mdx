@@ -1,0 +1,60 @@
+import Layout from '../../components/MDXLayout.tsx';
+import * as DescriptionList from '@cumulo/core/components/DescriptionList';
+import descriptionListDoc from '../../../docgen/components/DescriptionList.json';
+export default Layout;
+
+# DescriptionList
+
+DescriptionList provides semantic definition list primitives (`<dl>`, `<dt>`, `<dd>`) with support for icon markers, CSS grid or stacked layouts, proportional gap scaling (wider along the horizontal x-axis than the vertical y-axis), and custom term delimiters.
+
+```tsx
+import { DescriptionList } from '@cumulo/core';
+```
+
+<RscAlert component="DescriptionList" />
+
+### Examples
+
+<ComponentPreview
+  title="Description List with Icons"
+  description="Semantic description list with custom icon markers and two-column CSS grid alignment without wrapper elements."
+>
+  <DescriptionList.Root gap="sm">
+    <DescriptionList.Term icon="🌐">Cloud Region</DescriptionList.Term>
+    <DescriptionList.Description>
+      US East (N. Virginia) across three redundant availability zones.
+    </DescriptionList.Description>
+    <DescriptionList.Term icon="⚡">Compute Resources</DescriptionList.Term>
+    <DescriptionList.Description>
+      8 vCPU instances running at 3.5 GHz base frequency with auto-scaling.
+    </DescriptionList.Description>
+    <DescriptionList.Term icon="💾">Storage Volume</DescriptionList.Term>
+    <DescriptionList.Description>
+      500 GB NVMe solid-state persistent disk with automated daily snapshots.
+    </DescriptionList.Description>
+    <DescriptionList.Term icon="🛡️">Data Encryption</DescriptionList.Term>
+    <DescriptionList.Description>
+      End-to-end TLS 1.3 in transit and AES-256 encryption at rest.
+    </DescriptionList.Description>
+    <DescriptionList.Term icon="📊">Service Availability</DescriptionList.Term>
+    <DescriptionList.Description>
+      99.99% monthly uptime backed by automated multi-region failover.
+    </DescriptionList.Description>
+  </DescriptionList.Root>
+</ComponentPreview>
+
+<ComponentPreview
+  title="Stacked Description List"
+  description="Description list rendered with stacked terms and details."
+>
+  <DescriptionList.Root layout="stacked" gap="xs">
+    <DescriptionList.Term>Number of seats</DescriptionList.Term>
+    <DescriptionList.Description>12</DescriptionList.Description>
+    <DescriptionList.Term>Billing Cycle</DescriptionList.Term>
+    <DescriptionList.Description>Annual</DescriptionList.Description>
+  </DescriptionList.Root>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={descriptionListDoc} />

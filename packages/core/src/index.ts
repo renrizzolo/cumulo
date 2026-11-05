@@ -1,8 +1,7 @@
 export type { ElementProps } from './ElementProps.js';
 
-// Contract & Reset
+// Contract
 export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
-export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components
 export {
@@ -26,7 +25,7 @@ export {
 } from './components/Select.js';
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
 export { Kbd, type KbdProps, type KbdVariants } from './components/Kbd.js';
-export { Link, type LinkProps, type LinkVariants } from './components/Link.js';
+export { Link, type LinkProps, type LinkBaseProps, type LinkVariants } from './components/Link.js';
 export * as Alert from './components/Alert.js';
 export {
   useAlert,
@@ -83,6 +82,26 @@ export { Code, type CodeProps, type CodeVariants } from './components/Code.js';
 export { Divider, type DividerProps, type DividerVariants } from './components/Divider.js';
 
 export * as Table from './components/Table.js';
+export * as List from './components/List.js';
+export {
+  type ListRootProps,
+  type ListItemProps,
+  type ListIconProps,
+  type ListContentProps,
+  type ListVariants,
+  type ListItemVariants,
+  type ListIconVariants,
+  type ListVariant,
+} from './components/List.js';
+export * as DescriptionList from './components/DescriptionList.js';
+export {
+  type DescriptionListRootProps,
+  type DescriptionListTermProps,
+  type DescriptionListDescriptionProps,
+  type DescriptionListIconProps,
+  type DescriptionListVariants,
+  type DescriptionListIconVariants,
+} from './components/DescriptionList.js';
 export { Flow, type FlowProps, type FlowVariants } from './components/Flow.js';
 
 export * as Collapsible from './components/Collapsible.js';
@@ -192,6 +211,8 @@ export {
   useSidebar,
   SidebarContext,
   type SidebarContextValue,
+  type SidebarHoverTargetProps,
+  type SidebarHoverZoneProps,
 } from './components/Sidebar.js';
 
 export * as SideNav from './components/SideNav.js';

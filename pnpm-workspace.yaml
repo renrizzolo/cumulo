@@ -14,3 +14,4 @@ minimumReleaseAgeExclude:
 
 patchedDependencies:
   '@parcel/fs': patches/@parcel__fs.patch
+  '@parcel/packager-react-static@2.16.4': patches/@parcel__packager-react-static@2.16.4.patch

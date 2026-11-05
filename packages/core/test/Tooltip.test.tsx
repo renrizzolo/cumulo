@@ -31,6 +31,24 @@ describe('Tooltip Component', () => {
     expect(tooltip.getAttribute('role')).toBe('tooltip');
     expect(tooltip.getAttribute('popover')).toBe('manual');
     expect(trigger).toHaveAttribute('aria-describedby');
+    expect(trigger).not.toHaveAttribute('aria-expanded');
+    expect(trigger).not.toHaveAttribute('aria-controls');
+  });
+
+  it('does not set aria-expanded on span trigger for accessible nesting', () => {
+    render(
+      <Tooltip.Root id="span-test">
+        <Tooltip.Trigger as="span" data-testid="span-trigger">
+          <button type="button">Nested Button</button>
+        </Tooltip.Trigger>
+        <Tooltip.Content data-testid="tooltip">Hint</Tooltip.Content>
+      </Tooltip.Root>,
+    );
+
+    const trigger = screen.getByTestId('span-trigger');
+    expect(trigger).not.toHaveAttribute('aria-expanded');
+    expect(trigger).not.toHaveAttribute('aria-controls');
+    expect(trigger).toHaveAttribute('aria-describedby', 'span-test');
   });
 
   it('links trigger and content via anchor-name and position-anchor', () => {

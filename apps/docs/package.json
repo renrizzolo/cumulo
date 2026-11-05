@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "parcel --no-cache",
-    "build": "parcel build --no-cache",
+    "dev": "parcel --no-cache --watch-ignore apps/docs/dist,dist",
+    "build": "rm -rf dist && parcel build --no-cache",
     "start": "npx http-server ./dist",
     "type-check": "tsc --noEmit"
   },
@@ -23,8 +23,8 @@
     "@cumulo/parcel-transformer": "workspace:*",
     "@parcel/packager-react-static": "2.16.4",
     "@parcel/transformer-react-static": "2.16.4",
-    "@renr/parcel-reporter-docgen": "^0.1.0-beta.8",
-    "@renr/parcel-reporter-rsc-router": "^1.0.0-beta.18",
+    "@renr/parcel-reporter-docgen": "^0.1.0-beta.9",
+    "@renr/parcel-reporter-rsc-router": "^1.0.0-beta.19",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "parcel": "^2.16.4",
@@ -34,6 +34,7 @@
   "targets": {
     "react-static": {
       "source": "src/pages/**/*",
+      "distDir": "dist",
       "context": "react-server",
       "includeNodeModules": {
         "oxfmt": false,

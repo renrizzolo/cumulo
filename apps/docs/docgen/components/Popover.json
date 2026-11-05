@@ -372,7 +372,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"menu\" \n|  \"listbox\" \n|  \"tree\" \n|  \"dialog\" \n|  undefined\n"
+            "name": "| boolean \n|  \"dialog\" \n|  \"menu\" \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"listbox\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },

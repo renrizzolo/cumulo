@@ -8,6 +8,8 @@ describe('@cumulo/core', () => {
   it('exports theme contract dynamically matching CSS variables in theme.css', () => {
     expect(vars.surface.bg.DEFAULT).toBe('var(--surface-bg)');
     expect(vars.surface.bg.next).toBe('var(--surface-bg-next)');
+    expect(vars.surface.subtle).toBe('var(--surface-subtle)');
+    expect(vars.surface.muted).toBe('var(--surface-muted)');
     expect(vars.primary.DEFAULT).toBe('var(--theme-primary)');
     expect(vars.primary['50']).toBe('var(--theme-primary-50)');
     expect(vars.primary['900']).toBe('var(--theme-primary-900)');

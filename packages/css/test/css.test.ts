@@ -251,11 +251,17 @@ describe('@cumulo/css', () => {
     it('compiles base styles from single rule or array of rules', () => {
       const singleBase = recipe({
         base: { display: 'flex' },
+        variants: {
+          variant: { default: {} },
+        },
       });
       expect(singleBase()).toContain(singleBase.classNames.base);
 
       const multiBase = recipe({
         base: [{ display: 'flex' }, { alignItems: 'center' }],
+        variants: {
+          variant: { default: {} },
+        },
       });
       expect(multiBase()).toContain(multiBase.classNames.base);
       expect(getSheetCss()).toContain('display:flex;align-items:center;');
@@ -495,6 +501,9 @@ describe('@cumulo/css', () => {
     it('gracefully handles empty options or undefined invocations', () => {
       const simple = recipe({
         base: { margin: 0 },
+        variants: {
+          variant: { default: {} },
+        },
       });
 
       expect(simple()).toBe(simple.classNames.base);

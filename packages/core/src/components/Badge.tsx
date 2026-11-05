@@ -19,6 +19,8 @@ export const badgeRecipe = recipe(
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'transparent',
+      whiteSpace: 'nowrap',
+      flexShrink: 0,
     },
     variants: {
       color: {

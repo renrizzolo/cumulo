@@ -428,6 +428,9 @@ export const focusRingStyles = {
 export const focusRing = recipe(
   {
     base: focusRingStyles,
+    variants: {
+      variant: { default: {} },
+    },
   },
   'focus-ring',
 );
