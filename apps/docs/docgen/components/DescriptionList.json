@@ -59,9 +59,7 @@
       "shortPropTypeName": null
     },
     "gapX": {
-      "defaultValue": {
-        "value": "'lg'"
-      },
+      "defaultValue": null,
       "description": "Explicit horizontal column gap spacing between terms and descriptions.\nOverrides the horizontal gap from `gap`.",
       "name": "gapX",
       "parent": {
@@ -114,9 +112,7 @@
       "shortPropTypeName": null
     },
     "gapY": {
-      "defaultValue": {
-        "value": "'sm'"
-      },
+      "defaultValue": null,
       "description": "Explicit vertical row gap spacing between items.\nOverrides the vertical gap from `gap`.",
       "name": "gapY",
       "parent": {
@@ -170,7 +166,7 @@
     },
     "layout": {
       "defaultValue": {
-        "value": "'grid'"
+        "value": "'default'"
       },
       "description": "Layout arrangement for the description list.",
       "name": "layout",
@@ -392,7 +388,7 @@
       "props": {
         "size": {
           "defaultValue": {
-            "value": "md"
+            "value": "'md'"
           },
           "description": "Size of the icon marker.",
           "name": "size",

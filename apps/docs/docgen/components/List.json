@@ -478,6 +478,16 @@
           "shortPropTypeName": "Union"
         }
       }
+    },
+    "markerIconBase": {
+      "name": "List.markerIconBase",
+      "description": "Shared base styles for inline marker icons (list bullets, description list term icons).",
+      "props": {}
+    },
+    "markerIconSizes": {
+      "name": "List.markerIconSizes",
+      "description": "Shared `size` variant styles for inline marker icons.",
+      "props": {}
     }
   }
 }

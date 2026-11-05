@@ -6,6 +6,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import type { GapVariant } from '../layout.js';
 import { markerIconBase, markerIconSizes } from './List.js';
+import { textBase } from '../typography.js';
 
 const GAP_PRESETS: Record<
   NonNullable<GapVariant>,
@@ -28,7 +29,6 @@ const descriptionListRecipe = recipe(
       display: 'grid',
       margin: 0,
       padding: 0,
-      fontFamily: vars.font.sans,
     },
     variants: {
       layout: {
@@ -71,8 +71,7 @@ const descriptionListRecipe = recipe(
     },
     defaultVariants: {
       layout: 'default',
-      gapX: 'lg',
-      gapY: 'sm',
+      ...GAP_PRESETS['sm'],
     },
   },
   'description-list',
@@ -85,10 +84,10 @@ const descriptionListTermStyle = style(
     gap: vars.spacing.xs,
     margin: 0,
     padding: 0,
-    fontFamily: vars.font.sans,
     fontWeight: vars.font.weight.semibold,
     color: vars.surface.fg,
     lineHeight: vars.line.height.normal,
+    ...textBase,
   },
   'description-list-term',
 );
@@ -97,11 +96,11 @@ const descriptionListDescriptionStyle = style(
   {
     margin: 0,
     padding: 0,
-    fontFamily: vars.font.sans,
     fontWeight: vars.font.weight.normal,
     color: vars.surface.fg,
     lineHeight: vars.line.height.normal,
     minWidth: 0,
+    ...textBase,
   },
   'description-list-description',
 );
@@ -131,13 +130,11 @@ export interface DescriptionListRootProps extends ElementProps<HTMLDListElement>
   /**
    * Explicit horizontal column gap spacing between terms and descriptions.
    * Overrides the horizontal gap from `gap`.
-   * @default 'lg'
    */
   gapX?: GapVariant;
   /**
    * Explicit vertical row gap spacing between items.
    * Overrides the vertical gap from `gap`.
-   * @default 'sm'
    */
   gapY?: GapVariant;
   /**
@@ -222,7 +219,7 @@ function DescriptionListRoot({
 }
 
 function DescriptionListIcon({
-  size = 'md',
+  size,
   className,
   children,
   ref,

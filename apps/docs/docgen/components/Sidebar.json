@@ -169,10 +169,10 @@
             "value": "\"none\""
           },
           {
-            "value": "\"expand\""
+            "value": "\"tooltip\""
           },
           {
-            "value": "\"tooltip\""
+            "value": "\"expand\""
           }
         ]
       },
@@ -565,10 +565,10 @@
                 "value": "\"none\""
               },
               {
-                "value": "\"expand\""
+                "value": "\"tooltip\""
               },
               {
-                "value": "\"tooltip\""
+                "value": "\"expand\""
               }
             ]
           },
@@ -690,13 +690,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"outline\""
+              },
+              {
+                "value": "\"default\""
               },
               {
                 "value": "\"primary\""
@@ -1138,16 +1141,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"clip\" | \"none\" | \"collapse\" | \"fade\" | undefined",
+            "raw": "\"none\" | \"clip\" | \"collapse\" | \"fade\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"clip\""
+                "value": "\"none\""
               },
               {
-                "value": "\"none\""
+                "value": "\"clip\""
               },
               {
                 "value": "\"collapse\""
