@@ -14,7 +14,7 @@ import {
   type TypedGroup,
 } from '../hooks/useValueGroup.js';
 
-export const selectRecipe = recipe(
+const selectRecipe = recipe(
   {
     extend: [fieldIntentStyles, sizes],
     base: {
@@ -412,15 +412,6 @@ export function createSelect<T extends string>(): TypedSelect<T> {
   });
 }
 
-export const Select = Object.assign(SelectRoot, {
-  Root: SelectRoot,
-  Item: SelectOption,
-  Option: SelectOption,
-  Group: SelectOptGroup,
-  OptGroup: SelectOptGroup,
-  create: createSelect,
-});
-
 export {
   SelectRoot as Root,
   SelectOption as Item,
@@ -433,7 +424,5 @@ export {
 export type {
   SelectProps as RootProps,
   SelectOptionProps as ItemProps,
-  SelectOptionProps as OptionProps,
   SelectOptGroupProps as GroupProps,
-  SelectOptGroupProps as OptGroupProps,
 };

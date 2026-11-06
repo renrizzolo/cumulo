@@ -100,19 +100,19 @@ describe('SideNav component', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('supports compound subcomponents: SideNav.Group.Trigger and SideNav.Group.Content', async () => {
+  it('supports compound subcomponents: SideNav.GroupTrigger and SideNav.GroupContent', async () => {
     const user = userEvent.setup();
     const handleOpenChange = vi.fn();
 
     renderWithContext(
       <SideNav.Root>
         <SideNav.Group collapsible defaultOpen={false} onOpenChange={handleOpenChange}>
-          <SideNav.Group.Trigger badge={<span data-testid="badge">3</span>}>
+          <SideNav.GroupTrigger badge={<span data-testid="badge">3</span>}>
             Compound Section
-          </SideNav.Group.Trigger>
-          <SideNav.Group.Content>
+          </SideNav.GroupTrigger>
+          <SideNav.GroupContent>
             <SideNav.Item label="Item A" />
-          </SideNav.Group.Content>
+          </SideNav.GroupContent>
         </SideNav.Group>
       </SideNav.Root>,
     );

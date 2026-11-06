@@ -2,7 +2,7 @@ import React from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars, type ElementProps } from '@cumulo/core';
 
-export const logoRecipe = recipe({
+const logoRecipe = recipe({
   base: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -33,7 +33,7 @@ export const logoRecipe = recipe({
   },
 });
 
-export const logoTextRecipe = recipe({
+const logoTextRecipe = recipe({
   base: {
     fontFamily: vars.font.sans,
     fontWeight: vars.font.weight.bold,
@@ -66,23 +66,23 @@ export const logoTextRecipe = recipe({
   },
 });
 
-export const logoAccentStyle = style({
+const logoAccentStyle = style({
   fontWeight: vars.font.weight.semibold,
   color: vars.primary.DEFAULT,
 });
 
 export type LogoVariants = RecipeVariants<typeof logoRecipe>;
 
-export interface LogoMarkProps {
+interface LogoMarkProps {
   size?: LogoVariants['size'];
   className?: string;
 }
 
-export const logoMarkSvgStyle = style({
+const logoMarkSvgStyle = style({
   flexShrink: 0,
 });
 
-export function LogoMark({ size = 'sm', className }: LogoMarkProps): React.JSX.Element {
+function LogoMark({ size = 'sm', className }: LogoMarkProps): React.JSX.Element {
   const sizeValue = MARK_SIZES[size];
 
   return (

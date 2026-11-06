@@ -18,48 +18,13 @@ import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { useFocus } from '../hooks/useFocus.js';
-import { useDismissible } from '../hooks/useDismissible.js';
-
-function safeHidePopover(el: HTMLElement | null): boolean {
-  if (el && 'hidePopover' in el && typeof el.hidePopover === 'function') {
-    try {
-      el.hidePopover();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
-
-function safeTogglePopover(el: HTMLElement | null): boolean {
-  if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
-    try {
-      el.togglePopover();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
-
-function safeShowPopover(el: HTMLElement | null): void {
-  if (!el || !('showPopover' in el) || typeof el.showPopover !== 'function') return;
-  try {
-    let isOpen = false;
-    try {
-      isOpen = el.matches?.(':popover-open') ?? false;
-    } catch {
-      isOpen = false;
-    }
-    if (!isOpen) {
-      el.showPopover();
-    }
-  } catch {
-    // Ignore if element is not in document yet or transitions
-  }
-}
+import {
+  useDismissible,
+  handlePopoverToggleEvent,
+  safeHidePopover,
+  safeShowPopover,
+  togglePopoverFromTrigger,
+} from '../hooks/useDismissible.js';
 
 export interface PopoverContextValue {
   id: string;
@@ -242,22 +207,8 @@ function PopoverTrigger({
   const handleClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
       onClick?.(event);
-      if (event.defaultPrevented) return;
-
-      if (trigger === 'hover') return;
-
-      const el = popoverRef.current;
-      // In synthetic environments (like JSDOM / Vitest) where button popoverTarget is not dispatched by browser engine
-      if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
-        const button = event.currentTarget;
-        if (!('popoverTargetElement' in button) && !('popoverTargetAction' in button)) {
-          if (!safeTogglePopover(el)) {
-            toggle();
-          }
-        }
-      } else {
-        toggle();
-      }
+      if (event.defaultPrevented || trigger === 'hover') return;
+      togglePopoverFromTrigger(popoverRef.current, event.currentTarget, toggle);
     },
     [onClick, popoverRef, toggle, trigger],
   );
@@ -621,12 +572,7 @@ function PopoverContent({
 
   // Sync native popover open/close state via native toggle event
   const handleToggle = useCallback(
-    (e: React.ToggleEvent<HTMLDivElement>) => {
-      onToggle?.(e);
-      if (e.newState) {
-        setOpen(e.newState === 'open');
-      }
-    },
+    (e: React.ToggleEvent<HTMLDivElement>) => handlePopoverToggleEvent(e, setOpen, onToggle),
     [onToggle, setOpen],
   );
 

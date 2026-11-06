@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-export type NestedTree = { [key: string]: string | NestedTree };
+type NestedTree = { [key: string]: string | NestedTree };
 
 export interface GenerateThemeOptions {
   /**
@@ -77,7 +77,7 @@ function setNestedPath(obj: NestedTree, pathSegments: string[], value: string) {
  * Dynamically converts a flat list of CSS variables into a nested JavaScript object tree,
  * preserving source declaration order.
  */
-export function buildTreeFromVars(vars: string[]): NestedTree {
+function buildTreeFromVars(vars: string[]): NestedTree {
   const tree: NestedTree = {};
 
   for (const v of vars) {
@@ -103,7 +103,7 @@ export function buildTreeFromVars(vars: string[]): NestedTree {
  * Serializes an object tree to TypeScript code with JSDoc comments reflecting computed CSS values.
  * Traverses entries in exact insertion/source order without alphabetical sorting.
  */
-export function serializeObjectWithComments(
+function serializeObjectWithComments(
   obj: NestedTree,
   varValuesMap: Map<string, string>,
   indent = 2,
@@ -139,7 +139,7 @@ export function serializeObjectWithComments(
 /**
  * Attempts to format TypeScript code using oxfmt if available, otherwise returns the clean raw code.
  */
-export async function tryFormatCode(filePath: string, code: string): Promise<string> {
+async function tryFormatCode(filePath: string, code: string): Promise<string> {
   try {
     const oxfmt = await import('oxfmt');
     let oxfmtConfig: Record<string, unknown> | undefined;
@@ -173,7 +173,7 @@ export async function tryFormatCode(filePath: string, code: string): Promise<str
 /**
  * Resolves the canonical base theme.css file location.
  */
-export function resolveBaseCssPath(customBase?: string): string {
+function resolveBaseCssPath(customBase?: string): string {
   if (customBase && fs.existsSync(customBase)) {
     return path.resolve(customBase);
   }

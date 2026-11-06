@@ -6,7 +6,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { fieldIntentStyles } from '../intents.js';
 
-export const textareaRecipe = recipe(
+const textareaRecipe = recipe(
   {
     extend: [fieldIntentStyles],
     base: {

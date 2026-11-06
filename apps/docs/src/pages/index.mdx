@@ -1,5 +1,6 @@
 import Layout from '../components/MDXLayout.tsx';
-import { Badge, Text, HStack, Card } from '@cumulo/core';
+import { Badge, Text, HStack } from '@cumulo/core';
+import * as Card from '@cumulo/core/components/Card';
 import * as Alert from '@cumulo/core/components/Alert';
 import * as List from '@cumulo/core/components/List';
 export default Layout;
@@ -10,14 +11,14 @@ _Cumulo_ (cù·mu·lo), Italian (n.) — a heap, pile, or accumulation of things
 
 Cumulo is a React 19 component library and type-safe CSS framework with zero third-party runtime dependencies.
 
-<Card variant="primary">
+<Card.Root variant="primary">
   <HStack gap="xs" align="center">
     <Badge variant="secondary" intent="primary">
       NOTE
     </Badge>
     <Text size="sm">Cumulo is in active development. APIs may change between alpha releases.</Text>
   </HStack>
-</Card>
+</Card.Root>
 
 ---
 

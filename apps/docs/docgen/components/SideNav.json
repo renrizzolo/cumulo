@@ -332,7 +332,9 @@
           "shortPropTypeName": null
         },
         "collapsible": {
-          "defaultValue": null,
+          "defaultValue": {
+            "value": "false"
+          },
           "description": "",
           "name": "collapsible",
           "parent": {
@@ -352,7 +354,9 @@
           "shortPropTypeName": null
         },
         "defaultOpen": {
-          "defaultValue": null,
+          "defaultValue": {
+            "value": "true"
+          },
           "description": "",
           "name": "defaultOpen",
           "parent": {

@@ -7,7 +7,7 @@ import type { ElementProps } from '../ElementProps.js';
 import { Stack, VStack, type StackProps, type StackVariants } from './Stack.js';
 import { Input, type InputProps } from './Input.js';
 import { Textarea, type TextareaProps } from './Textarea.js';
-import { Select, type SelectProps } from './Select.js';
+import { Root as Select, type RootProps as SelectProps } from './Select.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
 import { Switch, type SwitchProps } from './Switch.js';
 import { Label, type LabelProps } from './Label.js';

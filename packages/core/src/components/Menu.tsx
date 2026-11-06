@@ -20,48 +20,13 @@ import { Button, type ButtonProps } from './Button.js';
 import { Divider, type DividerProps } from './Divider.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { useFocus } from '../hooks/useFocus.js';
-import { useDismissible } from '../hooks/useDismissible.js';
-
-function safeHidePopover(el: HTMLElement | null): boolean {
-  if (el && 'hidePopover' in el && typeof el.hidePopover === 'function') {
-    try {
-      el.hidePopover();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
-
-function safeTogglePopover(el: HTMLElement | null): boolean {
-  if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
-    try {
-      el.togglePopover();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
-
-function safeShowPopover(el: HTMLElement | null): void {
-  if (!el || !('showPopover' in el) || typeof el.showPopover !== 'function') return;
-  try {
-    let isOpen = false;
-    try {
-      isOpen = el.matches?.(':popover-open') ?? false;
-    } catch {
-      isOpen = false;
-    }
-    if (!isOpen) {
-      el.showPopover();
-    }
-  } catch {
-    // Ignore if element is not in document yet
-  }
-}
+import {
+  useDismissible,
+  handlePopoverToggleEvent,
+  safeHidePopover,
+  safeShowPopover,
+  togglePopoverFromTrigger,
+} from '../hooks/useDismissible.js';
 
 export interface MenuContextValue {
   id: string;
@@ -179,19 +144,7 @@ function MenuTrigger({
     (event: MouseEvent<HTMLButtonElement>) => {
       onClick?.(event);
       if (event.defaultPrevented) return;
-
-      const el = menuRef.current;
-      // In synthetic environments (like JSDOM / Vitest) where button popoverTarget is not dispatched by browser engine
-      if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
-        const button = event.currentTarget;
-        if (!('popoverTargetElement' in button) && !('popoverTargetAction' in button)) {
-          if (!safeTogglePopover(el)) {
-            toggle();
-          }
-        }
-      } else {
-        toggle();
-      }
+      togglePopoverFromTrigger(menuRef.current, event.currentTarget, toggle);
     },
     [menuRef, onClick, toggle],
   );
@@ -355,12 +308,7 @@ function MenuContent({
   );
 
   const handleToggle = useCallback(
-    (e: React.ToggleEvent<HTMLDivElement>) => {
-      onToggle?.(e);
-      if (e.newState) {
-        setOpen(e.newState === 'open');
-      }
-    },
+    (e: React.ToggleEvent<HTMLDivElement>) => handlePopoverToggleEvent(e, setOpen, onToggle),
     [onToggle, setOpen],
   );
 

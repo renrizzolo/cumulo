@@ -42,7 +42,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"outline\" | \"ghost\" | \"field\" | \"filled\" | undefined",
+        "raw": "\"outline\" | \"field\" | \"filled\" | \"ghost\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -51,13 +51,13 @@
             "value": "\"outline\""
           },
           {
-            "value": "\"ghost\""
-          },
-          {
             "value": "\"field\""
           },
           {
             "value": "\"filled\""
+          },
+          {
+            "value": "\"ghost\""
           }
         ]
       },
@@ -82,19 +82,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"success\" | \"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | \"success\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"success\""
+            "value": "\"default\""
           },
           {
             "value": "\"error\""
           },
           {
-            "value": "\"default\""
+            "value": "\"success\""
           }
         ]
       },
@@ -451,108 +451,10 @@
         }
       }
     },
-    "create": {
-      "name": "Select.create",
+    "createSelect": {
+      "name": "Select.createSelect",
       "description": "Creates a strictly typed `Select` (`{ Root, Item, Option, Group, OptGroup }`) constrained to value union `T`.",
       "props": {}
-    },
-    "selectRecipe": {
-      "name": "Select.selectRecipe",
-      "props": {
-        "variant": {
-          "defaultValue": null,
-          "description": "",
-          "name": "variant",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"outline\" | \"ghost\" | \"field\" | \"filled\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"ghost\""
-              },
-              {
-                "value": "\"field\""
-              },
-              {
-                "value": "\"filled\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "intent": {
-          "defaultValue": null,
-          "description": "",
-          "name": "intent",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"success\" | \"error\" | \"default\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"success\""
-              },
-              {
-                "value": "\"error\""
-              },
-              {
-                "value": "\"default\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "size": {
-          "defaultValue": null,
-          "description": "",
-          "name": "size",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"inherit\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"inherit\""
-              },
-              {
-                "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        }
-      }
     }
   }
 }

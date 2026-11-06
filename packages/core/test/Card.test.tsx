@@ -10,7 +10,7 @@ afterEach(() => {
 
 describe('Card component', () => {
   it('renders without crashing', () => {
-    render(<Card>Card content</Card>);
+    render(<Card.Root>Card content</Card.Root>);
     expect(screen.getByText('Card content')).toBeInTheDocument();
   });
 });

@@ -12,130 +12,83 @@ const intentSecondaryVarMap = {
   info: vars.info.secondary,
 } as const;
 
+type SecondaryIntent = keyof typeof intentSecondaryVarMap;
+
+function isSecondaryIntent(intent: Intent): intent is SecondaryIntent {
+  return intent !== 'primary' && intent in intentSecondaryVarMap;
+}
+
+function flatMapSecondaryIntents<T extends Intent, R>(
+  intents: readonly T[],
+  mapper: (intent: T, secondary: (typeof intentSecondaryVarMap)[SecondaryIntent]) => R[],
+): R[] {
+  return intents.flatMap((intent) =>
+    isSecondaryIntent(intent) ? mapper(intent, intentSecondaryVarMap[intent]) : [],
+  );
+}
+
 /**
  * Creates static primary, secondary, outline, ghost compound styles for given intents (no hover).
  */
 export function createStaticIntentCompoundVariants<T extends Intent>(intents: readonly T[]) {
-  return intents.flatMap((intent) => {
-    if (intent === 'primary') return [];
-    if (!(intent in intentSecondaryVarMap)) return [];
-
-    const secondary = intentSecondaryVarMap[intent as keyof typeof intentSecondaryVarMap];
-
-    return [
-      {
-        variants: { intent, variant: 'secondary' as const },
-        style: {
-          backgroundColor: secondary.bg.DEFAULT,
-          color: secondary.fg,
-          borderColor: 'transparent',
-        },
+  return flatMapSecondaryIntents(intents, (intent, secondary) => [
+    {
+      variants: { intent, variant: 'secondary' as const },
+      style: {
+        backgroundColor: secondary.bg.DEFAULT,
+        color: secondary.fg,
+        borderColor: 'transparent',
       },
-      {
-        variants: { intent, variant: 'outline' as const },
-        style: {
-          backgroundColor: 'transparent',
-          color: secondary.fg,
-          borderColor: secondary.border,
-        },
+    },
+    {
+      variants: { intent, variant: 'outline' as const },
+      style: {
+        backgroundColor: 'transparent',
+        color: secondary.fg,
+        borderColor: secondary.border,
       },
-      {
-        variants: { intent, variant: 'ghost' as const },
-        style: {
-          backgroundColor: 'transparent',
-          color: secondary.fg,
-          borderColor: 'transparent',
-        },
+    },
+    {
+      variants: { intent, variant: 'ghost' as const },
+      style: {
+        backgroundColor: 'transparent',
+        color: secondary.fg,
+        borderColor: 'transparent',
       },
-    ];
-  });
+    },
+  ]);
 }
 
 /**
  * Creates interactive hover compound styles for given intents.
  */
 export function createInteractiveIntentCompoundVariants<T extends Intent>(intents: readonly T[]) {
-  return intents.flatMap((intent) => {
-    if (intent === 'primary') return [];
-    if (!(intent in intentSecondaryVarMap)) return [];
-
-    const secondary = intentSecondaryVarMap[intent as keyof typeof intentSecondaryVarMap];
-
-    return [
-      {
-        variants: { intent, variant: 'secondary' as const },
-        style: {
-          ':hover': {
-            backgroundColor: secondary.bg.hover,
-          },
+  return flatMapSecondaryIntents(intents, (intent, secondary) => [
+    {
+      variants: { intent, variant: 'secondary' as const },
+      style: {
+        ':hover': {
+          backgroundColor: secondary.bg.hover,
         },
       },
-      {
-        variants: { intent, variant: 'outline' as const },
-        style: {
-          ':hover': {
-            backgroundColor: secondary.bg.DEFAULT,
-          },
-        },
-      },
-      {
-        variants: { intent, variant: 'ghost' as const },
-        style: {
-          ':hover': {
-            backgroundColor: secondary.bg.DEFAULT,
-          },
-        },
-      },
-    ];
-  });
-}
-
-/**
- * Creates combined compound styles for given intents (includes hover for backward compatibility).
- */
-export function createIntentCompoundVariants<T extends Intent>(intents: readonly T[]) {
-  return intents.flatMap((intent) => {
-    if (intent === 'primary') return [];
-    if (!(intent in intentSecondaryVarMap)) return [];
-
-    const secondary = intentSecondaryVarMap[intent as keyof typeof intentSecondaryVarMap];
-
-    return [
-      {
-        variants: { intent, variant: 'secondary' as const },
-        style: {
+    },
+    {
+      variants: { intent, variant: 'outline' as const },
+      style: {
+        ':hover': {
           backgroundColor: secondary.bg.DEFAULT,
-          color: secondary.fg,
-          borderColor: 'transparent',
-          ':hover': {
-            backgroundColor: secondary.bg.hover,
-          },
         },
       },
-      {
-        variants: { intent, variant: 'outline' as const },
-        style: {
-          backgroundColor: 'transparent',
-          color: secondary.fg,
-          borderColor: secondary.border,
-          ':hover': {
-            backgroundColor: secondary.bg.DEFAULT,
-          },
+    },
+    {
+      variants: { intent, variant: 'ghost' as const },
+      style: {
+        ':hover': {
+          backgroundColor: secondary.bg.DEFAULT,
         },
       },
-      {
-        variants: { intent, variant: 'ghost' as const },
-        style: {
-          backgroundColor: 'transparent',
-          color: secondary.fg,
-          borderColor: 'transparent',
-          ':hover': {
-            backgroundColor: secondary.bg.DEFAULT,
-          },
-        },
-      },
-    ];
-  });
+    },
+  ]);
 }
 
 /**
@@ -440,9 +393,37 @@ export const focusRing = recipe(
  */
 export const controlIntent = recipe(
   {
+    base: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      position: 'relative',
+      borderStyle: 'solid',
+      borderColor: vars.surface.border,
+      cursor: 'pointer',
+      userSelect: 'none',
+      boxSizing: 'border-box',
+      flexShrink: 0,
+    },
     variants: {
       checked: {
-        true: {},
+        true: {
+          backgroundColor: vars.primary.DEFAULT,
+          borderColor: vars.primary.DEFAULT,
+          selectors: {
+            '&:has(input:hover)': {
+              backgroundColor: vars.primary.hover,
+              borderColor: vars.primary.hover,
+            },
+          },
+        },
+        false: {},
+      },
+      disabled: {
+        true: {
+          opacity: 0.5,
+          cursor: 'not-allowed',
+          pointerEvents: 'none',
+        },
         false: {},
       },
       intent: {
@@ -488,6 +469,8 @@ export const controlIntent = recipe(
       },
     ],
     defaultVariants: {
+      checked: false,
+      disabled: false,
       intent: 'default',
     },
   },

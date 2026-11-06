@@ -12,10 +12,11 @@ export {
 } from './components/Surface.js';
 export { Button, type ButtonProps, type ButtonVariants } from './components/Button.js';
 export { Spinner, type SpinnerProps, type SpinnerVariants } from './components/Spinner.js';
-export { Card, type CardProps, type CardVariants } from './components/Card.js';
+export * as Card from './components/Card.js';
+export { type CardProps, type CardVariants } from './components/Card.js';
 export { Input, type InputProps, type InputVariants } from './components/Input.js';
+export * as Select from './components/Select.js';
 export {
-  Select,
   createSelect,
   type SelectProps,
   type SelectOptionProps,
@@ -52,8 +53,8 @@ export {
   type StackVariants,
   type StackTag,
 } from './components/Stack.js';
+export * as Grid from './components/Grid.js';
 export {
-  Grid,
   gridContract,
   type GridProps,
   type GridVariants,

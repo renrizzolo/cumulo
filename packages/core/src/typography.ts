@@ -1,18 +1,6 @@
 import { recipe, style, type RecipeVariants } from '@cumulo/css';
 import { vars } from './contract.js';
 
-export const familyStyles = recipe(
-  {
-    variants: {
-      family: {
-        sans: { fontFamily: vars.font.sans },
-        mono: { fontFamily: vars.font.mono },
-      },
-    },
-  },
-  'type-family',
-);
-
 export const weightStyles = recipe(
   {
     variants: {
@@ -57,26 +45,6 @@ export const textColorStyles = recipe(
     },
   },
   'type-color',
-);
-
-export const textSizeStyles = recipe(
-  {
-    variants: {
-      size: {
-        '2xs': { fontSize: vars.font.size['2xs'] },
-        xs: { fontSize: vars.font.size.xs },
-        sm: { fontSize: vars.font.size.sm },
-        base: { fontSize: vars.font.size.base },
-        md: { fontSize: vars.font.size.md },
-        lg: { fontSize: vars.font.size.lg },
-        xl: { fontSize: vars.font.size.xl },
-        '2xl': { fontSize: vars.font.size['2xl'] },
-        '3xl': { fontSize: vars.font.size['3xl'] },
-        '4xl': { fontSize: vars.font.size['4xl'] },
-      },
-    },
-  },
-  'type-size',
 );
 
 export const alignStyles = recipe(

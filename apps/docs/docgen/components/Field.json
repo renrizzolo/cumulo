@@ -46,19 +46,13 @@
             "value": "undefined"
           },
           {
-            "value": "\"article\""
-          },
-          {
-            "value": "\"form\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
             "value": "\"div\""
           },
           {
             "value": "\"section\""
+          },
+          {
+            "value": "\"article\""
           },
           {
             "value": "\"header\""
@@ -71,6 +65,12 @@
           },
           {
             "value": "\"aside\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"form\""
           },
           {
             "value": "\"ul\""
@@ -195,19 +195,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"baseline\""
@@ -236,19 +236,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"between\""
@@ -335,7 +335,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -344,13 +344,13 @@
             "value": "\"auto\""
           },
           {
+            "value": "1"
+          },
+          {
             "value": "\"initial\""
           },
           {
             "value": "\"none\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -443,16 +443,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -625,7 +625,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"ghost\" | \"field\" | \"filled\" | undefined",
+            "raw": "\"outline\" | \"field\" | \"filled\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -634,13 +634,13 @@
                 "value": "\"outline\""
               },
               {
-                "value": "\"ghost\""
-              },
-              {
                 "value": "\"field\""
               },
               {
                 "value": "\"filled\""
+              },
+              {
+                "value": "\"ghost\""
               }
             ]
           },
@@ -665,19 +665,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"success\" | \"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | \"success\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"success\""
+                "value": "\"default\""
               },
               {
                 "value": "\"error\""
               },
               {
-                "value": "\"default\""
+                "value": "\"success\""
               }
             ]
           },
@@ -932,16 +932,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -1085,16 +1085,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -1273,16 +1273,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -1461,16 +1461,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -1661,16 +1661,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -1730,6 +1730,44 @@
             "name": "string | undefined"
           },
           "shortPropTypeName": "string | function"
+        },
+        "flex": {
+          "defaultValue": null,
+          "description": "",
+          "name": "flex",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+            "name": "StackProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+              "name": "StackProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "\"initial\""
+              },
+              {
+                "value": "\"none\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
         },
         "direction": {
           "defaultValue": null,
@@ -1793,44 +1831,6 @@
               },
               {
                 "value": "\"full\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "flex": {
-          "defaultValue": null,
-          "description": "",
-          "name": "flex",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-            "name": "StackProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-              "name": "StackProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"auto\""
-              },
-              {
-                "value": "\"initial\""
-              },
-              {
-                "value": "\"none\""
-              },
-              {
-                "value": "1"
               }
             ]
           },
@@ -1926,19 +1926,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"baseline\""
@@ -1967,19 +1967,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"between\""
@@ -2029,6 +2029,22 @@
           },
           "shortPropTypeName": null
         },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        },
         "as": {
           "defaultValue": null,
           "description": "",
@@ -2052,19 +2068,13 @@
                 "value": "undefined"
               },
               {
-                "value": "\"article\""
-              },
-              {
-                "value": "\"form\""
-              },
-              {
-                "value": "\"main\""
-              },
-              {
                 "value": "\"div\""
               },
               {
                 "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
               },
               {
                 "value": "\"header\""
@@ -2079,6 +2089,12 @@
                 "value": "\"aside\""
               },
               {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
+              },
+              {
                 "value": "\"ul\""
               },
               {
@@ -2088,22 +2104,6 @@
                 "value": "\"span\""
               }
             ]
-          },
-          "shortPropTypeName": null
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLElement> | undefined"
           },
           "shortPropTypeName": null
         },
@@ -2338,19 +2338,13 @@
                 "value": "undefined"
               },
               {
-                "value": "\"article\""
-              },
-              {
-                "value": "\"form\""
-              },
-              {
-                "value": "\"main\""
-              },
-              {
                 "value": "\"div\""
               },
               {
                 "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
               },
               {
                 "value": "\"header\""
@@ -2363,6 +2357,12 @@
               },
               {
                 "value": "\"aside\""
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
               },
               {
                 "value": "\"ul\""
@@ -2491,19 +2491,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"baseline\""
@@ -2532,19 +2532,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+            "raw": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\" | undefined",
             "value": [
               {
                 "value": "undefined"
+              },
+              {
+                "value": "\"start\""
               },
               {
                 "value": "\"center\""
               },
               {
                 "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
               },
               {
                 "value": "\"between\""
@@ -2631,7 +2631,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -2640,13 +2640,13 @@
                 "value": "\"auto\""
               },
               {
+                "value": "1"
+              },
+              {
                 "value": "\"initial\""
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "1"
               }
             ]
           },

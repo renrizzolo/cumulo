@@ -21,10 +21,6 @@ export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never
   ? I
   : never;
 
-export type RecipeExtendable =
-  | RecipeFunction<VariantDefinitions>
-  | RecipeOptions<VariantDefinitions, unknown>;
-
 export type ExtractRecipeVariants<E> =
   E extends RecipeFunction<infer V>
     ? V

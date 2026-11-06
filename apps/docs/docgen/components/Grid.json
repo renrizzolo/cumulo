@@ -28,19 +28,13 @@
             "value": "undefined"
           },
           {
-            "value": "\"article\""
-          },
-          {
-            "value": "\"form\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
             "value": "\"div\""
           },
           {
             "value": "\"section\""
+          },
+          {
+            "value": "\"article\""
           },
           {
             "value": "\"header\""
@@ -53,6 +47,12 @@
           },
           {
             "value": "\"aside\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"form\""
           },
           {
             "value": "\"ul\""
@@ -86,19 +86,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "4 | 1 | 2 | \"auto-fit\" | \"auto-fill\" | 3 | 5 | 6 | 12 | undefined",
+        "raw": "1 | \"auto-fit\" | \"auto-fill\" | 2 | 3 | 4 | 5 | 6 | 12 | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "4"
-          },
-          {
             "value": "1"
-          },
-          {
-            "value": "2"
           },
           {
             "value": "\"auto-fit\""
@@ -107,7 +101,13 @@
             "value": "\"auto-fill\""
           },
           {
+            "value": "2"
+          },
+          {
             "value": "3"
+          },
+          {
+            "value": "4"
           },
           {
             "value": "5"
@@ -265,19 +265,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"baseline\""
@@ -308,19 +308,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
+        "raw": "\"start\" | \"center\" | \"end\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"start\""
           },
           {
             "value": "\"center\""
           },
           {
             "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
           },
           {
             "value": "\"stretch\""
@@ -346,7 +346,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -355,13 +355,13 @@
             "value": "\"auto\""
           },
           {
+            "value": "1"
+          },
+          {
             "value": "\"initial\""
           },
           {
             "value": "\"none\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -433,19 +433,13 @@
                 "value": "undefined"
               },
               {
-                "value": "\"article\""
-              },
-              {
-                "value": "\"form\""
-              },
-              {
-                "value": "\"main\""
-              },
-              {
                 "value": "\"div\""
               },
               {
                 "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
               },
               {
                 "value": "\"header\""
@@ -458,6 +452,12 @@
               },
               {
                 "value": "\"aside\""
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
               },
               {
                 "value": "\"ul\""
@@ -489,13 +489,10 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "4 | 1 | \"full\" | 2 | 3 | 6 | 12 | undefined",
+            "raw": "1 | \"full\" | 2 | 3 | 4 | 6 | 12 | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "4"
               },
               {
                 "value": "1"
@@ -508,6 +505,9 @@
               },
               {
                 "value": "3"
+              },
+              {
+                "value": "4"
               },
               {
                 "value": "6"
@@ -536,13 +536,10 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "4 | 1 | 2 | 3 | undefined",
+            "raw": "1 | 2 | 3 | 4 | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "4"
               },
               {
                 "value": "1"
@@ -552,6 +549,9 @@
               },
               {
                 "value": "3"
+              },
+              {
+                "value": "4"
               }
             ]
           },
@@ -590,227 +590,6 @@
           "required": false,
           "type": {
             "name": "Ref<HTMLElement> | undefined"
-          },
-          "shortPropTypeName": null
-        }
-      }
-    },
-    "gridRecipe": {
-      "name": "Grid.gridRecipe",
-      "props": {
-        "columns": {
-          "defaultValue": null,
-          "description": "",
-          "name": "columns",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "4 | 1 | 2 | \"auto-fit\" | \"auto-fill\" | 3 | 5 | 6 | 12 | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "4"
-              },
-              {
-                "value": "1"
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "\"auto-fit\""
-              },
-              {
-                "value": "\"auto-fill\""
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "5"
-              },
-              {
-                "value": "6"
-              },
-              {
-                "value": "12"
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "align": {
-          "defaultValue": null,
-          "description": "",
-          "name": "align",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"center\""
-              },
-              {
-                "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
-              },
-              {
-                "value": "\"baseline\""
-              },
-              {
-                "value": "\"stretch\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "justify": {
-          "defaultValue": null,
-          "description": "",
-          "name": "justify",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"center\""
-              },
-              {
-                "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
-              },
-              {
-                "value": "\"stretch\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "flex": {
-          "defaultValue": null,
-          "description": "",
-          "name": "flex",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"auto\""
-              },
-              {
-                "value": "\"initial\""
-              },
-              {
-                "value": "\"none\""
-              },
-              {
-                "value": "1"
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "gap": {
-          "defaultValue": null,
-          "description": "",
-          "name": "gap",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"none\""
-              },
-              {
-                "value": "\"3xs\""
-              },
-              {
-                "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              },
-              {
-                "value": "\"2xl\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "padding": {
-          "defaultValue": null,
-          "description": "",
-          "name": "padding",
-          "declarations": [],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"none\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              },
-              {
-                "value": "\"2xl\""
-              }
-            ]
           },
           "shortPropTypeName": null
         }

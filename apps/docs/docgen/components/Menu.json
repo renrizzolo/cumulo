@@ -107,16 +107,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -129,6 +126,9 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
               }
             ]
           },
@@ -153,44 +153,6 @@
             "name": "string | undefined"
           },
           "shortPropTypeName": "string | function"
-        },
-        "variant": {
-          "defaultValue": null,
-          "description": "",
-          "name": "variant",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"primary\""
-              },
-              {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"secondary\""
-              },
-              {
-                "value": "\"ghost\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
         },
         "width": {
           "defaultValue": null,
@@ -227,6 +189,67 @@
           },
           "shortPropTypeName": null
         },
+        "variant": {
+          "defaultValue": null,
+          "description": "",
+          "name": "variant",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"outline\" | \"primary\" | \"default\" | \"secondary\" | \"ghost\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"outline\""
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"secondary\""
+              },
+              {
+                "value": "\"ghost\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "disabled": {
+          "defaultValue": null,
+          "description": "",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
         "intent": {
           "defaultValue": null,
           "description": "",
@@ -244,7 +267,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -253,13 +276,13 @@
                 "value": "\"primary\""
               },
               {
+                "value": "\"error\""
+              },
+              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
-              },
-              {
-                "value": "\"error\""
               },
               {
                 "value": "\"info\""
@@ -299,42 +322,6 @@
             ]
           },
           "shortPropTypeName": null
-        },
-        "disabled": {
-          "defaultValue": null,
-          "description": "",
-          "name": "disabled",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLButtonElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
         },
         "loading": {
           "defaultValue": {
@@ -409,6 +396,22 @@
             ]
           },
           "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLButtonElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
         }
       }
     },
@@ -527,16 +530,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               }
             ]
           },
@@ -767,22 +770,6 @@
           },
           "shortPropTypeName": "string | function"
         },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLHRElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        },
         "spacing": {
           "defaultValue": {
             "value": "xs"
@@ -802,16 +789,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -824,10 +808,29 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
               }
             ]
           },
           "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLHRElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
         }
       }
     },
@@ -888,13 +891,33 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
+                "value": "\"default\""
+              },
+              {
                 "value": "\"error\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "variant": {
+          "defaultValue": null,
+          "description": "",
+          "name": "variant",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"default\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
               },
               {
                 "value": "\"default\""

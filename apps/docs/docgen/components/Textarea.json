@@ -22,16 +22,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "raw": "\"inherit\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"inherit\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -44,6 +41,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
           }
         ]
       },
@@ -108,16 +108,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           }
         ]
       },

@@ -12,7 +12,7 @@ const spinKeyframes = keyframes({
   },
 });
 
-export const spinnerRecipe = recipe(
+const spinnerRecipe = recipe(
   {
     base: {
       display: 'inline-block',

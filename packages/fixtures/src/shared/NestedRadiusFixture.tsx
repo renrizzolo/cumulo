@@ -174,10 +174,15 @@ export function NestedRadiusFixture() {
             <Heading as="h2" size="md">
               Padded Child with Auto Radius (Self-Overwrite Regression Test)
             </Heading>
-            <Card data-testid="padded-child-parent" radius="2xl" padding="xs">
+            <Card.Root data-testid="padded-child-parent" radius="2xl" padding="xs">
               <VStack gap="xs">
                 <Text type="label">Parent Card: radius="2xl" (16px), padding="xs" (8px)</Text>
-                <Card data-testid="padded-child-child" variant="primary" radius="auto" padding="lg">
+                <Card.Root
+                  data-testid="padded-child-child"
+                  variant="primary"
+                  radius="auto"
+                  padding="lg"
+                >
                   <VStack gap="xs">
                     <Text type="label">
                       Child Card: radius="auto" (16px - 8px = 8px) with own padding="lg"
@@ -186,9 +191,9 @@ export function NestedRadiusFixture() {
                       <Text type="label">Inner Element inheriting from child</Text>
                     </Surface>
                   </VStack>
-                </Card>
+                </Card.Root>
               </VStack>
-            </Card>
+            </Card.Root>
           </VStack>
         </Surface>
       </VStack>

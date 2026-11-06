@@ -34,22 +34,13 @@ export const switchRecipe = recipe(
   {
     extend: [focusRing, controlIntent],
     base: {
-      display: 'inline-flex',
-      alignItems: 'center',
-      position: 'relative',
       width: switchContract.track.width,
       height: switchContract.track.height,
       borderRadius: vars.radius.full,
       backgroundColor: vars.surface.secondary.DEFAULT,
       borderWidth: switchContract.track.borderWidth,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      cursor: 'pointer',
-      userSelect: 'none',
-      boxSizing: 'border-box',
       transition: `background-color ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}`,
       padding: switchContract.track.padding,
-      flexShrink: 0,
       selectors: {
         '&:has(input:hover)': {
           backgroundColor: vars.surface.secondary.hover,
@@ -57,27 +48,6 @@ export const switchRecipe = recipe(
       },
     },
     variants: {
-      checked: {
-        true: {
-          backgroundColor: vars.primary.DEFAULT,
-          borderColor: vars.primary.DEFAULT,
-          selectors: {
-            '&:has(input:hover)': {
-              backgroundColor: vars.primary.hover,
-              borderColor: vars.primary.hover,
-            },
-          },
-        },
-        false: {},
-      },
-      disabled: {
-        true: {
-          opacity: 0.5,
-          cursor: 'not-allowed',
-          pointerEvents: 'none',
-        },
-        false: {},
-      },
       size: {
         sm: switchContract.$set({
           track: {
@@ -115,16 +85,13 @@ export const switchRecipe = recipe(
       },
     },
     defaultVariants: {
-      checked: false,
-      disabled: false,
-      intent: 'default',
       size: 'md',
     },
   },
   'switch',
 );
 
-export const switchThumbRecipe = recipe(
+const switchThumbRecipe = recipe(
   {
     base: {
       display: 'block',

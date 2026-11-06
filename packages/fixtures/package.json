@@ -36,7 +36,6 @@
     "playwright": "^1.62.1",
     "rollup": "^4.63.1",
     "rollup-plugin-esbuild": "^6.2.1",
-    "style-loader": "^4.0.0",
     "typescript": "^5.8.2",
     "vite": "^8.2.2",
     "vitest": "^5.0.0",

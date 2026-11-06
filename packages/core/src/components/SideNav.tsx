@@ -697,15 +697,10 @@ function SideNavGroup({
 
 SideNavGroup.displayName = 'SideNav.Group';
 
-const SideNavGroupCompound = Object.assign(SideNavGroup, {
-  Trigger: SideNavGroupTrigger,
-  Content: SideNavGroupContent,
-});
-
 export {
   SideNavRoot as Root,
   SideNavItem as Item,
-  SideNavGroupCompound as Group,
+  SideNavGroup as Group,
   SideNavGroupTrigger as GroupTrigger,
   SideNavGroupContent as GroupContent,
 };

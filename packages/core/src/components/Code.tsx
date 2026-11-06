@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { textBase, wrapStyles } from '../typography.js';
 
-export const codeRecipe = recipe(
+const codeRecipe = recipe(
   {
     extend: [wrapStyles],
     base: {

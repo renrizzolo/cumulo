@@ -57,7 +57,7 @@ function isDistArtifact(fileName: string): boolean {
   return fileName.endsWith('.mjs') || fileName.endsWith('.cjs') || fileName.endsWith('.css');
 }
 
-export function discoverTargets(baseDir: string = defaultRootDir): TargetDefinition[] {
+function discoverTargets(baseDir: string = defaultRootDir): TargetDefinition[] {
   const targets: TargetDefinition[] = [];
 
   function addFilesInDir({
@@ -161,7 +161,7 @@ export function discoverTargets(baseDir: string = defaultRootDir): TargetDefinit
   return targets;
 }
 
-export function measureFile(absolutePath: string): BundleMetrics | null {
+function measureFile(absolutePath: string): BundleMetrics | null {
   if (!fs.existsSync(absolutePath)) {
     return null;
   }

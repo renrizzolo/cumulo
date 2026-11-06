@@ -183,16 +183,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"primary\" | \"default\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
+                "value": "\"outline\""
+              },
+              {
                 "value": "\"primary\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"default\""
               },
               {
                 "value": "\"secondary\""
@@ -221,7 +224,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -230,13 +233,13 @@
                 "value": "\"primary\""
               },
               {
+                "value": "\"error\""
+              },
+              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
-              },
-              {
-                "value": "\"error\""
               },
               {
                 "value": "\"info\""
@@ -262,16 +265,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -284,6 +284,9 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
               }
             ]
           },
@@ -372,7 +375,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"dialog\" \n|  \"menu\" \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"listbox\" \n|  \"tree\" \n|  undefined\n"
+            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },
@@ -433,7 +436,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"button\" | \"submit\" | \"reset\" | undefined",
+            "raw": "\"button\" | \"reset\" | \"submit\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -442,10 +445,10 @@
                 "value": "\"button\""
               },
               {
-                "value": "\"submit\""
+                "value": "\"reset\""
               },
               {
-                "value": "\"reset\""
+                "value": "\"submit\""
               }
             ]
           },
@@ -736,16 +739,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"dialog\" | \"alertdialog\" | undefined",
+            "raw": "\"alertdialog\" | \"dialog\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"dialog\""
+                "value": "\"alertdialog\""
               },
               {
-                "value": "\"alertdialog\""
+                "value": "\"dialog\""
               }
             ]
           },
@@ -849,16 +852,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"primary\" | \"default\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
+                "value": "\"outline\""
+              },
+              {
                 "value": "\"primary\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"default\""
               },
               {
                 "value": "\"secondary\""
@@ -887,7 +893,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -896,13 +902,13 @@
                 "value": "\"primary\""
               },
               {
+                "value": "\"error\""
+              },
+              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
-              },
-              {
-                "value": "\"error\""
               },
               {
                 "value": "\"info\""
@@ -930,16 +936,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -952,6 +955,9 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
               }
             ]
           },

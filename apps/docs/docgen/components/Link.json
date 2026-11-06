@@ -22,16 +22,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"subtle\" | \"plain\" | undefined",
+        "raw": "\"subtle\" | \"default\" | \"plain\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"subtle\""
           },
           {
-            "value": "\"subtle\""
+            "value": "\"default\""
           },
           {
             "value": "\"plain\""
@@ -57,19 +57,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"medium\""
           },
           {
             "value": "\"normal\""
           },
           {
             "value": "\"bold\""
+          },
+          {
+            "value": "\"medium\""
           },
           {
             "value": "\"semibold\""

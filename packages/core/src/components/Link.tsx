@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import { focusRing } from '../intents.js';
 import { textSharedRecipe } from '../typography.js';
 
-export const linkRecipe = recipe(
+const linkRecipe = recipe(
   {
     extend: [focusRing, textSharedRecipe],
     base: {

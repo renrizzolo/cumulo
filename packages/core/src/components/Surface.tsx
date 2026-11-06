@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 
-export const surfaceRecipe = recipe(
+const surfaceRecipe = recipe(
   {
     extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
     base: {

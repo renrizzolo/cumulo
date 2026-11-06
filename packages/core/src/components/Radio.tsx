@@ -17,7 +17,7 @@ import type { ValueGroupContextBase } from '../hooks/useValueGroup.js';
 
 export type RadioGroupOrientation = 'horizontal' | 'vertical';
 
-export const radioContract = createThemeContract({
+const radioContract = createThemeContract({
   size: null,
 });
 
@@ -29,22 +29,13 @@ export const radioRecipe = recipe(
   {
     extend: [focusRing, controlIntent],
     base: {
-      display: 'inline-flex',
-      alignItems: 'center',
       justifyContent: 'center',
-      position: 'relative',
       width: radioContract.size,
       height: radioContract.size,
       borderRadius: vars.radius.full,
       borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
       backgroundColor: vars.surface.bg.DEFAULT,
-      cursor: 'pointer',
-      userSelect: 'none',
-      boxSizing: 'border-box',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
-      flexShrink: 0,
       selectors: {
         '&:has(input:hover)': {
           borderColor: vars.primary.DEFAULT,
@@ -53,27 +44,6 @@ export const radioRecipe = recipe(
       },
     },
     variants: {
-      checked: {
-        true: {
-          backgroundColor: vars.primary.DEFAULT,
-          borderColor: vars.primary.DEFAULT,
-          selectors: {
-            '&:has(input:hover)': {
-              backgroundColor: vars.primary.hover,
-              borderColor: vars.primary.hover,
-            },
-          },
-        },
-        false: {},
-      },
-      disabled: {
-        true: {
-          opacity: 0.5,
-          cursor: 'not-allowed',
-          pointerEvents: 'none',
-        },
-        false: {},
-      },
       size: {
         sm: radioContract.$set({ size: vars.size['3xs'] }),
         md: radioContract.$set({ size: vars.size['2xs'] }),
@@ -81,9 +51,6 @@ export const radioRecipe = recipe(
       },
     },
     defaultVariants: {
-      checked: false,
-      disabled: false,
-      intent: 'default',
       size: 'md',
     },
   },

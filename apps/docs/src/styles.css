@@ -20,9 +20,6 @@ html {
   --color-error-base: oklch(63.7% 0.237 25.331);
   --color-info-base: oklch(71.5% 0.143 215.221);
   --color-grey-base: oklch(55.3% 0.013 58.071);
-
-  --theme-chroma-scale: 1;
-  --theme-contrast-scale: 0.95;
 }
 
 a {

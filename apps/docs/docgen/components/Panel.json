@@ -215,13 +215,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"none\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"none\""
           },
           {
             "value": "\"xs\""
@@ -237,6 +234,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"none\""
           },
           {
             "value": "\"2xl\""
@@ -279,6 +279,9 @@
             "value": "\"section\""
           },
           {
+            "value": "\"aside\""
+          },
+          {
             "value": "\"header\""
           },
           {
@@ -286,9 +289,6 @@
           },
           {
             "value": "\"nav\""
-          },
-          {
-            "value": "\"aside\""
           }
         ]
       },
