@@ -36,9 +36,7 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom fallback initials when provided', () => {
-    render(
-      <Avatar fallback="CT" aria-label="Custom Tech" />
-    );
+    render(<Avatar fallback="CT" aria-label="Custom Tech" />);
 
     expect(screen.getByRole('img', { name: 'Custom Tech' })).toBeInTheDocument();
     expect(screen.getByText('CT')).toBeInTheDocument();

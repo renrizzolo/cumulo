@@ -35,6 +35,7 @@ export {
   useAvatar,
   useAvatarGroup,
   getInitials,
+  type AvatarProps,
   type AvatarRootProps,
   type AvatarImageProps,
   type AvatarFallbackProps,
