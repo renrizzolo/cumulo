@@ -68,6 +68,20 @@ describe('Avatar Component', () => {
     expect(screen.getByRole('status', { name: 'Status: online' })).toBeInTheDocument();
   });
 
+  it('supports individual named subcomponents AvatarFallback, AvatarBadge, and AvatarImage', () => {
+    render(
+      <Avatar aria-label="Standalone Parts">
+        <AvatarFallback name="Standalone Parts" />
+        <AvatarBadge status="online" />
+        <AvatarImage src="" alt="Standalone Parts" />
+      </Avatar>,
+    );
+
+    expect(screen.getByRole('img', { name: 'Standalone Parts' })).toBeInTheDocument();
+    expect(screen.getByText('SP')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Status: online' })).toBeInTheDocument();
+  });
+
   it('renders status indicators with appropriate accessible name', () => {
     const { rerender } = render(
       <Avatar.Root aria-label="User">

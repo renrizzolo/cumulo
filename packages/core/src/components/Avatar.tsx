@@ -3,7 +3,6 @@
 import React, {
   createContext,
   useContext,
-  useId,
   useMemo,
   useState,
   useEffect,
@@ -13,7 +12,6 @@ import React, {
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { useMergeRefs } from '../hooks/useMergeRefs.js';
 
 export const avatarRecipe = recipe(
   {
@@ -381,15 +379,13 @@ function AvatarRoot({
   const size = sizeProp ?? group?.size ?? 'md';
   const shape = shapeProp ?? group?.shape ?? 'circle';
 
+  const [prevSrc, setPrevSrc] = useState(src);
   const [status, setStatus] = useState<ImageLoadingStatus>(src ? 'loading' : 'idle');
 
-  useEffect(() => {
-    if (src) {
-      setStatus('loading');
-    } else {
-      setStatus('idle');
-    }
-  }, [src]);
+  if (src !== prevSrc) {
+    setPrevSrc(src);
+    setStatus(src ? 'loading' : 'idle');
+  }
 
   const contextValue = useMemo(
     (): AvatarContextValue => ({
@@ -410,6 +406,7 @@ function AvatarRoot({
     <AvatarContext.Provider value={contextValue}>
       <div
         ref={ref}
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
         role="img"
         aria-label={accessibleLabel}
         className={cx(classes, group ? avatarGroupItemStyle : undefined, className)}
@@ -461,7 +458,11 @@ function AvatarImage({
       return;
     }
 
-    const image = new Image();
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const image = new window.Image();
     image.src = src;
 
     if (image.complete) {
@@ -475,24 +476,32 @@ function AvatarImage({
       return;
     }
 
-    image.onload = () => {
+    const handleLoad = (): void => {
       setStatus('loaded');
       onLoadingStatusChange?.('loaded');
     };
 
-    image.onerror = () => {
+    const handleError = (): void => {
       setStatus('error');
       onLoadingStatusChange?.('error');
     };
+
+    image.addEventListener('load', handleLoad);
+    image.addEventListener('error', handleError);
+
+    return () => {
+      image.removeEventListener('load', handleLoad);
+      image.removeEventListener('error', handleError);
+    };
   }, [src, setStatus, onLoadingStatusChange]);
 
-  const handleLoad = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
+  const handleNativeLoad = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
     setStatus('loaded');
     onLoadingStatusChange?.('loaded');
     onLoad?.(event);
   };
 
-  const handleError = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
+  const handleNativeError = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
     setStatus('error');
     onLoadingStatusChange?.('error');
     onError?.(event);
@@ -507,8 +516,8 @@ function AvatarImage({
       ref={ref}
       src={src}
       alt={alt}
-      onLoad={handleLoad}
-      onError={handleError}
+      onLoad={handleNativeLoad}
+      onError={handleNativeError}
       className={cx(avatarImageStyle, className)}
       {...props}
     />
@@ -582,6 +591,7 @@ function AvatarBadge({
   return (
     <span
       ref={ref}
+      // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
       role="status"
       aria-label={`Status: ${status}`}
       className={cx(classes, className)}
@@ -650,6 +660,7 @@ function AvatarGroup({
     <AvatarGroupContext.Provider value={groupContextValue}>
       <div
         ref={ref}
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role
         role="group"
         className={cx(avatarGroupStyle, className)}
         style={groupStyle}
