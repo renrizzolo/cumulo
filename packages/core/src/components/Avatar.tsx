@@ -689,6 +689,7 @@ export {
 
 export {
   AvatarRoot as Avatar,
+  AvatarRoot,
   AvatarImage,
   AvatarFallback,
   AvatarBadge,
@@ -696,6 +697,7 @@ export {
 };
 
 export type {
+  AvatarRootProps,
   AvatarRootProps as RootProps,
   AvatarImageProps as ImageProps,
   AvatarFallbackProps as FallbackProps,

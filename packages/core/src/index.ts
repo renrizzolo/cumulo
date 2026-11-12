@@ -27,10 +27,6 @@ export {
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
 export * as Avatar from './components/Avatar.js';
 export {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-  AvatarBadge,
   AvatarGroup,
   useAvatar,
   useAvatarGroup,

@@ -1,5 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Avatar, AvatarGroup, HStack, VStack } from '@cumulo/core';
+import { HStack, VStack } from '@cumulo/core';
+import * as Avatar from '@cumulo/core/components/Avatar';
+import { AvatarGroup } from '@cumulo/core/components/Avatar';
 export default Layout;
 
 # Avatar
@@ -10,36 +12,38 @@ Avatars represent user identities, organization profiles, and account representa
 import { Avatar, AvatarGroup } from '@cumulo/core';
 ```
 
+<RscAlert component="Avatar" />
+
 ### Examples
 
 <ComponentPreview title="Basic Avatars & Initials">
   <HStack gap="md" align="center" wrap="wrap">
-    <Avatar name="Grace Hopper" />
-    <Avatar name="Ada Lovelace" />
-    <Avatar name="Alan Turing" />
-    <Avatar fallback="CT" />
-    <Avatar aria-label="Anonymous User" />
+    <Avatar.Root name="Grace Hopper" />
+    <Avatar.Root name="Ada Lovelace" />
+    <Avatar.Root name="Alan Turing" />
+    <Avatar.Root fallback="CT" />
+    <Avatar.Root aria-label="Anonymous User" />
   </HStack>
 </ComponentPreview>
 
 <ComponentPreview title="Sizes">
   <HStack gap="md" align="center" wrap="wrap">
-    <Avatar size="2xs" name="Grace Hopper" />
-    <Avatar size="xs" name="Grace Hopper" />
-    <Avatar size="sm" name="Grace Hopper" />
-    <Avatar size="md" name="Grace Hopper" />
-    <Avatar size="lg" name="Grace Hopper" />
-    <Avatar size="xl" name="Grace Hopper" />
+    <Avatar.Root size="2xs" name="Grace Hopper" />
+    <Avatar.Root size="xs" name="Grace Hopper" />
+    <Avatar.Root size="sm" name="Grace Hopper" />
+    <Avatar.Root size="md" name="Grace Hopper" />
+    <Avatar.Root size="lg" name="Grace Hopper" />
+    <Avatar.Root size="xl" name="Grace Hopper" />
   </HStack>
 </ComponentPreview>
 
 <ComponentPreview title="Shapes & Colors">
   <HStack gap="md" align="center" wrap="wrap">
-    <Avatar shape="circle" color="blue" name="Blue Ocean" />
-    <Avatar shape="rounded" color="green" name="Green Field" />
-    <Avatar shape="square" color="purple" name="Purple Sky" />
-    <Avatar shape="rounded" color="yellow" name="Yellow Star" />
-    <Avatar shape="circle" color="pink" name="Pink Rose" />
+    <Avatar.Root shape="circle" color="blue" name="Blue Ocean" />
+    <Avatar.Root shape="rounded" color="green" name="Green Field" />
+    <Avatar.Root shape="square" color="purple" name="Purple Sky" />
+    <Avatar.Root shape="rounded" color="yellow" name="Yellow Star" />
+    <Avatar.Root shape="circle" color="pink" name="Pink Rose" />
   </HStack>
 </ComponentPreview>
 
@@ -70,18 +74,18 @@ import { Avatar, AvatarGroup } from '@cumulo/core';
 <ComponentPreview title="Avatar Group">
   <VStack gap="md" align="start">
     <AvatarGroup size="md">
-      <Avatar name="Alice Adams" color="blue" />
-      <Avatar name="Bob Baker" color="green" />
-      <Avatar name="Charlie Clark" color="purple" />
-      <Avatar name="Dana Davis" color="pink" />
+      <Avatar.Root name="Alice Adams" color="blue" />
+      <Avatar.Root name="Bob Baker" color="green" />
+      <Avatar.Root name="Charlie Clark" color="purple" />
+      <Avatar.Root name="Dana Davis" color="pink" />
     </AvatarGroup>
 
     <AvatarGroup size="md" max={3}>
-      <Avatar name="Alice Adams" color="blue" />
-      <Avatar name="Bob Baker" color="green" />
-      <Avatar name="Charlie Clark" color="purple" />
-      <Avatar name="Dana Davis" color="pink" />
-      <Avatar name="Evan Evans" color="sky" />
+      <Avatar.Root name="Alice Adams" color="blue" />
+      <Avatar.Root name="Bob Baker" color="green" />
+      <Avatar.Root name="Charlie Clark" color="purple" />
+      <Avatar.Root name="Dana Davis" color="pink" />
+      <Avatar.Root name="Evan Evans" color="sky" />
     </AvatarGroup>
   </VStack>
 </ComponentPreview>
@@ -89,4 +93,3 @@ import { Avatar, AvatarGroup } from '@cumulo/core';
 ### Component API
 
 <PropsTable />
-

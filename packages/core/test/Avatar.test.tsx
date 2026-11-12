@@ -2,14 +2,14 @@ import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import * as Avatar from '../src/components/Avatar.js';
 import {
-  Avatar,
   AvatarImage,
   AvatarFallback,
   AvatarBadge,
   AvatarGroup,
   getInitials,
-} from '../src/index.js';
+} from '../src/components/Avatar.js';
 
 describe('getInitials helper', () => {
   it('extracts two uppercase initials from multi-word names', () => {
@@ -28,7 +28,7 @@ describe('getInitials helper', () => {
 
 describe('Avatar Component', () => {
   it('renders role="img" and accessible label from name or alt', () => {
-    render(<Avatar name="Grace Hopper" />);
+    render(<Avatar.Root name="Grace Hopper" />);
 
     const avatar = screen.getByRole('img', { name: 'Grace Hopper' });
     expect(avatar).toBeInTheDocument();
@@ -36,14 +36,14 @@ describe('Avatar Component', () => {
   });
 
   it('renders custom fallback initials when provided', () => {
-    render(<Avatar fallback="CT" aria-label="Custom Tech" />);
+    render(<Avatar.Root fallback="CT" aria-label="Custom Tech" />);
 
     expect(screen.getByRole('img', { name: 'Custom Tech' })).toBeInTheDocument();
     expect(screen.getByText('CT')).toBeInTheDocument();
   });
 
   it('renders SVG placeholder icon when neither name nor initials are provided', () => {
-    const { container } = render(<Avatar aria-label="Anonymous User" />);
+    const { container } = render(<Avatar.Root aria-label="Anonymous User" />);
 
     expect(screen.getByRole('img', { name: 'Anonymous User' })).toBeInTheDocument();
     const svg = container.querySelector('svg');
@@ -68,11 +68,11 @@ describe('Avatar Component', () => {
 
   it('supports individual named subcomponents AvatarFallback, AvatarBadge, and AvatarImage', () => {
     render(
-      <Avatar aria-label="Standalone Parts">
+      <Avatar.Root aria-label="Standalone Parts">
         <AvatarFallback name="Standalone Parts" />
         <AvatarBadge status="online" />
         <AvatarImage src="" alt="Standalone Parts" />
-      </Avatar>,
+      </Avatar.Root>,
     );
 
     expect(screen.getByRole('img', { name: 'Standalone Parts' })).toBeInTheDocument();
@@ -103,8 +103,8 @@ describe('AvatarGroup Component', () => {
   it('renders avatars inside a group role', () => {
     render(
       <AvatarGroup>
-        <Avatar name="Alice Adams" />
-        <Avatar name="Bob Baker" />
+        <Avatar.Root name="Alice Adams" />
+        <Avatar.Root name="Bob Baker" />
       </AvatarGroup>,
     );
 
@@ -116,10 +116,10 @@ describe('AvatarGroup Component', () => {
   it('truncates avatars when max is exceeded and displays +N overflow', () => {
     render(
       <AvatarGroup max={2}>
-        <Avatar name="Alice Adams" />
-        <Avatar name="Bob Baker" />
-        <Avatar name="Charlie Clark" />
-        <Avatar name="Dana Davis" />
+        <Avatar.Root name="Alice Adams" />
+        <Avatar.Root name="Bob Baker" />
+        <Avatar.Root name="Charlie Clark" />
+        <Avatar.Root name="Dana Davis" />
       </AvatarGroup>,
     );
 
