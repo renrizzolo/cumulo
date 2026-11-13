@@ -398,7 +398,7 @@ function AvatarRoot({
   const classes = avatarRecipe({ size, shape, color });
   const accessibleLabel = alt ?? name ?? 'Avatar';
 
-  const hasDirectConfig = Boolean(src || name || fallback);
+  const hasDirectConfig = Boolean(src || name || fallback || !children);
 
   return (
     <AvatarContext.Provider value={contextValue}>
