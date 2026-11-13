@@ -3,13 +3,7 @@ import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import * as Avatar from '../src/components/Avatar.js';
-import {
-  AvatarImage,
-  AvatarFallback,
-  AvatarBadge,
-  AvatarGroup,
-  getInitials,
-} from '../src/components/Avatar.js';
+import { AvatarGroup, getInitials } from '../src/components/Avatar.js';
 
 describe('getInitials helper', () => {
   it('extracts two uppercase initials from multi-word names', () => {
@@ -66,12 +60,12 @@ describe('Avatar Component', () => {
     expect(screen.getByRole('status', { name: 'Status: online' })).toBeInTheDocument();
   });
 
-  it('supports individual named subcomponents AvatarFallback, AvatarBadge, and AvatarImage', () => {
+  it('supports individual subcomponents Avatar.Fallback, Avatar.Badge, and Avatar.Image', () => {
     render(
       <Avatar.Root aria-label="Standalone Parts">
-        <AvatarFallback name="Standalone Parts" />
-        <AvatarBadge status="online" />
-        <AvatarImage src="" alt="Standalone Parts" />
+        <Avatar.Fallback name="Standalone Parts" />
+        <Avatar.Badge status="online" />
+        <Avatar.Image src="" alt="Standalone Parts" />
       </Avatar.Root>,
     );
 

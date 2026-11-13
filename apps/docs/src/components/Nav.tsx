@@ -473,7 +473,7 @@ export const COMPONENT_SECTIONS: NavSection[] = [
         label: 'Avatar',
         path: '/components/avatar',
         htmlPath: '/components/avatar.html',
-        keywords: ['user', 'profile', 'image', 'initials', 'avatar', 'identity', 'badge', 'group'],
+        keywords: ['user', 'profile', 'image', 'initials', 'avatar', 'badge', 'group'],
       },
       {
         label: 'Badge',
