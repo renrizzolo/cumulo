@@ -66,6 +66,13 @@ const desktopNavContainerStyle = style(
 
 const mobileNavContainerStyle = style({
   selectors: {
+    '&&': {
+      position: 'fixed',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      height: '100dvh',
+    },
     '&[data-visually-collapsed="true"]': {
       visibility: 'hidden',
       pointerEvents: 'none',
