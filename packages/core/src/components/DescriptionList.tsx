@@ -61,13 +61,15 @@ const descriptionListRecipe = recipe(
               gridRow: 'span 2',
               display: 'flex',
               flexDirection: 'column',
-              gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+              gap: `var(--dl-gap-y, ${vars.spacing.sm})`,
             },
           },
         },
       },
       responsive: {
-        true: {},
+        true: {
+          containerType: 'inline-size',
+        },
         false: {},
       },
       gapX: {
@@ -144,7 +146,7 @@ const descriptionListItemRecipe = recipe(
     base: {
       display: 'flex',
       flexDirection: 'column',
-      gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+      gap: `var(--dl-gap-y, ${vars.spacing.sm})`,
       margin: 0,
       padding: 0,
     },
@@ -153,18 +155,18 @@ const descriptionListItemRecipe = recipe(
         vertical: {
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+          gap: `var(--dl-gap-y, ${vars.spacing.sm})`,
         },
         horizontal: {
           gridRow: 'span 2',
           display: 'flex',
           flexDirection: 'column',
-          gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+          gap: `var(--dl-gap-y, ${vars.spacing.sm})`,
           '@supports': {
             '(grid-template-rows: subgrid)': {
               display: 'grid',
               gridTemplateRows: 'subgrid',
-              rowGap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+              rowGap: `var(--dl-gap-y, ${vars.spacing.sm})`,
             },
           },
           '@container': {
@@ -172,7 +174,7 @@ const descriptionListItemRecipe = recipe(
               gridRow: 'auto',
               display: 'flex',
               flexDirection: 'column',
-              gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+              gap: `var(--dl-gap-y, ${vars.spacing.sm})`,
             },
           },
         },

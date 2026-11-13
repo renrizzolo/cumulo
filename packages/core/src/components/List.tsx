@@ -301,7 +301,7 @@ function ListContent({ className, children, ref, ...props }: ListContentProps): 
 }
 
 function ListItem({
-  variant: _variant,
+  variant: variantProp,
   icon,
   iconSize = 'md',
   gap = 'sm',
@@ -310,7 +310,8 @@ function ListItem({
   ref,
   ...props
 }: ListItemProps): React.JSX.Element {
-  const { variant } = useList();
+  const { variant: contextVariant } = useList();
+  const variant = variantProp ?? contextVariant;
 
   let marker: React.ReactNode = null;
   if (icon !== undefined) {

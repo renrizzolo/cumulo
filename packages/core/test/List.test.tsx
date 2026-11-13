@@ -108,4 +108,21 @@ describe('List Component', () => {
     expect(plainItem).toHaveTextContent('Plain item');
     expect(plainItem.querySelector('span[aria-hidden="true"]')).toBeNull();
   });
+
+  it('allows List.Item variant to override List.Root variant', () => {
+    render(
+      <List.Root variant="bullet">
+        <List.Item data-testid="inherited-bullet">Inherited bullet</List.Item>
+        <List.Item variant="plain" data-testid="override-plain">
+          Overridden plain
+        </List.Item>
+      </List.Root>,
+    );
+
+    const inherited = screen.getByTestId('inherited-bullet');
+    expect(inherited.querySelector('span[aria-hidden="true"]')).not.toBeNull();
+
+    const overridden = screen.getByTestId('override-plain');
+    expect(overridden.querySelector('span[aria-hidden="true"]')).toBeNull();
+  });
 });

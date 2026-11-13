@@ -323,15 +323,17 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
     }
   });
 
+  const hasOnTabOut = Boolean(onTabOut);
+
   useEffect(() => {
-    if (!onTabOut || (open !== undefined && !open)) return;
+    if (!hasOnTabOut || (open !== undefined && !open)) return;
 
     const onFocusIn = (e: FocusEvent) => handleDocumentFocusIn(e);
     document.addEventListener('focusin', onFocusIn);
     return () => {
       document.removeEventListener('focusin', onFocusIn);
     };
-  }, [onTabOut, open]);
+  }, [hasOnTabOut, open]);
 
   useEffect(() => {
     const container = ref.current;

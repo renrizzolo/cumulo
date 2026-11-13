@@ -11,7 +11,6 @@ import {
 } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlIntent } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 
 const sliderContract = createThemeContract({
@@ -40,7 +39,6 @@ const sliderTheme = createTheme(sliderContract, {
 
 export const sliderRecipe = recipe(
   {
-    extend: [focusRing, controlIntent],
     base: {
       position: 'relative',
       display: 'inline-flex',
@@ -52,7 +50,6 @@ export const sliderRecipe = recipe(
       cursor: 'pointer',
       userSelect: 'none',
       touchAction: 'none',
-      borderStyle: 'none',
       selectors: {
         '&:has(input:hover:not(:disabled)) [data-slider-thumb]': {
           transform: 'translate(-50%, -50%) scale(1.1)',
@@ -63,6 +60,18 @@ export const sliderRecipe = recipe(
       },
     },
     variants: {
+      disabled: {
+        true: {
+          opacity: 0.5,
+          cursor: 'not-allowed',
+          pointerEvents: 'none',
+        },
+        false: {},
+      },
+      intent: {
+        default: {},
+        error: {},
+      },
       size: {
         sm: sliderContract.$set({
           track: { height: vars.spacing['2xs'] },
@@ -82,6 +91,8 @@ export const sliderRecipe = recipe(
       },
     },
     defaultVariants: {
+      disabled: false,
+      intent: 'default',
       size: 'md',
     },
   },
@@ -234,7 +245,7 @@ export type SliderVariants = RecipeVariants<typeof sliderRecipe>;
 
 export interface SliderProps extends Omit<
   ElementProps<HTMLInputElement>,
-  'size' | 'value' | 'defaultValue'
+  'size' | 'value' | 'defaultValue' | 'type'
 > {
   /** The controlled numeric value of the slider. */
   value?: number;
