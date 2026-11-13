@@ -1,5 +1,11 @@
 # @cumulo/core
 
+## 0.2.0-alpha.1
+
+### Minor Changes
+
+- 877db68: feat: add Avatar and AvatarGroup components with image fallback, initials derivation, status badges, and group stacking
+
 ## 0.2.0-alpha.0
 
 ### Minor Changes
