@@ -13,7 +13,7 @@ import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
-export const avatarRecipe = recipe(
+const avatarRecipe = recipe(
   {
     base: {
       position: 'relative',
@@ -22,7 +22,6 @@ export const avatarRecipe = recipe(
       justifyContent: 'center',
       flexShrink: 0,
       userSelect: 'none',
-      overflow: 'hidden',
       verticalAlign: 'middle',
       fontFamily: vars.font.sans,
       fontWeight: vars.font.weight.medium,
@@ -118,7 +117,7 @@ export const avatarRecipe = recipe(
   'avatar',
 );
 
-export const avatarBadgeRecipe = recipe(
+const avatarBadgeRecipe = recipe(
   {
     base: {
       position: 'absolute',
@@ -265,6 +264,8 @@ export interface AvatarContextValue {
   shape: AvatarShape;
   status: ImageLoadingStatus;
   setStatus: (status: ImageLoadingStatus) => void;
+  name?: string;
+  src?: string;
 }
 
 const AvatarContext = createContext<AvatarContextValue | null>(null);
@@ -277,6 +278,8 @@ export const useAvatar = (): AvatarContextValue => {
       shape: 'circle',
       status: 'idle',
       setStatus: () => {},
+      name: undefined,
+      src: undefined,
     };
   }
   return context;
@@ -391,14 +394,39 @@ function AvatarRoot({
       shape,
       status,
       setStatus,
+      name,
+      src,
     }),
-    [size, shape, status],
+    [size, shape, status, name, src],
   );
 
   const classes = avatarRecipe({ size, shape, color });
   const accessibleLabel = alt ?? name ?? 'Avatar';
 
-  const hasDirectConfig = Boolean(src || name || fallback || !children);
+  const hasChildFallback = React.Children.toArray(children).some((child): boolean => {
+    if (!React.isValidElement(child)) return false;
+    return (
+      child.type === AvatarFallback ||
+      (typeof child.type === 'function' &&
+        'displayName' in child.type &&
+        child.type.displayName === 'Avatar.Fallback')
+    );
+  });
+
+  const hasChildImage = React.Children.toArray(children).some((child): boolean => {
+    if (!React.isValidElement(child)) return false;
+    return (
+      child.type === AvatarImage ||
+      (typeof child.type === 'function' &&
+        'displayName' in child.type &&
+        child.type.displayName === 'Avatar.Image')
+    );
+  });
+
+  const shouldRenderDirectImage = Boolean(src && !hasChildImage);
+  const shouldRenderDirectFallback = Boolean(
+    (fallback !== undefined || name || (!children && !src)) && !hasChildFallback,
+  );
 
   return (
     <AvatarContext.Provider value={contextValue}>
@@ -410,17 +438,13 @@ function AvatarRoot({
         className={cx(classes, group ? avatarGroupItemStyle : undefined, className)}
         {...props}
       >
-        {hasDirectConfig ? (
-          <>
-            {src && <AvatarImage src={src} alt={accessibleLabel} />}
-            <AvatarFallback name={name}>
-              {fallback ?? (name ? getInitials(name) : undefined)}
-            </AvatarFallback>
-            {children}
-          </>
-        ) : (
-          children
+        {shouldRenderDirectImage && <AvatarImage src={src} alt={accessibleLabel} />}
+        {shouldRenderDirectFallback && (
+          <AvatarFallback name={name}>
+            {fallback ?? (name ? getInitials(name) : undefined)}
+          </AvatarFallback>
         )}
+        {children}
       </div>
     </AvatarContext.Provider>
   );
@@ -526,19 +550,20 @@ export interface AvatarFallbackProps extends ElementProps<HTMLSpanElement> {
 }
 
 function AvatarFallback({
-  name,
+  name: nameProp,
   className,
   children,
   ref,
   ...props
 }: AvatarFallbackProps): React.JSX.Element | null {
-  const { status } = useAvatar();
+  const { status, name: contextName } = useAvatar();
 
   if (status === 'loaded') {
     return null;
   }
 
-  const content = children ?? (name ? getInitials(name) : <DefaultAvatarIcon />);
+  const resolvedName = nameProp ?? contextName;
+  const content = children ?? (resolvedName ? getInitials(resolvedName) : <DefaultAvatarIcon />);
 
   return (
     <span ref={ref} aria-hidden="true" className={cx(avatarFallbackStyle, className)} {...props}>

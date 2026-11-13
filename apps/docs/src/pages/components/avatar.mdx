@@ -1,7 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
 import { HStack, VStack } from '@cumulo/core';
 import * as Avatar from '@cumulo/core/components/Avatar';
-import { AvatarGroup } from '@cumulo/core/components/Avatar';
+import avatarDoc from '../../../docgen/components/Avatar.json';
 export default Layout;
 
 # Avatar
@@ -50,22 +50,18 @@ import { Avatar, AvatarGroup } from '@cumulo/core';
 <ComponentPreview title="Status Badges">
   <HStack gap="lg" align="center" wrap="wrap">
     <Avatar.Root size="md" name="Alice Walker">
-      <Avatar.Fallback name="Alice Walker" />
       <Avatar.Badge status="online" />
     </Avatar.Root>
 
     <Avatar.Root size="md" name="Bob Smith">
-      <Avatar.Fallback name="Bob Smith" />
       <Avatar.Badge status="away" />
     </Avatar.Root>
 
     <Avatar.Root size="md" name="Charlie Brown">
-      <Avatar.Fallback name="Charlie Brown" />
       <Avatar.Badge status="busy" />
     </Avatar.Root>
 
     <Avatar.Root size="md" name="Diana Prince">
-      <Avatar.Fallback name="Diana Prince" />
       <Avatar.Badge status="offline" />
     </Avatar.Root>
 
@@ -74,24 +70,24 @@ import { Avatar, AvatarGroup } from '@cumulo/core';
 
 <ComponentPreview title="Avatar Group">
   <VStack gap="md" align="start">
-    <AvatarGroup size="md">
+    <Avatar.Group size="md">
       <Avatar.Root name="Alice Adams" color="blue" />
       <Avatar.Root name="Bob Baker" color="green" />
       <Avatar.Root name="Charlie Clark" color="purple" />
       <Avatar.Root name="Dana Davis" color="pink" />
-    </AvatarGroup>
+    </Avatar.Group>
 
-    <AvatarGroup size="md" max={3}>
+    <Avatar.Group size="md" max={3}>
       <Avatar.Root name="Alice Adams" color="blue" />
       <Avatar.Root name="Bob Baker" color="green" />
       <Avatar.Root name="Charlie Clark" color="purple" />
       <Avatar.Root name="Dana Davis" color="pink" />
       <Avatar.Root name="Evan Evans" color="sky" />
-    </AvatarGroup>
+    </Avatar.Group>
 
   </VStack>
 </ComponentPreview>
 
 ### Component API
 
-<PropsTable />
+<PropsTable data={avatarDoc} />

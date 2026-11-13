@@ -91,6 +91,43 @@ describe('Avatar Component', () => {
 
     expect(screen.getByRole('status', { name: 'Status: away' })).toBeInTheDocument();
   });
+
+  it('does not duplicate initials when name is provided on Avatar.Root alongside child subcomponents', () => {
+    const { container } = render(
+      <Avatar.Root name="Alice Walker">
+        <Avatar.Fallback name="Alice Walker" />
+        <Avatar.Badge status="online" />
+      </Avatar.Root>,
+    );
+
+    const fallbacks = container.querySelectorAll('span[aria-hidden="true"]');
+    const initialsSpans = Array.from(fallbacks).filter((el) => el.textContent === 'AW');
+    expect(initialsSpans).toHaveLength(1);
+    expect(screen.getByRole('status', { name: 'Status: online' })).toBeInTheDocument();
+  });
+
+  it('inherits name from context when Avatar.Fallback is rendered without name prop', () => {
+    render(
+      <Avatar.Root name="Dana Davis">
+        <Avatar.Fallback />
+        <Avatar.Badge status="online" />
+      </Avatar.Root>,
+    );
+
+    expect(screen.getByText('DD')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Status: online' })).toBeInTheDocument();
+  });
+
+  it('renders direct shorthand with status badge without duplicating fallback', () => {
+    render(
+      <Avatar.Root name="Bob Smith">
+        <Avatar.Badge status="away" />
+      </Avatar.Root>,
+    );
+
+    expect(screen.getByText('BS')).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'Status: away' })).toBeInTheDocument();
+  });
 });
 
 describe('AvatarGroup Component', () => {
@@ -100,6 +137,19 @@ describe('AvatarGroup Component', () => {
         <Avatar.Root name="Alice Adams" />
         <Avatar.Root name="Bob Baker" />
       </AvatarGroup>,
+    );
+
+    expect(screen.getByRole('group')).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Alice Adams' })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: 'Bob Baker' })).toBeInTheDocument();
+  });
+
+  it('supports Avatar.Group compound namespace syntax', () => {
+    render(
+      <Avatar.Group>
+        <Avatar.Root name="Alice Adams" />
+        <Avatar.Root name="Bob Baker" />
+      </Avatar.Group>,
     );
 
     expect(screen.getByRole('group')).toBeInTheDocument();
