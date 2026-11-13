@@ -2270,10 +2270,12 @@ export function LakesideParkIllustration({
     seed,
   } = config;
 
-  const bg = vars.surface.bg.DEFAULT;
-  const g3 = vars.grey['300'];
-  const g4 = vars.grey['400'];
-  const g5 = vars.grey['500'];
+  const bg = vars.bg[0];
+  const g3 = vars.bg[3];
+  const g4 = vars.fg;
+  const cloudFill = vars.bg[2];
+
+  const g5 = vars.fg;
   const op = (v: number): number => clampOpacity(v * inkOpacity);
 
   const lakeTopY = 216 - (lawnRatio - 1) * 36;
@@ -2381,14 +2383,14 @@ export function LakesideParkIllustration({
           </g>
           <path
             d={ly.outline}
-            stroke={g4}
+            stroke={cloudFill}
             strokeOpacity={op(0.45)}
             strokeWidth="0.7"
             strokeLinejoin="round"
           />
           <path
             d={ly.creases}
-            stroke={g4}
+            stroke={cloudFill}
             strokeOpacity={op(0.5)}
             strokeWidth="0.6"
             strokeLinecap="round"
@@ -2622,7 +2624,7 @@ export function LakesideParkIllustration({
           )}
 
           <pattern id="cumulo-ht-water" width="6" height="2.6" patternUnits="userSpaceOnUse">
-            <rect width="6" height="0.8" fill={g4} fillOpacity={op(0.5)} />
+            <rect width="6" height="0.8" fill={g3} fillOpacity={op(0.5)} />
           </pattern>
 
           <linearGradient id="cumulo-sky-grad" x1="0" y1="0" x2="0" y2="1">
@@ -2801,7 +2803,7 @@ export function LakesideParkIllustration({
         {/* 4. LAWN, SHORELINE, TREES & GAME */}
         <g className={parallaxLawnDepthLayerStyle.className}>
           <path d={lawnFill} fill={bg} />
-          <path d={lawnFill} fill="url(#cumulo-ht-lawn)" />
+          {/* <path d={lawnFill} fill="url(#cumulo-ht-lawn)" /> */}
           <path d={stripes} fill="url(#cumulo-ht-lawn-shade)" fillOpacity="0.5" />
           <path d={bankShade} fill="url(#cumulo-ht-lawn-shade)" />
           <path d={contour} stroke={g4} strokeOpacity={op(0.45)} strokeWidth="0.8" />
