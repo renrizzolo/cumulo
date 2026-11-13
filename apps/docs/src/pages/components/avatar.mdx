@@ -1,0 +1,93 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { HStack, VStack } from '@cumulo/core';
+import * as Avatar from '@cumulo/core/components/Avatar';
+import avatarDoc from '../../../docgen/components/Avatar.json';
+export default Layout;
+
+# Avatar
+
+Avatars represent user identities, organization profiles, and account representations with automatic image fallback, initials derivation, status indicators, and group stacking.
+
+```tsx
+import { Avatar, AvatarGroup } from '@cumulo/core';
+```
+
+<RscAlert component="Avatar" />
+
+### Examples
+
+<ComponentPreview title="Basic Avatars & Initials">
+  <HStack gap="md" align="center" wrap="wrap">
+    <Avatar.Root name="Grace Hopper" />
+    <Avatar.Root name="Ada Lovelace" />
+    <Avatar.Root name="Alan Turing" />
+    <Avatar.Root fallback="CT" />
+    <Avatar.Root aria-label="Anonymous User" />
+  </HStack>
+</ComponentPreview>
+
+<ComponentPreview title="Sizes">
+  <HStack gap="md" align="center" wrap="wrap">
+    <Avatar.Root size="2xs" name="Grace Hopper" />
+    <Avatar.Root size="xs" name="Grace Hopper" />
+    <Avatar.Root size="sm" name="Grace Hopper" />
+    <Avatar.Root size="md" name="Grace Hopper" />
+    <Avatar.Root size="lg" name="Grace Hopper" />
+    <Avatar.Root size="xl" name="Grace Hopper" />
+  </HStack>
+</ComponentPreview>
+
+<ComponentPreview title="Shapes & Colors">
+  <HStack gap="md" align="center" wrap="wrap">
+    <Avatar.Root shape="circle" color="blue" name="Blue Ocean" />
+    <Avatar.Root shape="squircle" color="green" name="Green Field" />
+    <Avatar.Root shape="square" color="purple" name="Purple Sky" />
+    <Avatar.Root shape="squircle" color="yellow" name="Yellow Star" />
+    <Avatar.Root shape="circle" color="pink" name="Pink Rose" />
+  </HStack>
+</ComponentPreview>
+
+<ComponentPreview title="Status Badges">
+  <HStack gap="lg" align="center" wrap="wrap">
+    <Avatar.Root size="md" name="Alice Walker">
+      <Avatar.Badge status="online" />
+    </Avatar.Root>
+
+    <Avatar.Root size="md" name="Bob Smith">
+      <Avatar.Badge status="away" />
+    </Avatar.Root>
+
+    <Avatar.Root size="md" name="Charlie Brown">
+      <Avatar.Badge status="busy" />
+    </Avatar.Root>
+
+    <Avatar.Root size="md" name="Diana Prince">
+      <Avatar.Badge status="offline" />
+    </Avatar.Root>
+
+  </HStack>
+</ComponentPreview>
+
+<ComponentPreview title="Avatar Group">
+  <VStack gap="md" align="start">
+    <Avatar.Group size="md">
+      <Avatar.Root name="Alice Adams" color="blue" />
+      <Avatar.Root name="Bob Baker" color="green" />
+      <Avatar.Root name="Charlie Clark" color="purple" />
+      <Avatar.Root name="Dana Davis" color="pink" />
+    </Avatar.Group>
+
+    <Avatar.Group size="md" max={3}>
+      <Avatar.Root name="Alice Adams" color="blue" />
+      <Avatar.Root name="Bob Baker" color="green" />
+      <Avatar.Root name="Charlie Clark" color="purple" />
+      <Avatar.Root name="Dana Davis" color="pink" />
+      <Avatar.Root name="Evan Evans" color="sky" />
+    </Avatar.Group>
+
+  </VStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={avatarDoc} />

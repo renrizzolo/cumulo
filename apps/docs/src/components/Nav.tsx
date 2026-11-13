@@ -485,6 +485,12 @@ const COMPONENT_SECTIONS: NavSection[] = [
         keywords: ['banner', 'callout', 'notice', 'warning', 'error', 'status', 'feedback'],
       },
       {
+        label: 'Avatar',
+        path: '/components/avatar',
+        htmlPath: '/components/avatar.html',
+        keywords: ['user', 'profile', 'image', 'initials', 'avatar', 'badge', 'group'],
+      },
+      {
         label: 'Badge',
         path: '/components/badge',
         htmlPath: '/components/badge.html',
