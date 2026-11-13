@@ -31,11 +31,7 @@ jobs:
         run: pnpm lint
 
       - name: Check formatting
-        run: |
-          pnpm format
-          B64DIFF=$(git diff | base64 -w 0)
-          echo "::error title=b64diff::$B64DIFF"
-          pnpm format:check
+        run: pnpm format:check
 
       - name: Build packages & apps
         run: pnpm build
