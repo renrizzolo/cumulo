@@ -33,7 +33,7 @@ const selectRecipe = recipe(
       cursor: 'pointer',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':disabled': {
@@ -97,7 +97,7 @@ const selectRecipe = recipe(
           cursor: 'not-allowed',
         },
         '& option::checkmark': {
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
           fontWeight: vars.font.weight.bold,
         },
         '& optgroup': {
@@ -136,9 +136,9 @@ const selectRecipe = recipe(
         default: {},
         error: {},
         success: {
-          borderColor: vars.success.bg,
+          borderColor: vars.success['600'],
           ':focus-visible': {
-            borderColor: vars.success.bg,
+            borderColor: vars.success['600'],
           },
         },
       },

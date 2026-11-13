@@ -20,7 +20,7 @@ export const checkboxRecipe = recipe(
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       selectors: {
         '&:has(input:hover)': {
-          borderColor: vars.primary.DEFAULT,
+          borderColor: vars.primary['600'],
           backgroundColor: vars.surface.bg.next,
         },
       },
@@ -32,7 +32,7 @@ export const checkboxRecipe = recipe(
         },
         false: {
           // shows the indeterminate icon in the primary colour
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
         },
       },
       size: {

@@ -25,11 +25,11 @@ const inputRecipe = recipe(
         color: vars.surface.subtle,
       },
       ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':focus-within': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':disabled': {
@@ -87,6 +87,7 @@ const innerInputStyle = style(
 const adornmentSlotStyle = style(
   {
     display: 'inline-flex',
+    userSelect: 'none',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,

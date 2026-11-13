@@ -348,12 +348,12 @@ export const fieldIntentStyles = recipe(
       intent: {
         default: {},
         error: {
-          borderColor: vars.error.bg,
+          borderColor: vars.error['600'],
           ':focus-visible': {
-            borderColor: vars.error.bg,
+            borderColor: vars.error['600'],
           },
           ':focus-within': {
-            borderColor: vars.error.bg,
+            borderColor: vars.error['600'],
           },
         },
       },
@@ -429,19 +429,19 @@ export const controlIntent = recipe(
       intent: {
         default: {},
         error: {
-          borderColor: vars.error.bg,
+          borderColor: vars.error['600'],
           selectors: {
             '&:has(input:hover)': {
-              borderColor: vars.error.hover,
+              borderColor: vars.error['700'],
             },
           },
           ':focus-visible': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+            borderColor: vars.error['600'],
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['600']}`,
           },
           ':has(:focus-visible)': {
-            borderColor: vars.error.bg,
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error.bg}`,
+            borderColor: vars.error['600'],
+            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['600']}`,
           },
         },
       },
@@ -464,7 +464,7 @@ export const controlIntent = recipe(
       {
         variants: { intent: 'error', checked: false },
         style: {
-          color: vars.error.bg,
+          color: vars.error['600'],
         },
       },
     ],

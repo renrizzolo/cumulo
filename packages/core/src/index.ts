@@ -121,6 +121,8 @@ export { Checkbox, type CheckboxProps, type CheckboxVariants } from './component
 
 export { Switch, type SwitchProps, type SwitchVariants } from './components/Switch.js';
 
+export { Slider, type SliderProps, type SliderVariants } from './components/Slider.js';
+
 export { Textarea, type TextareaProps, type TextareaVariants } from './components/Textarea.js';
 
 export * as Tabs from './components/Tabs.js';

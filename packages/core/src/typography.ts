@@ -36,7 +36,7 @@ export const textColorStyles = recipe(
         default: { color: vars.surface.fg },
         muted: { color: vars.surface.muted },
         subtle: { color: vars.subtle },
-        primary: { color: vars.primary.DEFAULT },
+        primary: { color: vars.primary['600'] },
         error: { color: vars.error.fg },
         success: { color: vars.success.fg },
         warning: { color: vars.warning.fg },

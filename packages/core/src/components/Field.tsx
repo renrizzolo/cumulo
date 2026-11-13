@@ -4,12 +4,13 @@ import React, { createContext, use, useId, useEffect } from 'react';
 import { style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { Stack, VStack, type StackProps, type StackVariants } from './Stack.js';
+import { Stack, type StackProps, type StackVariants } from './Stack.js';
 import { Input, type InputProps } from './Input.js';
 import { Textarea, type TextareaProps } from './Textarea.js';
 import { Root as Select, type RootProps as SelectProps } from './Select.js';
 import { Checkbox, type CheckboxProps } from './Checkbox.js';
 import { Switch, type SwitchProps } from './Switch.js';
+import { Slider, type SliderProps } from './Slider.js';
 import { Label, type LabelProps } from './Label.js';
 import { Radio, type RadioProps } from './Radio.js';
 import { Root as RadioGroupRoot, type RadioGroupRootProps } from './RadioGroup.js';
@@ -48,6 +49,7 @@ interface FieldGroupProps extends StackProps {}
 const fieldDescriptionStyle = style({
   ...textBase,
   fontSize: vars.font.size.xs,
+  lineHeight: vars.line.height.normal,
   color: vars.surface.muted,
   margin: 0,
   fontFamily: vars.font.sans,
@@ -57,8 +59,8 @@ const fieldErrorStyle = style({
   ...textBase,
   fontSize: vars.font.size.sm,
   fontWeight: vars.font.weight.normal,
+  lineHeight: vars.line.height.normal,
   color: vars.error.secondary.fg,
-  width: 'max-content',
   margin: 0,
   fontFamily: vars.font.sans,
 });
@@ -73,6 +75,7 @@ function FieldRoot({
   className,
   children,
   isInvalid,
+  direction = 'column',
   gap = 'sm',
   ref,
   ...props
@@ -96,9 +99,9 @@ function FieldRoot({
 
   return (
     <FieldContext.Provider value={contextValue}>
-      <VStack ref={ref} gap={gap} className={className} {...props}>
+      <Stack ref={ref} direction={direction} gap={gap} className={className} {...props}>
         {children}
-      </VStack>
+      </Stack>
     </FieldContext.Provider>
   );
 }
@@ -279,9 +282,11 @@ function FieldLabel({
   htmlFor: providedHtmlFor,
   ...props
 }: LabelProps): React.JSX.Element {
-  const { registerPart, getPartId, id: fieldId } = useField();
+  const { registerPart, getPartId, hasPart, id: fieldId } = useField();
   const id = providedId || fieldIds.label(fieldId);
-  const htmlFor = providedHtmlFor || getPartId('input') || fieldId;
+  const inputId = getPartId('input');
+  const htmlFor =
+    providedHtmlFor ?? (inputId ? inputId : hasPart('radiogroup') ? undefined : fieldId);
 
   useEffect(() => {
     return registerPart('label', id);
@@ -381,6 +386,35 @@ function FieldSwitch({
   );
 }
 
+function FieldSlider({
+  className,
+  id: providedId,
+  'aria-labelledby': ariaLabelledby,
+  'aria-describedby': ariaDescribedby,
+  intent,
+  ...props
+}: SliderProps): React.JSX.Element {
+  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
+    part: 'input',
+    id: providedId,
+    'aria-labelledby': ariaLabelledby,
+    'aria-describedby': ariaDescribedby,
+    intent: intent === 'error' ? 'error' : 'default',
+  });
+
+  return (
+    <Slider
+      id={id}
+      aria-labelledby={labelledBy}
+      aria-describedby={describedBy}
+      className={className}
+      intent={hasError ? 'error' : (intent ?? resolvedIntent)}
+      aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
+      {...props}
+    />
+  );
+}
+
 function FieldRadio<T extends string = string>({
   className,
   id: providedId,
@@ -389,8 +423,10 @@ function FieldRadio<T extends string = string>({
   intent,
   ...props
 }: RadioProps<T>): React.JSX.Element {
-  const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
-    part: 'input',
+  const { hasPart } = useField();
+  const isInsideRadioGroupField = hasPart('radiogroup');
+  const { id, labelledBy, describedBy, hasError } = useFieldItem({
+    part: isInsideRadioGroupField ? 'radio' : 'input',
     id: providedId,
     'aria-labelledby': ariaLabelledby,
     'aria-describedby': ariaDescribedby,
@@ -399,11 +435,11 @@ function FieldRadio<T extends string = string>({
 
   return (
     <Radio<T>
-      id={id}
-      aria-labelledby={labelledBy}
-      aria-describedby={describedBy}
+      id={isInsideRadioGroupField ? providedId : id}
+      aria-labelledby={isInsideRadioGroupField ? ariaLabelledby : labelledBy}
+      aria-describedby={isInsideRadioGroupField ? ariaDescribedby : describedBy}
       className={className}
-      intent={resolvedIntent}
+      intent={hasError ? 'error' : intent}
       aria-invalid={props['aria-invalid'] ?? (hasError ? true : undefined)}
       {...props}
     />
@@ -419,7 +455,7 @@ function FieldRadioGroup<T extends string = string>({
   ...props
 }: RadioGroupRootProps<T>): React.JSX.Element {
   const { id, labelledBy, describedBy, hasError, resolvedIntent } = useFieldItem({
-    part: 'input',
+    part: 'radiogroup',
     id: providedId,
     'aria-labelledby': ariaLabelledby,
     'aria-describedby': ariaDescribedby,
@@ -445,6 +481,7 @@ FieldSelect.displayName = 'Field.Select';
 FieldTextarea.displayName = 'Field.Textarea';
 FieldCheckbox.displayName = 'Field.Checkbox';
 FieldSwitch.displayName = 'Field.Switch';
+FieldSlider.displayName = 'Field.Slider';
 FieldRadio.displayName = 'Field.Radio';
 FieldRadioGroup.displayName = 'Field.RadioGroup';
 FieldLabel.displayName = 'Field.Label';
@@ -457,6 +494,7 @@ type FieldSelectProps<T extends string = string> = SelectProps<T>;
 type FieldTextareaProps = TextareaProps;
 type FieldCheckboxProps = CheckboxProps;
 type FieldSwitchProps = SwitchProps;
+type FieldSliderProps = SliderProps;
 type FieldRadioProps<T extends string = string> = RadioProps<T>;
 type FieldRadioGroupProps<T extends string = string> = RadioGroupRootProps<T>;
 type FieldLabelProps = LabelProps;
@@ -469,6 +507,7 @@ export {
   FieldTextarea as Textarea,
   FieldCheckbox as Checkbox,
   FieldSwitch as Switch,
+  FieldSlider as Slider,
   FieldRadio as Radio,
   FieldRadioGroup as RadioGroup,
   FieldLabel as Label,
@@ -484,6 +523,7 @@ export type {
   FieldTextareaProps as TextareaProps,
   FieldCheckboxProps as CheckboxProps,
   FieldSwitchProps as SwitchProps,
+  FieldSliderProps as SliderProps,
   FieldRadioProps as RadioProps,
   FieldRadioGroupProps as RadioGroupProps,
   FieldLabelProps as LabelProps,

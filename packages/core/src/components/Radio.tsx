@@ -38,7 +38,7 @@ export const radioRecipe = recipe(
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       selectors: {
         '&:has(input:hover)': {
-          borderColor: vars.primary.DEFAULT,
+          borderColor: vars.primary['600'],
           backgroundColor: vars.surface.bg.next,
         },
       },
