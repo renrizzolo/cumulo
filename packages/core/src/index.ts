@@ -25,6 +25,22 @@ export {
   type TypedSelect,
 } from './components/Select.js';
 export { Badge, type BadgeProps, type BadgeVariants } from './components/Badge.js';
+export * as Avatar from './components/Avatar.js';
+export {
+  AvatarGroup,
+  useAvatar,
+  useAvatarGroup,
+  getInitials,
+  type AvatarVariants,
+  type AvatarSize,
+  type AvatarShape,
+  type AvatarColor,
+  type AvatarBadgeVariants,
+  type AvatarBadgeStatus,
+  type AvatarBadgePlacement,
+  type AvatarContextValue,
+  type AvatarGroupContextValue,
+} from './components/Avatar.js';
 export { Kbd, type KbdProps, type KbdVariants } from './components/Kbd.js';
 export { Link, type LinkProps, type LinkVariants } from './components/Link.js';
 export * as Alert from './components/Alert.js';

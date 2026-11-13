@@ -1,0 +1,414 @@
+{
+  "name": "Avatar.Root",
+  "path": "packages/core/src/components/Avatar.tsx",
+  "fileName": "Avatar.tsx",
+  "props": {
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "Sizing scale of the avatar.",
+      "name": "size",
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "AvatarSize | undefined",
+        "value": [
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": "Union"
+    },
+    "shape": {
+      "defaultValue": {
+        "value": "circle"
+      },
+      "description": "Corner shape geometry.",
+      "name": "shape",
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "AvatarShape | undefined",
+        "value": [
+          {
+            "value": "\"circle\""
+          },
+          {
+            "value": "\"square\""
+          },
+          {
+            "value": "\"squircle\""
+          }
+        ]
+      },
+      "shortPropTypeName": "Union"
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "Palette color for background and text contrast.",
+      "name": "color",
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "AvatarColor | undefined",
+        "value": [
+          {
+            "value": "\"yellow\""
+          },
+          {
+            "value": "\"blue\""
+          },
+          {
+            "value": "\"green\""
+          },
+          {
+            "value": "\"beige\""
+          },
+          {
+            "value": "\"pink\""
+          },
+          {
+            "value": "\"purple\""
+          },
+          {
+            "value": "\"sky\""
+          },
+          {
+            "value": "\"neutral\""
+          }
+        ]
+      },
+      "shortPropTypeName": "Union"
+    },
+    "src": {
+      "defaultValue": null,
+      "description": "Image source URL for direct shorthand syntax.",
+      "name": "src",
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "alt": {
+      "defaultValue": null,
+      "description": "Accessible alt text for image avatar.",
+      "name": "alt",
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "User full name for initials derivation and accessible label.",
+      "name": "name",
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "fallback": {
+      "defaultValue": null,
+      "description": "Custom fallback node (e.g. initials, icon) when image fails or isn't loaded.",
+      "name": "fallback",
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "Slot children for compound usage (Avatar.Image, Avatar.Fallback, Avatar.Badge).",
+      "name": "children",
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      },
+      "shortPropTypeName": null
+    }
+  },
+  "subcomponents": {
+    "Image": {
+      "name": "Avatar.Image",
+      "props": {
+        "src": {
+          "defaultValue": null,
+          "description": "Source URL of the avatar image.",
+          "name": "src",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "alt": {
+          "defaultValue": {
+            "value": "''"
+          },
+          "description": "Alternative text description for screen readers.",
+          "name": "alt",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "onLoadingStatusChange": {
+          "defaultValue": null,
+          "description": "Callback triggered when the image loading status changes.",
+          "name": "onLoadingStatusChange",
+          "required": false,
+          "type": {
+            "name": "((status: ImageLoadingStatus) => void) | undefined"
+          },
+          "shortPropTypeName": "function"
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        }
+      }
+    },
+    "Fallback": {
+      "name": "Avatar.Fallback",
+      "props": {
+        "name": {
+          "defaultValue": null,
+          "description": "User full name used to generate 2-letter uppercase initials when no children are provided.",
+          "name": "name",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "children": {
+          "defaultValue": null,
+          "description": "Custom fallback initials, text, or icon.",
+          "name": "children",
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        }
+      }
+    },
+    "Badge": {
+      "name": "Avatar.Badge",
+      "props": {
+        "status": {
+          "defaultValue": {
+            "value": "online"
+          },
+          "description": "Activity or status intent.",
+          "name": "status",
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarBadgeStatus | undefined",
+            "value": [
+              {
+                "value": "\"online\""
+              },
+              {
+                "value": "\"offline\""
+              },
+              {
+                "value": "\"away\""
+              },
+              {
+                "value": "\"busy\""
+              }
+            ]
+          },
+          "shortPropTypeName": "Union"
+        },
+        "placement": {
+          "defaultValue": {
+            "value": "bottom-right"
+          },
+          "description": "Position placement of the indicator dot relative to the avatar bounds.",
+          "name": "placement",
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarBadgePlacement | undefined",
+            "value": [
+              {
+                "value": "\"bottom-right\""
+              },
+              {
+                "value": "\"top-right\""
+              },
+              {
+                "value": "\"bottom-left\""
+              },
+              {
+                "value": "\"top-left\""
+              }
+            ]
+          },
+          "shortPropTypeName": "Union"
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        }
+      }
+    },
+    "Group": {
+      "name": "Avatar.Group",
+      "props": {
+        "max": {
+          "defaultValue": null,
+          "description": "Maximum number of visible avatars before collapsing into +N count.",
+          "name": "max",
+          "required": false,
+          "type": {
+            "name": "number | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "overlap": {
+          "defaultValue": {
+            "value": "8px"
+          },
+          "description": "Negative margin distance for overlapping avatars.",
+          "name": "overlap",
+          "required": false,
+          "type": {
+            "name": "string | number | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "Unified size applied to all avatars in the group.",
+          "name": "size",
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarSize | undefined",
+            "value": [
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              }
+            ]
+          },
+          "shortPropTypeName": "Union"
+        },
+        "shape": {
+          "defaultValue": null,
+          "description": "Unified corner shape geometry applied to all avatars in the group.",
+          "name": "shape",
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarShape | undefined",
+            "value": [
+              {
+                "value": "\"circle\""
+              },
+              {
+                "value": "\"square\""
+              },
+              {
+                "value": "\"squircle\""
+              }
+            ]
+          },
+          "shortPropTypeName": "Union"
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "children": {
+          "defaultValue": null,
+          "description": "Avatar elements to be stacked together.",
+          "name": "children",
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    }
+  }
+}

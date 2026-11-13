@@ -27,6 +27,12 @@ declare module "@renr/parcel-rsc-router" {
         rsc: "/components/alert.rsc";
         html: "/components/alert.html";
       };
+      "/components/avatar": {
+        slug: "avatar";
+        path: "/components/avatar";
+        rsc: "/components/avatar.rsc";
+        html: "/components/avatar.html";
+      };
       "/components/app-frame": {
         slug: "app-frame";
         path: "/components/app-frame";
@@ -272,6 +278,12 @@ export const flatRoutes = [
     slug: "alert",
     rsc: "/components/alert.rsc",
     html: "/components/alert.html",
+  },
+  {
+    path: "/components/avatar",
+    slug: "avatar",
+    rsc: "/components/avatar.rsc",
+    html: "/components/avatar.html",
   },
   {
     path: "/components/app-frame",
@@ -521,6 +533,13 @@ export const routeTree = {
       slug: "alert",
       html: "/components/alert.html",
       rsc: "/components/alert.rsc",
+      children: [],
+    },
+    {
+      path: "/components/avatar",
+      slug: "avatar",
+      html: "/components/avatar.html",
+      rsc: "/components/avatar.rsc",
       children: [],
     },
     {
@@ -811,6 +830,12 @@ export const routesByPage = {
     slug: "alert",
     rsc: "/components/alert.rsc",
     html: "/components/alert.html",
+  },
+  "/components/avatar.html": {
+    path: "/components/avatar",
+    slug: "avatar",
+    rsc: "/components/avatar.rsc",
+    html: "/components/avatar.html",
   },
   "/components/app-frame.html": {
     path: "/components/app-frame",
