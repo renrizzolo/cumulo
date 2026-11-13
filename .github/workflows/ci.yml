@@ -32,10 +32,9 @@ jobs:
 
       - name: Check formatting
         run: |
-          OUTPUT=$(pnpm format:check 2>&1 || true)
-          DIFF=$(pnpm format && git diff || true)
-          echo "::error title=oxfmt-output::$OUTPUT"
-          echo "::error title=oxfmt-diff::$DIFF"
+          pnpm format
+          B64DIFF=$(git diff | base64 -w 0)
+          echo "::error title=b64diff::$B64DIFF"
           pnpm format:check
 
       - name: Build packages & apps
