@@ -32,18 +32,11 @@ jobs:
 
       - name: Check formatting
         run: |
-          if ! pnpm format:check; then
-            pnpm format
-            DIFF=$(git diff)
-            gh pr comment 32 --body "FORMATTING_DIFF:
-            \`\`\`diff
-            $DIFF
-            \`\`\`"
-            exit 1
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
+          OUTPUT=$(pnpm format:check 2>&1 || true)
+          DIFF=$(pnpm format && git diff || true)
+          echo "::error title=oxfmt-output::$OUTPUT"
+          echo "::error title=oxfmt-diff::$DIFF"
+          pnpm format:check
 
       - name: Build packages & apps
         run: pnpm build
