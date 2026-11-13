@@ -18,11 +18,11 @@ const linkRecipe = recipe(
     variants: {
       variant: {
         default: {
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
           textDecoration: 'underline',
           textUnderlineOffset: '0.2em',
           ':hover': {
-            color: vars.primary.hover,
+            color: vars.primary['700'],
           },
         },
         subtle: {
@@ -38,7 +38,7 @@ const linkRecipe = recipe(
           color: 'inherit',
           textDecoration: 'none',
           ':hover': {
-            color: vars.primary.DEFAULT,
+            color: vars.primary['600'],
           },
         },
       },

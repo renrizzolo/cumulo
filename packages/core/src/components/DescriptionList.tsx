@@ -6,7 +6,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import type { GapVariant } from '../layout.js';
 import { markerIconBase, markerIconSizes } from './List.js';
-import { textBase } from '../typography.js';
+import { Text, type TextProps, type TextVariants } from './Text.js';
 
 const GAP_PRESETS: Record<
   NonNullable<GapVariant>,
@@ -36,6 +36,10 @@ const descriptionListRecipe = recipe(
           gridTemplateColumns: 'auto minmax(0, 1fr)',
           alignItems: 'baseline',
         },
+        horizontal: {
+          gridTemplateColumns: 'auto minmax(0, 1fr)',
+          alignItems: 'baseline',
+        },
         stacked: {
           gridTemplateColumns: 'minmax(0, 1fr)',
           alignItems: 'start',
@@ -45,6 +49,26 @@ const descriptionListRecipe = recipe(
             },
           },
         },
+        'stacked-horizontal': {
+          gridAutoFlow: 'column',
+          gridTemplateRows: 'auto auto',
+          alignItems: 'baseline',
+          selectors: {
+            '& > dt:not(:first-child)': {
+              marginTop: 0,
+            },
+            '& > div': {
+              gridRow: 'span 2',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+            },
+          },
+        },
+      },
+      responsive: {
+        true: {},
+        false: {},
       },
       gapX: {
         none: { columnGap: vars.spacing.none },
@@ -58,23 +82,107 @@ const descriptionListRecipe = recipe(
         '2xl': { columnGap: vars.spacing['2xl'] },
       },
       gapY: {
-        none: { rowGap: vars.spacing.none },
-        '3xs': { rowGap: vars.spacing['3xs'] },
-        '2xs': { rowGap: vars.spacing['2xs'] },
-        xs: { rowGap: vars.spacing.xs },
-        sm: { rowGap: vars.spacing.sm },
-        md: { rowGap: vars.spacing.md },
-        lg: { rowGap: vars.spacing.lg },
-        xl: { rowGap: vars.spacing.xl },
-        '2xl': { rowGap: vars.spacing['2xl'] },
+        none: { rowGap: vars.spacing.none, '--dl-gap-y': vars.spacing.none },
+        '3xs': { rowGap: vars.spacing['3xs'], '--dl-gap-y': vars.spacing['3xs'] },
+        '2xs': { rowGap: vars.spacing['2xs'], '--dl-gap-y': vars.spacing['2xs'] },
+        xs: { rowGap: vars.spacing.xs, '--dl-gap-y': vars.spacing.xs },
+        sm: { rowGap: vars.spacing.sm, '--dl-gap-y': vars.spacing.sm },
+        md: { rowGap: vars.spacing.md, '--dl-gap-y': vars.spacing.md },
+        lg: { rowGap: vars.spacing.lg, '--dl-gap-y': vars.spacing.lg },
+        xl: { rowGap: vars.spacing.xl, '--dl-gap-y': vars.spacing.xl },
+        '2xl': { rowGap: vars.spacing['2xl'], '--dl-gap-y': vars.spacing['2xl'] },
       },
     },
+    compoundVariants: [
+      {
+        variants: { layout: 'default', responsive: true },
+        style: {
+          '@container': {
+            '(max-width: 420px)': {
+              gridTemplateColumns: 'minmax(0, 1fr)',
+              alignItems: 'start',
+            },
+          },
+        },
+      },
+      {
+        variants: { layout: 'horizontal', responsive: true },
+        style: {
+          '@container': {
+            '(max-width: 420px)': {
+              gridTemplateColumns: 'minmax(0, 1fr)',
+              alignItems: 'start',
+            },
+          },
+        },
+      },
+      {
+        variants: { layout: 'stacked-horizontal', responsive: true },
+        style: {
+          '@container': {
+            '(max-width: 420px)': {
+              gridAutoFlow: 'row',
+              gridTemplateColumns: 'minmax(0, 1fr)',
+              gridTemplateRows: 'auto',
+              alignItems: 'start',
+            },
+          },
+        },
+      },
+    ],
     defaultVariants: {
       layout: 'default',
+      responsive: true,
       ...GAP_PRESETS['sm'],
     },
   },
   'description-list',
+);
+
+const descriptionListItemRecipe = recipe(
+  {
+    base: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+      margin: 0,
+      padding: 0,
+    },
+    variants: {
+      orientation: {
+        vertical: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+        },
+        horizontal: {
+          gridRow: 'span 2',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+          '@supports': {
+            '(grid-template-rows: subgrid)': {
+              display: 'grid',
+              gridTemplateRows: 'subgrid',
+              rowGap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+            },
+          },
+          '@container': {
+            '(max-width: 420px)': {
+              gridRow: 'auto',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--dl-gap-y, var(--theme-spacing-sm))',
+            },
+          },
+        },
+      },
+    },
+    defaultVariants: {
+      orientation: 'vertical',
+    },
+  },
+  'description-list-item',
 );
 
 const descriptionListTermStyle = style(
@@ -84,10 +192,6 @@ const descriptionListTermStyle = style(
     gap: vars.spacing.xs,
     margin: 0,
     padding: 0,
-    fontWeight: vars.font.weight.semibold,
-    color: vars.surface.fg,
-    lineHeight: vars.line.height.normal,
-    ...textBase,
   },
   'description-list-term',
 );
@@ -96,11 +200,7 @@ const descriptionListDescriptionStyle = style(
   {
     margin: 0,
     padding: 0,
-    fontWeight: vars.font.weight.normal,
-    color: vars.surface.fg,
-    lineHeight: vars.line.height.normal,
     minWidth: 0,
-    ...textBase,
   },
   'description-list-description',
 );
@@ -119,7 +219,23 @@ const descriptionListIconRecipe = recipe(
 );
 
 export type DescriptionListVariants = RecipeVariants<typeof descriptionListRecipe>;
+export type DescriptionListItemVariants = RecipeVariants<typeof descriptionListItemRecipe>;
 export type DescriptionListIconVariants = RecipeVariants<typeof descriptionListIconRecipe>;
+
+interface DescriptionListContextValue {
+  orientation: 'vertical' | 'horizontal';
+  size?: TextVariants['size'];
+}
+
+const DescriptionListContext = React.createContext<DescriptionListContextValue>({
+  orientation: 'vertical',
+});
+
+function mapFontSizeToIconSize(size?: TextVariants['size']): DescriptionListIconVariants['size'] {
+  if (size === '2xs' || size === 'xs' || size === 'sm') return 'sm';
+  if (size === 'lg' || size === 'xl' || size === '2xl' || size === '3xl') return 'lg';
+  return 'md';
+}
 
 export interface DescriptionListRootProps extends ElementProps<HTMLDListElement> {
   /**
@@ -139,14 +255,37 @@ export interface DescriptionListRootProps extends ElementProps<HTMLDListElement>
   gapY?: GapVariant;
   /**
    * Layout arrangement for the description list.
+   * - `'default'` / `'horizontal'`: Term and description are placed horizontally side-by-side.
+   * - `'stacked'`: Term is placed on top of description.
+   * - `'stacked-horizontal'`: Stacked items (term on top of description) are arranged horizontally in columns.
    * @default 'default'
    */
   layout?: DescriptionListVariants['layout'];
+  /**
+   * Orientation of stacked items when `layout="stacked"`.
+   * When set to `'horizontal'`, stacked items are laid out horizontally in columns.
+   * @default 'vertical'
+   */
+  orientation?: 'vertical' | 'horizontal';
+  /**
+   * Whether horizontal layouts should responsively collapse to stacked on smaller viewports.
+   * @default true
+   */
+  responsive?: boolean;
+  /**
+   * Font size primitive applied to child terms and descriptions.
+   */
+  size?: TextVariants['size'];
   className?: string;
   children?: React.ReactNode;
 }
 
-export interface DescriptionListTermBaseProps extends ElementProps<HTMLElement> {
+export interface DescriptionListItemProps extends ElementProps<HTMLDivElement> {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export interface DescriptionListTermBaseProps extends Omit<TextProps, 'as'> {
   className?: string;
   children?: React.ReactNode;
 }
@@ -171,7 +310,7 @@ export interface DescriptionListTermNoIconProps {
 export type DescriptionListTermProps = DescriptionListTermBaseProps &
   (DescriptionListTermIconProps | DescriptionListTermNoIconProps);
 
-export interface DescriptionListDescriptionProps extends ElementProps<HTMLElement> {
+export interface DescriptionListDescriptionProps extends Omit<TextProps, 'as'> {
   className?: string;
   children?: React.ReactNode;
 }
@@ -190,7 +329,10 @@ function DescriptionListRoot({
   gap,
   gapX,
   gapY,
-  layout,
+  layout = 'default',
+  orientation = 'vertical',
+  responsive = true,
+  size,
   className,
   children,
   ref,
@@ -200,21 +342,58 @@ function DescriptionListRoot({
   const resolvedGapX = gapX ?? preset?.gapX ?? 'lg';
   const resolvedGapY = gapY ?? preset?.gapY ?? 'sm';
 
-  return React.createElement(
-    'dl',
-    {
-      ref,
-      className: cx(
-        descriptionListRecipe({
-          layout,
-          gapX: resolvedGapX,
-          gapY: resolvedGapY,
-        }),
-        className,
-      ),
-      ...props,
-    },
-    children,
+  const isStackedHorizontal =
+    layout === 'stacked-horizontal' || (layout === 'stacked' && orientation === 'horizontal');
+
+  const resolvedLayout: DescriptionListVariants['layout'] = isStackedHorizontal
+    ? 'stacked-horizontal'
+    : layout;
+
+  const resolvedOrientation: 'vertical' | 'horizontal' = isStackedHorizontal
+    ? 'horizontal'
+    : orientation;
+
+  const contextValue = React.useMemo(
+    (): DescriptionListContextValue => ({
+      orientation: resolvedOrientation,
+      size,
+    }),
+    [resolvedOrientation, size],
+  );
+
+  return (
+    <DescriptionListContext value={contextValue}>
+      <dl
+        ref={ref}
+        className={cx(
+          descriptionListRecipe({
+            layout: resolvedLayout,
+            responsive,
+            gapX: resolvedGapX,
+            gapY: resolvedGapY,
+          }),
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </dl>
+    </DescriptionListContext>
+  );
+}
+
+function DescriptionListItem({
+  className,
+  children,
+  ref,
+  ...props
+}: DescriptionListItemProps): React.JSX.Element {
+  const { orientation } = React.useContext(DescriptionListContext);
+
+  return (
+    <div ref={ref} className={cx(descriptionListItemRecipe({ orientation }), className)} {...props}>
+      {children}
+    </div>
   );
 }
 
@@ -239,46 +418,76 @@ function DescriptionListIcon({
 
 function DescriptionListTerm({
   icon,
-  iconSize = 'md',
+  iconSize: iconSizeProp,
+  size: sizeProp,
+  weight: weightProp,
   className,
   children,
   ref,
   ...props
 }: DescriptionListTermProps): React.JSX.Element {
+  const context = React.useContext(DescriptionListContext);
+  const size = sizeProp ?? context.size;
+  const weight = weightProp ?? 'semibold';
+  const iconSize = iconSizeProp ?? mapFontSizeToIconSize(size);
+
   return (
-    <dt ref={ref} className={cx(descriptionListTermStyle, className)} {...props}>
+    <Text
+      as="dt"
+      ref={ref}
+      size={size}
+      weight={weight}
+      className={cx(descriptionListTermStyle, className)}
+      {...props}
+    >
       {icon !== undefined ? (
         <DescriptionListIcon size={iconSize}>{icon}</DescriptionListIcon>
       ) : null}
       {children}
-    </dt>
+    </Text>
   );
 }
 
 function DescriptionListDescription({
+  size: sizeProp,
+  weight: weightProp,
   className,
   children,
   ref,
   ...props
 }: DescriptionListDescriptionProps): React.JSX.Element {
+  const context = React.useContext(DescriptionListContext);
+  const size = sizeProp ?? context.size;
+  const weight = weightProp ?? 'normal';
+
   return (
-    <dd ref={ref} className={cx(descriptionListDescriptionStyle, className)} {...props}>
+    <Text
+      as="dd"
+      ref={ref}
+      size={size}
+      weight={weight}
+      className={cx(descriptionListDescriptionStyle, className)}
+      {...props}
+    >
       {children}
-    </dd>
+    </Text>
   );
 }
 
 DescriptionListRoot.displayName = 'DescriptionList.Root';
+DescriptionListItem.displayName = 'DescriptionList.Item';
 DescriptionListTerm.displayName = 'DescriptionList.Term';
 DescriptionListDescription.displayName = 'DescriptionList.Description';
 DescriptionListIcon.displayName = 'DescriptionList.Icon';
 
 export {
   DescriptionListRoot as Root,
+  DescriptionListItem as Item,
   DescriptionListTerm as Term,
   DescriptionListDescription as Description,
   DescriptionListIcon as Icon,
   DescriptionListRoot,
+  DescriptionListItem,
   DescriptionListTerm,
   DescriptionListDescription,
   DescriptionListIcon,
@@ -286,9 +495,11 @@ export {
 
 export type {
   DescriptionListRootProps as RootProps,
+  DescriptionListItemProps as ItemProps,
   DescriptionListTermProps as TermProps,
   DescriptionListDescriptionProps as DescriptionProps,
   DescriptionListIconProps as IconProps,
   DescriptionListVariants as RootVariants,
+  DescriptionListItemVariants as ItemVariants,
   DescriptionListIconVariants as IconVariants,
 };

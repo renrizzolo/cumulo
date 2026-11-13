@@ -36,7 +36,7 @@ export {
   type AlertVariant,
 } from './components/Alert.js';
 export * as Menu from './components/Menu.js';
-export { useMenu, type MenuContextValue } from './components/Menu.js';
+export { useMenu, type MenuContextValue, type MenuLevel } from './components/Menu.js';
 export {
   ThemeToggle,
   SunIcon,
@@ -97,10 +97,12 @@ export {
 export * as DescriptionList from './components/DescriptionList.js';
 export {
   type DescriptionListRootProps,
+  type DescriptionListItemProps,
   type DescriptionListTermProps,
   type DescriptionListDescriptionProps,
   type DescriptionListIconProps,
   type DescriptionListVariants,
+  type DescriptionListItemVariants,
   type DescriptionListIconVariants,
 } from './components/DescriptionList.js';
 export { Flow, type FlowProps, type FlowVariants } from './components/Flow.js';
@@ -112,7 +114,7 @@ export * as Dialog from './components/Dialog.js';
 export { useDialog, type DialogContextValue } from './components/Dialog.js';
 
 export * as Popover from './components/Popover.js';
-export { usePopover, type PopoverContextValue } from './components/Popover.js';
+export { usePopover, type PopoverContextValue, type PopoverLevel } from './components/Popover.js';
 
 export * as Tooltip from './components/Tooltip.js';
 export { useTooltip, type TooltipContextValue } from './components/Tooltip.js';

@@ -22,13 +22,15 @@ import {
   useDismissible,
   handlePopoverToggleEvent,
   safeHidePopover,
-  safeShowPopover,
   togglePopoverFromTrigger,
 } from '../hooks/useDismissible.js';
+
+export type PopoverLevel = 0 | 1 | 2 | 'inherit';
 
 export interface PopoverContextValue {
   id: string;
   open: boolean;
+  level?: PopoverLevel;
   setOpen: (open: boolean) => void;
   show: () => void;
   hide: () => void;
@@ -57,6 +59,12 @@ interface PopoverProps {
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   /**
+   * Surface elevation level for the popover content.
+   * Can be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.
+   * @default 0
+   */
+  level?: PopoverLevel;
+  /**
    * Delay in milliseconds before opening when triggered by hover or focus.
    * @default 0
    */
@@ -69,6 +77,7 @@ function PopoverRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
+  level = 0,
   delay = 0,
   id: providedId,
   children,
@@ -143,6 +152,7 @@ function PopoverRoot({
     (): PopoverContextValue => ({
       id,
       open,
+      level,
       setOpen,
       show,
       hide,
@@ -151,7 +161,7 @@ function PopoverRoot({
       popoverRef,
       triggerRef,
     }),
-    [id, open, setOpen, show, hide, toggle, close],
+    [id, open, level, setOpen, show, hide, toggle, close],
   );
 
   return <PopoverContext.Provider value={contextValue}>{children}</PopoverContext.Provider>;
@@ -498,6 +508,12 @@ interface PopoverDialogOptions {
    */
   variant?: 'popover';
   /**
+   * Surface elevation level for the popover content.
+   * Overrides the level defined on Popover.Root.
+   * @default 0
+   */
+  level?: PopoverLevel;
+  /**
    * Width and padding size presets for the popover dialog.
    * Tooltip variant does not accept size presets.
    * @default 'md'
@@ -532,6 +548,7 @@ interface PopoverTooltipOptions {
    * Tooltip variant used by `<Tooltip>` under the hood.
    */
   variant: 'tooltip';
+  level?: never;
   size?: never;
   loopFocus?: never;
   closeOnTabOut?: never;
@@ -542,11 +559,13 @@ interface PopoverTooltipOptions {
 function PopoverContent({
   id: providedId,
   variant = 'popover',
+  level: levelProp,
   popover,
   placement = 'bottom-start',
   size = 'md',
   loopFocus = false,
   closeOnTabOut = true,
+  tabIndex,
   role,
   className,
   style,
@@ -555,9 +574,23 @@ function PopoverContent({
   ref,
   ...props
 }: PopoverContentProps): React.JSX.Element {
-  const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopover();
+  const {
+    id: rootId,
+    open,
+    level: contextLevel,
+    close,
+    setOpen,
+    popoverRef,
+    triggerRef,
+  } = usePopover();
   const id = providedId || rootId;
   const isTooltip = variant === 'tooltip';
+
+  const resolvedLevel = isTooltip ? undefined : (levelProp ?? contextLevel ?? 0);
+  const surfaceClass =
+    resolvedLevel !== undefined && resolvedLevel !== 'inherit'
+      ? `surface-${resolvedLevel}`
+      : undefined;
 
   const resolvedPopover = isTooltip ? 'manual' : (popover ?? 'auto');
   const resolvedRole = isTooltip ? 'tooltip' : (role ?? 'dialog');
@@ -581,6 +614,8 @@ function PopoverContent({
     safeHidePopover(popoverRef.current);
   }, [close, popoverRef]);
 
+  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
+
   const focusRef = useFocus<HTMLDivElement>({
     type: 'modality',
     trap: !isTooltip && loopFocus,
@@ -588,9 +623,9 @@ function PopoverContent({
     onEscape: close,
     focusOnMount: !isTooltip && loopFocus,
     restoreFocusOnUnmount: !isTooltip,
+    open,
+    ignoreRefs,
   });
-
-  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
 
   const dismissibleRef = useDismissible<HTMLDivElement>({
     onDismiss: () => {
@@ -600,45 +635,8 @@ function PopoverContent({
     },
     dismissOnClickOutside: !isTooltip,
     ignoreRefs,
+    open,
   });
-
-  // Close popover if focus moves completely outside trigger and popover
-  useEffect(() => {
-    if (!open || !closeOnTabOut || loopFocus || isTooltip) return;
-
-    const handleDocumentFocusIn = (event: FocusEvent) => {
-      const popoverEl = popoverRef.current;
-      const triggerEl = triggerRef.current;
-      const target = event.target;
-
-      if (!(target instanceof Node)) return;
-
-      const isInsidePopover = popoverEl?.contains(target);
-      const isInsideTrigger = triggerEl?.contains(target);
-
-      if (!isInsidePopover && !isInsideTrigger) {
-        close();
-        safeHidePopover(popoverEl);
-      }
-    };
-
-    document.addEventListener('focusin', handleDocumentFocusIn);
-    return () => {
-      document.removeEventListener('focusin', handleDocumentFocusIn);
-    };
-  }, [close, closeOnTabOut, isTooltip, loopFocus, open, popoverRef, triggerRef]);
-
-  // Controlled open/close with native API if available
-  useEffect(() => {
-    const el = popoverRef.current;
-    if (!el) return;
-
-    if (open) {
-      safeShowPopover(el);
-    } else {
-      safeHidePopover(el);
-    }
-  }, [open, popoverRef]);
 
   const classes = popoverRecipe({ variant, placement, size: isTooltip ? undefined : size });
   const mergedRef = useMergeRefs(popoverRef, focusRef, dismissibleRef, ref);
@@ -648,13 +646,15 @@ function PopoverContent({
     <div
       ref={mergedRef}
       id={id}
+      tabIndex={tabIndex ?? -1}
       onToggle={handleToggle}
       data-state={open ? 'open' : 'closed'}
+      data-level={resolvedLevel}
       {...props}
       role={resolvedRole}
       aria-modal={resolvedRole === 'dialog' ? true : undefined}
       popover={resolvedPopover}
-      className={cx(classes, className)}
+      className={cx(classes, surfaceClass, className)}
       style={anchorStyle}
     >
       {children}
@@ -725,9 +725,11 @@ export {
 };
 
 export type {
+  PopoverProps,
   PopoverProps as RootProps,
   PopoverTriggerProps as TriggerProps,
   PopoverContentProps as ContentProps,
   PopoverCloseProps as CloseProps,
   PopoverVariants as ContentVariants,
+  PopoverLevel as Level,
 };

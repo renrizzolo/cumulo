@@ -598,7 +598,7 @@ describe('Sidebar component', () => {
       vi.useRealTimers();
     });
 
-    it('collapses on toggle click when sidebar was temporarily opened via hover on defaultCollapsed', () => {
+    it('pins sidebar open on toggle click when sidebar was temporarily opened via hover on defaultCollapsed', () => {
       render(
         <Sidebar.Provider hoverBehaviour="expand" defaultCollapsed={true}>
           <Sidebar.HoverZone data-testid="hover-zone" />
@@ -612,16 +612,34 @@ describe('Sidebar component', () => {
       const toggle = screen.getByTestId('toggle-btn');
       const zone = screen.getByTestId('hover-zone');
 
+      expect(root).toHaveAttribute('data-collapsed', 'true');
       expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      expect(toggle).toHaveAttribute('aria-label', 'Expand sidebar');
 
-      // Hover to expand
+      // Hover to expand temporarily
       fireEvent.pointerEnter(zone);
+      expect(root).toHaveAttribute('data-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      expect(toggle).toHaveAttribute('aria-label', 'Expand sidebar');
+
+      // Click toggle inside visually expanded sidebar -> pins it open
+      fireEvent.click(toggle);
+      expect(root).toHaveAttribute('data-collapsed', 'false');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+      expect(toggle).toHaveAttribute('aria-expanded', 'true');
+      expect(toggle).toHaveAttribute('aria-label', 'Collapse sidebar');
+
+      // Leaving hover zone keeps sidebar open because it is now pinned
+      fireEvent.pointerLeave(zone);
+      expect(root).toHaveAttribute('data-collapsed', 'false');
       expect(root).toHaveAttribute('data-visually-collapsed', 'false');
 
-      // Click toggle inside visually expanded sidebar
+      // Clicking toggle again collapses it
+      fireEvent.pointerEnter(root);
       fireEvent.click(toggle);
-
-      // Must collapse and stay collapsed
+      expect(root).toHaveAttribute('data-collapsed', 'true');
       expect(root).toHaveAttribute('data-visually-collapsed', 'true');
     });
   });

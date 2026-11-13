@@ -99,7 +99,7 @@ const sideNavItemRecipe = recipe(
       selectors: {
         '&[data-active="true"]': {
           backgroundColor: vars.surface.bg.next,
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
           fontWeight: vars.font.weight.semibold,
         },
         '&[data-disabled="true"]': {

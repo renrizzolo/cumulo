@@ -228,22 +228,6 @@ export interface SidebarContextValue {
    */
   hoverBehaviour: SidebarHoverBehavior;
   /**
-   * Whether hover-expand and focus-within expansion behavior is temporarily suppressed (e.g. immediately after collapse toggle).
-   */
-  hoverSuppressed: boolean;
-  /**
-   * Sets hover suppression state.
-   */
-  setHoverSuppressed: (suppressed: boolean) => void;
-  /**
-   * Sets whether the sidebar root is currently hovered.
-   */
-  setHovered: (hovered: boolean) => void;
-  /**
-   * Sets whether sidebar content is currently focused.
-   */
-  setFocused: (focused: boolean) => void;
-  /**
    * Surface elevation level of the sidebar (`0 | 1 | 2`).
    */
   level?: SidebarLevel;
@@ -257,7 +241,14 @@ export interface SidebarContextValue {
   hoverTargetProps: SidebarHoverTargetProps;
 }
 
+interface SidebarInternalContextValue {
+  setHoverSuppressed: (suppressed: boolean) => void;
+  setHovered: (hovered: boolean) => void;
+  setFocused: (focused: boolean) => void;
+}
+
 export const SidebarContext = createContext<SidebarContextValue | null>(null);
+const SidebarInternalContext = createContext<SidebarInternalContextValue | null>(null);
 
 /**
  * Accesses the active sidebar state and controls.
@@ -410,8 +401,8 @@ function SidebarProvider({
   );
 
   const toggleCollapsed = useCallback(() => {
-    setCollapsed(!visuallyCollapsed);
-  }, [setCollapsed, visuallyCollapsed]);
+    setCollapsed(!isCollapsed);
+  }, [setCollapsed, isCollapsed]);
 
   const hoverTargetProps = useMemo(
     (): SidebarHoverTargetProps => ({
@@ -434,10 +425,6 @@ function SidebarProvider({
       toggleCollapsed,
       position,
       hoverBehaviour,
-      hoverSuppressed,
-      setHoverSuppressed,
-      setHovered,
-      setFocused,
       level,
       variant,
       hoverLeaveDelay,
@@ -451,10 +438,6 @@ function SidebarProvider({
       toggleCollapsed,
       position,
       hoverBehaviour,
-      hoverSuppressed,
-      setHoverSuppressed,
-      setHovered,
-      setFocused,
       level,
       variant,
       hoverLeaveDelay,
@@ -462,7 +445,20 @@ function SidebarProvider({
     ],
   );
 
-  return <SidebarContext value={contextValue}>{children}</SidebarContext>;
+  const internalContextValue = useMemo(
+    (): SidebarInternalContextValue => ({
+      setHoverSuppressed,
+      setHovered,
+      setFocused,
+    }),
+    [setHovered, setFocused],
+  );
+
+  return (
+    <SidebarContext value={contextValue}>
+      <SidebarInternalContext value={internalContextValue}>{children}</SidebarInternalContext>
+    </SidebarContext>
+  );
 }
 
 SidebarProvider.displayName = 'Sidebar.Provider';
@@ -538,10 +534,11 @@ function SidebarRoot({
     collapsed,
     visuallyCollapsed,
     hoverBehaviour,
-    setFocused,
-    setHoverSuppressed,
-    setHovered,
   } = useSidebar();
+  const internalContext = use(SidebarInternalContext);
+  const setFocused = internalContext?.setFocused;
+  const setHoverSuppressed = internalContext?.setHoverSuppressed;
+  const setHovered = internalContext?.setHovered;
   const type = typeProp ?? typeContext ?? 'push';
   const variant = variantProp ?? variantContext ?? 'docked';
   const position = positionProp ?? positionContext ?? 'left';
@@ -650,7 +647,7 @@ function SidebarToggle({
   ref,
   ...props
 }: SidebarToggleProps): React.JSX.Element {
-  const { visuallyCollapsed, toggleCollapsed, position } = useSidebar();
+  const { collapsed, toggleCollapsed, position } = useSidebar();
 
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -662,14 +659,20 @@ function SidebarToggle({
     [onClick, toggleCollapsed],
   );
 
+  const chevronPath = position === 'right' ? 'm10 15-3-3 3-3' : 'm14 9 3 3-3 3';
+  const filledPanePath =
+    position === 'right'
+      ? 'M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4V3Z'
+      : 'M5 3h4v18H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z';
+
   return (
     <Button
       ref={ref}
       data-sidebar-toggle="true"
       type="button"
       variant="ghost"
-      aria-expanded={!visuallyCollapsed}
-      aria-label={visuallyCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+      aria-expanded={!collapsed}
+      aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       onClick={handleClick}
       size="sm"
       width="square"
@@ -687,6 +690,11 @@ function SidebarToggle({
           >
             <rect width="18" height="18" x="3" y="3" rx="2" />
             <path d={position === 'right' ? 'M15 3v18' : 'M9 3v18'} />
+            {collapsed ? (
+              <path d={chevronPath} />
+            ) : (
+              <path d={filledPanePath} fill="currentColor" stroke="none" />
+            )}
           </svg>
         )
       }

@@ -4,12 +4,12 @@ import { useEffect, useRef, useEffectEvent } from 'react';
 
 export type UseFocusOptions = {
   /**
-   * Whether to restore focus to the previously focused element on unmount
+   * Whether to restore focus to the previously focused element on unmount or when closed
    * @default true
    */
   restoreFocusOnUnmount?: boolean;
   /**
-   * Whether to automatically focus the first focusable element on mount
+   * Whether to automatically focus the first focusable element on mount or when opened
    * @default true
    */
   focusOnMount?: boolean;
@@ -20,6 +20,15 @@ export type UseFocusOptions = {
    * @default true
    */
   loop?: boolean;
+  /**
+   * Controlled open state for persistent elements (e.g. popovers, menus, dialogs)
+   * that remain mounted in the DOM.
+   */
+  open?: boolean;
+  /**
+   * Additional element refs to ignore when detecting focus moving outside the container.
+   */
+  ignoreRefs?: ReadonlyArray<React.RefObject<HTMLElement | null>>;
 } & (UseFocusNavigationOptions | UseFocusModalityOptions);
 
 export interface UseFocusModalityOptions {
@@ -50,7 +59,10 @@ export interface UseFocusNavigationOptions {
   /** Optionally manage roving tab index for the navigation items */
   rovingTabIndex?: boolean;
   trap?: never;
-  onTabOut?: never;
+  /**
+   * Callback when focus leaves the container (via Tab or outside focus).
+   */
+  onTabOut?: () => void;
 }
 
 const FOCUSABLE_SELECTOR =
@@ -94,16 +106,22 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
     trap,
     onTabOut,
     type,
+    open,
+    ignoreRefs,
   } = options;
 
   const ref = useRef<T>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  const onMount = useEffectEvent(() => {
+  const activateFocus = useEffectEvent(() => {
     const container = ref.current;
     if (!container) return;
 
-    if (restoreFocus && document.activeElement instanceof HTMLElement) {
+    if (
+      restoreFocus &&
+      document.activeElement instanceof HTMLElement &&
+      !container.contains(document.activeElement)
+    ) {
       previousFocusRef.current = document.activeElement;
     }
 
@@ -120,29 +138,62 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
       });
     }
 
-    if (autoFocus) {
-      const items = getItems(container, FOCUSABLE_SELECTOR);
+    if (autoFocus && !container.contains(document.activeElement)) {
+      const items = getItems(container, type === 'navigation' ? itemSelector : FOCUSABLE_SELECTOR);
       if (items.length > 0) {
-        // Focus the first focusable item
-        requestAnimationFrame(() => items[0]?.focus());
+        requestAnimationFrame(() => {
+          if (!container.contains(document.activeElement)) {
+            items[0]?.focus();
+          }
+        });
       } else if (container.tabIndex >= -1) {
-        // Fallback to focusing the container itself if it can receive focus
-        requestAnimationFrame(() => container.focus());
+        requestAnimationFrame(() => {
+          if (!container.contains(document.activeElement)) {
+            container.focus();
+          }
+        });
       }
     }
   });
 
-  const onUnmount = useEffectEvent(() => {
-    if (restoreFocus && previousFocusRef.current) {
+  const deactivateFocus = useEffectEvent(() => {
+    const container = ref.current;
+    const wasFocusedInside = container?.contains(document.activeElement);
+    if (restoreFocus && previousFocusRef.current && wasFocusedInside) {
       previousFocusRef.current.focus();
     }
+    previousFocusRef.current = null;
   });
+
+  const wasOpenRef = useRef<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    if (open === undefined) {
+      activateFocus();
+      return () => {
+        deactivateFocus();
+      };
+    }
+
+    const wasOpen = wasOpenRef.current;
+    wasOpenRef.current = open;
+
+    if (open && !wasOpen) {
+      activateFocus();
+    } else if (!open && wasOpen) {
+      deactivateFocus();
+    }
+  }, [open]);
 
   const handleKeyDown = useEffectEvent((e: KeyboardEvent) => {
     const container = ref.current;
     if (!container) return;
 
     if (e.key === 'Escape' && onEscape) {
+      if (restoreFocus && previousFocusRef.current) {
+        previousFocusRef.current.focus();
+        previousFocusRef.current = null;
+      }
       onEscape();
       e.preventDefault();
       e.stopPropagation();
@@ -172,6 +223,11 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
         first.focus();
       }
     } else if (onTabOut && e.key === 'Tab') {
+      if (type === 'navigation') {
+        onTabOut();
+        return;
+      }
+
       const items = getItems(container, FOCUSABLE_SELECTOR);
       if (items.length === 0) {
         onTabOut();
@@ -252,11 +308,34 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
     }
   });
 
+  const handleDocumentFocusIn = useEffectEvent((e: FocusEvent) => {
+    const container = ref.current;
+    if (!container || !onTabOut || (open !== undefined && !open)) return;
+
+    const target = e.target;
+    if (!(target instanceof Node)) return;
+
+    const isInsideContainer = container.contains(target);
+    const isInsideIgnored = ignoreRefs?.some((r) => r.current?.contains(target));
+
+    if (!isInsideContainer && !isInsideIgnored) {
+      onTabOut();
+    }
+  });
+
+  useEffect(() => {
+    if (!onTabOut || (open !== undefined && !open)) return;
+
+    const onFocusIn = (e: FocusEvent) => handleDocumentFocusIn(e);
+    document.addEventListener('focusin', onFocusIn);
+    return () => {
+      document.removeEventListener('focusin', onFocusIn);
+    };
+  }, [onTabOut, open]);
+
   useEffect(() => {
     const container = ref.current;
     if (!container) return;
-
-    onMount();
 
     container.addEventListener('keydown', handleKeyDown);
     container.addEventListener('focusin', handleFocusIn);
@@ -264,7 +343,7 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
     return () => {
       container.removeEventListener('keydown', handleKeyDown);
       container.removeEventListener('focusin', handleFocusIn);
-      onUnmount();
+      deactivateFocus();
     };
   }, []);
 

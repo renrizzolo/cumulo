@@ -93,13 +93,29 @@ export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
   onDismiss: () => void;
   dismissOnClickOutside: boolean;
   ignoreRefs?: ReadonlyArray<React.RefObject<HTMLElement | null>>;
+  open?: boolean;
 }): React.RefObject<T | null> {
   const ref = useRef<T | null>(null);
   const id = useId();
 
-  const { onDismiss, ignoreRefs } = props;
+  const { onDismiss, ignoreRefs, open } = props;
+
+  // Sync native HTML popover API show/hide when open is controlled
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || open === undefined) return;
+    if (open) {
+      safeShowPopover(el);
+    } else {
+      safeHidePopover(el);
+    }
+  }, [open]);
 
   useEffect(() => {
+    if (open !== undefined && !open) {
+      return;
+    }
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented) {
         return;
@@ -152,7 +168,7 @@ export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
       document.removeEventListener('pointerdown', handleClickOutside);
       removeLayer(id);
     };
-  }, [id, ignoreRefs, onDismiss, props.dismissOnClickOutside]);
+  }, [id, ignoreRefs, onDismiss, props.dismissOnClickOutside, open]);
 
   return ref;
 }

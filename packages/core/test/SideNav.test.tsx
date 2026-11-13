@@ -15,10 +15,6 @@ const mockSidebarContext: SidebarContextValue = {
   toggleCollapsed: vi.fn(),
   position: 'left',
   hoverBehaviour: 'none',
-  hoverSuppressed: false,
-  setHoverSuppressed: vi.fn(),
-  setHovered: vi.fn(),
-  setFocused: vi.fn(),
   variant: 'docked',
   hoverTargetProps: {
     onPointerEnter: vi.fn(),

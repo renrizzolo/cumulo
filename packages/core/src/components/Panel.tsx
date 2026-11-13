@@ -20,7 +20,6 @@ const panelRecipe = recipe(
       ...panelContract.$set({
         dividerColor: vars.surface.border,
       }),
-      position: 'relative',
     },
     variants: {
       direction: {

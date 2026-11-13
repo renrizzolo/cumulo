@@ -26,7 +26,7 @@ const tableRecipe = recipe(
       variant: {
         default: {},
         bordered: {
-          borderRadius: `max(${vars.radius.control}, ${vars.spacing.md})`,
+          borderRadius: `min(${vars.radius.control}, ${vars.spacing.md})`,
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: vars.surface.border,

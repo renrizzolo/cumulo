@@ -7,7 +7,6 @@ import React, {
   useCallback,
   useId,
   useMemo,
-  useEffect,
   useRef,
   type ReactNode,
   type MouseEvent,
@@ -24,13 +23,15 @@ import {
   useDismissible,
   handlePopoverToggleEvent,
   safeHidePopover,
-  safeShowPopover,
   togglePopoverFromTrigger,
 } from '../hooks/useDismissible.js';
+
+export type MenuLevel = 0 | 1 | 2 | 'inherit';
 
 export interface MenuContextValue {
   id: string;
   open: boolean;
+  level?: MenuLevel;
   setOpen: (open: boolean) => void;
   toggle: () => void;
   close: () => void;
@@ -57,6 +58,12 @@ export interface MenuRootProps {
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   id?: string;
+  /**
+   * Surface elevation level for the menu content.
+   * Can be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.
+   * @default 0
+   */
+  level?: MenuLevel;
   children?: ReactNode;
 }
 
@@ -65,6 +72,7 @@ function MenuRoot({
   defaultOpen = false,
   onOpenChange,
   id: providedId,
+  level = 0,
   children,
 }: MenuRootProps): React.JSX.Element {
   const [uncontrolledOpen, setUncontrolledOpen] = useState(defaultOpen);
@@ -103,13 +111,14 @@ function MenuRoot({
     (): MenuContextValue => ({
       id,
       open,
+      level,
       setOpen,
       toggle,
       close,
       menuRef,
       triggerRef,
     }),
-    [id, open, setOpen, toggle, close],
+    [id, open, level, setOpen, toggle, close],
   );
 
   return <MenuContext.Provider value={contextValue}>{children}</MenuContext.Provider>;
@@ -129,7 +138,7 @@ function MenuTrigger({
   ref,
   ...props
 }: MenuTriggerProps): React.JSX.Element {
-  const { id, open, setOpen, toggle, close, menuRef, triggerRef } = useMenu();
+  const { id, open, setOpen, toggle, menuRef, triggerRef } = useMenu();
   const mergedRef = useMergeRefs(triggerRef, ref);
 
   const anchorStyle = useMemo(
@@ -157,21 +166,9 @@ function MenuTrigger({
       if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
         event.preventDefault();
         setOpen(true);
-        requestAnimationFrame(() => {
-          const items = menuRef.current?.querySelectorAll<HTMLElement>(
-            '[role="menuitem"]:not([disabled])',
-          );
-          if (items && items.length > 0) {
-            const targetItem = event.key === 'ArrowUp' ? items[items.length - 1] : items[0];
-            targetItem?.focus();
-          }
-        });
-      } else if (event.key === 'Escape' && open) {
-        event.preventDefault();
-        close();
       }
     },
-    [close, menuRef, onKeyDown, open, setOpen],
+    [onKeyDown, setOpen],
   );
 
   return (
@@ -283,12 +280,20 @@ export type MenuContentVariants = RecipeVariants<typeof menuContentRecipe>;
 
 export interface MenuContentProps extends Omit<ElementProps<HTMLDivElement>, 'role' | 'popover'> {
   placement?: MenuContentVariants['placement'];
+  /**
+   * Surface elevation level for the menu content.
+   * Overrides the level defined on Menu.Root.
+   * @default 0
+   */
+  level?: MenuLevel;
   children?: ReactNode;
 }
 
 function MenuContent({
   id: providedId,
   placement = 'bottom-start',
+  level: levelProp,
+  tabIndex,
   className,
   style: styleProp,
   onToggle,
@@ -296,8 +301,11 @@ function MenuContent({
   ref,
   ...props
 }: MenuContentProps): React.JSX.Element {
-  const { id: rootId, open, setOpen, close, menuRef, triggerRef } = useMenu();
+  const { id: rootId, open, level: contextLevel, setOpen, close, menuRef, triggerRef } = useMenu();
   const id = providedId || rootId;
+
+  const resolvedLevel = levelProp ?? contextLevel ?? 0;
+  const surfaceClass = resolvedLevel !== 'inherit' ? `surface-${resolvedLevel}` : undefined;
 
   const anchorStyle = useMemo(
     (): React.CSSProperties => ({
@@ -312,6 +320,8 @@ function MenuContent({
     [onToggle, setOpen],
   );
 
+  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
+
   const focusRef = useFocus<HTMLDivElement>({
     type: 'navigation',
     navigation: 'vertical',
@@ -319,32 +329,18 @@ function MenuContent({
     rovingTabIndex: true,
     focusOnMount: true,
     restoreFocusOnUnmount: true,
+    open,
     onEscape: close,
+    onTabOut: close,
+    ignoreRefs,
   });
-
-  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
 
   const dismissibleRef = useDismissible<HTMLDivElement>({
     onDismiss: close,
     dismissOnClickOutside: true,
     ignoreRefs,
+    open,
   });
-
-  useEffect(() => {
-    const el = menuRef.current;
-    if (!el) return;
-    if (open) {
-      safeShowPopover(el);
-      requestAnimationFrame(() => {
-        if (!el.contains(document.activeElement)) {
-          const firstItem = el.querySelector<HTMLElement>('[role="menuitem"]:not([disabled])');
-          firstItem?.focus();
-        }
-      });
-    } else {
-      safeHidePopover(el);
-    }
-  }, [open, menuRef]);
 
   const classes = menuContentRecipe({ placement });
   const mergedRef = useMergeRefs(menuRef, focusRef, dismissibleRef, ref);
@@ -354,11 +350,13 @@ function MenuContent({
       ref={mergedRef}
       id={id}
       role="menu"
+      tabIndex={tabIndex ?? -1}
       popover="auto"
       data-state={open ? 'open' : 'closed'}
+      data-level={resolvedLevel}
       onToggle={handleToggle}
       style={anchorStyle}
-      className={cx(classes, className)}
+      className={cx(classes, surfaceClass, className)}
       {...props}
     >
       {children}
@@ -597,4 +595,17 @@ export {
   MenuGroup as Group,
   MenuLabel as Label,
   MenuSeparator as Separator,
+};
+
+export type {
+  MenuRootProps as RootProps,
+  MenuTriggerProps as TriggerProps,
+  MenuContentProps as ContentProps,
+  MenuItemProps as ItemProps,
+  MenuGroupProps as GroupProps,
+  MenuLabelProps as LabelProps,
+  MenuSeparatorProps as SeparatorProps,
+  MenuContentVariants as ContentVariants,
+  MenuItemVariants as ItemVariants,
+  MenuLevel as Level,
 };

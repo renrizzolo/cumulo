@@ -14,6 +14,12 @@ describe('@cumulo/core', () => {
     expect(vars.primary['50']).toBe('var(--theme-primary-50)');
     expect(vars.primary['900']).toBe('var(--theme-primary-900)');
     expect(vars.seed.primary).toBe('var(--color-primary-base)');
+    expect(vars.chroma.scale.DEFAULT).toBe('var(--theme-chroma-scale)');
+    expect(vars.chroma.scale.dark).toBe('var(--theme-chroma-scale-dark)');
+    expect(vars.contrast.scale.DEFAULT).toBe('var(--theme-contrast-scale)');
+    expect(vars.contrast.scale.dark).toBe('var(--theme-contrast-scale-dark)');
+    expect(vars.lightness.offset.DEFAULT).toBe('var(--theme-lightness-offset)');
+    expect(vars.lightness.offset.dark).toBe('var(--theme-lightness-offset-dark)');
     expect(vars.radius.control).toBe('var(--theme-radius-control)');
     expect(vars.radius.md).toBe('var(--theme-radius-md)');
     expect(vars.shadow['1']).toBe('var(--theme-shadow-1)');
