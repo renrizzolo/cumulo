@@ -65,6 +65,46 @@
       },
       "shortPropTypeName": "function"
     },
+    "level": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Surface elevation level for the popover content.\nCan be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.",
+      "name": "level",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "PopoverLevel | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "2"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "delay": {
       "defaultValue": {
         "value": "0"
@@ -183,7 +223,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"primary\" | \"default\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -192,10 +232,10 @@
                 "value": "\"outline\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
@@ -265,13 +305,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -284,9 +327,6 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"xs\""
               }
             ]
           },
@@ -436,7 +476,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"button\" | \"reset\" | \"submit\" | undefined",
+            "raw": "\"button\" | \"submit\" | \"reset\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -445,10 +485,10 @@
                 "value": "\"button\""
               },
               {
-                "value": "\"reset\""
+                "value": "\"submit\""
               },
               {
-                "value": "\"submit\""
+                "value": "\"reset\""
               }
             ]
           },
@@ -632,6 +672,50 @@
               },
               {
                 "value": "\"tooltip\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "level": {
+          "defaultValue": {
+            "value": "0"
+          },
+          "description": "Surface elevation level for the popover content.\nOverrides the level defined on Popover.Root.",
+          "name": "level",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+            "name": "PopoverDialogOptions"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+              "name": "PopoverDialogOptions"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+              "name": "PopoverTooltipOptions"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "PopoverLevel | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "0"
+              },
+              {
+                "value": "\"inherit\""
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
               }
             ]
           },
@@ -852,7 +936,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"primary\" | \"default\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -861,10 +945,10 @@
                 "value": "\"outline\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
@@ -936,13 +1020,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -955,9 +1042,6 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"xs\""
               }
             ]
           },

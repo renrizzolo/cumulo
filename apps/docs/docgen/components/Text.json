@@ -4,9 +4,7 @@
   "fileName": "Text.tsx",
   "props": {
     "type": {
-      "defaultValue": {
-        "value": "body"
-      },
+      "defaultValue": null,
       "description": "Semantic type that contextually sets size, line-height, and font weight",
       "name": "type",
       "parent": {
@@ -22,7 +20,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"display\" | \"code\" | \"body\" | \"caption\" | \"label\" | \"lead\" | undefined",
+        "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -31,19 +29,19 @@
             "value": "\"display\""
           },
           {
-            "value": "\"code\""
-          },
-          {
             "value": "\"body\""
-          },
-          {
-            "value": "\"caption\""
           },
           {
             "value": "\"label\""
           },
           {
             "value": "\"lead\""
+          },
+          {
+            "value": "\"caption\""
+          },
+          {
+            "value": "\"code\""
           }
         ]
       },
@@ -75,22 +73,28 @@
             "value": "\"small\""
           },
           {
+            "value": "\"label\""
+          },
+          {
             "value": "\"code\""
+          },
+          {
+            "value": "\"dd\""
           },
           {
             "value": "\"div\""
           },
           {
-            "value": "\"span\""
+            "value": "\"dt\""
           },
           {
             "value": "\"em\""
           },
           {
-            "value": "\"label\""
+            "value": "\"p\""
           },
           {
-            "value": "\"p\""
+            "value": "\"span\""
           },
           {
             "value": "\"strong\""
@@ -116,7 +120,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"2xs\" | \"base\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | \"2xl\" | \"3xl\" | undefined",
+        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -125,7 +129,7 @@
             "value": "\"2xs\""
           },
           {
-            "value": "\"base\""
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -140,13 +144,13 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"xs\""
-          },
-          {
             "value": "\"2xl\""
           },
           {
             "value": "\"3xl\""
+          },
+          {
+            "value": "\"base\""
           }
         ]
       },
@@ -207,16 +211,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"none\" | \"tight\" | \"relaxed\" | undefined",
+        "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"normal\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"normal\""
           },
           {
             "value": "\"tight\""
@@ -247,7 +251,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"subtle\" | \"primary\" | \"default\" | \"muted\" | \"error\" | \"success\" | \"warning\" | undefined",
+        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -256,16 +260,16 @@
             "value": "\"inherit\""
           },
           {
-            "value": "\"subtle\""
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
             "value": "\"default\""
           },
           {
             "value": "\"muted\""
+          },
+          {
+            "value": "\"subtle\""
+          },
+          {
+            "value": "\"primary\""
           },
           {
             "value": "\"error\""

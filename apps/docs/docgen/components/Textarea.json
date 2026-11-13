@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+        "raw": "\"inherit\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -40,10 +40,10 @@
             "value": "\"lg\""
           },
           {
-            "value": "\"xl\""
+            "value": "\"xs\""
           },
           {
-            "value": "\"xs\""
+            "value": "\"xl\""
           }
         ]
       },

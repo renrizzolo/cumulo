@@ -3,7 +3,7 @@ import { textBase } from '@cumulo/core/typography';
 import { style } from '@cumulo/css';
 import React, { type ReactNode } from 'react';
 import type { PageProps } from '@renr/parcel-rsc-router';
-import AppLayout, { type DocsLayoutMode } from '../Layout';
+import AppLayout, { type DocsLayoutMode, isFullWidthLayout } from '../Layout';
 import { CodeBlock } from './CodeBlock';
 import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
@@ -62,10 +62,10 @@ export default function MDXLayout({
 }): React.JSX.Element {
   const title = currentPage?.tableOfContents?.[0]?.title;
   const body = withMDXComponents(children);
-  const isFullWidth = layout === 'full' || currentPage?.url === '/theme-builder.html';
+  const isFullWidth = isFullWidthLayout(currentPage, layout);
 
   return (
-    <AppLayout title={title} currentPage={currentPage} layout={layout}>
+    <AppLayout title={title} currentPage={currentPage} layout={isFullWidth ? 'full' : 'restricted'}>
       {isFullWidth ? children : <Flow className={styles.className}>{body}</Flow>}
     </AppLayout>
   );

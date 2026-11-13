@@ -1,6 +1,14 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, {
+  createContext,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { keyframes, style } from '@cumulo/css';
 import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import { routesByPage } from '../../routes';
@@ -441,6 +449,12 @@ const COMPONENT_SECTIONS: NavSection[] = [
         keywords: ['dropdown', 'option', 'picker', 'choice', 'form'],
       },
       {
+        label: 'Slider',
+        path: '/components/slider',
+        htmlPath: '/components/slider.html',
+        keywords: ['range', 'volume', 'scrubber', 'track', 'thumb', 'form'],
+      },
+      {
         label: 'Switch',
         path: '/components/switch',
         htmlPath: '/components/switch.html',
@@ -555,17 +569,7 @@ const COMPONENT_SECTIONS: NavSection[] = [
   },
 ];
 
-interface NavContentProps {
-  currentPage?: PageProps['currentPage'];
-  pages?: PageProps['pages'];
-  onNavigate?: () => void;
-  showBrand?: boolean;
-  query?: string;
-  onQueryChange?: (query: string) => void;
-  searchInputRef?: React.RefObject<HTMLInputElement | null>;
-}
-
-function SidebarNavToggle(): React.JSX.Element {
+export function SidebarNavToggle(): React.JSX.Element {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger as={'span'}>
@@ -585,29 +589,64 @@ function matchesItem(item: NavItem, sectionTitle: string, normalizedQuery: strin
   return false;
 }
 
-function NavContent({
-  currentPage,
-  onNavigate,
-  query: controlledQuery,
-  onQueryChange,
-  searchInputRef: externalInputRef,
-}: NavContentProps): React.JSX.Element {
-  const sidebar = useSidebar();
-  const [uncontrolledQuery, setUncontrolledQuery] = useState('');
-  const internalInputRef = useRef<HTMLInputElement | null>(null);
-  const navRef = useRef<HTMLElement | null>(null);
-  const inputRef = externalInputRef ?? internalInputRef;
-
-  const query = controlledQuery !== undefined ? controlledQuery : uncontrolledQuery;
-  const setQuery = useCallback(
-    (next: string) => {
-      if (controlledQuery === undefined) {
-        setUncontrolledQuery(next);
-      }
-      onQueryChange?.(next);
-    },
-    [controlledQuery, onQueryChange],
+function isEditableElement(target: EventTarget | null): boolean {
+  if (!(target instanceof HTMLElement)) return false;
+  const tagName = target.tagName;
+  return (
+    tagName === 'INPUT' ||
+    tagName === 'TEXTAREA' ||
+    tagName === 'SELECT' ||
+    target.isContentEditable
   );
+}
+
+interface DocNavState {
+  query: string;
+  isFiltering: boolean;
+  filteredDocSections: NavSection[];
+  filteredComponentSections: NavSection[];
+  totalMatches: number;
+}
+
+interface DocNavActions {
+  setQuery: (query: string) => void;
+  onNavigate: () => void;
+  isItemActive: (item: NavItem) => boolean;
+}
+
+interface DocNavMeta {
+  desktopInputRef: React.RefObject<HTMLInputElement | null>;
+  mobileInputRef: React.RefObject<HTMLInputElement | null>;
+}
+
+interface DocNavContextValue {
+  state: DocNavState;
+  actions: DocNavActions;
+  meta: DocNavMeta;
+}
+
+const DocNavContext = createContext<DocNavContextValue | null>(null);
+
+function useDocNav(): DocNavContextValue {
+  const context = use(DocNavContext);
+  if (!context) {
+    throw new Error('useDocNav must be used within a DocNavProvider');
+  }
+  return context;
+}
+
+interface DocNavProviderProps {
+  currentPage?: PageProps['currentPage'];
+  children: React.ReactNode;
+}
+
+function DocNavProvider({ currentPage, children }: DocNavProviderProps): React.JSX.Element {
+  const sidebar = useSidebar();
+  const { close: closeMobileNav, open: openMobileNav } = useMobileNav();
+  const [query, setQuery] = useState('');
+  const desktopInputRef = useRef<HTMLInputElement | null>(null);
+  const mobileInputRef = useRef<HTMLInputElement | null>(null);
+  const prevUrlRef = useRef(currentPage?.url);
 
   const normalizedQuery = query.trim().toLowerCase();
   const isFiltering = normalizedQuery.length > 0;
@@ -615,8 +654,66 @@ function NavContent({
   const currentUrl = currentPage?.url || '';
   const currentPath = currentPage?.url ? routesByPage[currentPage.url]?.path : undefined;
 
-  const isItemActive = (item: NavItem): boolean =>
-    currentPath === item.path || currentUrl === item.htmlPath;
+  const isItemActive = useCallback(
+    (item: NavItem): boolean => currentPath === item.path || currentUrl === item.htmlPath,
+    [currentPath, currentUrl],
+  );
+
+  const onNavigate = useCallback((): void => {
+    setQuery('');
+    closeMobileNav();
+  }, [closeMobileNav]);
+
+  // Reset filter and close mobile drawer when route changes via page links or history
+  useEffect(() => {
+    if (prevUrlRef.current !== currentPage?.url) {
+      prevUrlRef.current = currentPage?.url;
+      setQuery('');
+      closeMobileNav();
+    }
+  }, [currentPage?.url, closeMobileNav]);
+
+  // Global '/' or 'Ctrl+K' shortcut to focus the component filter (and open sidebar if closed)
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.defaultPrevented || e.metaKey || e.altKey) return;
+      if ((e.key === '/' && !e.ctrlKey) || (e.key === 'k' && e.ctrlKey)) {
+        if (e.key === '/') {
+          if (isEditableElement(e.target) || isEditableElement(document.activeElement)) return;
+        }
+
+        e.preventDefault();
+
+        const isMobile = window.innerWidth < 960;
+        if (isMobile) {
+          openMobileNav();
+          requestAnimationFrame(() => {
+            mobileInputRef.current?.focus();
+            mobileInputRef.current?.select();
+          });
+        } else {
+          const wasCollapsed = sidebar.collapsed || sidebar.visuallyCollapsed;
+
+          if (sidebar.collapsed) {
+            sidebar.setCollapsed(false);
+          }
+
+          desktopInputRef.current?.focus();
+          desktopInputRef.current?.select();
+
+          if (wasCollapsed) {
+            requestAnimationFrame(() => {
+              desktopInputRef.current?.focus();
+              desktopInputRef.current?.select();
+            });
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [sidebar, openMobileNav]);
 
   const filteredComponentSections = useMemo((): NavSection[] => {
     if (!isFiltering) return COMPONENT_SECTIONS;
@@ -640,22 +737,76 @@ function NavContent({
     return componentCount + docCount;
   }, [filteredComponentSections, filteredDocSections]);
 
+  const contextValue = useMemo(
+    (): DocNavContextValue => ({
+      state: {
+        query,
+        isFiltering,
+        filteredDocSections,
+        filteredComponentSections,
+        totalMatches,
+      },
+      actions: {
+        setQuery,
+        onNavigate,
+        isItemActive,
+      },
+      meta: {
+        desktopInputRef,
+        mobileInputRef,
+      },
+    }),
+    [
+      query,
+      isFiltering,
+      filteredDocSections,
+      filteredComponentSections,
+      totalMatches,
+      onNavigate,
+      isItemActive,
+    ],
+  );
+
+  return <DocNavContext value={contextValue}>{children}</DocNavContext>;
+}
+
+function NavBrand(): React.JSX.Element {
+  const { actions } = useDocNav();
+  return (
+    <HStack gap="xs" align="center">
+      <Link to="/" onClick={actions.onNavigate} className={brandLinkStyle.className}>
+        <Logo />
+      </Link>
+      <Badge variant="secondary" size="2xs">
+        <Version />
+      </Badge>
+    </HStack>
+  );
+}
+
+interface NavPaneContentProps {
+  inputRef: React.RefObject<HTMLInputElement | null>;
+}
+
+function NavPaneContent({ inputRef }: NavPaneContentProps): React.JSX.Element {
+  const sidebar = useSidebar();
+  const { state, actions } = useDocNav();
+  const { query, isFiltering, filteredComponentSections, filteredDocSections, totalMatches } =
+    state;
+  const { setQuery, onNavigate, isItemActive } = actions;
+  const navRef = useRef<HTMLElement | null>(null);
+
   const getNavLinks = (): HTMLAnchorElement[] => {
     if (!navRef.current) return [];
     return Array.from(navRef.current.querySelectorAll<HTMLAnchorElement>('a[href]'));
   };
 
-  const handleClear = () => {
+  const handleClear = (): void => {
     setQuery('');
     inputRef.current?.focus();
   };
 
-  const handleItemNavigate = useCallback(() => {
-    setQuery('');
-    onNavigate?.();
-  }, [setQuery, onNavigate]);
-
-  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Escape') {
       if (query.length > 0) {
         e.preventDefault();
@@ -685,7 +836,7 @@ function NavContent({
     }
   };
 
-  const handleNavKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
+  const handleNavKeyDown = (e: React.KeyboardEvent<HTMLElement>): void => {
     if (e.key === 'Escape' && isFiltering) {
       e.preventDefault();
       e.stopPropagation();
@@ -717,14 +868,14 @@ function NavContent({
     }
   };
 
-  const renderSection = (section: NavSection) => (
+  const renderSection = (section: NavSection): React.JSX.Element => (
     <SideNav.Group key={section.title} title={section.title}>
       {section.items.map((item) => (
         <SideNav.Item
           key={item.path}
           as={Link}
           to={item.path}
-          onClick={handleItemNavigate}
+          onClick={onNavigate}
           active={isItemActive(item)}
           label={item.label}
           badge={item.badge ? <Badge variant="outline">{item.badge}</Badge> : undefined}
@@ -776,7 +927,7 @@ function NavContent({
 
       {/* Navigation Sections */}
       {isFiltering && totalMatches === 0 ? (
-        <VStack gap="xs" align="center" className={emptyStateStyle.className}>
+        <VStack gap="sm" align="center" className={emptyStateStyle.className}>
           <Text size="xs" color="subtle">
             No components matching &ldquo;{query.trim()}&rdquo;
           </Text>
@@ -808,127 +959,35 @@ function NavContent({
   );
 }
 
-interface NavProps {
-  currentPage?: PageProps['currentPage'];
-  pages?: PageProps['pages'];
-}
-
-function isEditableElement(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
-  const tagName = target.tagName;
-  return (
-    tagName === 'INPUT' ||
-    tagName === 'TEXTAREA' ||
-    tagName === 'SELECT' ||
-    target.isContentEditable
-  );
-}
-
-export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element {
+function DesktopSidebarNav(): React.JSX.Element {
   const sidebar = useSidebar();
-  const { isOpen: isMobileOpen, close: closeMobileNav, open: openMobileNav } = useMobileNav();
-  const [query, setQuery] = useState('');
-  const desktopInputRef = useRef<HTMLInputElement | null>(null);
-  const mobileInputRef = useRef<HTMLInputElement | null>(null);
-  const prevUrlRef = useRef(currentPage?.url);
+  const { meta } = useDocNav();
 
-  // Navigating clears the search filter and collapses the mobile sidebar
-  const handleNavigate = useCallback(() => {
-    setQuery('');
-    closeMobileNav();
-  }, [closeMobileNav]);
-
-  // Also reset filter and close mobile drawer when route changes via page links or history
-  useEffect(() => {
-    if (prevUrlRef.current !== currentPage?.url) {
-      prevUrlRef.current = currentPage?.url;
-      setQuery('');
-      closeMobileNav();
-    }
-  }, [currentPage?.url, closeMobileNav]);
-
-  // Global '/' shortcut to focus the component filter (and open sidebar if closed)
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.defaultPrevented || e.metaKey || e.altKey) return;
-      if ((e.key === '/' && !e.ctrlKey) || (e.key === 'k' && e.ctrlKey)) {
-        if (e.key === '/') {
-          if (isEditableElement(e.target) || isEditableElement(document.activeElement)) return;
-        }
-
-        e.preventDefault();
-
-        const isMobile = window.innerWidth < 960;
-        if (isMobile) {
-          openMobileNav();
-          requestAnimationFrame(() => {
-            mobileInputRef.current?.focus();
-            mobileInputRef.current?.select();
-          });
-        } else {
-          const wasCollapsed = sidebar.collapsed || sidebar.visuallyCollapsed;
-
-          if (sidebar.collapsed) {
-            sidebar.setCollapsed(false);
-          }
-          sidebar.setHoverSuppressed(false);
-          sidebar.setFocused(true);
-
-          desktopInputRef.current?.focus();
-          desktopInputRef.current?.select();
-
-          if (wasCollapsed) {
-            requestAnimationFrame(() => {
-              desktopInputRef.current?.focus();
-              desktopInputRef.current?.select();
-            });
-          }
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [sidebar, openMobileNav]);
-
-  const brandTitle = (onBrandClick?: () => void) => (
-    <HStack gap="xs" align="center">
-      <Link to="/" onClick={onBrandClick} className={brandLinkStyle.className}>
-        <Logo />
-      </Link>
-      <Badge variant="secondary" size="2xs">
-        <Version />
-      </Badge>
-    </HStack>
+  return (
+    <Sidebar.Root
+      collapsedWidth={'0px'}
+      variant="docked"
+      level={1}
+      className={desktopNavContainerStyle.className}
+    >
+      <Panel padding="sm" divider="bottom">
+        <Sidebar.Header title={<NavBrand />}>
+          {!sidebar.visuallyCollapsed ? <SidebarNavToggle /> : null}
+        </Sidebar.Header>
+      </Panel>
+      <Panel scrollbar="thin" padding="sm" flex={1}>
+        <NavPaneContent inputRef={meta.desktopInputRef} />
+      </Panel>
+    </Sidebar.Root>
   );
+}
+
+function MobileSidebarNav(): React.JSX.Element {
+  const { isOpen: isMobileOpen, close: closeMobileNav, open: openMobileNav } = useMobileNav();
+  const { meta } = useDocNav();
 
   return (
     <>
-      {/* Desktop Sidebar (docked push) */}
-      <Sidebar.Root
-        collapsedWidth={'0px'}
-        variant="docked"
-        level={1}
-        className={desktopNavContainerStyle.className}
-      >
-        <Panel padding="sm" divider="bottom">
-          <Sidebar.Header title={brandTitle(handleNavigate)}>
-            {!sidebar.visuallyCollapsed ? <SidebarNavToggle /> : null}
-          </Sidebar.Header>
-        </Panel>
-        <Panel scrollbar="thin" padding="sm" flex={1}>
-          <NavContent
-            currentPage={currentPage}
-            pages={pages}
-            onNavigate={handleNavigate}
-            query={query}
-            onQueryChange={setQuery}
-            searchInputRef={desktopInputRef}
-          />
-        </Panel>
-      </Sidebar.Root>
-
-      {/* Mobile Backdrop Overlay */}
       {isMobileOpen && (
         <div
           className={mobileBackdropStyle.className}
@@ -936,11 +995,8 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
           aria-hidden="true"
         />
       )}
-
-      {/* Mobile Sidebar (overlay) */}
-      <Sidebar.Root
+      <Sidebar.Provider
         type="overlay"
-        collapsedWidth={'0px'}
         variant="docked"
         collapsed={!isMobileOpen}
         onCollapsedChange={(collapsed) => {
@@ -950,32 +1006,44 @@ export function SidebarNav({ currentPage, pages }: NavProps): React.JSX.Element 
             openMobileNav();
           }
         }}
-        className={mobileNavContainerStyle.className}
       >
-        <Panel padding="sm" divider="bottom">
-          <Sidebar.Header title={brandTitle(handleNavigate)}>
-            <Button
-              size="sm"
-              variant="ghost"
-              shape="round"
-              onClick={closeMobileNav}
-              aria-label="Close navigation menu"
-            >
-              <CloseIcon />
-            </Button>
-          </Sidebar.Header>
-        </Panel>
-        <Panel scrollbar="thin" padding="sm" flex={1}>
-          <NavContent
-            currentPage={currentPage}
-            pages={pages}
-            onNavigate={handleNavigate}
-            query={query}
-            onQueryChange={setQuery}
-            searchInputRef={mobileInputRef}
-          />
-        </Panel>
-      </Sidebar.Root>
+        <Sidebar.Root
+          type="overlay"
+          collapsedWidth={'0px'}
+          variant="docked"
+          className={mobileNavContainerStyle.className}
+        >
+          <Panel padding="sm" divider="bottom">
+            <Sidebar.Header title={<NavBrand />}>
+              <Button
+                size="sm"
+                variant="ghost"
+                shape="round"
+                onClick={closeMobileNav}
+                aria-label="Close navigation menu"
+              >
+                <CloseIcon />
+              </Button>
+            </Sidebar.Header>
+          </Panel>
+          <Panel scrollbar="thin" padding="sm" flex={1}>
+            <NavPaneContent inputRef={meta.mobileInputRef} />
+          </Panel>
+        </Sidebar.Root>
+      </Sidebar.Provider>
     </>
+  );
+}
+
+interface NavProps {
+  currentPage?: PageProps['currentPage'];
+}
+
+export function SidebarNav({ currentPage }: NavProps): React.JSX.Element {
+  return (
+    <DocNavProvider currentPage={currentPage}>
+      <DesktopSidebarNav />
+      <MobileSidebarNav />
+    </DocNavProvider>
   );
 }

@@ -48,10 +48,50 @@ import { DescriptionList } from '@cumulo/core';
   description="Description list rendered with stacked terms and details."
 >
   <DescriptionList.Root layout="stacked" gap="xs">
-    <DescriptionList.Term>Number of seats</DescriptionList.Term>
-    <DescriptionList.Description>12</DescriptionList.Description>
-    <DescriptionList.Term>Billing Cycle</DescriptionList.Term>
-    <DescriptionList.Description>Annual</DescriptionList.Description>
+    <DescriptionList.Item>
+      <DescriptionList.Term>Repository</DescriptionList.Term>
+      <DescriptionList.Description>cumulo</DescriptionList.Description>
+    </DescriptionList.Item>
+    <DescriptionList.Item>
+      <DescriptionList.Term>Branch</DescriptionList.Term>
+      <DescriptionList.Description>main</DescriptionList.Description>
+    </DescriptionList.Item>
+    <DescriptionList.Item>
+      <DescriptionList.Term>Deployment</DescriptionList.Term>
+      <DescriptionList.Description>Production (v2.4.0)</DescriptionList.Description>
+    </DescriptionList.Item>
+  </DescriptionList.Root>
+</ComponentPreview>
+
+<ComponentPreview
+  title="Horizontal Stacked Description List"
+  description="Stacked terms and descriptions arranged horizontally with CSS subgrid alignment."
+>
+  <DescriptionList.Root layout="stacked" orientation="horizontal" gap="sm">
+    <DescriptionList.Term size="sm" weight="normal">
+      Seats
+    </DescriptionList.Term>
+    <DescriptionList.Description size="lg" weight="bold">
+      12
+    </DescriptionList.Description>
+    <DescriptionList.Term size="sm" weight="normal">
+      Billing Cycle
+    </DescriptionList.Term>
+    <DescriptionList.Description size="lg" weight="bold">
+      Annual
+    </DescriptionList.Description>
+  </DescriptionList.Root>
+</ComponentPreview>
+
+<ComponentPreview
+  title="Sizing Primitives"
+  description="Compact description list utilizing Text font size primitives."
+>
+  <DescriptionList.Root size="sm" gap="xs">
+    <DescriptionList.Term>Engine</DescriptionList.Term>
+    <DescriptionList.Description>V8 12.4</DescriptionList.Description>
+    <DescriptionList.Term>Runtime</DescriptionList.Term>
+    <DescriptionList.Description>Node.js 22</DescriptionList.Description>
   </DescriptionList.Root>
 </ComponentPreview>
 

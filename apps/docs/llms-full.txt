@@ -208,7 +208,7 @@ import { Popover, Tooltip, Button } from '@cumulo/core';
 ```ts
 export interface ButtonProps extends ElementProps<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  intent?: 'primary' | 'success' | 'warning' | 'error' | 'neutral';
+  intent?: 'primary' | 'success' | 'warning' | 'error';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
 }
@@ -218,7 +218,7 @@ export interface ButtonProps extends ElementProps<HTMLButtonElement> {
 ```ts
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
   variant?: 'solid' | 'subtle' | 'outline';
-  intent?: 'primary' | 'success' | 'warning' | 'error' | 'neutral';
+  intent?: 'primary' | 'success' | 'warning' | 'error';
   size?: 'sm' | 'md' | 'lg';
 }
 ```

@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from '@renr/parcel-rsc-router';
 import { keyframes, style } from '@cumulo/css';
-import { Button, vars, useDismissible, Sidebar, Tooltip, useSidebar } from '@cumulo/core';
+import { Button, vars, useSidebar, Panel } from '@cumulo/core';
 import { useMobileNav } from './MobileNavContext';
+import { SidebarNavToggle } from './Nav';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Logo } from './Logo';
 
@@ -13,22 +14,10 @@ const topHeaderStyle = style({
   top: 0,
   zIndex: 20,
   padding: vars.spacing.sm,
-  display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  backgroundColor: vars.surface.bg.DEFAULT,
-  borderTop: 'none',
-  borderLeft: 'none',
-  borderRight: 'none',
-  borderBottomWidth: 1,
-  borderBottomStyle: 'solid',
-  borderBottomColor: vars.surface.border,
-  borderRadius: 0,
-  '@media': {
-    '(max-width: 768px)': {
-      padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    },
-  },
+  backgroundColor: `color-mix(in srgb, ${vars.surface.bg.DEFAULT}, transparent 20%)`,
+  backdropFilter: 'blur(5px)',
 });
 
 const mobileBrandGroupStyle = style({
@@ -101,42 +90,10 @@ const headerBrandLinkStyle = style({
 
 export function DocHeader(): React.JSX.Element {
   const sidebar = useSidebar();
-  const { isOpen: isMobileOpen, toggle: toggleMobileNav, close: closeMobileNav } = useMobileNav();
-
-  // Close mobile drawer when resizing across desktop breakpoint
-  useEffect(() => {
-    const mql = window.matchMedia('(min-width: 960px)');
-    const handleViewportChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        closeMobileNav();
-      }
-    };
-
-    mql.addEventListener('change', handleViewportChange);
-    return () => mql.removeEventListener('change', handleViewportChange);
-  }, [closeMobileNav]);
-
-  // Lock body scroll when mobile sidebar is open
-  useEffect(() => {
-    if (isMobileOpen) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, [isMobileOpen]);
-
-  useDismissible({
-    onDismiss: () => {
-      if (isMobileOpen) {
-        closeMobileNav();
-      }
-    },
-    dismissOnClickOutside: false,
-  });
+  const { isOpen: isMobileOpen, toggle: toggleMobileNav } = useMobileNav();
 
   return (
-    <div className={topHeaderStyle.className}>
+    <Panel direction="row" divider="bottom" className={topHeaderStyle.className}>
       {/* Mobile Header Left: Hamburger & Brand */}
       <div className={mobileBrandGroupStyle.className}>
         <Button
@@ -160,12 +117,7 @@ export function DocHeader(): React.JSX.Element {
       <div className={desktopToggleStyle.className}>
         {sidebar.visuallyCollapsed ? (
           <>
-            <Tooltip.Root>
-              <Tooltip.Trigger as={'span'}>
-                <Sidebar.Toggle />
-              </Tooltip.Trigger>
-              <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
-            </Tooltip.Root>
+            <SidebarNavToggle />
             <Link to="/" className={headerBrandLinkStyle.className}>
               <Logo />
             </Link>
@@ -175,6 +127,6 @@ export function DocHeader(): React.JSX.Element {
 
       {/* Header Right Controls */}
       <ThemeSwitcher />
-    </div>
+    </Panel>
   );
 }

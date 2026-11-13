@@ -1,5 +1,5 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Radio, HStack, VStack, Text } from '@cumulo/core';
+import { Radio, Label, HStack, VStack } from '@cumulo/core';
 import * as RadioGroup from '@cumulo/core/components/RadioGroup';
 import * as Field from '@cumulo/core/components/Field';
 import radioDoc from '../../../docgen/components/Radio.json';
@@ -25,15 +25,15 @@ const PlanRadioGroup = createRadioGroup<'standard' | 'pro' | 'enterprise'>();
   <RadioGroup.Root defaultValue="standard" orientation="vertical">
     <HStack gap="xs" align="center">
       <RadioGroup.Item id="plan-standard" value="standard" />
-      <label htmlFor="plan-standard">Standard Plan</label>
+      <Label htmlFor="plan-standard">Standard Plan</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <RadioGroup.Item id="plan-pro" value="pro" />
-      <label htmlFor="plan-pro">Pro Plan</label>
+      <Label htmlFor="plan-pro">Pro Plan</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <RadioGroup.Item id="plan-enterprise" value="enterprise" />
-      <label htmlFor="plan-enterprise">Enterprise Plan</label>
+      <Label htmlFor="plan-enterprise">Enterprise Plan</Label>
     </HStack>
   </RadioGroup.Root>
 </ComponentPreview>
@@ -46,15 +46,15 @@ const PlanRadioGroup = createRadioGroup<'standard' | 'pro' | 'enterprise'>();
   <RadioGroup.Root defaultValue="light" orientation="horizontal" gap="lg">
     <HStack gap="xs" align="center">
       <RadioGroup.Item id="theme-light" value="light" />
-      <label htmlFor="theme-light">Light</label>
+      <Label htmlFor="theme-light">Light</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <RadioGroup.Item id="theme-dark" value="dark" />
-      <label htmlFor="theme-dark">Dark</label>
+      <Label htmlFor="theme-dark">Dark</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <RadioGroup.Item id="theme-system" value="system" />
-      <label htmlFor="theme-system">System</label>
+      <Label htmlFor="theme-system">System</Label>
     </HStack>
   </RadioGroup.Root>
 </ComponentPreview>
@@ -67,15 +67,15 @@ Radios support `sm` (16px), `md` (20px, default), and `lg` (24px) size scales.
   <HStack gap="lg" align="center">
     <HStack gap="xs" align="center">
       <Radio id="size-sm" size="sm" defaultChecked />
-      <label htmlFor="size-sm">Small</label>
+      <Label htmlFor="size-sm">Small</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <Radio id="size-md" size="md" defaultChecked />
-      <label htmlFor="size-md">Medium</label>
+      <Label htmlFor="size-md">Medium</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <Radio id="size-lg" size="lg" defaultChecked />
-      <label htmlFor="size-lg">Large</label>
+      <Label htmlFor="size-lg">Large</Label>
     </HStack>
   </HStack>
 </ComponentPreview>
@@ -88,23 +88,23 @@ Radios support unchecked, checked, error intent, and disabled states.
   <VStack gap="md">
     <HStack gap="xs" align="center">
       <Radio id="state-unchecked" aria-label="Unchecked" />
-      <label htmlFor="state-unchecked">Unchecked</label>
+      <Label htmlFor="state-unchecked">Unchecked</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <Radio id="state-checked" defaultChecked aria-label="Checked" />
-      <label htmlFor="state-checked">Checked</label>
+      <Label htmlFor="state-checked">Checked</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <Radio id="state-error" intent="error" defaultChecked aria-label="Error intent" />
-      <label htmlFor="state-error">Error Intent</label>
+      <Label htmlFor="state-error">Error Intent</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <Radio id="state-disabled" disabled aria-label="Disabled" />
-      <label htmlFor="state-disabled">Disabled</label>
+      <Label htmlFor="state-disabled">Disabled</Label>
     </HStack>
     <HStack gap="xs" align="center">
       <Radio id="state-disabled-checked" disabled defaultChecked aria-label="Disabled checked" />
-      <label htmlFor="state-disabled-checked">Disabled Checked</label>
+      <Label htmlFor="state-disabled-checked">Disabled Checked</Label>
     </HStack>
   </VStack>
 </ComponentPreview>
@@ -121,32 +121,32 @@ When used inside a `Field.Root`, `Field.RadioGroup` and `Field.Radio` seamlessly
       <Field.Label>Notification Channel</Field.Label>
       <Field.Description>Choose where you would like to receive product notifications.</Field.Description>
       <Field.RadioGroup defaultValue="email">
-        <HStack gap="xs" align="center">
-          <Field.Radio id="notify-email" value="email" />
-          <label htmlFor="notify-email">Email Notifications</label>
-        </HStack>
-        <HStack gap="xs" align="center">
-          <Field.Radio id="notify-sms" value="sms" />
-          <label htmlFor="notify-sms">SMS Notifications</label>
-        </HStack>
-        <HStack gap="xs" align="center">
-          <Field.Radio id="notify-slack" value="slack" />
-          <label htmlFor="notify-slack">Slack Direct Message</label>
-        </HStack>
+        <Field.Root direction="row" gap="xs" align="center">
+          <Field.Radio value="email" />
+          <Field.Label>Email Notifications</Field.Label>
+        </Field.Root>
+        <Field.Root direction="row" gap="xs" align="center">
+          <Field.Radio value="sms" />
+          <Field.Label>SMS Notifications</Field.Label>
+        </Field.Root>
+        <Field.Root direction="row" gap="xs" align="center">
+          <Field.Radio value="slack" />
+          <Field.Label>Slack Direct Message</Field.Label>
+        </Field.Root>
       </Field.RadioGroup>
     </Field.Root>
 
     <Field.Root isInvalid>
       <Field.Label>Shipping Speed</Field.Label>
       <Field.RadioGroup>
-        <HStack gap="xs" align="center">
-          <Field.Radio id="ship-standard" value="standard" />
-          <label htmlFor="ship-standard">Standard (3-5 business days)</label>
-        </HStack>
-        <HStack gap="xs" align="center">
-          <Field.Radio id="ship-express" value="express" />
-          <label htmlFor="ship-express">Express (Next day)</label>
-        </HStack>
+        <Field.Root direction="row" gap="xs" align="center">
+          <Field.Radio value="standard" />
+          <Field.Label>Standard (3-5 business days)</Field.Label>
+        </Field.Root>
+        <Field.Root direction="row" gap="xs" align="center">
+          <Field.Radio value="express" />
+          <Field.Label>Express (Next day)</Field.Label>
+        </Field.Root>
       </Field.RadioGroup>
       <Field.Error>Please choose a shipping speed to continue.</Field.Error>
     </Field.Root>

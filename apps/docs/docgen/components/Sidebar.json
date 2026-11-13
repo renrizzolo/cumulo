@@ -169,10 +169,10 @@
             "value": "\"none\""
           },
           {
-            "value": "\"tooltip\""
+            "value": "\"expand\""
           },
           {
-            "value": "\"expand\""
+            "value": "\"tooltip\""
           }
         ]
       },
@@ -565,10 +565,10 @@
                 "value": "\"none\""
               },
               {
-                "value": "\"tooltip\""
+                "value": "\"expand\""
               },
               {
-                "value": "\"expand\""
+                "value": "\"tooltip\""
               }
             ]
           },
@@ -1141,16 +1141,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"clip\" | \"collapse\" | \"fade\" | undefined",
+            "raw": "\"clip\" | \"none\" | \"collapse\" | \"fade\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"none\""
+                "value": "\"clip\""
               },
               {
-                "value": "\"clip\""
+                "value": "\"none\""
               },
               {
                 "value": "\"collapse\""
@@ -1377,6 +1377,10 @@
     "useSidebar": {
       "name": "Sidebar.useSidebar",
       "description": "Accesses the active sidebar state and controls.",
+      "props": {}
+    },
+    "Context": {
+      "name": "Sidebar.Context",
       "props": {}
     }
   }

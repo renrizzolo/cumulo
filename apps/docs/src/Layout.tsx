@@ -6,6 +6,7 @@ import * as Sidebar from '@cumulo/core/components/Sidebar';
 import { style } from '@cumulo/css';
 import { SidebarNav } from './components/Nav';
 import { AppProvider } from './appProvider';
+import { DocFooter } from './components/DocFooter';
 import { DocHeader } from './components/DocHeader';
 import { MobileNavProvider } from './components/MobileNavContext';
 import './styles.css';
@@ -18,13 +19,6 @@ const bodyStyle = style(
     color: vars.surface.fg,
   },
   'layout-body',
-);
-
-const mainStyle = style(
-  {
-    background: 'linear-gradient(20deg, #fff56e19, transparent 140px)',
-  },
-  'layout-main',
 );
 
 const contentWrapperStyle = style(
@@ -62,7 +56,7 @@ const builderWrapperStyle = style(
 
 const frameRestrictedStyle = style(
   {
-    maxWidth: '1440px',
+    maxWidth: vars.container['2xl'],
     margin: '0 auto',
     width: '100%',
     minHeight: '100dvh',
@@ -81,7 +75,7 @@ const frameFullStyle = style(
 
 const docsHoverZoneRestrictedStyle = style(
   {
-    width: `calc(max(0px, (100vw - 1440px) / 2) + ${vars.spacing.md})`,
+    width: `calc(max(0px, (100vw - ${vars.container['2xl']}) / 2) + ${vars.spacing.md})`,
     zIndex: 0,
     '@media': {
       '(max-width: 959px)': {
@@ -107,6 +101,13 @@ const docsHoverZoneFullStyle = style(
 
 export type DocsLayoutMode = 'restricted' | 'full';
 
+export function isFullWidthLayout(
+  currentPage?: PageProps['currentPage'],
+  layout?: DocsLayoutMode,
+): boolean {
+  return layout === 'full' || currentPage?.url === '/theme-builder.html';
+}
+
 export interface LayoutProps {
   children: React.ReactNode;
   title?: string;
@@ -120,7 +121,7 @@ export default function Layout({
   currentPage,
   layout,
 }: LayoutProps): React.JSX.Element {
-  const isFullWidth = layout === 'full' || currentPage?.url === '/theme-builder.html';
+  const isFullWidth = isFullWidthLayout(currentPage, layout);
 
   return (
     <html lang="en" data-theme="docs" suppressHydrationWarning>
@@ -164,22 +165,35 @@ export default function Layout({
                   <DocHeader />
 
                   {/* Main Content Area */}
-                  <Panel as="main" flex="auto" className={mainStyle.className}>
+                  <Panel as="main" flex="auto">
                     {isFullWidth ? (
                       <div className={builderWrapperStyle.className}>{children}</div>
                     ) : (
                       <div className={contentWrapperStyle.className}>
                         <Container
                           // prose pages (overview etc.) have a smaller width than component docs
-                          size={currentPage?.url.startsWith('/components/') ? 'lg' : 'md'}
+                          size={
+                            currentPage?.url.startsWith('/components/') ||
+                            currentPage?.url === '/tokens.html'
+                              ? 'lg'
+                              : 'md'
+                          }
                         >
                           {children}
                         </Container>
                       </div>
                     )}
                   </Panel>
+
+                  {/* Footer Section */}
                 </AppFrame.Main>
               </AppFrame.Root>
+              {/* footer doesn't really work with a full width layout */}
+              {!isFullWidth ? (
+                <Container padding="none" size="2xl">
+                  <DocFooter />
+                </Container>
+              ) : null}
             </Sidebar.Provider>
           </MobileNavProvider>
         </AppProvider>

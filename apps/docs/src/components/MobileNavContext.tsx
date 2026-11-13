@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, use, useCallback, useMemo, useState } from 'react';
+import React, { createContext, use, useCallback, useEffect, useMemo, useState } from 'react';
+import { useDismissible } from '@cumulo/core';
 
 export interface MobileNavContextValue {
   isOpen: boolean;
@@ -25,6 +26,38 @@ export function MobileNavProvider({ children }: { children: React.ReactNode }): 
   const toggle = useCallback((): void => {
     setIsOpen((prev) => !prev);
   }, []);
+
+  // Close mobile drawer when resizing across desktop breakpoint
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 960px)');
+    const handleViewportChange = (e: MediaQueryListEvent): void => {
+      if (e.matches) {
+        close();
+      }
+    };
+
+    mql.addEventListener('change', handleViewportChange);
+    return () => mql.removeEventListener('change', handleViewportChange);
+  }, [close]);
+
+  // Lock body scroll when mobile sidebar is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [isOpen]);
+
+  useDismissible({
+    onDismiss: () => {
+      if (isOpen) {
+        close();
+      }
+    },
+    dismissOnClickOutside: false,
+  });
 
   const contextValue = useMemo(
     (): MobileNavContextValue => ({

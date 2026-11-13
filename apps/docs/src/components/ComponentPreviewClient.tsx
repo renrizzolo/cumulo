@@ -20,6 +20,7 @@ const previewCanvasStyle = style(
     alignItems: 'center',
     padding: `${vars.spacing.xl} ${vars.spacing.lg}`,
     resize: 'horizontal',
+    containerType: 'inline-size',
     width: `calc(100% + 2 * ${vars.spacing.lg})`,
     maxWidth: `calc(100% + 2 * ${vars.spacing.lg})`,
     marginInline: `calc(-1 * ${vars.spacing.lg})`,
@@ -102,6 +103,7 @@ export function ComponentPreviewClient({
               wrap="wrap"
               justify="between"
               align="center"
+              gap="sm"
               className={toolbarFooterStyle.className}
             >
               {/* Surface Level Switcher */}
@@ -121,11 +123,9 @@ export function ComponentPreviewClient({
               </HStack>
 
               {/* Code Actions */}
-              <HStack gap="2xs" align="center">
-                <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
-                  {showCode ? 'Hide Code' : 'View Code'}
-                </Collapsible.Trigger>
-              </HStack>
+              <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
+                {showCode ? 'Hide Code' : 'View Code'}
+              </Collapsible.Trigger>
             </HStack>
 
             {/* Animated Code Panel */}

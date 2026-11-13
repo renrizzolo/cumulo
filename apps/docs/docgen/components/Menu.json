@@ -84,6 +84,46 @@
         "name": "string | undefined"
       },
       "shortPropTypeName": null
+    },
+    "level": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Surface elevation level for the menu content.\nCan be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.",
+      "name": "level",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Menu.tsx",
+        "name": "MenuRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Menu.tsx",
+          "name": "MenuRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "MenuLevel | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "2"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
@@ -107,13 +147,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -126,9 +169,6 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"xs\""
               }
             ]
           },
@@ -189,6 +229,22 @@
           },
           "shortPropTypeName": null
         },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLButtonElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
         "variant": {
           "defaultValue": null,
           "description": "",
@@ -206,7 +262,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"primary\" | \"default\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -215,10 +271,10 @@
                 "value": "\"outline\""
               },
               {
-                "value": "\"primary\""
+                "value": "\"default\""
               },
               {
-                "value": "\"default\""
+                "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
@@ -227,26 +283,6 @@
                 "value": "\"ghost\""
               }
             ]
-          },
-          "shortPropTypeName": null
-        },
-        "disabled": {
-          "defaultValue": null,
-          "description": "",
-          "name": "disabled",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
           },
           "shortPropTypeName": null
         },
@@ -288,6 +324,26 @@
                 "value": "\"info\""
               }
             ]
+          },
+          "shortPropTypeName": null
+        },
+        "disabled": {
+          "defaultValue": null,
+          "description": "",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
           },
           "shortPropTypeName": null
         },
@@ -396,22 +452,6 @@
             ]
           },
           "shortPropTypeName": null
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLButtonElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
         }
       }
     },
@@ -465,6 +505,46 @@
               },
               {
                 "value": "\"top-end\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "level": {
+          "defaultValue": {
+            "value": "0"
+          },
+          "description": "Surface elevation level for the menu content.\nOverrides the level defined on Menu.Root.",
+          "name": "level",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Menu.tsx",
+            "name": "MenuContentProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Menu.tsx",
+              "name": "MenuContentProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "MenuLevel | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "0"
+              },
+              {
+                "value": "\"inherit\""
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
               }
             ]
           },
@@ -770,6 +850,22 @@
           },
           "shortPropTypeName": "string | function"
         },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLHRElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
         "spacing": {
           "defaultValue": {
             "value": "xs"
@@ -789,13 +885,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+            "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"none\""
+              },
+              {
+                "value": "\"xs\""
               },
               {
                 "value": "\"sm\""
@@ -808,29 +907,10 @@
               },
               {
                 "value": "\"xl\""
-              },
-              {
-                "value": "\"xs\""
               }
             ]
           },
           "shortPropTypeName": null
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLHRElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
         }
       }
     },

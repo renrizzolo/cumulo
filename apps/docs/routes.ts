@@ -195,6 +195,12 @@ declare module '@renr/parcel-rsc-router' {
         rsc: '/components/sidebar.rsc';
         html: '/components/sidebar.html';
       };
+      '/components/slider': {
+        slug: 'slider';
+        path: '/components/slider';
+        rsc: '/components/slider.rsc';
+        html: '/components/slider.html';
+      };
       '/components/spinner': {
         slug: 'spinner';
         path: '/components/spinner';
@@ -453,6 +459,12 @@ export const flatRoutes = [
     slug: 'sidebar',
     rsc: '/components/sidebar.rsc',
     html: '/components/sidebar.html',
+  },
+  {
+    path: '/components/slider',
+    slug: 'slider',
+    rsc: '/components/slider.rsc',
+    html: '/components/slider.html',
   },
   {
     path: '/components/spinner',
@@ -751,6 +763,13 @@ export const routeTree = {
       children: [],
     },
     {
+      path: '/components/slider',
+      slug: 'slider',
+      html: '/components/slider.html',
+      rsc: '/components/slider.rsc',
+      children: [],
+    },
+    {
       path: '/components/spinner',
       slug: 'spinner',
       html: '/components/spinner.html',
@@ -1031,6 +1050,12 @@ export const routesByPage = {
     slug: 'sidebar',
     rsc: '/components/sidebar.rsc',
     html: '/components/sidebar.html',
+  },
+  '/components/slider.html': {
+    path: '/components/slider',
+    slug: 'slider',
+    rsc: '/components/slider.rsc',
+    html: '/components/slider.html',
   },
   '/components/spinner.html': {
     path: '/components/spinner',

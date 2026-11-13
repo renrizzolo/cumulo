@@ -79,13 +79,14 @@ Before completing your response, re-read your generated code and verify:
 - `Table`: Tabular layout. Subcomponents: `Table.Root`, `Table.Caption`, `Table.Header`, `Table.Body`, `Table.Row`, `Table.Head`, `Table.Cell`. Props on `Table.Root`: `variant`, `interactive`.
 
 ### Forms and input
-- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Select`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Radio`, `Field.RadioGroup`, `Field.Error`, `Field.Description`, `Field.Group`).
+- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Select`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Slider`, `Field.Radio`, `Field.RadioGroup`, `Field.Error`, `Field.Description`, `Field.Group`).
 - `Input`: Standalone text input. Props: `leading`, `trailing`, `intent` ('default' | 'error' | 'success'), `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg').
 - `Select`: Native select dropdown with custom chevron indicator (`Select`, `Select.Root`, `Select.Option` / `Select.Item`, `Select.OptGroup` / `Select.Group`, `createSelect<T>()`). Variants: `variant` ('outline' | 'filled' | 'ghost'), `intent`, `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg').
 - `Textarea`: Standalone multi-line text input.
 - `Checkbox`: Accessible native checkbox with `size` ('sm' | 'md' | 'lg'), indeterminate, and error states.
 - `Radio`: Accessible radio item with `size` ('sm' | 'md' | 'lg') and error intent inheritance.
 - `RadioGroup`: Compound group of radio options (`RadioGroup.Root`, `RadioGroup.Item`, `createRadioGroup<T>()`) with `intent` ('default' | 'error').
+- `Slider`: Range slider primitive with track, filled range, draggable thumb, `size` ('sm' | 'md' | 'lg'), and `intent` ('default' | 'error').
 - `Switch`: Toggle switch primitive (`role="switch"`) with `size` ('sm' | 'md' | 'lg').
 - `Label`: Accessible label component (`htmlFor`).
 
