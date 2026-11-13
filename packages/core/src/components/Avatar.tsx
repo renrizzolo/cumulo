@@ -24,7 +24,7 @@ const avatarRecipe = recipe(
       userSelect: 'none',
       verticalAlign: 'middle',
       fontFamily: vars.font.sans,
-      fontWeight: vars.font.weight.medium,
+      fontWeight: vars.font.weight.semibold,
       lineHeight: vars.line.height.none,
       backgroundColor: vars.surface.secondary.DEFAULT,
       color: vars.fg,
@@ -40,27 +40,27 @@ const avatarRecipe = recipe(
         xs: {
           width: vars.size.xs,
           height: vars.size.xs,
-          fontSize: vars.font.size.xs,
+          fontSize: vars.font.size['2xs'],
         },
         sm: {
           width: vars.size.sm,
           height: vars.size.sm,
-          fontSize: vars.font.size.sm,
+          fontSize: vars.font.size.xs,
         },
         md: {
           width: vars.size.md,
           height: vars.size.md,
-          fontSize: vars.font.size.md,
+          fontSize: vars.font.size.sm,
         },
         lg: {
           width: vars.size.lg,
           height: vars.size.lg,
-          fontSize: vars.font.size.lg,
+          fontSize: vars.font.size.md,
         },
         xl: {
           width: vars.size.xl,
           height: vars.size.xl,
-          fontSize: vars.font.size.xl,
+          fontSize: vars.font.size.lg,
         },
       },
       shape: {
@@ -70,8 +70,13 @@ const avatarRecipe = recipe(
         square: {
           borderRadius: vars.radius.none,
         },
+        squircle: {
+          borderRadius: vars.radius['2xl'],
+          cornerShape: 'squircle',
+        },
         rounded: {
-          borderRadius: vars.radius.md,
+          borderRadius: vars.radius['2xl'],
+          cornerShape: 'squircle',
         },
       },
       color: {

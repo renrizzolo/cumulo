@@ -29,6 +29,11 @@ describe('Avatar Component', () => {
     expect(screen.getByText('GH')).toBeInTheDocument();
   });
 
+  it('renders squircle corner shape without crashing', () => {
+    render(<Avatar.Root shape="squircle" name="Grace Hopper" />);
+    expect(screen.getByRole('img', { name: 'Grace Hopper' })).toBeInTheDocument();
+  });
+
   it('renders custom fallback initials when provided', () => {
     render(<Avatar.Root fallback="CT" aria-label="Custom Tech" />);
 

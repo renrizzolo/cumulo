@@ -54,7 +54,7 @@
             "value": "\"square\""
           },
           {
-            "value": "\"rounded\""
+            "value": "\"squircle\""
           }
         ]
       },
@@ -382,7 +382,7 @@
                 "value": "\"square\""
               },
               {
-                "value": "\"rounded\""
+                "value": "\"squircle\""
               }
             ]
           },
