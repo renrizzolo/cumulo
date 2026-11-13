@@ -5,7 +5,6 @@ import {
   type ColorMode,
   type ResolvedColorMode,
   DEFAULT_COLOR_MODE,
-  resolveColorMode,
 } from './theme.js';
 
 export interface UseThemeReturn {
@@ -44,7 +43,7 @@ export function useTheme(): UseThemeReturn {
   const resolvedMode = useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getResolvedMode,
-    (): ResolvedColorMode => resolveColorMode(DEFAULT_COLOR_MODE),
+    (): ResolvedColorMode => SERVER_SYSTEM_MODE,
   );
 
   const systemMode = useSyncExternalStore(
