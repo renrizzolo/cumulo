@@ -53,6 +53,9 @@ const descriptionListRecipe = recipe(
           gridAutoFlow: 'column',
           gridTemplateRows: 'auto auto',
           alignItems: 'baseline',
+          // the container is 100% width,
+          // but we don't want the columns to stretch that wide.
+          gridAutoColumns: 'max-content',
           selectors: {
             '& > dt:not(:first-child)': {
               marginTop: 0,
@@ -67,9 +70,7 @@ const descriptionListRecipe = recipe(
         },
       },
       responsive: {
-        true: {
-          containerType: 'inline-size',
-        },
+        true: {},
         false: {},
       },
       gapX: {
@@ -169,6 +170,17 @@ const descriptionListItemRecipe = recipe(
               rowGap: `var(--dl-gap-y, ${vars.spacing.sm})`,
             },
           },
+        },
+      },
+      responsive: {
+        true: {},
+        false: {},
+      },
+    },
+    compoundVariants: [
+      {
+        variants: { orientation: 'horizontal', responsive: true },
+        style: {
           '@container': {
             '(max-width: 420px)': {
               gridRow: 'auto',
@@ -179,12 +191,22 @@ const descriptionListItemRecipe = recipe(
           },
         },
       },
-    },
+    ],
     defaultVariants: {
       orientation: 'vertical',
+      responsive: true,
     },
   },
   'description-list-item',
+);
+
+const descriptionListContainerStyle = style(
+  {
+    containerType: 'inline-size',
+    width: '100%',
+    minWidth: 0,
+  },
+  'description-list-container',
 );
 
 const descriptionListTermStyle = style(
@@ -226,11 +248,13 @@ export type DescriptionListIconVariants = RecipeVariants<typeof descriptionListI
 
 interface DescriptionListContextValue {
   orientation: 'vertical' | 'horizontal';
+  responsive: boolean;
   size?: TextVariants['size'];
 }
 
 const DescriptionListContext = React.createContext<DescriptionListContextValue>({
   orientation: 'vertical',
+  responsive: true,
 });
 
 function mapFontSizeToIconSize(size?: TextVariants['size']): DescriptionListIconVariants['size'] {
@@ -358,28 +382,33 @@ function DescriptionListRoot({
   const contextValue = React.useMemo(
     (): DescriptionListContextValue => ({
       orientation: resolvedOrientation,
+      responsive,
       size,
     }),
-    [resolvedOrientation, size],
+    [resolvedOrientation, responsive, size],
+  );
+
+  const list = (
+    <dl
+      ref={ref}
+      className={cx(
+        descriptionListRecipe({
+          layout: resolvedLayout,
+          responsive,
+          gapX: resolvedGapX,
+          gapY: resolvedGapY,
+        }),
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </dl>
   );
 
   return (
     <DescriptionListContext value={contextValue}>
-      <dl
-        ref={ref}
-        className={cx(
-          descriptionListRecipe({
-            layout: resolvedLayout,
-            responsive,
-            gapX: resolvedGapX,
-            gapY: resolvedGapY,
-          }),
-          className,
-        )}
-        {...props}
-      >
-        {children}
-      </dl>
+      {responsive ? <div className={descriptionListContainerStyle.className}>{list}</div> : list}
     </DescriptionListContext>
   );
 }
@@ -390,10 +419,14 @@ function DescriptionListItem({
   ref,
   ...props
 }: DescriptionListItemProps): React.JSX.Element {
-  const { orientation } = React.useContext(DescriptionListContext);
+  const { orientation, responsive } = React.useContext(DescriptionListContext);
 
   return (
-    <div ref={ref} className={cx(descriptionListItemRecipe({ orientation }), className)} {...props}>
+    <div
+      ref={ref}
+      className={cx(descriptionListItemRecipe({ orientation, responsive }), className)}
+      {...props}
+    >
       {children}
     </div>
   );
