@@ -1025,6 +1025,7 @@ function MobileSidebarNav(): React.JSX.Element {
               <Button
                 size="sm"
                 variant="ghost"
+                width="square"
                 shape="round"
                 onClick={closeMobileNav}
                 aria-label="Close navigation menu"

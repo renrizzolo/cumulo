@@ -100,6 +100,7 @@ export function DocHeader(): React.JSX.Element {
           size="sm"
           variant="ghost"
           shape="round"
+          width="square"
           data-sidebar-toggle="true"
           onClick={toggleMobileNav}
           aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
