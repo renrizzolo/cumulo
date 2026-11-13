@@ -15,16 +15,16 @@ cumulo/
 ├── packages/
 │   ├── core/                  # React 19 UI component library (@cumulo/core)
 │   │   └── src/
-│   │       ├── components/    # 30+ UI, layout, and overlay components
-│   │       ├── hooks/         # Headless logic (focus, dismissal, ref merging, layout)
+│   │       ├── cli/           # Theme generation CLI
+│   │       ├── components/    # 40+ UI, layout, and overlay components
+│   │       ├── hooks/         # Headless logic (focus, dismissal, ref merging, value groups)
 │   │       ├── theme/         # Theme runtime, useTheme hook, ThemeScript
-│   │       ├── tokens/        # Pure design tokens & theme contract values
 │   │       ├── contract.ts    # Zero-runtime CSS variable contract (`vars`)
 │   │       ├── ElementProps.ts# Strict React 19 HTML element typing
 │   │       ├── intents.ts     # Shared intent & variant styling utilities
 │   │       ├── layout.ts      # Shared layout CSS helper rules
-│   │       ├── typography.ts  # Shared typography CSS helper rules
-│   │       └── reset.ts       # Global base CSS resets
+│   │       ├── theme.css      # Prebuilt reset (@layer reset) & token variables (@layer base)
+│   │       └── typography.ts  # Shared typography CSS helper rules
 │   ├── css/                   # Zero-dependency, type-safe CSS framework (@cumulo/css)
 │   │   └── src/
 │   │       ├── create.ts      # style() implementation & style compiler
@@ -47,15 +47,15 @@ cumulo/
 
 ### Component Feature Map (`packages/core/src/components/`)
 
-| Category               | Components                                                                        | Notes / Key Subcomponents                                                                                                              |
-| :--------------------- | :-------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
-| **Forms & Input**      | `Field`, `Input`, `Textarea`, `Checkbox`, `Radio`, `RadioList`, `Switch`, `Label` | `Field` compound namespace (`Root`, `Input`, `Label`, `Error`, `Description`, `Group`) with dynamic part registration                  |
-| **Overlays**           | `Dialog`, `Popover`, `Tooltip`                                                    | Native HTML5 `<dialog>` and `popover="auto"` / `popover="manual"` with CSS Anchor Positioning                                          |
-| **App Layout**         | `AppFrame`, `Panel`, `Sidebar`, `SideNav`                                         | Modern responsive frame primitives; `Sidebar` features collapsible levels, toggles, `useSidebar` hook, and top-layer tooltip isolation |
-| **Layout & Flow**      | `Stack` (`HStack`, `VStack`), `Container`, `Flow`, `Divider`, `Table`             | Flex/grid layouts, token-aware spacing, and tabular display                                                                            |
-| **Navigation & Tabs**  | `Tabs`, `ButtonGroup`                                                             | Roving focus keyboard navigation, accessible tabs with controlled/uncontrolled state                                                   |
-| **Feedback & Display** | `Surface`, `Card`, `Badge`, `Button`, `Collapsible`, `ThemeToggle`                | Polymorphic surfaces, intents (`primary`, `success`, `warning`, `error`, `neutral`), and dark-mode toggles                             |
-| **Typography**         | `Heading`, `Text`, `Code`                                                         | Semantic elements (`h1`–`h6`, `p`, `span`, `code`), variant styles tied to typography tokens                                           |
+| Category               | Components                                                                                               | Notes / Key Subcomponents                                                                                                                                           |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Forms & Input**      | `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Slider`, `Label`   | `Field` compound namespace (`Root`, `Input`, `Select`, `Textarea`, `Checkbox`, `Switch`, `Slider`, `Radio`, `RadioGroup`, `Label`, `Error`, `Description`, `Group`) |
+| **Overlays**           | `Dialog`, `Popover`, `Tooltip`, `Menu`                                                                   | Native HTML5 `<dialog>` and `popover="auto"` / `popover="manual"` with CSS Anchor Positioning                                                                       |
+| **App Layout**         | `AppFrame`, `Header`, `Panel`, `Sidebar`, `SideNav`                                                      | Modern responsive frame primitives; `Sidebar` features collapsible levels, toggles, `useSidebar` hook, and top-layer tooltip isolation                              |
+| **Layout & Flow**      | `Stack` (`HStack`, `VStack`), `Grid`, `Container`, `Flow`, `Divider`, `Table`, `List`, `DescriptionList` | Flex/grid layouts, token-aware spacing, and structured list/tabular display                                                                                         |
+| **Navigation & Tabs**  | `Tabs`, `ButtonGroup`, `Link`                                                                            | Roving focus keyboard navigation, accessible tabs with controlled/uncontrolled state, polymorphic `Link`                                                            |
+| **Feedback & Display** | `Surface`, `Card`, `Alert`, `Avatar`, `Badge`, `Button`, `Collapsible`, `Spinner`, `ThemeToggle`         | Polymorphic surfaces, intents (`primary`, `success`, `warning`, `error`, `neutral`, `info`), avatars, alerts, and dark-mode toggles                                 |
+| **Typography**         | `Heading`, `Text`, `Code`, `Kbd`                                                                         | Semantic elements (`h1`–`h6`, `p`, `span`, `code`, `kbd`), variant styles tied to typography tokens                                                                 |
 
 ### Headless Hooks Map (`packages/core/src/hooks/`)
 
@@ -63,6 +63,7 @@ cumulo/
 - [`useFocus`](file:///packages/core/src/hooks/useFocus.ts): Discriminated focus management (`type: 'modality'` for Dialog/Popover traps, `type: 'navigation'` for roving tabIndex / arrow keys).
 - [`useMergeRefs`](file:///packages/core/src/hooks/useMergeRefs.ts): Composes multiple internal and external React 19 refs.
 - [`usePartsRegistry`](file:///packages/core/src/hooks/usePartsRegistry.ts): Coordinates dynamic child component presence within compound parents.
+- [`useValueGroup`](file:///packages/core/src/hooks/useValueGroup.ts): Shared selection state and typed compound factory for `RadioGroup`, `Tabs`, and `ButtonGroup`.
 - [`useTheme`](file:///packages/core/src/theme/useTheme.ts): Controls active theme, color mode (`light`, `dark`, `system`), and resolved mode.
 
 ---
