@@ -37,12 +37,7 @@ jobs:
         run: pnpm build
 
       - name: Type check
-        run: |
-          pnpm type-check || {
-            B64ERR=$(pnpm type-check 2>&1 | base64 -w 0)
-            echo "::error title=tsc-error::$B64ERR"
-            exit 1
-          }
+        run: pnpm type-check
 
       - name: Run tests
         run: pnpm test
