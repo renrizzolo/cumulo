@@ -32,14 +32,18 @@ jobs:
 
       - name: Check formatting
         run: |
-          pnpm format:check || {
+          if ! pnpm format:check; then
             pnpm format
-            echo "### Formatting Diff" >> $GITHUB_STEP_SUMMARY
-            echo '```diff' >> $GITHUB_STEP_SUMMARY
-            git diff >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
+            DIFF=$(git diff)
+            gh pr comment 32 --body "FORMATTING_DIFF:
+            \`\`\`diff
+            $DIFF
+            \`\`\`"
             exit 1
-          }
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
 
       - name: Build packages & apps
         run: pnpm build
