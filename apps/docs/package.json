@@ -14,7 +14,7 @@
     "@cumulo/css": "workspace:*",
     "@parcel/config-default": "^2.16.4",
     "@parcel/rsc": "^2.16.4",
-    "@renr/parcel-rsc-router": "^1.0.0-beta.11",
+    "@renr/parcel-rsc-router": "^1.0.0-beta.12",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-server-dom-parcel": "^19.2.8"

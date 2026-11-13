@@ -9,6 +9,9 @@
       "..."
     ]
   },
+  "optimizers": {
+    "*.html": []
+  },
   "reporters": [
     "...",
     "@renr/parcel-reporter-rsc-router",
