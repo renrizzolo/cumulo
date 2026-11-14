@@ -1,4 +1,4 @@
 import { unplugin } from './index.js';
 
-export const vitePlugin = unplugin.vite;
-export default vitePlugin;
+export const cumulo = unplugin.vite;
+export default cumulo;

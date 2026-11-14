@@ -26,16 +26,13 @@
             "value": "undefined"
           },
           {
-            "value": "\"article\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
             "value": "\"div\""
           },
           {
             "value": "\"section\""
+          },
+          {
+            "value": "\"article\""
           },
           {
             "value": "\"header\""
@@ -48,6 +45,9 @@
           },
           {
             "value": "\"aside\""
+          },
+          {
+            "value": "\"main\""
           }
         ]
       },
@@ -109,16 +109,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
+        "raw": "\"default\" | \"primary\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"default\""
           },
           {
-            "value": "\"default\""
+            "value": "\"primary\""
           }
         ]
       },
@@ -230,7 +230,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -239,13 +239,13 @@
             "value": "\"auto\""
           },
           {
+            "value": "1"
+          },
+          {
             "value": "\"initial\""
           },
           {
             "value": "\"none\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -270,7 +270,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | \"control\" | undefined",
+        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"control\" | \"full\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -294,10 +294,10 @@
             "value": "\"2xl\""
           },
           {
-            "value": "\"full\""
+            "value": "\"control\""
           },
           {
-            "value": "\"control\""
+            "value": "\"full\""
           }
         ]
       },
@@ -341,307 +341,6 @@
     }
   },
   "subcomponents": {
-    "Header": {
-      "name": "Card.Header",
-      "props": {
-        "title": {
-          "defaultValue": null,
-          "description": "",
-          "name": "title",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "ReactNode"
-          },
-          "shortPropTypeName": null
-        },
-        "description": {
-          "defaultValue": null,
-          "description": "",
-          "name": "description",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "ReactNode"
-          },
-          "shortPropTypeName": null
-        },
-        "headingAs": {
-          "defaultValue": {
-            "value": "h4"
-          },
-          "description": "",
-          "name": "headingAs",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "HeadingLevel | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"div\""
-              },
-              {
-                "value": "\"span\""
-              },
-              {
-                "value": "\"h1\""
-              },
-              {
-                "value": "\"h2\""
-              },
-              {
-                "value": "\"h3\""
-              },
-              {
-                "value": "\"h4\""
-              },
-              {
-                "value": "\"h5\""
-              },
-              {
-                "value": "\"h6\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "size": {
-          "defaultValue": null,
-          "description": "",
-          "name": "size",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              },
-              {
-                "value": "\"2xl\""
-              },
-              {
-                "value": "\"3xl\""
-              },
-              {
-                "value": "\"4xl\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "gap": {
-          "defaultValue": {
-            "value": "sm"
-          },
-          "description": "",
-          "name": "gap",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"none\""
-              },
-              {
-                "value": "\"3xs\""
-              },
-              {
-                "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              },
-              {
-                "value": "\"2xl\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "align": {
-          "defaultValue": {
-            "value": "start"
-          },
-          "description": "",
-          "name": "align",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"center\""
-              },
-              {
-                "value": "\"end\""
-              },
-              {
-                "value": "\"start\""
-              },
-              {
-                "value": "\"baseline\""
-              },
-              {
-                "value": "\"stretch\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "actions": {
-          "defaultValue": null,
-          "description": "",
-          "name": "actions",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Header.tsx",
-            "name": "HeaderProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Header.tsx",
-              "name": "HeaderProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "ReactNode"
-          },
-          "shortPropTypeName": null
-        },
-        "className": {
-          "defaultValue": null,
-          "description": "",
-          "name": "className",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-            "name": "HTMLAttributes"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-              "name": "HTMLAttributes"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": "string | function"
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLDivElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        }
-      }
-    },
     "Body": {
       "name": "Card.Body",
       "props": {
@@ -668,19 +367,13 @@
                 "value": "undefined"
               },
               {
-                "value": "\"article\""
-              },
-              {
-                "value": "\"form\""
-              },
-              {
-                "value": "\"main\""
-              },
-              {
                 "value": "\"div\""
               },
               {
                 "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
               },
               {
                 "value": "\"header\""
@@ -695,13 +388,19 @@
                 "value": "\"aside\""
               },
               {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
+              },
+              {
+                "value": "\"span\""
+              },
+              {
                 "value": "\"ul\""
               },
               {
                 "value": "\"ol\""
-              },
-              {
-                "value": "\"span\""
               }
             ]
           },
@@ -724,19 +423,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+            "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "\"row\""
               },
               {
                 "value": "\"column\""
               },
               {
                 "value": "\"column-reverse\""
+              },
+              {
+                "value": "\"row\""
               },
               {
                 "value": "\"row-reverse\""
@@ -764,19 +463,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+            "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xs\" | \"2xs\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "\"3xs\""
-              },
-              {
-                "value": "\"2xs\""
               },
               {
                 "value": "\"xs\""
@@ -795,6 +488,12 @@
               },
               {
                 "value": "\"2xl\""
+              },
+              {
+                "value": "\"3xs\""
+              },
+              {
+                "value": "\"2xs\""
               }
             ]
           },
@@ -959,7 +658,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -968,13 +667,13 @@
                 "value": "\"auto\""
               },
               {
+                "value": "1"
+              },
+              {
                 "value": "\"initial\""
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "1"
               }
             ]
           },
@@ -1073,19 +772,13 @@
                 "value": "undefined"
               },
               {
-                "value": "\"article\""
-              },
-              {
-                "value": "\"form\""
-              },
-              {
-                "value": "\"main\""
-              },
-              {
                 "value": "\"div\""
               },
               {
                 "value": "\"section\""
+              },
+              {
+                "value": "\"article\""
               },
               {
                 "value": "\"header\""
@@ -1100,13 +793,19 @@
                 "value": "\"aside\""
               },
               {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"form\""
+              },
+              {
+                "value": "\"span\""
+              },
+              {
                 "value": "\"ul\""
               },
               {
                 "value": "\"ol\""
-              },
-              {
-                "value": "\"span\""
               }
             ]
           },
@@ -1129,19 +828,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
+            "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
             "value": [
               {
                 "value": "undefined"
-              },
-              {
-                "value": "\"row\""
               },
               {
                 "value": "\"column\""
               },
               {
                 "value": "\"column-reverse\""
+              },
+              {
+                "value": "\"row\""
               },
               {
                 "value": "\"row-reverse\""
@@ -1169,19 +868,13 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+            "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xs\" | \"2xs\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "\"3xs\""
-              },
-              {
-                "value": "\"2xs\""
               },
               {
                 "value": "\"xs\""
@@ -1200,6 +893,12 @@
               },
               {
                 "value": "\"2xl\""
+              },
+              {
+                "value": "\"3xs\""
+              },
+              {
+                "value": "\"2xs\""
               }
             ]
           },
@@ -1366,7 +1065,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1375,13 +1074,13 @@
                 "value": "\"auto\""
               },
               {
+                "value": "1"
+              },
+              {
                 "value": "\"initial\""
               },
               {
                 "value": "\"none\""
-              },
-              {
-                "value": "1"
               }
             ]
           },
@@ -1451,6 +1150,307 @@
             "name": "Ref<HTMLElement> | undefined"
           },
           "shortPropTypeName": null
+        }
+      }
+    },
+    "Header": {
+      "name": "Card.Header",
+      "props": {
+        "title": {
+          "defaultValue": null,
+          "description": "",
+          "name": "title",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "description": {
+          "defaultValue": null,
+          "description": "",
+          "name": "description",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "headingAs": {
+          "defaultValue": {
+            "value": "h4"
+          },
+          "description": "",
+          "name": "headingAs",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "HeadingLevel | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"div\""
+              },
+              {
+                "value": "\"h1\""
+              },
+              {
+                "value": "\"h2\""
+              },
+              {
+                "value": "\"h3\""
+              },
+              {
+                "value": "\"h4\""
+              },
+              {
+                "value": "\"h5\""
+              },
+              {
+                "value": "\"h6\""
+              },
+              {
+                "value": "\"span\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"3xl\""
+              },
+              {
+                "value": "\"4xl\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "gap": {
+          "defaultValue": {
+            "value": "sm"
+          },
+          "description": "",
+          "name": "gap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xs\" | \"2xs\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"3xs\""
+              },
+              {
+                "value": "\"2xs\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "align": {
+          "defaultValue": {
+            "value": "start"
+          },
+          "description": "",
+          "name": "align",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"end\""
+              },
+              {
+                "value": "\"start\""
+              },
+              {
+                "value": "\"baseline\""
+              },
+              {
+                "value": "\"stretch\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "actions": {
+          "defaultValue": null,
+          "description": "",
+          "name": "actions",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Header.tsx",
+            "name": "HeaderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Header.tsx",
+              "name": "HeaderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
         }
       }
     }

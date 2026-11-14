@@ -14,7 +14,7 @@ import {
   type TypedGroup,
 } from '../hooks/useValueGroup.js';
 
-export const selectRecipe = recipe(
+const selectRecipe = recipe(
   {
     extend: [fieldIntentStyles, sizes],
     base: {
@@ -33,7 +33,7 @@ export const selectRecipe = recipe(
       cursor: 'pointer',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':disabled': {
@@ -97,7 +97,7 @@ export const selectRecipe = recipe(
           cursor: 'not-allowed',
         },
         '& option::checkmark': {
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
           fontWeight: vars.font.weight.bold,
         },
         '& optgroup': {
@@ -136,9 +136,9 @@ export const selectRecipe = recipe(
         default: {},
         error: {},
         success: {
-          borderColor: vars.success.bg,
+          borderColor: vars.success['600'],
           ':focus-visible': {
-            borderColor: vars.success.bg,
+            borderColor: vars.success['600'],
           },
         },
       },
@@ -412,15 +412,6 @@ export function createSelect<T extends string>(): TypedSelect<T> {
   });
 }
 
-export const Select = Object.assign(SelectRoot, {
-  Root: SelectRoot,
-  Item: SelectOption,
-  Option: SelectOption,
-  Group: SelectOptGroup,
-  OptGroup: SelectOptGroup,
-  create: createSelect,
-});
-
 export {
   SelectRoot as Root,
   SelectOption as Item,
@@ -433,7 +424,5 @@ export {
 export type {
   SelectProps as RootProps,
   SelectOptionProps as ItemProps,
-  SelectOptionProps as OptionProps,
   SelectOptGroupProps as GroupProps,
-  SelectOptGroupProps as OptGroupProps,
 };

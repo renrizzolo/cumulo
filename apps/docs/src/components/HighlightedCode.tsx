@@ -10,6 +10,9 @@ export interface HighlightedCodeProps {
   lang?: 'js' | 'jsx' | 'ts' | 'tsx' | 'json' | 'css' | 'md' | 'mdx' | Txt;
 }
 
+// oxfmt can't format plain text, bash etc.
+const unformattable = new Set(['sh', 'bash', 'txt']);
+
 export type SupportedLanguages = HighlightedCodeProps['lang'];
 
 export async function HighlightedCode({
@@ -19,8 +22,7 @@ export async function HighlightedCode({
   const cleanCode = code.trim();
   let finalCode = cleanCode;
 
-  // we can't format plain text.
-  if (lang !== 'txt') {
+  if (!unformattable.has(lang)) {
     // see https://oxc.rs/docs/guide/usage/formatter/language-support.html#native
     const formatted = await format(`code.${lang}`, cleanCode, { insertFinalNewline: false });
 

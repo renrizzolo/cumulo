@@ -265,8 +265,9 @@ const tabsTriggerRecipe = recipe(
       {
         variants: { variant: 'line', orientation: 'horizontal', selected: true },
         style: {
-          borderBottomColor: vars.primary.DEFAULT,
-          color: vars.primary.DEFAULT,
+          // Use a fixed shade rather than DEFAULT so intent-style overrides (e.g. pastel) stay legible
+          borderBottomColor: vars.primary['600'],
+          color: vars.primary['600'],
         },
       },
       {
@@ -282,8 +283,8 @@ const tabsTriggerRecipe = recipe(
       {
         variants: { variant: 'line', orientation: 'vertical', selected: true },
         style: {
-          borderLeftColor: vars.primary.DEFAULT,
-          color: vars.primary.DEFAULT,
+          borderLeftColor: vars.primary['600'],
+          color: vars.primary['600'],
         },
       },
 

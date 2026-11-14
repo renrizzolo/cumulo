@@ -1,0 +1,67 @@
+import Layout from '../../components/MDXLayout.tsx';
+import * as List from '@cumulo/core/components/List';
+import listDoc from '../../../docgen/components/List.json';
+export default Layout;
+
+# List
+
+List provides accessible, semantic list primitives (`<ul>`, `<ol>`) with support for custom icon and emoji markers, styled bullets, and automatic numeric counters. Markers preserve clean hanging indentations across multiline text.
+
+```tsx
+import { List } from '@cumulo/core';
+```
+
+<RscAlert component="List" />
+
+### Examples
+
+<ComponentPreview
+  title="Icon & Emoji List"
+  description="List items prefixed with custom icons or emojis with optical vertical alignment and hanging indents."
+>
+  <List.Root gap="sm">
+    <List.Item icon="🌐">
+      Uses native HTML dialog, popover, and CSS Anchor Positioning for modern overlays.
+    </List.Item>
+    <List.Item icon="🧩">
+      Coordinates accessibility state, validation, and ARIA attributes across inputs, labels, and
+      error messages.
+    </List.Item>
+    <List.Item icon="🛡️">
+      Generates scoped class names, theme contracts, and variant recipes with zero runtime overhead.
+    </List.Item>
+    <List.Item icon="🏔️">
+      Components adapt visual depth and elevation based on their parent surface level.
+    </List.Item>
+    <List.Item icon="🎨">
+      Computes full 50–900 color scales directly in CSS using trigonometric chroma curves and
+      light-dark calculations.
+    </List.Item>
+  </List.Root>
+</ComponentPreview>
+
+<ComponentPreview
+  title="Bullet List"
+  description="Unordered list with styled disc markers and token-based vertical gap spacing."
+>
+  <List.Root variant="bullet" gap="xs">
+    <List.Item>Zero third-party runtime dependencies</List.Item>
+    <List.Item>Strict React 19 platform foundation</List.Item>
+    <List.Item>Static CSS compilation at build time</List.Item>
+  </List.Root>
+</ComponentPreview>
+
+<ComponentPreview
+  title="Ordered List"
+  description="Ordered list with automatic tabular numeric counter markers."
+>
+  <List.Root as="ol" variant="ordered" gap="xs">
+    <List.Item>Install dependencies via pnpm</List.Item>
+    <List.Item>Configure your bundler plugin</List.Item>
+    <List.Item>Import theme styles or define custom tokens</List.Item>
+  </List.Root>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={listDoc} />

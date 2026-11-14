@@ -3,7 +3,7 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, gapStyles } from '../layout.js';
 
-export const stackRecipe = recipe(
+const stackRecipe = recipe(
   {
     extend: [flexStyles, gapStyles],
     base: {

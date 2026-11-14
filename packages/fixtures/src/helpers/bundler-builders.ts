@@ -12,10 +12,10 @@ import rollupEsbuild from 'rollup-plugin-esbuild';
 import * as esbuild from 'esbuild';
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { vitePlugin } from '@cumulo/unplugin/vite';
-import { rollupPlugin } from '@cumulo/unplugin/rollup';
-import { esbuildPlugin } from '@cumulo/unplugin/esbuild';
-import { webpackPlugin } from '@cumulo/unplugin/webpack';
+import { cumulo as vitePlugin } from '@cumulo/unplugin/vite';
+import { cumulo as rollupPlugin } from '@cumulo/unplugin/rollup';
+import { cumulo as esbuildPlugin } from '@cumulo/unplugin/esbuild';
+import { cumulo as webpackPlugin } from '@cumulo/unplugin/webpack';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,34 +32,8 @@ export interface BundlerBuildResult {
   jsContent: string;
 }
 
-export async function buildWithVite(outDir: string): Promise<BundlerBuildResult> {
-  fs.rmSync(outDir, { recursive: true, force: true });
-  fs.mkdirSync(outDir, { recursive: true });
-
-  const packageRoot = path.resolve(__dirname, '../../');
-  const entryHtml = path.resolve(outDir, 'index.html');
-  const htmlWithScript = HTML_TEMPLATE.replace(
-    '</body>',
-    `<script type="module" src="${path.resolve(FIXTURES_DIR, 'entry.tsx').replace(/\\/g, '/')}"></script></body>`,
-  );
-  fs.writeFileSync(entryHtml, htmlWithScript, 'utf-8');
-
-  await vite.build({
-    root: packageRoot,
-    configFile: false,
-    logLevel: 'silent',
-    plugins: [react(), vitePlugin()],
-    build: {
-      outDir: path.resolve(outDir, 'dist'),
-      emptyOutDir: true,
-      rollupOptions: {
-        input: entryHtml,
-      },
-    },
-  });
-
-  const distDir = path.resolve(outDir, 'dist');
-  const files = fs.readdirSync(distDir, { recursive: true }) as string[];
+function readDistResult(bundlerName: string, distDir: string): BundlerBuildResult {
+  const files = fs.readdirSync(distDir, { recursive: true }).map(String);
   const cssFile = files.find((f) => f.endsWith('.css'));
   const jsFile = files.find((f) => f.endsWith('.js') || f.endsWith('.mjs'));
   const distHtml = path.resolve(distDir, 'index.html');
@@ -69,7 +43,7 @@ export async function buildWithVite(outDir: string): Promise<BundlerBuildResult>
   const htmlContent = fs.existsSync(distHtml) ? fs.readFileSync(distHtml, 'utf-8') : '';
 
   return {
-    bundlerName: 'Vite',
+    bundlerName,
     outDir: distDir,
     htmlPath: distHtml,
     htmlContent,
@@ -78,8 +52,42 @@ export async function buildWithVite(outDir: string): Promise<BundlerBuildResult>
   };
 }
 
+function writeEntryHtml(dir: string): string {
+  const entryHtml = path.resolve(dir, 'index.html');
+  const htmlWithScript = HTML_TEMPLATE.replace(
+    '</body>',
+    `<script type="module" src="${path.resolve(FIXTURES_DIR, 'entry.tsx').replace(/\\/g, '/')}"></script></body>`,
+  );
+  fs.writeFileSync(entryHtml, htmlWithScript, 'utf-8');
+  return entryHtml;
+}
+
+export async function buildWithVite(outDir: string): Promise<BundlerBuildResult> {
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  fs.mkdirSync(outDir, { recursive: true });
+
+  const packageRoot = path.resolve(__dirname, '../../');
+  const entryHtml = writeEntryHtml(outDir);
+  const distDir = path.resolve(outDir, 'dist');
+  await vite.build({
+    root: packageRoot,
+    configFile: false,
+    logLevel: 'silent',
+    plugins: [react(), vitePlugin()],
+    build: {
+      outDir: distDir,
+      emptyOutDir: true,
+      rollupOptions: {
+        input: entryHtml,
+      },
+    },
+  });
+
+  return readDistResult('Vite', distDir);
+}
+
 export async function buildWithRollup(outDir: string): Promise<BundlerBuildResult> {
-  fs.rmSync(outDir, { recursive: true, force: true });
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   let extractedCss = '';
@@ -143,7 +151,7 @@ export async function buildWithRollup(outDir: string): Promise<BundlerBuildResul
 }
 
 export async function buildWithEsbuild(outDir: string): Promise<BundlerBuildResult> {
-  fs.rmSync(outDir, { recursive: true, force: true });
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   await esbuild.build({
@@ -188,7 +196,7 @@ export async function buildWithEsbuild(outDir: string): Promise<BundlerBuildResu
 }
 
 export async function buildWithWebpack(outDir: string): Promise<BundlerBuildResult> {
-  fs.rmSync(outDir, { recursive: true, force: true });
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   await new Promise<void>((resolve, reject) => {
@@ -268,7 +276,7 @@ export async function buildWithWebpack(outDir: string): Promise<BundlerBuildResu
 }
 
 export async function buildWithParcel(outDir: string): Promise<BundlerBuildResult> {
-  fs.rmSync(outDir, { recursive: true, force: true });
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   const tempSrcDir = path.resolve(outDir, 'src');
@@ -286,13 +294,7 @@ export async function buildWithParcel(outDir: string): Promise<BundlerBuildResul
   );
   fs.writeFileSync(path.resolve(outDir, '.parcelrc'), parcelrcContent, 'utf-8');
 
-  const entryHtml = path.resolve(tempSrcDir, 'index.html');
-  const htmlWithScript = HTML_TEMPLATE.replace(
-    '</body>',
-    `<script type="module" src="${path.resolve(FIXTURES_DIR, 'entry.tsx').replace(/\\/g, '/')}"></script></body>`,
-  );
-  fs.writeFileSync(entryHtml, htmlWithScript, 'utf-8');
-
+  const entryHtml = writeEntryHtml(tempSrcDir);
   const distDir = path.resolve(outDir, 'dist');
   execSync(
     `pnpm exec parcel build "${entryHtml}" --dist-dir "${distDir}" --no-cache --no-source-maps`,
@@ -302,21 +304,252 @@ export async function buildWithParcel(outDir: string): Promise<BundlerBuildResul
     },
   );
 
-  const files = fs.readdirSync(distDir, { recursive: true }) as string[];
-  const cssFile = files.find((f) => f.endsWith('.css'));
-  const jsFile = files.find((f) => f.endsWith('.js'));
-  const distHtml = path.resolve(distDir, 'index.html');
+  return readDistResult('Parcel', distDir);
+}
 
-  const cssContent = cssFile ? fs.readFileSync(path.resolve(distDir, cssFile), 'utf-8') : '';
-  const jsContent = jsFile ? fs.readFileSync(path.resolve(distDir, jsFile), 'utf-8') : '';
-  const htmlContent = fs.existsSync(distHtml) ? fs.readFileSync(distHtml, 'utf-8') : '';
+function writeNextProjectScaffold(
+  outDir: string,
+  pkgName: string,
+  include: string[],
+  turbopack?: boolean,
+): void {
+  const packageJson = JSON.stringify({ name: pkgName, private: true, type: 'module' }, null, 2);
+  fs.writeFileSync(path.resolve(outDir, 'package.json'), packageJson, 'utf-8');
+
+  const tsconfig = JSON.stringify(
+    {
+      compilerOptions: {
+        target: 'ESNext',
+        lib: ['dom', 'dom.iterable', 'esnext'],
+        allowJs: true,
+        skipLibCheck: true,
+        strict: false,
+        noEmit: true,
+        esModuleInterop: true,
+        module: 'ESNext',
+        moduleResolution: 'bundler',
+        resolveJsonModule: true,
+        isolatedModules: true,
+        jsx: 'preserve',
+      },
+      include,
+    },
+    null,
+    2,
+  );
+  fs.writeFileSync(path.resolve(outDir, 'tsconfig.json'), tsconfig, 'utf-8');
+
+  const experimentalLine = turbopack
+    ? "\n  experimental: { turbopackPluginRuntimeStrategy: 'forceWorkerThreads' },"
+    : '';
+  const nextConfigContent = `const nextConfig = {\n  typescript: { ignoreBuildErrors: true },${experimentalLine}\n};\n\nexport default nextConfig;\n`;
+  fs.writeFileSync(path.resolve(outDir, 'next.config.mjs'), nextConfigContent, 'utf-8');
+
+  const postcssConfigContent = `export default {\n  plugins: {\n    '@cumulo/unplugin/postcss': {},\n  },\n};\n`;
+  fs.writeFileSync(path.resolve(outDir, 'postcss.config.mjs'), postcssConfigContent, 'utf-8');
+}
+
+function formatExecErrorOutput(err: unknown): string {
+  let output = err instanceof Error ? err.message : '';
+  if (typeof err === 'object' && err !== null) {
+    if ('stdout' in err && (typeof err.stdout === 'string' || Buffer.isBuffer(err.stdout))) {
+      output += '\nSTDOUT:\n' + String(err.stdout);
+    }
+    if ('stderr' in err && (typeof err.stderr === 'string' || Buffer.isBuffer(err.stderr))) {
+      output += '\nSTDERR:\n' + String(err.stderr);
+    }
+  }
+  return output;
+}
+
+function runNextBuildAndCollectCss(outDir: string, turbopack?: boolean): string {
+  const nextBin = path.resolve(__dirname, '../../node_modules/next/dist/bin/next');
+  const buildFlag = turbopack ? '' : ' --webpack';
+  let retries = 2;
+  while (retries >= 0) {
+    try {
+      execSync(`node "${nextBin}" build${buildFlag}`, {
+        cwd: outDir,
+        encoding: 'utf-8',
+        stdio: 'pipe',
+        env: {
+          ...process.env,
+          NODE_ENV: 'production',
+          NEXT_TELEMETRY_DISABLED: '1',
+        },
+      });
+      break;
+    } catch (err: unknown) {
+      const output = formatExecErrorOutput(err);
+      if (retries > 0 && output.includes('EPERM')) {
+        retries--;
+        continue;
+      }
+      throw new Error(`Next.js build failed:\n${output}`, { cause: err });
+    }
+  }
+
+  let cssContent = '';
+  const searchDirs = [
+    path.resolve(outDir, '.next/static/css'),
+    path.resolve(outDir, '.next/static/chunks'),
+  ];
+  for (const dir of searchDirs) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      if (f.endsWith('.css')) {
+        cssContent += '\n' + fs.readFileSync(path.resolve(dir, f), 'utf-8');
+      }
+    }
+  }
+  return cssContent;
+}
+
+export async function buildNextAppRouter(
+  outDir: string,
+  options?: { turbopack?: boolean },
+): Promise<BundlerBuildResult> {
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  fs.mkdirSync(outDir, { recursive: true });
+
+  const appDir = path.resolve(outDir, 'app');
+  fs.mkdirSync(appDir, { recursive: true });
+
+  writeNextProjectScaffold(
+    outDir,
+    'next-app-fixture',
+    ['app/**/*', 'next-env.d.ts'],
+    options?.turbopack,
+  );
+  fs.writeFileSync(path.resolve(appDir, 'globals.css'), `@cumulo;\n`, 'utf-8');
+
+  const layoutContent = `
+import './globals.css';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+`;
+  fs.writeFileSync(path.resolve(appDir, 'layout.tsx'), layoutContent, 'utf-8');
+
+  const pageContent = `
+import { style, recipe } from '@cumulo/css';
+
+const boxStyle = style({
+  display: 'flex',
+  padding: 16,
+}, 'next-app-box');
+
+const buttonRecipe = recipe({
+  base: {
+    borderRadius: 8,
+  },
+  variants: {
+    intent: {
+      primary: { color: 'blue' },
+      danger: { color: 'red' },
+    },
+  },
+}, 'next-app-btn');
+
+export default function Page() {
+  return (
+    <main className={boxStyle.className}>
+      <button className={buttonRecipe({ intent: 'primary' })}>App Button</button>
+    </main>
+  );
+}
+`;
+  fs.writeFileSync(path.resolve(appDir, 'page.tsx'), pageContent, 'utf-8');
+
+  const cssContent = runNextBuildAndCollectCss(outDir, options?.turbopack);
 
   return {
-    bundlerName: 'Parcel',
-    outDir: distDir,
-    htmlPath: distHtml,
-    htmlContent,
+    bundlerName: options?.turbopack
+      ? 'Next.js App Router (Turbopack)'
+      : 'Next.js App Router (Webpack)',
+    outDir,
+    htmlPath: path.resolve(outDir, '.next/server/app/index.html'),
+    htmlContent: '',
     cssContent,
-    jsContent,
+    jsContent: '',
+  };
+}
+
+export async function buildNextPagesRouter(
+  outDir: string,
+  options?: { turbopack?: boolean },
+): Promise<BundlerBuildResult> {
+  fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+  fs.mkdirSync(outDir, { recursive: true });
+
+  const pagesDir = path.resolve(outDir, 'pages');
+  const stylesDir = path.resolve(outDir, 'styles');
+  fs.mkdirSync(pagesDir, { recursive: true });
+  fs.mkdirSync(stylesDir, { recursive: true });
+
+  writeNextProjectScaffold(
+    outDir,
+    'next-pages-fixture',
+    ['pages/**/*', 'styles/**/*', 'next-env.d.ts'],
+    options?.turbopack,
+  );
+  fs.writeFileSync(path.resolve(stylesDir, 'globals.css'), `@cumulo;\n`, 'utf-8');
+
+  const appContent = `
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
+
+export default function MyApp({ Component, pageProps }: AppProps) {
+  return <Component {...pageProps} />;
+}
+`;
+  fs.writeFileSync(path.resolve(pagesDir, '_app.tsx'), appContent, 'utf-8');
+
+  const indexContent = `
+import { style, recipe } from '@cumulo/css';
+
+const pageStyle = style({
+  display: 'flex',
+  padding: 24,
+}, 'next-pages-box');
+
+const badgeRecipe = recipe({
+  base: {
+    padding: 6,
+  },
+  variants: {
+    status: {
+      active: { color: 'green' },
+      inactive: { color: 'gray' },
+    },
+  },
+}, 'next-pages-badge');
+
+export default function HomePage() {
+  return (
+    <div className={pageStyle.className}>
+      <span className={badgeRecipe({ status: 'active' })}>Active</span>
+    </div>
+  );
+}
+`;
+  fs.writeFileSync(path.resolve(pagesDir, 'index.tsx'), indexContent, 'utf-8');
+
+  const cssContent = runNextBuildAndCollectCss(outDir, options?.turbopack);
+
+  return {
+    bundlerName: options?.turbopack
+      ? 'Next.js Pages Router (Turbopack)'
+      : 'Next.js Pages Router (Webpack)',
+    outDir,
+    htmlPath: path.resolve(outDir, '.next/server/pages/index.html'),
+    htmlContent: '',
+    cssContent,
+    jsContent: '',
   };
 }

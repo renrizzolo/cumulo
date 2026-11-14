@@ -99,7 +99,7 @@ const sideNavItemRecipe = recipe(
       selectors: {
         '&[data-active="true"]': {
           backgroundColor: vars.surface.bg.next,
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
           fontWeight: vars.font.weight.semibold,
         },
         '&[data-disabled="true"]': {
@@ -340,8 +340,8 @@ const groupHeaderStyle = style({
   whiteSpace: 'nowrap',
   width: '100%',
   minWidth: sideNavContract.itemSize,
-  minHeight: '24px',
-  height: '24px',
+  minHeight: vars.size['2xs'],
+  height: vars.size['2xs'],
   display: 'flex',
   alignItems: 'center',
   boxSizing: 'border-box',
@@ -697,15 +697,10 @@ function SideNavGroup({
 
 SideNavGroup.displayName = 'SideNav.Group';
 
-const SideNavGroupCompound = Object.assign(SideNavGroup, {
-  Trigger: SideNavGroupTrigger,
-  Content: SideNavGroupContent,
-});
-
 export {
   SideNavRoot as Root,
   SideNavItem as Item,
-  SideNavGroupCompound as Group,
+  SideNavGroup as Group,
   SideNavGroupTrigger as GroupTrigger,
   SideNavGroupContent as GroupContent,
 };

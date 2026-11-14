@@ -49,10 +49,6 @@ export type PseudoClass =
 
 export type PseudoElement = '::before' | '::after' | '::placeholder' | '::selection' | '::backdrop';
 
-export type SelectorBlock = {
-  [selector: string]: StyleProperties | ComplexStyleRule;
-};
-
 export interface ComplexStyleRule extends StyleProperties {
   selectors?: Record<string, StyleProperties>;
   '@media'?: Record<string, StyleProperties>;

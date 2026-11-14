@@ -11,7 +11,7 @@ export const gridContract = createThemeContract(
   'grid',
 );
 
-export const gridRecipe = recipe(
+const gridRecipe = recipe(
   {
     extend: [flexStyles, gapStyles, paddingStyles],
     base: {
@@ -62,7 +62,7 @@ export const gridRecipe = recipe(
   'grid',
 );
 
-export const gridItemRecipe = recipe(
+const gridItemRecipe = recipe(
   {
     base: {
       minWidth: 0,
@@ -178,9 +178,6 @@ function GridItem({
 GridRoot.displayName = 'Grid';
 GridItem.displayName = 'Grid.Item';
 
-export const Grid = Object.assign(GridRoot, {
-  Root: GridRoot,
-  Item: GridItem,
-});
-
 export { GridRoot as Root, GridItem as Item };
+
+export type { GridProps as RootProps, GridItemProps as ItemProps };

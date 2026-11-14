@@ -123,22 +123,39 @@ describe('RadioGroup Component', () => {
     expect(onValueChange).not.toHaveBeenCalled();
   });
 
-  it('wires seamlessly with Field and FieldLabel', () => {
+  it('wires seamlessly with Field and FieldLabel without invalid htmlFor on group label', async () => {
+    const user = userEvent.setup();
+
     render(
       <Field.Root>
         <Field.Label>Choose option</Field.Label>
         <Field.RadioGroup defaultValue="val1">
-          <label htmlFor="val1">
-            <RadioGroup.Item id="val1" value="val1" /> Val 1
-          </label>
+          <Field.Root direction="row" align="center" gap="xs">
+            <Field.Radio value="val1" />
+            <Field.Label>Val 1</Field.Label>
+          </Field.Root>
+          <Field.Root direction="row" align="center" gap="xs">
+            <Field.Radio value="val2" />
+            <Field.Label>Val 2</Field.Label>
+          </Field.Root>
         </Field.RadioGroup>
       </Field.Root>,
     );
 
-    const label = screen.getByText('Choose option');
+    const groupLabel = screen.getByText('Choose option');
     const group = screen.getByRole('radiogroup');
 
-    expect(group).toHaveAttribute('aria-labelledby', label.id);
+    expect(group).toHaveAttribute('aria-labelledby', groupLabel.id);
+    expect(groupLabel).not.toHaveAttribute('for');
+
+    const radio1 = screen.getByRole('radio', { name: 'Val 1' });
+    const radio2 = screen.getByRole('radio', { name: 'Val 2' });
+    expect(radio1).toBeChecked();
+    expect(radio2).not.toBeChecked();
+
+    await user.click(screen.getByText('Val 2'));
+    expect(radio2).toBeChecked();
+    expect(radio1).not.toBeChecked();
   });
 
   it('propagates Field error state and aria-invalid to RadioGroup and child Radios', () => {

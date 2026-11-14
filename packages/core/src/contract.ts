@@ -54,6 +54,8 @@ export const vars = {
     lg: 'var(--theme-container-lg)',
     /** 1280px */
     xl: 'var(--theme-container-xl)',
+    /** 1440px */
+    '2xl': 'var(--theme-container-2xl)',
   },
   spacing: {
     /** 0px */
@@ -176,29 +178,45 @@ export const vars = {
     grey: 'var(--color-grey-base)',
   },
   chroma: {
-    /** 1 */
-    scale: 'var(--theme-chroma-scale)',
+    scale: {
+      /** 1 */
+      DEFAULT: 'var(--theme-chroma-scale)',
+      /** var(--theme-chroma-scale) */
+      dark: 'var(--theme-chroma-scale-dark)',
+    },
   },
   contrast: {
-    /** 1 */
-    scale: 'var(--theme-contrast-scale)',
+    scale: {
+      /** 1 */
+      DEFAULT: 'var(--theme-contrast-scale)',
+      /** var(--theme-contrast-scale) */
+      dark: 'var(--theme-contrast-scale-dark)',
+    },
   },
   lightness: {
-    /** 0 */
-    offset: 'var(--theme-lightness-offset)',
+    offset: {
+      /** 0 */
+      DEFAULT: 'var(--theme-lightness-offset)',
+      /** var(--theme-lightness-offset) */
+      dark: 'var(--theme-lightness-offset-dark)',
+    },
   },
   step: {
     '50': {
       /** 0.02 */
       t: 'var(--theme-step-50-t)',
       l: {
-        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.992 - (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.992 ) ) */
         light: 'var(--theme-step-50-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-50-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-50-l-dark)',
       },
-      /** calc(sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-50-c)',
+      c: {
+        /** calc(sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-50-c)',
+        /** calc( sin(var(--theme-step-50-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-50-c-dark)',
+      },
       /** 12 */
       h: 'var(--theme-step-50-h)',
     },
@@ -206,13 +224,17 @@ export const vars = {
       /** 0.07 */
       t: 'var(--theme-step-100-t)',
       l: {
-        /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.992 - (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.992 ) ) */
         light: 'var(--theme-step-100-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-100-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-100-l-dark)',
       },
-      /** calc(sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-100-c)',
+      c: {
+        /** calc(sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-100-c)',
+        /** calc( sin(var(--theme-step-100-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-100-c-dark)',
+      },
       /** 8 */
       h: 'var(--theme-step-100-h)',
     },
@@ -222,11 +244,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-200-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-200-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-200-l-dark)',
       },
-      /** calc(sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-200-c)',
+      c: {
+        /** calc(sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-200-c)',
+        /** calc( sin(var(--theme-step-200-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-200-c-dark)',
+      },
       /** 4 */
       h: 'var(--theme-step-200-h)',
     },
@@ -236,11 +262,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-300-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-300-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-300-l-dark)',
       },
-      /** calc(sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-300-c)',
+      c: {
+        /** calc(sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-300-c)',
+        /** calc( sin(var(--theme-step-300-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-300-c-dark)',
+      },
       /** 0 */
       h: 'var(--theme-step-300-h)',
     },
@@ -250,11 +280,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-400-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-400-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-400-l-dark)',
       },
-      /** calc(sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-400-c)',
+      c: {
+        /** calc(sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-400-c)',
+        /** calc( sin(var(--theme-step-400-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-400-c-dark)',
+      },
       /** 0 */
       h: 'var(--theme-step-400-h)',
     },
@@ -264,11 +298,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-500-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-500-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-500-l-dark)',
       },
-      /** calc(sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-500-c)',
+      c: {
+        /** calc(sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-500-c)',
+        /** calc( sin(var(--theme-step-500-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-500-c-dark)',
+      },
       /** 0 */
       h: 'var(--theme-step-500-h)',
     },
@@ -278,11 +316,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-600-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-600-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-600-l-dark)',
       },
-      /** calc(sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-600-c)',
+      c: {
+        /** calc(sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-600-c)',
+        /** calc( sin(var(--theme-step-600-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-600-c-dark)',
+      },
       /** 0 */
       h: 'var(--theme-step-600-h)',
     },
@@ -292,11 +334,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-700-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-700-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-700-l-dark)',
       },
-      /** calc(sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-700-c)',
+      c: {
+        /** calc(sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-700-c)',
+        /** calc( sin(var(--theme-step-700-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-700-c-dark)',
+      },
       /** -4 */
       h: 'var(--theme-step-700-h)',
     },
@@ -306,11 +352,15 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-800-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-800-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-800-l-dark)',
       },
-      /** calc(sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-800-c)',
+      c: {
+        /** calc(sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-800-c)',
+        /** calc( sin(var(--theme-step-800-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-800-c-dark)',
+      },
       /** -8 */
       h: 'var(--theme-step-800-h)',
     },
@@ -320,35 +370,39 @@ export const vars = {
       l: {
         /** calc( clamp( 0.02, 0.98 - (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
         light: 'var(--theme-step-900-l-light)',
-        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale)) + var(--theme-lightness-offset, 0), 0.98 ) ) */
+        /** calc( clamp( 0.02, 0.12 + (0.8 * var(--theme-step-900-t) * var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) + var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)), 0.98 ) ) */
         dark: 'var(--theme-step-900-l-dark)',
       },
-      /** calc(sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale)) */
-      c: 'var(--theme-step-900-c)',
+      c: {
+        /** calc(sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale)) */
+        DEFAULT: 'var(--theme-step-900-c)',
+        /** calc( sin(var(--theme-step-900-t) * pi) * var(--theme-chroma-scale-dark, var(--theme-chroma-scale)) ) */
+        dark: 'var(--theme-step-900-c-dark)',
+      },
       /** -12 */
       h: 'var(--theme-step-900-h)',
     },
   },
   primary: {
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h + var(--theme-step-50-h)) ), oklch( from var(--color-primary-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c)) calc(h + var(--theme-step-50-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h + var(--theme-step-50-h)) ), oklch( from var(--color-primary-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c-dark)) calc(h + var(--theme-step-50-h)) ) ) */
     '50': 'var(--theme-primary-50)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h)) ), oklch( from var(--color-primary-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h)) ), oklch( from var(--color-primary-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c-dark)) calc(h + var(--theme-step-100-h)) ) ) */
     '100': 'var(--theme-primary-100)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h)) ), oklch( from var(--color-primary-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h)) ), oklch( from var(--color-primary-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c-dark)) calc(h + var(--theme-step-200-h)) ) ) */
     '200': 'var(--theme-primary-200)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h)) ), oklch( from var(--color-primary-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h)) ), oklch( from var(--color-primary-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c-dark)) calc(h + var(--theme-step-300-h)) ) ) */
     '300': 'var(--theme-primary-300)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h)) ), oklch( from var(--color-primary-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h)) ), oklch( from var(--color-primary-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c-dark)) calc(h + var(--theme-step-400-h)) ) ) */
     '400': 'var(--theme-primary-400)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h)) ), oklch( from var(--color-primary-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h)) ), oklch( from var(--color-primary-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c-dark)) calc(h + var(--theme-step-500-h)) ) ) */
     '500': 'var(--theme-primary-500)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h)) ), oklch( from var(--color-primary-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h)) ), oklch( from var(--color-primary-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c-dark)) calc(h + var(--theme-step-600-h)) ) ) */
     '600': 'var(--theme-primary-600)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h)) ), oklch( from var(--color-primary-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h)) ), oklch( from var(--color-primary-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c-dark)) calc(h + var(--theme-step-700-h)) ) ) */
     '700': 'var(--theme-primary-700)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h)) ), oklch( from var(--color-primary-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h)) ), oklch( from var(--color-primary-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c-dark)) calc(h + var(--theme-step-800-h)) ) ) */
     '800': 'var(--theme-primary-800)',
-    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h)) ), oklch( from var(--color-primary-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h)) ) ) */
+    /** light-dark( oklch( from var(--color-primary-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h)) ), oklch( from var(--color-primary-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c-dark)) calc(h + var(--theme-step-900-h)) ) ) */
     '900': 'var(--theme-primary-900)',
     /** var(--theme-primary-600) */
     DEFAULT: 'var(--theme-primary)',
@@ -364,25 +418,25 @@ export const vars = {
     subtle: 'var(--theme-primary-subtle)',
   },
   success: {
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ), oklch( from var(--color-success-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ), oklch( from var(--color-success-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c-dark)) calc(h - var(--theme-step-50-h)) ) ) */
     '50': 'var(--theme-success-50)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ), oklch( from var(--color-success-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ), oklch( from var(--color-success-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c-dark)) calc(h - var(--theme-step-100-h)) ) ) */
     '100': 'var(--theme-success-100)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ), oklch( from var(--color-success-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ), oklch( from var(--color-success-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c-dark)) calc(h - var(--theme-step-200-h)) ) ) */
     '200': 'var(--theme-success-200)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ), oklch( from var(--color-success-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ), oklch( from var(--color-success-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c-dark)) calc(h - var(--theme-step-300-h)) ) ) */
     '300': 'var(--theme-success-300)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ), oklch( from var(--color-success-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ), oklch( from var(--color-success-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c-dark)) calc(h - var(--theme-step-400-h)) ) ) */
     '400': 'var(--theme-success-400)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ), oklch( from var(--color-success-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ), oklch( from var(--color-success-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c-dark)) calc(h - var(--theme-step-500-h)) ) ) */
     '500': 'var(--theme-success-500)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ), oklch( from var(--color-success-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ), oklch( from var(--color-success-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c-dark)) calc(h - var(--theme-step-600-h)) ) ) */
     '600': 'var(--theme-success-600)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ), oklch( from var(--color-success-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ), oklch( from var(--color-success-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c-dark)) calc(h - var(--theme-step-700-h)) ) ) */
     '700': 'var(--theme-success-700)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ), oklch( from var(--color-success-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ), oklch( from var(--color-success-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c-dark)) calc(h - var(--theme-step-800-h)) ) ) */
     '800': 'var(--theme-success-800)',
-    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ), oklch( from var(--color-success-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ) ) */
+    /** light-dark( oklch( from var(--color-success-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ), oklch( from var(--color-success-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c-dark)) calc(h - var(--theme-step-900-h)) ) ) */
     '900': 'var(--theme-success-900)',
     /** var(--theme-success-600) */
     bg: 'var(--theme-success-bg)',
@@ -404,25 +458,25 @@ export const vars = {
     },
   },
   warning: {
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h + var(--theme-step-50-h)) ), oklch( from var(--color-warning-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c)) calc(h + var(--theme-step-50-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h + var(--theme-step-50-h)) ), oklch( from var(--color-warning-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c-dark)) calc(h + var(--theme-step-50-h)) ) ) */
     '50': 'var(--theme-warning-50)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h)) ), oklch( from var(--color-warning-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h + var(--theme-step-100-h)) ), oklch( from var(--color-warning-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c-dark)) calc(h + var(--theme-step-100-h)) ) ) */
     '100': 'var(--theme-warning-100)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h)) ), oklch( from var(--color-warning-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h + var(--theme-step-200-h)) ), oklch( from var(--color-warning-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c-dark)) calc(h + var(--theme-step-200-h)) ) ) */
     '200': 'var(--theme-warning-200)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h)) ), oklch( from var(--color-warning-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h + var(--theme-step-300-h)) ), oklch( from var(--color-warning-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c-dark)) calc(h + var(--theme-step-300-h)) ) ) */
     '300': 'var(--theme-warning-300)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h)) ), oklch( from var(--color-warning-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h + var(--theme-step-400-h)) ), oklch( from var(--color-warning-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c-dark)) calc(h + var(--theme-step-400-h)) ) ) */
     '400': 'var(--theme-warning-400)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h)) ), oklch( from var(--color-warning-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h + var(--theme-step-500-h)) ), oklch( from var(--color-warning-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c-dark)) calc(h + var(--theme-step-500-h)) ) ) */
     '500': 'var(--theme-warning-500)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h)) ), oklch( from var(--color-warning-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h + var(--theme-step-600-h)) ), oklch( from var(--color-warning-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c-dark)) calc(h + var(--theme-step-600-h)) ) ) */
     '600': 'var(--theme-warning-600)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h)) ), oklch( from var(--color-warning-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h + var(--theme-step-700-h)) ), oklch( from var(--color-warning-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c-dark)) calc(h + var(--theme-step-700-h)) ) ) */
     '700': 'var(--theme-warning-700)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h)) ), oklch( from var(--color-warning-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h + var(--theme-step-800-h)) ), oklch( from var(--color-warning-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c-dark)) calc(h + var(--theme-step-800-h)) ) ) */
     '800': 'var(--theme-warning-800)',
-    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h)) ), oklch( from var(--color-warning-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h)) ) ) */
+    /** light-dark( oklch( from var(--color-warning-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h + var(--theme-step-900-h)) ), oklch( from var(--color-warning-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c-dark)) calc(h + var(--theme-step-900-h)) ) ) */
     '900': 'var(--theme-warning-900)',
     /** var(--theme-warning-600) */
     bg: 'var(--theme-warning-bg)',
@@ -444,25 +498,25 @@ export const vars = {
     },
   },
   error: {
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ), oklch( from var(--color-error-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ), oklch( from var(--color-error-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c-dark)) calc(h - var(--theme-step-50-h)) ) ) */
     '50': 'var(--theme-error-50)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ), oklch( from var(--color-error-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ), oklch( from var(--color-error-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c-dark)) calc(h - var(--theme-step-100-h)) ) ) */
     '100': 'var(--theme-error-100)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ), oklch( from var(--color-error-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ), oklch( from var(--color-error-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c-dark)) calc(h - var(--theme-step-200-h)) ) ) */
     '200': 'var(--theme-error-200)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ), oklch( from var(--color-error-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ), oklch( from var(--color-error-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c-dark)) calc(h - var(--theme-step-300-h)) ) ) */
     '300': 'var(--theme-error-300)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ), oklch( from var(--color-error-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ), oklch( from var(--color-error-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c-dark)) calc(h - var(--theme-step-400-h)) ) ) */
     '400': 'var(--theme-error-400)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ), oklch( from var(--color-error-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ), oklch( from var(--color-error-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c-dark)) calc(h - var(--theme-step-500-h)) ) ) */
     '500': 'var(--theme-error-500)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ), oklch( from var(--color-error-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ), oklch( from var(--color-error-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c-dark)) calc(h - var(--theme-step-600-h)) ) ) */
     '600': 'var(--theme-error-600)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ), oklch( from var(--color-error-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ), oklch( from var(--color-error-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c-dark)) calc(h - var(--theme-step-700-h)) ) ) */
     '700': 'var(--theme-error-700)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ), oklch( from var(--color-error-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ), oklch( from var(--color-error-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c-dark)) calc(h - var(--theme-step-800-h)) ) ) */
     '800': 'var(--theme-error-800)',
-    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ), oklch( from var(--color-error-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ) ) */
+    /** light-dark( oklch( from var(--color-error-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ), oklch( from var(--color-error-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c-dark)) calc(h - var(--theme-step-900-h)) ) ) */
     '900': 'var(--theme-error-900)',
     /** var(--theme-error-600) */
     bg: 'var(--theme-error-bg)',
@@ -484,25 +538,25 @@ export const vars = {
     },
   },
   info: {
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ), oklch( from var(--color-info-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) calc(h - var(--theme-step-50-h)) ), oklch( from var(--color-info-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c-dark)) calc(h - var(--theme-step-50-h)) ) ) */
     '50': 'var(--theme-info-50)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ), oklch( from var(--color-info-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) calc(h - var(--theme-step-100-h)) ), oklch( from var(--color-info-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c-dark)) calc(h - var(--theme-step-100-h)) ) ) */
     '100': 'var(--theme-info-100)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ), oklch( from var(--color-info-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) calc(h - var(--theme-step-200-h)) ), oklch( from var(--color-info-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c-dark)) calc(h - var(--theme-step-200-h)) ) ) */
     '200': 'var(--theme-info-200)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ), oklch( from var(--color-info-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) calc(h - var(--theme-step-300-h)) ), oklch( from var(--color-info-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c-dark)) calc(h - var(--theme-step-300-h)) ) ) */
     '300': 'var(--theme-info-300)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ), oklch( from var(--color-info-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) calc(h - var(--theme-step-400-h)) ), oklch( from var(--color-info-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c-dark)) calc(h - var(--theme-step-400-h)) ) ) */
     '400': 'var(--theme-info-400)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ), oklch( from var(--color-info-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) calc(h - var(--theme-step-500-h)) ), oklch( from var(--color-info-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c-dark)) calc(h - var(--theme-step-500-h)) ) ) */
     '500': 'var(--theme-info-500)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ), oklch( from var(--color-info-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) calc(h - var(--theme-step-600-h)) ), oklch( from var(--color-info-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c-dark)) calc(h - var(--theme-step-600-h)) ) ) */
     '600': 'var(--theme-info-600)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ), oklch( from var(--color-info-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) calc(h - var(--theme-step-700-h)) ), oklch( from var(--color-info-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c-dark)) calc(h - var(--theme-step-700-h)) ) ) */
     '700': 'var(--theme-info-700)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ), oklch( from var(--color-info-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) calc(h - var(--theme-step-800-h)) ), oklch( from var(--color-info-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c-dark)) calc(h - var(--theme-step-800-h)) ) ) */
     '800': 'var(--theme-info-800)',
-    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ), oklch( from var(--color-info-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ) ) */
+    /** light-dark( oklch( from var(--color-info-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) calc(h - var(--theme-step-900-h)) ), oklch( from var(--color-info-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c-dark)) calc(h - var(--theme-step-900-h)) ) ) */
     '900': 'var(--theme-info-900)',
     /** var(--theme-info-600) */
     bg: 'var(--theme-info-bg)',
@@ -524,25 +578,25 @@ export const vars = {
     },
   },
   grey: {
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-50-l-light) calc(c * var(--theme-step-50-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-50-l-dark) calc(c * var(--theme-step-50-c-dark)) h ) ) */
     '50': 'var(--theme-grey-50)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-100-l-light) calc(c * var(--theme-step-100-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-100-l-dark) calc(c * var(--theme-step-100-c-dark)) h ) ) */
     '100': 'var(--theme-grey-100)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-200-l-light) calc(c * var(--theme-step-200-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-200-l-dark) calc(c * var(--theme-step-200-c-dark)) h ) ) */
     '200': 'var(--theme-grey-200)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-300-l-light) calc(c * var(--theme-step-300-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-300-l-dark) calc(c * var(--theme-step-300-c-dark)) h ) ) */
     '300': 'var(--theme-grey-300)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-400-l-light) calc(c * var(--theme-step-400-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-400-l-dark) calc(c * var(--theme-step-400-c-dark)) h ) ) */
     '400': 'var(--theme-grey-400)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-500-l-light) calc(c * var(--theme-step-500-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-500-l-dark) calc(c * var(--theme-step-500-c-dark)) h ) ) */
     '500': 'var(--theme-grey-500)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-600-l-light) calc(c * var(--theme-step-600-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-600-l-dark) calc(c * var(--theme-step-600-c-dark)) h ) ) */
     '600': 'var(--theme-grey-600)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-700-l-light) calc(c * var(--theme-step-700-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-700-l-dark) calc(c * var(--theme-step-700-c-dark)) h ) ) */
     '700': 'var(--theme-grey-700)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-800-l-light) calc(c * var(--theme-step-800-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-800-l-dark) calc(c * var(--theme-step-800-c-dark)) h ) ) */
     '800': 'var(--theme-grey-800)',
-    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c)) h ) ) */
+    /** light-dark( oklch( from var(--color-grey-base) var(--theme-step-900-l-light) calc(c * var(--theme-step-900-c)) h ), oklch( from var(--color-grey-base) var(--theme-step-900-l-dark) calc(c * var(--theme-step-900-c-dark)) h ) ) */
     '900': 'var(--theme-grey-900)',
   },
   surface: {

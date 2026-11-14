@@ -3,7 +3,7 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
-export const flowRecipe = recipe(
+const flowRecipe = recipe(
   {
     base: {
       selectors: {
@@ -23,7 +23,7 @@ export const flowRecipe = recipe(
       },
     },
     defaultVariants: {
-      space: 'md',
+      space: 'lg',
     },
   },
   'flow',

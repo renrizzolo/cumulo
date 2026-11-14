@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/vitest';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as Menu from '../src/components/Menu.js';
 
@@ -128,5 +128,126 @@ describe('Menu Component', () => {
 
     fireEvent.keyDown(content, { key: 'Escape' });
     expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it('renders content with tabIndex="-1" by default', () => {
+    render(
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content">
+          <Menu.Item>Profile</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const content = screen.getByTestId('menu-content');
+    expect(content).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('closes when focus leaves via Tab key', () => {
+    const onOpenChange = vi.fn();
+
+    render(
+      <Menu.Root defaultOpen onOpenChange={onOpenChange}>
+        <Menu.Trigger>Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content">
+          <Menu.Item data-testid="item-1">Profile</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const content = screen.getByTestId('menu-content');
+    const item1 = screen.getByTestId('item-1');
+    item1.focus();
+
+    fireEvent.keyDown(content, { key: 'Tab' });
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it('closes when focus moves completely outside the menu and trigger', () => {
+    const onOpenChange = vi.fn();
+
+    render(
+      <div>
+        <button data-testid="external-btn">External</button>
+        <Menu.Root defaultOpen onOpenChange={onOpenChange}>
+          <Menu.Trigger>Menu</Menu.Trigger>
+          <Menu.Content data-testid="menu-content">
+            <Menu.Item data-testid="item-1">Profile</Menu.Item>
+          </Menu.Content>
+        </Menu.Root>
+      </div>,
+    );
+
+    const externalBtn = screen.getByTestId('external-btn');
+    act(() => {
+      externalBtn.focus();
+    });
+
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+  });
+
+  it('opens menu when ArrowDown is pressed on the trigger', () => {
+    const onOpenChange = vi.fn();
+
+    render(
+      <Menu.Root onOpenChange={onOpenChange}>
+        <Menu.Trigger data-testid="trigger">Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content">
+          <Menu.Item>Profile</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const trigger = screen.getByTestId('trigger');
+    fireEvent.keyDown(trigger, { key: 'ArrowDown' });
+
+    expect(onOpenChange).toHaveBeenCalledWith(true);
+  });
+
+  it('defaults surface level to 0 and propagates explicit or inherited levels', () => {
+    const { rerender } = render(
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content">
+          <Menu.Item>Item 1</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    expect(screen.getByTestId('menu-content')).toHaveAttribute('data-level', '0');
+
+    rerender(
+      <Menu.Root defaultOpen level={1}>
+        <Menu.Trigger>Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content">
+          <Menu.Item>Item 1</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    expect(screen.getByTestId('menu-content')).toHaveAttribute('data-level', '1');
+
+    rerender(
+      <Menu.Root defaultOpen level={1}>
+        <Menu.Trigger>Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content" level={2}>
+          <Menu.Item>Item 1</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    expect(screen.getByTestId('menu-content')).toHaveAttribute('data-level', '2');
+
+    rerender(
+      <Menu.Root defaultOpen level="inherit">
+        <Menu.Trigger>Menu</Menu.Trigger>
+        <Menu.Content data-testid="menu-content">
+          <Menu.Item>Item 1</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    expect(screen.getByTestId('menu-content')).toHaveAttribute('data-level', 'inherit');
   });
 });

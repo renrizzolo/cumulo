@@ -1,5 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Inter:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @import 'npm:@cumulo/core/theme.css';
+
+html {
+  scroll-padding-top: 4rem;
+}
 
 /* Global theme override */
 [data-theme] {
@@ -16,10 +19,7 @@
   --color-warning-base: oklch(79.5% 0.184 86.047);
   --color-error-base: oklch(63.7% 0.237 25.331);
   --color-info-base: oklch(71.5% 0.143 215.221);
-  --color-grey-base: oklch(55.3% 0.013 58.071);
-
-  --theme-chroma-scale: 1;
-  --theme-contrast-scale: 0.95;
+  --color-grey-base: oklch(62.755% 0.00498 78.111);
 }
 
 a {
@@ -31,7 +31,11 @@ ol {
   padding-left: var(--theme-spacing-md);
   display: flex;
   flex-direction: column;
-  gap: var(--theme-spacing-xs);
+  gap: var(--theme-spacing-sm);
+}
+
+strong {
+  font-weight: 600;
 }
 
 :root {

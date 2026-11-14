@@ -18,52 +18,19 @@ import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { useFocus } from '../hooks/useFocus.js';
-import { useDismissible } from '../hooks/useDismissible.js';
+import {
+  useDismissible,
+  handlePopoverToggleEvent,
+  safeHidePopover,
+  togglePopoverFromTrigger,
+} from '../hooks/useDismissible.js';
 
-function safeHidePopover(el: HTMLElement | null): boolean {
-  if (el && 'hidePopover' in el && typeof el.hidePopover === 'function') {
-    try {
-      el.hidePopover();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
-
-function safeTogglePopover(el: HTMLElement | null): boolean {
-  if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
-    try {
-      el.togglePopover();
-      return true;
-    } catch {
-      return false;
-    }
-  }
-  return false;
-}
-
-function safeShowPopover(el: HTMLElement | null): void {
-  if (!el || !('showPopover' in el) || typeof el.showPopover !== 'function') return;
-  try {
-    let isOpen = false;
-    try {
-      isOpen = el.matches?.(':popover-open') ?? false;
-    } catch {
-      isOpen = false;
-    }
-    if (!isOpen) {
-      el.showPopover();
-    }
-  } catch {
-    // Ignore if element is not in document yet or transitions
-  }
-}
+export type PopoverLevel = 0 | 1 | 2 | 'inherit';
 
 export interface PopoverContextValue {
   id: string;
   open: boolean;
+  level?: PopoverLevel;
   setOpen: (open: boolean) => void;
   show: () => void;
   hide: () => void;
@@ -92,6 +59,12 @@ interface PopoverProps {
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   /**
+   * Surface elevation level for the popover content.
+   * Can be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.
+   * @default 0
+   */
+  level?: PopoverLevel;
+  /**
    * Delay in milliseconds before opening when triggered by hover or focus.
    * @default 0
    */
@@ -104,6 +77,7 @@ function PopoverRoot({
   open: controlledOpen,
   defaultOpen = false,
   onOpenChange,
+  level = 0,
   delay = 0,
   id: providedId,
   children,
@@ -178,6 +152,7 @@ function PopoverRoot({
     (): PopoverContextValue => ({
       id,
       open,
+      level,
       setOpen,
       show,
       hide,
@@ -186,7 +161,7 @@ function PopoverRoot({
       popoverRef,
       triggerRef,
     }),
-    [id, open, setOpen, show, hide, toggle, close],
+    [id, open, level, setOpen, show, hide, toggle, close],
   );
 
   return <PopoverContext.Provider value={contextValue}>{children}</PopoverContext.Provider>;
@@ -242,22 +217,8 @@ function PopoverTrigger({
   const handleClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
       onClick?.(event);
-      if (event.defaultPrevented) return;
-
-      if (trigger === 'hover') return;
-
-      const el = popoverRef.current;
-      // In synthetic environments (like JSDOM / Vitest) where button popoverTarget is not dispatched by browser engine
-      if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
-        const button = event.currentTarget;
-        if (!('popoverTargetElement' in button) && !('popoverTargetAction' in button)) {
-          if (!safeTogglePopover(el)) {
-            toggle();
-          }
-        }
-      } else {
-        toggle();
-      }
+      if (event.defaultPrevented || trigger === 'hover') return;
+      togglePopoverFromTrigger(popoverRef.current, event.currentTarget, toggle);
     },
     [onClick, popoverRef, toggle, trigger],
   );
@@ -334,6 +295,23 @@ function PopoverTrigger({
       ? id
       : undefined;
 
+  const isButtonLike = Component === Button || Component === 'button' || props.role !== undefined;
+  const ariaExpanded =
+    props['aria-expanded'] !== undefined
+      ? props['aria-expanded']
+      : trigger === 'hover'
+        ? undefined
+        : isButtonLike
+          ? open
+          : undefined;
+
+  const ariaControls =
+    props['aria-controls'] !== undefined
+      ? props['aria-controls']
+      : trigger === 'hover'
+        ? undefined
+        : id;
+
   if (Component === Button) {
     return (
       <Button
@@ -342,8 +320,8 @@ function PopoverTrigger({
         popoverTarget={trigger === 'click' ? id : undefined}
         popoverTargetAction={trigger === 'click' ? 'toggle' : undefined}
         aria-haspopup={ariaHasPopup}
-        aria-expanded={open}
-        aria-controls={id}
+        aria-expanded={ariaExpanded}
+        aria-controls={ariaControls}
         aria-describedby={ariaDescribedBy}
         onClick={handleClick}
         onPointerEnter={handlePointerEnter}
@@ -366,8 +344,8 @@ function PopoverTrigger({
       popoverTarget: trigger === 'click' ? id : undefined,
       popoverTargetAction: trigger === 'click' ? 'toggle' : undefined,
       'aria-haspopup': ariaHasPopup,
-      'aria-expanded': open,
-      'aria-controls': id,
+      'aria-expanded': ariaExpanded,
+      'aria-controls': ariaControls,
       'aria-describedby': ariaDescribedBy,
       onClick: handleClick,
       onPointerEnter: handlePointerEnter,
@@ -530,6 +508,12 @@ interface PopoverDialogOptions {
    */
   variant?: 'popover';
   /**
+   * Surface elevation level for the popover content.
+   * Overrides the level defined on Popover.Root.
+   * @default 0
+   */
+  level?: PopoverLevel;
+  /**
    * Width and padding size presets for the popover dialog.
    * Tooltip variant does not accept size presets.
    * @default 'md'
@@ -564,6 +548,7 @@ interface PopoverTooltipOptions {
    * Tooltip variant used by `<Tooltip>` under the hood.
    */
   variant: 'tooltip';
+  level?: never;
   size?: never;
   loopFocus?: never;
   closeOnTabOut?: never;
@@ -574,11 +559,13 @@ interface PopoverTooltipOptions {
 function PopoverContent({
   id: providedId,
   variant = 'popover',
+  level: levelProp,
   popover,
   placement = 'bottom-start',
   size = 'md',
   loopFocus = false,
   closeOnTabOut = true,
+  tabIndex,
   role,
   className,
   style,
@@ -587,9 +574,23 @@ function PopoverContent({
   ref,
   ...props
 }: PopoverContentProps): React.JSX.Element {
-  const { id: rootId, open, close, setOpen, popoverRef, triggerRef } = usePopover();
+  const {
+    id: rootId,
+    open,
+    level: contextLevel,
+    close,
+    setOpen,
+    popoverRef,
+    triggerRef,
+  } = usePopover();
   const id = providedId || rootId;
   const isTooltip = variant === 'tooltip';
+
+  const resolvedLevel = isTooltip ? undefined : (levelProp ?? contextLevel ?? 0);
+  const surfaceClass =
+    resolvedLevel !== undefined && resolvedLevel !== 'inherit'
+      ? `surface-${resolvedLevel}`
+      : undefined;
 
   const resolvedPopover = isTooltip ? 'manual' : (popover ?? 'auto');
   const resolvedRole = isTooltip ? 'tooltip' : (role ?? 'dialog');
@@ -604,12 +605,7 @@ function PopoverContent({
 
   // Sync native popover open/close state via native toggle event
   const handleToggle = useCallback(
-    (e: React.ToggleEvent<HTMLDivElement>) => {
-      onToggle?.(e);
-      if (e.newState) {
-        setOpen(e.newState === 'open');
-      }
-    },
+    (e: React.ToggleEvent<HTMLDivElement>) => handlePopoverToggleEvent(e, setOpen, onToggle),
     [onToggle, setOpen],
   );
 
@@ -618,6 +614,8 @@ function PopoverContent({
     safeHidePopover(popoverRef.current);
   }, [close, popoverRef]);
 
+  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
+
   const focusRef = useFocus<HTMLDivElement>({
     type: 'modality',
     trap: !isTooltip && loopFocus,
@@ -625,9 +623,9 @@ function PopoverContent({
     onEscape: close,
     focusOnMount: !isTooltip && loopFocus,
     restoreFocusOnUnmount: !isTooltip,
+    open,
+    ignoreRefs,
   });
-
-  const ignoreRefs = useMemo(() => [triggerRef], [triggerRef]);
 
   const dismissibleRef = useDismissible<HTMLDivElement>({
     onDismiss: () => {
@@ -637,45 +635,8 @@ function PopoverContent({
     },
     dismissOnClickOutside: !isTooltip,
     ignoreRefs,
+    open,
   });
-
-  // Close popover if focus moves completely outside trigger and popover
-  useEffect(() => {
-    if (!open || !closeOnTabOut || loopFocus || isTooltip) return;
-
-    const handleDocumentFocusIn = (event: FocusEvent) => {
-      const popoverEl = popoverRef.current;
-      const triggerEl = triggerRef.current;
-      const target = event.target;
-
-      if (!(target instanceof Node)) return;
-
-      const isInsidePopover = popoverEl?.contains(target);
-      const isInsideTrigger = triggerEl?.contains(target);
-
-      if (!isInsidePopover && !isInsideTrigger) {
-        close();
-        safeHidePopover(popoverEl);
-      }
-    };
-
-    document.addEventListener('focusin', handleDocumentFocusIn);
-    return () => {
-      document.removeEventListener('focusin', handleDocumentFocusIn);
-    };
-  }, [close, closeOnTabOut, isTooltip, loopFocus, open, popoverRef, triggerRef]);
-
-  // Controlled open/close with native API if available
-  useEffect(() => {
-    const el = popoverRef.current;
-    if (!el) return;
-
-    if (open) {
-      safeShowPopover(el);
-    } else {
-      safeHidePopover(el);
-    }
-  }, [open, popoverRef]);
 
   const classes = popoverRecipe({ variant, placement, size: isTooltip ? undefined : size });
   const mergedRef = useMergeRefs(popoverRef, focusRef, dismissibleRef, ref);
@@ -685,13 +646,15 @@ function PopoverContent({
     <div
       ref={mergedRef}
       id={id}
+      tabIndex={tabIndex ?? -1}
       onToggle={handleToggle}
       data-state={open ? 'open' : 'closed'}
+      data-level={resolvedLevel}
       {...props}
       role={resolvedRole}
       aria-modal={resolvedRole === 'dialog' ? true : undefined}
       popover={resolvedPopover}
-      className={cx(classes, className)}
+      className={cx(classes, surfaceClass, className)}
       style={anchorStyle}
     >
       {children}
@@ -762,9 +725,11 @@ export {
 };
 
 export type {
+  PopoverProps,
   PopoverProps as RootProps,
   PopoverTriggerProps as TriggerProps,
   PopoverContentProps as ContentProps,
   PopoverCloseProps as CloseProps,
   PopoverVariants as ContentVariants,
+  PopoverLevel as Level,
 };

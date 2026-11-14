@@ -15,7 +15,7 @@ import { recipe, style, cx } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { Button, type ButtonProps } from './Button.js';
-import { VStack } from './Stack.js';
+import { StackProps, VStack } from './Stack.js';
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
 export type CollapsiblePart = 'trigger' | 'content';
@@ -44,7 +44,7 @@ export const useCollapsible = (): CollapsibleContextValue => {
  * CollapsibleRoot
  * -----------------------------------------------------------------------------------------------*/
 
-interface CollapsibleProps extends ElementProps<HTMLDivElement> {
+interface CollapsibleProps extends StackProps {
   open?: boolean;
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -175,6 +175,7 @@ function CollapsibleTrigger({
 interface CollapsibleContentProps extends ElementProps<HTMLElement> {
   children?: ReactNode;
   innerClassName?: string;
+  width?: 'full';
 }
 
 const collapsibleContentRecipe = recipe(
@@ -201,6 +202,9 @@ const collapsibleContentRecipe = recipe(
           visibility: 'hidden',
         },
       },
+      width: {
+        full: { width: '100%' },
+      },
     },
     defaultVariants: {
       open: false,
@@ -219,6 +223,7 @@ function CollapsibleContent({
   children,
   className,
   innerClassName,
+  width,
   ref,
   'aria-labelledby': ariaLabelledby,
   ...props
@@ -238,7 +243,7 @@ function CollapsibleContent({
       id={id}
       aria-labelledby={ariaLabelledby || triggerId}
       data-state={open ? 'open' : 'closed'}
-      className={cx(collapsibleContentRecipe({ open }), className)}
+      className={cx(collapsibleContentRecipe({ open, width }), className)}
       {...props}
     >
       <div className={cx(collapsibleInnerStyle.className, innerClassName)}>{children}</div>

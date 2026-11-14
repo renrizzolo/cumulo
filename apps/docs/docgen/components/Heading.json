@@ -31,9 +31,6 @@
             "value": "\"div\""
           },
           {
-            "value": "\"span\""
-          },
-          {
             "value": "\"h1\""
           },
           {
@@ -50,6 +47,9 @@
           },
           {
             "value": "\"h6\""
+          },
+          {
+            "value": "\"span\""
           }
         ]
       },
@@ -72,13 +72,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
+        "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | \"2xl\" | \"3xl\" | \"4xl\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -91,6 +88,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"2xl\""
@@ -124,16 +124,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"bold\""
+            "value": "\"normal\""
           },
           {
-            "value": "\"normal\""
+            "value": "\"bold\""
           },
           {
             "value": "\"medium\""
@@ -164,25 +164,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+        "raw": "\"inherit\" | \"subtle\" | \"primary\" | \"default\" | \"muted\" | \"error\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
-          },
-          {
             "value": "\"inherit\""
           },
           {
-            "value": "\"success\""
+            "value": "\"subtle\""
           },
           {
-            "value": "\"warning\""
-          },
-          {
-            "value": "\"error\""
+            "value": "\"primary\""
           },
           {
             "value": "\"default\""
@@ -191,7 +185,13 @@
             "value": "\"muted\""
           },
           {
-            "value": "\"subtle\""
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
           }
         ]
       },

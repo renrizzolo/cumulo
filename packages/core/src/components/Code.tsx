@@ -2,29 +2,32 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { textBase } from '../typography.js';
+import { textBase, wrapStyles } from '../typography.js';
 
-export const codeRecipe = recipe(
+const codeRecipe = recipe(
   {
+    extend: [wrapStyles],
     base: {
       ...textBase,
       fontWeight: vars.font.weight.medium,
       fontFamily: vars.font.mono,
-      fontSize: vars.font.size['2xs'],
+      fontSize: '0.9em',
       borderRadius: vars.radius.md,
       borderWidth: 0,
       borderStyle: 'solid',
-      padding: `${vars.spacing['2xs']} ${vars.spacing['2xs']}`,
+      padding: `5px ${vars.spacing['2xs']}`,
       lineHeight: vars.line.height.normal,
       display: 'inline-block',
       verticalAlign: 'baseline',
-      whiteSpace: 'nowrap',
+      maxWidth: '100%',
+      overflowWrap: 'break-word',
+      wordBreak: 'break-word',
     },
     variants: {
       variant: {
         base: {
           color: vars.grey[700],
-          backgroundColor: vars.grey[50],
+          backgroundColor: vars.beige.bg,
         },
         subtle: {
           backgroundColor: vars.surface.bg.next,
@@ -40,6 +43,7 @@ export const codeRecipe = recipe(
     },
     defaultVariants: {
       variant: 'subtle',
+      wrap: 'wrap',
     },
   },
   'code',
@@ -49,17 +53,19 @@ export type CodeVariants = RecipeVariants<typeof codeRecipe>;
 
 export interface CodeProps extends ElementProps<HTMLElement> {
   variant?: CodeVariants['variant'];
+  wrap?: CodeVariants['wrap'];
   children?: React.ReactNode;
 }
 
 export function Code({
-  variant = 'subtle',
+  variant = 'base',
+  wrap = 'wrap',
   className,
   children,
   ref,
   ...props
 }: CodeProps): React.JSX.Element {
-  const classes = codeRecipe({ variant });
+  const classes = codeRecipe({ variant, wrap });
 
   return (
     <code ref={ref} className={cx(classes, className)} {...props}>

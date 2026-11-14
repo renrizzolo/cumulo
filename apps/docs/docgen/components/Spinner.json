@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "raw": "\"inherit\" | \"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -34,9 +34,6 @@
             "value": "\"2xs\""
           },
           {
-            "value": "\"xs\""
-          },
-          {
             "value": "\"sm\""
           },
           {
@@ -44,6 +41,9 @@
           },
           {
             "value": "\"lg\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"xl\""
@@ -71,16 +71,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"info\" | \"muted\" | undefined",
+        "raw": "\"inherit\" | \"error\" | \"muted\" | \"primary\" | \"success\" | \"warning\" | \"info\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
+            "value": "\"inherit\""
           },
           {
-            "value": "\"inherit\""
+            "value": "\"error\""
+          },
+          {
+            "value": "\"muted\""
+          },
+          {
+            "value": "\"primary\""
           },
           {
             "value": "\"success\""
@@ -89,13 +95,7 @@
             "value": "\"warning\""
           },
           {
-            "value": "\"error\""
-          },
-          {
             "value": "\"info\""
-          },
-          {
-            "value": "\"muted\""
           }
         ]
       },

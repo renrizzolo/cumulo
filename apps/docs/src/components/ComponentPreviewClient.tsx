@@ -18,40 +18,21 @@ const previewCanvasStyle = style(
     minHeight: '160px',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: `${vars.spacing['2xl']} ${vars.spacing.xl}`,
+    padding: `${vars.spacing.xl} ${vars.spacing.lg}`,
     resize: 'horizontal',
-    width: '100%',
-    maxWidth: '100%',
+    containerType: 'inline-size',
+    width: `calc(100% + 2 * ${vars.spacing.lg})`,
+    maxWidth: `calc(100% + 2 * ${vars.spacing.lg})`,
+    marginInline: `calc(-1 * ${vars.spacing.lg})`,
     alignSelf: 'center',
     overflow: 'auto',
     position: 'relative',
-    '::before': {
-      content: "''",
-      position: 'absolute',
-      bottom: vars.spacing['2xs'],
-      right: vars.spacing['2xs'],
-      width: vars.size['4xs'],
-      height: vars.size['4xs'],
-      backgroundColor: vars.surface.secondary.border,
-      borderColor: vars.surface.border,
-      borderWidth: 1,
-      borderTopLeftRadius: vars.size.xs,
-      borderBottomRightRadius: vars.spacing.xs,
-      cornerShape: 'round',
-      opacity: 0,
-      pointerEvents: 'none',
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-    },
-    selectors: {
-      '&::-webkit-resizer': {
-        appearance: 'none',
-        backgroundColor: 'transparent',
-      },
-      '&:hover::before': {
-        opacity: 1,
-      },
-      '&:active::before': {
-        opacity: 1,
+    '@media': {
+      '(max-width: 768px)': {
+        padding: `${vars.spacing.md} ${vars.spacing.sm}`,
+        width: `calc(100% + 2 * ${vars.spacing.sm})`,
+        maxWidth: `calc(100% + 2 * ${vars.spacing.sm})`,
+        marginInline: `calc(-1 * ${vars.spacing.sm})`,
       },
     },
   },
@@ -70,6 +51,15 @@ const codeInnerStyleOffset = style({
   minWidth: 0,
 });
 
+const surfaceStyle = style({
+  padding: vars.spacing.lg,
+  '@media': {
+    '(max-width: 768px)': {
+      padding: vars.spacing.sm,
+    },
+  },
+});
+
 const SurfaceLevelGroup = ButtonGroup.create<'0' | '1' | '2'>();
 const LEVEL_TO_VALUE: Record<0 | 1 | 2, '0' | '1' | '2'> = { 0: '0', 1: '1', 2: '2' };
 const VALUE_TO_LEVEL: Record<'0' | '1' | '2', 0 | 1 | 2> = { '0': 0, '1': 1, '2': 2 };
@@ -86,7 +76,7 @@ export function ComponentPreviewClient({
 
   return (
     <>
-      <Surface level={0} overflow="hidden" padding="lg" radius="2xl">
+      <Surface level={0} overflow="hidden" radius="2xl" className={surfaceStyle.className}>
         {/* Preview Canvas Area */}
         <VStack gap="md">
           {title ? <Text type="body">{title}</Text> : null}
@@ -96,7 +86,6 @@ export function ComponentPreviewClient({
             flex={1}
             bordered={false}
             radius="lg"
-            padding="md"
             className={previewCanvasStyle.className}
           >
             {frame ? (
@@ -114,6 +103,7 @@ export function ComponentPreviewClient({
               wrap="wrap"
               justify="between"
               align="center"
+              gap="sm"
               className={toolbarFooterStyle.className}
             >
               {/* Surface Level Switcher */}
@@ -133,11 +123,9 @@ export function ComponentPreviewClient({
               </HStack>
 
               {/* Code Actions */}
-              <HStack gap="2xs" align="center">
-                <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
-                  {showCode ? 'Hide Code' : 'View Code'}
-                </Collapsible.Trigger>
-              </HStack>
+              <Collapsible.Trigger size="xs" variant={showCode ? 'secondary' : 'ghost'}>
+                {showCode ? 'Hide Code' : 'View Code'}
+              </Collapsible.Trigger>
             </HStack>
 
             {/* Animated Code Panel */}

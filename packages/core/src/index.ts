@@ -1,8 +1,7 @@
 export type { ElementProps } from './ElementProps.js';
 
-// Contract & Reset
+// Contract
 export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
-export { baseResetStyle, injectGlobalReset } from './reset.js';
 
 // Components
 export {
@@ -13,10 +12,11 @@ export {
 } from './components/Surface.js';
 export { Button, type ButtonProps, type ButtonVariants } from './components/Button.js';
 export { Spinner, type SpinnerProps, type SpinnerVariants } from './components/Spinner.js';
-export { Card, type CardProps, type CardVariants } from './components/Card.js';
+export * as Card from './components/Card.js';
+export { type CardProps, type CardVariants } from './components/Card.js';
 export { Input, type InputProps, type InputVariants } from './components/Input.js';
+export * as Select from './components/Select.js';
 export {
-  Select,
   createSelect,
   type SelectProps,
   type SelectOptionProps,
@@ -42,7 +42,7 @@ export {
   type AvatarGroupContextValue,
 } from './components/Avatar.js';
 export { Kbd, type KbdProps, type KbdVariants } from './components/Kbd.js';
-export { Link, type LinkProps, type LinkVariants } from './components/Link.js';
+export { Link, type LinkProps, type LinkBaseProps, type LinkVariants } from './components/Link.js';
 export * as Alert from './components/Alert.js';
 export {
   useAlert,
@@ -52,7 +52,7 @@ export {
   type AlertVariant,
 } from './components/Alert.js';
 export * as Menu from './components/Menu.js';
-export { useMenu, type MenuContextValue } from './components/Menu.js';
+export { useMenu, type MenuContextValue, type MenuLevel } from './components/Menu.js';
 export {
   ThemeToggle,
   SunIcon,
@@ -69,8 +69,8 @@ export {
   type StackVariants,
   type StackTag,
 } from './components/Stack.js';
+export * as Grid from './components/Grid.js';
 export {
-  Grid,
   gridContract,
   type GridProps,
   type GridVariants,
@@ -99,6 +99,28 @@ export { Code, type CodeProps, type CodeVariants } from './components/Code.js';
 export { Divider, type DividerProps, type DividerVariants } from './components/Divider.js';
 
 export * as Table from './components/Table.js';
+export * as List from './components/List.js';
+export {
+  type ListRootProps,
+  type ListItemProps,
+  type ListIconProps,
+  type ListContentProps,
+  type ListVariants,
+  type ListItemVariants,
+  type ListIconVariants,
+  type ListVariant,
+} from './components/List.js';
+export * as DescriptionList from './components/DescriptionList.js';
+export {
+  type DescriptionListRootProps,
+  type DescriptionListItemProps,
+  type DescriptionListTermProps,
+  type DescriptionListDescriptionProps,
+  type DescriptionListIconProps,
+  type DescriptionListVariants,
+  type DescriptionListItemVariants,
+  type DescriptionListIconVariants,
+} from './components/DescriptionList.js';
 export { Flow, type FlowProps, type FlowVariants } from './components/Flow.js';
 
 export * as Collapsible from './components/Collapsible.js';
@@ -108,7 +130,7 @@ export * as Dialog from './components/Dialog.js';
 export { useDialog, type DialogContextValue } from './components/Dialog.js';
 
 export * as Popover from './components/Popover.js';
-export { usePopover, type PopoverContextValue } from './components/Popover.js';
+export { usePopover, type PopoverContextValue, type PopoverLevel } from './components/Popover.js';
 
 export * as Tooltip from './components/Tooltip.js';
 export { useTooltip, type TooltipContextValue } from './components/Tooltip.js';
@@ -116,6 +138,8 @@ export { useTooltip, type TooltipContextValue } from './components/Tooltip.js';
 export { Checkbox, type CheckboxProps, type CheckboxVariants } from './components/Checkbox.js';
 
 export { Switch, type SwitchProps, type SwitchVariants } from './components/Switch.js';
+
+export { Slider, type SliderProps, type SliderVariants } from './components/Slider.js';
 
 export { Textarea, type TextareaProps, type TextareaVariants } from './components/Textarea.js';
 
@@ -208,6 +232,8 @@ export {
   useSidebar,
   SidebarContext,
   type SidebarContextValue,
+  type SidebarHoverTargetProps,
+  type SidebarHoverZoneProps,
 } from './components/Sidebar.js';
 
 export * as SideNav from './components/SideNav.js';

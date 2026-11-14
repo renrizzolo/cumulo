@@ -34,10 +34,14 @@ When generating or refactoring code using Cumulo, follow these rules:
   - Tokens: `vars.color.*`, `vars.spacing.*`, `vars.radius.*`, `vars.font.*`, `vars.shadow.*`
   - **Never use raw hex, rgb, or hsl strings.** Every color resolves through `vars.color.*`.
 
-### 4. Native top-layer overlays
+### 4. Theme & stylesheet setup
+- **Prebuilt theme stylesheet**: `@cumulo/core` ships with a prebuilt `theme.css` (`@cumulo/core/theme.css`) containing reset styles (`@layer reset`) and CSS token variables (`@layer base`).
+- **Loading styles**: Import `@cumulo/core/theme.css` in your root entry file (or global stylesheet), or provide your own custom stylesheet defining the required CSS token variables.
+
+### 5. Native top-layer overlays
 - **Top-layer overlays**: `<Dialog>` uses native `<dialog>`, `<Popover>` uses native `popover="auto"` with CSS anchor positioning, and `<Tooltip>` uses `<Popover>` with `popover="manual"`. Top-layer overlays render on the platform top layer and are never clipped by parent scroll or `overflow` containers.
 
-### 5. Mandatory self-check loop
+### 6. Mandatory self-check loop
 Before completing your response, re-read your generated code and verify:
 1. Replace any unstyled `<div>` elements with `<Stack>`, `<HStack>`, `<VStack>`, or `<Container>`.
 2. Replace any monolithic inputs with compound `<Field.*>` components.
@@ -48,6 +52,7 @@ Before completing your response, re-read your generated code and verify:
 ## Documentation pages
 
 - [Working with AI](/ai): Prompt templates, self-test verification, and guidelines.
+- [Bundler integration](/bundlers): Setup guides for Vite, Next.js (Turbopack & Webpack), Webpack, Rollup, esbuild, and Parcel.
 - [Zero-runtime CSS engine](/css): `style()`, `recipe()`, `cx()`, and keyframe animations with `@cumulo/css`.
 - [Design tokens and theming](/tokens): Contract tokens, `[data-theme='...']` styling, `useTheme()`, and `<ThemeScript />`.
 - [Component catalog](/components): Directory of 30+ accessible components.
@@ -74,13 +79,14 @@ Before completing your response, re-read your generated code and verify:
 - `Table`: Tabular layout. Subcomponents: `Table.Root`, `Table.Caption`, `Table.Header`, `Table.Body`, `Table.Row`, `Table.Head`, `Table.Cell`. Props on `Table.Root`: `variant`, `interactive`.
 
 ### Forms and input
-- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Select`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Radio`, `Field.RadioGroup`, `Field.Error`, `Field.Description`, `Field.Group`).
+- `Field`: Compound namespace (`Field.Root`, `Field.Label`, `Field.Input`, `Field.Select`, `Field.Textarea`, `Field.Checkbox`, `Field.Switch`, `Field.Slider`, `Field.Radio`, `Field.RadioGroup`, `Field.Error`, `Field.Description`, `Field.Group`).
 - `Input`: Standalone text input. Props: `leading`, `trailing`, `intent` ('default' | 'error' | 'success'), `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg').
 - `Select`: Native select dropdown with custom chevron indicator (`Select`, `Select.Root`, `Select.Option` / `Select.Item`, `Select.OptGroup` / `Select.Group`, `createSelect<T>()`). Variants: `variant` ('outline' | 'filled' | 'ghost'), `intent`, `size` ('2xs' | 'xs' | 'sm' | 'md' | 'lg').
 - `Textarea`: Standalone multi-line text input.
 - `Checkbox`: Accessible native checkbox with `size` ('sm' | 'md' | 'lg'), indeterminate, and error states.
 - `Radio`: Accessible radio item with `size` ('sm' | 'md' | 'lg') and error intent inheritance.
 - `RadioGroup`: Compound group of radio options (`RadioGroup.Root`, `RadioGroup.Item`, `createRadioGroup<T>()`) with `intent` ('default' | 'error').
+- `Slider`: Range slider primitive with track, filled range, draggable thumb, `size` ('sm' | 'md' | 'lg'), and `intent` ('default' | 'error').
 - `Switch`: Toggle switch primitive (`role="switch"`) with `size` ('sm' | 'md' | 'lg').
 - `Label`: Accessible label component (`htmlFor`).
 
