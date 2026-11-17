@@ -1,4 +1,4 @@
 import { unplugin } from './index.js';
 
-export const rollupPlugin = unplugin.rollup;
-export default rollupPlugin;
+export const cumulo = unplugin.rollup;
+export default cumulo;

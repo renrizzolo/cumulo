@@ -6,7 +6,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { fieldIntentStyles } from '../intents.js';
 
-export const textareaRecipe = recipe(
+const textareaRecipe = recipe(
   {
     extend: [fieldIntentStyles],
     base: {
@@ -16,7 +16,7 @@ export const textareaRecipe = recipe(
       color: vars.surface.fg,
       borderWidth: 1,
       borderStyle: 'solid',
-      borderRadius: `max(${vars.radius.control}, ${vars.spacing.md})`,
+      borderRadius: `min(${vars.radius.control}, ${vars.spacing.md})`,
       outline: 'none',
       boxSizing: 'border-box',
       transition: `border-color ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}`,
@@ -25,7 +25,7 @@ export const textareaRecipe = recipe(
         color: vars.surface.subtle,
       },
       ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':disabled': {

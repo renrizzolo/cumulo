@@ -1,7 +1,7 @@
 import { Transformer } from '@parcel/plugin';
 import { shouldProcessFile, extractCssFromCode, extractCssFromFile } from './core/extractor.js';
 
-export default new Transformer({
+export const cumulo = new Transformer({
   async transform({ asset }) {
     const code = await asset.getCode();
     const id = asset.filePath;
@@ -35,3 +35,5 @@ export default new Transformer({
     ];
   },
 });
+
+export default cumulo;

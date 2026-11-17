@@ -57,7 +57,7 @@ describe('Select Component', () => {
     const onChange = vi.fn();
 
     render(
-      <Select
+      <Select.Root
         aria-label="Framework"
         placeholder="Select framework"
         defaultValue=""
@@ -65,7 +65,7 @@ describe('Select Component', () => {
       >
         <option value="react">React</option>
         <option value="solid">Solid</option>
-      </Select>,
+      </Select.Root>,
     );
 
     const select = screen.getByRole('combobox', { name: 'Framework' });
@@ -131,7 +131,7 @@ describe('Alert Component', () => {
 describe('Grid, Spinner, Kbd, and Link primitives', () => {
   it('renders without crashing and exposes expected roles', () => {
     render(
-      <Grid columns={2} gap="md">
+      <Grid.Root columns={2} gap="md">
         <Grid.Item colSpan={2}>
           <Spinner label="Fetching data" />
           <Kbd>⌘K</Kbd>
@@ -139,7 +139,7 @@ describe('Grid, Spinner, Kbd, and Link primitives', () => {
             External Docs
           </Link>
         </Grid.Item>
-      </Grid>,
+      </Grid.Root>,
     );
 
     expect(screen.getByRole('status', { name: 'Fetching data' })).toBeInTheDocument();

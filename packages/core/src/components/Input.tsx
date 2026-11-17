@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import { ElementProps } from '../ElementProps.js';
 import { fieldIntentStyles, sizes } from '../intents.js';
 
-export const inputRecipe = recipe(
+const inputRecipe = recipe(
   {
     extend: [fieldIntentStyles, sizes],
     base: {
@@ -25,11 +25,11 @@ export const inputRecipe = recipe(
         color: vars.surface.subtle,
       },
       ':focus-visible': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':focus-within': {
-        borderColor: vars.primary.DEFAULT,
+        borderColor: vars.primary['600'],
         boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':disabled': {
@@ -45,42 +45,6 @@ export const inputRecipe = recipe(
     },
     variants: {
       size: {
-        '2xs': {
-          height: vars.size['2xs'],
-          paddingLeft: vars.spacing['2xs'],
-          paddingRight: vars.spacing['2xs'],
-          fontSize: vars.font.size['2xs'],
-        },
-        xs: {
-          height: vars.size.xs,
-          paddingLeft: vars.spacing.xs,
-          paddingRight: vars.spacing.xs,
-          fontSize: vars.font.size.xs,
-        },
-        sm: {
-          height: vars.size.sm,
-          paddingLeft: vars.spacing.sm,
-          paddingRight: vars.spacing.sm,
-          fontSize: vars.font.size.sm,
-        },
-        md: {
-          height: vars.size.md,
-          paddingLeft: vars.spacing.md,
-          paddingRight: vars.spacing.md,
-          fontSize: vars.font.size.sm,
-        },
-        lg: {
-          height: vars.size.lg,
-          paddingLeft: vars.spacing.lg,
-          paddingRight: vars.spacing.lg,
-          fontSize: vars.font.size.base,
-        },
-        xl: {
-          height: vars.size.xl,
-          paddingLeft: vars.spacing.xl,
-          paddingRight: vars.spacing.xl,
-          fontSize: vars.font.size.lg,
-        },
         inherit: {
           height: 'auto',
         },
@@ -123,6 +87,7 @@ const innerInputStyle = style(
 const adornmentSlotStyle = style(
   {
     display: 'inline-flex',
+    userSelect: 'none',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,

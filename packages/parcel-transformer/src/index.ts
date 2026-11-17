@@ -1,3 +1,4 @@
-import transformer from '@cumulo/unplugin/parcel';
+import { cumulo } from '@cumulo/unplugin/parcel';
 
-export default transformer;
+export { cumulo };
+export default cumulo;

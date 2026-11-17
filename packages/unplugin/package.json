@@ -4,14 +4,42 @@
   "description": "Universal build plugin for Cumulo CSS with support for Vite, Webpack, Rollup, esbuild, and Parcel",
   "license": "MIT",
   "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.cts",
   "exports": {
-    ".": "./dist/index.mjs",
-    "./esbuild": "./dist/esbuild.mjs",
-    "./parcel": "./dist/parcel.mjs",
-    "./rollup": "./dist/rollup.mjs",
-    "./vite": "./dist/vite.mjs",
-    "./webpack": "./dist/webpack.mjs",
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./esbuild": {
+      "import": "./dist/esbuild.mjs",
+      "require": "./dist/esbuild.cjs"
+    },
+    "./next": {
+      "import": "./dist/next.mjs",
+      "require": "./dist/next.cjs"
+    },
+    "./parcel": {
+      "import": "./dist/parcel.mjs",
+      "require": "./dist/parcel.cjs"
+    },
+    "./postcss": {
+      "import": "./dist/postcss.mjs",
+      "require": "./dist/postcss.cjs"
+    },
+    "./rollup": {
+      "import": "./dist/rollup.mjs",
+      "require": "./dist/rollup.cjs"
+    },
+    "./vite": {
+      "import": "./dist/vite.mjs",
+      "require": "./dist/vite.cjs"
+    },
+    "./webpack": {
+      "import": "./dist/webpack.mjs",
+      "require": "./dist/webpack.cjs"
+    },
     "./package.json": "./package.json"
   },
   "publishConfig": {
@@ -40,5 +68,8 @@
     "@parcel/plugin": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

@@ -49,6 +49,7 @@
   "targets": {
     "react-static": {
       "source": "apps/docs/src/pages/**/*.{tsx,mdx}",
+      "distDir": "apps/docs/dist",
       "context": "react-server"
     }
   }

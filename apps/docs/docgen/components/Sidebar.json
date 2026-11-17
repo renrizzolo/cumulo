@@ -169,10 +169,10 @@
             "value": "\"none\""
           },
           {
-            "value": "\"tooltip\""
+            "value": "\"expand\""
           },
           {
-            "value": "\"expand\""
+            "value": "\"tooltip\""
           }
         ]
       },
@@ -255,6 +255,28 @@
             "value": "2"
           }
         ]
+      },
+      "shortPropTypeName": null
+    },
+    "hoverLeaveDelay": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Delay in milliseconds before visually collapsing the sidebar after pointer leaves\nthe sidebar and any registered hover targets. Useful for multi-element hover targets\nand bridging borders/gutters.",
+      "name": "hoverLeaveDelay",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+        "name": "SidebarProviderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+          "name": "SidebarProviderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | undefined"
       },
       "shortPropTypeName": null
     },
@@ -543,10 +565,10 @@
                 "value": "\"none\""
               },
               {
-                "value": "\"tooltip\""
+                "value": "\"expand\""
               },
               {
-                "value": "\"expand\""
+                "value": "\"tooltip\""
               }
             ]
           },
@@ -623,6 +645,28 @@
             ]
           },
           "shortPropTypeName": null
+        },
+        "hoverLeaveDelay": {
+          "defaultValue": {
+            "value": "0"
+          },
+          "description": "Delay in milliseconds before visually collapsing the sidebar after pointer leaves\nthe sidebar and any registered hover targets. Useful for multi-element hover targets\nand bridging borders/gutters.",
+          "name": "hoverLeaveDelay",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+            "name": "SidebarProviderProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+              "name": "SidebarProviderProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "number | undefined"
+          },
+          "shortPropTypeName": null
         }
       }
     },
@@ -646,16 +690,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"primary\""
+                "value": "\"outline\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"default\""
+              },
+              {
+                "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
@@ -1052,6 +1099,107 @@
         }
       }
     },
+    "Content": {
+      "name": "Sidebar.Content",
+      "props": {
+        "flex": {
+          "defaultValue": null,
+          "description": "Whether the content wrapper expands to fill available vertical space (`flex: 1`).",
+          "name": "flex",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+            "name": "SidebarContentProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+              "name": "SidebarContentProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | \"true\" | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "collapseBehavior": {
+          "defaultValue": {
+            "value": "clip"
+          },
+          "description": "Strategy for handling content when the sidebar is visually collapsed:\n- `'clip'`: Content maintains its natural layout width without wrapping or shrinking, clipped cleanly by the sidebar boundary.\n- `'fade'`: Content smoothly fades out when the sidebar collapses.\n- `'collapse'`: Content smoothly fades out and collapses its height when the sidebar collapses.\n- `'none'`: Default layout flow without collapse constraints.",
+          "name": "collapseBehavior",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+            "name": "SidebarContentProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+              "name": "SidebarContentProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"clip\" | \"none\" | \"collapse\" | \"fade\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"clip\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"collapse\""
+              },
+              {
+                "value": "\"fade\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
     "Footer": {
       "name": "Sidebar.Footer",
       "props": {
@@ -1093,9 +1241,146 @@
         }
       }
     },
+    "HoverZone": {
+      "name": "Sidebar.HoverZone",
+      "description": "A hover zone for expanding the sidebar on hover.",
+      "props": {
+        "variant": {
+          "defaultValue": {
+            "value": "edge"
+          },
+          "description": "Layout presentation variant:\n- `'edge'`: Fixed to the screen or frame edge matching position.\n- `'gutter'`: Normal block element that fills height.\n- `'inline'`: Zero-styling trigger wrapper.",
+          "name": "variant",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+            "name": "SidebarHoverZoneProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+              "name": "SidebarHoverZoneProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"inline\" | \"edge\" | \"gutter\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"inline\""
+              },
+              {
+                "value": "\"edge\""
+              },
+              {
+                "value": "\"gutter\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "position": {
+          "defaultValue": {
+            "value": "'left'"
+          },
+          "description": "Dock position override (`'left'` or `'right'`).\nIf omitted, inherits from SidebarProvider.",
+          "name": "position",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+            "name": "SidebarHoverZoneProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+              "name": "SidebarHoverZoneProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"left\" | \"right\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "width": {
+          "defaultValue": null,
+          "description": "Custom width override (e.g. `'16px'`, `'240px'`).",
+          "name": "width",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+            "name": "SidebarHoverZoneProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Sidebar.tsx",
+              "name": "SidebarHoverZoneProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
     "useSidebar": {
       "name": "Sidebar.useSidebar",
       "description": "Accesses the active sidebar state and controls.",
+      "props": {}
+    },
+    "Context": {
+      "name": "Sidebar.Context",
       "props": {}
     }
   }

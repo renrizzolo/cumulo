@@ -3,42 +3,98 @@ export default Layout;
 
 # Tokens and theming
 
-Cumulo's token system is built on CSS custom properties. Customize themes by overriding these properties in your stylesheets, or use the [theme builder](/theme-builder) to test themes interactively.
+Cumulo powers its design tokens with native CSS custom properties.
+
+### Prebuilt theme stylesheet
+
+`@cumulo/core` ships with a prebuilt stylesheet at `@cumulo/core/theme.css`. It includes two CSS cascade layers:
+
+- **Reset styles (`@layer reset`)**: Box-sizing, margin resets, baseline body styling, and form element font inheritance.
+- **Theme variables (`@layer base`)**: CSS custom properties for surfaces, colors, spacing, radii, typography, and shadows.
+
+### Load theme styles
+
+To use Cumulo tokens in your app, choose one of two options:
+
+#### Option 1: Import the prebuilt stylesheet
+
+Import `@cumulo/core/theme.css` in your root entry file (`main.tsx` or `App.tsx`):
+
+```ts
+// src/main.tsx
+import '@cumulo/core/theme.css';
+```
+
+Or import it directly in your CSS:
+
+```css
+/* src/styles.css */
+@import '@cumulo/core/theme.css';
+```
+
+#### Option 2: Provide a custom stylesheet
+
+You can create your own stylesheet containing the required CSS variables. Define the tokens on `:root` or on scoped theme selectors (such as `[data-theme='brand']`). When you provide your own variables and reset, you do not need to import `@cumulo/core/theme.css`.
+
+You can also import `@cumulo/core/theme.css` and selectively override specific tokens for branded themes:
+
+```css
+/* src/styles.css */
+@import '@cumulo/core/theme.css';
+
+[data-theme='brand'] {
+  --color-primary-base: oklch(65% 0.24 270);
+  --theme-radius-md: 0.5rem;
+}
+```
+
+Use the [theme builder](/theme-builder) to test and generate theme overrides interactively.
+
+### Consume tokens in code
+
+Import `vars` from `@cumulo/core` to access typed CSS variable references in your component styles:
 
 ```ts
 import { vars } from '@cumulo/core';
+import { style } from '@cumulo/css';
+
+export const card = style({
+  padding: vars.spacing.md,
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.surface.bg,
+});
 ```
 
-## Surfaces
+### Surfaces
 
 Surfaces define contextual styles. Nested interactive elements, such as inputs and buttons, are surface-aware.
 
 <TokenTable category="surface" />
 
-## Color seeds
+### Color seeds
 
-Color palettes are built from the following CSS custom properties: `--color-grey-base`, `--color-primary-base`, `--color-success-base`, `--color-warning-base`, `--color-error-base`, and `--color-info-base`. Cumulo's theme stylesheet computes each full 50–900 palette using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
+Cumulo generates color palettes from six CSS custom properties: `--color-grey-base`, `--color-primary-base`, `--color-success-base`, `--color-warning-base`, `--color-error-base`, and `--color-info-base`. Cumulo's theme stylesheet computes each full 50–900 palette using relative color syntax, trigonometric chroma curves (`sin(t * pi)`), and `light-dark()`.
 
 <TokenTable category="seed" />
 
-## Color palettes
+### Color palettes
 
 Each intent generates a 10-step shade scale (50–900) with contrast that adapts to light and dark modes.
 
 <ColorTokens />
 
-## Spacing
+### Spacing
 
 <TokenTable category="spacing" />
 
-## Border radius
+### Border radius
 
 <TokenTable category="radius" />
 
-## Typography
+### Typography
 
 <TokenTable category="typography" />
 
-## Shadows
+### Shadows
 
 <TokenTable category="shadow" />

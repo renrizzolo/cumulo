@@ -271,10 +271,9 @@ function PropsTableContent({
     <Table.Root interactive>
       <Table.Header>
         <Table.Row>
-          <Table.Head>Prop</Table.Head>
-          <Table.Head>Type</Table.Head>
-          <Table.Head>Default</Table.Head>
-          <Table.Head>Description</Table.Head>
+          {['Prop', 'Type', 'Default', 'Description'].map((heading) => (
+            <Table.Head key={heading}>{heading}</Table.Head>
+          ))}
         </Table.Row>
       </Table.Header>
       <Table.Body>

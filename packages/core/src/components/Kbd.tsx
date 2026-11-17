@@ -3,7 +3,7 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
-export const kbdRecipe = recipe(
+const kbdRecipe = recipe(
   {
     base: {
       display: 'inline-flex',

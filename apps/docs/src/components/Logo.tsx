@@ -2,13 +2,15 @@ import React from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import { vars, type ElementProps } from '@cumulo/core';
 
-export const logoRecipe = recipe({
+const logoRecipe = recipe({
   base: {
     display: 'inline-flex',
     alignItems: 'center',
     userSelect: 'none',
     lineHeight: 1,
     minWidth: 0,
+    flexShrink: 0,
+    whiteSpace: 'nowrap',
   },
   variants: {
     size: {
@@ -21,6 +23,9 @@ export const logoRecipe = recipe({
       lg: {
         gap: vars.spacing.sm,
       },
+      xl: {
+        gap: vars.spacing.md,
+      },
     },
   },
   defaultVariants: {
@@ -28,7 +33,7 @@ export const logoRecipe = recipe({
   },
 });
 
-export const logoTextRecipe = recipe({
+const logoTextRecipe = recipe({
   base: {
     fontFamily: vars.font.sans,
     fontWeight: vars.font.weight.bold,
@@ -51,6 +56,9 @@ export const logoTextRecipe = recipe({
       lg: {
         fontSize: vars.font.size.lg,
       },
+      xl: {
+        fontSize: vars.font.size.xl,
+      },
     },
   },
   defaultVariants: {
@@ -58,26 +66,30 @@ export const logoTextRecipe = recipe({
   },
 });
 
-export const logoAccentStyle = style({
+const logoAccentStyle = style({
   fontWeight: vars.font.weight.semibold,
   color: vars.primary.DEFAULT,
 });
 
 export type LogoVariants = RecipeVariants<typeof logoRecipe>;
 
-export interface LogoMarkProps {
+interface LogoMarkProps {
   size?: LogoVariants['size'];
   className?: string;
 }
 
-export function LogoMark({ size = 'sm', className }: LogoMarkProps): React.JSX.Element {
+const logoMarkSvgStyle = style({
+  flexShrink: 0,
+});
+
+function LogoMark({ size = 'sm', className }: LogoMarkProps): React.JSX.Element {
   const sizeValue = MARK_SIZES[size];
 
   return (
     <svg
       width={sizeValue}
       height={sizeValue}
-      className={className}
+      className={cx(logoMarkSvgStyle.className, className)}
       viewBox="0 0 16 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -98,6 +110,7 @@ const MARK_SIZES = {
   sm: 16,
   md: 20,
   lg: 24,
+  xl: 48,
 } as const;
 
 export interface LogoProps extends ElementProps<HTMLDivElement> {

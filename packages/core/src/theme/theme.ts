@@ -13,10 +13,6 @@ export function isColorMode(value: unknown): value is ColorMode {
   return value === 'light' || value === 'dark' || value === 'system';
 }
 
-export function isResolvedColorMode(value: unknown): value is ResolvedColorMode {
-  return value === 'light' || value === 'dark';
-}
-
 export function getSystemColorMode(): ResolvedColorMode {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return 'light';

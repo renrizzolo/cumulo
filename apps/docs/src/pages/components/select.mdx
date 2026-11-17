@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Select, Container, VStack, HStack } from '@cumulo/core';
+import { Container, VStack, HStack } from '@cumulo/core';
+import * as Select from '@cumulo/core/components/Select';
 import * as Field from '@cumulo/core/components/Field';
 import selectDoc from '../../../docgen/components/Select.json';
 export default Layout;
@@ -61,24 +62,24 @@ Supports `outline`, `filled`, and `ghost` variants along with `default`, `error`
 <ComponentPreview title="Select Variants & Intents">
   <Container size="sm" padding="none">
     <VStack gap="md">
-      <Select variant="outline" defaultValue="outline" aria-label="Outline select">
+      <Select.Root variant="outline" defaultValue="outline" aria-label="Outline select">
         <option value="outline">Outline Variant (Default)</option>
         <option value="other">Other Option</option>
-      </Select>
-      <Select variant="filled" defaultValue="filled" aria-label="Filled select">
+      </Select.Root>
+      <Select.Root variant="filled" defaultValue="filled" aria-label="Filled select">
         <option value="filled">Filled Variant</option>
         <option value="other">Other Option</option>
-      </Select>
-      <Select variant="ghost" defaultValue="ghost" aria-label="Ghost select">
+      </Select.Root>
+      <Select.Root variant="ghost" defaultValue="ghost" aria-label="Ghost select">
         <option value="ghost">Ghost Variant</option>
         <option value="other">Other Option</option>
-      </Select>
-      <Select intent="success" defaultValue="valid" aria-label="Success select">
+      </Select.Root>
+      <Select.Root intent="success" defaultValue="valid" aria-label="Success select">
         <option value="valid">Success Intent</option>
-      </Select>
-      <Select intent="error" defaultValue="invalid" aria-label="Error select">
+      </Select.Root>
+      <Select.Root intent="error" defaultValue="invalid" aria-label="Error select">
         <option value="invalid">Error Intent</option>
-      </Select>
+      </Select.Root>
     </VStack>
   </Container>
 </ComponentPreview>
@@ -90,21 +91,21 @@ Matches `Button` and `Input` control heights across `2xs`, `xs`, `sm`, `md`, and
 <ComponentPreview title="Select Sizes">
   <Container size="sm" padding="none">
     <VStack gap="sm">
-      <Select size="2xs" defaultValue="2xs" aria-label="2xs select">
+      <Select.Root size="2xs" defaultValue="2xs" aria-label="2xs select">
         <option value="2xs">2XS Select (24px)</option>
-      </Select>
-      <Select size="xs" defaultValue="xs" aria-label="xs select">
+      </Select.Root>
+      <Select.Root size="xs" defaultValue="xs" aria-label="xs select">
         <option value="xs">XS Select (28px)</option>
-      </Select>
-      <Select size="sm" defaultValue="sm" aria-label="sm select">
+      </Select.Root>
+      <Select.Root size="sm" defaultValue="sm" aria-label="sm select">
         <option value="sm">Small Select (32px)</option>
-      </Select>
-      <Select size="md" defaultValue="md" aria-label="md select">
+      </Select.Root>
+      <Select.Root size="md" defaultValue="md" aria-label="md select">
         <option value="md">Medium Select (36px)</option>
-      </Select>
-      <Select size="lg" defaultValue="lg" aria-label="lg select">
+      </Select.Root>
+      <Select.Root size="lg" defaultValue="lg" aria-label="lg select">
         <option value="lg">Large Select (44px)</option>
-      </Select>
+      </Select.Root>
     </VStack>
   </Container>
 </ComponentPreview>

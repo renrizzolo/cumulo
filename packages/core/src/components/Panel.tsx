@@ -20,7 +20,6 @@ const panelRecipe = recipe(
       ...panelContract.$set({
         dividerColor: vars.surface.border,
       }),
-      position: 'relative',
     },
     variants: {
       direction: {
@@ -182,7 +181,7 @@ export interface PanelProps extends ElementProps<HTMLElement> {
   children?: React.ReactNode;
 }
 
-export function PanelRoot({
+export function Panel({
   as: Component = 'div',
   divider,
   scrollbar = 'none',
@@ -225,10 +224,4 @@ export function PanelRoot({
   );
 }
 
-PanelRoot.displayName = 'Panel';
-
-export const Panel = PanelRoot;
-
-export { PanelRoot as Root };
-
-export type { PanelProps as RootProps };
+Panel.displayName = 'Panel';

@@ -12,7 +12,7 @@ const spinKeyframes = keyframes({
   },
 });
 
-export const spinnerRecipe = recipe(
+const spinnerRecipe = recipe(
   {
     base: {
       display: 'inline-block',
@@ -54,12 +54,12 @@ export const spinnerRecipe = recipe(
       },
       intent: {
         inherit: { color: 'currentColor' },
-        primary: { color: vars.primary.DEFAULT },
+        primary: { color: vars.primary['600'] },
         muted: { color: vars.surface.muted },
-        success: { color: vars.success.bg },
-        warning: { color: vars.warning.bg },
-        error: { color: vars.error.bg },
-        info: { color: vars.info.bg },
+        success: { color: vars.success['600'] },
+        warning: { color: vars.warning['600'] },
+        error: { color: vars.error['600'] },
+        info: { color: vars.info['600'] },
       },
     },
     defaultVariants: {

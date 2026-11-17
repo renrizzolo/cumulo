@@ -4,10 +4,10 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 import { Surface, type SurfaceProps } from './Surface.js';
-import { Header, type HeaderProps } from './Header.js';
+import { Header } from './Header.js';
 import { HStack, VStack, type StackProps } from './Stack.js';
 
-export const cardRecipe = recipe(
+const cardRecipe = recipe(
   {
     extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
     base: {
@@ -105,18 +105,6 @@ CardRoot.displayName = 'Card';
 CardBody.displayName = 'Card.Body';
 CardFooter.displayName = 'Card.Footer';
 
-export const Card = Object.assign(CardRoot, {
-  Root: CardRoot,
-  Header,
-  Body: CardBody,
-  Footer: CardFooter,
-});
-
 export { CardRoot as Root, Header, CardBody as Body, CardFooter as Footer };
 
-export type {
-  CardProps as RootProps,
-  HeaderProps,
-  StackProps as BodyProps,
-  StackProps as FooterProps,
-};
+export type { CardProps as RootProps, StackProps as BodyProps, StackProps as FooterProps };

@@ -26,7 +26,7 @@ const tableRecipe = recipe(
       variant: {
         default: {},
         bordered: {
-          borderRadius: `max(${vars.radius.control}, ${vars.spacing.md})`,
+          borderRadius: `min(${vars.radius.control}, ${vars.spacing.md})`,
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
@@ -69,42 +69,34 @@ const tableWrapper = style({
   overflowX: 'auto',
 });
 
-const tableHeadCellRecipe = recipe(
+const tableHeadCellStyle = style(
   {
-    base: {
-      padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-      fontWeight: vars.font.weight.semibold,
-      color: vars.surface.fg,
-      borderBottomWidth: 1,
-      borderBottomStyle: 'solid',
-      borderBottomColor: vars.surface.border,
-      backgroundColor: tableContract.bg,
-      textAlign: 'left',
-    },
-    variants: {},
+    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    fontWeight: vars.font.weight.semibold,
+    color: vars.surface.fg,
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: vars.surface.border,
+    backgroundColor: tableContract.bg,
+    textAlign: 'left',
   },
   'table-th',
 );
 
-const tableCellRecipe = recipe(
+const tableCellStyle = style(
   {
-    base: {
-      padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-      color: vars.surface.fg,
-      borderBottomWidth: 1,
-      borderBottomStyle: 'solid',
-      borderBottomColor: vars.surface.border,
-      verticalAlign: 'top',
-    },
-    variants: {},
+    padding: `${vars.spacing.sm} ${vars.spacing.md}`,
+    color: vars.surface.fg,
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderBottomColor: vars.surface.border,
+    verticalAlign: 'top',
   },
   'table-td',
 );
 
-const tableRowRecipe = recipe({}, 'table-tr');
-
 type TableVariants = RecipeVariants<typeof tableRecipe>;
-type TableRowVariants = RecipeVariants<typeof tableRowRecipe>;
+type TableRowVariants = Record<string, never>;
 
 function cleanTableChildren(children: React.ReactNode): React.ReactNode {
   return React.Children.toArray(children).filter(
@@ -179,9 +171,8 @@ function TableHead({
   ref,
   ...props
 }: ElementProps<HTMLTableCellElement>): React.JSX.Element {
-  const classes = tableHeadCellRecipe();
   return (
-    <th ref={ref} className={cx(classes, className)} {...props}>
+    <th ref={ref} className={cx(tableHeadCellStyle, className)} {...props}>
       {children}
     </th>
   );
@@ -193,9 +184,8 @@ function TableCell({
   ref,
   ...props
 }: ElementProps<HTMLTableCellElement>): React.JSX.Element {
-  const classes = tableCellRecipe();
   return (
-    <td ref={ref} className={cx(classes, className)} {...props}>
+    <td ref={ref} className={cx(tableCellStyle, className)} {...props}>
       {children}
     </td>
   );

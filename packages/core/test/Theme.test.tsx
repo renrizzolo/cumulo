@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { renderHook, act } from '@testing-library/react';
+import { render, renderHook, act } from '@testing-library/react';
 import { getThemeScript, useTheme } from '../src';
 import {
   isColorMode,
@@ -15,6 +15,15 @@ import {
   setDefaultTheme,
   themeStore,
 } from '../src/theme/theme';
+
+function ThemeHydrationProbe(): React.JSX.Element {
+  const { resolvedMode, systemMode } = useTheme();
+  return (
+    <span data-resolved={resolvedMode} data-system={systemMode}>
+      {resolvedMode}
+    </span>
+  );
+}
 
 describe('Theme and ColorMode utilities and store', () => {
   let isDarkMedia = false;
@@ -253,5 +262,23 @@ describe('Theme and ColorMode utilities and store', () => {
     store.setTheme('docs');
     expect(localStorage.getItem('cumulo-theme')).toBeNull();
     store.destroy();
+  });
+
+  it('hydrates useTheme without mismatch when OS prefers dark mode', () => {
+    isDarkMedia = true;
+
+    const container = document.createElement('div');
+    // Server snapshot always renders 'light' before client media query is read
+    container.innerHTML = '<span data-resolved="light" data-system="light">light</span>';
+    document.body.appendChild(container);
+
+    const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { unmount } = render(<ThemeHydrationProbe />, { container, hydrate: true });
+
+    expect(consoleError).not.toHaveBeenCalled();
+
+    consoleError.mockRestore();
+    unmount();
+    container.remove();
   });
 });

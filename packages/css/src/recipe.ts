@@ -21,10 +21,6 @@ export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never
   ? I
   : never;
 
-export type RecipeExtendable =
-  | RecipeFunction<VariantDefinitions>
-  | RecipeOptions<VariantDefinitions, unknown>;
-
 export type ExtractRecipeVariants<E> =
   E extends RecipeFunction<infer V>
     ? V
@@ -33,6 +29,12 @@ export type ExtractRecipeVariants<E> =
       : E extends readonly (infer U)[]
         ? UnionToIntersection<ExtractRecipeVariants<U>>
         : {};
+
+export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T extends never
+  ? E extends undefined
+    ? 'Error: recipe() requires at least one of `variants` or `extend`. Use style() for static styles.'
+    : unknown
+  : unknown;
 
 export interface RecipeOptions<T extends VariantDefinitions = {}, E = undefined> {
   base?: StyleRule | StyleRule[];
@@ -148,7 +150,7 @@ function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
  * Supports recursive extends of shared intent recipes and compiles all CSS upfront into static classes.
  */
 export function recipe<T extends VariantDefinitions = {}, E = undefined>(
-  options: RecipeOptions<T, E>,
+  options: RecipeOptions<T, E> & RecipeOptionsValidation<T, E>,
   prefix = 'r',
 ): RecipeFunction<T & ExtractRecipeVariants<E>> {
   type CombinedVariants = T & ExtractRecipeVariants<E>;

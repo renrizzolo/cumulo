@@ -3,7 +3,7 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
-export const containerRecipe = recipe(
+const containerRecipe = recipe(
   {
     base: {
       width: '100%',
@@ -17,15 +17,16 @@ export const containerRecipe = recipe(
         md: { maxWidth: vars.container.md },
         lg: { maxWidth: vars.container.lg },
         xl: { maxWidth: vars.container.xl },
+        '2xl': { maxWidth: vars.container['2xl'] },
         full: { maxWidth: '100%' },
       },
       padding: {
-        none: { paddingLeft: 0, paddingRight: 0 },
-        xs: { paddingLeft: vars.spacing.xs, paddingRight: vars.spacing.xs },
-        sm: { paddingLeft: vars.spacing.sm, paddingRight: vars.spacing.sm },
-        md: { paddingLeft: vars.spacing.md, paddingRight: vars.spacing.md },
-        lg: { paddingLeft: vars.spacing.lg, paddingRight: vars.spacing.lg },
-        xl: { paddingLeft: vars.spacing.xl, paddingRight: vars.spacing.xl },
+        none: { paddingInline: 0 },
+        xs: { paddingInline: vars.spacing.xs },
+        sm: { paddingInline: vars.spacing.sm },
+        md: { paddingInline: vars.spacing.md },
+        lg: { paddingInline: vars.spacing.lg },
+        xl: { paddingInline: vars.spacing.xl },
       },
     },
     defaultVariants: {

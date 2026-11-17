@@ -5,7 +5,7 @@ import { type ElementProps } from '../ElementProps.js';
 import { sizes, staticIntentStyles } from '../intents.js';
 import { textBaseStyles } from '../typography.js';
 
-export const badgeRecipe = recipe(
+const badgeRecipe = recipe(
   {
     extend: [staticIntentStyles, sizes],
     base: {
@@ -19,6 +19,8 @@ export const badgeRecipe = recipe(
       borderWidth: 1,
       borderStyle: 'solid',
       borderColor: 'transparent',
+      whiteSpace: 'nowrap',
+      flexShrink: 0,
     },
     variants: {
       color: {
@@ -62,8 +64,6 @@ export const badgeRecipe = recipe(
 );
 
 export type BadgeVariants = RecipeVariants<typeof badgeRecipe>;
-
-export type BadgeColor = NonNullable<BadgeVariants['color']>;
 
 export interface BadgeProps extends ElementProps<HTMLSpanElement> {
   variant?: Exclude<BadgeVariants['variant'], 'ghost'>;

@@ -102,4 +102,64 @@ describe('Popover Component', () => {
     fireEvent.keyDown(trigger, { key: 'Tab', shiftKey: true });
     expect(HTMLElement.prototype.hidePopover).toHaveBeenCalled();
   });
+
+  it('renders content with tabIndex="-1" by default so clicks inside do not escape to outer focusable containers', () => {
+    render(
+      <Popover.Root defaultOpen>
+        <Popover.Trigger data-testid="trigger">Open Popover</Popover.Trigger>
+        <Popover.Content data-testid="content">
+          <p>Popover content</p>
+        </Popover.Content>
+      </Popover.Root>,
+    );
+
+    const content = screen.getByTestId('content');
+    expect(content).toHaveAttribute('tabindex', '-1');
+  });
+
+  it('defaults surface level to 0 and propagates explicit or inherited levels', () => {
+    const { rerender } = render(
+      <Popover.Root defaultOpen>
+        <Popover.Trigger data-testid="trigger">Open Popover</Popover.Trigger>
+        <Popover.Content data-testid="content">
+          <p>Default Level</p>
+        </Popover.Content>
+      </Popover.Root>,
+    );
+
+    expect(screen.getByTestId('content')).toHaveAttribute('data-level', '0');
+
+    rerender(
+      <Popover.Root defaultOpen level={1}>
+        <Popover.Trigger data-testid="trigger">Open Popover</Popover.Trigger>
+        <Popover.Content data-testid="content">
+          <p>Level 1 from Root</p>
+        </Popover.Content>
+      </Popover.Root>,
+    );
+
+    expect(screen.getByTestId('content')).toHaveAttribute('data-level', '1');
+
+    rerender(
+      <Popover.Root defaultOpen level={1}>
+        <Popover.Trigger data-testid="trigger">Open Popover</Popover.Trigger>
+        <Popover.Content data-testid="content" level={2}>
+          <p>Level 2 override on Content</p>
+        </Popover.Content>
+      </Popover.Root>,
+    );
+
+    expect(screen.getByTestId('content')).toHaveAttribute('data-level', '2');
+
+    rerender(
+      <Popover.Root defaultOpen level="inherit">
+        <Popover.Trigger data-testid="trigger">Open Popover</Popover.Trigger>
+        <Popover.Content data-testid="content">
+          <p>Inherited Level</p>
+        </Popover.Content>
+      </Popover.Root>,
+    );
+
+    expect(screen.getByTestId('content')).toHaveAttribute('data-level', 'inherit');
+  });
 });

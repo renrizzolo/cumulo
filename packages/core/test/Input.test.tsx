@@ -53,4 +53,22 @@ describe('Input component', () => {
     await user.type(input, 'hello');
     expect(handleChange).not.toHaveBeenCalled();
   });
+
+  it('renders leading and trailing adornments while preserving input behavior', async () => {
+    const user = userEvent.setup();
+    render(
+      <Input
+        aria-label="Search"
+        leading={<span data-testid="leading-icon">icon</span>}
+        trailing={<button type="button">Clear</button>}
+      />,
+    );
+
+    expect(screen.getByTestId('leading-icon')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Clear' })).toBeInTheDocument();
+
+    const input = screen.getByRole('textbox', { name: 'Search' });
+    await user.type(input, 'query');
+    expect(input).toHaveValue('query');
+  });
 });

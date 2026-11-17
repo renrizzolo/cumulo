@@ -1,15 +1,17 @@
 import { Code, Divider, Flow, Heading, Text } from '@cumulo/core';
 import { textBase } from '@cumulo/core/typography';
 import { style } from '@cumulo/css';
-import { type PageProps } from '@renr/parcel-rsc-router';
 import React, { type ReactNode } from 'react';
-import AppLayout from '../Layout';
+import type { PageProps } from '@renr/parcel-rsc-router';
+import AppLayout, { type DocsLayoutMode, isFullWidthLayout } from '../Layout';
 import { CodeBlock } from './CodeBlock';
 import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { PropsTable } from './PropsTable';
-import { RscAlert } from './RscAlert';
+import { BundlerAlert, RscAlert } from './Alerts';
 import { TokenTable } from './TokenTable';
+import { Link } from './Link';
+import { Logo } from './Logo';
 
 /**
  * Wrapper component for MDX's implicit `<p>` mapping.
@@ -23,24 +25,23 @@ function MDXParagraph(props: React.ComponentProps<typeof Text>): React.JSX.Eleme
 }
 
 const components = {
-  a: (props: React.JSX.IntrinsicElements['a']) => (
-    // oxlint-disable-next-line jsx-a11y/anchor-has-content
-    <a target="_blank" rel="noreferrer noopener" {...props} />
-  ),
+  a: Link,
+  Link,
   h1: (props: React.ComponentProps<typeof Heading>) => <Heading as="h1" size="3xl" {...props} />,
   h2: (props: React.ComponentProps<typeof Heading>) => <Heading as="h2" size="2xl" {...props} />,
   h3: (props: React.ComponentProps<typeof Heading>) => <Heading as="h3" size="xl" {...props} />,
   h4: (props: React.ComponentProps<typeof Heading>) => <Heading as="h4" size="lg" {...props} />,
   p: MDXParagraph,
-  code: (props: React.ComponentProps<typeof Code>) => <Code variant="subtle" {...props} />,
+  code: (props: React.ComponentProps<typeof Code>) => <Code {...props} />,
   hr: () => <Divider />,
   CodeBlock,
   ColorTokens,
+  Logo,
   TokenTable,
   PropsTable,
   ComponentPreview,
   RscAlert,
-  RSCAlert: RscAlert,
+  BundlerAlert,
 };
 
 // this applies base text styles to the child markdown content.
@@ -53,20 +54,19 @@ const styles = style({
 export default function MDXLayout({
   children,
   currentPage,
+  layout,
 }: {
   children: ReactNode;
   currentPage: PageProps['currentPage'];
+  layout?: DocsLayoutMode;
 }): React.JSX.Element {
   const title = currentPage?.tableOfContents?.[0]?.title;
   const body = withMDXComponents(children);
+  const isFullWidth = isFullWidthLayout(currentPage, layout);
 
   return (
-    <AppLayout title={title} currentPage={currentPage}>
-      {currentPage?.url === '/theme-builder.html' ? (
-        children
-      ) : (
-        <Flow className={styles.className}>{body}</Flow>
-      )}
+    <AppLayout title={title} currentPage={currentPage} layout={isFullWidth ? 'full' : 'restricted'}>
+      {isFullWidth ? children : <Flow className={styles.className}>{body}</Flow>}
     </AppLayout>
   );
 }

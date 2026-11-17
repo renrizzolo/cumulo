@@ -1,0 +1,1335 @@
+{
+  "name": "DescriptionList.Root",
+  "path": "packages/core/src/components/DescriptionList.tsx",
+  "fileName": "DescriptionList.tsx",
+  "props": {
+    "gap": {
+      "defaultValue": {
+        "value": "'sm'"
+      },
+      "description": "Proportional gap preset where the x-axis gap is wider than the y-axis gap.",
+      "name": "gap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gapX": {
+      "defaultValue": null,
+      "description": "Explicit horizontal column gap spacing between terms and descriptions.\nOverrides the horizontal gap from `gap`.",
+      "name": "gapX",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gapY": {
+      "defaultValue": null,
+      "description": "Explicit vertical row gap spacing between items.\nOverrides the vertical gap from `gap`.",
+      "name": "gapY",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "layout": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "Layout arrangement for the description list.\n- `'default'` / `'horizontal'`: Term and description are placed horizontally side-by-side.\n- `'stacked'`: Term is placed on top of description.\n- `'stacked-horizontal'`: Stacked items (term on top of description) are arranged horizontally in columns.",
+      "name": "layout",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"horizontal\" | \"stacked\" | \"stacked-horizontal\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"stacked\""
+          },
+          {
+            "value": "\"stacked-horizontal\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "orientation": {
+      "defaultValue": {
+        "value": "vertical"
+      },
+      "description": "Orientation of stacked items when `layout=\"stacked\"`.\nWhen set to `'horizontal'`, stacked items are laid out horizontally in columns.",
+      "name": "orientation",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"horizontal\" | \"vertical\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "responsive": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "Whether horizontal layouts should responsively collapse to stacked on smaller viewports.",
+      "name": "responsive",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "Font size primitive applied to child terms and descriptions.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"3xl\""
+          },
+          {
+            "value": "\"base\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+        "name": "DescriptionListRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+          "name": "DescriptionListRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDListElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    }
+  },
+  "subcomponents": {
+    "Item": {
+      "name": "DescriptionList.Item",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "Term": {
+      "name": "DescriptionList.Term",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListTermBaseProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermBaseProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "color": {
+          "defaultValue": null,
+          "description": "",
+          "name": "color",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"inherit\""
+              },
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"muted\""
+              },
+              {
+                "value": "\"subtle\""
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "\"error\""
+              },
+              {
+                "value": "\"success\""
+              },
+              {
+                "value": "\"warning\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"3xl\""
+              },
+              {
+                "value": "\"base\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "lineHeight": {
+          "defaultValue": null,
+          "description": "",
+          "name": "lineHeight",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"normal\""
+              },
+              {
+                "value": "\"tight\""
+              },
+              {
+                "value": "\"relaxed\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "transform": {
+          "defaultValue": null,
+          "description": "",
+          "name": "transform",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"uppercase\""
+              },
+              {
+                "value": "\"capitalize\""
+              },
+              {
+                "value": "\"lowercase\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "weight": {
+          "defaultValue": null,
+          "description": "",
+          "name": "weight",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"normal\""
+              },
+              {
+                "value": "\"bold\""
+              },
+              {
+                "value": "\"medium\""
+              },
+              {
+                "value": "\"semibold\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "align": {
+          "defaultValue": null,
+          "description": "",
+          "name": "align",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"left\" | \"right\" | \"center\" | \"justify\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"justify\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"wrap\""
+              },
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"balance\""
+              },
+              {
+                "value": "\"pretty\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "type": {
+          "defaultValue": null,
+          "description": "Semantic type that contextually sets size, line-height, and font weight",
+          "name": "type",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"display\""
+              },
+              {
+                "value": "\"body\""
+              },
+              {
+                "value": "\"label\""
+              },
+              {
+                "value": "\"lead\""
+              },
+              {
+                "value": "\"caption\""
+              },
+              {
+                "value": "\"code\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "truncate": {
+          "defaultValue": null,
+          "description": "",
+          "name": "truncate",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "icon": {
+          "defaultValue": null,
+          "description": "Icon or emoji marker displayed before the term text.",
+          "name": "icon",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListTermIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermIconProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermNoIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "iconSize": {
+          "defaultValue": {
+            "value": "'md'"
+          },
+          "description": "Size of the icon marker.",
+          "name": "iconSize",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListTermIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermIconProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListTermNoIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Description": {
+      "name": "DescriptionList.Description",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListDescriptionProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListDescriptionProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "color": {
+          "defaultValue": null,
+          "description": "",
+          "name": "color",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"inherit\""
+              },
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"muted\""
+              },
+              {
+                "value": "\"subtle\""
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "\"error\""
+              },
+              {
+                "value": "\"success\""
+              },
+              {
+                "value": "\"warning\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"3xl\""
+              },
+              {
+                "value": "\"base\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "lineHeight": {
+          "defaultValue": null,
+          "description": "",
+          "name": "lineHeight",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"normal\""
+              },
+              {
+                "value": "\"tight\""
+              },
+              {
+                "value": "\"relaxed\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "transform": {
+          "defaultValue": null,
+          "description": "",
+          "name": "transform",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"uppercase\""
+              },
+              {
+                "value": "\"capitalize\""
+              },
+              {
+                "value": "\"lowercase\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "weight": {
+          "defaultValue": null,
+          "description": "",
+          "name": "weight",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"normal\""
+              },
+              {
+                "value": "\"bold\""
+              },
+              {
+                "value": "\"medium\""
+              },
+              {
+                "value": "\"semibold\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "align": {
+          "defaultValue": null,
+          "description": "",
+          "name": "align",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"left\" | \"right\" | \"center\" | \"justify\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"justify\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"wrap\""
+              },
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"balance\""
+              },
+              {
+                "value": "\"pretty\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "type": {
+          "defaultValue": null,
+          "description": "Semantic type that contextually sets size, line-height, and font weight",
+          "name": "type",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"display\""
+              },
+              {
+                "value": "\"body\""
+              },
+              {
+                "value": "\"label\""
+              },
+              {
+                "value": "\"lead\""
+              },
+              {
+                "value": "\"caption\""
+              },
+              {
+                "value": "\"code\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "truncate": {
+          "defaultValue": null,
+          "description": "",
+          "name": "truncate",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Text.tsx",
+            "name": "TextProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Text.tsx",
+              "name": "TextProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Icon": {
+      "name": "DescriptionList.Icon",
+      "props": {
+        "size": {
+          "defaultValue": {
+            "value": "'md'"
+          },
+          "description": "Size of the icon marker.",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+            "name": "DescriptionListIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/DescriptionList.tsx",
+              "name": "DescriptionListIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLSpanElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { playwright } from '@vitest/browser-playwright';
-import { vitePlugin } from '@cumulo/unplugin/vite';
+import { cumulo } from '@cumulo/unplugin/vite';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,7 +16,7 @@ import {
 } from './src/helpers/bundler-builders.js';
 
 export default defineConfig({
-  plugins: [react(), vitePlugin()],
+  plugins: [react(), cumulo()],
   resolve: {
     alias: [
       {

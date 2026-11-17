@@ -11,26 +11,16 @@ export const checkboxRecipe = recipe(
   {
     extend: [focusRing, controlIntent],
     base: {
-      display: 'inline-flex',
-      alignItems: 'center',
       justifyContent: 'center',
-      position: 'relative',
       width: vars.size['2xs'],
       height: vars.size['2xs'],
       borderRadius: vars.radius.md,
       borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
       backgroundColor: vars.surface.bg.DEFAULT,
-
-      cursor: 'pointer',
-      userSelect: 'none',
-      boxSizing: 'border-box',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
-      flexShrink: 0,
       selectors: {
         '&:has(input:hover)': {
-          borderColor: vars.primary.DEFAULT,
+          borderColor: vars.primary['600'],
           backgroundColor: vars.surface.bg.next,
         },
       },
@@ -39,27 +29,11 @@ export const checkboxRecipe = recipe(
       checked: {
         true: {
           color: vars.primary.fg,
-          backgroundColor: vars.primary.DEFAULT,
-          borderColor: vars.primary.DEFAULT,
-          selectors: {
-            '&:has(input:hover)': {
-              backgroundColor: vars.primary.hover,
-              borderColor: vars.primary.hover,
-            },
-          },
         },
         false: {
           // shows the indeterminate icon in the primary colour
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
         },
-      },
-      disabled: {
-        true: {
-          opacity: 0.5,
-          cursor: 'not-allowed',
-          pointerEvents: 'none',
-        },
-        false: {},
       },
       size: {
         sm: {
@@ -77,9 +51,6 @@ export const checkboxRecipe = recipe(
       },
     },
     defaultVariants: {
-      checked: false,
-      disabled: false,
-      intent: 'default',
       size: 'md',
     },
   },

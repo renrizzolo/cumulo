@@ -1,0 +1,493 @@
+{
+  "name": "List.Root",
+  "path": "packages/core/src/components/List.tsx",
+  "fileName": "List.tsx",
+  "props": {
+    "gap": {
+      "defaultValue": {
+        "value": "sm"
+      },
+      "description": "Vertical gap spacing between list items.",
+      "name": "gap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/List.tsx",
+        "name": "ListRootBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/List.tsx",
+          "name": "ListRootBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"2xl\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "Additional CSS class name.",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/List.tsx",
+        "name": "ListRootBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/List.tsx",
+          "name": "ListRootBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "children": {
+      "defaultValue": null,
+      "description": "List items or child elements.",
+      "name": "children",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/List.tsx",
+        "name": "ListRootBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/List.tsx",
+          "name": "ListRootBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      },
+      "shortPropTypeName": null
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLUListElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "plain"
+      },
+      "description": "Ordered list with automatic numeric counter markers.\nVisual style variant of the list.\n- `plain`: Clean list without default markers.\n- `bullet`: Unordered list with styled disc markers.",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/List.tsx",
+        "name": "ListRootOrderedProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/List.tsx",
+          "name": "ListRootOrderedProps"
+        },
+        {
+          "fileName": "cumulo/packages/core/src/components/List.tsx",
+          "name": "ListRootDefaultProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"ordered\" | \"plain\" | \"bullet\" | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "\"ordered\""
+          },
+          {
+            "value": "\"plain\""
+          },
+          {
+            "value": "\"bullet\""
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    }
+  },
+  "subcomponents": {
+    "Item": {
+      "name": "List.Item",
+      "props": {
+        "gap": {
+          "defaultValue": {
+            "value": "sm"
+          },
+          "description": "Gap spacing between the marker/icon and the item content.",
+          "name": "gap",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListItemBaseProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListItemBaseProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"3xs\""
+              },
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"2xl\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListItemBaseProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListItemBaseProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLLIElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "variant": {
+          "defaultValue": null,
+          "description": "Item variant with a custom icon or emoji marker.\nItem variant for standard, bullet, or ordered items.\nPassing custom `icon` is not permitted when using standard variants.",
+          "name": "variant",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListIconItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListIconItemProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListDefaultItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"ordered\" | \"plain\" | \"bullet\" | \"icon\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"ordered\""
+              },
+              {
+                "value": "\"plain\""
+              },
+              {
+                "value": "\"bullet\""
+              },
+              {
+                "value": "\"icon\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "icon": {
+          "defaultValue": null,
+          "description": "Icon or emoji marker displayed before the item content.\nPassing `icon` is not permitted when variant is not 'icon'.",
+          "name": "icon",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListIconItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListIconItemProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListDefaultItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "ReactNode"
+          },
+          "shortPropTypeName": null
+        },
+        "iconSize": {
+          "defaultValue": {
+            "value": "md"
+          },
+          "description": "Size of the icon marker.\nPassing `iconSize` is not permitted when variant is not 'icon'.",
+          "name": "iconSize",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListIconItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListIconItemProps"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListDefaultItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Icon": {
+      "name": "List.Icon",
+      "props": {
+        "size": {
+          "defaultValue": {
+            "value": "md"
+          },
+          "description": "Size of the icon marker.",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"lg\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListIconProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListIconProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLSpanElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "Content": {
+      "name": "List.Content",
+      "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/List.tsx",
+            "name": "ListContentProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/List.tsx",
+              "name": "ListContentProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "markerIconBase": {
+      "name": "List.markerIconBase",
+      "description": "Shared base styles for inline marker icons (list bullets, description list term icons).",
+      "props": {}
+    },
+    "markerIconSizes": {
+      "name": "List.markerIconSizes",
+      "description": "Shared `size` variant styles for inline marker icons.",
+      "props": {}
+    }
+  }
+}

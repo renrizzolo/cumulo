@@ -224,6 +224,25 @@ describe('Field accessibility', () => {
     expect(select).toHaveAttribute('aria-describedby', 'role-field-description role-field-error');
     expect(select).toHaveAttribute('aria-invalid', 'true');
   });
+
+  it('connects Field.Input with leading and trailing adornments while preserving accessibility', () => {
+    render(
+      <Field.Root id="search-field">
+        <Field.Label>Search</Field.Label>
+        <Field.Input
+          leading={<span data-testid="search-icon">icon</span>}
+          trailing={<span data-testid="search-kbd">⌘K</span>}
+        />
+        <Field.Description>Type to search</Field.Description>
+      </Field.Root>,
+    );
+
+    const input = screen.getByRole('textbox', { name: 'Search' });
+    expect(input).toHaveAttribute('id', 'search-field');
+    expect(input).toHaveAttribute('aria-describedby', 'search-field-description');
+    expect(screen.getByTestId('search-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('search-kbd')).toBeInTheDocument();
+  });
 });
 
 function DynamicDescForm() {

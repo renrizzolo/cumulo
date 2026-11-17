@@ -21,7 +21,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const defaultRootDir = path.resolve(__dirname, '../..');
 
-export const PR_COMMENT_HEADER = '<!-- cumulo-pr-metrics -->';
+const PR_COMMENT_HEADER = '<!-- cumulo-pr-metrics -->';
 
 function renderBundleRow(entry: BundleEntry, baseEntry?: BundleEntry): string {
   const rawStr = formatBytes(entry.metrics.raw);
@@ -175,7 +175,7 @@ export function generateApiDiffSection(diffReport: ApiDiffReport): string {
   return lines.join('\n');
 }
 
-export function generateFullReport(options: {
+function generateFullReport(options: {
   currentBundle: BundleSizeReport;
   baseBundle?: BundleSizeReport;
   apiDiff: ApiDiffReport;

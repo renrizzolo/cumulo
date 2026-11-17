@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { textSharedRecipe, truncateStyle } from '../typography.js';
 
-export const headingRecipe = recipe(
+const headingRecipe = recipe(
   {
     extend: [textSharedRecipe],
     variants: {
@@ -68,12 +68,12 @@ export interface HeadingProps extends ElementProps<HTMLElement> {
   truncate?: boolean;
 }
 
-export const defaultSizeForLevel: Record<HeadingLevel, HeadingProps['size']> = {
-  h1: '3xl',
-  h2: '2xl',
-  h3: 'xl',
-  h4: 'lg',
-  h5: 'md',
+const defaultSizeForLevel: Record<HeadingLevel, HeadingProps['size']> = {
+  h1: '2xl',
+  h2: 'xl',
+  h3: 'lg',
+  h4: 'md',
+  h5: 'sm',
   h6: 'sm',
   div: 'xl',
   span: 'xl',

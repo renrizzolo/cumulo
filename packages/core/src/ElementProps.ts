@@ -67,7 +67,7 @@ export type ElementProps<T> = Omit<
   | 'exportparts'
   | 'size'
 > & {
-  popover?: 'auto' | 'manual' | '' | boolean;
+  popover?: 'auto' | 'manual' | 'hint' | '' | boolean;
   popoverTarget?: string;
   popoverTargetAction?: 'toggle' | 'show' | 'hide';
   defaultChecked?: boolean;

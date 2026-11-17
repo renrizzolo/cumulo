@@ -245,7 +245,13 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
     {
       name: 'vars.surface.muted',
       variable: 'var(--surface-muted)',
-      description: 'Subtle text, icons, and deactivated elements',
+      description: 'Muted text, descriptions, and secondary elements',
+      category: 'surface',
+    },
+    {
+      name: 'vars.surface.subtle',
+      variable: 'var(--surface-subtle)',
+      description: 'Subtle text, placeholders, icons, and hints',
       category: 'surface',
     },
   ],

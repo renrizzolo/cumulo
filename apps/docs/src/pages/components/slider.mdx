@@ -1,0 +1,131 @@
+import Layout from '../../components/MDXLayout.tsx';
+import { Slider, HStack, VStack, Text, Badge } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
+import sliderDoc from '../../../docgen/components/Slider.json';
+export default Layout;
+
+# Slider
+
+An accessible range slider component for selecting numeric values along a track, with smooth thumb dragging, sizing, intent variants, and Field integration.
+
+```tsx
+import { Slider } from '@cumulo/core';
+```
+
+### Examples
+
+<ComponentPreview title="Range Slider">
+  <VStack gap="lg" style={{ width: '100%', maxWidth: '400px' }}>
+    <Field.Root>
+      <HStack justify="between" align="center">
+        <Field.Label>Volume</Field.Label>
+        <Text size="sm" color="subtle">
+          50%
+        </Text>
+      </HStack>
+      <Field.Slider defaultValue={50} min={0} max={100} />
+      <Field.Description>Adjust the primary playback volume.</Field.Description>
+    </Field.Root>
+  </VStack>
+</ComponentPreview>
+
+## Sizes
+
+Sliders support `sm`, `md` (default), and `lg` sizes.
+
+<ComponentPreview title="Slider Sizes">
+  <VStack gap="lg" style={{ width: '100%', maxWidth: '400px' }}>
+    <Field.Root>
+      <Field.Label>Small (sm)</Field.Label>
+      <Field.Slider size="sm" defaultValue={25} />
+    </Field.Root>
+
+    <Field.Root>
+      <Field.Label>Medium (md)</Field.Label>
+      <Field.Slider size="md" defaultValue={50} />
+    </Field.Root>
+
+    <Field.Root>
+      <Field.Label>Large (lg)</Field.Label>
+      <Field.Slider size="lg" defaultValue={75} />
+    </Field.Root>
+
+  </VStack>
+</ComponentPreview>
+
+## States and error integration
+
+Sliders support default, error, and disabled states. When integrated within `<Field.Root isInvalid>`, error styling and `aria-invalid` are wired automatically.
+
+<ComponentPreview title="Slider States">
+  <VStack gap="lg" style={{ width: '100%', maxWidth: '400px' }}>
+    <Field.Root>
+      <Field.Label>Default Slider</Field.Label>
+      <Field.Slider defaultValue={50} />
+    </Field.Root>
+
+    <Field.Root isInvalid>
+      <Field.Label>Error State</Field.Label>
+      <Field.Slider defaultValue={20} />
+      <Field.Error>Value is below minimum threshold</Field.Error>
+    </Field.Root>
+
+    <Field.Root>
+      <Field.Label>Disabled Slider</Field.Label>
+      <Field.Slider disabled defaultValue={40} />
+    </Field.Root>
+
+  </VStack>
+</ComponentPreview>
+
+## Custom ranges & steps
+
+Configure `min`, `max`, and `step` to constrain value increments.
+
+<ComponentPreview title="Steps & Custom Ranges">
+  <VStack gap="lg" style={{ width: '100%', maxWidth: '400px' }}>
+    <Field.Root>
+      <HStack justify="between" align="center">
+        <Field.Label>Stepped (Step: 20)</Field.Label>
+        <Text size="sm" color="subtle">0 - 100</Text>
+      </HStack>
+      <Field.Slider defaultValue={40} min={0} max={100} step={20} />
+      <Field.Description>Snaps to multiples of 20.</Field.Description>
+    </Field.Root>
+
+    <Field.Root>
+      <HStack justify="between" align="center">
+        <Field.Label>Temperature Range</Field.Label>
+        <Text size="sm" color="subtle">16°C - 30°C</Text>
+      </HStack>
+      <Field.Slider defaultValue={21} min={16} max={30} step={0.5} />
+      <Field.Description>Fine step increments of 0.5 degrees.</Field.Description>
+    </Field.Root>
+
+  </VStack>
+</ComponentPreview>
+
+## States & validation
+
+Sliders seamlessly handle `disabled` states and inherit validation errors from `Field.Root`.
+
+<ComponentPreview title="Slider States">
+  <VStack gap="lg" style={{ width: '100%', maxWidth: '400px' }}>
+    <Field.Root>
+      <Field.Label>Disabled</Field.Label>
+      <Field.Slider disabled defaultValue={35} />
+      <Field.Description>This control is currently inactive.</Field.Description>
+    </Field.Root>
+
+    <Field.Root isInvalid>
+      <Field.Label>Processing Capacity</Field.Label>
+      <Field.Slider defaultValue={95} />
+      <Field.Error>Capacity exceeds the recommended safety threshold of 90%.</Field.Error>
+    </Field.Root>
+
+  </VStack>
+</ComponentPreview>
+
+### Component API
+
+<PropsTable data={sliderDoc} />

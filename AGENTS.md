@@ -91,6 +91,13 @@ When writing components, templates, or documentation pages inside this repo:
 - **Color Mode**: Appearance (`light`, `dark`, `system`). Configured via `document.documentElement.style.colorScheme`. All themes intrinsically support both modes via CSS `light-dark()` calculations. `'dark'` is **never** a theme name.
 - Embed `<ThemeScript />` directly in HTML `<head>`. Manage modes via `useTheme()` and `<ThemeToggle />`.
 
+### Typography Spacing & Leading Trim Invariant
+
+Because Cumulo typography primitives use text-box: trim-both cap alphabetic:
+
+❌ NEVER use gap="2xs" or gap="xs" on <VStack> containing <Text>, <Heading>, or paragraphs (lines will visually collide).
+✅ ALWAYS use at least gap="sm" (or gap="md", or <Flow>) when stacking text vertically.
+
 ---
 
 ## 3. Testing & Validation Standards
@@ -135,3 +142,4 @@ When authoring instructions or prompts for external developers using `@cumulo/co
   2. Forms: Use compound `<Field.Root>`, `<Field.Label>`, `<Field.Input>`, `<Field.Error>` slots.
   3. Styling: Use `@cumulo/css` (`style()`, `recipe()`, `vars.*`) rather than expecting Tailwind utility classes to style Cumulo components.
   4. Theming: Use `[data-theme='...']` for brands and `light-dark()` with `<ThemeScript />` for dark mode.
+  5. Bundler: Configure `@cumulo/unplugin` (or `@cumulo/parcel-transformer`) to extract static CSS. For Next.js (Turbopack & Webpack), configure `@cumulo/unplugin/postcss` in `postcss.config.mjs` and add `@cumulo;` to the global stylesheet.

@@ -1,7 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
 import { DualSidebarExample } from '../../components/DualSidebarExample.tsx';
 import dualSidebarCode from 'raw-text:../../components/DualSidebarExample.tsx';
-import { Panel, Surface, VStack, HStack, Heading, Text } from '@cumulo/core';
+import { Panel, Surface, VStack, HStack, Heading, Text, vars } from '@cumulo/core';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
 import * as SideNav from '@cumulo/core/components/SideNav';
 import sidebarDoc from '../../../docgen/components/Sidebar.json';
@@ -469,6 +469,108 @@ import { Sidebar, useSidebar } from '@cumulo/core';
       </Panel>
     </Sidebar.Root>
   </HStack>
+</ComponentPreview>
+
+### External Hover Trigger (`Sidebar.HoverZone`)
+
+`<Sidebar.HoverZone>` is a companion primitive for `<Sidebar.Provider>` that propagates hover expansion to external elements, viewport edges, or layout gutters. This is particularly useful when sidebars have `collapsedWidth="0px"` (hiding completely until hovered) or when the application frame is restricted or centered with margins to the left of the sidebar.
+
+Multi-element transitions are coordinated cleanly using `hoverLeaveDelay` on `<Sidebar.Provider>` so moving between the trigger zone and the expanded sidebar never flickers or drops hover state.
+
+<ComponentPreview frame title="Zero-width Sidebar with HoverZone Gutter">
+  <Sidebar.Provider defaultCollapsed hoverBehaviour="expand" hoverLeaveDelay={150}>
+    <HStack width="full" align="stretch" gap="none" style={{ minHeight: '260px' }}>
+      <Sidebar.HoverZone
+        variant="gutter"
+        width="28px"
+        style={{
+          backgroundColor: `color-mix(in oklch, ${vars.surface.primary.DEFAULT} 15%, transparent)`,
+          borderRight: `1px dashed ${vars.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <Text
+          size="2xs"
+          color="subtle"
+          style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
+        >
+          Hover
+        </Text>
+      </Sidebar.HoverZone>
+      <Sidebar.Root variant="docked" position="left" collapsedWidth="0px" width="220px">
+        <Panel padding="sm" divider="bottom">
+          <Sidebar.Header
+            title={
+              <Heading as="h4" size="sm">
+                Revealed
+              </Heading>
+            }
+          >
+            <Sidebar.Toggle />
+          </Sidebar.Header>
+        </Panel>
+        <Panel scrollbar="thin" padding="sm">
+          <SideNav.Root>
+            <SideNav.Item
+              icon={
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <rect width="7" height="9" x="3" y="3" rx="1" />
+                  <rect width="7" height="5" x="14" y="3" rx="1" />
+                  <rect width="7" height="9" x="14" y="12" rx="1" />
+                  <rect width="7" height="5" x="3" y="16" rx="1" />
+                </svg>
+              }
+              label="Dashboard"
+              active
+            />
+            <SideNav.Item
+              icon={
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg>
+              }
+              label="Settings"
+            />
+          </SideNav.Root>
+        </Panel>
+      </Sidebar.Root>
+      <Panel flex={1} padding="md">
+        <VStack gap="sm">
+          <Heading as="h4" size="sm">
+            Gutter-Triggered Sidebar
+          </Heading>
+          <Text size="sm">
+            Hover over the trigger strip on the left to reveal the <code>0px</code> collapsed
+            sidebar.
+          </Text>
+          <Text size="xs" color="subtle">
+            <code>Sidebar.HoverZone</code> supports <code>variant="edge"</code> (fixed to
+            screen/frame edge), <code>variant="gutter"</code> (inline layout strip), and{' '}
+            <code>variant="inline"</code> (wrapper for custom elements). You can also spread{' '}
+            <code>useSidebar().hoverTargetProps</code> directly onto any custom component.
+          </Text>
+        </VStack>
+      </Panel>
+    </HStack>
+  </Sidebar.Provider>
 </ComponentPreview>
 
 ### Dual-tier navigation (rail and overlay or push)

@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Grid, Surface, Text, VStack } from '@cumulo/core';
+import { Surface, Text, VStack } from '@cumulo/core';
+import * as Grid from '@cumulo/core/components/Grid';
 import gridDoc from '../../../docgen/components/Grid.json';
 export default Layout;
 
@@ -14,7 +15,7 @@ import { Grid } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview title="Fixed Column Grid & Spanning">
-  <Grid columns={3} gap="md">
+  <Grid.Root columns={3} gap="md">
     <Surface level={1} padding="md" radius="lg">
       <Text type="label" size="sm">
         Column 1
@@ -42,7 +43,7 @@ import { Grid } from '@cumulo/core';
         Column 3
       </Text>
     </Surface>
-  </Grid>
+  </Grid.Root>
 </ComponentPreview>
 
 ## Responsive auto-fit grid
@@ -50,7 +51,7 @@ import { Grid } from '@cumulo/core';
 Use `columns="auto-fit"` with `minColumnWidth` to create responsive card grids without media query breakpoints.
 
 <ComponentPreview title="Responsive Auto-Fit">
-  <Grid columns="auto-fit" minColumnWidth="180px" gap="md">
+  <Grid.Root columns="auto-fit" minColumnWidth="180px" gap="md">
     <Surface level={1} padding="md" radius="lg">
       <VStack gap="sm">
         <Text type="label">Throughput</Text>
@@ -75,7 +76,7 @@ Use `columns="auto-fit"` with `minColumnWidth` to create responsive card grids w
         </Text>
       </VStack>
     </Surface>
-  </Grid>
+  </Grid.Root>
 </ComponentPreview>
 
 ### Component API

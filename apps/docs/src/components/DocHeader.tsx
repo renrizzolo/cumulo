@@ -1,31 +1,23 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from '@renr/parcel-rsc-router';
 import { keyframes, style } from '@cumulo/css';
-import { Button, vars, useDismissible, Sidebar, Tooltip, useSidebar } from '@cumulo/core';
+import { Button, vars, useSidebar, Panel } from '@cumulo/core';
+import { useMobileNav } from './MobileNavContext';
+import { SidebarNavToggle } from './Nav';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { Logo } from './Logo';
 
 const topHeaderStyle = style({
+  position: 'sticky',
+  top: 0,
+  zIndex: 20,
   padding: vars.spacing.sm,
-  display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  backgroundColor: vars.surface.bg.DEFAULT,
-  borderTop: 'none',
-  borderLeft: 'none',
-  borderRight: 'none',
-  borderBottomWidth: 1,
-  borderBottomStyle: 'solid',
-  borderBottomColor: vars.surface.border,
-  borderRadius: 0,
-  zIndex: 10,
-  '@media': {
-    '(max-width: 768px)': {
-      padding: `${vars.spacing.sm} ${vars.spacing.md}`,
-    },
-  },
+  backgroundColor: `color-mix(in srgb, ${vars.surface.bg.DEFAULT}, transparent 20%)`,
+  backdropFilter: 'blur(5px)',
 });
 
 const mobileBrandGroupStyle = style({
@@ -98,58 +90,21 @@ const headerBrandLinkStyle = style({
 
 export function DocHeader(): React.JSX.Element {
   const sidebar = useSidebar();
-  const { setCollapsed } = sidebar;
-  // Sync mobile responsive collapse state & viewport transitions
-  useEffect(() => {
-    const mql = window.matchMedia('(min-width: 960px)');
-    // If opening on mobile, initialize collapsed
-    if (!mql.matches) {
-      setCollapsed(true);
-    }
-
-    const handleViewportChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        setCollapsed(false);
-      } else {
-        setCollapsed(true);
-      }
-    };
-
-    mql.addEventListener('change', handleViewportChange);
-    return () => mql.removeEventListener('change', handleViewportChange);
-  }, [setCollapsed]); // Run on mount and media query events only
-
-  // Lock body scroll when mobile sidebar is open
-  useEffect(() => {
-    if (window.innerWidth < 960 && !sidebar.collapsed) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, [sidebar.collapsed]);
-
-  useDismissible({
-    onDismiss: () => {
-      if (window.innerWidth < 960 && !sidebar.collapsed) {
-        sidebar.setCollapsed(true);
-      }
-    },
-    dismissOnClickOutside: false,
-  });
+  const { isOpen: isMobileOpen, toggle: toggleMobileNav } = useMobileNav();
 
   return (
-    <div className={topHeaderStyle.className}>
+    <Panel direction="row" divider="bottom" className={topHeaderStyle.className}>
       {/* Mobile Header Left: Hamburger & Brand */}
       <div className={mobileBrandGroupStyle.className}>
         <Button
           size="sm"
           variant="ghost"
           shape="round"
+          width="square"
           data-sidebar-toggle="true"
-          onClick={() => sidebar.toggleCollapsed()}
-          aria-label={sidebar.collapsed ? 'Open navigation menu' : 'Close navigation menu'}
-          aria-expanded={!sidebar.collapsed}
+          onClick={toggleMobileNav}
+          aria-label={isMobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={isMobileOpen}
         >
           <MenuIcon />
         </Button>
@@ -163,12 +118,7 @@ export function DocHeader(): React.JSX.Element {
       <div className={desktopToggleStyle.className}>
         {sidebar.visuallyCollapsed ? (
           <>
-            <Tooltip.Root>
-              <Tooltip.Trigger as={'span'}>
-                <Sidebar.Toggle />
-              </Tooltip.Trigger>
-              <Tooltip.Content placement="right">Toggle navigation</Tooltip.Content>
-            </Tooltip.Root>
+            <SidebarNavToggle />
             <Link to="/" className={headerBrandLinkStyle.className}>
               <Logo />
             </Link>
@@ -178,6 +128,6 @@ export function DocHeader(): React.JSX.Element {
 
       {/* Header Right Controls */}
       <ThemeSwitcher />
-    </div>
+    </Panel>
   );
 }

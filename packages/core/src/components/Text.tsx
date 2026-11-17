@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { textSharedRecipe, truncateStyle } from '../typography.js';
 
-export const textRecipe = recipe(
+const textRecipe = recipe(
   {
     extend: [textSharedRecipe],
     variants: {
@@ -55,9 +55,14 @@ export const textRecipe = recipe(
         '2xl': { fontSize: vars.font.size['2xl'] },
         '3xl': { fontSize: vars.font.size['3xl'] },
       },
+      weight: {
+        normal: { fontWeight: vars.font.weight.normal },
+        medium: { fontWeight: vars.font.weight.medium },
+        semibold: { fontWeight: vars.font.weight.semibold },
+        bold: { fontWeight: vars.font.weight.bold },
+      },
     },
     defaultVariants: {
-      type: 'body',
       color: 'default',
     },
   },
@@ -67,7 +72,17 @@ export const textRecipe = recipe(
 export type TextVariants = RecipeVariants<typeof textRecipe>;
 
 export type TextSemanticType = NonNullable<TextVariants['type']>;
-export type TextElement = 'p' | 'span' | 'div' | 'label' | 'code' | 'small' | 'strong' | 'em';
+export type TextElement =
+  | 'p'
+  | 'span'
+  | 'div'
+  | 'label'
+  | 'code'
+  | 'small'
+  | 'strong'
+  | 'em'
+  | 'dt'
+  | 'dd';
 
 export interface TextProps extends ElementProps<HTMLElement> {
   /** Semantic type that contextually sets size, line-height, and font weight */
@@ -96,7 +111,7 @@ const defaultElementForType: Record<TextSemanticType, TextElement> = {
 };
 
 export function Text({
-  type = 'body',
+  type,
   as,
   size,
   weight,
@@ -111,9 +126,10 @@ export function Text({
   ref,
   ...props
 }: TextProps): React.JSX.Element {
-  const Component = as ?? defaultElementForType[type] ?? 'p';
+  const Component = as ?? (type ? defaultElementForType[type] : undefined) ?? 'p';
+  const resolvedType = type ?? (as ? undefined : 'body');
   const classes = textRecipe({
-    type,
+    type: resolvedType,
     size,
     weight,
     lineHeight,

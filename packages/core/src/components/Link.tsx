@@ -1,11 +1,10 @@
 import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
-import type { ElementProps } from '../ElementProps.js';
 import { focusRing } from '../intents.js';
 import { textSharedRecipe } from '../typography.js';
 
-export const linkRecipe = recipe(
+const linkRecipe = recipe(
   {
     extend: [focusRing, textSharedRecipe],
     base: {
@@ -19,11 +18,11 @@ export const linkRecipe = recipe(
     variants: {
       variant: {
         default: {
-          color: vars.primary.DEFAULT,
+          color: vars.primary['600'],
           textDecoration: 'underline',
           textUnderlineOffset: '0.2em',
           ':hover': {
-            color: vars.primary.hover,
+            color: vars.primary['700'],
           },
         },
         subtle: {
@@ -39,7 +38,7 @@ export const linkRecipe = recipe(
           color: 'inherit',
           textDecoration: 'none',
           ':hover': {
-            color: vars.primary.DEFAULT,
+            color: vars.primary['600'],
           },
         },
       },
@@ -53,19 +52,18 @@ export const linkRecipe = recipe(
 
 export type LinkVariants = RecipeVariants<typeof linkRecipe>;
 
-export interface LinkProps extends ElementProps<HTMLAnchorElement> {
-  as?: React.ElementType;
+export interface LinkBaseProps {
   variant?: LinkVariants['variant'];
   weight?: LinkVariants['weight'];
-  href?: string;
-  rel?: string;
-  to?: string;
   external?: boolean;
-  children?: React.ReactNode;
 }
 
-export function Link({
-  as: Component = 'a',
+export type LinkProps<E extends React.ElementType = 'a'> = LinkBaseProps & {
+  as?: E;
+} & Omit<React.ComponentProps<E>, keyof LinkBaseProps | 'as'>;
+
+export function Link<E extends React.ElementType = 'a'>({
+  as,
   variant = 'default',
   weight,
   external = false,
@@ -75,7 +73,8 @@ export function Link({
   children,
   ref,
   ...props
-}: LinkProps): React.JSX.Element {
+}: LinkProps<E>): React.JSX.Element {
+  const Component = as ?? 'a';
   const classes = linkRecipe({ variant, weight });
   const resolvedTarget = target ?? (external ? '_blank' : undefined);
   const resolvedRel = rel ?? (external ? 'noopener noreferrer' : undefined);

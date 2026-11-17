@@ -102,6 +102,9 @@ export function shouldProcessFile(
   id: string,
   options?: CumuloPluginOptions,
 ): boolean {
+  if (!id || !code) {
+    return false;
+  }
   if (options?.exclude && matchesPattern(id, options.exclude)) {
     return false;
   }

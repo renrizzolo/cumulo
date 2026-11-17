@@ -7,7 +7,7 @@ How to build with Cumulo using AI coding assistants such as Claude Code, Cursor,
 
 Cumulo is designed so coding assistants can compose accessible, themeable UI without hallucinating styles.
 
-When an AI assistant builds interfaces, it often defaults to generic HTML tags (`<div>`), arbitrary utility classes, or monolithic inputs.
+When AI assistants generate code, they default to generic HTML tags (`<div>`), arbitrary utility classes, or monolithic inputs.
 
 Giving your assistant clear instructions on Cumulo components and design tokens helps it produce clean, accessible, on-system code on the first attempt.
 
@@ -23,7 +23,7 @@ RULES:
 1. Layout: Never use raw <div> for layout or flexbox. Use <HStack>, <VStack>, <Stack>, or <Container>. Because <Heading> and <Text> apply CSS text-box-trim, use at least gap="sm" (not 2xs/xs) when stacking text vertically in <VStack>.
 2. Forms: Always use compound <Field.Root>, <Field.Label>, <Field.Input>, <Field.Error> slots.
 3. Styling: Never use Tailwind classes or arbitrary hex values. Use @cumulo/css style() or recipe() with tokens from vars.\* (@cumulo/core). Always look for available layout primitives before reaching for custom styles.
-4. Theming: Use data-theme for creating branded themes in CSS ([data-theme='<theme-name>'] { --color-primary-base: ... }).
+4. Theming: Use data-theme for creating branded themes in CSS ([data-theme='<theme-name>'] { --color-primary-base: ... }). Import @cumulo/core/theme.css at your application root to supply base variables and resets, or provide a custom stylesheet defining the variables.
 
 SELF-CHECK:
 Before completing your response, re-read your generated code and replace any unstyled <div> containers, raw hex colors, or inline styles with Cumulo primitives and vars.\* tokens, unless the user explicitly requests otherwise.`}

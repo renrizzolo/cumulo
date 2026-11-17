@@ -56,16 +56,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
+        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"none\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -78,6 +75,9 @@
           },
           {
             "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
           }
         ]
       },

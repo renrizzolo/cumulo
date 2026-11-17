@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Button, Card, Text, VStack } from '@cumulo/core';
+import { Button, Text, VStack } from '@cumulo/core';
+import * as Card from '@cumulo/core/components/Card';
 import * as Collapsible from '@cumulo/core/components/Collapsible';
 import collapsibleDoc from '../../../docgen/components/Collapsible.json';
 export default Layout;
@@ -23,7 +24,7 @@ import { Collapsible } from '@cumulo/core';
         Toggle Details
       </Collapsible.Trigger>
       <Collapsible.Content>
-        <Card padding="md">
+        <Card.Root padding="md">
           <VStack gap="sm">
             <Text size="sm" weight="semibold">
               Collapsible Content Panel
@@ -33,7 +34,7 @@ import { Collapsible } from '@cumulo/core';
               calculation delays.
             </Text>
           </VStack>
-        </Card>
+        </Card.Root>
       </Collapsible.Content>
     </VStack>
   </Collapsible.Root>

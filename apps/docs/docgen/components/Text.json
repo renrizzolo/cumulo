@@ -4,9 +4,7 @@
   "fileName": "Text.tsx",
   "props": {
     "type": {
-      "defaultValue": {
-        "value": "body"
-      },
+      "defaultValue": null,
       "description": "Semantic type that contextually sets size, line-height, and font weight",
       "name": "type",
       "parent": {
@@ -75,25 +73,31 @@
             "value": "\"small\""
           },
           {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"span\""
-          },
-          {
             "value": "\"label\""
           },
           {
             "value": "\"code\""
           },
           {
-            "value": "\"p\""
+            "value": "\"dd\""
           },
           {
-            "value": "\"strong\""
+            "value": "\"div\""
+          },
+          {
+            "value": "\"dt\""
           },
           {
             "value": "\"em\""
+          },
+          {
+            "value": "\"p\""
+          },
+          {
+            "value": "\"span\""
+          },
+          {
+            "value": "\"strong\""
           }
         ]
       },
@@ -169,16 +173,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
+        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"bold\""
+            "value": "\"normal\""
           },
           {
-            "value": "\"normal\""
+            "value": "\"bold\""
           },
           {
             "value": "\"medium\""
@@ -247,25 +251,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
+        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"primary\""
-          },
-          {
             "value": "\"inherit\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"warning\""
-          },
-          {
-            "value": "\"error\""
           },
           {
             "value": "\"default\""
@@ -275,6 +267,18 @@
           },
           {
             "value": "\"subtle\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
           }
         ]
       },

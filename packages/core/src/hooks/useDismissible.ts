@@ -8,11 +8,6 @@ function isTopLayer(id: string): boolean {
   return id === Array.from(dismissibleStack.keys()).at(-1);
 }
 
-export function hasHigherLayer(id: string): boolean {
-  const idx = Array.from(dismissibleStack.keys()).indexOf(id);
-  return idx !== -1 && idx < dismissibleStack.size - 1;
-}
-
 function addLayer(id: string, onDismiss: () => void): void {
   if (dismissibleStack.has(id)) {
     throw new Error('unexpected dismissible layer id exists');
@@ -25,17 +20,102 @@ function removeLayer(id: string): void {
   dismissibleStack.delete(id);
 }
 
+export function safeHidePopover(el: HTMLElement | null): boolean {
+  if (el && 'hidePopover' in el && typeof el.hidePopover === 'function') {
+    try {
+      el.hidePopover();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
+function safeTogglePopover(el: HTMLElement | null): boolean {
+  if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
+    try {
+      el.togglePopover();
+      return true;
+    } catch {
+      return false;
+    }
+  }
+  return false;
+}
+
+export function handlePopoverToggleEvent(
+  e: React.ToggleEvent<HTMLDivElement>,
+  setOpen: (open: boolean) => void,
+  onToggle?: React.ToggleEventHandler<HTMLDivElement>,
+): void {
+  onToggle?.(e);
+  if (e.newState) {
+    setOpen(e.newState === 'open');
+  }
+}
+
+export function safeShowPopover(el: HTMLElement | null): void {
+  if (!el || !('showPopover' in el) || typeof el.showPopover !== 'function') return;
+  try {
+    let isOpen = false;
+    try {
+      isOpen = el.matches?.(':popover-open') ?? false;
+    } catch {
+      isOpen = false;
+    }
+    if (!isOpen) {
+      el.showPopover();
+    }
+  } catch {
+    // Ignore if element is not in document yet or transitions
+  }
+}
+
+export function togglePopoverFromTrigger(
+  el: HTMLElement | null,
+  button: HTMLElement,
+  fallbackToggle: () => void,
+): void {
+  // In synthetic environments (like JSDOM / Vitest) where button popoverTarget is not dispatched by browser engine
+  if (el && 'togglePopover' in el && typeof el.togglePopover === 'function') {
+    if (!('popoverTargetElement' in button) && !('popoverTargetAction' in button)) {
+      if (!safeTogglePopover(el)) {
+        fallbackToggle();
+      }
+    }
+  } else {
+    fallbackToggle();
+  }
+}
+
 export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
   onDismiss: () => void;
   dismissOnClickOutside: boolean;
   ignoreRefs?: ReadonlyArray<React.RefObject<HTMLElement | null>>;
+  open?: boolean;
 }): React.RefObject<T | null> {
   const ref = useRef<T | null>(null);
   const id = useId();
 
-  const { onDismiss, ignoreRefs } = props;
+  const { onDismiss, ignoreRefs, open } = props;
+
+  // Sync native HTML popover API show/hide when open is controlled
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || open === undefined) return;
+    if (open) {
+      safeShowPopover(el);
+    } else {
+      safeHidePopover(el);
+    }
+  }, [open]);
 
   useEffect(() => {
+    if (open !== undefined && !open) {
+      return;
+    }
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.defaultPrevented) {
         return;
@@ -88,7 +168,7 @@ export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
       document.removeEventListener('pointerdown', handleClickOutside);
       removeLayer(id);
     };
-  }, [id, ignoreRefs, onDismiss, props.dismissOnClickOutside]);
+  }, [id, ignoreRefs, onDismiss, props.dismissOnClickOutside, open]);
 
   return ref;
 }

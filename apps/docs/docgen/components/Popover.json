@@ -65,6 +65,46 @@
       },
       "shortPropTypeName": "function"
     },
+    "level": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Surface elevation level for the popover content.\nCan be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.",
+      "name": "level",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "PopoverLevel | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "2"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "delay": {
       "defaultValue": {
         "value": "0"
@@ -183,16 +223,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"primary\""
+                "value": "\"outline\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"default\""
+              },
+              {
+                "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
@@ -221,7 +264,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -230,13 +273,13 @@
                 "value": "\"primary\""
               },
               {
+                "value": "\"error\""
+              },
+              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
-              },
-              {
-                "value": "\"error\""
               },
               {
                 "value": "\"info\""
@@ -372,7 +415,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"menu\" \n|  \"listbox\" \n|  \"tree\" \n|  \"dialog\" \n|  undefined\n"
+            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },
@@ -634,6 +677,50 @@
           },
           "shortPropTypeName": null
         },
+        "level": {
+          "defaultValue": {
+            "value": "0"
+          },
+          "description": "Surface elevation level for the popover content.\nOverrides the level defined on Popover.Root.",
+          "name": "level",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+            "name": "PopoverDialogOptions"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+              "name": "PopoverDialogOptions"
+            },
+            {
+              "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+              "name": "PopoverTooltipOptions"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "PopoverLevel | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "0"
+              },
+              {
+                "value": "\"inherit\""
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
         "size": {
           "defaultValue": {
             "value": "md"
@@ -736,16 +823,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"dialog\" | \"alertdialog\" | undefined",
+            "raw": "\"alertdialog\" | \"dialog\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"dialog\""
+                "value": "\"alertdialog\""
               },
               {
-                "value": "\"alertdialog\""
+                "value": "\"dialog\""
               }
             ]
           },
@@ -849,16 +936,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"primary\""
+                "value": "\"outline\""
               },
               {
-                "value": "\"outline\""
+                "value": "\"default\""
+              },
+              {
+                "value": "\"primary\""
               },
               {
                 "value": "\"secondary\""
@@ -887,7 +977,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -896,13 +986,13 @@
                 "value": "\"primary\""
               },
               {
+                "value": "\"error\""
+              },
+              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
-              },
-              {
-                "value": "\"error\""
               },
               {
                 "value": "\"info\""

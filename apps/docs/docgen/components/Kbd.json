@@ -22,19 +22,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"xs\" | \"sm\" | \"md\" | undefined",
+        "raw": "\"sm\" | \"md\" | \"xs\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
           },
           {
             "value": "\"md\""
+          },
+          {
+            "value": "\"xs\""
           }
         ]
       },

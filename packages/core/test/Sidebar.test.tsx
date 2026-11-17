@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, act } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -27,6 +27,15 @@ function NavItemCloseTest() {
     <button type="button" data-testid="nav-item" onClick={() => setCollapsed(true)}>
       Navigate
     </button>
+  );
+}
+
+function CustomGutter() {
+  const { hoverTargetProps } = useSidebar();
+  return (
+    <div data-testid="custom-gutter" {...hoverTargetProps}>
+      Gutter
+    </div>
   );
 }
 
@@ -377,6 +386,261 @@ describe('Sidebar component', () => {
       await user.click(toggleBtn);
       expect(collapsedText).toHaveTextContent('collapsed');
       expect(visuallyCollapsedText).toHaveTextContent('yes');
+    });
+  });
+
+  describe('Sidebar.Content and Sidebar.Header subcomponents', () => {
+    it('renders Sidebar.Header with title and collapsed title', () => {
+      render(
+        <Sidebar.Root defaultCollapsed={false}>
+          <Sidebar.Header
+            data-testid="sidebar-header"
+            title={<span data-testid="title">Full Brand</span>}
+            titleCollapsed={<span data-testid="collapsed-title">FB</span>}
+          >
+            <Sidebar.Toggle />
+          </Sidebar.Header>
+        </Sidebar.Root>,
+      );
+
+      expect(screen.getByTestId('sidebar-header')).toBeInTheDocument();
+      expect(screen.getByTestId('title')).toHaveTextContent('Full Brand');
+      expect(screen.getByTestId('collapsed-title')).toHaveTextContent('FB');
+    });
+
+    it('renders Sidebar.Content with different collapse behaviors without crashing', () => {
+      render(
+        <Sidebar.Root defaultCollapsed={false}>
+          <Sidebar.Content data-testid="content-clip" collapseBehavior="clip">
+            <div>Clip content</div>
+          </Sidebar.Content>
+          <Sidebar.Content data-testid="content-fade" collapseBehavior="fade">
+            <div>Fade content</div>
+          </Sidebar.Content>
+          <Sidebar.Content data-testid="content-collapse" collapseBehavior="collapse" flex>
+            <div>Collapse content</div>
+          </Sidebar.Content>
+        </Sidebar.Root>,
+      );
+
+      expect(screen.getByTestId('content-clip')).toBeInTheDocument();
+      expect(screen.getByTestId('content-fade')).toBeInTheDocument();
+      expect(screen.getByTestId('content-collapse')).toBeInTheDocument();
+    });
+  });
+
+  describe('Sidebar.HoverZone and hover propagation', () => {
+    it('renders Sidebar.HoverZone and expands sidebar on hover', () => {
+      render(
+        <Sidebar.Provider hoverBehaviour="expand" defaultCollapsed>
+          <Sidebar.HoverZone data-testid="hover-zone" width="24px" />
+          <Sidebar.Root data-testid="sidebar-root">
+            <div>Sidebar content</div>
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const zone = screen.getByTestId('hover-zone');
+      const root = screen.getByTestId('sidebar-root');
+
+      expect(zone).toHaveAttribute('data-sidebar-hover-zone', 'true');
+      expect(zone).toHaveAttribute('data-visually-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+
+      // Pointer enters hover zone
+      fireEvent.pointerEnter(zone);
+      expect(zone).toHaveAttribute('data-visually-collapsed', 'false');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // Pointer leaves hover zone
+      fireEvent.pointerLeave(zone);
+      expect(zone).toHaveAttribute('data-visually-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+    });
+
+    it('supports hover propagation via hoverTargetProps on custom external elements', () => {
+      render(
+        <Sidebar.Provider hoverBehaviour="expand" defaultCollapsed>
+          <CustomGutter />
+          <Sidebar.Root data-testid="sidebar-root">
+            <div>Sidebar content</div>
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const gutter = screen.getByTestId('custom-gutter');
+      const root = screen.getByTestId('sidebar-root');
+
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+
+      // Pointer enters external element
+      fireEvent.pointerEnter(gutter);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // Pointer leaves external element
+      fireEvent.pointerLeave(gutter);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+    });
+
+    it('maintains expansion smoothly across multi-target transitions with hoverLeaveDelay', () => {
+      vi.useFakeTimers();
+
+      render(
+        <Sidebar.Provider hoverBehaviour="expand" defaultCollapsed hoverLeaveDelay={150}>
+          <Sidebar.HoverZone data-testid="hover-zone" />
+          <Sidebar.Root data-testid="sidebar-root">
+            <div>Sidebar content</div>
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const zone = screen.getByTestId('hover-zone');
+      const root = screen.getByTestId('sidebar-root');
+
+      // 1. Enter hover zone -> expands
+      fireEvent.pointerEnter(zone);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // 2. Leave hover zone (e.g. crossing border) -> still expanded during delay window
+      fireEvent.pointerLeave(zone);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // 3. Move time forward 50ms (within 150ms delay) -> still expanded
+      act(() => {
+        vi.advanceTimersByTime(50);
+      });
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // 4. Enter sidebar root before delay expires -> cancels leave timer, stays open
+      fireEvent.pointerEnter(root);
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // 5. Leave sidebar root and let delay expire -> collapses
+      fireEvent.pointerLeave(root);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+
+      vi.useRealTimers();
+    });
+
+    it('does not trigger hover expansion when hoverBehaviour is not expand', () => {
+      render(
+        <Sidebar.Provider hoverBehaviour="none" defaultCollapsed>
+          <Sidebar.HoverZone data-testid="hover-zone" />
+          <Sidebar.Root data-testid="sidebar-root">
+            <div>Sidebar content</div>
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const zone = screen.getByTestId('hover-zone');
+      const root = screen.getByTestId('sidebar-root');
+
+      fireEvent.pointerEnter(zone);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+    });
+
+    it('keeps sidebar closed when clicking toggle inside sidebar even with hoverLeaveDelay and HoverZone present', async () => {
+      vi.useFakeTimers();
+      render(
+        <Sidebar.Provider hoverBehaviour="expand" defaultCollapsed={false} hoverLeaveDelay={150}>
+          <Sidebar.HoverZone data-testid="hover-zone" />
+          <Sidebar.Root data-testid="sidebar-root">
+            <Sidebar.Toggle data-testid="toggle-btn" />
+            <div>Sidebar content</div>
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const root = screen.getByTestId('sidebar-root');
+      const toggle = screen.getByTestId('toggle-btn');
+      const zone = screen.getByTestId('hover-zone');
+
+      // 1. Mouse enters sidebar root
+      fireEvent.pointerEnter(root);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // 2. Click toggle button inside sidebar
+      fireEvent.click(toggle);
+
+      // 3. Must be collapsed immediately and hover suppressed
+      expect(root).toHaveAttribute('data-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+
+      // 4. Pointer triggers HoverZone or Root while mouse is still at toggle position
+      fireEvent.pointerEnter(zone);
+      fireEvent.pointerEnter(root);
+      act(() => {
+        vi.advanceTimersByTime(200);
+      });
+
+      // Must remain collapsed despite hovering
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+
+      // 5. Pointer leaves all zones and delay passes
+      fireEvent.pointerLeave(zone);
+      fireEvent.pointerLeave(root);
+      act(() => {
+        vi.advanceTimersByTime(150);
+      });
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+
+      // 6. Pointer re-enters hover zone -> now expands cleanly
+      fireEvent.pointerEnter(zone);
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      vi.useRealTimers();
+    });
+
+    it('pins sidebar open on toggle click when sidebar was temporarily opened via hover on defaultCollapsed', () => {
+      render(
+        <Sidebar.Provider hoverBehaviour="expand" defaultCollapsed={true}>
+          <Sidebar.HoverZone data-testid="hover-zone" />
+          <Sidebar.Root data-testid="sidebar-root">
+            <Sidebar.Toggle data-testid="toggle-btn" />
+          </Sidebar.Root>
+        </Sidebar.Provider>,
+      );
+
+      const root = screen.getByTestId('sidebar-root');
+      const toggle = screen.getByTestId('toggle-btn');
+      const zone = screen.getByTestId('hover-zone');
+
+      expect(root).toHaveAttribute('data-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      expect(toggle).toHaveAttribute('aria-label', 'Expand sidebar');
+
+      // Hover to expand temporarily
+      fireEvent.pointerEnter(zone);
+      expect(root).toHaveAttribute('data-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+      expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      expect(toggle).toHaveAttribute('aria-label', 'Expand sidebar');
+
+      // Click toggle inside visually expanded sidebar -> pins it open
+      fireEvent.click(toggle);
+      expect(root).toHaveAttribute('data-collapsed', 'false');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+      expect(toggle).toHaveAttribute('aria-expanded', 'true');
+      expect(toggle).toHaveAttribute('aria-label', 'Collapse sidebar');
+
+      // Leaving hover zone keeps sidebar open because it is now pinned
+      fireEvent.pointerLeave(zone);
+      expect(root).toHaveAttribute('data-collapsed', 'false');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'false');
+
+      // Clicking toggle again collapses it
+      fireEvent.pointerEnter(root);
+      fireEvent.click(toggle);
+      expect(root).toHaveAttribute('data-collapsed', 'true');
+      expect(root).toHaveAttribute('data-visually-collapsed', 'true');
     });
   });
 });

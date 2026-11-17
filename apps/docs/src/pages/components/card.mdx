@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Card, VStack, HStack, Heading, Text, Button } from '@cumulo/core';
+import { VStack, HStack, Heading, Text, Button } from '@cumulo/core';
+import * as Card from '@cumulo/core/components/Card';
 import cardDoc from '../../../docgen/components/Card.json';
 export default Layout;
 
@@ -32,7 +33,7 @@ import { Card } from '@cumulo/core';
       </Card.Footer>
     </Card.Root>
 
-    <Card level={2} padding="lg">
+    <Card.Root level={2} padding="lg">
       <VStack gap="sm">
         <Heading as="h4" size="sm">
           Elevated Card (Level 2)
@@ -41,7 +42,7 @@ import { Card } from '@cumulo/core';
           Elevated surface for popovers, dialogs, and highlighted panels.
         </Text>
       </VStack>
-    </Card>
+    </Card.Root>
 
   </HStack>
 </ComponentPreview>
