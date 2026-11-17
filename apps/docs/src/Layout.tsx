@@ -142,6 +142,14 @@ export default function Layout({
           href="https://fonts.googleapis.com/css2?family=Cascadia+Code:ital,wght@0,200..700;1,200..700&family=Inter:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
         />
         <ThemeScript defaultTheme="docs" />
+        {/* Strip whitespace-only text nodes in <head> before hydration (e.g. Netlify Edge's `\n<!-- ... -->` injection after `<meta charset="utf-8">`). */}
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){for(var n=document.head.firstChild;n;){var nx=n.nextSibling;if(n.nodeType===3&&!n.nodeValue.trim())n.remove();n=nx;}})();',
+          }}
+        />
       </head>
 
       <body className={bodyStyle.className}>
