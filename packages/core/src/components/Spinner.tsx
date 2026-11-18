@@ -17,7 +17,7 @@ const spinnerRecipe = recipe(
     base: {
       display: 'inline-block',
       flexShrink: 0,
-      animation: `${spinKeyframes} 0.75s linear infinite`,
+      animation: `${spinKeyframes.name} 0.75s linear infinite`,
       color: 'currentColor',
       verticalAlign: 'middle',
     },

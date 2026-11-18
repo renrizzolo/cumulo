@@ -103,7 +103,7 @@ export async function buildWithRollup(outDir: string): Promise<BundlerBuildResul
         extensions: ['.tsx', '.ts', '.jsx', '.js'],
       }),
       commonjs(),
-      rollupPlugin() as unknown as rollup.InputPluginOption,
+      rollupPlugin(),
       rollupEsbuild({
         jsx: 'automatic',
         target: 'es2022',
@@ -168,7 +168,7 @@ export async function buildWithEsbuild(outDir: string): Promise<BundlerBuildResu
     write: true,
   });
 
-  const files = fs.readdirSync(outDir) as string[];
+  const files = fs.readdirSync(outDir);
   const cssFile = files.find((f) => f.endsWith('.css'));
   const jsFile = files.find((f) => f.endsWith('.js'));
 

@@ -218,7 +218,7 @@ interface SideNavItemProps extends ElementProps<HTMLElement> {
    * - `React.ReactNode`: custom tooltip content.
    * If not specified, tooltips are automatically displayed when the sidebar has `hoverBehaviour="tooltip"`.
    */
-  tooltip?: boolean | React.ReactNode;
+  tooltip?: React.ReactNode;
   children?: React.ReactNode;
 }
 

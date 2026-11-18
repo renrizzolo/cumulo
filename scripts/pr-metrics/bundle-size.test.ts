@@ -80,10 +80,10 @@ describe('bundle-size', () => {
         timestamp: '2026-09-02T00:00:00Z',
         entries: [
           {
-            ...sampleEntries[0]!,
+            ...sampleEntries[0],
             metrics: { raw: 2500, gzip: 950, brotli: 840 }, // +50 B gzip
           },
-          sampleEntries[1]!, // unchanged
+          sampleEntries[1], // unchanged
         ],
       };
 

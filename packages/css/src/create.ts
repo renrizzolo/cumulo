@@ -213,5 +213,5 @@ export function create<T extends StyleDefinitions>(
       result[key] = style(def, `${prefix}-${String(key)}`);
     }
   }
-  return result as CompiledStyles<T>;
+  return result;
 }

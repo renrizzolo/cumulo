@@ -6,14 +6,19 @@ import * as Dialog from '../src/components/Dialog.js';
 import * as Popover from '../src/components/Popover.js';
 
 describe('Dialog Component', () => {
+  let showModalMock: () => void;
+  let closeMock: () => void;
+
   beforeEach(() => {
     // JSDOM mock for HTMLDialogElement methods
-    HTMLDialogElement.prototype.showModal = vi.fn(function (this: HTMLDialogElement) {
+    showModalMock = vi.fn(function (this: HTMLDialogElement) {
       this.open = true;
     });
-    HTMLDialogElement.prototype.close = vi.fn(function (this: HTMLDialogElement) {
+    closeMock = vi.fn(function (this: HTMLDialogElement) {
       this.open = false;
     });
+    HTMLDialogElement.prototype.showModal = showModalMock;
+    HTMLDialogElement.prototype.close = closeMock;
     HTMLElement.prototype.showPopover = vi.fn();
     HTMLElement.prototype.hidePopover = vi.fn();
     HTMLElement.prototype.togglePopover = vi.fn();
@@ -37,14 +42,14 @@ describe('Dialog Component', () => {
     const content = screen.getByTestId('content');
 
     expect(content.tagName).toBe('DIALOG');
-    expect(HTMLDialogElement.prototype.showModal).not.toHaveBeenCalled();
+    expect(showModalMock).not.toHaveBeenCalled();
 
     fireEvent.click(trigger);
-    expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalledTimes(1);
+    expect(showModalMock).toHaveBeenCalledTimes(1);
 
     const closeBtn = screen.getByTestId('close');
     fireEvent.click(closeBtn);
-    expect(HTMLDialogElement.prototype.close).toHaveBeenCalledTimes(1);
+    expect(closeMock).toHaveBeenCalledTimes(1);
   });
 
   it('connects aria-labelledby and aria-describedby automatically', () => {

@@ -131,7 +131,7 @@ export function reactNodeToJsx(node: React.ReactNode, indent = 0): string {
         return `${key}={${val}}`;
       }
       if (typeof val === 'function') {
-        const fnName = val.name ? `${val.name}` : '() => {}';
+        const fnName = val.name ? val.name : '() => {}';
         return `${key}={${fnName}}`;
       }
       if (React.isValidElement(val)) {

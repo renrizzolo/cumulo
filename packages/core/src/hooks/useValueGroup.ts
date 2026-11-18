@@ -19,7 +19,7 @@ export interface ValueItemProps<T extends string = string> {
 
 export interface ValueGroupContextBase<T extends string = string> {
   value?: T;
-  setValue(value: T): void;
+  setValue(this: void, value: T): void;
 }
 
 export interface UseValueGroupReturn<T extends string = string> extends ValueGroupContextBase<T> {
@@ -63,10 +63,7 @@ export function useValueGroup<T extends string = string>({
  * Dispatches a raw DOM string value to a typed value group controller
  * without requiring unsafe type assertions.
  */
-export function notifyStringValue(
-  controller: ValueGroupContextBase<string>,
-  nextValue: string,
-): void {
+export function notifyStringValue(controller: ValueGroupContextBase, nextValue: string): void {
   controller.setValue(nextValue);
 }
 

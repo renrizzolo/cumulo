@@ -31,7 +31,7 @@ if (!globalStore[GLOBAL_SHEET_KEY]) {
   globalStore[GLOBAL_SHEET_KEY] = new StyleSheetManager();
 }
 
-export const sheet = globalStore[GLOBAL_SHEET_KEY]!;
+export const sheet = globalStore[GLOBAL_SHEET_KEY];
 
 export function getSheetCss(): string {
   return sheet.getCss();
