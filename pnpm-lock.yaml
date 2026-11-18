@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@parcel/fs': 79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5
-  '@parcel/packager-react-static@2.16.4': 84fbcd0333f90c26681034d5dbee0c6808a2143ba58dfde62e103080077a198d
+  '@parcel/packager-react-static@2.16.4': 65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f
 
 importers:
 
@@ -17,7 +17,7 @@ importers:
         version: 3.0.1
       '@parcel/packager-react-static':
         specifier: 2.16.4
-        version: 2.16.4(patch_hash=84fbcd0333f90c26681034d5dbee0c6808a2143ba58dfde62e103080077a198d)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+        version: 2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/runtime-rsc':
         specifier: 2.16.4
         version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -87,7 +87,7 @@ importers:
         version: link:../../packages/parcel-transformer
       '@parcel/packager-react-static':
         specifier: 2.16.4
-        version: 2.16.4(patch_hash=84fbcd0333f90c26681034d5dbee0c6808a2143ba58dfde62e103080077a198d)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+        version: 2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/transformer-react-static':
         specifier: 2.16.4
         version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -4883,7 +4883,7 @@ snapshots:
       - '@parcel/core'
       - napi-wasm
 
-  '@parcel/packager-react-static@2.16.4(patch_hash=84fbcd0333f90c26681034d5dbee0c6808a2143ba58dfde62e103080077a198d)(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
+  '@parcel/packager-react-static@2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
