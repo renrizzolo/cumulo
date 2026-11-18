@@ -7,7 +7,7 @@
     "dev": "parcel --no-cache --watch-ignore apps/docs/dist,dist",
     "build": "rm -rf dist && parcel build --no-cache",
     "start": "npx http-server ./dist",
-    "type-check": "tsc --noEmit"
+    "type-check": "oxlint -c ../../.oxlintrc.json --type-aware --type-check"
   },
   "dependencies": {
     "@cumulo/core": "workspace:*",

@@ -127,17 +127,17 @@ export interface ThemeStoreOptions {
 }
 
 export interface ThemeStore {
-  getTheme(): Theme;
-  setTheme(theme: Theme): void;
-  getDefaultTheme(): Theme;
-  setDefaultTheme(theme: Theme): void;
-  getMode(): ColorMode;
-  getResolvedMode(): ResolvedColorMode;
-  getSystemMode(): ResolvedColorMode;
-  setMode(mode: ColorMode): void;
+  getTheme(this: void): Theme;
+  setTheme(this: void, theme: Theme): void;
+  getDefaultTheme(this: void): Theme;
+  setDefaultTheme(this: void, theme: Theme): void;
+  getMode(this: void): ColorMode;
+  getResolvedMode(this: void): ResolvedColorMode;
+  getSystemMode(this: void): ResolvedColorMode;
+  setMode(this: void, mode: ColorMode): void;
   toggleMode(cycle?: readonly ColorMode[]): void;
-  subscribe(listener: () => void): () => void;
-  destroy(): void;
+  subscribe(this: void, listener: () => void): () => void;
+  destroy(this: void): void;
 }
 
 export function createThemeStore(options: ThemeStoreOptions = {}): ThemeStore {

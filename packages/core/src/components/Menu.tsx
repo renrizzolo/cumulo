@@ -335,7 +335,7 @@ function MenuContent({
     ignoreRefs,
   });
 
-  const dismissibleRef = useDismissible<HTMLDivElement>({
+  const dismissibleRef = useDismissible({
     onDismiss: close,
     dismissOnClickOutside: true,
     ignoreRefs,

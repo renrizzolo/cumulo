@@ -103,7 +103,7 @@ const mobileBackdropStyle = style({
   backgroundColor: `color-mix(in oklch, ${vars.fg} 25%, transparent)`,
   backdropFilter: `blur(${vars.spacing['2xs']})`,
   zIndex: 35,
-  animation: `${fadeIn} ${vars.duration.normal} ${vars.ease.default}`,
+  animation: `${fadeIn.name} ${vars.duration.normal} ${vars.ease.default}`,
   '@media': {
     '(min-width: 960px)': {
       display: 'none !important',

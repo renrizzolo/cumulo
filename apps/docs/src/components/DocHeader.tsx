@@ -85,7 +85,7 @@ const headerBrandLinkStyle = style({
   color: 'inherit',
   display: 'inline-flex',
   alignItems: 'center',
-  animation: `${headerAnimation} ${vars.duration.slow} ${vars.ease.default}`,
+  animation: `${headerAnimation.name} ${vars.duration.slow} ${vars.ease.default}`,
 });
 
 export function DocHeader(): React.JSX.Element {

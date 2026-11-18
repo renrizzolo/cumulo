@@ -1,7 +1,7 @@
 import type { ClassValue, CompiledStyle, CreatedTheme, CSSProperties } from './types.js';
 
 function isCompiledStyleOrTheme(val: object): val is CompiledStyle | CreatedTheme {
-  return 'className' in val && typeof (val as { className: unknown }).className === 'string';
+  return 'className' in val && typeof val.className === 'string';
 }
 
 function hasStyleProp(val: object): val is { style?: CSSProperties } {

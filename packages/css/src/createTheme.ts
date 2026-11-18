@@ -21,7 +21,7 @@ function walkTokens<T extends NullableTokens>(
     const value = tokens[key];
     const currentPath = [...path, key];
     if (value && typeof value === 'object' && !Array.isArray(value)) {
-      result[key] = walkTokens(value as NullableTokens, currentPath, callback);
+      result[key] = walkTokens(value, currentPath, callback);
     } else {
       result[key] = callback(currentPath);
     }

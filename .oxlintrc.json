@@ -1,4 +1,8 @@
 {
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
   "plugins": ["import", "typescript", "unicorn", "oxc", "react", "jsx-a11y"],
   "categories": {
     "correctness": "error",

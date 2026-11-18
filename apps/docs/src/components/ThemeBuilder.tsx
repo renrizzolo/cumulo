@@ -68,7 +68,7 @@ const sidebarStyle = style(
     display: 'flex',
     flexDirection: 'column',
     flex: `0 0 ${sidebarContract.width}`,
-    width: `${sidebarContract.width}`,
+    width: sidebarContract.width,
     maxWidth: '100%',
     position: 'sticky',
     top: `calc(53px + ${vars.spacing.md})`,

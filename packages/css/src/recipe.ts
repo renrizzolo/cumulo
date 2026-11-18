@@ -135,9 +135,7 @@ function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
   }
 
   if (extOpts.compoundVariants) {
-    acc.compoundVariants.push(
-      ...(extOpts.compoundVariants as CompoundVariant<VariantDefinitions>[]),
-    );
+    acc.compoundVariants.push(...extOpts.compoundVariants);
   }
 
   if (extOpts.defaultVariants) {
@@ -278,7 +276,7 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
     return cx(...classes);
   }) as RecipeFunction<CombinedVariants>;
 
-  recipeFn.variants = () => Object.keys(mergedVariants) as (keyof CombinedVariants)[];
+  recipeFn.variants = () => Object.keys(mergedVariants);
   recipeFn.options = options as RecipeOptions<CombinedVariants, unknown>;
   recipeFn.classNames = {
     base: baseClassName,

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm -r --parallel dev",
     "build": "pnpm -r build",
-    "type-check": "tsc --noEmit && pnpm -r type-check",
+    "type-check": "oxlint --type-aware --type-check",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt --write .",
@@ -33,8 +33,9 @@
     "buffer": "^6.0.3",
     "diff": "^9.0.0",
     "oxfmt": "^0.64.0",
-    "oxlint": "^1.79.0",
+    "oxlint": "^1.94.0",
     "react-server-dom-parcel": "^19.2.8",
+    "tsrs": "0.25.0-ts7.1.0-beta",
     "typescript": "^5.8.2",
     "vitest": "^5.0.0"
   },

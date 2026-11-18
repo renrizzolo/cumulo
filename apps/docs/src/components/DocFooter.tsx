@@ -28,6 +28,8 @@ import { LakesideParkIllustration, LandscapeConfig } from './FujiKawaguchiko';
 import { Logo } from './Logo';
 import { Version } from './Version';
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 const DEFAULT_CONFIG: LandscapeConfig = {
   bounciness: 2,
   dotPitch: 2.75,
@@ -459,7 +461,7 @@ export function DocFooter(): React.JSX.Element {
               </HStack>
 
               <Text size="2xs" color="subtle">
-                © {new Date().getFullYear()} Cumulo UI · Released under the MIT License
+                © {CURRENT_YEAR} Cumulo UI · Released under the MIT License
               </Text>
             </VStack>
 

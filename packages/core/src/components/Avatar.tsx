@@ -517,13 +517,13 @@ function AvatarImage({
     };
   }, [src, setStatus, onLoadingStatusChange]);
 
-  const handleNativeLoad = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
+  const handleNativeLoad = (event: SyntheticEvent<HTMLImageElement>): void => {
     setStatus('loaded');
     onLoadingStatusChange?.('loaded');
     onLoad?.(event);
   };
 
-  const handleNativeError = (event: SyntheticEvent<HTMLImageElement, Event>): void => {
+  const handleNativeError = (event: SyntheticEvent<HTMLImageElement>): void => {
     setStatus('error');
     onLoadingStatusChange?.('error');
     onError?.(event);
