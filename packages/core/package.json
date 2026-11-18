@@ -95,7 +95,7 @@
     "theme": "node scripts/generate-theme.ts",
     "dev": "node scripts/generate-theme.ts && tsdown --watch",
     "build": "node scripts/generate-theme.ts && tsdown",
-    "type-check": "oxlint -c ../../.oxlintrc.json --type-aware --type-check"
+    "type-check": "oxlint"
   },
   "dependencies": {
     "@cumulo/css": "workspace:*"

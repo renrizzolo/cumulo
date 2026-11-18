@@ -48,7 +48,7 @@
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
-    "type-check": "oxlint -c ../../.oxlintrc.json --type-aware --type-check"
+    "type-check": "oxlint"
   },
   "dependencies": {
     "@cumulo/css": "workspace:*",
