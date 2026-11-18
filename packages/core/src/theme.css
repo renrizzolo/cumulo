@@ -239,8 +239,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-50-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-50-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -263,8 +265,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-100-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-100-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -287,8 +291,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-200-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-200-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -311,8 +317,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-300-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-300-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -335,8 +343,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-400-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-400-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -359,8 +369,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-500-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-500-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -383,8 +395,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-600-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-600-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -407,8 +421,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-700-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-700-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -431,8 +447,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-800-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-800-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )
@@ -455,8 +473,10 @@
       clamp(
         0.02,
         0.12 +
-          (0.8 * var(--theme-step-900-t) *
-            var(--theme-contrast-scale-dark, var(--theme-contrast-scale))) +
+          (
+            0.8 * var(--theme-step-900-t) *
+              var(--theme-contrast-scale-dark, var(--theme-contrast-scale))
+          ) +
           var(--theme-lightness-offset-dark, var(--theme-lightness-offset, 0)),
         0.98
       )

@@ -32,7 +32,7 @@
     "@types/node": "^24",
     "buffer": "^6.0.3",
     "diff": "^9.0.0",
-    "oxfmt": "^0.64.0",
+    "oxfmt": "^0.79.0",
     "oxlint": "^1.94.0",
     "react-server-dom-parcel": "^19.2.8",
     "tsrs": "0.25.0-ts7.1.0-beta",
