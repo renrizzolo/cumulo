@@ -113,7 +113,7 @@ export function useDismissible<T extends HTMLElement = HTMLDivElement>(props: {
 
   useEffect(() => {
     if (open !== undefined && !open) {
-      return undefined;
+      return;
     }
 
     const handleKeyDown = (event: KeyboardEvent) => {

@@ -135,7 +135,6 @@ function CollapsibleTrigger({
     if (providedId) {
       return registerPart('trigger', providedId);
     }
-    return undefined;
   }, [providedId, registerPart]);
 
   const handleClick = useCallback(
@@ -236,7 +235,6 @@ function CollapsibleContent({
     if (providedId) {
       return registerPart('content', providedId);
     }
-    return undefined;
   }, [providedId, registerPart]);
 
   return (

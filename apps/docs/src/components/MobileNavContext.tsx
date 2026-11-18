@@ -42,13 +42,12 @@ export function MobileNavProvider({ children }: { children: React.ReactNode }): 
 
   // Lock body scroll when mobile sidebar is open
   useEffect(() => {
-    if (!isOpen) {
-      return undefined;
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
     }
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = '';
-    };
   }, [isOpen]);
 
   useDismissible({

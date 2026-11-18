@@ -477,11 +477,11 @@ function AvatarImage({
     if (!src) {
       setStatus('error');
       onLoadingStatusChange?.('error');
-      return undefined;
+      return;
     }
 
     if (typeof window === 'undefined') {
-      return undefined;
+      return;
     }
 
     const image = new window.Image();
@@ -495,7 +495,7 @@ function AvatarImage({
         setStatus('loaded');
         onLoadingStatusChange?.('loaded');
       }
-      return undefined;
+      return;
     }
 
     const handleLoad = (): void => {

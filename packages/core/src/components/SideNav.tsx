@@ -536,7 +536,6 @@ function SideNavGroupTrigger({
     if (providedId) {
       return registerPart('trigger', providedId);
     }
-    return undefined;
   }, [providedId, registerPart]);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

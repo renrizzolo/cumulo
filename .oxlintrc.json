@@ -15,6 +15,7 @@
     "react/react-in-jsx-scope": "off",
     "no-underscore-dangle": "off",
     "no-unused-vars": "warn",
+    "typescript/consistent-return": "off",
     "typescript/no-explicit-any": "error",
     "oxc/no-barrel-file": ["error", { "threshold": 1 }],
     "oxc/no-accumulating-spread": "error",
