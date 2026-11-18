@@ -68,7 +68,7 @@ const sidebarStyle = style(
     display: 'flex',
     flexDirection: 'column',
     flex: `0 0 ${sidebarContract.width}`,
-    width: `${sidebarContract.width}`,
+    width: sidebarContract.width,
     maxWidth: '100%',
     position: 'sticky',
     top: `calc(53px + ${vars.spacing.md})`,
@@ -1963,11 +1963,9 @@ export function ThemeBuilder(): React.JSX.Element {
                                         const output =
                                           e.currentTarget.form.elements.namedItem('valueDisplay');
 
-                                        if (!output) {
-                                          return;
+                                        if (output instanceof HTMLOutputElement) {
+                                          output.value = e.currentTarget.value;
                                         }
-
-                                        (output as HTMLOutputElement).value = e.currentTarget.value;
                                       }}
                                     />
                                     <Field.Description>

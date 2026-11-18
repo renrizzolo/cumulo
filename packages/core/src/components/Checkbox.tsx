@@ -146,7 +146,7 @@ export function Checkbox({
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.indeterminate = Boolean(isIndeterminate);
+      inputRef.current.indeterminate = isIndeterminate;
     }
   }, [isIndeterminate]);
 

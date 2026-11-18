@@ -22,7 +22,7 @@ export function DualSidebarExample(): React.JSX.Element {
         onPointerLeave={() => setIsHovered(false)}
         onFocus={() => setIsHovered(true)}
         onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          if (!e.currentTarget.contains(e.relatedTarget)) {
             setIsHovered(false);
           }
         }}

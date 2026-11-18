@@ -5,10 +5,15 @@ import { render, screen, fireEvent, act } from '@testing-library/react';
 import * as Tooltip from '../src/components/Tooltip.js';
 
 describe('Tooltip Component', () => {
+  let showPopoverMock: () => void;
+  let hidePopoverMock: () => void;
+
   beforeEach(() => {
     vi.useFakeTimers();
-    HTMLElement.prototype.showPopover = vi.fn();
-    HTMLElement.prototype.hidePopover = vi.fn();
+    showPopoverMock = vi.fn();
+    hidePopoverMock = vi.fn();
+    HTMLElement.prototype.showPopover = showPopoverMock;
+    HTMLElement.prototype.hidePopover = hidePopoverMock;
     HTMLElement.prototype.togglePopover = vi.fn();
   });
 
@@ -79,12 +84,12 @@ describe('Tooltip Component', () => {
     act(() => {
       fireEvent.pointerEnter(trigger);
     });
-    expect(HTMLElement.prototype.showPopover).toHaveBeenCalled();
+    expect(showPopoverMock).toHaveBeenCalled();
 
     act(() => {
       fireEvent.pointerLeave(trigger);
     });
-    expect(HTMLElement.prototype.hidePopover).toHaveBeenCalled();
+    expect(hidePopoverMock).toHaveBeenCalled();
   });
 
   it('opens on focus and closes on blur', () => {
@@ -100,12 +105,12 @@ describe('Tooltip Component', () => {
     act(() => {
       fireEvent.focus(trigger);
     });
-    expect(HTMLElement.prototype.showPopover).toHaveBeenCalled();
+    expect(showPopoverMock).toHaveBeenCalled();
 
     act(() => {
       fireEvent.blur(trigger);
     });
-    expect(HTMLElement.prototype.hidePopover).toHaveBeenCalled();
+    expect(hidePopoverMock).toHaveBeenCalled();
   });
 
   it('respects delay prop when opening', () => {
@@ -121,12 +126,12 @@ describe('Tooltip Component', () => {
     act(() => {
       fireEvent.pointerEnter(trigger);
     });
-    expect(HTMLElement.prototype.showPopover).not.toHaveBeenCalled();
+    expect(showPopoverMock).not.toHaveBeenCalled();
 
     act(() => {
       vi.advanceTimersByTime(200);
     });
-    expect(HTMLElement.prototype.showPopover).toHaveBeenCalled();
+    expect(showPopoverMock).toHaveBeenCalled();
   });
 
   it('closes on Escape key press', () => {
@@ -142,6 +147,6 @@ describe('Tooltip Component', () => {
     act(() => {
       fireEvent.keyDown(trigger, { key: 'Escape' });
     });
-    expect(HTMLElement.prototype.hidePopover).toHaveBeenCalled();
+    expect(hidePopoverMock).toHaveBeenCalled();
   });
 });

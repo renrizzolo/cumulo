@@ -84,6 +84,6 @@ if (process.argv[1]) {
     normalized.endsWith('dist/cli/index.mjs') ||
     normalized.endsWith('bin/cumulo.mjs')
   ) {
-    runCli();
+    void runCli();
   }
 }

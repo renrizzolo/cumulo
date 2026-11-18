@@ -5,10 +5,15 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import * as Popover from '../src/components/Popover.js';
 
 describe('Popover Component', () => {
+  let hidePopoverMock: () => void;
+  let togglePopoverMock: () => boolean;
+
   beforeEach(() => {
+    hidePopoverMock = vi.fn();
+    togglePopoverMock = vi.fn();
     HTMLElement.prototype.showPopover = vi.fn();
-    HTMLElement.prototype.hidePopover = vi.fn();
-    HTMLElement.prototype.togglePopover = vi.fn();
+    HTMLElement.prototype.hidePopover = hidePopoverMock;
+    HTMLElement.prototype.togglePopover = togglePopoverMock;
   });
 
   it('renders popover trigger and content', () => {
@@ -30,7 +35,7 @@ describe('Popover Component', () => {
     expect(trigger.getAttribute('popovertarget')).toBe(content.id);
 
     fireEvent.click(trigger);
-    expect(HTMLElement.prototype.togglePopover).toHaveBeenCalled();
+    expect(togglePopoverMock).toHaveBeenCalled();
   });
 
   it('links trigger and content via anchor-name and position-anchor', () => {
@@ -62,7 +67,7 @@ describe('Popover Component', () => {
     btn2.focus();
 
     fireEvent.keyDown(screen.getByTestId('content'), { key: 'Tab', shiftKey: false });
-    expect(HTMLElement.prototype.hidePopover).toHaveBeenCalled();
+    expect(hidePopoverMock).toHaveBeenCalled();
   });
 
   it('loops focus when loopFocus is true', () => {
@@ -100,7 +105,7 @@ describe('Popover Component', () => {
     trigger.focus();
 
     fireEvent.keyDown(trigger, { key: 'Tab', shiftKey: true });
-    expect(HTMLElement.prototype.hidePopover).toHaveBeenCalled();
+    expect(hidePopoverMock).toHaveBeenCalled();
   });
 
   it('renders content with tabIndex="-1" by default so clicks inside do not escape to outer focusable containers', () => {

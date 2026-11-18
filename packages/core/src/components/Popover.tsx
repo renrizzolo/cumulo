@@ -627,7 +627,7 @@ function PopoverContent({
     ignoreRefs,
   });
 
-  const dismissibleRef = useDismissible<HTMLDivElement>({
+  const dismissibleRef = useDismissible({
     onDismiss: () => {
       if (isTooltip) return;
       close();

@@ -302,21 +302,21 @@ const interactiveTreeGroupStyle = style(
 
 const cloudBankAnimStyle = style(
   {
-    animation: `${cloudDriftMain} 64s ${EASE_IN_OUT_SMOOTH} infinite alternate`,
+    animation: `${cloudDriftMain.name} 64s ${EASE_IN_OUT_SMOOTH} infinite alternate`,
     '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
   },
   'doc-footer-cloud-bank',
 );
 const cloudRightAnimStyle = style(
   {
-    animation: `${cloudDriftSecondary} 32s ${EASE_IN_OUT_SMOOTH} infinite alternate`,
+    animation: `${cloudDriftSecondary.name} 32s ${EASE_IN_OUT_SMOOTH} infinite alternate`,
     '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
   },
   'doc-footer-cloud-right',
 );
 const lakeReflectionsAnimStyle = style(
   {
-    animation: `${waterShimmer} 6s ${EASE_IN_OUT_SMOOTH} infinite alternate`,
+    animation: `${waterShimmer.name} 6s ${EASE_IN_OUT_SMOOTH} infinite alternate`,
     '@media': { '(prefers-reduced-motion: reduce)': { animation: 'none' } },
   },
   'doc-footer-lake-shimmer',

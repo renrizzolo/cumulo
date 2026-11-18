@@ -6,8 +6,11 @@ import userEvent from '@testing-library/user-event';
 import * as Menu from '../src/components/Menu.js';
 
 describe('Menu Component', () => {
+  let showPopoverMock: () => void;
+
   beforeEach(() => {
-    HTMLElement.prototype.showPopover = vi.fn();
+    showPopoverMock = vi.fn();
+    HTMLElement.prototype.showPopover = showPopoverMock;
     HTMLElement.prototype.hidePopover = vi.fn();
     HTMLElement.prototype.togglePopover = vi.fn();
   });
@@ -84,7 +87,7 @@ describe('Menu Component', () => {
     await user.click(trigger);
 
     // handleClick should defer to the browser's native popoverTarget activation rather than calling showPopover() early
-    expect(content.showPopover).not.toHaveBeenCalled();
+    expect(showPopoverMock).not.toHaveBeenCalled();
 
     // Browser dispatches the toggle event after opening the popover
     fireEvent(

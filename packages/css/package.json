@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "tsdown --watch",
     "build": "tsdown",
-    "type-check": "tsc --noEmit",
+    "type-check": "oxlint",
     "bench": "vitest bench"
   },
   "devDependencies": {

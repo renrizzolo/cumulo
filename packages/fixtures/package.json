@@ -6,7 +6,7 @@
   "scripts": {
     "test": "vitest run",
     "test:browser": "vitest run --project browser",
-    "type-check": "tsc --noEmit"
+    "type-check": "oxlint"
   },
   "dependencies": {
     "@cumulo/core": "workspace:*",
@@ -31,7 +31,7 @@
     "esbuild": "^0.28.2",
     "esbuild-loader": "^4.5.0",
     "mini-css-extract-plugin": "^2.10.2",
-    "next": "^16.4.3",
+    "next": "^16.4.6",
     "parcel": "^2.16.4",
     "playwright": "^1.62.1",
     "rollup": "^4.63.1",
