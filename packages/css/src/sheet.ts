@@ -24,28 +24,14 @@ class StyleSheetManager {
   }
 }
 
-function isStyleSheetManager(val: unknown): val is StyleSheetManager {
-  return (
-    typeof val === 'object' &&
-    val !== null &&
-    'insertRule' in val &&
-    'getCss' in val &&
-    'clear' in val &&
-    typeof val.insertRule === 'function' &&
-    typeof val.getCss === 'function' &&
-    typeof val.clear === 'function'
-  );
-}
-
 const GLOBAL_SHEET_KEY = Symbol.for('__CUMULO_STYLESHEET__');
-const existingSheet: unknown = Reflect.get(globalThis, GLOBAL_SHEET_KEY);
-const sheetInstance = isStyleSheetManager(existingSheet) ? existingSheet : new StyleSheetManager();
+const globalStore = globalThis as unknown as { [GLOBAL_SHEET_KEY]?: StyleSheetManager };
 
-if (!isStyleSheetManager(existingSheet)) {
-  Reflect.set(globalThis, GLOBAL_SHEET_KEY, sheetInstance);
+if (!globalStore[GLOBAL_SHEET_KEY]) {
+  globalStore[GLOBAL_SHEET_KEY] = new StyleSheetManager();
 }
 
-export const sheet: StyleSheetManager = sheetInstance;
+export const sheet = globalStore[GLOBAL_SHEET_KEY];
 
 export function getSheetCss(): string {
   return sheet.getCss();

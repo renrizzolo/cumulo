@@ -206,7 +206,6 @@ export function create<T extends StyleDefinitions>(
   definitions: T,
   prefix = 'c',
 ): CompiledStyles<T> {
-  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   const result = {} as Record<keyof T, CompiledStyle>;
   for (const key of Object.keys(definitions) as (keyof T)[]) {
     const def = definitions[key];

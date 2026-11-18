@@ -62,23 +62,10 @@ export function props(...inputs: (ClassValue | { style?: CSSProperties })[]): {
   let inlineStyle: CSSProperties | undefined;
 
   for (const input of inputs) {
-    if (input && typeof input === 'object' && hasStyleProp(input)) {
-      if (input.style) {
-        inlineStyle = Object.assign(inlineStyle ?? {}, input.style);
-      }
-    } else if (
-      input &&
-      typeof input === 'object' &&
-      !Array.isArray(input) &&
-      !isCompiledStyleOrTheme(input)
-    ) {
-      for (const [k, v] of Object.entries(input)) {
-        if (v) {
-          classInputs.push(k);
-        }
-      }
+    if (input && typeof input === 'object' && hasStyleProp(input) && input.style) {
+      inlineStyle = Object.assign(inlineStyle ?? {}, input.style);
     } else {
-      classInputs.push(input);
+      classInputs.push(input as ClassValue);
     }
   }
 

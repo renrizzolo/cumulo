@@ -12,10 +12,6 @@ import {
   ThemeToggle,
 } from '@cumulo/core';
 
-function FakeClientReferenceComponent(): null {
-  return null;
-}
-
 describe('reactNodeToJsx', () => {
   it('serializes single elements with text children and props', () => {
     const jsx = reactNodeToJsx(<Button variant="primary">Click me</Button>);
@@ -140,18 +136,24 @@ describe('reactNodeToJsx', () => {
   });
 
   it('resolves RSC Client Reference proxies with $$id and $$exportName', () => {
-    const FakeClientRef = Object.assign(FakeClientReferenceComponent.bind(null), {
+    const FakeClientRef = {
       $$typeof: Symbol.for('react.client.reference'),
       $$id: 'packages/core/dist/index.mjs#ThemeToggle',
-    });
-    const element = React.createElement(FakeClientRef, { mode: 'toggle' });
+    };
+    const element = React.createElement(
+      FakeClientRef as unknown as React.ComponentType<{ mode: string }>,
+      { mode: 'toggle' },
+    );
     expect(reactNodeToJsx(element)).toBe('<ThemeToggle mode="toggle" />');
 
-    const FakeCompoundRef = Object.assign(FakeClientReferenceComponent.bind(null), {
+    const FakeCompoundRef = {
       $$typeof: Symbol.for('react.client.reference'),
       $$id: 'packages/core/dist/index.mjs#FieldInput',
-    });
-    const inputElement = React.createElement(FakeCompoundRef, { placeholder: 'hi' });
+    };
+    const inputElement = React.createElement(
+      FakeCompoundRef as unknown as React.ComponentType<{ placeholder: string }>,
+      { placeholder: 'hi' },
+    );
     expect(reactNodeToJsx(inputElement)).toBe('<Field.Input placeholder="hi" />');
   });
 });

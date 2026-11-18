@@ -154,7 +154,7 @@ async function tryFormatCode(filePath: string, code: string): Promise<string> {
         try {
           const parsed: unknown = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
           if (typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)) {
-            oxfmtConfig = Object.fromEntries(Object.entries(parsed));
+            oxfmtConfig = parsed as Record<string, unknown>;
             break;
           }
         } catch {
