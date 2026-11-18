@@ -1,9 +1,13 @@
 import React from 'react';
 
-interface ComponentWithMetadata {
-  displayName?: string;
-  name?: string;
-  render?: { displayName?: string; name?: string };
+function getStringProp(obj: object, key: string): string | undefined {
+  const val: unknown = Reflect.get(obj, key);
+  return typeof val === 'string' && val ? val : undefined;
+}
+
+function getObjectProp(obj: object, key: string): object | undefined {
+  const val: unknown = Reflect.get(obj, key);
+  return (typeof val === 'object' || typeof val === 'function') && val !== null ? val : undefined;
 }
 
 function extractComponentName(type: unknown): string {
@@ -19,36 +23,47 @@ function extractComponentName(type: unknown): string {
   }
 
   if (typeof type === 'function' || (typeof type === 'object' && type !== null)) {
-    const rec = type as Record<string, unknown>;
-    const meta = type as ComponentWithMetadata;
+    const renderObj = getObjectProp(type, 'render');
 
     // 1. Direct explicit display name or function name
-    let name = meta.displayName || meta.name || meta.render?.displayName || meta.render?.name;
+    let name =
+      getStringProp(type, 'displayName') ||
+      getStringProp(type, 'name') ||
+      (renderObj
+        ? getStringProp(renderObj, 'displayName') || getStringProp(renderObj, 'name')
+        : undefined);
 
     // 2. Client reference RSC metadata ($$id, $$exportName, $$name, exportName, _name)
     if (!name || name === 'ClientReference' || name === 'Component') {
-      if (typeof rec.$$name === 'string' && rec.$$name) {
-        name = rec.$$name;
-      } else if (typeof rec.$$exportName === 'string' && rec.$$exportName) {
-        name = rec.$$exportName;
-      } else if (typeof rec.exportName === 'string' && rec.exportName) {
-        name = rec.exportName;
-      } else if (typeof rec._name === 'string' && rec._name) {
-        name = rec._name;
-      } else if (typeof rec.$$id === 'string' && rec.$$id) {
-        const hashPart = rec.$$id.includes('#') ? rec.$$id.split('#').pop() : undefined;
+      const $$name = getStringProp(type, '$$name');
+      const $$exportName = getStringProp(type, '$$exportName');
+      const exportName = getStringProp(type, 'exportName');
+      const _name = getStringProp(type, '_name');
+      const $$id = getStringProp(type, '$$id');
+      const id = getStringProp(type, 'id');
+
+      if ($$name) {
+        name = $$name;
+      } else if ($$exportName) {
+        name = $$exportName;
+      } else if (exportName) {
+        name = exportName;
+      } else if (_name) {
+        name = _name;
+      } else if ($$id) {
+        const hashPart = $$id.includes('#') ? $$id.split('#').pop() : undefined;
         if (hashPart && hashPart !== 'default') {
           name = hashPart;
         } else {
-          const cleanPath = rec.$$id.replace(/[?#].*$/, '');
+          const cleanPath = $$id.replace(/[?#].*$/, '');
           const fileBase = cleanPath
             .split(/[/\\]/)
             .pop()
             ?.replace(/\.[^.]+$/, '');
           if (fileBase) name = fileBase;
         }
-      } else if (typeof rec.id === 'string' && rec.id.includes('#')) {
-        name = rec.id.split('#').pop();
+      } else if (id && id.includes('#')) {
+        name = id.split('#').pop();
       }
     }
 
@@ -106,14 +121,15 @@ export function reactNodeToJsx(node: React.ReactNode, indent = 0): string {
   }
 
   if (React.isValidElement(node)) {
-    const { type, props } = node as React.ReactElement<Record<string, unknown>>;
+    const { type, props } = node;
     const indentStr = ' '.repeat(indent);
 
     // Resolve component name
     const tagName = extractComponentName(type);
 
     // Format props
-    const propEntries = Object.entries(props || {}).filter(([key, val]) => {
+    const propRecord = typeof props === 'object' && props !== null ? props : {};
+    const propEntries = Object.entries(propRecord).filter(([key, val]) => {
       if (key === 'children' || key === 'key' || key === 'ref' || key.startsWith('__')) {
         return false;
       }
@@ -146,14 +162,24 @@ export function reactNodeToJsx(node: React.ReactNode, indent = 0): string {
 
     const propsString = formattedProps.length > 0 ? ` ${formattedProps.join(' ')}` : '';
 
+    const rawChildren: unknown = Reflect.get(propRecord, 'children');
+    const children: React.ReactNode =
+      rawChildren === null ||
+      rawChildren === undefined ||
+      typeof rawChildren === 'string' ||
+      typeof rawChildren === 'number' ||
+      typeof rawChildren === 'boolean' ||
+      React.isValidElement(rawChildren) ||
+      Array.isArray(rawChildren)
+        ? rawChildren
+        : undefined;
+
     // Handle React Fragment
     if (!tagName) {
-      const children = (props as { children?: React.ReactNode })?.children;
       if (!children) return '';
       return `<>\n${reactNodeToJsx(children, indent + 2)}\n${indentStr}</>`;
     }
 
-    const children = (props as { children?: React.ReactNode })?.children;
     const childArray = React.Children.toArray(children).filter((c) => {
       if (typeof c === 'string' && c.trim() === '') return false;
       return true;

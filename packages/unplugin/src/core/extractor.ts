@@ -146,7 +146,7 @@ export async function extractCssFromFile(filePath: string): Promise<string> {
   const absolutePath = path.isAbsolute(filePath) ? filePath : path.resolve(process.cwd(), filePath);
 
   try {
-    const cumuloCss = (await jiti.import('@cumulo/css')) as typeof import('@cumulo/css');
+    const cumuloCss = await jiti.import<typeof import('@cumulo/css')>('@cumulo/css');
     cumuloCss.sheet.clear();
 
     // Dynamically evaluate module with jiti
@@ -169,7 +169,7 @@ export async function extractCssFromCode(code: string, id: string): Promise<stri
   const cleanCode = cleanSourceCode(code);
 
   try {
-    const cumuloCss = (await jiti.import('@cumulo/css')) as typeof import('@cumulo/css');
+    const cumuloCss = await jiti.import<typeof import('@cumulo/css')>('@cumulo/css');
     cumuloCss.sheet.clear();
 
     jiti.evalModule(cleanCode, {

@@ -193,14 +193,15 @@ function collectRecipeVariantMap(
       const varName = member.name ? member.name.getText(sf) : '';
       if (
         !varName ||
-        !('type' in member) ||
+        !ts.isPropertySignature(member) ||
         !member.type ||
-        !ts.isTypeLiteralNode(member.type as ts.TypeNode)
+        !ts.isTypeLiteralNode(member.type)
       ) {
         continue;
       }
-      const typeLit = member.type as ts.TypeLiteralNode;
-      const values = typeLit.members.map((m) => (m.name ? m.name.getText(sf) : '')).filter(Boolean);
+      const values = member.type.members
+        .map((m) => (m.name ? m.name.getText(sf) : ''))
+        .filter(Boolean);
       const existing = variantMap.get(varName) || new Set<string>();
       for (const v of values) existing.add(v);
       variantMap.set(varName, existing);
@@ -213,7 +214,8 @@ function extractRecipeVariants(typeNode: ts.TypeNode, sf: ts.SourceFile): string
   const text = typeNode.getText(sf);
   if (!text.includes('RecipeFunction')) return null;
 
-  const typeArgs = (typeNode as ts.TypeReferenceNode).typeArguments;
+  if (!ts.isTypeReferenceNode(typeNode) && !ts.isImportTypeNode(typeNode)) return null;
+  const typeArgs = typeNode.typeArguments;
   if (!typeArgs || typeArgs.length === 0) return null;
 
   const typeLiterals = collectVariantLiteralMembers(typeArgs[0]);

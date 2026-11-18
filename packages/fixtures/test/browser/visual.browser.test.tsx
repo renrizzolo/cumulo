@@ -4,11 +4,13 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { page, commands } from 'vitest/browser';
 import { App } from '../../src/shared/App.js';
 
-interface CustomCommands {
-  getBundlerBuild(bundler: string): Promise<{ cssContent: string; jsContent: string }>;
+declare module 'vitest/browser' {
+  interface BrowserCommands {
+    getBundlerBuild(bundler: string): Promise<{ cssContent: string; jsContent: string }>;
+  }
 }
 
-const customCommands = commands as unknown as CustomCommands;
+const customCommands = commands;
 
 const bundlers = ['vite', 'rollup', 'esbuild', 'webpack'] as const;
 

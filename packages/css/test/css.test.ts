@@ -230,7 +230,7 @@ describe('@cumulo/css', () => {
           visible: undefined,
         }),
       ).toBe('btn active');
-      const condition = Boolean(false);
+      const condition: boolean = false;
       expect(cx(['arr1', ['arr2', condition && 'arr3']])).toBe('arr1 arr2');
     });
 

@@ -75,19 +75,21 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
   const defined = rules.filter((r): r is StyleRule => Boolean(r));
   if (defined.length === 0) return undefined;
   if (defined.length === 1) return defined[0];
-  const result: Record<string, unknown> = {};
+  const result: StyleRule = {};
 
   for (const rule of defined) {
     for (const [key, value] of Object.entries(rule)) {
+      const prev: unknown = Reflect.get(result, key);
       if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        result[key] = Object.assign({}, (result[key] as Record<string, unknown>) || {}, value);
+        const prevObj = typeof prev === 'object' && prev !== null ? prev : {};
+        Reflect.set(result, key, Object.assign({}, prevObj, value));
       } else {
-        result[key] = value;
+        Reflect.set(result, key, value);
       }
     }
   }
 
-  return result as StyleRule;
+  return result;
 }
 
 interface OptionsCollector {
@@ -102,8 +104,10 @@ function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
 
   const extOpts =
     typeof ext === 'function' && 'options' in ext
-      ? (ext as { options: RecipeOptions<VariantDefinitions, unknown> }).options
-      : (ext as RecipeOptions<VariantDefinitions, unknown>);
+      ? // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+        (ext as { options: RecipeOptions<VariantDefinitions, unknown> }).options
+      : // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+        (ext as RecipeOptions<VariantDefinitions, unknown>);
 
   if (!extOpts) return;
 
@@ -190,9 +194,9 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
   }
 
   if (options.compoundVariants) {
-    collected.compoundVariants.push(
-      ...(options.compoundVariants as CompoundVariant<VariantDefinitions>[]),
-    );
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    const cvs = options.compoundVariants as CompoundVariant<VariantDefinitions>[];
+    collected.compoundVariants.push(...cvs);
   }
 
   if (options.defaultVariants) {
@@ -237,6 +241,7 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
   }));
 
   // 6. Zero-runtime resolver
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   const recipeFn = ((props?: VariantSelection<CombinedVariants>) => {
     const classes: (string | undefined)[] = [baseClassName];
     const mergedProps: Record<string, unknown> = { ...mergedDefaultVariants };
@@ -277,11 +282,14 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
   }) as RecipeFunction<CombinedVariants>;
 
   recipeFn.variants = () => Object.keys(mergedVariants);
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   recipeFn.options = options as RecipeOptions<CombinedVariants, unknown>;
   recipeFn.classNames = {
     base: baseClassName,
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
     variants: compiledVariants as RecipeFunction<CombinedVariants>['classNames']['variants'],
     compoundVariants:
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       compiledCompoundVariants as RecipeFunction<CombinedVariants>['classNames']['compoundVariants'],
   };
 

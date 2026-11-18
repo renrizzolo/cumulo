@@ -194,7 +194,7 @@ export function DocFooter(): React.JSX.Element {
   const [showTuner, setShowTuner] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  const updateParam = useCallback(<K extends keyof LandscapeConfig>(key: K, val: number) => {
+  const updateParam = useCallback((key: keyof LandscapeConfig, val: number) => {
     setConfig((prev): LandscapeConfig => ({ ...prev, [key]: val }));
   }, []);
 

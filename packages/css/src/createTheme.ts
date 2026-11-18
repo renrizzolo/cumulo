@@ -26,6 +26,7 @@ function walkTokens<T extends NullableTokens>(
       result[key] = callback(currentPath);
     }
   }
+  // oxlint-disable-next-line typescript/no-unsafe-type-assertion
   return result as MapTokensToVars<T>;
 }
 
@@ -56,15 +57,16 @@ export function createThemeContract<T extends NullableTokens>(
   prefix = 'c',
 ): ThemeContract<T> {
   const varsObj = walkTokens(contract, [], (path) => `var(${pathToVarName(path, prefix)})`);
-  const contractObj = varsObj as ThemeContract<T>;
+  const contractObj: ThemeContract<T> = Object.assign(varsObj, {
+    prefix,
+    $set: (values: MapTokensToPartialValues<T>): CSSVariableMap =>
+      flattenValues(values, [], prefix),
+  });
   Object.defineProperty(contractObj, 'prefix', {
-    value: prefix,
     enumerable: false,
     configurable: true,
   });
   Object.defineProperty(contractObj, '$set', {
-    value: (values: MapTokensToPartialValues<T>): CSSVariableMap =>
-      flattenValues(values, [], prefix),
     enumerable: false,
     configurable: true,
   });

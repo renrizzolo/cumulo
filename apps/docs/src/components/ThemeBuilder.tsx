@@ -1963,11 +1963,9 @@ export function ThemeBuilder(): React.JSX.Element {
                                         const output =
                                           e.currentTarget.form.elements.namedItem('valueDisplay');
 
-                                        if (!output) {
-                                          return;
+                                        if (output instanceof HTMLOutputElement) {
+                                          output.value = e.currentTarget.value;
                                         }
-
-                                        (output as HTMLOutputElement).value = e.currentTarget.value;
                                       }}
                                     />
                                     <Field.Description>

@@ -183,6 +183,7 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
     } else if (!open && wasOpen) {
       deactivateFocus();
     }
+    return undefined;
   }, [open]);
 
   const handleKeyDown = useEffectEvent((e: KeyboardEvent) => {
@@ -326,7 +327,7 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
   const hasOnTabOut = Boolean(onTabOut);
 
   useEffect(() => {
-    if (!hasOnTabOut || (open !== undefined && !open)) return;
+    if (!hasOnTabOut || (open !== undefined && !open)) return undefined;
 
     const onFocusIn = (e: FocusEvent) => handleDocumentFocusIn(e);
     document.addEventListener('focusin', onFocusIn);
@@ -337,7 +338,7 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
 
   useEffect(() => {
     const container = ref.current;
-    if (!container) return;
+    if (!container) return undefined;
 
     container.addEventListener('keydown', handleKeyDown);
     container.addEventListener('focusin', handleFocusIn);
