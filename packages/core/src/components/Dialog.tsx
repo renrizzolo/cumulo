@@ -262,13 +262,13 @@ const dialogRecipe = recipe(
           animation: `${dialogFadeIn.name} var(--dialog-duration) ${vars.ease.default}`,
         },
         bottom: {
-          margin: 'auto 0 0 0',
-          width: '100vw',
-          maxWidth: '100vw',
+          margin: 'auto auto 0 auto',
+          maxWidth: '100%',
+          maxHeight: '85dvh',
           borderTopWidth: 1,
-          borderRightWidth: 0,
+          borderRightWidth: 1,
           borderBottomWidth: 0,
-          borderLeftWidth: 0,
+          borderLeftWidth: 1,
           borderTopLeftRadius: vars.radius.xl,
           borderTopRightRadius: vars.radius.xl,
           borderBottomLeftRadius: 0,
@@ -280,7 +280,7 @@ const dialogRecipe = recipe(
           margin: '0 0 0 auto',
           height: '100dvh',
           maxHeight: '100dvh',
-          maxWidth: '100vw',
+          maxWidth: '100%',
           borderTopWidth: 0,
           borderRightWidth: 0,
           borderBottomWidth: 0,
@@ -292,7 +292,7 @@ const dialogRecipe = recipe(
           margin: '0 auto 0 0',
           height: '100dvh',
           maxHeight: '100dvh',
-          maxWidth: '100vw',
+          maxWidth: '100%',
           borderTopWidth: 0,
           borderRightWidth: 1,
           borderBottomWidth: 0,
@@ -317,40 +317,41 @@ const dialogRecipe = recipe(
       { variants: { placement: 'center', size: 'xl' }, style: { width: 'min(90vw, 900px)' } },
       {
         variants: { placement: 'center', size: 'full' },
-        style: { width: 'calc(100vw - 2rem)', height: 'calc(100dvh - 2rem)', maxHeight: 'none' },
+        style: { width: 'calc(100% - 2rem)', height: 'calc(100dvh - 2rem)', maxHeight: 'none' },
       },
-      // Bottom sheet sizes (height / maxHeight)
-      { variants: { placement: 'bottom', size: 'sm' }, style: { maxHeight: '40dvh' } },
-      { variants: { placement: 'bottom', size: 'md' }, style: { maxHeight: '60dvh' } },
-      { variants: { placement: 'bottom', size: 'lg' }, style: { maxHeight: '80dvh' } },
-      { variants: { placement: 'bottom', size: 'xl' }, style: { maxHeight: '90dvh' } },
+      // Bottom sheet sizes (centered realistic widths; 100% on narrow mobile viewports)
+      { variants: { placement: 'bottom', size: 'sm' }, style: { width: 'min(100%, 400px)' } },
+      { variants: { placement: 'bottom', size: 'md' }, style: { width: 'min(100%, 560px)' } },
+      { variants: { placement: 'bottom', size: 'lg' }, style: { width: 'min(100%, 720px)' } },
+      { variants: { placement: 'bottom', size: 'xl' }, style: { width: 'min(100%, 900px)' } },
       {
         variants: { placement: 'bottom', size: 'full' },
         style: {
+          width: '100%',
           height: '100dvh',
           maxHeight: '100dvh',
           borderTopLeftRadius: 0,
           borderTopRightRadius: 0,
-          borderTopWidth: 0,
+          borderWidth: 0,
         },
       },
       // Right side sheet sizes
-      { variants: { placement: 'right', size: 'sm' }, style: { width: 'min(100vw, 320px)' } },
-      { variants: { placement: 'right', size: 'md' }, style: { width: 'min(100vw, 440px)' } },
-      { variants: { placement: 'right', size: 'lg' }, style: { width: 'min(100vw, 640px)' } },
-      { variants: { placement: 'right', size: 'xl' }, style: { width: 'min(100vw, 800px)' } },
+      { variants: { placement: 'right', size: 'sm' }, style: { width: 'min(100%, 320px)' } },
+      { variants: { placement: 'right', size: 'md' }, style: { width: 'min(100%, 440px)' } },
+      { variants: { placement: 'right', size: 'lg' }, style: { width: 'min(100%, 640px)' } },
+      { variants: { placement: 'right', size: 'xl' }, style: { width: 'min(100%, 800px)' } },
       {
         variants: { placement: 'right', size: 'full' },
-        style: { width: '100vw', borderLeftWidth: 0 },
+        style: { width: '100%', borderLeftWidth: 0 },
       },
       // Left side sheet sizes
-      { variants: { placement: 'left', size: 'sm' }, style: { width: 'min(100vw, 320px)' } },
-      { variants: { placement: 'left', size: 'md' }, style: { width: 'min(100vw, 440px)' } },
-      { variants: { placement: 'left', size: 'lg' }, style: { width: 'min(100vw, 640px)' } },
-      { variants: { placement: 'left', size: 'xl' }, style: { width: 'min(100vw, 800px)' } },
+      { variants: { placement: 'left', size: 'sm' }, style: { width: 'min(100%, 320px)' } },
+      { variants: { placement: 'left', size: 'md' }, style: { width: 'min(100%, 440px)' } },
+      { variants: { placement: 'left', size: 'lg' }, style: { width: 'min(100%, 640px)' } },
+      { variants: { placement: 'left', size: 'xl' }, style: { width: 'min(100%, 800px)' } },
       {
         variants: { placement: 'left', size: 'full' },
-        style: { width: '100vw', borderRightWidth: 0 },
+        style: { width: '100%', borderRightWidth: 0 },
       },
     ],
     defaultVariants: {
@@ -368,8 +369,7 @@ const DialogPlacementContext = createContext<DialogPlacement>('center');
 
 interface DialogContentProps extends ElementProps<HTMLDialogElement> {
   /**
-   * Controls the size of the dialog.
-   * For `center`, `left`, and `right` placements this sets width; for `bottom` it sets max-height.
+   * Controls the width of the dialog across all placements (or full viewport when `'full'`).
    * @default 'md'
    */
   size?: DialogVariants['size'];
