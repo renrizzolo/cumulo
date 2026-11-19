@@ -3,6 +3,11 @@
   "version": "0.2.0-alpha.1",
   "description": "Lightweight, zero-dependency type-safe CSS framework inspired by StyleX and Vanilla Extract",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renrizzolo/cumulo.git",
+    "directory": "packages/css"
+  },
   "source": "./src/index.ts",
   "files": [
     "dist"
