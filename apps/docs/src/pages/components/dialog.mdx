@@ -90,14 +90,15 @@ import { Dialog } from '@cumulo/core';
         <Dialog.Header>
           <Dialog.Title>Inspector</Dialog.Title>
           <Dialog.Description>
-            Side sheets span full viewport height with pinned header and footer regions.
+            Side sheets span full viewport height with Dialog.Body expanding to keep the footer
+            anchored at the bottom.
           </Dialog.Description>
         </Dialog.Header>
         <Dialog.Body>
           <VStack gap="sm">
             <Text size="sm" color="muted">
-              Dialog.Body expands to fill available height and scrolls independently when content
-              exceeds the viewport.
+              Content scrolls naturally within the dialog container, or you can compose a Panel
+              inside Dialog.Body for an independent scroll region.
             </Text>
           </VStack>
         </Dialog.Body>
