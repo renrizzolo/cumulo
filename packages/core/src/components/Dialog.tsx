@@ -469,11 +469,16 @@ const dialogHandleStyles = style(
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    width: '100%',
+    alignSelf: 'stretch',
     touchAction: 'none',
     userSelect: 'none',
     cursor: 'grab',
-    paddingBlock: vars.spacing['2xs'],
+    // Extend hit area flush to the top and side edges of the dialog padding box for touch devices
+    marginTop: `calc(${vars.spacing.xl} * -1)`,
+    marginInline: `calc(${vars.spacing.xl} * -1)`,
+    paddingTop: vars.spacing.md,
+    paddingBottom: vars.spacing.lg,
+    paddingInline: vars.spacing.xl,
     ':active': {
       cursor: 'grabbing',
     },
@@ -598,12 +603,6 @@ function DialogHeader({
 const dialogBodyStyles = style(
   {
     flex: '1 1 auto',
-    minHeight: 0,
-    overflowY: 'auto',
-    // Absorb glyph descender ink from `text-box: trim-both` and focus rings so short content
-    // never triggers a spurious tiny scrollbar.
-    padding: vars.spacing['2xs'],
-    margin: `calc(${vars.spacing['2xs']} * -1)`,
   },
   'dialog-body',
 );
