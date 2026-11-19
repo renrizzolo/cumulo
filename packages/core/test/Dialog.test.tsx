@@ -225,4 +225,50 @@ describe('Dialog Component', () => {
     expect(onOpenChange).toHaveBeenCalledWith(false);
     expect(closeMock).toHaveBeenCalledTimes(1);
   });
+
+  it('resets drag state and inline transform if closed mid-drag and reopened', () => {
+    const { rerender } = render(
+      <Dialog.Root open>
+        <Dialog.Content data-testid="content" placement="bottom">
+          <Dialog.Handle data-testid="handle" threshold={120} />
+          <Dialog.Title>Bottom Sheet</Dialog.Title>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    const content = screen.getByTestId('content');
+    const handle = screen.getByTestId('handle');
+
+    fireEvent.pointerDown(handle, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(handle, { clientX: 0, clientY: 50 });
+    expect(handle).toHaveAttribute('data-dragging', 'true');
+    expect(content.style.transform).toBe('translate3d(0, 50px, 0)');
+
+    // Close dialog without pointerup (e.g. Escape or programmatic close)
+    rerender(
+      <Dialog.Root open={false}>
+        <Dialog.Content data-testid="content" placement="bottom">
+          <Dialog.Handle data-testid="handle" threshold={120} />
+          <Dialog.Title>Bottom Sheet</Dialog.Title>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    expect(handle).not.toHaveAttribute('data-dragging');
+    expect(content.style.transform).toBe('');
+
+    // Reopen dialog: moving pointer without pointerdown must not drag or jump
+    rerender(
+      <Dialog.Root open>
+        <Dialog.Content data-testid="content" placement="bottom">
+          <Dialog.Handle data-testid="handle" threshold={120} />
+          <Dialog.Title>Bottom Sheet</Dialog.Title>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    fireEvent.pointerMove(handle, { clientX: 0, clientY: 80 });
+    expect(handle).not.toHaveAttribute('data-dragging');
+    expect(content.style.transform).toBe('');
+  });
 });

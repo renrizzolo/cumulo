@@ -221,27 +221,51 @@ export function useDrag<T extends HTMLElement = HTMLDivElement>(
       }
     };
 
+    const cancelActiveDrag = (event?: PointerEvent) => {
+      if (activePointerId === null) return;
+      const wasDragging = dragging;
+      const state = buildState(event ? event.clientX : lastX, event ? event.clientY : lastY);
+      reset(activePointerId);
+      if (wasDragging && event) {
+        callbacksRef.current.onDragCancel?.(state, event);
+      }
+    };
+
     const handlePointerCancel = (event: PointerEvent) => {
       const pointerId = event.pointerId ?? 0;
       if (activePointerId === null || pointerId !== activePointerId) return;
-      const wasDragging = dragging;
-      const state = buildState(event.clientX, event.clientY);
-      reset(pointerId);
-      if (wasDragging) {
-        callbacksRef.current.onDragCancel?.(state, event);
-      }
+      cancelActiveDrag(event);
+    };
+
+    const handleLostPointerCapture = (event: PointerEvent) => {
+      const pointerId = event.pointerId ?? 0;
+      if (activePointerId === null || pointerId !== activePointerId) return;
+      cancelActiveDrag(event);
+    };
+
+    const handleWindowBlur = () => {
+      if (activePointerId === null) return;
+      reset(activePointerId);
     };
 
     el.addEventListener('pointerdown', handlePointerDown);
     el.addEventListener('pointermove', handlePointerMove);
     el.addEventListener('pointerup', handlePointerUp);
     el.addEventListener('pointercancel', handlePointerCancel);
+    el.addEventListener('lostpointercapture', handleLostPointerCapture);
+    window.addEventListener('pointerup', handlePointerUp);
+    window.addEventListener('pointercancel', handlePointerCancel);
+    window.addEventListener('blur', handleWindowBlur);
 
     return () => {
       el.removeEventListener('pointerdown', handlePointerDown);
       el.removeEventListener('pointermove', handlePointerMove);
       el.removeEventListener('pointerup', handlePointerUp);
       el.removeEventListener('pointercancel', handlePointerCancel);
+      el.removeEventListener('lostpointercapture', handleLostPointerCapture);
+      window.removeEventListener('pointerup', handlePointerUp);
+      window.removeEventListener('pointercancel', handlePointerCancel);
+      window.removeEventListener('blur', handleWindowBlur);
       reset(activePointerId);
     };
   }, [axis, threshold, disabled]);
