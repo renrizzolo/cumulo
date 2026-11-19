@@ -99,4 +99,20 @@ describe('useDrag', () => {
     expect(onDragCancel).toHaveBeenCalledTimes(1);
     expect(target).toHaveAttribute('data-dragging', 'false');
   });
+
+  it('resets dragging state when pointer capture is lost mid-drag', () => {
+    const onDragCancel = vi.fn();
+
+    render(<DragHarness threshold={0} onDragCancel={onDragCancel} />);
+    const target = screen.getByTestId('drag-target');
+
+    fireEvent.pointerDown(target, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(target, { clientX: 0, clientY: 30 });
+    expect(target).toHaveAttribute('data-dragging', 'true');
+
+    fireEvent(target, new Event('lostpointercapture'));
+
+    expect(onDragCancel).toHaveBeenCalledTimes(1);
+    expect(target).toHaveAttribute('data-dragging', 'false');
+  });
 });

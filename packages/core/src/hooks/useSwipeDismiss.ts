@@ -189,6 +189,13 @@ export function useSwipeDismiss<T extends HTMLElement = HTMLDivElement>(
   }, [getTarget, snapBack]);
 
   useEffect(() => {
+    if (disabled) {
+      clearSnapTimer();
+      clearTargetStyles(getTarget());
+    }
+  }, [disabled, clearSnapTimer, clearTargetStyles, getTarget]);
+
+  useEffect(() => {
     return () => {
       clearSnapTimer();
       clearTargetStyles(getTarget());

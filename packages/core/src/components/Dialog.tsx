@@ -473,8 +473,7 @@ const dialogHandleStyles = style(
     touchAction: 'none',
     userSelect: 'none',
     cursor: 'grab',
-    paddingBlock: vars.spacing.xs,
-    marginTop: `calc(${vars.spacing.md} * -1)`,
+    paddingBlock: vars.spacing['2xs'],
     ':active': {
       cursor: 'grabbing',
     },
@@ -539,11 +538,11 @@ function DialogHandle({
   ref,
   ...props
 }: DialogHandleProps): React.JSX.Element {
-  const { close, dialogRef } = useDialog();
+  const { open, close, dialogRef } = useDialog();
   const placement = useContext(DialogPlacementContext);
   const inferredDirection = getDefaultSwipeDirection(placement);
   const resolvedDirection = providedDirection ?? inferredDirection ?? 'down';
-  const isDisabled = disabled || (!providedDirection && inferredDirection === null);
+  const isDisabled = !open || disabled || (!providedDirection && inferredDirection === null);
 
   const { ref: swipeRef, isDragging } = useSwipeDismiss({
     direction: resolvedDirection,
@@ -601,6 +600,10 @@ const dialogBodyStyles = style(
     flex: '1 1 auto',
     minHeight: 0,
     overflowY: 'auto',
+    // Absorb glyph descender ink from `text-box: trim-both` and focus rings so short content
+    // never triggers a spurious tiny scrollbar.
+    padding: vars.spacing['2xs'],
+    margin: `calc(${vars.spacing['2xs']} * -1)`,
   },
   'dialog-body',
 );

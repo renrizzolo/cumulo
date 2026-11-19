@@ -87,7 +87,6 @@ import * as Dialog from '@cumulo/core/components/Dialog';
     <Dialog.Root>
       <Dialog.Trigger variant="secondary">Right Sheet</Dialog.Trigger>
       <Dialog.Content placement="right" size="md">
-        <Dialog.Handle />
         <Dialog.Header>
           <Dialog.Title>Inspector</Dialog.Title>
           <Dialog.Description>
@@ -99,9 +98,6 @@ import * as Dialog from '@cumulo/core/components/Dialog';
             <Text size="sm" color="muted">
               Dialog.Body expands to fill available height and scrolls independently when content
               exceeds the viewport.
-            </Text>
-            <Text size="sm" color="muted">
-              Swipe the handle right or press Escape to close the drawer.
             </Text>
           </VStack>
         </Dialog.Body>
@@ -115,7 +111,6 @@ import * as Dialog from '@cumulo/core/components/Dialog';
     <Dialog.Root>
       <Dialog.Trigger variant="secondary">Left Sheet</Dialog.Trigger>
       <Dialog.Content placement="left" size="sm">
-        <Dialog.Handle />
         <Dialog.Header>
           <Dialog.Title>Navigation</Dialog.Title>
           <Dialog.Description>Left-anchored drawer for secondary panels.</Dialog.Description>
@@ -123,8 +118,8 @@ import * as Dialog from '@cumulo/core/components/Dialog';
         <Dialog.Body>
           <VStack gap="sm">
             <Text size="sm" color="muted">
-              Supports all size variants (`sm`, `md`, `lg`, `xl`, and `full`) and automatic
-              swipe-left dismissal via Dialog.Handle.
+              Supports all size variants (`sm`, `md`, `lg`, `xl`, and `full`) with light-dismiss
+              and focus trapping.
             </Text>
           </VStack>
         </Dialog.Body>
