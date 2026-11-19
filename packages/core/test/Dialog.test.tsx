@@ -151,4 +151,78 @@ describe('Dialog Component', () => {
     expect(onPopoverClose).toHaveBeenCalledTimes(1);
     expect(onDialogClose).not.toHaveBeenCalled();
   });
+
+  it('exposes data-placement and data-state attributes across placements', () => {
+    const placements = ['center', 'bottom', 'left', 'right'] as const;
+
+    for (const placement of placements) {
+      const { unmount } = render(
+        <Dialog.Root>
+          <Dialog.Trigger data-testid="trigger">Open</Dialog.Trigger>
+          <Dialog.Content data-testid="content" placement={placement}>
+            <Dialog.Title>Title</Dialog.Title>
+          </Dialog.Content>
+        </Dialog.Root>,
+      );
+
+      const content = screen.getByTestId('content');
+      expect(content).toHaveAttribute('data-placement', placement);
+      expect(content).toHaveAttribute('data-state', 'closed');
+
+      fireEvent.click(screen.getByTestId('trigger'));
+      expect(content).toHaveAttribute('data-state', 'open');
+      expect(showModalMock).toHaveBeenCalled();
+
+      unmount();
+    }
+  });
+
+  it('dismisses a bottom sheet when dragging Dialog.Handle downward past threshold', () => {
+    const onOpenChange = vi.fn();
+
+    render(
+      <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
+        <Dialog.Content data-testid="content" placement="bottom">
+          <Dialog.Handle data-testid="handle" threshold={60} />
+          <Dialog.Header>
+            <Dialog.Title>Bottom Sheet</Dialog.Title>
+          </Dialog.Header>
+          <Dialog.Body>Sheet content</Dialog.Body>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    const handle = screen.getByTestId('handle');
+    expect(handle).toHaveAttribute('data-swipe-direction', 'down');
+
+    fireEvent.pointerDown(handle, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(handle, { clientX: 0, clientY: 100 });
+    fireEvent.pointerUp(handle, { clientX: 0, clientY: 100 });
+
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(closeMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('infers horizontal swipe direction for Dialog.Handle inside side sheets', () => {
+    const onOpenChange = vi.fn();
+
+    render(
+      <Dialog.Root defaultOpen onOpenChange={onOpenChange}>
+        <Dialog.Content data-testid="content" placement="right">
+          <Dialog.Handle data-testid="handle" threshold={60} />
+          <Dialog.Title>Right Sheet</Dialog.Title>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    const handle = screen.getByTestId('handle');
+    expect(handle).toHaveAttribute('data-swipe-direction', 'right');
+
+    fireEvent.pointerDown(handle, { button: 0, clientX: 0, clientY: 0 });
+    fireEvent.pointerMove(handle, { clientX: 100, clientY: 0 });
+    fireEvent.pointerUp(handle, { clientX: 100, clientY: 0 });
+
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    expect(closeMock).toHaveBeenCalledTimes(1);
+  });
 });

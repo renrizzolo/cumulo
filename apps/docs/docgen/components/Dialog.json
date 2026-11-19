@@ -107,7 +107,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -123,6 +123,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
@@ -419,7 +422,7 @@
           "defaultValue": {
             "value": "md"
           },
-          "description": "",
+          "description": "Controls the size of the dialog.\nFor `center`, `left`, and `right` placements this sets width; for `bottom` it sets max-height.",
           "name": "size",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
@@ -458,6 +461,46 @@
           },
           "shortPropTypeName": null
         },
+        "placement": {
+          "defaultValue": {
+            "value": "center"
+          },
+          "description": "Where the dialog is anchored within the viewport.\nUse `'bottom'` for a bottom sheet or `'left'` / `'right'` for a side sheet (drawer).",
+          "name": "placement",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+            "name": "DialogContentProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+              "name": "DialogContentProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "DialogPlacement | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"bottom\""
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              },
+              {
+                "value": "\"center\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
         "className": {
           "defaultValue": null,
           "description": "",
@@ -491,6 +534,129 @@
           "required": false,
           "type": {
             "name": "Ref<HTMLDialogElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        }
+      }
+    },
+    "Handle": {
+      "name": "Dialog.Handle",
+      "props": {
+        "direction": {
+          "defaultValue": null,
+          "description": "Overrides the inferred swipe direction for dismissing the sheet.\nBy default, `'bottom'` swipes `'down'`, `'left'` swipes `'left'`, and `'right'` swipes `'right'`.",
+          "name": "direction",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+            "name": "DialogHandleProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+              "name": "DialogHandleProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "SwipeDirection | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"left\""
+              },
+              {
+                "value": "\"right\""
+              },
+              {
+                "value": "\"down\""
+              },
+              {
+                "value": "\"up\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "threshold": {
+          "defaultValue": {
+            "value": "80"
+          },
+          "description": "Distance in pixels required to dismiss the sheet on release.",
+          "name": "threshold",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+            "name": "DialogHandleProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+              "name": "DialogHandleProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "number | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "disabled": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Disables swipe-to-dismiss interaction on the handle.",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+            "name": "DialogHandleProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+              "name": "DialogHandleProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLDivElement> | undefined"
           },
           "shortPropTypeName": "Union"
         }
@@ -1444,6 +1610,12 @@
               },
               {
                 "value": "\"em\""
+              },
+              {
+                "value": "\"dt\""
+              },
+              {
+                "value": "\"dd\""
               }
             ]
           },
@@ -1824,7 +1996,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1840,6 +2012,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
