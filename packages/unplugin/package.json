@@ -3,6 +3,11 @@
   "version": "0.2.0-alpha.1",
   "description": "Universal build plugin for Cumulo CSS with support for Vite, Webpack, Rollup, esbuild, and Parcel",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renrizzolo/cumulo.git",
+    "directory": "packages/unplugin"
+  },
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",

@@ -3,6 +3,11 @@
   "version": "0.2.0-alpha.1",
   "description": "Core design tokens, theme contracts, and base utilities for Cumulo UI",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renrizzolo/cumulo.git",
+    "directory": "packages/core"
+  },
   "style": "./src/theme.css",
   "bin": {
     "core": "./bin/cumulo.mjs",
