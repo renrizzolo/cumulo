@@ -61,7 +61,7 @@ import * as Dialog from '@cumulo/core/components/Dialog';
   <HStack gap="sm" wrap>
     <Dialog.Root>
       <Dialog.Trigger variant="secondary">Bottom Sheet</Dialog.Trigger>
-      <Dialog.Content placement="bottom" size="md">
+      <Dialog.Content placement="bottom" size="sm">
         <Dialog.Handle />
         <Dialog.Header>
           <Dialog.Title>Share Document</Dialog.Title>
@@ -72,8 +72,8 @@ import * as Dialog from '@cumulo/core/components/Dialog';
         <Dialog.Body>
           <VStack gap="sm">
             <Text size="sm" color="muted">
-              Bottom sheets anchor to the bottom viewport edge with rounded top corners and safe-area
-              padding for mobile devices.
+              Bottom sheets anchor centered along the bottom edge with rounded top corners,
+              responsive width sizing, and safe-area padding for mobile devices.
             </Text>
           </VStack>
         </Dialog.Body>
