@@ -253,6 +253,49 @@ importers:
         specifier: ^5.110.1
         version: 5.110.1(@swc/core@1.16.0(@swc/helpers@0.5.23))(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26)
 
+  packages/parcel-plugin:
+    dependencies:
+      '@cumulo/css':
+        specifier: workspace:*
+        version: link:../css
+      jiti:
+        specifier: ^2.7.0
+        version: 2.7.0
+    devDependencies:
+      '@cumulo/core':
+        specifier: workspace:*
+        version: link:../core
+      '@parcel/rsc':
+        specifier: 3.0.0-alpha.3
+        version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@types/node':
+        specifier: ^22.13.9
+        version: 22.20.1
+      '@types/react':
+        specifier: ^19.2.18
+        version: 19.2.18
+      '@types/react-dom':
+        specifier: ^19.2.4
+        version: 19.2.4(@types/react@19.2.18)
+      parcel:
+        specifier: 3.0.0-alpha.3
+        version: 3.0.0-alpha.3
+      react:
+        specifier: ^19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: ^19.2.8
+        version: 19.2.8(react@19.2.8)
+      react-server-dom-parcel:
+        specifier: ^19.2.8
+        version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(@tsdown/css@0.22.14)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.3
+
   packages/parcel-transformer:
     dependencies:
       '@cumulo/unplugin':
@@ -1427,6 +1470,50 @@ packages:
     resolution: {integrity: sha512-AY96Aqu/RpmaSZK2RGkIrZWjAperDw8DAlxLAiaP1D/RPVnikZtl5BmcUt/Wz3PrzG7/q9ZVqqKkWsLmhkjXZQ==}
     engines: {node: '>=16.0.0', parcel: ^2.16.4}
 
+  '@parcel/parcel3-darwin-arm64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-RFRnqTNDR7VSK2jw0XnYlNBZngaj8Q9OLLW7Wx7uUTgWDBMO3xcO/4SrVZIO1sBifD17Y+H8R8avjlpGD+S/mg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@parcel/parcel3-darwin-x64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-lGLIS8SLmNSCJSMK3j49DeW/8HYP9vIEiesiu2wlf61kyZ9XY93VzeV3a0ZRDmxZ906GH5ul3QZ73osKSRyyew==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@parcel/parcel3-linux-arm64-musl@3.0.0-alpha.3':
+    resolution: {integrity: sha512-cwQQOQPC5Y2sXKCVMs4oazgSkVaqV7/jkGPxEEI6cqqWM0pmgKIGdV7ek3MFIlkYuGh+9lDFU/nwXaSb4uN5uQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@parcel/parcel3-linux-arm64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-fSOvytq/MjmxMGSPIePeEWMwTGxL6ZU4YxWIxLZkdTggb4svDP3cvlANtk52yiQWRKCZ32FPtApAaW2U/Kk0yQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@parcel/parcel3-linux-x64-musl@3.0.0-alpha.3':
+    resolution: {integrity: sha512-TjI/P26JiO5y07VGCX+HrghFUJNina1Vr/WXVpSmD2tQnEUKGnECosuYBKJMLe515C+XloSPo3+9e/AkM4Mp2w==}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@parcel/parcel3-linux-x64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-BiRU/O8GYbRRuLkHhjNjQhu5eOQ3yC4tQpG+WzImONK2sJG0bI1JPOPVie/+W7ons2kXB8lPjh1SRj25+KaKAg==}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@parcel/parcel3-win32-arm64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-oT+pjQZQ10NVyc0GJ1VTgx76VRKLR0qDXh1ess41Ral7q/HvcJF4KiUkqsxLwUCPbFuLku5RtsgS5vFkqbfloA==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@parcel/parcel3-win32-x64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-QhkS4O/0Mo7vyMR6XI/RIp5yJyj3s7TflBWdX+U7BdJ5UuAVR+hpCIUJQq654mL5/kSBieXq//iiU/3HTE3RIg==}
+    cpu: [x64]
+    os: [win32]
+
   '@parcel/plugin@2.16.4':
     resolution: {integrity: sha512-aN2VQoRGC1eB41ZCDbPR/Sp0yKOxe31oemzPx1nJzOuebK2Q6FxSrJ9Bjj9j/YCaLzDtPwelsuLOazzVpXJ6qg==}
     engines: {node: '>= 16.0.0'}
@@ -1455,6 +1542,12 @@ packages:
 
   '@parcel/rsc@2.16.4':
     resolution: {integrity: sha512-mu5qk7Hbdzwf1tgkm5VDwqeH94IHV7t839amfLZkvcgQT7QWVitV+hctKlDC77EQq4z4hrfa3X7lQtoFekQP1A==}
+    peerDependencies:
+      react: ^19.1.0
+      react-dom: ^19.1.0
+
+  '@parcel/rsc@3.0.0-alpha.3':
+    resolution: {integrity: sha512-LNaehsNrp9H2DKVW+Ig7W6Cvb3WnmTZeMotwaydt6xQBDjTjcr8q/Cr94BPPKpWKWIbhG0OuzMElP5Xnu4pKPw==}
     peerDependencies:
       react: ^19.1.0
       react-dom: ^19.1.0
@@ -3306,6 +3399,11 @@ packages:
     engines: {node: '>= 16.0.0'}
     hasBin: true
 
+  parcel@3.0.0-alpha.3:
+    resolution: {integrity: sha512-XTbBrkke2N3GG0YlRoosSkoho1OBw734bLHt43R2jYYCV5KSoiOu+bP2/hTPed54ULSYADvNI97MxRF8H4QExw==}
+    engines: {node: '>= 18'}
+    hasBin: true
+
   parse5@8.0.1:
     resolution: {integrity: sha512-z1e/HMG90obSGeidlli3hj7cbocou0/wa5HacvI3ASx34PecNjNQeaHNo5WIZpWofN9kgkqV1q5YvXe3F0FoPw==}
 
@@ -4913,6 +5011,30 @@ snapshots:
       - '@parcel/core'
       - napi-wasm
 
+  '@parcel/parcel3-darwin-arm64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-darwin-x64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-arm64-musl@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-arm64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-x64-musl@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-x64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-win32-arm64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-win32-x64@3.0.0-alpha.3':
+    optional: true
+
   '@parcel/plugin@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/types': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -4967,6 +5089,13 @@ snapshots:
       - napi-wasm
 
   '@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      react-server-dom-parcel: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      rsc-html-stream: 0.0.6
+
+  '@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -6665,6 +6794,17 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
       - napi-wasm
+
+  parcel@3.0.0-alpha.3:
+    optionalDependencies:
+      '@parcel/parcel3-darwin-arm64': 3.0.0-alpha.3
+      '@parcel/parcel3-darwin-x64': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-arm64': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-arm64-musl': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-x64': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-x64-musl': 3.0.0-alpha.3
+      '@parcel/parcel3-win32-arm64': 3.0.0-alpha.3
+      '@parcel/parcel3-win32-x64': 3.0.0-alpha.3
 
   parse5@8.0.1:
     dependencies:
