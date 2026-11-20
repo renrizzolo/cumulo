@@ -152,6 +152,17 @@ export const combined = [baseStyle.className, cardStyle.className];
     expect(result.css).not.toContain('.unit-base-');
     expect(result.dependencies).toContain(tokensFile);
     expect(result.dependencies).toContain(baseFile);
+
+    // Compile-time JS rewrite replaces style/recipe/keyframes with @cumulo/css/runtime helpers
+    // and prunes imports that were only referenced inside rewritten calls.
+    expect(result.code).toBeDefined();
+    expect(result.code).toContain("from '@cumulo/css/runtime'");
+    expect(result.code).toContain('__cumuloStyle(');
+    expect(result.code).toContain('__cumuloRecipe(');
+    expect(result.code).toContain('__cumuloKeyframes(');
+    expect(result.code).not.toContain('./tokens.js');
+    expect(result.code).not.toContain("from '@cumulo/css'");
+    expect(result.code).toContain('./Base.js');
   });
 
   it('builds a standard Parcel v3 browser app and extracts static CSS', () => {
@@ -174,7 +185,7 @@ export const combined = [baseStyle.className, cardStyle.className];
         {
           extends: '@parcel/config-default',
           transformers: {
-            '*.{js,mjs,jsx,ts,tsx}': ['...', '@cumulo/parcel-plugin'],
+            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...', '@cumulo/parcel-plugin'],
             'cumulo-css:*': ['@cumulo/parcel-plugin'],
           },
         },
@@ -311,6 +322,15 @@ if (root) {
     expect(allCss).toContain('.p3-ext-shape-pill-');
     // Extracted from @cumulo/core Button component inside workspace/node_modules
     expect(allCss).toContain('.btn-base-');
+
+    // Verify client JS bundles stripped build-time CSS compiler, sheet, and vars contract
+    const jsFiles = collectFilesByExt(distDir, '.js');
+    expect(jsFiles.length).toBeGreaterThan(0);
+    const allJs = jsFiles.map((f) => fs.readFileSync(f, 'utf-8')).join('\n');
+    expect(allJs).toContain('p3-wrapper-');
+    expect(allJs).not.toContain('compileStyleRule');
+    expect(allJs).not.toContain('__CUMULO_STYLESHEET__');
+    expect(allJs).not.toContain('--theme-primary-50');
   }, 60000);
 
   it('extracts CSS from both Server Components and "use client" components in Parcel v3 RSC builds', () => {
@@ -368,7 +388,7 @@ if (root) {
         {
           extends: '@parcel/config-default',
           transformers: {
-            '*.{js,mjs,jsx,ts,tsx}': ['...', '@cumulo/parcel-plugin'],
+            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...', '@cumulo/parcel-plugin'],
             'cumulo-css:*': ['@cumulo/parcel-plugin'],
           },
         },
@@ -546,6 +566,14 @@ void main();
     expect(linkedCss).toContain('.rsc-client-badge-base-');
     expect(linkedCss).toContain('.btn-base-');
     expect(linkedCss).toContain('--color-primary');
+
+    // Verify built JS bundles stripped build-time CSS compiler, sheet, and vars contract
+    const jsFiles = collectFilesByExt(distDir, '.js');
+    expect(jsFiles.length).toBeGreaterThan(0);
+    const allJs = jsFiles.map((f) => fs.readFileSync(f, 'utf-8')).join('\n');
+    expect(allJs).not.toContain('compileStyleRule');
+    expect(allJs).not.toContain('__CUMULO_STYLESHEET__');
+    expect(allJs).not.toContain('--theme-primary-50');
   }, 60000);
 
   it('invalidates cached CSS when an imported token file changes and survives stray console.log output', () => {
@@ -568,7 +596,7 @@ void main();
         {
           extends: '@parcel/config-default',
           transformers: {
-            '*.{js,mjs,jsx,ts,tsx}': ['...', '@cumulo/parcel-plugin'],
+            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...', '@cumulo/parcel-plugin'],
             'cumulo-css:*': ['@cumulo/parcel-plugin'],
           },
         },

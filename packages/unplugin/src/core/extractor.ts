@@ -1,6 +1,11 @@
 import path from 'node:path';
 import { createJiti } from 'jiti';
 import type { CumuloPluginOptions } from '../types.js';
+import { createRewritePlan, type RecordedCall } from './rewriter.js';
+
+declare global {
+  var __cumuloRecord: ((id: number, value: unknown) => unknown) | undefined;
+}
 
 const isStylesheet = (file?: string, source?: string): boolean => {
   if (file && /\.(css|scss|sass|less|styl)($|\?)/i.test(file)) {
@@ -181,4 +186,63 @@ export async function extractCssFromCode(code: string, id: string): Promise<stri
     logExtractionWarning(absolutePath, 'evalModule code', err);
     return '';
   }
+}
+
+export interface ExtractAndRewriteResult {
+  css: string;
+  code?: string;
+}
+
+/**
+ * Evaluates a module to extract static CSS and rewrites top-level `@cumulo/css`
+ * style/recipe/theme calls into lightweight `@cumulo/css/runtime` lookups so
+ * build-time tokens (`vars`), style definitions, and the CSS compiler are
+ * stripped from client bundles.
+ */
+export async function extractAndRewrite(
+  code: string,
+  id: string,
+): Promise<ExtractAndRewriteResult> {
+  const absolutePath = path.isAbsolute(id) ? path.resolve(id) : path.resolve(process.cwd(), id);
+  const plan = createRewritePlan(code, absolutePath);
+
+  if (!plan) {
+    const css =
+      (await extractCssFromCode(code, absolutePath)) || (await extractCssFromFile(absolutePath));
+    return { css };
+  }
+
+  const recorded = new Map<number, RecordedCall>();
+  try {
+    const cumuloCss = await jiti.import<typeof import('@cumulo/css')>('@cumulo/css');
+    cumuloCss.sheet.clear();
+
+    globalThis.__cumuloRecord = (callId: number, value: unknown): unknown => {
+      const prev = recorded.get(callId);
+      recorded.set(callId, { count: (prev?.count ?? 0) + 1, value });
+      return value;
+    };
+
+    const cleanInstrumented = cleanSourceCode(plan.instrumentedSource);
+    await jiti.evalModule(cleanInstrumented, {
+      filename: absolutePath,
+    });
+
+    const css = cumuloCss.sheet.getCss();
+    const rewrittenCode = plan.applyRewrites(recorded);
+
+    if (css || rewrittenCode) {
+      return {
+        css,
+        ...(rewrittenCode ? { code: rewrittenCode } : {}),
+      };
+    }
+  } catch (err: unknown) {
+    logExtractionWarning(absolutePath, 'extract and rewrite', err);
+  } finally {
+    globalThis.__cumuloRecord = undefined;
+  }
+
+  const fallbackCss = await extractCssFromFile(absolutePath);
+  return { css: fallbackCss };
 }

@@ -172,7 +172,7 @@ Parcel v3 (`^3.0.0-alpha.3`) uses the native Rust plugin `@cumulo/parcel-plugin`
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.{js,mjs,jsx,ts,tsx}": ["...", "@cumulo/parcel-plugin"],
+    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "...", "@cumulo/parcel-plugin"],
     "cumulo-css:*": ["@cumulo/parcel-plugin"]
   }
 }

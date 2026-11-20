@@ -1,9 +1,14 @@
 import { createUnplugin } from 'unplugin';
-import { shouldProcessFile, extractCssFromCode, extractCssFromFile } from './core/extractor.js';
+import {
+  shouldProcessFile,
+  extractCssFromCode,
+  extractCssFromFile,
+  extractAndRewrite,
+} from './core/extractor.js';
 import type { CumuloPluginOptions } from './types.js';
 
 export * from './types.js';
-export { shouldProcessFile, extractCssFromCode, extractCssFromFile };
+export { shouldProcessFile, extractCssFromCode, extractCssFromFile, extractAndRewrite };
 
 const VIRTUAL_CSS_SUFFIX = '.cumulo.css';
 const cssMap = new Map<string, string>();
@@ -49,19 +54,29 @@ export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
           return null;
         }
 
-        const css = (await extractCssFromCode(code, id)) || (await extractCssFromFile(id));
+        const result = await extractAndRewrite(code, id);
 
-        if (!css) {
+        if (!result.css && !result.code) {
           return null;
+        }
+
+        const baseCode = result.code ?? code;
+
+        if (!result.css) {
+          return {
+            code: baseCode,
+            map: null,
+          };
         }
 
         const rawVirtualId = `${id}${virtualSuffix}`;
         const normalizedVirtualId = normalizeId(rawVirtualId);
-        cssMap.set(normalizedVirtualId, css);
-        cssMap.set(rawVirtualId, css);
+        cssMap.set(normalizedVirtualId, result.css);
+        cssMap.set(rawVirtualId, result.css);
 
-        // Inject the virtual CSS import into the module
-        const transformedCode = `import ${JSON.stringify(rawVirtualId)};\n${code}`;
+        // Append the virtual CSS import at the end so directives ("use client") stay on line 1
+        // and imported base component stylesheets precede dependent stylesheets.
+        const transformedCode = `${baseCode}\nimport ${JSON.stringify(rawVirtualId)};\n`;
 
         return {
           code: transformedCode,

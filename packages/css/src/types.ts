@@ -174,6 +174,7 @@ export type ClassValue =
   | boolean
   | undefined
   | null
+  | { readonly className: string }
   | CompiledStyle
   | CreatedTheme
   | ClassValue[]

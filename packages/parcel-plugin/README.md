@@ -24,7 +24,7 @@ Register `@cumulo/parcel-plugin` in your `.parcelrc` for both your JS/TS/JSX/TSX
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.{js,mjs,jsx,ts,tsx}": ["...", "@cumulo/parcel-plugin"],
+    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "...", "@cumulo/parcel-plugin"],
     "cumulo-css:*": ["@cumulo/parcel-plugin"]
   }
 }
@@ -44,10 +44,11 @@ You can optionally configure `include` or `exclude` substring patterns in `packa
 
 ## How It Works
 
-Parcel v3 transformers mutate assets in place rather than returning multiple assets. `@cumulo/parcel-plugin` uses a native Rust `parcel-plugin` (`cdylib`) with a two-pass named pipeline (`cumulo-css:*`):
+Parcel v3 transformers mutate assets in place rather than returning multiple assets. `@cumulo/parcel-plugin` uses a native Rust `parcel-plugin` (`cdylib`) with a named pipeline (`cumulo-css:*`):
 
-1. **Pass 1 (JS/TS/JSX/TSX asset)**: Fast-filters files in Rust for `@cumulo/css` and `@cumulo/core` style usage. For matching files that produce CSS, adds a stylesheet dependency to `cumulo-css:./<filename>` without modifying the source text (preserving top-of-file directives such as `"use client"`).
-2. **Pass 2 (`cumulo-css:*` asset)**: Evaluates style definitions via a persistent Node/Jiti worker (supporting imported tokens, `vars`, and `recipe()` extensions), registers any imported local dependencies with Parcel for cache invalidation, and converts the asset in place to `css` so Parcel's built-in CSS pipeline bundles and optimizes it.
+1. **Pass 1a (before `"..."`)**: Fast-filters files in Rust for `@cumulo/css` and `@cumulo/core` style usage. Evaluates style/recipe/theme definitions in a persistent Node/Jiti worker and rewrites top-level `style()`, `create()`, `keyframes()`, `recipe()`, and `createTheme()` calls into lightweight `@cumulo/css/runtime` lookups—stripping style definitions, build-time `vars` imports, and the CSS compiler from client bundles while preserving top-of-file directives such as `"use client"`.
+2. **Pass 1b (after `"..."`)**: Reuses the cached extraction result to append the `cumulo-css:./<filename>` stylesheet dependency _after_ Parcel's JS transformer has registered all imported modules, ensuring base component stylesheets always precede dependent stylesheets.
+3. **Pass 2 (`cumulo-css:*` asset)**: Reuses the cached extraction result, registers imported local dependencies with Parcel for cache invalidation, and converts the asset in place to `css` so Parcel's built-in CSS pipeline bundles and optimizes it.
 
 Works cleanly across standard browser builds and Parcel v3 React Server Components (RSC) builds (both Server Components and `"use client"` components).
 

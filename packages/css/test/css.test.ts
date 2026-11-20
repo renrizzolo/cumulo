@@ -8,10 +8,10 @@ import {
   recipe,
   keyframes,
   cx,
-  props,
   resetSheet,
   getSheetCss,
 } from '../src/index.js';
+import { runtimeKeyframes, runtimeRecipe, runtimeStyle, runtimeTheme } from '../src/runtime.js';
 
 describe('@cumulo/css', () => {
   beforeEach(() => {
@@ -215,7 +215,7 @@ describe('@cumulo/css', () => {
     });
   });
 
-  describe('cx and props', () => {
+  describe('cx', () => {
     it('merges classnames, compiled styles, themes, and handles falsy values', () => {
       const s1 = style({ color: 'red' });
       const s2 = style({ background: 'blue' });
@@ -233,17 +233,40 @@ describe('@cumulo/css', () => {
       const condition: boolean = false;
       expect(cx(['arr1', ['arr2', condition && 'arr3']])).toBe('arr1 arr2');
     });
+  });
 
-    it('merges classNames and style objects with props()', () => {
-      const s1 = style({ color: 'green' });
-      const result = props(s1, 'extra-class', { style: { zIndex: 5, opacity: 0.8 } });
+  describe('runtime helpers (@cumulo/css/runtime)', () => {
+    it('constructs lightweight style, keyframes, theme, and recipe helpers without touching sheet', () => {
+      const s = runtimeStyle('box-abc');
+      expect(s.className).toBe('box-abc');
+      expect(String(s)).toBe('box-abc');
+      expect(cx(s, 'extra')).toBe('box-abc extra');
 
-      expect(result.className).toBe(`${s1.className} extra-class`);
-      expect(result.style).toEqual({ zIndex: 5, opacity: 0.8 });
+      const kf = runtimeKeyframes('spin-xyz');
+      expect(kf.name).toBe('spin-xyz');
+      expect(String(kf)).toBe('spin-xyz');
 
-      const plain = props('simple');
-      expect(plain.className).toBe('simple');
-      expect(plain.style).toBeUndefined();
+      const th = runtimeTheme('theme-123', { '--c-bg': '#fff' });
+      expect(th.className).toBe('theme-123');
+      expect(th.vars).toEqual({ '--c-bg': '#fff' });
+      expect(String(th)).toBe('theme-123');
+
+      const btn = runtimeRecipe({
+        base: 'btn-base',
+        variants: {
+          variant: { primary: 'btn-primary', ghost: 'btn-ghost' },
+          active: { true: 'btn-active', false: 'btn-inactive' },
+        },
+        compoundVariants: [{ variants: { variant: 'primary', active: true }, className: 'btn-cv' }],
+        defaultVariants: { variant: 'primary', active: false },
+      });
+
+      expect(btn.variants()).toEqual(['variant', 'active']);
+      expect(btn.classNames.base).toBe('btn-base');
+      expect(btn()).toBe('btn-base btn-primary btn-inactive');
+      expect(btn({ active: true })).toBe('btn-base btn-primary btn-active btn-cv');
+      expect(btn({ variant: 'ghost', active: true })).toBe('btn-base btn-ghost btn-active');
+      expect(getSheetCss()).toBe('');
     });
   });
 

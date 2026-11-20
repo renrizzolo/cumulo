@@ -17,6 +17,7 @@
   "types": "./dist/index.d.cts",
   "exports": {
     ".": "./dist/index.mjs",
+    "./runtime": "./dist/runtime.mjs",
     "./package.json": "./package.json"
   },
   "publishConfig": {

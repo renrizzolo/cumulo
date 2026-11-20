@@ -60,6 +60,7 @@ export interface RecipeFunction<T extends VariantDefinitions = {}> {
       className: string;
     }>;
   };
+  defaultVariants: VariantSelection<T>;
 }
 
 export type RecipeVariants<T> = T extends RecipeFunction<infer V> ? VariantSelection<V> : never;
@@ -284,6 +285,7 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
     compoundVariants:
       compiledCompoundVariants as RecipeFunction<CombinedVariants>['classNames']['compoundVariants'],
   };
+  recipeFn.defaultVariants = mergedDefaultVariants as VariantSelection<CombinedVariants>;
 
   return recipeFn;
 }

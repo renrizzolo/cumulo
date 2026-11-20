@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createJiti, type Jiti } from 'jiti';
+import { createRewritePlan, type RecordedCall } from './rewriter.js';
 
 export interface ExtractCssRequest {
   filePath: string;
@@ -12,12 +13,14 @@ export interface ExtractCssRequest {
 
 export interface ExtractCssResult {
   css: string;
+  code?: string;
   dependencies: string[];
   warning?: string;
 }
 
 declare global {
   var __cumuloExtractorDepDepth: number | undefined;
+  var __cumuloRecord: ((id: number, value: unknown) => unknown) | undefined;
 }
 
 interface CumuloSheet {
@@ -277,31 +280,54 @@ export async function extractCss(request: ExtractCssRequest): Promise<ExtractCss
   }
 
   let evalError: unknown;
+  const sourceText =
+    typeof request.code === 'string'
+      ? request.code
+      : fs.existsSync(absolutePath)
+        ? fs.readFileSync(absolutePath, 'utf-8')
+        : undefined;
+
+  const rewritePlan = sourceText ? createRewritePlan(sourceText, absolutePath) : null;
 
   try {
-    if (typeof request.code === 'string') {
-      const cleanCode = cleanSourceCode(request.code);
+    if (sourceText !== undefined) {
+      const recorded = new Map<number, RecordedCall>();
+      if (rewritePlan) {
+        globalThis.__cumuloRecord = (id: number, value: unknown): unknown => {
+          if ((globalThis.__cumuloExtractorDepDepth ?? 0) === 0) {
+            const prev = recorded.get(id);
+            recorded.set(id, { count: (prev?.count ?? 0) + 1, value });
+          }
+          return value;
+        };
+      }
+
+      const codeToEval = cleanSourceCode(rewritePlan ? rewritePlan.instrumentedSource : sourceText);
       try {
         sheet.clear();
         globalThis.__cumuloExtractorDepDepth = 0;
-        await ctx.jiti.evalModule(cleanCode, {
+        await ctx.jiti.evalModule(codeToEval, {
           filename: absolutePath,
         });
         const css = sheet.getCss();
-        if (css) {
+        const rewrittenCode = rewritePlan ? rewritePlan.applyRewrites(recorded) : null;
+        if (css || rewrittenCode) {
           return {
             css,
+            ...(rewrittenCode ? { code: rewrittenCode } : {}),
             dependencies: Array.from(ctx.dependencies),
           };
         }
       } catch (err: unknown) {
         evalError = err;
+      } finally {
+        globalThis.__cumuloRecord = undefined;
       }
     }
 
-    // Fallback to evaluating the file directly on disk (handles cases where evalModule failed
-    // or when code was not passed).
-    if (evalError !== undefined || typeof request.code !== 'string') {
+    // Fallback to evaluating the file directly on disk (handles cases where instrumented
+    // evalModule failed or when code was not passed).
+    if (evalError !== undefined || sourceText === undefined) {
       try {
         ctx.dependencies.clear();
         sheet.clear();
@@ -330,5 +356,6 @@ export async function extractCss(request: ExtractCssRequest): Promise<ExtractCss
       sheet.insertRule = originalInsertRule;
     }
     globalThis.__cumuloExtractorDepDepth = 0;
+    globalThis.__cumuloRecord = undefined;
   }
 }

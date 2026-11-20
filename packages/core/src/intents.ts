@@ -5,25 +5,31 @@ export type BaseVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
 export type Intent = 'primary' | 'success' | 'warning' | 'error' | 'info';
 export type ComponentSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-const intentSecondaryVarMap = {
-  success: vars.success.secondary,
-  warning: vars.warning.secondary,
-  error: vars.error.secondary,
-  info: vars.info.secondary,
-} as const;
+type SecondaryIntent = Exclude<Intent, 'primary'>;
 
-type SecondaryIntent = keyof typeof intentSecondaryVarMap;
+function getIntentSecondaryVarMap() {
+  return {
+    success: vars.success.secondary,
+    warning: vars.warning.secondary,
+    error: vars.error.secondary,
+    info: vars.info.secondary,
+  } as const;
+}
 
 function isSecondaryIntent(intent: Intent): intent is SecondaryIntent {
-  return intent !== 'primary' && intent in intentSecondaryVarMap;
+  return intent !== 'primary';
 }
 
 function flatMapSecondaryIntents<T extends Intent, R>(
   intents: readonly T[],
-  mapper: (intent: T, secondary: (typeof intentSecondaryVarMap)[SecondaryIntent]) => R[],
+  mapper: (
+    intent: T,
+    secondary: ReturnType<typeof getIntentSecondaryVarMap>[SecondaryIntent],
+  ) => R[],
 ): R[] {
+  const secondaryVarMap = getIntentSecondaryVarMap();
   return intents.flatMap((intent) =>
-    isSecondaryIntent(intent) ? mapper(intent, intentSecondaryVarMap[intent]) : [],
+    isSecondaryIntent(intent) ? mapper(intent, secondaryVarMap[intent]) : [],
   );
 }
 
