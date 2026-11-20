@@ -442,12 +442,13 @@ function isThemeVarsRecord(value: unknown): boolean {
 
 function isVariantSelectionRecord(
   value: unknown,
-): value is Record<string, string | boolean | undefined> {
+): value is Record<string, string | number | boolean | undefined> {
   if (!isRecord(value) || Array.isArray(value)) {
     return false;
   }
   return Object.values(value).every(
-    (v) => typeof v === 'string' || typeof v === 'boolean' || v === undefined,
+    (v) =>
+      typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' || v === undefined,
   );
 }
 
@@ -544,7 +545,7 @@ function serializeRecordedCall(site: CallSite, value: unknown): SerializedReplac
 
       if (Array.isArray(classNames.compoundVariants) && classNames.compoundVariants.length > 0) {
         const serializedCv: Array<{
-          variants: Record<string, string | boolean | undefined>;
+          variants: Record<string, string | number | boolean | undefined>;
           className: string;
         }> = [];
         for (const cv of classNames.compoundVariants) {
@@ -560,8 +561,11 @@ function serializeRecordedCall(site: CallSite, value: unknown): SerializedReplac
         config.compoundVariants = serializedCv;
       }
 
-      if ('defaultVariants' in value && isVariantSelectionRecord(value.defaultVariants)) {
-        const cleanDefaults: Record<string, string | boolean> = {};
+      if ('defaultVariants' in value && value.defaultVariants !== undefined) {
+        if (!isVariantSelectionRecord(value.defaultVariants)) {
+          return null;
+        }
+        const cleanDefaults: Record<string, string | number | boolean> = {};
         for (const [k, v] of Object.entries(value.defaultVariants)) {
           if (v !== undefined) {
             cleanDefaults[k] = v;

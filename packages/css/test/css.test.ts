@@ -256,16 +256,22 @@ describe('@cumulo/css', () => {
         variants: {
           variant: { primary: 'btn-primary', ghost: 'btn-ghost' },
           active: { true: 'btn-active', false: 'btn-inactive' },
+          level: { 0: 'btn-l0', 1: 'btn-l1' },
         },
-        compoundVariants: [{ variants: { variant: 'primary', active: true }, className: 'btn-cv' }],
-        defaultVariants: { variant: 'primary', active: false },
+        compoundVariants: [
+          { variants: { variant: 'primary', active: true }, className: 'btn-cv' },
+          { variants: { level: 1, active: true }, className: 'btn-l1-active' },
+        ],
+        defaultVariants: { variant: 'primary', active: false, level: 0 },
       });
 
-      expect(btn.variants()).toEqual(['variant', 'active']);
+      expect(btn.variants()).toEqual(['variant', 'active', 'level']);
       expect(btn.classNames.base).toBe('btn-base');
-      expect(btn()).toBe('btn-base btn-primary btn-inactive');
-      expect(btn({ active: true })).toBe('btn-base btn-primary btn-active btn-cv');
-      expect(btn({ variant: 'ghost', active: true })).toBe('btn-base btn-ghost btn-active');
+      expect(btn()).toBe('btn-base btn-primary btn-inactive btn-l0');
+      expect(btn({ active: true })).toBe('btn-base btn-primary btn-active btn-l0 btn-cv');
+      expect(btn({ variant: 'ghost', active: true, level: 1 })).toBe(
+        'btn-base btn-ghost btn-active btn-l1 btn-l1-active',
+      );
       expect(getSheetCss()).toBe('');
     });
   });

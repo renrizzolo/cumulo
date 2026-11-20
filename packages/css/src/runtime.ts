@@ -19,8 +19,10 @@ export interface RuntimeTheme {
   toString(): string;
 }
 
+export type RuntimeVariantValue = string | number | boolean | undefined;
+
 export interface RuntimeRecipeCompoundVariant {
-  readonly variants: Record<string, string | boolean | undefined>;
+  readonly variants: Record<string, RuntimeVariantValue>;
   readonly className: string;
 }
 
@@ -28,25 +30,25 @@ export interface RuntimeRecipeConfig {
   readonly base?: string;
   readonly variants: Record<string, Record<string, string>>;
   readonly compoundVariants?: readonly RuntimeRecipeCompoundVariant[];
-  readonly defaultVariants?: Record<string, string | boolean | undefined>;
+  readonly defaultVariants?: Record<string, RuntimeVariantValue>;
 }
 
 export interface RuntimeRecipeFn {
-  (props?: Record<string, string | boolean | undefined>): string;
+  (props?: Record<string, RuntimeVariantValue>): string;
   variants: () => string[];
   classNames: {
     base?: string;
     variants: Record<string, Record<string, string>>;
     compoundVariants: readonly RuntimeRecipeCompoundVariant[];
   };
-  defaultVariants: Record<string, string | boolean | undefined>;
+  defaultVariants: Record<string, RuntimeVariantValue>;
 }
 
-function normalizeValue(value: string | boolean): string {
+function normalizeValue(value: string | number | boolean): string {
   if (typeof value === 'boolean') {
     return value ? 'true' : 'false';
   }
-  return value;
+  return String(value);
 }
 
 /**
@@ -94,9 +96,9 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
   const { base, variants, compoundVariants = [], defaultVariants = {} } = config;
   const variantKeys = Object.keys(variants);
 
-  const fn = (props?: Record<string, string | boolean | undefined>): string => {
+  const fn = (props?: Record<string, RuntimeVariantValue>): string => {
     const classes: (string | undefined)[] = [base];
-    const mergedProps: Record<string, string | boolean | undefined> = { ...defaultVariants };
+    const mergedProps: Record<string, RuntimeVariantValue> = { ...defaultVariants };
 
     if (props) {
       for (const [key, val] of Object.entries(props)) {

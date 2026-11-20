@@ -22,12 +22,8 @@ export const highlightedCardStyle = style(
   'override-highlight',
 );
 
-export const customBoxProps = {
+export const customBoxProps: { className: string; style?: undefined } = {
   className: cx(baseCardStyle, highlightedCardStyle.className),
-  style: {
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-    transform: 'translateY(-2px)',
-  },
 };
 
 export const mergedClassNames = cx(baseCardStyle, highlightedCardStyle);

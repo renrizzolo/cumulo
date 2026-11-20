@@ -257,8 +257,12 @@ const baseBtn = recipe(
         sm: { fontSize: 12 },
         md: { fontSize: 14 },
       },
+      level: {
+        0: { opacity: 1 },
+        1: { opacity: 0.9 },
+      },
     },
-    defaultVariants: { size: 'md' },
+    defaultVariants: { size: 'md', level: 0 },
   },
   'rw-base',
 );
@@ -300,6 +304,7 @@ export function getClasses(extra?: string): string {
     expect(rewritten).toContain('__cumuloKeyframes(');
     expect(rewritten).toContain('__cumuloTheme(');
     expect(rewritten).toContain('__cumuloRecipe(');
+    expect(rewritten).toContain('"defaultVariants":{"size":"md","level":0}');
     expect(rewritten).toContain('void 0');
 
     // Runtime-safe `cx` redirected to @cumulo/css/runtime; compiler & build-time-only `vars` pruned
