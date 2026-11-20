@@ -62,7 +62,7 @@ importers:
         version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@renr/parcel-rsc-router':
         specifier: github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-rsc-router
-        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -78,10 +78,10 @@ importers:
         version: link:../../packages/parcel-plugin
       '@renr/parcel-plugin-rsc-router':
         specifier: github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-plugin-rsc-router
-        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@renr/parcel-reporter-docgen':
         specifier: github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-reporter-docgen
-        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-reporter-docgen
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-reporter-docgen
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -1768,22 +1768,22 @@ packages:
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
 
-  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-plugin-rsc-router':
-    resolution: {gitHosted: true, integrity: sha512-ptbg5pl38vzHIks61y7eqfUXRC+VT9Q0nbt8kjnyGsoatfgswnDpEjVCzvmcLcdIG4fBnr6UY9aidemg6zQ7cQ==, path: packages/parcel-plugin-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0}
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-plugin-rsc-router':
+    resolution: {gitHosted: true, integrity: sha512-VLuwsSb8yxNn+F8bJLRMkbN6K7UICghj6M9LkpPEGJcGDtR/Ccdo1xXKn2wBcLnYJWOLGKzZA+su/BVY/YLyhw==, path: packages/parcel-plugin-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf}
     version: 1.0.0-beta.19
     engines: {parcel: ^3.0.0-alpha.3}
     hasBin: true
     peerDependencies:
       '@renr/parcel-rsc-router': workspace:*
 
-  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-reporter-docgen':
-    resolution: {gitHosted: true, integrity: sha512-ptbg5pl38vzHIks61y7eqfUXRC+VT9Q0nbt8kjnyGsoatfgswnDpEjVCzvmcLcdIG4fBnr6UY9aidemg6zQ7cQ==, path: packages/parcel-reporter-docgen, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0}
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-reporter-docgen':
+    resolution: {gitHosted: true, integrity: sha512-VLuwsSb8yxNn+F8bJLRMkbN6K7UICghj6M9LkpPEGJcGDtR/Ccdo1xXKn2wBcLnYJWOLGKzZA+su/BVY/YLyhw==, path: packages/parcel-reporter-docgen, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf}
     version: 0.1.0-beta.9
     engines: {parcel: ^3.0.0-alpha.3}
     hasBin: true
 
-  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-rsc-router':
-    resolution: {gitHosted: true, integrity: sha512-ptbg5pl38vzHIks61y7eqfUXRC+VT9Q0nbt8kjnyGsoatfgswnDpEjVCzvmcLcdIG4fBnr6UY9aidemg6zQ7cQ==, path: packages/parcel-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0}
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router':
+    resolution: {gitHosted: true, integrity: sha512-VLuwsSb8yxNn+F8bJLRMkbN6K7UICghj6M9LkpPEGJcGDtR/Ccdo1xXKn2wBcLnYJWOLGKzZA+su/BVY/YLyhw==, path: packages/parcel-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf}
     version: 1.0.0-beta.11
     peerDependencies:
       '@parcel/rsc': ^3.0.0-alpha.3
@@ -5354,9 +5354,9 @@ snapshots:
     dependencies:
       quansync: 1.0.0
 
-  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
     dependencies:
-      '@renr/parcel-rsc-router': https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+      '@renr/parcel-rsc-router': https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       oxfmt: 0.75.0
       tinyglobby: 0.2.17
     transitivePeerDependencies:
@@ -5364,13 +5364,13 @@ snapshots:
       - svelte
       - vite-plus
 
-  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-reporter-docgen':
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-reporter-docgen':
     dependencies:
       react-docgen-typescript: 2.4.0(@typescript/typescript6@6.0.2)
       tinyglobby: 0.2.17
       typescript: '@typescript/typescript6@6.0.2'
 
-  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/69520544b28b603ac2091e8ef1cb9b445a09f6a0#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@parcel/rsc': 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
