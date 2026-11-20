@@ -1,15 +1,30 @@
 import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 import {
+  extractAndRewrite,
   extractCssFromCode,
   extractCssFromFile,
   shouldProcessFile,
 } from '../src/core/extractor.js';
 
 describe('unplugin extractor', () => {
-  it('should detect cumulo files', () => {
+  it('should detect cumulo files without matching unrelated function names', () => {
     expect(shouldProcessFile(`import { recipe } from '@cumulo/css';`, 'Button.tsx')).toBe(true);
-    expect(shouldProcessFile(`recipe({ base: {} })`, 'App.tsx')).toBe(true);
+    expect(shouldProcessFile(`import { style } from "@cumulo/css";`, 'Card.tsx')).toBe(true);
+    expect(
+      shouldProcessFile(
+        `import { vars } from '@cumulo/core';\nexport const w = vars.size.xl;`,
+        'Box.tsx',
+      ),
+    ).toBe(true);
+    expect(
+      shouldProcessFile(`import { runtimeStyle } from '@cumulo/css/runtime';`, 'Button.tsx'),
+    ).toBe(false);
+    expect(shouldProcessFile(`export function recipe() {}\nrecipe({ base: {} });`, 'App.tsx')).toBe(
+      false,
+    );
+    expect(shouldProcessFile(`const obj = Object.create(null);`, 'utils.ts')).toBe(false);
+    expect(shouldProcessFile(`import { Button } from '@cumulo/core';`, 'Page.tsx')).toBe(false);
     expect(shouldProcessFile(`console.log("hello")`, 'plain.ts')).toBe(false);
   });
 
@@ -196,5 +211,164 @@ describe('unplugin extractor', () => {
 
     expect(css).toContain('.layout-body-');
     expect(css).toContain('min-height:100vh;');
+  });
+
+  it('extractAndRewrite rewrites style/recipe/keyframes/theme calls and prunes build-time imports', async () => {
+    const code = `"use client";
+
+import { vars } from '@cumulo/core';
+import {
+  create,
+  createGlobalTheme,
+  createTheme,
+  createThemeContract,
+  cx,
+  keyframes,
+  recipe,
+  style,
+} from '@cumulo/css';
+
+const localContract = createThemeContract({
+  surface: { bg: null, fg: null },
+});
+
+createGlobalTheme(':root', localContract, {
+  surface: { bg: '#ffffff', fg: '#111111' },
+});
+
+export const darkSurface = createTheme(localContract, {
+  surface: { bg: '#111111', fg: '#ffffff' },
+});
+
+export const spin = keyframes(
+  {
+    from: { transform: 'rotate(0deg)' },
+    to: { transform: 'rotate(360deg)' },
+  },
+  'rw-spin',
+);
+
+export const boxStyle = style(
+  {
+    padding: vars.spacing.md,
+    backgroundColor: localContract.surface.bg,
+  },
+  'rw-box',
+);
+
+export const slots = create(
+  {
+    inner: { color: localContract.surface.fg },
+  },
+  'rw-slot',
+);
+
+const baseBtn = recipe(
+  {
+    base: { cursor: 'pointer' },
+    variants: {
+      size: {
+        sm: { fontSize: 12 },
+        md: { fontSize: 14 },
+      },
+      level: {
+        0: { opacity: 1 },
+        1: { opacity: 0.9 },
+      },
+    },
+    defaultVariants: { size: 'md', level: 0 },
+  },
+  'rw-base',
+);
+
+export const extendedBtn = recipe(
+  {
+    extend: baseBtn,
+    variants: {
+      pill: {
+        true: { borderRadius: 9999 },
+      },
+    },
+  },
+  'rw-ext',
+);
+
+export function getClasses(extra?: string): string {
+  return cx(boxStyle, slots.inner, extendedBtn({ pill: true }), extra);
+}
+`;
+
+    const result = await extractAndRewrite(code, 'RewriteDemo.tsx');
+
+    expect(result.css).toContain('.rw-box-');
+    expect(result.css).toContain('.rw-slot-inner-');
+    expect(result.css).toContain('@keyframes rw-spin-');
+    expect(result.css).toContain('.rw-ext-pill-true-');
+    expect(result.css).toContain('--c-surface-bg:#111111;');
+
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    // Directive prologue must remain on line 1
+    expect(rewritten.startsWith('"use client";')).toBe(true);
+
+    // Build-time calls replaced by @cumulo/css/runtime helpers
+    expect(rewritten).toContain("from '@cumulo/css/runtime'");
+    expect(rewritten).toContain('__cumuloStyle(');
+    expect(rewritten).toContain('__cumuloKeyframes(');
+    expect(rewritten).toContain('__cumuloTheme(');
+    expect(rewritten).toContain('__cumuloRecipe(');
+    expect(rewritten).toContain('"defaultVariants":{"size":"md","level":0}');
+    expect(rewritten).toContain('void 0');
+
+    // Runtime-safe `cx` redirected to @cumulo/css/runtime; compiler & build-time-only `vars` pruned
+    expect(rewritten).not.toContain("from '@cumulo/css'");
+    expect(rewritten).not.toContain("from '@cumulo/core'");
+    expect(rewritten).not.toContain('createThemeContract(');
+  });
+
+  it('extractAndRewrite inlines static ThemeContract (vars) member accesses outside style() calls', async () => {
+    const code = `
+import { vars } from '@cumulo/core';
+import { style } from '@cumulo/css';
+
+export const box = style({ padding: vars.spacing.md }, 'inline-vars-box');
+
+export function getInlineStyle() {
+  return {
+    width: vars.size.xl,
+    gap: vars.spacing['2xs'],
+    background: vars.bg[0],
+  };
+}
+`;
+
+    const result = await extractAndRewrite(code, 'InlineVarsDemo.tsx');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    expect(rewritten).toContain('"var(--theme-size-xl)"');
+    expect(rewritten).toContain('"var(--theme-spacing-2xs)"');
+    expect(rewritten).toContain('"var(--theme-bg-0)"');
+    expect(rewritten).not.toContain("from '@cumulo/core'");
+  });
+
+  it('extractAndRewrite does not inline ThemeContract accesses when the binding is shadowed', async () => {
+    const code = `
+import { vars } from '@cumulo/core';
+import { style } from '@cumulo/css';
+
+export const box = style({ padding: vars.spacing.md }, 'shadow-vars-box');
+
+export function read(vars: { size: { xl: string } }) {
+  return vars.size.xl;
+}
+`;
+
+    const result = await extractAndRewrite(code, 'ShadowedVarsDemo.tsx');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    expect(rewritten).toContain('return vars.size.xl;');
   });
 });

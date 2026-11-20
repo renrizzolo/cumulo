@@ -681,6 +681,12 @@ export const vars = {
   },
 } as const;
 
+Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
+  value: { kind: 'contract' },
+  enumerable: false,
+  configurable: true,
+});
+
 export type ThemeVars = typeof vars;
 
 // union of all the var values ("var(--surface-primary-hover)")

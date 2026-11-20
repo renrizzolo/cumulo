@@ -29,6 +29,7 @@
     "shiki": "^4.4.3",
     "typescript": "^5.8.2"
   },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
   "@renr/parcel-plugin-rsc-router": {
     "source": "src/pages/**/*.{tsx,mdx}",
     "output": "routes.ts"

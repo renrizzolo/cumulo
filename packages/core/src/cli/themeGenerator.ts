@@ -271,6 +271,12 @@ export async function generateTheme(
   const endContent = `
 export const vars = ${serializeObjectWithComments(contractTree, varValues)} as const;
 
+Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
+  value: { kind: 'contract' },
+  enumerable: false,
+  configurable: true,
+});
+
 export type ThemeVars = typeof vars;
 
 // union of all the var values ("var(--surface-primary-hover)")

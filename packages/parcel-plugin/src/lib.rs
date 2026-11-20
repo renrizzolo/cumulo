@@ -26,14 +26,12 @@ const SKIPPED_CUMULO_PACKAGES: &[&str] = &[
   "node_modules/@cumulo/parcel-transformer/",
   "node_modules/@cumulo/unplugin/",
 ];
-const CONTENT_TRIGGERS: &[&str] = &[
-  "@cumulo/css",
-  "recipe(",
-  "style(",
-  "create(",
-  "keyframes(",
-  "createTheme(",
-  "createThemeContract(",
+const CUMULO_CSS_SPECIFIERS: &[&str] = &["'@cumulo/css'", "\"@cumulo/css\""];
+const CUMULO_CORE_SPECIFIERS: &[&str] = &[
+  "'@cumulo/core'",
+  "\"@cumulo/core\"",
+  "'@cumulo/core/contract'",
+  "\"@cumulo/core/contract\"",
 ];
 
 #[derive(Debug, Default, Clone, Deserialize)]
@@ -62,6 +60,7 @@ struct ExtractRequest<'a> {
 #[serde(rename_all = "camelCase")]
 struct ExtractResponse {
   css: String,
+  code: Option<String>,
   #[serde(default)]
   dependencies: Vec<String>,
   warning: Option<String>,
@@ -296,7 +295,7 @@ impl CumuloPlugin {
     Ok(response)
   }
 
-  fn extract_pass2(
+  fn extract_cached(
     &self,
     file_path: &Path,
     code: &str,
@@ -304,14 +303,14 @@ impl CumuloPlugin {
   ) -> Result<ExtractResponse, Diagnostic> {
     let key = (file_path.to_path_buf(), hash_str(code));
 
-    if let Ok(mut cache) = self.cache.lock()
-      && let Some(entry) = cache.remove(&key)
+    if let Ok(cache) = self.cache.lock()
+      && let Some(entry) = cache.get(&key)
       && dep_stamps_match(&entry.dep_stamps)
     {
-      return Ok(entry.response);
+      return Ok(entry.response.clone());
     }
 
-    self.run_extraction(file_path, code, options)
+    self.extract_pass1(file_path, code, options)
   }
 }
 
@@ -326,7 +325,7 @@ impl Plugin for CumuloPlugin {
     // Pass 2: Extract CSS and convert this virtual pipeline asset into CSS in place.
     if asset.pipeline().as_deref() == Some(CSS_PIPELINE) {
       let code = asset.content()?;
-      let result = self.extract_pass2(&file_path, &code, options)?;
+      let result = self.extract_cached(&file_path, &code, options)?;
 
       track_dependencies(&result.dependencies, options);
       maybe_log_warning(result.warning.as_deref(), options);
@@ -347,43 +346,79 @@ impl Plugin for CumuloPlugin {
       return Ok(());
     }
 
-    // Read the original source from disk when available so this plugin works cleanly
-    // when placed after Parcel's JS transformer (`["...", "@cumulo/parcel-plugin"]`),
-    // where `asset.content()` is already compiled JS, and so Pass 1 and Pass 2 share
-    // the exact same cache key.
-    let source = match options.read_to_string(&file_path) {
-      Ok(raw) => raw,
-      Err(_) => asset.content()?,
+    let asset_content = asset.content()?;
+    let disk_source = options.read_to_string(&file_path).ok();
+    let is_post_js = asset.dependency_count() > 0
+      || disk_source.as_deref().is_some_and(|raw| {
+        raw != asset_content && !should_process_file(&asset_content, &file_path, &self.config)
+      });
+
+    // Read the original source from disk when running after Parcel's JS transformer
+    // so Pass 1a, Pass 1b, and Pass 2 share the exact same cache key.
+    let source = if is_post_js {
+      disk_source.unwrap_or(asset_content)
+    } else {
+      asset_content
     };
 
     if !should_process_file(&source, &file_path, &self.config) {
       return Ok(());
     }
 
-    let result = self.extract_pass1(&file_path, &source, options)?;
+    let result = self.extract_cached(&file_path, &source, options)?;
     track_dependencies(&result.dependencies, options);
     maybe_log_warning(result.warning.as_deref(), options);
 
-    if result.css.trim().is_empty() {
-      return Ok(());
-    }
-
+    let has_css = !result.css.trim().is_empty();
     let Some(file_name) = file_path.file_name().and_then(|name| name.to_str()) else {
       return Ok(());
     };
 
-    // Add a stylesheet dependency pointing back to the same file under the `cumulo-css` pipeline.
-    // When configured after `"..."`, this dependency is appended after all JS imports so base
-    // component stylesheets always precede dependent stylesheets consistently across contexts.
-    asset.add_dependency(
-      DependencyOptions::new(format!("{CSS_PIPELINE}:./{file_name}"))
-        .specifier_type(SpecifierType::Esm)
-        .import_type(ImportType::StyleSheet)
-        .flags(DependencyFlags::SIDE_EFFECTS),
-    )?;
+    if !is_post_js {
+      if let Some(rewritten) = result.code {
+        let has_remaining_imports = rewritten.contains("import ") || rewritten.contains("import{");
+        asset.set_content(&rewritten);
+        // If no JS imports remain (e.g. a file with only createGlobalStyles), Parcel's JS
+        // transformer won't add any dependencies, so attach the stylesheet right here.
+        if has_css && !has_remaining_imports {
+          add_css_dependency(asset, file_name)?;
+        }
+        return Ok(());
+      }
 
+      // If rewriting was skipped and the user did not configure a post-JS pass,
+      // attach the stylesheet dependency directly if there are no imports to conflict with.
+      if has_css && !source.contains("import ") && !source.contains("import{") {
+        add_css_dependency(asset, file_name)?;
+      }
+      return Ok(());
+    }
+
+    if !has_css {
+      return Ok(());
+    }
+
+    // Avoid duplicating the dependency if Pass 1a already attached it.
+    let expected_specifier = format!("{CSS_PIPELINE}:./{file_name}");
+    if asset
+      .dependencies()
+      .any(|dep| dep.specifier() == expected_specifier)
+    {
+      return Ok(());
+    }
+
+    add_css_dependency(asset, file_name)?;
     Ok(())
   }
+}
+
+fn add_css_dependency(asset: &mut Asset, file_name: &str) -> Result<(), Diagnostic> {
+  asset.add_dependency(
+    DependencyOptions::new(format!("{CSS_PIPELINE}:./{file_name}"))
+      .specifier_type(SpecifierType::Esm)
+      .import_type(ImportType::StyleSheet)
+      .flags(DependencyFlags::SIDE_EFFECTS),
+  )
 }
 
 register_plugin!(CumuloPlugin);
@@ -471,7 +506,12 @@ fn should_process_file(code: &str, file_path: &Path, config: &PluginConfig) -> b
   if !is_candidate_path(file_path, config) {
     return false;
   }
-  CONTENT_TRIGGERS.iter().any(|trigger| code.contains(trigger))
+  if CUMULO_CSS_SPECIFIERS.iter().any(|spec| code.contains(spec)) {
+    return true;
+  }
+
+  CUMULO_CORE_SPECIFIERS.iter().any(|spec| code.contains(spec))
+    && (code.contains("vars.") || code.contains("vars["))
 }
 
 fn hash_str(value: &str) -> u64 {
@@ -571,17 +611,42 @@ mod tests {
       &config
     ));
     assert!(should_process_file(
-      "export const btn = recipe({ base: {} });",
+      "import { recipe } from \"@cumulo/css\";\nexport const btn = recipe({ base: {} });",
       Path::new("/app/node_modules/@cumulo/core/dist/components/Button.mjs"),
       &config
     ));
+    assert!(should_process_file(
+      "import { vars } from '@cumulo/core';\nexport const w = vars.size.xl;",
+      Path::new("/app/src/Box.tsx"),
+      &config
+    ));
     assert!(!should_process_file(
-      "export const btn = recipe({ base: {} });",
+      "import { runtimeStyle } from '@cumulo/css/runtime';",
+      Path::new("/app/src/Card.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "export function recipe() {}\nexport const btn = recipe({ base: {} });",
+      Path::new("/app/src/App.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "const obj = Object.create(null);",
+      Path::new("/app/src/utils.ts"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "import { Button } from '@cumulo/core';",
+      Path::new("/app/src/Page.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "import { recipe } from '@cumulo/css';",
       Path::new("/app/node_modules/some-other-pkg/index.js"),
       &config
     ));
     assert!(!should_process_file(
-      "export function style(rule) {}",
+      "import { style } from '@cumulo/css';",
       Path::new("/app/node_modules/@cumulo/css/dist/create.mjs"),
       &config
     ));

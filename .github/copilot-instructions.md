@@ -1,6 +1,6 @@
 # Cumulo Monorepo — GitHub Copilot Reviewer Instructions
 
-Instructions for AI reviewers, GitHub Copilot, and automated pull request inspection across the **Cumulo repository** (`@cumulo/core`, `@cumulo/css`, `@cumulo/unplugin`, `@cumulo/parcel-transformer`, `apps/docs`).
+Instructions for AI reviewers, GitHub Copilot, and automated pull request inspection across the **Cumulo repository** (`@cumulo/core`, `@cumulo/css`, `@cumulo/unplugin`, `@cumulo/parcel-plugin`, `@cumulo/parcel-transformer`, `apps/docs`).
 
 ---
 

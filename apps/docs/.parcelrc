@@ -2,7 +2,7 @@
   "extends": "@parcel/config-default",
   "transformers": {
     "routes.ts": ["@renr/parcel-plugin-rsc-router", "..."],
-    "*.{js,mjs,jsx,ts,tsx}": ["...", "@cumulo/parcel-plugin"],
+    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "...", "@cumulo/parcel-plugin"],
     "cumulo-css:*": ["@cumulo/parcel-plugin"]
   },
   "reporters": ["...", "@renr/parcel-plugin-rsc-router", "@renr/parcel-reporter-docgen"]

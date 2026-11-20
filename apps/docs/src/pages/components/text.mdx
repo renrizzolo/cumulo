@@ -14,7 +14,8 @@ import { Text } from '@cumulo/core';
 ### Examples
 
 <ComponentPreview>
-  <Flow>
+  {/* prevent the truncated text from expanding the container (which is align-items: center) */}
+  <Flow style={{ width: 'stretch' }}>
     <Text type="display" size="2xl">
       Display Typography
     </Text>

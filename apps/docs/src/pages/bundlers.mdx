@@ -172,7 +172,7 @@ Parcel v3 (`^3.0.0-alpha.3`) uses the native Rust plugin `@cumulo/parcel-plugin`
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.{js,mjs,jsx,ts,tsx}": ["...", "@cumulo/parcel-plugin"],
+    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "...", "@cumulo/parcel-plugin"],
     "cumulo-css:*": ["@cumulo/parcel-plugin"]
   }
 }
@@ -217,6 +217,18 @@ Host Bundler CSS Pipeline ──► Emits static styles.css`}
 2. **Evaluation**: Matches are evaluated via an isolated Node runtime loader (`jiti`), executing the style functions and capturing CSS in the internal stylesheet registry.
 3. **Virtual CSS Injection**: The plugin injects an import to a virtual stylesheet (e.g. `App.tsx.cumulo.css`) at the top of the module.
 4. **Bundler Hand-off**: The host bundler (Vite, Webpack, etc.) treats the virtual module as standard CSS, applying PostCSS, autoprefixing, minification, and code splitting.
+5. **JS Rewriting**: Evaluated top-level `style()`, `create()`, `keyframes()`, `recipe()`, and `createTheme()` calls are rewritten to lightweight `@cumulo/css/runtime` lookups. Imports only used by rewritten calls are pruned, `cx` is redirected to `@cumulo/css/runtime`, and static `vars.a.b` accesses are inlined to their `var(--…)` strings. The style definitions, the CSS compiler, and the stylesheet registry never reach client bundles. Parcel v3 (`@cumulo/parcel-plugin`) and `@cumulo/unplugin` do this; the Parcel v2 transformer extracts CSS only.
+
+<Alert.Root intent="info">
+  <Alert.Icon />
+  <Alert.Content>
+    <Alert.Description>
+      Use static <Code>vars</Code> paths such as <Code>vars.color.primary.base</Code>. A dynamic
+      lookup like <Code>vars[intent][step]</Code> cannot be inlined, so <Code>vars</Code> stays in
+      the client bundle.
+    </Alert.Description>
+  </Alert.Content>
+</Alert.Root>
 
 ### Plugin options
 

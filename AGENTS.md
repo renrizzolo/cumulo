@@ -8,7 +8,7 @@ Instructions for autonomous and pairing AI coding assistants contributing to, re
 
 ## 1. Monorepo TypeScript & Code Standards
 
-These rules are strictly enforced across all packages in this monorepo (`@cumulo/core`, `@cumulo/css`, `@cumulo/unplugin`, `@cumulo/parcel-transformer`, `apps/docs`).
+These rules are strictly enforced across all packages in this monorepo (`@cumulo/core`, `@cumulo/css`, `@cumulo/unplugin`, `@cumulo/parcel-plugin`, `@cumulo/parcel-transformer`, `apps/docs`).
 
 ### Zero `any` & No Type Casting (`as Type`)
 
@@ -142,4 +142,4 @@ When authoring instructions or prompts for external developers using `@cumulo/co
   2. Forms: Use compound `<Field.Root>`, `<Field.Label>`, `<Field.Input>`, `<Field.Error>` slots.
   3. Styling: Use `@cumulo/css` (`style()`, `recipe()`, `vars.*`) rather than expecting Tailwind utility classes to style Cumulo components.
   4. Theming: Use `[data-theme='...']` for brands and `light-dark()` with `<ThemeScript />` for dark mode.
-  5. Bundler: Configure `@cumulo/unplugin` (or `@cumulo/parcel-transformer`) to extract static CSS. For Next.js (Turbopack & Webpack), configure `@cumulo/unplugin/postcss` in `postcss.config.mjs` and add `@cumulo;` to the global stylesheet.
+  5. Bundler: Configure `@cumulo/unplugin` (or `@cumulo/parcel-plugin` for Parcel v3, `@cumulo/parcel-transformer` for Parcel v2) to extract static CSS. The unplugin and parcel-plugin also rewrite top-level `style()`/`recipe()`/`createTheme()` calls to `@cumulo/css/runtime` lookups and inline static `vars.a.b` accesses, so use static `vars` paths (dynamic indexing keeps `vars` in the client bundle). For Next.js (Turbopack & Webpack), configure `@cumulo/unplugin/postcss` in `postcss.config.mjs` and add `@cumulo;` to the global stylesheet.
