@@ -9,7 +9,6 @@ import { AppProvider } from './appProvider';
 import { DocFooter } from './components/DocFooter';
 import { DocHeader } from './components/DocHeader';
 import { MobileNavProvider } from './components/MobileNavContext';
-import './client';
 import './styles.css';
 
 const bodyStyle = style(
