@@ -1,6 +1,13 @@
 'use client';
 
-import { keyframes, recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import {
+  createThemeContract,
+  keyframes,
+  recipe,
+  style,
+  cx,
+  type RecipeVariants,
+} from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -219,10 +226,19 @@ const backdropFadeIn = keyframes(
   'dialog-backdrop-fade-in',
 );
 
+const dialogContract = createThemeContract(
+  {
+    duration: null,
+  },
+  'dialog',
+);
+
 const dialogRecipe = recipe(
   {
     base: {
-      '--dialog-duration': vars.duration.normal,
+      ...dialogContract.$set({
+        duration: vars.duration.normal,
+      }),
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       backgroundColor: vars.surface.bg.DEFAULT,
@@ -243,12 +259,14 @@ const dialogRecipe = recipe(
           backdropFilter: 'blur(4px)',
         },
         '&[open]::backdrop': {
-          animation: `${backdropFadeIn.name} var(--dialog-duration) ${vars.ease.default}`,
+          animation: `${backdropFadeIn.name} ${dialogContract.duration} ${vars.ease.default}`,
         },
       },
       '@media': {
         '(prefers-reduced-motion: reduce)': {
-          '--dialog-duration': '0ms',
+          ...dialogContract.$set({
+            duration: '0ms',
+          }),
           animation: 'none',
         },
       },
@@ -260,7 +278,7 @@ const dialogRecipe = recipe(
           borderWidth: 1,
           borderRadius: vars.radius.xl,
           maxHeight: 'calc(100dvh - 4rem)',
-          animation: `${dialogFadeIn.name} var(--dialog-duration) ${vars.ease.default}`,
+          animation: `${dialogFadeIn.name} ${dialogContract.duration} ${vars.ease.default}`,
         },
         bottom: {
           margin: 'auto auto 0 auto',
@@ -275,7 +293,7 @@ const dialogRecipe = recipe(
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
-          animation: `${dialogSlideFromBottom.name} var(--dialog-duration) ${vars.ease.default}`,
+          animation: `${dialogSlideFromBottom.name} ${dialogContract.duration} ${vars.ease.default}`,
         },
         right: {
           margin: '0 0 0 auto',
@@ -287,7 +305,7 @@ const dialogRecipe = recipe(
           borderBottomWidth: 0,
           borderLeftWidth: 1,
           borderRadius: 0,
-          animation: `${dialogSlideFromRight.name} var(--dialog-duration) ${vars.ease.default}`,
+          animation: `${dialogSlideFromRight.name} ${dialogContract.duration} ${vars.ease.default}`,
         },
         left: {
           margin: '0 auto 0 0',
@@ -299,7 +317,7 @@ const dialogRecipe = recipe(
           borderBottomWidth: 0,
           borderLeftWidth: 0,
           borderRadius: 0,
-          animation: `${dialogSlideFromLeft.name} var(--dialog-duration) ${vars.ease.default}`,
+          animation: `${dialogSlideFromLeft.name} ${dialogContract.duration} ${vars.ease.default}`,
         },
       },
       size: {
