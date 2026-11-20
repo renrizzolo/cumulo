@@ -8,9 +8,23 @@ import {
 } from '../src/core/extractor.js';
 
 describe('unplugin extractor', () => {
-  it('should detect cumulo files', () => {
+  it('should detect cumulo files without matching unrelated function names', () => {
     expect(shouldProcessFile(`import { recipe } from '@cumulo/css';`, 'Button.tsx')).toBe(true);
-    expect(shouldProcessFile(`recipe({ base: {} })`, 'App.tsx')).toBe(true);
+    expect(shouldProcessFile(`import { style } from "@cumulo/css";`, 'Card.tsx')).toBe(true);
+    expect(
+      shouldProcessFile(
+        `import { vars } from '@cumulo/core';\nexport const w = vars.size.xl;`,
+        'Box.tsx',
+      ),
+    ).toBe(true);
+    expect(
+      shouldProcessFile(`import { runtimeStyle } from '@cumulo/css/runtime';`, 'Button.tsx'),
+    ).toBe(false);
+    expect(shouldProcessFile(`export function recipe() {}\nrecipe({ base: {} });`, 'App.tsx')).toBe(
+      false,
+    );
+    expect(shouldProcessFile(`const obj = Object.create(null);`, 'utils.ts')).toBe(false);
+    expect(shouldProcessFile(`import { Button } from '@cumulo/core';`, 'Page.tsx')).toBe(false);
     expect(shouldProcessFile(`console.log("hello")`, 'plain.ts')).toBe(false);
   });
 

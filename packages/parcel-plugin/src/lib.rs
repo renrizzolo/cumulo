@@ -26,14 +26,12 @@ const SKIPPED_CUMULO_PACKAGES: &[&str] = &[
   "node_modules/@cumulo/parcel-transformer/",
   "node_modules/@cumulo/unplugin/",
 ];
-const CONTENT_TRIGGERS: &[&str] = &[
-  "@cumulo/css",
-  "recipe(",
-  "style(",
-  "create(",
-  "keyframes(",
-  "createTheme(",
-  "createThemeContract(",
+const CUMULO_CSS_SPECIFIERS: &[&str] = &["'@cumulo/css'", "\"@cumulo/css\""];
+const CUMULO_CORE_SPECIFIERS: &[&str] = &[
+  "'@cumulo/core'",
+  "\"@cumulo/core\"",
+  "'@cumulo/core/contract'",
+  "\"@cumulo/core/contract\"",
 ];
 
 #[derive(Debug, Default, Clone, Deserialize)]
@@ -508,7 +506,12 @@ fn should_process_file(code: &str, file_path: &Path, config: &PluginConfig) -> b
   if !is_candidate_path(file_path, config) {
     return false;
   }
-  CONTENT_TRIGGERS.iter().any(|trigger| code.contains(trigger))
+  if CUMULO_CSS_SPECIFIERS.iter().any(|spec| code.contains(spec)) {
+    return true;
+  }
+
+  CUMULO_CORE_SPECIFIERS.iter().any(|spec| code.contains(spec))
+    && (code.contains("vars.") || code.contains("vars["))
 }
 
 fn hash_str(value: &str) -> u64 {
@@ -608,17 +611,42 @@ mod tests {
       &config
     ));
     assert!(should_process_file(
-      "export const btn = recipe({ base: {} });",
+      "import { recipe } from \"@cumulo/css\";\nexport const btn = recipe({ base: {} });",
       Path::new("/app/node_modules/@cumulo/core/dist/components/Button.mjs"),
       &config
     ));
+    assert!(should_process_file(
+      "import { vars } from '@cumulo/core';\nexport const w = vars.size.xl;",
+      Path::new("/app/src/Box.tsx"),
+      &config
+    ));
     assert!(!should_process_file(
-      "export const btn = recipe({ base: {} });",
+      "import { runtimeStyle } from '@cumulo/css/runtime';",
+      Path::new("/app/src/Card.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "export function recipe() {}\nexport const btn = recipe({ base: {} });",
+      Path::new("/app/src/App.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "const obj = Object.create(null);",
+      Path::new("/app/src/utils.ts"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "import { Button } from '@cumulo/core';",
+      Path::new("/app/src/Page.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "import { recipe } from '@cumulo/css';",
       Path::new("/app/node_modules/some-other-pkg/index.js"),
       &config
     ));
     assert!(!should_process_file(
-      "export function style(rule) {}",
+      "import { style } from '@cumulo/css';",
       Path::new("/app/node_modules/@cumulo/css/dist/create.mjs"),
       &config
     ));

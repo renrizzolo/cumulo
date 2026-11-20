@@ -275,9 +275,18 @@ function logExtractionWarning(filePath: string, warning: string): void {
   }
 }
 
+const CUMULO_CSS_SPECIFIER_RE = /['"]@cumulo\/css['"]/;
+const CUMULO_CORE_SPECIFIER_RE = /['"]@cumulo\/core(?:\/contract)?['"]/;
+const SKIPPED_CUMULO_PACKAGES = [
+  'node_modules/@cumulo/css/',
+  'node_modules/@cumulo/parcel-plugin/',
+  'node_modules/@cumulo/parcel-transformer/',
+  'node_modules/@cumulo/unplugin/',
+];
+
 /**
- * Checks if source code contains imports from `@cumulo/css`
- * or contains calls to style/recipe creation functions.
+ * Checks if source code imports from `@cumulo/css` (excluding `@cumulo/css/runtime`)
+ * or accesses `vars` imported from `@cumulo/core`.
  */
 export function shouldProcessFile(
   code: string,
@@ -287,38 +296,40 @@ export function shouldProcessFile(
   if (!id || !code) {
     return false;
   }
-  if (options?.exclude && matchesPattern(id, options.exclude)) {
+  const normalizedId = id.replace(/\\/g, '/');
+  if (options?.exclude && matchesPattern(normalizedId, options.exclude)) {
     return false;
   }
-  if (options?.include && matchesPattern(id, options.include)) {
+  if (options?.include && matchesPattern(normalizedId, options.include)) {
     return true;
   }
   // don't process virtual modules
-  if (id.startsWith('\0') || id.includes('\x00')) {
+  if (normalizedId.startsWith('\0') || normalizedId.includes('\x00')) {
     return false;
   }
-  // don't process node_modules except @cumulo
-  if (id.includes('node_modules') && !id.includes('@cumulo')) {
-    return false;
+  // don't process node_modules except @cumulo (excluding Cumulo's own css/plugin packages)
+  if (normalizedId.includes('node_modules')) {
+    if (!normalizedId.includes('@cumulo')) {
+      return false;
+    }
+    if (SKIPPED_CUMULO_PACKAGES.some((pkg) => normalizedId.includes(pkg))) {
+      return false;
+    }
   }
   // don't process virtual cumulo files
-  if (id.endsWith('.cumulo.css') || id.includes('virtual:cumulo')) {
+  if (normalizedId.endsWith('.cumulo.css') || normalizedId.includes('virtual:cumulo')) {
     return false;
   }
   // only process jsx/tsx/mjs/cjs files
-  if (!/\.(tsx?|jsx?|mjs|cjs)$/.test(id)) {
+  if (!/\.(tsx?|jsx?|mjs|cjs)$/.test(normalizedId)) {
     return false;
   }
 
-  return (
-    code.includes('@cumulo/css') ||
-    code.includes('recipe(') ||
-    code.includes('style(') ||
-    code.includes('create(') ||
-    code.includes('keyframes(') ||
-    code.includes('createTheme(') ||
-    code.includes('createThemeContract(')
-  );
+  if (CUMULO_CSS_SPECIFIER_RE.test(code)) {
+    return true;
+  }
+
+  return CUMULO_CORE_SPECIFIER_RE.test(code) && (code.includes('vars.') || code.includes('vars['));
 }
 
 let extractionQueue: Promise<void> = Promise.resolve();
