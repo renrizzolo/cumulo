@@ -4,7 +4,7 @@ import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { textSharedRecipe, truncateStyle } from '../typography.js';
 
-const textRecipe = recipe(
+export const textRecipe = recipe(
   {
     extend: [textSharedRecipe],
     variants: {

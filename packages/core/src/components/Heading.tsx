@@ -2,11 +2,11 @@ import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { textSharedRecipe, truncateStyle } from '../typography.js';
+import { truncateStyle } from '../typography.js';
+import { textRecipe, TextVariants } from './Text.js';
 
 const headingRecipe = recipe(
   {
-    extend: [textSharedRecipe],
     variants: {
       size: {
         xs: {
@@ -45,8 +45,6 @@ const headingRecipe = recipe(
     },
     defaultVariants: {
       size: 'xl',
-      weight: 'bold',
-      color: 'default',
     },
   },
   'heading',
@@ -59,11 +57,11 @@ export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'div' | 'sp
 export interface HeadingProps extends ElementProps<HTMLElement> {
   as?: HeadingLevel;
   size?: HeadingVariants['size'];
-  weight?: HeadingVariants['weight'];
-  color?: HeadingVariants['color'];
-  align?: HeadingVariants['align'];
-  wrap?: HeadingVariants['wrap'];
-  transform?: HeadingVariants['transform'];
+  weight?: TextVariants['weight'];
+  color?: TextVariants['color'];
+  align?: TextVariants['align'];
+  wrap?: TextVariants['wrap'];
+  transform?: TextVariants['transform'];
   children?: React.ReactNode;
   truncate?: boolean;
 }
@@ -94,13 +92,14 @@ export function Heading({
   ...props
 }: HeadingProps): React.JSX.Element {
   const resolvedSize = size ?? defaultSizeForLevel[Component] ?? 'xl';
-  const classes = headingRecipe({ size: resolvedSize, weight, color, align, wrap, transform });
+  const classes = headingRecipe({ size: resolvedSize });
+  const textClasses = textRecipe({ weight, color, align, wrap, transform });
 
   return React.createElement(
     Component,
     {
       ref,
-      className: cx(classes, truncate ? truncateStyle : null, className),
+      className: cx(classes, textClasses, truncate ? truncateStyle : null, className),
       ...props,
     },
     children,
