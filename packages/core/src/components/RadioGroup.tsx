@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useContext, useId, useMemo, type ReactNode } from 'react';
-import { Stack, type StackProps } from './Stack.js';
+
+import {
+  useValueGroup,
+  createTypedGroup,
+  type ValueGroupProps,
+  type ValueItemProps,
+  type TypedGroup,
+} from '../hooks/useValueGroup.js';
 import {
   Radio,
   RadioGroupContext,
@@ -10,13 +17,7 @@ import {
   type RadioGroupContextValue,
   type RadioGroupOrientation,
 } from './Radio.js';
-import {
-  useValueGroup,
-  createTypedGroup,
-  type ValueGroupProps,
-  type ValueItemProps,
-  type TypedGroup,
-} from '../hooks/useValueGroup.js';
+import { Stack, type StackProps } from './Stack.js';
 
 export const useRadioGroup = (): RadioGroupContextValue | null => {
   return useContext(RadioGroupContext);

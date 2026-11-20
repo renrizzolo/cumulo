@@ -1,4 +1,5 @@
 import { style, keyframes } from '@cumulo/css';
+
 import { themeContract } from './theme.js';
 
 export const pulseAnimation = keyframes(

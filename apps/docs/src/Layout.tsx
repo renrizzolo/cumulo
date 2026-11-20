@@ -1,14 +1,16 @@
-import React from 'react';
-import type { PageProps } from '@renr/parcel-rsc-router';
 import { Panel, ThemeScript, vars, Container } from '@cumulo/core';
 import * as AppFrame from '@cumulo/core/components/AppFrame';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
 import { style } from '@cumulo/css';
-import { SidebarNav } from './components/Nav';
+import type { PageProps } from '@renr/parcel-rsc-router';
+import React from 'react';
+
 import { AppProvider } from './appProvider';
 import { DocFooter } from './components/DocFooter';
 import { DocHeader } from './components/DocHeader';
 import { MobileNavProvider } from './components/MobileNavContext';
+import { SidebarNav } from './components/Nav';
+
 import './styles.css';
 
 const bodyStyle = style(

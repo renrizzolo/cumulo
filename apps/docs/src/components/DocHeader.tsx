@@ -1,13 +1,14 @@
 'use client';
 
-import React from 'react';
-import { Link } from '@renr/parcel-rsc-router';
-import { keyframes, style } from '@cumulo/css';
 import { Button, vars, useSidebar, Panel } from '@cumulo/core';
+import { keyframes, style } from '@cumulo/css';
+import { Link } from '@renr/parcel-rsc-router';
+import React from 'react';
+
+import { Logo } from './Logo';
 import { useMobileNav } from './MobileNavContext';
 import { SidebarNavToggle } from './Nav';
 import { ThemeSwitcher } from './ThemeSwitcher';
-import { Logo } from './Logo';
 
 const topHeaderStyle = style({
   position: 'sticky',

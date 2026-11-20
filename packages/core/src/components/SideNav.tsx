@@ -1,14 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
 import { recipe, style, cx, createThemeContract, createTheme } from '@cumulo/css';
+import React, { useEffect } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { focusRing, focusRingStyles } from '../intents.js';
 import * as Collapsible from './Collapsible.js';
 import { useCollapsible } from './Collapsible.js';
-import * as Tooltip from './Tooltip.js';
 import { useSidebar } from './Sidebar.js';
+import * as Tooltip from './Tooltip.js';
 
 export const sideNavContract = createThemeContract(
   {

@@ -1,4 +1,5 @@
 import { useSyncExternalStore, useCallback } from 'react';
+
 import {
   themeStore,
   type Theme,

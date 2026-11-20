@@ -1,5 +1,6 @@
 'use client';
 
+import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -11,20 +12,20 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
-import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing } from '../intents.js';
-import { Button, type ButtonProps } from './Button.js';
-import { Divider, type DividerProps } from './Divider.js';
-import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import { useFocus } from '../hooks/useFocus.js';
 import {
   useDismissible,
   handlePopoverToggleEvent,
   safeHidePopover,
   togglePopoverFromTrigger,
 } from '../hooks/useDismissible.js';
+import { useFocus } from '../hooks/useFocus.js';
+import { useMergeRefs } from '../hooks/useMergeRefs.js';
+import { focusRing } from '../intents.js';
+import { Button, type ButtonProps } from './Button.js';
+import { Divider, type DividerProps } from './Divider.js';
 
 export type MenuLevel = 0 | 1 | 2 | 'inherit';
 

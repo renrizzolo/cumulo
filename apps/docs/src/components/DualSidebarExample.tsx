@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Sidebar, Panel, SideNav, HStack, VStack, Heading, Text, Button } from '@cumulo/core';
+import React, { useState } from 'react';
 
 export function DualSidebarExample(): React.JSX.Element {
   const [isPinned, setIsPinned] = useState(false);

@@ -25,31 +25,31 @@
         "raw": "SurfaceTag | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"article\""
           },
           {
-            "value": "\"main\""
+            "value": "\"aside\""
           },
           {
             "value": "\"div\""
           },
           {
-            "value": "\"section\""
+            "value": "\"footer\""
           },
           {
             "value": "\"header\""
           },
           {
-            "value": "\"footer\""
+            "value": "\"main\""
           },
           {
             "value": "\"nav\""
           },
           {
-            "value": "\"aside\""
+            "value": "\"section\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
@@ -71,9 +71,67 @@
       ],
       "required": false,
       "type": {
-        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+        "name": "| \"false\" \n|  \"true\" \n|  boolean \n|  undefined\n"
       },
       "shortPropTypeName": "Union"
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "value": [
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     },
     "level": {
       "defaultValue": {
@@ -97,9 +155,6 @@
         "raw": "0 | 1 | 2 | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "0"
           },
           {
@@ -107,173 +162,9 @@
           },
           {
             "value": "2"
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "variant": {
-      "defaultValue": null,
-      "description": "",
-      "name": "variant",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"primary\" | \"default\" | undefined",
-        "value": [
+          },
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"default\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "padding": {
-      "defaultValue": null,
-      "description": "",
-      "name": "padding",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "radius": {
-      "defaultValue": null,
-      "description": "",
-      "name": "radius",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"auto\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | \"control\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"auto\""
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"full\""
-          },
-          {
-            "value": "\"control\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "flex": {
-      "defaultValue": null,
-      "description": "",
-      "name": "flex",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-        "name": "SurfaceProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
-          "name": "SurfaceProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"auto\""
-          },
-          {
-            "value": "\"initial\""
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "1"
           }
         ]
       },
@@ -296,46 +187,123 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"hidden\" | \"auto\" | \"scroll\" | \"visible\" | undefined",
+        "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"auto\""
           },
           {
             "value": "\"hidden\""
-          },
-          {
-            "value": "\"auto\""
           },
           {
             "value": "\"scroll\""
           },
           {
             "value": "\"visible\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "className": {
+    "padding": {
       "defaultValue": null,
       "description": "",
-      "name": "className",
+      "name": "padding",
       "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | undefined"
+        "name": "enum",
+        "raw": "\"2xl\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
-      "shortPropTypeName": "string | function"
+      "shortPropTypeName": null
+    },
+    "radius": {
+      "defaultValue": null,
+      "description": "",
+      "name": "radius",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xl\" | \"auto\" | \"control\" | \"full\" | \"lg\" | \"md\" | \"none\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"control\""
+          },
+          {
+            "value": "\"full\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     },
     "ref": {
       "defaultValue": null,
@@ -350,6 +318,38 @@
       "required": false,
       "type": {
         "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "variant": {
+      "defaultValue": null,
+      "description": "",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+        "name": "SurfaceProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Surface.tsx",
+          "name": "SurfaceProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"primary\" | undefined",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
       "shortPropTypeName": null
     }

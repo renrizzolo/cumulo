@@ -1,17 +1,5 @@
 'use client';
 
-import React, {
-  createContext,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { keyframes, style } from '@cumulo/css';
-import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
-import { routesByPage } from '../../routes';
 import {
   Sidebar,
   SideNav,
@@ -28,9 +16,22 @@ import {
   Divider,
   Kbd,
 } from '@cumulo/core';
-import { Version } from './Version';
+import { keyframes, style } from '@cumulo/css';
+import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
+import React, {
+  createContext,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+
+import { routesByPage } from '../../routes';
 import { Logo } from './Logo';
 import { useMobileNav } from './MobileNavContext';
+import { Version } from './Version';
 
 interface NavItem {
   label: string;

@@ -4,6 +4,26 @@
   "path": "../../packages/core/src/components/AppFrame.tsx",
   "fileName": "AppFrame.tsx",
   "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
     "height": {
       "defaultValue": {
         "value": "'screen'"
@@ -26,9 +46,6 @@
         "raw": "\"auto\" | \"full\" | \"screen\" | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"auto\""
           },
           {
@@ -36,30 +53,13 @@
           },
           {
             "value": "\"screen\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
     },
     "ref": {
       "defaultValue": null,
@@ -102,19 +102,19 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"main\" | \"div\" | \"section\" | undefined",
+            "raw": "\"div\" | \"main\" | \"section\" | undefined",
             "value": [
               {
-                "value": "undefined"
+                "value": "\"div\""
               },
               {
                 "value": "\"main\""
               },
               {
-                "value": "\"div\""
+                "value": "\"section\""
               },
               {
-                "value": "\"section\""
+                "value": "undefined"
               }
             ]
           },

@@ -3,18 +3,141 @@
   "path": "../../packages/core/src/components/RadioGroup.tsx",
   "fileName": "RadioGroup.tsx",
   "props": {
-    "name": {
+    "align": {
       "defaultValue": null,
       "description": "",
-      "name": "name",
+      "name": "align",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-        "name": "RadioGroupRootProps"
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-          "name": "RadioGroupRootProps"
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"baseline\" | \"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
+        "value": [
+          {
+            "value": "\"baseline\""
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"stretch\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "as": {
+      "defaultValue": null,
+      "description": "",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "StackTag | undefined",
+        "value": [
+          {
+            "value": "\"article\""
+          },
+          {
+            "value": "\"aside\""
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"footer\""
+          },
+          {
+            "value": "\"form\""
+          },
+          {
+            "value": "\"header\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"nav\""
+          },
+          {
+            "value": "\"ol\""
+          },
+          {
+            "value": "\"section\""
+          },
+          {
+            "value": "\"span\""
+          },
+          {
+            "value": "\"ul\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "defaultValue": {
+      "defaultValue": null,
+      "description": "Initial selected value when uncontrolled.",
+      "name": "defaultValue",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
         }
       ],
       "required": false,
@@ -23,35 +146,39 @@
       },
       "shortPropTypeName": null
     },
-    "orientation": {
-      "defaultValue": {
-        "value": "vertical"
-      },
+    "direction": {
+      "defaultValue": null,
       "description": "",
-      "name": "orientation",
+      "name": "direction",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-        "name": "RadioGroupRootProps"
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-          "name": "RadioGroupRootProps"
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "RadioGroupOrientation | undefined",
+        "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
         "value": [
           {
+            "value": "\"column-reverse\""
+          },
+          {
+            "value": "\"column\""
+          },
+          {
+            "value": "\"row-reverse\""
+          },
+          {
+            "value": "\"row\""
+          },
+          {
             "value": "undefined"
-          },
-          {
-            "value": "\"horizontal\""
-          },
-          {
-            "value": "\"vertical\""
           }
         ]
       },
@@ -79,160 +206,6 @@
       },
       "shortPropTypeName": null
     },
-    "intent": {
-      "defaultValue": null,
-      "description": "",
-      "name": "intent",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-        "name": "RadioGroupRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-          "name": "RadioGroupRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"error\" | \"default\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"default\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "size": {
-      "defaultValue": null,
-      "description": "",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-        "name": "RadioGroupRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
-          "name": "RadioGroupRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
-    "direction": {
-      "defaultValue": null,
-      "description": "",
-      "name": "direction",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"row\""
-          },
-          {
-            "value": "\"column\""
-          },
-          {
-            "value": "\"column-reverse\""
-          },
-          {
-            "value": "\"row-reverse\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "width": {
-      "defaultValue": null,
-      "description": "",
-      "name": "width",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"full\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"full\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "flex": {
       "defaultValue": null,
       "description": "",
@@ -253,9 +226,6 @@
         "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"auto\""
           },
           {
@@ -266,6 +236,9 @@
           },
           {
             "value": "1"
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
@@ -288,37 +261,37 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"2xl\" | \"2xs\" | \"3xs\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"3xs\""
+            "value": "\"2xl\""
           },
           {
             "value": "\"2xs\""
           },
           {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
+            "value": "\"3xs\""
           },
           {
             "value": "\"lg\""
           },
           {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
             "value": "\"xl\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
@@ -340,46 +313,37 @@
       ],
       "required": false,
       "type": {
-        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
+        "name": "| \"false\" \n|  \"true\" \n|  boolean \n|  undefined\n"
       },
       "shortPropTypeName": "Union"
     },
-    "align": {
+    "intent": {
       "defaultValue": null,
       "description": "",
-      "name": "align",
+      "name": "intent",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
+        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+        "name": "RadioGroupRootProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
+          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+          "name": "RadioGroupRootProps"
         }
       ],
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
+        "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
             "value": "undefined"
-          },
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"baseline\""
-          },
-          {
-            "value": "\"stretch\""
           }
         ]
       },
@@ -402,10 +366,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
+        "raw": "\"around\" | \"between\" | \"center\" | \"end\" | \"evenly\" | \"start\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"around\""
+          },
+          {
+            "value": "\"between\""
           },
           {
             "value": "\"center\""
@@ -414,166 +381,30 @@
             "value": "\"end\""
           },
           {
+            "value": "\"evenly\""
+          },
+          {
             "value": "\"start\""
           },
           {
-            "value": "\"between\""
-          },
-          {
-            "value": "\"around\""
-          },
-          {
-            "value": "\"evenly\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "wrap": {
-      "defaultValue": null,
-      "description": "",
-      "name": "wrap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
-        "value": [
-          {
             "value": "undefined"
-          },
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"wrap-reverse\""
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "as": {
+    "name": {
       "defaultValue": null,
       "description": "",
-      "name": "as",
+      "name": "name",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
+        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+        "name": "RadioGroupRootProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "StackTag | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"article\""
-          },
-          {
-            "value": "\"form\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"section\""
-          },
-          {
-            "value": "\"header\""
-          },
-          {
-            "value": "\"footer\""
-          },
-          {
-            "value": "\"nav\""
-          },
-          {
-            "value": "\"aside\""
-          },
-          {
-            "value": "\"ul\""
-          },
-          {
-            "value": "\"ol\""
-          },
-          {
-            "value": "\"span\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "ref": {
-      "defaultValue": null,
-      "description": "",
-      "name": "ref",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Ref<HTMLElement> | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "value": {
-      "defaultValue": null,
-      "description": "Controlled selected value.",
-      "name": "value",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-        "name": "ValueGroupProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-          "name": "ValueGroupProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "defaultValue": {
-      "defaultValue": null,
-      "description": "Initial selected value when uncontrolled.",
-      "name": "defaultValue",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-        "name": "ValueGroupProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-          "name": "ValueGroupProps"
+          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+          "name": "RadioGroupRootProps"
         }
       ],
       "required": false,
@@ -601,51 +432,185 @@
         "name": "((value: T) => void) | undefined"
       },
       "shortPropTypeName": "function"
+    },
+    "orientation": {
+      "defaultValue": {
+        "value": "vertical"
+      },
+      "description": "",
+      "name": "orientation",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+        "name": "RadioGroupRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+          "name": "RadioGroupRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "RadioGroupOrientation | undefined",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": null,
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+        "name": "RadioGroupRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/RadioGroup.tsx",
+          "name": "RadioGroupRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"lg\" | \"md\" | \"sm\" | undefined",
+        "value": [
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "Controlled selected value.",
+      "name": "value",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "width": {
+      "defaultValue": null,
+      "description": "",
+      "name": "width",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"full\" | undefined",
+        "value": [
+          {
+            "value": "\"full\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+        "value": [
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"wrap-reverse\""
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
     "Item": {
       "name": "RadioGroup.Item",
       "props": {
-        "size": {
+        "checked": {
           "defaultValue": null,
           "description": "",
-          "name": "size",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Radio.tsx",
-            "name": "RadioProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Radio.tsx",
-              "name": "RadioProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "defaultChecked": {
-          "defaultValue": null,
-          "description": "",
-          "name": "defaultChecked",
+          "name": "checked",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Radio.tsx",
             "name": "RadioProps"
@@ -682,6 +647,26 @@
           },
           "shortPropTypeName": "string | function"
         },
+        "defaultChecked": {
+          "defaultValue": null,
+          "description": "",
+          "name": "defaultChecked",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+            "name": "RadioProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+              "name": "RadioProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
         "intent": {
           "defaultValue": null,
           "description": "",
@@ -699,54 +684,18 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"error\" | \"default\" | undefined",
+            "raw": "\"default\" | \"error\" | undefined",
             "value": [
               {
-                "value": "undefined"
+                "value": "\"default\""
               },
               {
                 "value": "\"error\""
               },
               {
-                "value": "\"default\""
+                "value": "undefined"
               }
             ]
-          },
-          "shortPropTypeName": null
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLInputElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "checked": {
-          "defaultValue": null,
-          "description": "",
-          "name": "checked",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Radio.tsx",
-            "name": "RadioProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Radio.tsx",
-              "name": "RadioProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
           },
           "shortPropTypeName": null
         },
@@ -769,6 +718,57 @@
             "name": "((checked: boolean) => void) | undefined"
           },
           "shortPropTypeName": "function"
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLInputElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+            "name": "RadioProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Radio.tsx",
+              "name": "RadioProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"lg\" | \"md\" | \"sm\" | undefined",
+            "value": [
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
         },
         "value": {
           "defaultValue": null,

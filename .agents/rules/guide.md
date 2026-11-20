@@ -81,6 +81,7 @@ Cumulo uses an atomic, compile-time extracted CSS engine. **Do not use arbitrary
 - **Static Styles (`style`)**:
   ```ts
   import { style } from '@cumulo/css';
+
   import { vars } from '../contract.js';
 
   export const containerStyle = style({
@@ -93,6 +94,7 @@ Cumulo uses an atomic, compile-time extracted CSS engine. **Do not use arbitrary
 - **Variant Recipes (`recipe`)**:
   ```ts
   import { recipe } from '@cumulo/css';
+
   import { vars } from '../contract.js';
 
   export const buttonRecipe = recipe({

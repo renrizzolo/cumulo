@@ -19,10 +19,10 @@ yarn add -D @cumulo/unplugin
 ### Vite
 
 ```ts
+import { cumulo } from '@cumulo/unplugin/vite';
+import react from '@vitejs/plugin-react';
 // vite.config.ts
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { cumulo } from '@cumulo/unplugin/vite';
 
 export default defineConfig({
   plugins: [react(), cumulo()],
@@ -113,9 +113,9 @@ export default {
 ### esbuild
 
 ```js
+import { cumulo } from '@cumulo/unplugin/esbuild';
 // build.js
 import * as esbuild from 'esbuild';
-import { cumulo } from '@cumulo/unplugin/esbuild';
 
 await esbuild.build({
   entryPoints: ['src/index.tsx'],

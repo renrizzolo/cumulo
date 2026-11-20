@@ -1,8 +1,9 @@
 import React from 'react';
-import { darkTheme } from './theme.js';
+
 import { basicBoxStyle, animatedBadgeStyle } from './basic.js';
 import { baseCardStyle, customBoxProps, mergedClassNames } from './overrides.js';
 import { baseButtonRecipe, extendedButtonRecipe } from './recipes.js';
+import { darkTheme } from './theme.js';
 
 export function App() {
   return (

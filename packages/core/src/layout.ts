@@ -1,4 +1,5 @@
 import { recipe, type RecipeVariants } from '@cumulo/css';
+
 import { vars } from './contract.js';
 
 /**

@@ -1,10 +1,11 @@
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/vitest';
+
 import * as AppFrame from '../src/components/AppFrame.js';
-import * as Sidebar from '../src/components/Sidebar.js';
 import { Panel } from '../src/components/Panel.js';
+import * as Sidebar from '../src/components/Sidebar.js';
 import * as SideNav from '../src/components/SideNav.js';
 
 describe('AppFrame component', () => {

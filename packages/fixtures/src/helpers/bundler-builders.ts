@@ -1,21 +1,22 @@
-import path from 'node:path';
-import fs from 'node:fs';
-import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
-import * as vite from 'vite';
-import react from '@vitejs/plugin-react';
-import * as rollup from 'rollup';
-import { nodeResolve } from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import replace from '@rollup/plugin-replace';
-import rollupEsbuild from 'rollup-plugin-esbuild';
-import * as esbuild from 'esbuild';
-import webpack from 'webpack';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { cumulo as vitePlugin } from '@cumulo/unplugin/vite';
-import { cumulo as rollupPlugin } from '@cumulo/unplugin/rollup';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { cumulo as esbuildPlugin } from '@cumulo/unplugin/esbuild';
+import { cumulo as rollupPlugin } from '@cumulo/unplugin/rollup';
+import { cumulo as vitePlugin } from '@cumulo/unplugin/vite';
 import { cumulo as webpackPlugin } from '@cumulo/unplugin/webpack';
+import commonjs from '@rollup/plugin-commonjs';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import react from '@vitejs/plugin-react';
+import * as esbuild from 'esbuild';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import * as rollup from 'rollup';
+import rollupEsbuild from 'rollup-plugin-esbuild';
+import * as vite from 'vite';
+import webpack from 'webpack';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

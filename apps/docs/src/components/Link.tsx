@@ -1,5 +1,6 @@
 import { Link as CumuloLink } from '@cumulo/core';
 import { Link as RouterLink } from '@renr/parcel-rsc-router';
+
 import { flatRoutes, type RoutePath } from '../../routes';
 
 const routePathSet = new Set<string>(flatRoutes.map((route) => route.path));

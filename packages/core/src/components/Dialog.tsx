@@ -1,5 +1,6 @@
 'use client';
 
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -12,18 +13,18 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { Button, type ButtonProps } from './Button.js';
-import { Heading, type HeadingProps } from './Heading.js';
-import { Text, type TextProps } from './Text.js';
-import { HStack, VStack, type StackProps } from './Stack.js';
-import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
-import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import { useFocus } from '../hooks/useFocus.js';
 import { useDismissible } from '../hooks/useDismissible.js';
+import { useFocus } from '../hooks/useFocus.js';
+import { useMergeRefs } from '../hooks/useMergeRefs.js';
+import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
+import { Button, type ButtonProps } from './Button.js';
 import { Flow } from './Flow.js';
+import { Heading, type HeadingProps } from './Heading.js';
+import { HStack, VStack, type StackProps } from './Stack.js';
+import { Text, type TextProps } from './Text.js';
 
 export type DialogPart = 'title' | 'description' | 'content';
 

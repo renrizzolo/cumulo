@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom/vitest';
-import React, { useState, useRef } from 'react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { useState, useRef } from 'react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+
 import { Slider } from '../src/components/Slider.js';
 import { Field } from '../src/index.js';
 

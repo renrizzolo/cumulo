@@ -1,6 +1,3 @@
-import React from 'react';
-import { describe, it, expect } from 'vitest';
-import { reactNodeToJsx } from './reactNodeToJsx';
 import {
   Surface,
   VStack,
@@ -11,6 +8,10 @@ import {
   Collapsible,
   ThemeToggle,
 } from '@cumulo/core';
+import React from 'react';
+import { describe, it, expect } from 'vitest';
+
+import { reactNodeToJsx } from './reactNodeToJsx';
 
 describe('reactNodeToJsx', () => {
   it('serializes single elements with text children and props', () => {

@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';

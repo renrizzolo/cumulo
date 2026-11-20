@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
+
 import { handleGenerateTheme } from './commands/generateTheme.js';
 
 const USAGE = `

@@ -2,6 +2,7 @@ import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterAll, beforeAll, describe, expect, test, vi } from 'vitest';
+
 import { useFocus, UseFocusOptions } from './useFocus';
 
 // Mock requestAnimationFrame to be synchronous for testing autoFocus

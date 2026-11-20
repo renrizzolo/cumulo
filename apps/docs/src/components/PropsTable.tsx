@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
 import { Table, Badge, Code, Text, HStack, VStack, Tabs, vars } from '@cumulo/core';
 import { style } from '@cumulo/css';
+import React from 'react';
 
 export interface DocgenPropType {
   name: string;

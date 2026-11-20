@@ -3,98 +3,6 @@
   "path": "../../packages/core/src/components/Container.tsx",
   "fileName": "Container.tsx",
   "props": {
-    "size": {
-      "defaultValue": {
-        "value": "lg"
-      },
-      "description": "",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Container.tsx",
-        "name": "ContainerProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Container.tsx",
-          "name": "ContainerProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"full\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          },
-          {
-            "value": "\"full\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "padding": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "padding",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Container.tsx",
-        "name": "ContainerProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Container.tsx",
-          "name": "ContainerProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "className": {
       "defaultValue": null,
       "description": "",
@@ -115,6 +23,52 @@
       },
       "shortPropTypeName": "string | function"
     },
+    "padding": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "padding",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -130,6 +84,52 @@
         "name": "Ref<HTMLDivElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    },
+    "size": {
+      "defaultValue": {
+        "value": "lg"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Container.tsx",
+        "name": "ContainerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Container.tsx",
+          "name": "ContainerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xl\" | \"full\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"full\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   }
 }

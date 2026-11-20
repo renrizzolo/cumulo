@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/vitest';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+
 import * as Tooltip from '../src/components/Tooltip.js';
 
 describe('Tooltip Component', () => {

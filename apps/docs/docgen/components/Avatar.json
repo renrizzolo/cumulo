@@ -3,182 +3,6 @@
   "path": "../../packages/core/src/components/Avatar.tsx",
   "fileName": "Avatar.tsx",
   "props": {
-    "size": {
-      "defaultValue": {
-        "value": "'md'"
-      },
-      "description": "Sizing scale of the avatar.",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-        "name": "AvatarRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-          "name": "AvatarRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "AvatarSize | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "shape": {
-      "defaultValue": {
-        "value": "'circle'"
-      },
-      "description": "Corner shape geometry.",
-      "name": "shape",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-        "name": "AvatarRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-          "name": "AvatarRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "AvatarShape | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"circle\""
-          },
-          {
-            "value": "\"square\""
-          },
-          {
-            "value": "\"squircle\""
-          },
-          {
-            "value": "\"rounded\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "color": {
-      "defaultValue": null,
-      "description": "Accent background tint for fallback display.",
-      "name": "color",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-        "name": "AvatarRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-          "name": "AvatarRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "AvatarColor | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"beige\""
-          },
-          {
-            "value": "\"blue\""
-          },
-          {
-            "value": "\"green\""
-          },
-          {
-            "value": "\"pink\""
-          },
-          {
-            "value": "\"purple\""
-          },
-          {
-            "value": "\"yellow\""
-          },
-          {
-            "value": "\"sky\""
-          },
-          {
-            "value": "\"neutral\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "name": {
-      "defaultValue": null,
-      "description": "User full name, used for accessibility labels and fallback initials generation.",
-      "name": "name",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-        "name": "AvatarRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-          "name": "AvatarRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "src": {
-      "defaultValue": null,
-      "description": "Image source URL when using the concise single-element API.",
-      "name": "src",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-        "name": "AvatarRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-          "name": "AvatarRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
     "alt": {
       "defaultValue": null,
       "description": "Image alternative description for screen readers.",
@@ -196,26 +20,6 @@
       "required": false,
       "type": {
         "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "fallback": {
-      "defaultValue": null,
-      "description": "Custom fallback node when image fails or is unavailable.",
-      "name": "fallback",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-        "name": "AvatarRootProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-          "name": "AvatarRootProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "ReactNode"
       },
       "shortPropTypeName": null
     },
@@ -239,6 +43,96 @@
       },
       "shortPropTypeName": "string | function"
     },
+    "color": {
+      "defaultValue": null,
+      "description": "Accent background tint for fallback display.",
+      "name": "color",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+        "name": "AvatarRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+          "name": "AvatarRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "AvatarColor | undefined",
+        "value": [
+          {
+            "value": "\"beige\""
+          },
+          {
+            "value": "\"blue\""
+          },
+          {
+            "value": "\"green\""
+          },
+          {
+            "value": "\"neutral\""
+          },
+          {
+            "value": "\"pink\""
+          },
+          {
+            "value": "\"purple\""
+          },
+          {
+            "value": "\"sky\""
+          },
+          {
+            "value": "\"yellow\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "fallback": {
+      "defaultValue": null,
+      "description": "Custom fallback node when image fails or is unavailable.",
+      "name": "fallback",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+        "name": "AvatarRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+          "name": "AvatarRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "ReactNode"
+      },
+      "shortPropTypeName": null
+    },
+    "name": {
+      "defaultValue": null,
+      "description": "User full name, used for accessibility labels and fallback initials generation.",
+      "name": "name",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+        "name": "AvatarRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+          "name": "AvatarRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -254,32 +148,118 @@
         "name": "Ref<HTMLDivElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    },
+    "shape": {
+      "defaultValue": {
+        "value": "'circle'"
+      },
+      "description": "Corner shape geometry.",
+      "name": "shape",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+        "name": "AvatarRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+          "name": "AvatarRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "AvatarShape | undefined",
+        "value": [
+          {
+            "value": "\"circle\""
+          },
+          {
+            "value": "\"rounded\""
+          },
+          {
+            "value": "\"square\""
+          },
+          {
+            "value": "\"squircle\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": {
+        "value": "'md'"
+      },
+      "description": "Sizing scale of the avatar.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+        "name": "AvatarRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+          "name": "AvatarRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "AvatarSize | undefined",
+        "value": [
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "src": {
+      "defaultValue": null,
+      "description": "Image source URL when using the concise single-element API.",
+      "name": "src",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+        "name": "AvatarRootProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+          "name": "AvatarRootProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
     "Image": {
       "name": "Avatar.Image",
       "props": {
-        "src": {
-          "defaultValue": null,
-          "description": "",
-          "name": "src",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-            "name": "AvatarImageProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-              "name": "AvatarImageProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": null
-        },
         "alt": {
           "defaultValue": {
             "value": ""
@@ -302,6 +282,26 @@
           },
           "shortPropTypeName": null
         },
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
         "onLoadingStatusChange": {
           "defaultValue": null,
           "description": "",
@@ -322,6 +322,47 @@
           },
           "shortPropTypeName": "function"
         },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLImageElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "src": {
+          "defaultValue": null,
+          "description": "",
+          "name": "src",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+            "name": "AvatarImageProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+              "name": "AvatarImageProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Fallback": {
+      "name": "Avatar.Fallback",
+      "props": {
         "className": {
           "defaultValue": null,
           "description": "",
@@ -342,27 +383,6 @@
           },
           "shortPropTypeName": "string | function"
         },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLImageElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        }
-      }
-    },
-    "Fallback": {
-      "name": "Avatar.Fallback",
-      "props": {
         "name": {
           "defaultValue": null,
           "description": "User full name used to generate 2-letter uppercase initials when no children are provided.",
@@ -382,26 +402,6 @@
             "name": "string | undefined"
           },
           "shortPropTypeName": null
-        },
-        "className": {
-          "defaultValue": null,
-          "description": "",
-          "name": "className",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-            "name": "HTMLAttributes"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-              "name": "HTMLAttributes"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": "string | function"
         },
         "ref": {
           "defaultValue": null,
@@ -424,45 +424,25 @@
     "Badge": {
       "name": "Avatar.Badge",
       "props": {
-        "status": {
-          "defaultValue": {
-            "value": "online"
-          },
-          "description": "Activity or status intent.",
-          "name": "status",
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
           "parent": {
-            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-            "name": "AvatarBadgeProps"
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
           },
           "declarations": [
             {
-              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-              "name": "AvatarBadgeProps"
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
             }
           ],
           "required": false,
           "type": {
-            "name": "enum",
-            "raw": "AvatarBadgeStatus | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"online\""
-              },
-              {
-                "value": "\"offline\""
-              },
-              {
-                "value": "\"away\""
-              },
-              {
-                "value": "\"busy\""
-              }
-            ]
+            "name": "string | undefined"
           },
-          "shortPropTypeName": null
+          "shortPropTypeName": "string | function"
         },
         "placement": {
           "defaultValue": {
@@ -486,23 +466,39 @@
             "raw": "AvatarBadgePlacement | undefined",
             "value": [
               {
-                "value": "undefined"
+                "value": "\"bottom-left\""
               },
               {
                 "value": "\"bottom-right\""
               },
               {
+                "value": "\"top-left\""
+              },
+              {
                 "value": "\"top-right\""
               },
               {
-                "value": "\"bottom-left\""
-              },
-              {
-                "value": "\"top-left\""
+                "value": "undefined"
               }
             ]
           },
           "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLSpanElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
         },
         "size": {
           "defaultValue": null,
@@ -524,30 +520,75 @@
             "raw": "AvatarSize | undefined",
             "value": [
               {
-                "value": "undefined"
-              },
-              {
                 "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
               },
               {
                 "value": "\"lg\""
               },
               {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
                 "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "undefined"
               }
             ]
           },
           "shortPropTypeName": null
         },
+        "status": {
+          "defaultValue": {
+            "value": "online"
+          },
+          "description": "Activity or status intent.",
+          "name": "status",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+            "name": "AvatarBadgeProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+              "name": "AvatarBadgeProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarBadgeStatus | undefined",
+            "value": [
+              {
+                "value": "\"away\""
+              },
+              {
+                "value": "\"busy\""
+              },
+              {
+                "value": "\"offline\""
+              },
+              {
+                "value": "\"online\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Group": {
+      "name": "Avatar.Group",
+      "props": {
         "className": {
           "defaultValue": null,
           "description": "",
@@ -568,27 +609,6 @@
           },
           "shortPropTypeName": "string | function"
         },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLSpanElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        }
-      }
-    },
-    "Group": {
-      "name": "Avatar.Group",
-      "props": {
         "max": {
           "defaultValue": null,
           "description": "Maximum number of visible avatars before rendering a +N overflow indicator.",
@@ -606,92 +626,6 @@
           "required": false,
           "type": {
             "name": "number | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "size": {
-          "defaultValue": {
-            "value": "md"
-          },
-          "description": "Shared size scale propagated to all child avatars.",
-          "name": "size",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-            "name": "AvatarGroupProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-              "name": "AvatarGroupProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "AvatarSize | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "shape": {
-          "defaultValue": {
-            "value": "circle"
-          },
-          "description": "Shared shape geometry propagated to all child avatars.",
-          "name": "shape",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-            "name": "AvatarGroupProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
-              "name": "AvatarGroupProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "AvatarShape | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"circle\""
-              },
-              {
-                "value": "\"square\""
-              },
-              {
-                "value": "\"squircle\""
-              },
-              {
-                "value": "\"rounded\""
-              }
-            ]
           },
           "shortPropTypeName": null
         },
@@ -717,26 +651,6 @@
           },
           "shortPropTypeName": null
         },
-        "className": {
-          "defaultValue": null,
-          "description": "",
-          "name": "className",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-            "name": "HTMLAttributes"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-              "name": "HTMLAttributes"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": "string | function"
-        },
         "ref": {
           "defaultValue": null,
           "description": "",
@@ -752,6 +666,92 @@
             "name": "Ref<HTMLDivElement> | undefined"
           },
           "shortPropTypeName": "Union"
+        },
+        "shape": {
+          "defaultValue": {
+            "value": "circle"
+          },
+          "description": "Shared shape geometry propagated to all child avatars.",
+          "name": "shape",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+            "name": "AvatarGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+              "name": "AvatarGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarShape | undefined",
+            "value": [
+              {
+                "value": "\"circle\""
+              },
+              {
+                "value": "\"rounded\""
+              },
+              {
+                "value": "\"square\""
+              },
+              {
+                "value": "\"squircle\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": {
+            "value": "md"
+          },
+          "description": "Shared size scale propagated to all child avatars.",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+            "name": "AvatarGroupProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Avatar.tsx",
+              "name": "AvatarGroupProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "AvatarSize | undefined",
+            "value": [
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
         }
       }
     },
@@ -759,589 +759,25 @@
       "name": "Avatar.getInitials",
       "description": "Extracts uppercase 1-2 character initials from a full name.",
       "props": {
-        "toString": {
-          "defaultValue": {},
-          "description": "Returns a string representation of a string.",
-          "name": "toString",
+        "__@iterator@29": {
+          "defaultValue": null,
+          "description": "Iterator",
+          "name": "__@iterator@29",
           "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
             "name": "String"
           },
           "declarations": [
             {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
               "name": "String"
             }
           ],
-          "required": false,
+          "required": true,
           "type": {
-            "name": "() => string"
+            "name": "() => StringIterator<string>"
           },
           "shortPropTypeName": null
-        },
-        "charAt": {
-          "defaultValue": null,
-          "description": "Returns the character at the specified index.\n@param pos The zero-based index of the desired character.",
-          "name": "charAt",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(pos: number) => string"
-          },
-          "shortPropTypeName": null
-        },
-        "charCodeAt": {
-          "defaultValue": null,
-          "description": "Returns the Unicode value of the character at the specified location.\n@param index The zero-based index of the desired character. If there is no character at the specified index, NaN is returned.",
-          "name": "charCodeAt",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(index: number) => number"
-          },
-          "shortPropTypeName": null
-        },
-        "concat": {
-          "defaultValue": null,
-          "description": "Returns a string that contains the concatenation of two or more strings.\n@param strings The strings to append to the end of the string.",
-          "name": "concat",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(...strings: string[]) => string"
-          },
-          "shortPropTypeName": null
-        },
-        "indexOf": {
-          "defaultValue": null,
-          "description": "Returns the position of the first occurrence of a substring, or -1 if it is not present.\n@param searchString The substring to search for in the string\n@param position The index at which to begin searching the String object. If omitted, search starts at the beginning of the string.",
-          "name": "indexOf",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(searchString: string, position?: number | undefined) => number"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "lastIndexOf": {
-          "defaultValue": null,
-          "description": "Returns the last occurrence of a substring in the string, or -1 if it is not present.\n@param searchString The substring to search for.\n@param position The index at which to begin searching. If omitted, the search begins at the end of the string.",
-          "name": "lastIndexOf",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(searchString: string, position?: number | undefined) => number"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "localeCompare": {
-          "defaultValue": null,
-          "description": "Determines whether two strings are equivalent in the current locale.\nDetermines whether two strings are equivalent in the current or specified locale.\n@param that String to compare to target string\n@param that String to compare to target string\n@param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used. This parameter must conform to BCP 47 standards; see the Intl.Collator object for details.\n@param options An object that contains one or more properties that specify comparison options. see the Intl.Collator object for details.\n@param that String to compare to target string\n@param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used. This parameter must conform to BCP 47 standards; see the Intl.Collator object for details.\n@param options An object that contains one or more properties that specify comparison options. see the Intl.Collator object for details.",
-          "name": "localeCompare",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "| { (that: string): number; (that: string, locales?: string \n|  string[] \n|  undefined, options?: CollatorOptions \n|  undefined): number; (that: string, locales?: LocalesArgument, options?: CollatorOptions \n|  undefined): number; }\n"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "match": {
-          "defaultValue": null,
-          "description": "Matches a string with a regular expression, and returns an array containing the results of that search.\nMatches a string or an object that supports being matched against, and returns an array\ncontaining the results of that search, or null if no matches are found.\n@param regexp A variable name or string literal containing the regular expression pattern and flags.\n@param matcher An object that supports being matched against.",
-          "name": "match",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "| { (regexp: string \n|  RegExp): RegExpMatchArray \n|  null; (matcher: { [Symbol.match](string: string): RegExpMatchArray \n|  null; }): RegExpMatchArray \n|  null; }\n"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "replace": {
-          "defaultValue": null,
-          "description": "Replaces text in a string, using a regular expression or search string.\nPasses a string and {@linkcode replaceValue} to the `[Symbol.replace]` method on {@linkcode searchValue}. This method is expected to implement its own replacement algorithm.\nReplaces text in a string, using an object that supports replacement within a string.\n@param searchValue A string or regular expression to search for.\n@param replaceValue A string containing the text to replace. When the {@linkcode searchValue } is a `RegExp`, all matches are replaced if the `g` flag is set (or only those matches at the beginning, if the `y` flag is also present). Otherwise, only the first match of {@linkcode searchValue } is replaced.\n@param searchValue A string to search for.\n@param replacer A function that returns the replacement text.\n@param searchValue An object that supports searching for and replacing matches within a string.\n@param replaceValue The replacement text.\n@param searchValue A object can search for and replace matches within a string.\n@param replacer A function that returns the replacement text.",
-          "name": "replace",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "{ (searchValue: string | RegExp, replaceValue: string): string; (searchValue: string | RegExp, replacer: (substring: string, ...args: any[]) => string): string; (searchValue: { ...; }, replaceValue: string): string; (searchValue: { ...; }, replacer: (substring: string, ...args: any[]) => string): string; }"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "search": {
-          "defaultValue": null,
-          "description": "Finds the first substring match in a regular expression search.\n@param regexp The regular expression pattern and applicable flags.\n@param searcher An object which supports searching within a string.",
-          "name": "search",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "{ (regexp: string | RegExp): number; (searcher: { [Symbol.search](string: string): number; }): number; }"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "slice": {
-          "defaultValue": null,
-          "description": "Returns a section of a string.\n@param start The index to the beginning of the specified portion of stringObj.\n@param end The index to the end of the specified portion of stringObj. The substring includes the characters up to, but not including, the character indicated by end.\nIf this value is not specified, the substring continues to the end of stringObj.",
-          "name": "slice",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(start?: number | undefined, end?: number | undefined) => string"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "split": {
-          "defaultValue": null,
-          "description": "Split a string into substrings using the specified separator and return them as an array.\n@param separator A string that identifies character or characters to use in separating the string. If omitted, a single-element array containing the entire string is returned.\n@param limit A value used to limit the number of elements returned in the array.\n@param splitter An object that can split a string.\n@param limit A value used to limit the number of elements returned in the array.",
-          "name": "split",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "| { (separator: string \n|  RegExp, limit?: number \n|  undefined): string[]; (splitter: { [Symbol.split](string: string, limit?: number \n|  undefined): string[]; }, limit?: number \n|  undefined): string[]; }\n"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "substring": {
-          "defaultValue": null,
-          "description": "Returns the substring at the specified location within a String object.\n@param start The zero-based index number indicating the beginning of the substring.\n@param end Zero-based index number indicating the end of the substring. The substring includes the characters up to, but not including, the character indicated by end.\nIf end is omitted, the characters from start through the end of the original string are returned.",
-          "name": "substring",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(start: number, end?: number | undefined) => string"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "toLowerCase": {
-          "defaultValue": null,
-          "description": "Converts all the alphabetic characters in a string to lowercase.",
-          "name": "toLowerCase",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "() => string"
-          },
-          "shortPropTypeName": null
-        },
-        "toLocaleLowerCase": {
-          "defaultValue": null,
-          "description": "Converts all alphabetic characters to lowercase, taking into account the host environment's current locale.",
-          "name": "toLocaleLowerCase",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "{ (locales?: string | string[] | undefined): string; (locales?: LocalesArgument): string; }"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "toUpperCase": {
-          "defaultValue": null,
-          "description": "Converts all the alphabetic characters in a string to uppercase.",
-          "name": "toUpperCase",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "() => string"
-          },
-          "shortPropTypeName": null
-        },
-        "toLocaleUpperCase": {
-          "defaultValue": null,
-          "description": "Returns a string where all alphabetic characters have been converted to uppercase, taking into account the host environment's current locale.",
-          "name": "toLocaleUpperCase",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "{ (locales?: string | string[] | undefined): string; (locales?: LocalesArgument): string; }"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "trim": {
-          "defaultValue": null,
-          "description": "Removes the leading and trailing white space and line terminator characters from a string.",
-          "name": "trim",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "() => string"
-          },
-          "shortPropTypeName": null
-        },
-        "length": {
-          "defaultValue": null,
-          "description": "Returns the length of a String object.",
-          "name": "length",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "number"
-          },
-          "shortPropTypeName": null
-        },
-        "substr": {
-          "defaultValue": null,
-          "description": "Gets a substring beginning at the specified location and having the specified length.\n@deprecated A legacy feature for browser compatibility\n@param from The starting position of the desired substring. The index of the first character in the string is zero.\n@param length The number of characters to include in the returned substring.",
-          "name": "substr",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(from: number, length?: number | undefined) => string"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "valueOf": {
-          "defaultValue": {},
-          "description": "Returns the primitive value of the specified object.",
-          "name": "valueOf",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "() => string"
-          },
-          "shortPropTypeName": null
-        },
-        "codePointAt": {
-          "defaultValue": null,
-          "description": "Returns a nonnegative integer Number less than 1114112 (0x110000) that is the code point\nvalue of the UTF-16 encoded code point starting at the string element at position pos in\nthe String resulting from converting this object to a String.\nIf there is no element at that position, the result is undefined.\nIf a valid UTF-16 surrogate pair does not begin at pos, the result is the code unit at pos.",
-          "name": "codePointAt",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(pos: number) => number | undefined"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "includes": {
-          "defaultValue": null,
-          "description": "Returns true if searchString appears as a substring of the result of converting this\nobject to a String, at one or more positions that are\ngreater than or equal to position; otherwise, returns false.\n@param searchString search string\n@param position If position is undefined, 0 is assumed, so as to search all of the String.",
-          "name": "includes",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(searchString: string, position?: number | undefined) => boolean"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "endsWith": {
-          "defaultValue": null,
-          "description": "Returns true if the sequence of elements of searchString converted to a String is the\nsame as the corresponding elements of this object (converted to a String) starting at\nendPosition – length(this). Otherwise returns false.",
-          "name": "endsWith",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(searchString: string, endPosition?: number | undefined) => boolean"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "normalize": {
-          "defaultValue": null,
-          "description": "Returns the String value result of normalizing the string into the normalization form\nnamed by form as specified in Unicode Standard Annex #15, Unicode Normalization Forms.\n@param form Applicable values: \"NFC\", \"NFD\", \"NFKC\", or \"NFKD\", If not specified default\nis \"NFC\"\n@param form Applicable values: \"NFC\", \"NFD\", \"NFKC\", or \"NFKD\", If not specified default\nis \"NFC\"",
-          "name": "normalize",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "| { (form: \"NFC\" \n|  \"NFD\" \n|  \"NFKC\" \n|  \"NFKD\"): string; (form?: string \n|  undefined): string; }\n"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "repeat": {
-          "defaultValue": null,
-          "description": "Returns a String value that is made from count copies appended together. If count is 0,\nthe empty string is returned.\n@param count number of copies to append",
-          "name": "repeat",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(count: number) => string"
-          },
-          "shortPropTypeName": null
-        },
-        "startsWith": {
-          "defaultValue": null,
-          "description": "Returns true if the sequence of elements of searchString converted to a String is the\nsame as the corresponding elements of this object (converted to a String) starting at\nposition. Otherwise returns false.",
-          "name": "startsWith",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(searchString: string, position?: number | undefined) => boolean"
-          },
-          "shortPropTypeName": "Union"
         },
         "anchor": {
           "defaultValue": null,
@@ -1362,6 +798,26 @@
             "name": "(name: string) => string"
           },
           "shortPropTypeName": null
+        },
+        "at": {
+          "defaultValue": null,
+          "description": "Returns a new String consisting of the single UTF-16 code unit located at the specified index.\n@param index The zero-based index of the desired code unit. A negative index will count back from the last item.",
+          "name": "at",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2022.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2022.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(index: number) => string | undefined"
+          },
+          "shortPropTypeName": "Union"
         },
         "big": {
           "defaultValue": null,
@@ -1422,6 +878,106 @@
             "name": "() => string"
           },
           "shortPropTypeName": null
+        },
+        "charAt": {
+          "defaultValue": null,
+          "description": "Returns the character at the specified index.\n@param pos The zero-based index of the desired character.",
+          "name": "charAt",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(pos: number) => string"
+          },
+          "shortPropTypeName": null
+        },
+        "charCodeAt": {
+          "defaultValue": null,
+          "description": "Returns the Unicode value of the character at the specified location.\n@param index The zero-based index of the desired character. If there is no character at the specified index, NaN is returned.",
+          "name": "charCodeAt",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(index: number) => number"
+          },
+          "shortPropTypeName": null
+        },
+        "codePointAt": {
+          "defaultValue": null,
+          "description": "Returns a nonnegative integer Number less than 1114112 (0x110000) that is the code point\nvalue of the UTF-16 encoded code point starting at the string element at position pos in\nthe String resulting from converting this object to a String.\nIf there is no element at that position, the result is undefined.\nIf a valid UTF-16 surrogate pair does not begin at pos, the result is the code unit at pos.",
+          "name": "codePointAt",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(pos: number) => number | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "concat": {
+          "defaultValue": null,
+          "description": "Returns a string that contains the concatenation of two or more strings.\n@param strings The strings to append to the end of the string.",
+          "name": "concat",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(...strings: string[]) => string"
+          },
+          "shortPropTypeName": null
+        },
+        "endsWith": {
+          "defaultValue": null,
+          "description": "Returns true if the sequence of elements of searchString converted to a String is the\nsame as the corresponding elements of this object (converted to a String) starting at\nendPosition – length(this). Otherwise returns false.",
+          "name": "endsWith",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(searchString: string, endPosition?: number | undefined) => boolean"
+          },
+          "shortPropTypeName": "Union"
         },
         "fixed": {
           "defaultValue": null,
@@ -1487,6 +1043,66 @@
           },
           "shortPropTypeName": null
         },
+        "includes": {
+          "defaultValue": null,
+          "description": "Returns true if searchString appears as a substring of the result of converting this\nobject to a String, at one or more positions that are\ngreater than or equal to position; otherwise, returns false.\n@param searchString search string\n@param position If position is undefined, 0 is assumed, so as to search all of the String.",
+          "name": "includes",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(searchString: string, position?: number | undefined) => boolean"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "indexOf": {
+          "defaultValue": null,
+          "description": "Returns the position of the first occurrence of a substring, or -1 if it is not present.\n@param searchString The substring to search for in the string\n@param position The index at which to begin searching the String object. If omitted, search starts at the beginning of the string.",
+          "name": "indexOf",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(searchString: string, position?: number | undefined) => number"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "isWellFormed": {
+          "defaultValue": null,
+          "description": "Returns true if all leading surrogates and trailing surrogates appear paired and in order.",
+          "name": "isWellFormed",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "() => boolean"
+          },
+          "shortPropTypeName": null
+        },
         "italics": {
           "defaultValue": null,
           "description": "Returns an `<i>` HTML element\n@deprecated A legacy feature for browser compatibility",
@@ -1504,6 +1120,46 @@
           "required": true,
           "type": {
             "name": "() => string"
+          },
+          "shortPropTypeName": null
+        },
+        "lastIndexOf": {
+          "defaultValue": null,
+          "description": "Returns the last occurrence of a substring in the string, or -1 if it is not present.\n@param searchString The substring to search for.\n@param position The index at which to begin searching. If omitted, the search begins at the end of the string.",
+          "name": "lastIndexOf",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(searchString: string, position?: number | undefined) => number"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "length": {
+          "defaultValue": null,
+          "description": "Returns the length of a String object.",
+          "name": "length",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "number"
           },
           "shortPropTypeName": null
         },
@@ -1527,6 +1183,262 @@
           },
           "shortPropTypeName": null
         },
+        "localeCompare": {
+          "defaultValue": null,
+          "description": "Determines whether two strings are equivalent in the current locale.\nDetermines whether two strings are equivalent in the current or specified locale.\n@param that String to compare to target string\n@param that String to compare to target string\n@param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used. This parameter must conform to BCP 47 standards; see the Intl.Collator object for details.\n@param options An object that contains one or more properties that specify comparison options. see the Intl.Collator object for details.\n@param that String to compare to target string\n@param locales A locale string or array of locale strings that contain one or more language or locale tags. If you include more than one locale string, list them in descending order of priority so that the first entry is the preferred locale. If you omit this parameter, the default locale of the JavaScript runtime is used. This parameter must conform to BCP 47 standards; see the Intl.Collator object for details.\n@param options An object that contains one or more properties that specify comparison options. see the Intl.Collator object for details.",
+          "name": "localeCompare",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "| { (that: string): number; (that: string, locales?: string \n|  string[] \n|  undefined, options?: CollatorOptions \n|  undefined): number; (that: string, locales?: LocalesArgument, options?: CollatorOptions \n|  undefined): number; }\n"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "match": {
+          "defaultValue": null,
+          "description": "Matches a string with a regular expression, and returns an array containing the results of that search.\nMatches a string or an object that supports being matched against, and returns an array\ncontaining the results of that search, or null if no matches are found.\n@param regexp A variable name or string literal containing the regular expression pattern and flags.\n@param matcher An object that supports being matched against.",
+          "name": "match",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "| { (regexp: string \n|  RegExp): RegExpMatchArray \n|  null; (matcher: { [Symbol.match](string: string): RegExpMatchArray \n|  null; }): RegExpMatchArray \n|  null; }\n"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "matchAll": {
+          "defaultValue": null,
+          "description": "Matches a string with a regular expression, and returns an iterable of matches\ncontaining the results of that search.\n@param regexp A regular expression",
+          "name": "matchAll",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(regexp: RegExp) => RegExpStringIterator<RegExpExecArray>"
+          },
+          "shortPropTypeName": null
+        },
+        "normalize": {
+          "defaultValue": null,
+          "description": "Returns the String value result of normalizing the string into the normalization form\nnamed by form as specified in Unicode Standard Annex #15, Unicode Normalization Forms.\n@param form Applicable values: \"NFC\", \"NFD\", \"NFKC\", or \"NFKD\", If not specified default\nis \"NFC\"\n@param form Applicable values: \"NFC\", \"NFD\", \"NFKC\", or \"NFKD\", If not specified default\nis \"NFC\"",
+          "name": "normalize",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "| { (form: \"NFC\" \n|  \"NFD\" \n|  \"NFKC\" \n|  \"NFKD\"): string; (form?: string \n|  undefined): string; }\n"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "padEnd": {
+          "defaultValue": null,
+          "description": "Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length.\nThe padding is applied from the end (right) of the current string.\n@param maxLength The length of the resulting string once the current string has been padded.\nIf this parameter is smaller than the current string's length, the current string will be returned as it is.\n@param fillString The string to pad the current string with.\nIf this string is too long, it will be truncated and the left-most part will be applied.\nThe default value for this parameter is \" \" (U+0020).",
+          "name": "padEnd",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(maxLength: number, fillString?: string | undefined) => string"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "padStart": {
+          "defaultValue": null,
+          "description": "Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length.\nThe padding is applied from the start (left) of the current string.\n@param maxLength The length of the resulting string once the current string has been padded.\nIf this parameter is smaller than the current string's length, the current string will be returned as it is.\n@param fillString The string to pad the current string with.\nIf this string is too long, it will be truncated and the left-most part will be applied.\nThe default value for this parameter is \" \" (U+0020).",
+          "name": "padStart",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(maxLength: number, fillString?: string | undefined) => string"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "repeat": {
+          "defaultValue": null,
+          "description": "Returns a String value that is made from count copies appended together. If count is 0,\nthe empty string is returned.\n@param count number of copies to append",
+          "name": "repeat",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(count: number) => string"
+          },
+          "shortPropTypeName": null
+        },
+        "replace": {
+          "defaultValue": null,
+          "description": "Replaces text in a string, using a regular expression or search string.\nPasses a string and {@linkcode replaceValue} to the `[Symbol.replace]` method on {@linkcode searchValue}. This method is expected to implement its own replacement algorithm.\nReplaces text in a string, using an object that supports replacement within a string.\n@param searchValue A string or regular expression to search for.\n@param replaceValue A string containing the text to replace. When the {@linkcode searchValue } is a `RegExp`, all matches are replaced if the `g` flag is set (or only those matches at the beginning, if the `y` flag is also present). Otherwise, only the first match of {@linkcode searchValue } is replaced.\n@param searchValue A string to search for.\n@param replacer A function that returns the replacement text.\n@param searchValue An object that supports searching for and replacing matches within a string.\n@param replaceValue The replacement text.\n@param searchValue A object can search for and replace matches within a string.\n@param replacer A function that returns the replacement text.",
+          "name": "replace",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "{ (searchValue: string | RegExp, replaceValue: string): string; (searchValue: string | RegExp, replacer: (substring: string, ...args: any[]) => string): string; (searchValue: { ...; }, replaceValue: string): string; (searchValue: { ...; }, replacer: (substring: string, ...args: any[]) => string): string; }"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "replaceAll": {
+          "defaultValue": null,
+          "description": "Replace all instances of a substring in a string, using a regular expression or search string.\n@param searchValue A string to search for.\n@param replaceValue A string containing the text to replace for every successful match of searchValue in this string.\n@param searchValue A string to search for.\n@param replacer A function that returns the replacement text.",
+          "name": "replaceAll",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2021.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2021.string.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2021.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "{ (searchValue: string | RegExp, replaceValue: string): string; (searchValue: string | RegExp, replacer: (substring: string, ...args: any[]) => string): string; }"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "search": {
+          "defaultValue": null,
+          "description": "Finds the first substring match in a regular expression search.\n@param regexp The regular expression pattern and applicable flags.\n@param searcher An object which supports searching within a string.",
+          "name": "search",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "{ (regexp: string | RegExp): number; (searcher: { [Symbol.search](string: string): number; }): number; }"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "slice": {
+          "defaultValue": null,
+          "description": "Returns a section of a string.\n@param start The index to the beginning of the specified portion of stringObj.\n@param end The index to the end of the specified portion of stringObj. The substring includes the characters up to, but not including, the character indicated by end.\nIf this value is not specified, the substring continues to the end of stringObj.",
+          "name": "slice",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(start?: number | undefined, end?: number | undefined) => string"
+          },
+          "shortPropTypeName": "Union"
+        },
         "small": {
           "defaultValue": null,
           "description": "Returns a `<small>` HTML element\n@deprecated A legacy feature for browser compatibility",
@@ -1546,6 +1458,50 @@
             "name": "() => string"
           },
           "shortPropTypeName": null
+        },
+        "split": {
+          "defaultValue": null,
+          "description": "Split a string into substrings using the specified separator and return them as an array.\n@param separator A string that identifies character or characters to use in separating the string. If omitted, a single-element array containing the entire string is returned.\n@param limit A value used to limit the number of elements returned in the array.\n@param splitter An object that can split a string.\n@param limit A value used to limit the number of elements returned in the array.",
+          "name": "split",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "| { (separator: string \n|  RegExp, limit?: number \n|  undefined): string[]; (splitter: { [Symbol.split](string: string, limit?: number \n|  undefined): string[]; }, limit?: number \n|  undefined): string[]; }\n"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "startsWith": {
+          "defaultValue": null,
+          "description": "Returns true if the sequence of elements of searchString converted to a String is the\nsame as the corresponding elements of this object (converted to a String) starting at\nposition. Otherwise returns false.",
+          "name": "startsWith",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.core.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(searchString: string, position?: number | undefined) => boolean"
+          },
+          "shortPropTypeName": "Union"
         },
         "strike": {
           "defaultValue": null,
@@ -1587,6 +1543,46 @@
           },
           "shortPropTypeName": null
         },
+        "substr": {
+          "defaultValue": null,
+          "description": "Gets a substring beginning at the specified location and having the specified length.\n@deprecated A legacy feature for browser compatibility\n@param from The starting position of the desired substring. The index of the first character in the string is zero.\n@param length The number of characters to include in the returned substring.",
+          "name": "substr",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(from: number, length?: number | undefined) => string"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "substring": {
+          "defaultValue": null,
+          "description": "Returns the substring at the specified location within a String object.\n@param start The zero-based index number indicating the beginning of the substring.\n@param end Zero-based index number indicating the end of the substring. The substring includes the characters up to, but not including, the character indicated by end.\nIf end is omitted, the characters from start through the end of the original string are returned.",
+          "name": "substring",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "(start: number, end?: number | undefined) => string"
+          },
+          "shortPropTypeName": "Union"
+        },
         "sup": {
           "defaultValue": null,
           "description": "Returns a `<sup>` HTML element\n@deprecated A legacy feature for browser compatibility",
@@ -1607,57 +1603,65 @@
           },
           "shortPropTypeName": null
         },
-        "padStart": {
+        "toLocaleLowerCase": {
           "defaultValue": null,
-          "description": "Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length.\nThe padding is applied from the start (left) of the current string.\n@param maxLength The length of the resulting string once the current string has been padded.\nIf this parameter is smaller than the current string's length, the current string will be returned as it is.\n@param fillString The string to pad the current string with.\nIf this string is too long, it will be truncated and the left-most part will be applied.\nThe default value for this parameter is \" \" (U+0020).",
-          "name": "padStart",
+          "description": "Converts all alphabetic characters to lowercase, taking into account the host environment's current locale.",
+          "name": "toLocaleLowerCase",
           "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
             "name": "String"
           },
           "declarations": [
             {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
               "name": "String"
             }
           ],
           "required": true,
           "type": {
-            "name": "(maxLength: number, fillString?: string | undefined) => string"
+            "name": "{ (locales?: string | string[] | undefined): string; (locales?: LocalesArgument): string; }"
           },
           "shortPropTypeName": "Union"
         },
-        "padEnd": {
+        "toLocaleUpperCase": {
           "defaultValue": null,
-          "description": "Pads the current string with a given string (possibly repeated) so that the resulting string reaches a given length.\nThe padding is applied from the end (right) of the current string.\n@param maxLength The length of the resulting string once the current string has been padded.\nIf this parameter is smaller than the current string's length, the current string will be returned as it is.\n@param fillString The string to pad the current string with.\nIf this string is too long, it will be truncated and the left-most part will be applied.\nThe default value for this parameter is \" \" (U+0020).",
-          "name": "padEnd",
+          "description": "Returns a string where all alphabetic characters have been converted to uppercase, taking into account the host environment's current locale.",
+          "name": "toLocaleUpperCase",
           "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
             "name": "String"
           },
           "declarations": [
             {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2017.string.d.ts",
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            },
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
               "name": "String"
             }
           ],
           "required": true,
           "type": {
-            "name": "(maxLength: number, fillString?: string | undefined) => string"
+            "name": "{ (locales?: string | string[] | undefined): string; (locales?: LocalesArgument): string; }"
           },
           "shortPropTypeName": "Union"
         },
-        "trimEnd": {
+        "toLowerCase": {
           "defaultValue": null,
-          "description": "Removes the trailing white space and line terminator characters from a string.",
-          "name": "trimEnd",
+          "description": "Converts all the alphabetic characters in a string to lowercase.",
+          "name": "toLowerCase",
           "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2019.string.d.ts",
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
             "name": "String"
           },
           "declarations": [
             {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2019.string.d.ts",
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
               "name": "String"
             }
           ],
@@ -1667,10 +1671,90 @@
           },
           "shortPropTypeName": null
         },
-        "trimStart": {
+        "toString": {
+          "defaultValue": {},
+          "description": "Returns a string representation of a string.",
+          "name": "toString",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "() => string"
+          },
+          "shortPropTypeName": null
+        },
+        "toUpperCase": {
           "defaultValue": null,
-          "description": "Removes the leading white space and line terminator characters from a string.",
-          "name": "trimStart",
+          "description": "Converts all the alphabetic characters in a string to uppercase.",
+          "name": "toUpperCase",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "() => string"
+          },
+          "shortPropTypeName": null
+        },
+        "toWellFormed": {
+          "defaultValue": null,
+          "description": "Returns a string where all lone or out-of-order surrogates have been replaced by the Unicode replacement character (U+FFFD).",
+          "name": "toWellFormed",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "() => string"
+          },
+          "shortPropTypeName": null
+        },
+        "trim": {
+          "defaultValue": null,
+          "description": "Removes the leading and trailing white space and line terminator characters from a string.",
+          "name": "trim",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+            "name": "String"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
+              "name": "String"
+            }
+          ],
+          "required": true,
+          "type": {
+            "name": "() => string"
+          },
+          "shortPropTypeName": null
+        },
+        "trimEnd": {
+          "defaultValue": null,
+          "description": "Removes the trailing white space and line terminator characters from a string.",
+          "name": "trimEnd",
           "parent": {
             "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2019.string.d.ts",
             "name": "String"
@@ -1727,101 +1811,17 @@
           },
           "shortPropTypeName": null
         },
-        "matchAll": {
+        "trimStart": {
           "defaultValue": null,
-          "description": "Matches a string with a regular expression, and returns an iterable of matches\ncontaining the results of that search.\n@param regexp A regular expression",
-          "name": "matchAll",
+          "description": "Removes the leading white space and line terminator characters from a string.",
+          "name": "trimStart",
           "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2019.string.d.ts",
             "name": "String"
           },
           "declarations": [
             {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2020.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(regexp: RegExp) => RegExpStringIterator<RegExpExecArray>"
-          },
-          "shortPropTypeName": null
-        },
-        "replaceAll": {
-          "defaultValue": null,
-          "description": "Replace all instances of a substring in a string, using a regular expression or search string.\n@param searchValue A string to search for.\n@param replaceValue A string containing the text to replace for every successful match of searchValue in this string.\n@param searchValue A string to search for.\n@param replacer A function that returns the replacement text.",
-          "name": "replaceAll",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2021.string.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2021.string.d.ts",
-              "name": "String"
-            },
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2021.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "{ (searchValue: string | RegExp, replaceValue: string): string; (searchValue: string | RegExp, replacer: (substring: string, ...args: any[]) => string): string; }"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "at": {
-          "defaultValue": null,
-          "description": "Returns a new String consisting of the single UTF-16 code unit located at the specified index.\n@param index The zero-based index of the desired code unit. A negative index will count back from the last item.",
-          "name": "at",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2022.string.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2022.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "(index: number) => string | undefined"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "isWellFormed": {
-          "defaultValue": null,
-          "description": "Returns true if all leading surrogates and trailing surrogates appear paired and in order.",
-          "name": "isWellFormed",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
-              "name": "String"
-            }
-          ],
-          "required": true,
-          "type": {
-            "name": "() => boolean"
-          },
-          "shortPropTypeName": null
-        },
-        "toWellFormed": {
-          "defaultValue": null,
-          "description": "Returns a string where all lone or out-of-order surrogates have been replaced by the Unicode replacement character (U+FFFD).",
-          "name": "toWellFormed",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
-            "name": "String"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2024.string.d.ts",
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2019.string.d.ts",
               "name": "String"
             }
           ],
@@ -1831,23 +1831,23 @@
           },
           "shortPropTypeName": null
         },
-        "__@iterator@29": {
-          "defaultValue": null,
-          "description": "Iterator",
-          "name": "__@iterator@29",
+        "valueOf": {
+          "defaultValue": {},
+          "description": "Returns the primitive value of the specified object.",
+          "name": "valueOf",
           "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+            "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
             "name": "String"
           },
           "declarations": [
             {
-              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+              "fileName": "cumulo/node_modules/.pnpm/typescript@6.0.3/node_modules/typescript/lib/lib.es5.d.ts",
               "name": "String"
             }
           ],
-          "required": true,
+          "required": false,
           "type": {
-            "name": "() => StringIterator<string>"
+            "name": "() => string"
           },
           "shortPropTypeName": null
         }

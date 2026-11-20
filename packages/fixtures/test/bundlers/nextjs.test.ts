@@ -1,6 +1,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { describe, it, expect } from 'vitest';
+
 import { buildNextAppRouter, buildNextPagesRouter } from '../../src/helpers/bundler-builders.js';
 
 const __filename = fileURLToPath(import.meta.url);

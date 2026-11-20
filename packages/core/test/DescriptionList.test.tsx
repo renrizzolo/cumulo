@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom/vitest';
-import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+
 import * as DescriptionList from '../src/components/DescriptionList.js';
 
 describe('DescriptionList Component', () => {

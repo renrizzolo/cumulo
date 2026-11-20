@@ -1,8 +1,8 @@
 'use client';
 
-import React from 'react';
-import { style } from '@cumulo/css';
 import { Table, Code, Text, vars, type VarPath, type VarValue } from '@cumulo/core';
+import { style } from '@cumulo/css';
+import React from 'react';
 
 export type TokenName = VarPath;
 export type TokenVariable = VarValue;

@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { recipe, cx, type RecipeVariants, style } from '@cumulo/css';
+import React from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import type { GapVariant } from '../layout.js';

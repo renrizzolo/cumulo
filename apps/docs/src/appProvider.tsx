@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
 import { RouterProvider } from '@renr/parcel-rsc-router';
+import React from 'react';
+
 import { flatRoutes } from '../routes';
 
 export function AppProvider({ children }: { children: React.ReactNode }): React.JSX.Element {

@@ -1,12 +1,13 @@
 'use client';
 
-import React, { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import React, { createContext, useContext, useMemo, type ReactNode } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { staticIntentStyles } from '../intents.js';
-import { HStack, VStack, type StackProps } from './Stack.js';
 import { Heading, type HeadingProps } from './Heading.js';
+import { HStack, VStack, type StackProps } from './Stack.js';
 import { Text, type TextProps } from './Text.js';
 
 const alertRecipe = recipe(

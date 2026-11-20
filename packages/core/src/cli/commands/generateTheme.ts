@@ -1,4 +1,5 @@
 import path from 'node:path';
+
 import { runThemeGeneration } from '../themeGenerator.js';
 
 export interface GenerateThemeCommandArgs {

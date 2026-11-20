@@ -1,7 +1,8 @@
-import React from 'react';
-import type { ElementProps } from '../ElementProps.js';
 import { style, cx } from '@cumulo/css';
+import React from 'react';
+
 import { vars } from '../contract.js';
+import type { ElementProps } from '../ElementProps.js';
 import { textBase } from '../typography.js';
 
 const labelStyle = style({

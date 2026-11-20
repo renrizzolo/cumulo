@@ -1,5 +1,6 @@
 'use client';
 
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -10,12 +11,9 @@ import React, {
   type KeyboardEvent,
   type MouseEvent,
 } from 'react';
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { Stack } from './Stack.js';
-import { focusRing } from '../intents.js';
-import { Panel } from './Panel.js';
 import {
   useValueGroup,
   createTypedCompound,
@@ -23,6 +21,9 @@ import {
   type ValueItemProps,
   type ValueGroupContextBase,
 } from '../hooks/useValueGroup.js';
+import { focusRing } from '../intents.js';
+import { Panel } from './Panel.js';
+import { Stack } from './Stack.js';
 
 type TabsOrientation = 'horizontal' | 'vertical';
 type TabsVariant = 'line' | 'pill' | 'bordered';

@@ -3,87 +3,44 @@
   "path": "../../packages/core/src/components/Collapsible.tsx",
   "fileName": "Collapsible.tsx",
   "props": {
-    "open": {
+    "align": {
       "defaultValue": null,
       "description": "",
-      "name": "open",
+      "name": "align",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-        "name": "CollapsibleProps"
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-          "name": "CollapsibleProps"
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "boolean | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "defaultOpen": {
-      "defaultValue": {
-        "value": "false"
-      },
-      "description": "",
-      "name": "defaultOpen",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-        "name": "CollapsibleProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-          "name": "CollapsibleProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "onOpenChange": {
-      "defaultValue": null,
-      "description": "",
-      "name": "onOpenChange",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-        "name": "CollapsibleProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-          "name": "CollapsibleProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "((open: boolean) => void) | undefined"
-      },
-      "shortPropTypeName": "function"
-    },
-    "disabled": {
-      "defaultValue": {
-        "value": "false"
-      },
-      "description": "",
-      "name": "disabled",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-        "name": "CollapsibleProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
-          "name": "CollapsibleProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "boolean | undefined"
+        "name": "enum",
+        "raw": "\"baseline\" | \"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
+        "value": [
+          {
+            "value": "\"baseline\""
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"stretch\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
       "shortPropTypeName": null
     },
@@ -107,341 +64,43 @@
         "raw": "StackTag | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"article\""
-          },
-          {
-            "value": "\"form\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"section\""
-          },
-          {
-            "value": "\"header\""
-          },
-          {
-            "value": "\"footer\""
-          },
-          {
-            "value": "\"nav\""
           },
           {
             "value": "\"aside\""
           },
           {
-            "value": "\"ul\""
+            "value": "\"div\""
+          },
+          {
+            "value": "\"footer\""
+          },
+          {
+            "value": "\"form\""
+          },
+          {
+            "value": "\"header\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"nav\""
           },
           {
             "value": "\"ol\""
           },
           {
+            "value": "\"section\""
+          },
+          {
             "value": "\"span\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "direction": {
-      "defaultValue": null,
-      "description": "",
-      "name": "direction",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"row\" | \"column\" | \"column-reverse\" | \"row-reverse\" | undefined",
-        "value": [
+          },
+          {
+            "value": "\"ul\""
+          },
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"row\""
-          },
-          {
-            "value": "\"column\""
-          },
-          {
-            "value": "\"column-reverse\""
-          },
-          {
-            "value": "\"row-reverse\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "gap": {
-      "defaultValue": null,
-      "description": "",
-      "name": "gap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "align": {
-      "defaultValue": null,
-      "description": "",
-      "name": "align",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"baseline\""
-          },
-          {
-            "value": "\"stretch\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "justify": {
-      "defaultValue": null,
-      "description": "",
-      "name": "justify",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"center\" | \"end\" | \"start\" | \"between\" | \"around\" | \"evenly\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"between\""
-          },
-          {
-            "value": "\"around\""
-          },
-          {
-            "value": "\"evenly\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "wrap": {
-      "defaultValue": null,
-      "description": "",
-      "name": "wrap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"wrap-reverse\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"wrap-reverse\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "inline": {
-      "defaultValue": null,
-      "description": "",
-      "name": "inline",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "| boolean \n|  \"true\" \n|  \"false\" \n|  undefined\n"
-      },
-      "shortPropTypeName": "Union"
-    },
-    "flex": {
-      "defaultValue": null,
-      "description": "",
-      "name": "flex",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"auto\""
-          },
-          {
-            "value": "\"initial\""
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "1"
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "width": {
-      "defaultValue": null,
-      "description": "",
-      "name": "width",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-        "name": "StackProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
-          "name": "StackProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"full\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"full\""
           }
         ]
       },
@@ -467,6 +126,283 @@
       },
       "shortPropTypeName": "string | function"
     },
+    "defaultOpen": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "defaultOpen",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "direction": {
+      "defaultValue": null,
+      "description": "",
+      "name": "direction",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
+        "value": [
+          {
+            "value": "\"column-reverse\""
+          },
+          {
+            "value": "\"column\""
+          },
+          {
+            "value": "\"row-reverse\""
+          },
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "disabled": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "",
+      "name": "disabled",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "value": [
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "gap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xl\" | \"2xs\" | \"3xs\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "inline": {
+      "defaultValue": null,
+      "description": "",
+      "name": "inline",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "| \"false\" \n|  \"true\" \n|  boolean \n|  undefined\n"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "justify": {
+      "defaultValue": null,
+      "description": "",
+      "name": "justify",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"around\" | \"between\" | \"center\" | \"end\" | \"evenly\" | \"start\" | undefined",
+        "value": [
+          {
+            "value": "\"around\""
+          },
+          {
+            "value": "\"between\""
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"evenly\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "onOpenChange": {
+      "defaultValue": null,
+      "description": "",
+      "name": "onOpenChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((open: boolean) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "open": {
+      "defaultValue": null,
+      "description": "",
+      "name": "open",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+        "name": "CollapsibleProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Collapsible.tsx",
+          "name": "CollapsibleProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "boolean | undefined"
+      },
+      "shortPropTypeName": null
+    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -482,233 +418,100 @@
         "name": "Ref<HTMLElement> | undefined"
       },
       "shortPropTypeName": null
+    },
+    "width": {
+      "defaultValue": null,
+      "description": "",
+      "name": "width",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"full\" | undefined",
+        "value": [
+          {
+            "value": "\"full\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+        "name": "StackProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Stack.tsx",
+          "name": "StackProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+        "value": [
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"wrap-reverse\""
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
     "Trigger": {
       "name": "Collapsible.Trigger",
       "props": {
-        "variant": {
-          "defaultValue": {
-            "value": "ghost"
-          },
-          "description": "",
-          "name": "variant",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"primary\""
-              },
-              {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"secondary\""
-              },
-              {
-                "value": "\"ghost\""
-              },
-              {
-                "value": "\"default\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "intent": {
+        "className": {
           "defaultValue": null,
           "description": "",
-          "name": "intent",
+          "name": "className",
           "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
           },
           "declarations": [
             {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
             }
           ],
           "required": false,
           "type": {
-            "name": "enum",
-            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"primary\""
-              },
-              {
-                "value": "\"success\""
-              },
-              {
-                "value": "\"warning\""
-              },
-              {
-                "value": "\"error\""
-              },
-              {
-                "value": "\"info\""
-              }
-            ]
+            "name": "string | undefined"
           },
-          "shortPropTypeName": null
-        },
-        "size": {
-          "defaultValue": null,
-          "description": "",
-          "name": "size",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"2xs\""
-              },
-              {
-                "value": "\"xs\""
-              },
-              {
-                "value": "\"sm\""
-              },
-              {
-                "value": "\"md\""
-              },
-              {
-                "value": "\"lg\""
-              },
-              {
-                "value": "\"xl\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "width": {
-          "defaultValue": null,
-          "description": "",
-          "name": "width",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"auto\" | \"full\" | \"square\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"auto\""
-              },
-              {
-                "value": "\"full\""
-              },
-              {
-                "value": "\"square\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "shape": {
-          "defaultValue": null,
-          "description": "",
-          "name": "shape",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"default\" | \"round\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"default\""
-              },
-              {
-                "value": "\"round\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
+          "shortPropTypeName": "string | function"
         },
         "disabled": {
           "defaultValue": null,
           "description": "",
           "name": "disabled",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
-        },
-        "loading": {
-          "defaultValue": {
-            "value": "false"
-          },
-          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
-          "name": "loading",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Button.tsx",
             "name": "ButtonProps"
@@ -765,18 +568,256 @@
             "raw": "\"end\" | \"start\" | undefined",
             "value": [
               {
-                "value": "undefined"
-              },
-              {
                 "value": "\"end\""
               },
               {
                 "value": "\"start\""
+              },
+              {
+                "value": "undefined"
               }
             ]
           },
           "shortPropTypeName": null
         },
+        "intent": {
+          "defaultValue": null,
+          "description": "",
+          "name": "intent",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"error\" | \"info\" | \"primary\" | \"success\" | \"warning\" | undefined",
+            "value": [
+              {
+                "value": "\"error\""
+              },
+              {
+                "value": "\"info\""
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "\"success\""
+              },
+              {
+                "value": "\"warning\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "loading": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
+          "name": "loading",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLButtonElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
+        },
+        "shape": {
+          "defaultValue": null,
+          "description": "",
+          "name": "shape",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"default\" | \"round\" | undefined",
+            "value": [
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"round\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "size": {
+          "defaultValue": null,
+          "description": "",
+          "name": "size",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xs\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+            "value": [
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "variant": {
+          "defaultValue": {
+            "value": "ghost"
+          },
+          "description": "",
+          "name": "variant",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"default\" | \"ghost\" | \"outline\" | \"primary\" | \"secondary\" | undefined",
+            "value": [
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"ghost\""
+              },
+              {
+                "value": "\"outline\""
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "\"secondary\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "width": {
+          "defaultValue": null,
+          "description": "",
+          "name": "width",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | \"full\" | \"square\" | undefined",
+            "value": [
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"full\""
+              },
+              {
+                "value": "\"square\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        }
+      }
+    },
+    "Content": {
+      "name": "Collapsible.Content",
+      "props": {
         "className": {
           "defaultValue": null,
           "description": "",
@@ -797,27 +838,6 @@
           },
           "shortPropTypeName": "string | function"
         },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLButtonElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        }
-      }
-    },
-    "Content": {
-      "name": "Collapsible.Content",
-      "props": {
         "innerClassName": {
           "defaultValue": null,
           "description": "",
@@ -835,6 +855,22 @@
           "required": false,
           "type": {
             "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLElement> | undefined"
           },
           "shortPropTypeName": null
         },
@@ -858,48 +894,12 @@
             "raw": "\"full\" | undefined",
             "value": [
               {
-                "value": "undefined"
+                "value": "\"full\""
               },
               {
-                "value": "\"full\""
+                "value": "undefined"
               }
             ]
-          },
-          "shortPropTypeName": null
-        },
-        "className": {
-          "defaultValue": null,
-          "description": "",
-          "name": "className",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-            "name": "HTMLAttributes"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-              "name": "HTMLAttributes"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": "string | function"
-        },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLElement> | undefined"
           },
           "shortPropTypeName": null
         }
