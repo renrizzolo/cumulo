@@ -14,15 +14,15 @@
     "@cumulo/core": "workspace:*",
     "@cumulo/css": "workspace:*",
     "@parcel/rsc": "^3.0.0-alpha.3",
-    "@renr/parcel-rsc-router": "github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-rsc-router",
+    "@renr/parcel-rsc-router": "github:renrizzolo/parcel-rsc-react#parcel-v3&path:packages/parcel-rsc-router",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-server-dom-parcel": "^19.2.8"
   },
   "devDependencies": {
     "@cumulo/parcel-plugin": "workspace:*",
-    "@renr/parcel-plugin-rsc-router": "github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-plugin-rsc-router",
-    "@renr/parcel-reporter-docgen": "github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-reporter-docgen",
+    "@renr/parcel-plugin-rsc-router": "github:renrizzolo/parcel-rsc-react#parcel-v3&path:packages/parcel-plugin-rsc-router",
+    "@renr/parcel-reporter-docgen": "github:renrizzolo/parcel-rsc-react#parcel-v3&path:packages/parcel-reporter-docgen",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "parcel": "^3.0.0-alpha.3",

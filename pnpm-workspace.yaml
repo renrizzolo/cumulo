@@ -5,9 +5,9 @@ packages:
 allowBuilds:
   '@parcel/watcher': true
   '@swc/core': true
-  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-plugin-rsc-router': true
-  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-reporter-docgen': true
-  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/5fd158dded2a325391d541b44e962482abfae3cf#path:packages/parcel-rsc-router': true
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/957ad1a833253348541bb9526f773678181d6db4#path:packages/parcel-plugin-rsc-router': true
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/957ad1a833253348541bb9526f773678181d6db4#path:packages/parcel-reporter-docgen': true
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/957ad1a833253348541bb9526f773678181d6db4#path:packages/parcel-rsc-router': true
   esbuild: true
   lmdb: true
   msgpackr-extract: true
