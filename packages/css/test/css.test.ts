@@ -293,6 +293,7 @@ describe('@cumulo/css', () => {
       expect(Reflect.get(kf, META)).toEqual({ kind: 'keyframes', name: kf.name });
 
       const contract = createThemeContract({ bg: null }, 'meta');
+      expect(Reflect.get(contract, META)).toEqual({ kind: 'contract' });
       const th = createTheme(contract, { bg: '#000' });
       expect(Reflect.get(th, META)).toEqual({
         kind: 'theme',

@@ -312,4 +312,49 @@ export function getClasses(extra?: string): string {
     expect(rewritten).not.toContain("from '@cumulo/core'");
     expect(rewritten).not.toContain('createThemeContract(');
   });
+
+  it('extractAndRewrite inlines static ThemeContract (vars) member accesses outside style() calls', async () => {
+    const code = `
+import { vars } from '@cumulo/core';
+import { style } from '@cumulo/css';
+
+export const box = style({ padding: vars.spacing.md }, 'inline-vars-box');
+
+export function getInlineStyle() {
+  return {
+    width: vars.size.xl,
+    gap: vars.spacing['2xs'],
+    background: vars.bg[0],
+  };
+}
+`;
+
+    const result = await extractAndRewrite(code, 'InlineVarsDemo.tsx');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    expect(rewritten).toContain('"var(--theme-size-xl)"');
+    expect(rewritten).toContain('"var(--theme-spacing-2xs)"');
+    expect(rewritten).toContain('"var(--theme-bg-0)"');
+    expect(rewritten).not.toContain("from '@cumulo/core'");
+  });
+
+  it('extractAndRewrite does not inline ThemeContract accesses when the binding is shadowed', async () => {
+    const code = `
+import { vars } from '@cumulo/core';
+import { style } from '@cumulo/css';
+
+export const box = style({ padding: vars.spacing.md }, 'shadow-vars-box');
+
+export function read(vars: { size: { xl: string } }) {
+  return vars.size.xl;
+}
+`;
+
+    const result = await extractAndRewrite(code, 'ShadowedVarsDemo.tsx');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    expect(rewritten).toContain('return vars.size.xl;');
+  });
 });

@@ -17,7 +17,8 @@ export type CumuloRuntimeMeta =
       readonly vars: Readonly<Record<string, string>>;
     }
   | { readonly kind: 'global'; readonly vars: Readonly<Record<string, string>> }
-  | { readonly kind: 'recipe'; readonly config: RuntimeRecipeConfig };
+  | { readonly kind: 'recipe'; readonly config: RuntimeRecipeConfig }
+  | { readonly kind: 'contract' };
 
 /**
  * Attaches non-enumerable build-time serialization metadata to a `@cumulo/css` return value.

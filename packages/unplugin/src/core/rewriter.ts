@@ -570,11 +570,239 @@ function applyTextEdits(source: string, edits: TextEdit[]): string {
   return result;
 }
 
+interface ContractMemberSite {
+  root: string;
+  path: ReadonlyArray<string | number>;
+  start: number;
+  end: number;
+}
+
+function collectPatternBindingNames(pattern: unknown, target: Set<string>): void {
+  if (!isAstNode(pattern)) {
+    return;
+  }
+  switch (pattern.type) {
+    case 'Identifier':
+      if (typeof pattern.name === 'string') {
+        target.add(pattern.name);
+      }
+      return;
+    case 'AssignmentPattern':
+      collectPatternBindingNames(pattern.left, target);
+      return;
+    case 'RestElement':
+      collectPatternBindingNames(pattern.argument, target);
+      return;
+    case 'ObjectPattern':
+      if (Array.isArray(pattern.properties)) {
+        for (const prop of pattern.properties) {
+          if (!isAstNode(prop)) continue;
+          if (prop.type === 'RestElement') {
+            collectPatternBindingNames(prop.argument, target);
+          } else {
+            collectPatternBindingNames(prop.value, target);
+          }
+        }
+      }
+      return;
+    case 'ArrayPattern':
+      if (Array.isArray(pattern.elements)) {
+        for (const el of pattern.elements) {
+          collectPatternBindingNames(el, target);
+        }
+      }
+      return;
+  }
+}
+
+function collectNonImportBindings(node: unknown, target: Set<string>): void {
+  if (!node || typeof node !== 'object') {
+    return;
+  }
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      collectNonImportBindings(item, target);
+    }
+    return;
+  }
+  if (!isAstNode(node) || node.type === 'ImportDeclaration') {
+    return;
+  }
+
+  switch (node.type) {
+    case 'VariableDeclarator':
+      collectPatternBindingNames(node.id, target);
+      collectNonImportBindings(node.init, target);
+      return;
+    case 'FunctionDeclaration':
+    case 'FunctionExpression':
+    case 'ArrowFunctionExpression': {
+      const fnName = getIdentifierName(node.id);
+      if (fnName) {
+        target.add(fnName);
+      }
+      if (Array.isArray(node.params)) {
+        for (const param of node.params) {
+          collectPatternBindingNames(param, target);
+        }
+      }
+      collectNonImportBindings(node.body, target);
+      return;
+    }
+    case 'ClassDeclaration':
+    case 'ClassExpression': {
+      const clsName = getIdentifierName(node.id);
+      if (clsName) {
+        target.add(clsName);
+      }
+      collectNonImportBindings(node.body, target);
+      return;
+    }
+    case 'CatchClause':
+      collectPatternBindingNames(node.param, target);
+      collectNonImportBindings(node.body, target);
+      return;
+    default:
+      for (const [key, value] of Object.entries(node)) {
+        if (key === 'type' || key === 'start' || key === 'end') {
+          continue;
+        }
+        collectNonImportBindings(value, target);
+      }
+  }
+}
+
+function extractStaticMemberChain(
+  node: AstNode,
+): { root: string; path: (string | number)[] } | null {
+  const path: (string | number)[] = [];
+  let current: AstNode = node;
+  while (current.type === 'MemberExpression') {
+    if (current.computed === true) {
+      const prop = current.property;
+      if (
+        isAstNode(prop) &&
+        prop.type === 'Literal' &&
+        (typeof prop.value === 'string' || typeof prop.value === 'number')
+      ) {
+        path.push(prop.value);
+      } else {
+        return null;
+      }
+    } else {
+      const propName = getIdentifierName(current.property);
+      if (!propName) {
+        return null;
+      }
+      path.push(propName);
+    }
+    if (!isAstNode(current.object)) {
+      return null;
+    }
+    current = current.object;
+  }
+  const root = getIdentifierName(current);
+  if (!root || path.length === 0) {
+    return null;
+  }
+  path.reverse();
+  return { root, path };
+}
+
+function collectContractMemberSites(
+  node: unknown,
+  candidateNames: ReadonlySet<string>,
+  excludedSpans: ReadonlyArray<{ start: number; end: number }>,
+  sites: ContractMemberSite[],
+): void {
+  if (!node || typeof node !== 'object') {
+    return;
+  }
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      collectContractMemberSites(item, candidateNames, excludedSpans, sites);
+    }
+    return;
+  }
+  if (!isAstNode(node) || node.type === 'ImportDeclaration') {
+    return;
+  }
+
+  for (const span of excludedSpans) {
+    if (node.start >= span.start && node.end <= span.end) {
+      return;
+    }
+  }
+
+  if (node.type.startsWith('TS')) {
+    if (
+      node.type === 'TSAsExpression' ||
+      node.type === 'TSSatisfiesExpression' ||
+      node.type === 'TSNonNullExpression'
+    ) {
+      collectContractMemberSites(node.expression, candidateNames, excludedSpans, sites);
+    }
+    return;
+  }
+
+  switch (node.type) {
+    case 'MemberExpression': {
+      const chain = extractStaticMemberChain(node);
+      if (chain && candidateNames.has(chain.root)) {
+        sites.push({
+          root: chain.root,
+          path: chain.path,
+          start: node.start,
+          end: node.end,
+        });
+        return;
+      }
+      collectContractMemberSites(node.object, candidateNames, excludedSpans, sites);
+      if (node.computed === true) {
+        collectContractMemberSites(node.property, candidateNames, excludedSpans, sites);
+      }
+      return;
+    }
+    case 'AssignmentExpression':
+      collectContractMemberSites(node.right, candidateNames, excludedSpans, sites);
+      return;
+    case 'UpdateExpression':
+      return;
+    case 'UnaryExpression':
+      if (node.operator === 'delete') {
+        return;
+      }
+      collectContractMemberSites(node.argument, candidateNames, excludedSpans, sites);
+      return;
+    default:
+      for (const [key, value] of Object.entries(node)) {
+        if (key === 'type' || key === 'start' || key === 'end') {
+          continue;
+        }
+        collectContractMemberSites(value, candidateNames, excludedSpans, sites);
+      }
+  }
+}
+
+function resolveContractLeaf(
+  contract: unknown,
+  memberPath: ReadonlyArray<string | number>,
+): string | undefined {
+  let current: unknown = contract;
+  for (const segment of memberPath) {
+    if (!isRecord(current) || !(segment in current)) {
+      return undefined;
+    }
+    current = Reflect.get(current, segment);
+  }
+  return typeof current === 'string' ? current : undefined;
+}
+
 /**
  * Analyzes a JS/TS/JSX/TSX module for top-level `@cumulo/css` style/recipe/theme calls
- * and prepares an instrumented copy for recording evaluated class names during Jiti
- * extraction, plus an `applyRewrites` finalizer that strips build-time style definitions
- * and now-unused imports from the output code.
+ * and static `ThemeContract` (`vars`) member accesses, and prepares an instrumented copy
+ * for recording evaluated results during Jiti extraction, plus an `applyRewrites` finalizer
+ * that strips build-time style definitions and now-unused imports from the output code.
  */
 export function createRewritePlan(source: string, filePath: string): RewritePlan | null {
   let parsed: ReturnType<typeof parseSync>;
@@ -598,28 +826,38 @@ export function createRewritePlan(source: string, filePath: string): RewritePlan
   const localToApi = new Map<string, RewritableApiKind>();
   const contractLocals = new Set<string>();
   const namespaceNames = new Set<string>();
+  const importedContractCandidates = new Set<string>();
 
   for (const decl of imports) {
-    if (decl.isTypeOnly || decl.source !== '@cumulo/css') {
+    if (decl.isTypeOnly) {
       continue;
     }
-    for (const spec of decl.specifiers) {
-      if (spec.isTypeOnly) {
-        continue;
-      }
-      if (spec.type === 'ImportNamespaceSpecifier') {
-        namespaceNames.add(spec.localName);
-      } else if (spec.type === 'ImportSpecifier' && spec.importedName) {
-        if (isRewritableApi(spec.importedName)) {
-          localToApi.set(spec.localName, spec.importedName);
-        } else if (spec.importedName === 'createThemeContract') {
-          contractLocals.add(spec.localName);
+    if (decl.source === '@cumulo/css') {
+      for (const spec of decl.specifiers) {
+        if (spec.isTypeOnly) {
+          continue;
         }
+        if (spec.type === 'ImportNamespaceSpecifier') {
+          namespaceNames.add(spec.localName);
+        } else if (spec.type === 'ImportSpecifier' && spec.importedName) {
+          if (isRewritableApi(spec.importedName)) {
+            localToApi.set(spec.localName, spec.importedName);
+          } else if (spec.importedName === 'createThemeContract') {
+            contractLocals.add(spec.localName);
+          }
+        }
+      }
+      continue;
+    }
+
+    for (const spec of decl.specifiers) {
+      if (!spec.isTypeOnly) {
+        importedContractCandidates.add(spec.localName);
       }
     }
   }
 
-  if (localToApi.size === 0 && namespaceNames.size === 0) {
+  if (localToApi.size === 0 && namespaceNames.size === 0 && importedContractCandidates.size === 0) {
     return null;
   }
 
@@ -717,7 +955,37 @@ export function createRewritePlan(source: string, filePath: string): RewritePlan
     }
   }
 
-  if (callSites.length === 0) {
+  // Find static member accesses on unshadowed imported bindings (e.g. `vars.size.xl`)
+  // outside top-level style/recipe calls so ThemeContract leaves can be inlined too.
+  const shadowedBindings = new Set<string>();
+  collectNonImportBindings(programNode, shadowedBindings);
+
+  const unshadowedCandidates = new Set<string>();
+  for (const name of importedContractCandidates) {
+    if (!shadowedBindings.has(name)) {
+      unshadowedCandidates.add(name);
+    }
+  }
+
+  const callSiteSpans = callSites.map((s) => ({ start: s.start, end: s.end }));
+  const contractMemberSites: ContractMemberSite[] = [];
+  if (unshadowedCandidates.size > 0) {
+    collectContractMemberSites(
+      programNode,
+      unshadowedCandidates,
+      callSiteSpans,
+      contractMemberSites,
+    );
+  }
+
+  const probedContractIds = new Map<string, number>();
+  for (const site of contractMemberSites) {
+    if (!probedContractIds.has(site.root)) {
+      probedContractIds.set(site.root, callSites.length + probedContractIds.size);
+    }
+  }
+
+  if (callSites.length === 0 && probedContractIds.size === 0) {
     return null;
   }
 
@@ -727,7 +995,14 @@ export function createRewritePlan(source: string, filePath: string): RewritePlan
     replacement: `globalThis.__cumuloRecord(${site.id}, (${source.slice(site.start, site.end)}))`,
   }));
 
-  const instrumentedSource = applyTextEdits(source, instrumentEdits);
+  let instrumentedSource = applyTextEdits(source, instrumentEdits);
+  if (probedContractIds.size > 0) {
+    const probes = Array.from(probedContractIds.entries())
+      .map(([name, id]) => `try { globalThis.__cumuloRecord(${id}, ${name}); } catch {}`)
+      .join('\n');
+    instrumentedSource = `${instrumentedSource}\n${probes}\n`;
+  }
+
   const directivePrologueEnd = findDirectivePrologueEnd(body);
 
   return {
@@ -758,6 +1033,36 @@ export function createRewritePlan(source: string, filePath: string): RewritePlan
         for (const helper of serialized.helpers) {
           neededHelpers.add(helper);
         }
+      }
+
+      // Inline static leaf member accesses on verified ThemeContract objects (`__CUMULO_META__.kind === 'contract'`).
+      const verifiedContracts = new Map<string, unknown>();
+      for (const [name, id] of probedContractIds) {
+        const entry = recorded.get(id);
+        if (!entry || entry.count !== 1) {
+          continue;
+        }
+        const meta = readCumuloMeta(entry.value);
+        if (meta?.kind === 'contract') {
+          verifiedContracts.set(name, entry.value);
+        }
+      }
+
+      for (const site of contractMemberSites) {
+        const contract = verifiedContracts.get(site.root);
+        if (!contract) {
+          continue;
+        }
+        const leaf = resolveContractLeaf(contract, site.path);
+        if (leaf === undefined) {
+          continue;
+        }
+        edits.push({
+          start: site.start,
+          end: site.end,
+          replacement: JSON.stringify(leaf),
+        });
+        rewrittenSpans.push({ start: site.start, end: site.end });
       }
 
       if (edits.length === 0) {

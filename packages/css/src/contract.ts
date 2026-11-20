@@ -1,3 +1,4 @@
+import { attachMeta } from './meta.js';
 import type {
   CheckReservedContractKeys,
   CSSVariableMap,
@@ -83,7 +84,7 @@ export function createThemeContract<T extends NullableTokens>(
     enumerable: false,
     configurable: true,
   });
-  return contractObj;
+  return attachMeta(contractObj, { kind: 'contract' });
 }
 
 /**

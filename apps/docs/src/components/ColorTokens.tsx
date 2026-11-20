@@ -114,8 +114,8 @@ interface SwatchProps {
 
 function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
   const [copied, setCopied] = useState(false);
-  const tokenVar = vars[intent][step];
-  const cssVar = tokenVar.replace(/^var\((--[^)]+)\)$/, '$1');
+  const cssVar = `--theme-${intent}-${step}`;
+  const tokenVar = `var(${cssVar})`;
   const isLightStep = step <= 400;
 
   const handleCopy = useCallback(async () => {
