@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { create, style } from '@cumulo/css';
-import { Text, vars, type VarPath, Button, VarValue, Popover, HStack } from '@cumulo/core';
+import { Text, vars, type VarPath, VarValue, Popover, HStack } from '@cumulo/core';
 import { Intent } from '@cumulo/core/intents';
 
 type ColorIntent = Intent | 'grey';
