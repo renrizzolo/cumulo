@@ -24,7 +24,7 @@ Register `@cumulo/parcel-plugin` in your `.parcelrc` for both your JS/TS/JSX/TSX
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "..."],
+    "*.{js,mjs,jsx,ts,tsx}": ["...", "@cumulo/parcel-plugin"],
     "cumulo-css:*": ["@cumulo/parcel-plugin"]
   }
 }
