@@ -39,6 +39,9 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      - name: Run Rust plugin tests
+        run: pnpm --filter @cumulo/parcel-plugin test:rust
+
   fixtures:
     name: Bundler Fixtures & Browser Visual Tests
     runs-on: ubuntu-latest

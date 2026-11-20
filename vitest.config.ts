@@ -45,6 +45,15 @@ export default defineConfig({
       },
       {
         test: {
+          name: 'parcel-plugin',
+          include: ['packages/parcel-plugin/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+          benchmark: { include: [] },
+        },
+      },
+      {
+        test: {
           name: 'scripts',
           include: ['scripts/**/*.test.{ts,tsx}'],
           environment: 'node',

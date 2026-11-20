@@ -16,7 +16,7 @@ Traditional CSS-in-JS libraries inject runtime `<style>` tags into the DOM durin
 - **Pure static CSS output**: Styles written with `style()`, `recipe()`, and design tokens from `@cumulo/core` compile into standard `.css` files managed by your bundler.
 - **Full React 19 & RSC support**: Cumulo runs seamlessly across Server Components, SSR, static generation, and client islands.
 
-To make this possible, `@cumulo/unplugin` (or `@cumulo/parcel-transformer`) intercepts your modules at build time, evaluates style declarations in isolated contexts, and attaches extracted styles directly to your bundler's asset graph.
+To make this possible, `@cumulo/unplugin`, `@cumulo/parcel-plugin` (Parcel v3), or `@cumulo/parcel-transformer` (Parcel v2) intercepts your modules at build time, evaluates style declarations in isolated contexts, and attaches extracted styles directly to your bundler's asset graph.
 
 ### Installation
 
@@ -26,7 +26,10 @@ Install the build plugin as a development dependency:
 # For Vite, Webpack, Next.js, Rollup, or esbuild:
 pnpm add -D @cumulo/unplugin
 
-# For Parcel:
+# For Parcel v3:
+pnpm add -D @cumulo/parcel-plugin
+
+# For Parcel v2:
 pnpm add -D @cumulo/parcel-transformer
 ```
 
@@ -160,7 +163,26 @@ await esbuild.build({
 
 #### Parcel
 
-Parcel uses a dedicated transformer plugin `@cumulo/parcel-transformer`. Register it in your `.parcelrc`:
+##### Parcel v3 (Native Plugin)
+
+Parcel v3 (`^3.0.0-alpha.3`) uses the native Rust plugin `@cumulo/parcel-plugin`. Register it in your `.parcelrc` for both your JS/TS/JSX/TSX sources and the `cumulo-css:*` named pipeline:
+
+```json
+// .parcelrc
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "..."],
+    "cumulo-css:*": ["@cumulo/parcel-plugin"]
+  }
+}
+```
+
+`@cumulo/parcel-plugin` works across both standard browser builds and Parcel v3 React Server Components (RSC) builds, extracting static CSS from Server Components and `"use client"` components without mutating top-of-file directives.
+
+##### Parcel v2
+
+Parcel v2 uses `@cumulo/parcel-transformer`. Register it in your `.parcelrc`:
 
 ```json
 // .parcelrc

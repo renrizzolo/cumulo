@@ -1,6 +1,8 @@
 # @cumulo/parcel-transformer
 
-Parcel transformer plugin for Cumulo static CSS extraction.
+Parcel v2 transformer plugin for Cumulo static CSS extraction.
+
+> Using Parcel v3 (`^3.0.0-alpha.3`)? Use the native Rust plugin [`@cumulo/parcel-plugin`](../parcel-plugin/README.md) instead.
 
 Cumulo is a zero-runtime CSS system: styles written in `@cumulo/core` and `@cumulo/css` generate scoped atomic classes, but the CSS declarations are extracted ahead-of-time at build time. **A bundler plugin is mandatory for `@cumulo/core` and `@cumulo/css` to emit static CSS.**
 

@@ -9,3 +9,4 @@ build
 .temp
 .vitest-attachments
 .vitest
+target/
