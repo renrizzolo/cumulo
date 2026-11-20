@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
+import { vars } from '../contract.js';
 import { useDrag, type DragAxis, type DragState } from './useDrag.js';
 
 export type SwipeDirection = 'down' | 'up' | 'left' | 'right';
@@ -131,8 +132,7 @@ export function useSwipeDismiss<T extends HTMLElement = HTMLDivElement>(
         return;
       }
 
-      target.style.transition =
-        'transform var(--theme-duration-fast, 125ms) var(--theme-ease-default, ease)';
+      target.style.transition = `transform ${vars.duration.fast} ${vars.ease.default}`;
       target.style.transform = 'translate3d(0, 0, 0)';
       snapTimerRef.current = setTimeout(() => {
         clearTargetStyles(target);
