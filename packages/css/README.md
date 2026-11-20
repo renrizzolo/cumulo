@@ -6,7 +6,8 @@ Lightweight, zero-dependency, type-safe CSS framework inspired by StyleX and Van
 
 - **Zero Dependencies**: Pure native TypeScript implementation with no external runtime baggage.
 - **Ultra-Light Footprint**: ~4.0 kB gzip (~3.5 kB brotli) in production builds.
-- **Compile-Time Extraction**: Extracts static CSS at build time via `@cumulo/unplugin` (Vite, Rollup, Webpack, esbuild, Parcel) with automatic runtime stylesheet fallback.
+- **Compile-Time Extraction**: Extracts static CSS at build time via `@cumulo/unplugin` (Vite, Rollup, Webpack, esbuild, Parcel v2 and v3 via `@cumulo/parcel-transformer` / `@cumulo/parcel-plugin`) with automatic runtime stylesheet fallback.
+- **Lean Runtime Entrypoint**: `@cumulo/css/runtime` (~0.9 kB gzip) is what rewritten modules import in client bundles. It contains no stylesheet registry, hashing, or CSS compiler.
 - **Strictly Type-Safe**: Complete TypeScript types for standard CSS properties, pseudo-classes, pseudo-elements, container queries, and nested media queries.
 - **High-Performance Variant Recipes**: First-class `recipe()` primitive with variant defaults, overrides, compound variants, and recipe inheritance.
 - **Type-Safe Theme Contracts**: `createThemeContract()` and `createTheme()` for guaranteed contract parity across multiple brand themes and color schemes.

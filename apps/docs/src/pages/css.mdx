@@ -15,6 +15,7 @@ Understand where `@cumulo/css` runs and what dependencies it requires:
 - **Runtime JavaScript execution**:
   - `recipe()` compiles down to a lightweight variant lookup over pre-compiled class names.
   - `cx()` concatenates and filters class name strings.
+- **Lean runtime entrypoint**: `@cumulo/css/runtime` (~0.9 kB gzipped) exports `cx`, `createThemeContract`, `assignVars`, and lightweight stand-ins for `style()`, `recipe()`, `keyframes()` and `createTheme()`. When a bundler plugin rewrites your modules, it points these imports at `@cumulo/css/runtime`, so the stylesheet registry, hashing, and CSS compiler are left out of client bundles. You don't import it directly.
 
 ### Installation
 

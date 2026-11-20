@@ -31,7 +31,7 @@ Configure the transformer in your `.parcelrc`:
 
 ## How It Works
 
-The transformer intercepts TypeScript and JavaScript files containing `@cumulo/core` components or `@cumulo/css` rules, evaluates style definitions ahead of time, and emits a linked CSS asset that Parcel bundles into your output stylesheet.
+The transformer intercepts TypeScript and JavaScript files containing `@cumulo/core` components or `@cumulo/css` rules, evaluates style definitions ahead of time, and emits a linked CSS asset that Parcel bundles into your output stylesheet. It does not rewrite JavaScript; for client bundles without style definitions and the CSS compiler, use [`@cumulo/parcel-plugin`](../parcel-plugin/README.md) on Parcel v3.
 
 ## License
 
