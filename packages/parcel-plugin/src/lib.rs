@@ -347,12 +347,20 @@ impl Plugin for CumuloPlugin {
       return Ok(());
     }
 
-    let code = asset.content()?;
-    if !should_process_file(&code, &file_path, &self.config) {
+    // Read the original source from disk when available so this plugin works cleanly
+    // when placed after Parcel's JS transformer (`["...", "@cumulo/parcel-plugin"]`),
+    // where `asset.content()` is already compiled JS, and so Pass 1 and Pass 2 share
+    // the exact same cache key.
+    let source = match options.read_to_string(&file_path) {
+      Ok(raw) => raw,
+      Err(_) => asset.content()?,
+    };
+
+    if !should_process_file(&source, &file_path, &self.config) {
       return Ok(());
     }
 
-    let result = self.extract_pass1(&file_path, &code, options)?;
+    let result = self.extract_pass1(&file_path, &source, options)?;
     track_dependencies(&result.dependencies, options);
     maybe_log_warning(result.warning.as_deref(), options);
 
@@ -365,8 +373,8 @@ impl Plugin for CumuloPlugin {
     };
 
     // Add a stylesheet dependency pointing back to the same file under the `cumulo-css` pipeline.
-    // Mutating dependencies (rather than prepending an import statement) preserves directives like
-    // `"use client"` on line 1.
+    // When configured after `"..."`, this dependency is appended after all JS imports so base
+    // component stylesheets always precede dependent stylesheets consistently across contexts.
     asset.add_dependency(
       DependencyOptions::new(format!("{CSS_PIPELINE}:./{file_name}"))
         .specifier_type(SpecifierType::Esm)

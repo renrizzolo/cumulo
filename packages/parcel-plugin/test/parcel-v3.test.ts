@@ -94,6 +94,7 @@ describe('@cumulo/parcel-plugin (Parcel v3 native plugin)', () => {
     cleanDir(dir);
 
     const tokensFile = path.join(dir, 'tokens.ts');
+    const baseFile = path.join(dir, 'Base.tsx');
     const compFile = path.join(dir, 'Card.tsx');
 
     fs.writeFileSync(
@@ -102,9 +103,16 @@ describe('@cumulo/parcel-plugin (Parcel v3 native plugin)', () => {
       'utf-8',
     );
 
+    fs.writeFileSync(
+      baseFile,
+      `import { style } from '@cumulo/css';\nexport const baseStyle = style({ color: '#00aa00' }, 'unit-base');\n`,
+      'utf-8',
+    );
+
     const code = `
 import { style, recipe, keyframes } from '@cumulo/css';
 import { CARD_PADDING, CARD_BG } from './tokens.js';
+import { baseStyle } from './Base.js';
 
 export const spin = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } }, 'unit-spin');
 
@@ -122,6 +130,8 @@ export const tagRecipe = recipe({
     },
   },
 }, 'unit-tag');
+
+export const combined = [baseStyle.className, cardStyle.className];
 `;
     fs.writeFileSync(compFile, code, 'utf-8');
 
@@ -138,7 +148,10 @@ export const tagRecipe = recipe({
     expect(result.css).toContain('@keyframes unit-spin-');
     expect(result.css).toContain('.unit-tag-base-');
     expect(result.css).toContain('.unit-tag-tone-info-');
+    // Imported modules are transformed independently by Parcel; their CSS must not be duplicated here.
+    expect(result.css).not.toContain('.unit-base-');
     expect(result.dependencies).toContain(tokensFile);
+    expect(result.dependencies).toContain(baseFile);
   });
 
   it('builds a standard Parcel v3 browser app and extracts static CSS', () => {
@@ -161,7 +174,7 @@ export const tagRecipe = recipe({
         {
           extends: '@parcel/config-default',
           transformers: {
-            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...'],
+            '*.{js,mjs,jsx,ts,tsx}': ['...', '@cumulo/parcel-plugin'],
             'cumulo-css:*': ['@cumulo/parcel-plugin'],
           },
         },
@@ -278,7 +291,8 @@ if (root) {
       'utf-8',
     );
 
-    runParcelBuild(['src/index.html', '--dist-dir', distDir], dir);
+    const buildOutput = runParcelBuild(['src/index.html', '--dist-dir', distDir], dir);
+    expect(buildOutput).not.toContain('Stylesheets are imported in conflicting orders');
 
     const htmlPath = path.join(distDir, 'index.html');
     expect(fs.existsSync(htmlPath)).toBe(true);
@@ -354,7 +368,7 @@ if (root) {
         {
           extends: '@parcel/config-default',
           transformers: {
-            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...'],
+            '*.{js,mjs,jsx,ts,tsx}': ['...', '@cumulo/parcel-plugin'],
             'cumulo-css:*': ['@cumulo/parcel-plugin'],
           },
         },
@@ -554,7 +568,7 @@ void main();
         {
           extends: '@parcel/config-default',
           transformers: {
-            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...'],
+            '*.{js,mjs,jsx,ts,tsx}': ['...', '@cumulo/parcel-plugin'],
             'cumulo-css:*': ['@cumulo/parcel-plugin'],
           },
         },
