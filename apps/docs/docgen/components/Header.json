@@ -1,6 +1,6 @@
 {
   "name": "Header",
-  "path": "packages/core/src/components/Header.tsx",
+  "path": "../../packages/core/src/components/Header.tsx",
   "fileName": "Header.tsx",
   "props": {
     "title": {

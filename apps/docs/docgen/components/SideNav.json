@@ -1,6 +1,6 @@
 {
   "name": "SideNav.Root",
-  "path": "packages/core/src/components/SideNav.tsx",
+  "path": "../../packages/core/src/components/SideNav.tsx",
   "fileName": "SideNav.tsx",
   "props": {
     "aria-label": {

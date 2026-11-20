@@ -1,6 +1,6 @@
 {
   "name": "Menu.Root",
-  "path": "packages/core/src/components/Menu.tsx",
+  "path": "../../packages/core/src/components/Menu.tsx",
   "fileName": "Menu.tsx",
   "props": {
     "open": {
@@ -194,6 +194,47 @@
           },
           "shortPropTypeName": "string | function"
         },
+        "variant": {
+          "defaultValue": null,
+          "description": "",
+          "name": "variant",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
+            "value": [
+              {
+                "value": "undefined"
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "\"outline\""
+              },
+              {
+                "value": "\"secondary\""
+              },
+              {
+                "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
         "width": {
           "defaultValue": null,
           "description": "",
@@ -229,63 +270,6 @@
           },
           "shortPropTypeName": null
         },
-        "ref": {
-          "defaultValue": null,
-          "description": "",
-          "name": "ref",
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/ElementProps.ts",
-              "name": "TypeLiteral"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "Ref<HTMLButtonElement> | undefined"
-          },
-          "shortPropTypeName": "Union"
-        },
-        "variant": {
-          "defaultValue": null,
-          "description": "",
-          "name": "variant",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"default\""
-              },
-              {
-                "value": "\"primary\""
-              },
-              {
-                "value": "\"secondary\""
-              },
-              {
-                "value": "\"ghost\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
         "intent": {
           "defaultValue": null,
           "description": "",
@@ -303,7 +287,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -312,38 +296,18 @@
                 "value": "\"primary\""
               },
               {
-                "value": "\"error\""
-              },
-              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
               },
               {
+                "value": "\"error\""
+              },
+              {
                 "value": "\"info\""
               }
             ]
-          },
-          "shortPropTypeName": null
-        },
-        "disabled": {
-          "defaultValue": null,
-          "description": "",
-          "name": "disabled",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
           },
           "shortPropTypeName": null
         },
@@ -400,6 +364,42 @@
             "name": "boolean | undefined"
           },
           "shortPropTypeName": null
+        },
+        "disabled": {
+          "defaultValue": null,
+          "description": "",
+          "name": "disabled",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "ref": {
+          "defaultValue": null,
+          "description": "",
+          "name": "ref",
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/ElementProps.ts",
+              "name": "TypeLiteral"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "Ref<HTMLButtonElement> | undefined"
+          },
+          "shortPropTypeName": "Union"
         },
         "icon": {
           "defaultValue": null,
@@ -610,16 +610,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"default\" | \"error\" | undefined",
+            "raw": "\"error\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               }
             ]
           },
@@ -971,16 +971,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"default\" | \"error\" | undefined",
+            "raw": "\"error\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"default\""
+                "value": "\"error\""
               },
               {
-                "value": "\"error\""
+                "value": "\"default\""
               }
             ]
           },

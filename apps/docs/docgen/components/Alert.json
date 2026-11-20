@@ -1,6 +1,6 @@
 {
   "name": "Alert.Root",
-  "path": "packages/core/src/components/Alert.tsx",
+  "path": "../../packages/core/src/components/Alert.tsx",
   "fileName": "Alert.tsx",
   "props": {
     "intent": {
@@ -1065,6 +1065,12 @@
               },
               {
                 "value": "\"em\""
+              },
+              {
+                "value": "\"dt\""
+              },
+              {
+                "value": "\"dd\""
               }
             ]
           },

@@ -1,6 +1,6 @@
 {
   "name": "Input",
-  "path": "packages/core/src/components/Input.tsx",
+  "path": "../../packages/core/src/components/Input.tsx",
   "fileName": "Input.tsx",
   "props": {
     "intent": {
@@ -22,16 +22,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"error\" | undefined",
+        "raw": "\"error\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           }
         ]
       },

@@ -1,6 +1,6 @@
 {
   "name": "Label",
-  "path": "packages/core/src/components/Label.tsx",
+  "path": "../../packages/core/src/components/Label.tsx",
   "fileName": "Label.tsx",
   "props": {
     "htmlFor": {

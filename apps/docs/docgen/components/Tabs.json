@@ -1,6 +1,6 @@
 {
   "name": "Tabs.Root",
-  "path": "packages/core/src/components/Tabs.tsx",
+  "path": "../../packages/core/src/components/Tabs.tsx",
   "fileName": "Tabs.tsx",
   "props": {
     "orientation": {
@@ -62,13 +62,13 @@
             "value": "undefined"
           },
           {
+            "value": "\"bordered\""
+          },
+          {
             "value": "\"line\""
           },
           {
             "value": "\"pill\""
-          },
-          {
-            "value": "\"bordered\""
           }
         ]
       },

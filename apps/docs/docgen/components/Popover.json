@@ -1,6 +1,6 @@
 {
   "name": "Popover.Root",
-  "path": "packages/core/src/components/Popover.tsx",
+  "path": "../../packages/core/src/components/Popover.tsx",
   "fileName": "Popover.tsx",
   "props": {
     "open": {
@@ -223,25 +223,25 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"default\""
-              },
-              {
                 "value": "\"primary\""
+              },
+              {
+                "value": "\"outline\""
               },
               {
                 "value": "\"secondary\""
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
@@ -264,7 +264,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -273,13 +273,13 @@
                 "value": "\"primary\""
               },
               {
-                "value": "\"error\""
-              },
-              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
+              },
+              {
+                "value": "\"error\""
               },
               {
                 "value": "\"info\""
@@ -415,7 +415,7 @@
           ],
           "required": false,
           "type": {
-            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"dialog\" \n|  \"listbox\" \n|  \"menu\" \n|  \"tree\" \n|  undefined\n"
+            "name": "| boolean \n|  \"grid\" \n|  \"true\" \n|  \"false\" \n|  \"menu\" \n|  \"listbox\" \n|  \"tree\" \n|  \"dialog\" \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
         },
@@ -823,16 +823,16 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"alertdialog\" | \"dialog\" | undefined",
+            "raw": "\"dialog\" | \"alertdialog\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"alertdialog\""
+                "value": "\"dialog\""
               },
               {
-                "value": "\"dialog\""
+                "value": "\"alertdialog\""
               }
             ]
           },
@@ -936,25 +936,25 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"default\""
-              },
-              {
                 "value": "\"primary\""
+              },
+              {
+                "value": "\"outline\""
               },
               {
                 "value": "\"secondary\""
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
@@ -977,7 +977,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"error\" | \"success\" | \"warning\" | \"info\" | undefined",
+            "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -986,13 +986,13 @@
                 "value": "\"primary\""
               },
               {
-                "value": "\"error\""
-              },
-              {
                 "value": "\"success\""
               },
               {
                 "value": "\"warning\""
+              },
+              {
+                "value": "\"error\""
               },
               {
                 "value": "\"info\""

@@ -1,6 +1,6 @@
 {
   "name": "Table.Root",
-  "path": "packages/core/src/components/Table.tsx",
+  "path": "../../packages/core/src/components/Table.tsx",
   "fileName": "Table.tsx",
   "props": {
     "variant": {

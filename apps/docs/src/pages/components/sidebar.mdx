@@ -1,12 +1,13 @@
 import Layout from '../../components/MDXLayout.tsx';
 import { DualSidebarExample } from '../../components/DualSidebarExample.tsx';
-import dualSidebarCode from 'raw-text:../../components/DualSidebarExample.tsx';
+import { readSourceFile } from '../../utils/readSourceFile.ts';
 import { Panel, Surface, VStack, HStack, Heading, Text, vars } from '@cumulo/core';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
 import * as SideNav from '@cumulo/core/components/SideNav';
 import sidebarDoc from '../../../docgen/components/Sidebar.json';
 export default Layout;
 export { DualSidebarExample };
+export const dualSidebarCode = readSourceFile('components/DualSidebarExample.tsx');
 
 # Sidebar
 

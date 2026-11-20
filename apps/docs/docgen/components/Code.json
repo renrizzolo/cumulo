@@ -1,6 +1,6 @@
 {
   "name": "Code",
-  "path": "packages/core/src/components/Code.tsx",
+  "path": "../../packages/core/src/components/Code.tsx",
   "fileName": "Code.tsx",
   "props": {
     "variant": {
@@ -22,19 +22,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"base\" | \"subtle\" | \"primary\" | undefined",
+        "raw": "\"primary\" | \"subtle\" | \"base\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"base\""
+            "value": "\"primary\""
           },
           {
             "value": "\"subtle\""
           },
           {
-            "value": "\"primary\""
+            "value": "\"base\""
           }
         ]
       },

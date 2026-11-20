@@ -1,6 +1,6 @@
 {
   "name": "Dialog.Root",
-  "path": "packages/core/src/components/Dialog.tsx",
+  "path": "../../packages/core/src/components/Dialog.tsx",
   "fileName": "Dialog.tsx",
   "props": {
     "open": {
@@ -107,7 +107,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -123,6 +123,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
@@ -1444,6 +1447,12 @@
               },
               {
                 "value": "\"em\""
+              },
+              {
+                "value": "\"dt\""
+              },
+              {
+                "value": "\"dd\""
               }
             ]
           },
@@ -1824,7 +1833,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -1840,6 +1849,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },

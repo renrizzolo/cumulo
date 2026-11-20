@@ -1,6 +1,6 @@
 {
   "name": "Slider",
-  "path": "packages/core/src/components/Slider.tsx",
+  "path": "../../packages/core/src/components/Slider.tsx",
   "fileName": "Slider.tsx",
   "props": {
     "value": {
@@ -128,16 +128,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"error\" | undefined",
+        "raw": "\"error\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           }
         ]
       },

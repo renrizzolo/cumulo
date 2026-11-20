@@ -1,6 +1,6 @@
 {
   "name": "Stack",
-  "path": "packages/core/src/components/Stack.tsx",
+  "path": "../../packages/core/src/components/Stack.tsx",
   "fileName": "Stack.tsx",
   "props": {
     "as": {
@@ -43,25 +43,25 @@
             "value": "\"section\""
           },
           {
-            "value": "\"aside\""
-          },
-          {
-            "value": "\"span\""
+            "value": "\"header\""
           },
           {
             "value": "\"footer\""
           },
           {
-            "value": "\"header\""
+            "value": "\"nav\""
           },
           {
-            "value": "\"nav\""
+            "value": "\"aside\""
+          },
+          {
+            "value": "\"ul\""
           },
           {
             "value": "\"ol\""
           },
           {
-            "value": "\"ul\""
+            "value": "\"span\""
           }
         ]
       },
@@ -126,7 +126,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | \"2xl\" | \"3xs\" | undefined",
+        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -135,7 +135,13 @@
             "value": "\"none\""
           },
           {
+            "value": "\"3xs\""
+          },
+          {
             "value": "\"2xs\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -150,13 +156,7 @@
             "value": "\"xl\""
           },
           {
-            "value": "\"xs\""
-          },
-          {
             "value": "\"2xl\""
-          },
-          {
-            "value": "\"3xs\""
           }
         ]
       },
@@ -181,16 +181,10 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"baseline\" | \"stretch\" | \"center\" | \"end\" | \"start\" | undefined",
+        "raw": "\"center\" | \"end\" | \"start\" | \"baseline\" | \"stretch\" | undefined",
         "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"baseline\""
-          },
-          {
-            "value": "\"stretch\""
           },
           {
             "value": "\"center\""
@@ -200,6 +194,12 @@
           },
           {
             "value": "\"start\""
+          },
+          {
+            "value": "\"baseline\""
+          },
+          {
+            "value": "\"stretch\""
           }
         ]
       },

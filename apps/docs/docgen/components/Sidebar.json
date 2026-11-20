@@ -1,6 +1,6 @@
 {
   "name": "Sidebar.Root",
-  "path": "packages/core/src/components/Sidebar.tsx",
+  "path": "../../packages/core/src/components/Sidebar.tsx",
   "fileName": "Sidebar.tsx",
   "props": {
     "type": {
@@ -169,10 +169,10 @@
             "value": "\"none\""
           },
           {
-            "value": "\"expand\""
+            "value": "\"tooltip\""
           },
           {
-            "value": "\"tooltip\""
+            "value": "\"expand\""
           }
         ]
       },
@@ -565,10 +565,10 @@
                 "value": "\"none\""
               },
               {
-                "value": "\"expand\""
+                "value": "\"tooltip\""
               },
               {
-                "value": "\"tooltip\""
+                "value": "\"expand\""
               }
             ]
           },
@@ -690,25 +690,25 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"outline\" | \"default\" | \"primary\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"outline\""
-              },
-              {
-                "value": "\"default\""
-              },
-              {
                 "value": "\"primary\""
+              },
+              {
+                "value": "\"outline\""
               },
               {
                 "value": "\"secondary\""
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },

@@ -1,6 +1,6 @@
 {
   "name": "ThemeToggle",
-  "path": "packages/core/src/components/ThemeToggle.tsx",
+  "path": "../../packages/core/src/components/ThemeToggle.tsx",
   "fileName": "ThemeToggle.tsx",
   "props": {
     "mode": {
@@ -138,7 +138,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+        "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -154,6 +154,9 @@
           },
           {
             "value": "\"ghost\""
+          },
+          {
+            "value": "\"default\""
           }
         ]
       },
