@@ -1,6 +1,7 @@
 import { hash } from './hash.js';
 import { sheet } from './sheet.js';
 import { assignVars, createThemeContract, flattenValues, resolvePrefix } from './contract.js';
+import { attachMeta } from './meta.js';
 import type {
   NullableTokens,
   MapTokensToVars,
@@ -38,14 +39,17 @@ export function createTheme<T extends NullableTokens>(
 
   sheet.insertRule(css);
 
-  return {
-    className,
-    vars: flattened,
-    css,
-    toString() {
-      return this.className;
+  return attachMeta(
+    {
+      className,
+      vars: flattened,
+      css,
+      toString() {
+        return this.className;
+      },
     },
-  };
+    { kind: 'theme', className, vars: flattened },
+  );
 }
 
 /**
@@ -62,7 +66,7 @@ export function createGlobalStyles(
   const css = `${selector}{${cssBody}}`;
   sheet.insertRule(css);
 
-  return { css, vars: styles };
+  return attachMeta({ css, vars: styles }, { kind: 'global', vars: styles });
 }
 
 /**

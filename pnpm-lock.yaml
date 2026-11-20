@@ -243,12 +243,9 @@ importers:
       '@cumulo/css':
         specifier: workspace:*
         version: link:../css
-      jiti:
-        specifier: ^2.7.0
-        version: 2.7.0
-      oxc-parser:
-        specifier: ^0.159.0
-        version: 0.159.0
+      '@cumulo/unplugin':
+        specifier: workspace:*
+        version: link:../unplugin
     devDependencies:
       '@cumulo/core':
         specifier: workspace:*

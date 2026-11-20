@@ -1,5 +1,7 @@
 import { style } from './create.js';
 import { cx } from './cx.js';
+import { attachMeta } from './meta.js';
+import type { RuntimeRecipeCompoundVariant, RuntimeVariantValue } from './runtime.js';
 import type { StyleRule } from './types.js';
 
 type VariantDefinitions = Record<string, Record<string, StyleRule>>;
@@ -60,7 +62,6 @@ export interface RecipeFunction<T extends VariantDefinitions = {}> {
       className: string;
     }>;
   };
-  defaultVariants: VariantSelection<T>;
 }
 
 export type RecipeVariants<T> = T extends RecipeFunction<infer V> ? VariantSelection<V> : never;
@@ -285,7 +286,35 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
     compoundVariants:
       compiledCompoundVariants as RecipeFunction<CombinedVariants>['classNames']['compoundVariants'],
   };
-  recipeFn.defaultVariants = mergedDefaultVariants as VariantSelection<CombinedVariants>;
 
-  return recipeFn;
+  const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compiledCompoundVariants.map(
+    (cv) => {
+      const variantsRecord: Record<string, RuntimeVariantValue> = {};
+      for (const [k, v] of Object.entries(cv.variants)) {
+        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+          variantsRecord[k] = v;
+        }
+      }
+      return { variants: variantsRecord, className: cv.className };
+    },
+  );
+
+  const runtimeDefaultVariants: Record<string, RuntimeVariantValue> = {};
+  for (const [k, v] of Object.entries(mergedDefaultVariants)) {
+    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
+      runtimeDefaultVariants[k] = v;
+    }
+  }
+
+  return attachMeta(recipeFn, {
+    kind: 'recipe',
+    config: {
+      ...(baseClassName !== undefined ? { base: baseClassName } : {}),
+      variants: compiledVariants,
+      ...(runtimeCompoundVariants.length > 0 ? { compoundVariants: runtimeCompoundVariants } : {}),
+      ...(Object.keys(runtimeDefaultVariants).length > 0
+        ? { defaultVariants: runtimeDefaultVariants }
+        : {}),
+    },
+  });
 }

@@ -426,161 +426,86 @@ function findDirectivePrologueEnd(body: unknown[]): number {
   return end;
 }
 
-function isStringRecord(value: unknown): value is Record<string, string> {
-  if (!isRecord(value) || Array.isArray(value)) {
-    return false;
-  }
-  return Object.values(value).every((v) => typeof v === 'string');
-}
-
-function isThemeVarsRecord(value: unknown): boolean {
-  if (!isRecord(value) || Array.isArray(value)) {
-    return false;
-  }
-  return Object.values(value).every((v) => typeof v === 'string' || isThemeVarsRecord(v));
-}
-
-function isVariantSelectionRecord(
-  value: unknown,
-): value is Record<string, string | number | boolean | undefined> {
-  if (!isRecord(value) || Array.isArray(value)) {
-    return false;
-  }
-  return Object.values(value).every(
-    (v) =>
-      typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean' || v === undefined,
-  );
-}
+const CUMULO_META_KEY = Symbol.for('__CUMULO_META__');
 
 interface SerializedReplacement {
   code: string;
   helpers: ReadonlyArray<'runtimeStyle' | 'runtimeKeyframes' | 'runtimeTheme' | 'runtimeRecipe'>;
 }
 
+function readCumuloMeta(value: unknown): Record<string, unknown> | undefined {
+  if ((typeof value !== 'object' && typeof value !== 'function') || value === null) {
+    return undefined;
+  }
+  const meta: unknown = Reflect.get(value, CUMULO_META_KEY);
+  return isRecord(meta) ? meta : undefined;
+}
+
 function serializeRecordedCall(site: CallSite, value: unknown): SerializedReplacement | null {
-  switch (site.kind) {
-    case 'style': {
-      if (isRecord(value) && typeof value.className === 'string') {
-        return {
-          code: `__cumuloStyle(${JSON.stringify(value.className)})`,
-          helpers: ['runtimeStyle'],
-        };
-      }
-      return null;
-    }
+  const meta = readCumuloMeta(value);
+  if (!meta) {
+    return null;
+  }
+
+  switch (meta.kind) {
+    case 'style':
+      return typeof meta.className === 'string'
+        ? {
+            code: `__cumuloStyle(${JSON.stringify(meta.className)})`,
+            helpers: ['runtimeStyle'],
+          }
+        : null;
 
     case 'create': {
-      if (!isRecord(value) || Array.isArray(value)) {
+      if (!isRecord(meta.entries)) {
         return null;
       }
-      const entries: string[] = [];
-      for (const [key, entry] of Object.entries(value)) {
-        if (!isRecord(entry) || typeof entry.className !== 'string') {
-          return null;
-        }
-        entries.push(`${JSON.stringify(key)}: __cumuloStyle(${JSON.stringify(entry.className)})`);
-      }
+      const entries = Object.entries(meta.entries).map(
+        ([key, className]) => `${JSON.stringify(key)}: __cumuloStyle(${JSON.stringify(className)})`,
+      );
       return {
         code: `({ ${entries.join(', ')} })`,
         helpers: entries.length > 0 ? ['runtimeStyle'] : [],
       };
     }
 
-    case 'keyframes': {
-      if (isRecord(value) && typeof value.name === 'string') {
-        return {
-          code: `__cumuloKeyframes(${JSON.stringify(value.name)})`,
-          helpers: ['runtimeKeyframes'],
-        };
-      }
-      return null;
-    }
+    case 'keyframes':
+      return typeof meta.name === 'string'
+        ? {
+            code: `__cumuloKeyframes(${JSON.stringify(meta.name)})`,
+            helpers: ['runtimeKeyframes'],
+          }
+        : null;
 
-    case 'createTheme': {
-      if (isRecord(value) && typeof value.className === 'string' && isThemeVarsRecord(value.vars)) {
-        return {
-          code: `__cumuloTheme(${JSON.stringify(value.className)}, ${JSON.stringify(value.vars)})`,
-          helpers: ['runtimeTheme'],
-        };
-      }
-      return null;
-    }
+    case 'theme':
+      return typeof meta.className === 'string' && isRecord(meta.vars)
+        ? {
+            code: `__cumuloTheme(${JSON.stringify(meta.className)}, ${JSON.stringify(meta.vars)})`,
+            helpers: ['runtimeTheme'],
+          }
+        : null;
 
-    case 'createGlobalTheme':
-    case 'createGlobalStyles': {
+    case 'global':
       if (site.isStatement) {
         return { code: 'void 0', helpers: [] };
       }
-      if (isRecord(value) && isThemeVarsRecord(value.vars)) {
-        return {
-          code: `({ vars: ${JSON.stringify(value.vars)} })`,
-          helpers: [],
-        };
-      }
+      return isRecord(meta.vars)
+        ? {
+            code: `({ vars: ${JSON.stringify(meta.vars)} })`,
+            helpers: [],
+          }
+        : null;
+
+    case 'recipe':
+      return isRecord(meta.config)
+        ? {
+            code: `__cumuloRecipe(${JSON.stringify(meta.config)})`,
+            helpers: ['runtimeRecipe'],
+          }
+        : null;
+
+    default:
       return null;
-    }
-
-    case 'recipe': {
-      if (typeof value !== 'function' || !('classNames' in value)) {
-        return null;
-      }
-      const classNames = value.classNames;
-      if (!isRecord(classNames) || !isRecord(classNames.variants)) {
-        return null;
-      }
-
-      const variants: Record<string, Record<string, string>> = {};
-      for (const [vKey, vMap] of Object.entries(classNames.variants)) {
-        if (!isStringRecord(vMap)) {
-          return null;
-        }
-        variants[vKey] = vMap;
-      }
-
-      const config: Record<string, unknown> = { variants };
-
-      if (typeof classNames.base === 'string') {
-        config.base = classNames.base;
-      }
-
-      if (Array.isArray(classNames.compoundVariants) && classNames.compoundVariants.length > 0) {
-        const serializedCv: Array<{
-          variants: Record<string, string | number | boolean | undefined>;
-          className: string;
-        }> = [];
-        for (const cv of classNames.compoundVariants) {
-          if (
-            !isRecord(cv) ||
-            typeof cv.className !== 'string' ||
-            !isVariantSelectionRecord(cv.variants)
-          ) {
-            return null;
-          }
-          serializedCv.push({ variants: cv.variants, className: cv.className });
-        }
-        config.compoundVariants = serializedCv;
-      }
-
-      if ('defaultVariants' in value && value.defaultVariants !== undefined) {
-        if (!isVariantSelectionRecord(value.defaultVariants)) {
-          return null;
-        }
-        const cleanDefaults: Record<string, string | number | boolean> = {};
-        for (const [k, v] of Object.entries(value.defaultVariants)) {
-          if (v !== undefined) {
-            cleanDefaults[k] = v;
-          }
-        }
-        if (Object.keys(cleanDefaults).length > 0) {
-          config.defaultVariants = cleanDefaults;
-        }
-      }
-
-      return {
-        code: `__cumuloRecipe(${JSON.stringify(config)})`,
-        helpers: ['runtimeRecipe'],
-      };
-    }
   }
 }
 

@@ -274,6 +274,55 @@ describe('@cumulo/css', () => {
       );
       expect(getSheetCss()).toBe('');
     });
+
+    it('attaches non-enumerable Symbol.for(__CUMULO_META__) metadata on build-time APIs', () => {
+      const META = Symbol.for('__CUMULO_META__');
+
+      const s = style({ color: 'red' }, 'meta-s');
+      expect(Reflect.get(s, META)).toEqual({ kind: 'style', className: s.className });
+      expect(Object.keys(s)).not.toContain(META);
+
+      const c = create({ box: { padding: 8 } }, 'meta-c');
+      expect(Reflect.get(c, META)).toEqual({
+        kind: 'create',
+        entries: { box: c.box.className },
+      });
+      expect(Object.keys(c)).toEqual(['box']);
+
+      const kf = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } }, 'meta-kf');
+      expect(Reflect.get(kf, META)).toEqual({ kind: 'keyframes', name: kf.name });
+
+      const contract = createThemeContract({ bg: null }, 'meta');
+      const th = createTheme(contract, { bg: '#000' });
+      expect(Reflect.get(th, META)).toEqual({
+        kind: 'theme',
+        className: th.className,
+        vars: { '--meta-bg': '#000' },
+      });
+
+      const glob = createGlobalTheme(':root', contract, { bg: '#fff' });
+      expect(Reflect.get(glob, META)).toEqual({
+        kind: 'global',
+        vars: { '--meta-bg': '#fff' },
+      });
+
+      const rec = recipe(
+        {
+          base: { display: 'flex' },
+          variants: { level: { 0: { opacity: 1 }, 1: { opacity: 0.5 } } },
+          defaultVariants: { level: 0 },
+        },
+        'meta-rec',
+      );
+      expect(Reflect.get(rec, META)).toEqual({
+        kind: 'recipe',
+        config: {
+          base: rec.classNames.base,
+          variants: rec.classNames.variants,
+          defaultVariants: { level: 0 },
+        },
+      });
+    });
   });
 
   describe('recipe (variants, compound variants, default variants, and extend)', () => {

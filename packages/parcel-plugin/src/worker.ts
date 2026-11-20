@@ -1,5 +1,5 @@
 import readline from 'node:readline';
-import { extractCss, type ExtractCssRequest, type ExtractCssResult } from './extractor.js';
+import { extractCss, type ExtractCssRequest, type ExtractCssResult } from './index.js';
 
 const IPC_PREFIX = '__CUMULO_PARCEL_IPC__';
 

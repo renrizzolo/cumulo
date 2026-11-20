@@ -41,8 +41,7 @@
   },
   "dependencies": {
     "@cumulo/css": "workspace:*",
-    "jiti": "^2.7.0",
-    "oxc-parser": "^0.159.0"
+    "@cumulo/unplugin": "workspace:*"
   },
   "devDependencies": {
     "@cumulo/core": "workspace:*",

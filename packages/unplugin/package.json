@@ -21,6 +21,10 @@
       "import": "./dist/esbuild.mjs",
       "require": "./dist/esbuild.cjs"
     },
+    "./extractor": {
+      "import": "./dist/extractor.mjs",
+      "require": "./dist/extractor.cjs"
+    },
     "./next": {
       "import": "./dist/next.mjs",
       "require": "./dist/next.cjs"
