@@ -1,6 +1,6 @@
 {
   "name": "Flow",
-  "path": "packages/core/src/components/Flow.tsx",
+  "path": "../../packages/core/src/components/Flow.tsx",
   "fileName": "Flow.tsx",
   "props": {
     "as": {

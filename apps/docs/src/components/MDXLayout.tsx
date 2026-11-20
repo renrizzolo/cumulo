@@ -1,3 +1,5 @@
+'use server-entry';
+
 import { Code, Divider, Flow, Heading, HStack, Link as CumuloLink, Text } from '@cumulo/core';
 import { textBase } from '@cumulo/core/typography';
 import { style } from '@cumulo/css';
@@ -241,7 +243,7 @@ function injectComponentSourceLinks(
       {sources.map((source) => (
         <CumuloLink
           key={source.path}
-          href={`${GITHUB_BLOB_BASE}/${source.path}`}
+          href={`${GITHUB_BLOB_BASE}/${source.path.replace(/^(\.\.\/)+/, '')}`}
           external
           variant="plain"
           className={subtleLinkStyle.className}

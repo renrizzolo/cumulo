@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@parcel/fs': 79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5
-  '@parcel/packager-react-static@2.16.4': 65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f
+  parcel@3.0.0-alpha.3: 8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9
 
 importers:
 
@@ -15,18 +15,9 @@ importers:
       '@changesets/cli':
         specifier: ^3.0.1
         version: 3.0.1
-      '@parcel/packager-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/runtime-rsc':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/transformer-inline-string':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/transformer-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/rsc':
+        specifier: ^3.0.0-alpha.3
+        version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@types/node':
         specifier: ^24
         version: 24.13.3
@@ -42,6 +33,9 @@ importers:
       oxlint:
         specifier: ^1.94.0
         version: 1.94.0
+      react:
+        specifier: ^19.2.8
+        version: 19.2.8
       react-server-dom-parcel:
         specifier: ^19.2.8
         version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -63,15 +57,12 @@ importers:
       '@cumulo/css':
         specifier: workspace:*
         version: link:../../packages/css
-      '@parcel/config-default':
-        specifier: ^2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)
       '@parcel/rsc':
-        specifier: ^2.16.4
-        version: 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: ^3.0.0-alpha.3
+        version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@renr/parcel-rsc-router':
-        specifier: ^1.0.0-beta.12
-        version: 1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-rsc-router
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -82,21 +73,15 @@ importers:
         specifier: ^19.2.8
         version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
     devDependencies:
-      '@cumulo/parcel-transformer':
+      '@cumulo/parcel-plugin':
         specifier: workspace:*
-        version: link:../../packages/parcel-transformer
-      '@parcel/packager-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/transformer-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+        version: link:../../packages/parcel-plugin
+      '@renr/parcel-plugin-rsc-router':
+        specifier: github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-plugin-rsc-router
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@renr/parcel-reporter-docgen':
-        specifier: ^0.1.0-beta.9
-        version: 0.1.0-beta.9(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-reporter-rsc-router':
-        specifier: ^1.0.0-beta.19
-        version: 1.0.0-beta.19(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        specifier: github:renrizzolo/parcel-rsc-react#feat/git-installable-v3-packages&path:packages/parcel-reporter-docgen
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-reporter-docgen
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -104,8 +89,8 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(@types/react@19.2.18)
       parcel:
-        specifier: ^2.16.4
-        version: 2.16.4(@swc/helpers@0.5.23)
+        specifier: ^3.0.0-alpha.3
+        version: 3.0.0-alpha.3(patch_hash=8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9)
       shiki:
         specifier: ^4.4.3
         version: 4.4.3
@@ -279,7 +264,7 @@ importers:
         version: 19.2.4(@types/react@19.2.18)
       parcel:
         specifier: 3.0.0-alpha.3
-        version: 3.0.0-alpha.3
+        version: 3.0.0-alpha.3(patch_hash=8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -1458,10 +1443,6 @@ packages:
     resolution: {integrity: sha512-A9j60G9OmbTkEeE4WRMXCiErEprHLs9NkUlC4HXCxmSrPMOVaMaMva2LdejE3A9kujZqYtYfuc8+a+jN+Nro4w==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
 
-  '@parcel/packager-react-static@2.16.4':
-    resolution: {integrity: sha512-uUtgzUU1ZW9cRCHpSJ9fnN0oHjVeXKBi4P9BxZCCndqUYiaS/kb/fK/82uk2ZLvJydM5+5ECwV7a0kc9RlOVvA==}
-    engines: {node: '>= 16.0.0', parcel: ^2.16.4}
-
   '@parcel/packager-svg@2.16.4':
     resolution: {integrity: sha512-LT9l7eInFrAZJ6w3mYzAUgDq3SIzYbbQyW46Dz26M9lJQbf6uCaATUTac3BEHegW0ikDuw4OOGHK41BVqeeusg==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
@@ -1539,12 +1520,6 @@ packages:
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
     peerDependencies:
       '@parcel/core': '*'
-
-  '@parcel/rsc@2.16.4':
-    resolution: {integrity: sha512-mu5qk7Hbdzwf1tgkm5VDwqeH94IHV7t839amfLZkvcgQT7QWVitV+hctKlDC77EQq4z4hrfa3X7lQtoFekQP1A==}
-    peerDependencies:
-      react: ^19.1.0
-      react-dom: ^19.1.0
 
   '@parcel/rsc@3.0.0-alpha.3':
     resolution: {integrity: sha512-LNaehsNrp9H2DKVW+Ig7W6Cvb3WnmTZeMotwaydt6xQBDjTjcr8q/Cr94BPPKpWKWIbhG0OuzMElP5Xnu4pKPw==}
@@ -1651,10 +1626,6 @@ packages:
     peerDependencies:
       '@parcel/core': ^2.16.4
 
-  '@parcel/transformer-inline-string@2.16.4':
-    resolution: {integrity: sha512-Kr5YZbN3xeb3asvle9+Nso/Tqxy0I/mdV2oQC30NuVVP+PXbOD4fC24QtORyt0V1UX93KqgmXKl7G75767FcVg==}
-    engines: {node: '>= 16.0.0', parcel: ^2.16.4}
-
   '@parcel/transformer-js@2.16.4':
     resolution: {integrity: sha512-FD2fdO6URwAGBPidb3x1dDgLBt972mko0LelcSU05aC/pcKaV9mbCtINbPul1MlStzkxDelhuImcCYIyerheVQ==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
@@ -1683,10 +1654,6 @@ packages:
 
   '@parcel/transformer-react-refresh-wrap@2.16.4':
     resolution: {integrity: sha512-MiLNZrsGQJTANKKa4lzZyUbGj/en0Hms474mMdQkCBFg6GmjfmXwaMMgtTfPA3ZwSp2+3LeObCyca/f9B2gBZQ==}
-    engines: {node: '>= 16.0.0', parcel: ^2.16.4}
-
-  '@parcel/transformer-react-static@2.16.4':
-    resolution: {integrity: sha512-6TJX7//0vs8kS0w11CpWUUdVo7C+vWdcpI1qSpUm6IWE9OfB1Z7lQ5wo5GdRqsGCkKXEc/A3COfajeIqSjfZ/w==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
 
   '@parcel/transformer-svg@2.16.4':
@@ -1801,18 +1768,25 @@ packages:
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
 
-  '@renr/parcel-reporter-docgen@0.1.0-beta.9':
-    resolution: {integrity: sha512-RomE5N0NTl3IWovRkL4mRlM5kkt1IfbpngC5vBTe4L5zV/1P9f0lC6se78z8zBOj68HK6RHot09GgtFwRDvFqQ==}
-
-  '@renr/parcel-reporter-rsc-router@1.0.0-beta.19':
-    resolution: {integrity: sha512-2h0i0U1qIQk6929p+JNySf4s02BAyAgeLLc1f7O4/CTO514Iae7YdKsbZFeMHIRMves4/aTX++Oo1E/kaZTcdw==}
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-plugin-rsc-router':
+    resolution: {gitHosted: true, integrity: sha512-Nvq7CkBFmo9vNjA7mCheIvlFht5n6Co7e3v0RNjP1/ikt3rLtDGfo20r/xMgxKWSAcKaEhGtd9sdqVxTWPv3NA==, path: packages/parcel-plugin-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558}
+    version: 1.0.0-beta.19
+    engines: {parcel: ^3.0.0-alpha.3}
+    hasBin: true
     peerDependencies:
-      '@renr/parcel-rsc-router': 1.0.0-beta.11
+      '@renr/parcel-rsc-router': workspace:*
 
-  '@renr/parcel-rsc-router@1.0.0-beta.12':
-    resolution: {integrity: sha512-Ms3znXW+qWuSmR1xeLMUMwnct3iDvVP1zKCm3L2TLf9qRBocbbdItgVhzcCAGxJNnfJLTnw/Yvrr3S8j860Ezg==}
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-reporter-docgen':
+    resolution: {gitHosted: true, integrity: sha512-Nvq7CkBFmo9vNjA7mCheIvlFht5n6Co7e3v0RNjP1/ikt3rLtDGfo20r/xMgxKWSAcKaEhGtd9sdqVxTWPv3NA==, path: packages/parcel-reporter-docgen, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558}
+    version: 0.1.0-beta.9
+    engines: {parcel: ^3.0.0-alpha.3}
+    hasBin: true
+
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router':
+    resolution: {gitHosted: true, integrity: sha512-Nvq7CkBFmo9vNjA7mCheIvlFht5n6Co7e3v0RNjP1/ikt3rLtDGfo20r/xMgxKWSAcKaEhGtd9sdqVxTWPv3NA==, path: packages/parcel-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558}
+    version: 1.0.0-beta.11
     peerDependencies:
-      '@parcel/rsc': ^2
+      '@parcel/rsc': ^3.0.0-alpha.3
       react: ^19
       react-server-dom-parcel: ^19
 
@@ -2805,14 +2779,6 @@ packages:
 
   decimal.js@10.6.0:
     resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
-
-  dedent@1.7.2:
-    resolution: {integrity: sha512-WzMx3mW98SN+zn3hgemf4OzdmyNhhhKz5Ay0pUfQiMQ3e1g+xmTJWp/pKdwKVXhdSkAEGIIzqeuWrL3mV/AXbA==}
-    peerDependencies:
-      babel-plugin-macros: ^3.1.0
-    peerDependenciesMeta:
-      babel-plugin-macros:
-        optional: true
 
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
@@ -4981,19 +4947,6 @@ snapshots:
       - '@parcel/core'
       - napi-wasm
 
-  '@parcel/packager-react-static@2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
-    dependencies:
-      '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/rust': 2.16.4
-      '@parcel/types': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/utils': 2.16.4
-      nullthrows: 1.1.1
-      rsc-html-stream: 0.0.6
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
   '@parcel/packager-svg@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -5087,13 +5040,6 @@ snapshots:
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
     transitivePeerDependencies:
       - napi-wasm
-
-  '@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
-    dependencies:
-      react: 19.2.8
-      react-dom: 19.2.8(react@19.2.8)
-      react-server-dom-parcel: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      rsc-html-stream: 0.0.6
 
   '@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
@@ -5224,13 +5170,6 @@ snapshots:
     transitivePeerDependencies:
       - napi-wasm
 
-  '@parcel/transformer-inline-string@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
-    dependencies:
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
   '@parcel/transformer-js@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/core': 2.16.4(@swc/helpers@0.5.23)
@@ -5298,13 +5237,6 @@ snapshots:
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/utils': 2.16.4
       react-refresh: 0.16.0
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
-  '@parcel/transformer-react-static@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
-    dependencies:
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
@@ -5422,38 +5354,25 @@ snapshots:
     dependencies:
       quansync: 1.0.0
 
-  '@renr/parcel-reporter-docgen@0.1.0-beta.9(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
     dependencies:
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      dedent: 1.7.2
-      react-docgen-typescript: 2.4.0(@typescript/typescript6@6.0.2)
-      tinyglobby: 0.2.17
-      typescript: '@typescript/typescript6@6.0.2'
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - babel-plugin-macros
-      - napi-wasm
-
-  '@renr/parcel-reporter-rsc-router@1.0.0-beta.19(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
-    dependencies:
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-rsc-router': 1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
-      dedent: 1.7.2
+      '@renr/parcel-rsc-router': https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       oxfmt: 0.75.0
       tinyglobby: 0.2.17
     transitivePeerDependencies:
       - '@astrojs/compiler-rs'
-      - '@parcel/core'
-      - babel-plugin-macros
-      - napi-wasm
       - svelte
       - vite-plus
 
-  '@renr/parcel-rsc-router@1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-reporter-docgen':
     dependencies:
-      '@parcel/rsc': 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react-docgen-typescript: 2.4.0(@typescript/typescript6@6.0.2)
+      tinyglobby: 0.2.17
+      typescript: '@typescript/typescript6@6.0.2'
+
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      '@parcel/rsc': 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
       react-server-dom-parcel: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
@@ -6221,8 +6140,6 @@ snapshots:
 
   decimal.js@10.6.0: {}
 
-  dedent@1.7.2: {}
-
   deepmerge@4.3.1: {}
 
   defu@6.1.7: {}
@@ -6795,7 +6712,7 @@ snapshots:
       - '@swc/helpers'
       - napi-wasm
 
-  parcel@3.0.0-alpha.3:
+  parcel@3.0.0-alpha.3(patch_hash=8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9):
     optionalDependencies:
       '@parcel/parcel3-darwin-arm64': 3.0.0-alpha.3
       '@parcel/parcel3-darwin-x64': 3.0.0-alpha.3

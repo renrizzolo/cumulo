@@ -1,6 +1,6 @@
 {
   "name": "List.Root",
-  "path": "packages/core/src/components/List.tsx",
+  "path": "../../packages/core/src/components/List.tsx",
   "fileName": "List.tsx",
   "props": {
     "gap": {
@@ -137,16 +137,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"ordered\" | \"plain\" | \"bullet\" | undefined",
+        "raw": "\"plain\" | \"ordered\" | \"bullet\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"ordered\""
+            "value": "\"plain\""
           },
           {
-            "value": "\"plain\""
+            "value": "\"ordered\""
           },
           {
             "value": "\"bullet\""
@@ -272,22 +272,22 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"ordered\" | \"plain\" | \"bullet\" | \"icon\" | undefined",
+            "raw": "\"icon\" | \"plain\" | \"ordered\" | \"bullet\" | undefined",
             "value": [
               {
                 "value": "undefined"
               },
               {
-                "value": "\"ordered\""
+                "value": "\"icon\""
               },
               {
                 "value": "\"plain\""
               },
               {
-                "value": "\"bullet\""
+                "value": "\"ordered\""
               },
               {
-                "value": "\"icon\""
+                "value": "\"bullet\""
               }
             ]
           },

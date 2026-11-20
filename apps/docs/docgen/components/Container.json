@@ -1,6 +1,6 @@
 {
   "name": "Container",
-  "path": "packages/core/src/components/Container.tsx",
+  "path": "../../packages/core/src/components/Container.tsx",
   "fileName": "Container.tsx",
   "props": {
     "size": {
@@ -68,16 +68,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"sm\" | \"none\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"sm\""
+            "value": "\"none\""
           },
           {
-            "value": "\"none\""
+            "value": "\"xs\""
+          },
+          {
+            "value": "\"sm\""
           },
           {
             "value": "\"md\""
@@ -87,9 +90,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"xs\""
           }
         ]
       },

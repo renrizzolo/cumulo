@@ -1,6 +1,6 @@
 {
   "name": "Textarea",
-  "path": "packages/core/src/components/Textarea.tsx",
+  "path": "../../packages/core/src/components/Textarea.tsx",
   "fileName": "Textarea.tsx",
   "props": {
     "size": {
@@ -22,13 +22,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
+        "raw": "\"inherit\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"inherit\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -38,9 +41,6 @@
           },
           {
             "value": "\"lg\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"xl\""
@@ -108,16 +108,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"default\" | \"error\" | undefined",
+        "raw": "\"error\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"default\""
+            "value": "\"error\""
           },
           {
-            "value": "\"error\""
+            "value": "\"default\""
           }
         ]
       },

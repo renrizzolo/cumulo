@@ -1,6 +1,6 @@
 {
   "name": "Link",
-  "path": "packages/core/src/components/Link.tsx",
+  "path": "../../packages/core/src/components/Link.tsx",
   "fileName": "Link.tsx",
   "props": {
     "variant": {
@@ -57,19 +57,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
+        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"medium\""
+            "value": "\"bold\""
           },
           {
             "value": "\"normal\""
           },
           {
-            "value": "\"bold\""
+            "value": "\"medium\""
           },
           {
             "value": "\"semibold\""

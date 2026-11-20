@@ -1,6 +1,6 @@
 {
   "name": "ButtonGroup.Root",
-  "path": "packages/core/src/components/ButtonGroup.tsx",
+  "path": "../../packages/core/src/components/ButtonGroup.tsx",
   "fileName": "ButtonGroup.tsx",
   "props": {
     "orientation": {
@@ -118,6 +118,9 @@
           },
           {
             "value": "\"ghost\""
+          },
+          {
+            "value": "\"default\""
           }
         ]
       },
@@ -158,6 +161,9 @@
           },
           {
             "value": "\"ghost\""
+          },
+          {
+            "value": "\"default\""
           }
         ]
       },
@@ -766,6 +772,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
@@ -804,6 +813,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },
@@ -983,6 +995,28 @@
           },
           "shortPropTypeName": null
         },
+        "loading": {
+          "defaultValue": {
+            "value": "false"
+          },
+          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
+          "name": "loading",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Button.tsx",
+            "name": "ButtonProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Button.tsx",
+              "name": "ButtonProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "boolean | undefined"
+          },
+          "shortPropTypeName": null
+        },
         "disabled": {
           "defaultValue": null,
           "description": "",
@@ -1018,28 +1052,6 @@
             "name": "Ref<HTMLButtonElement> | undefined"
           },
           "shortPropTypeName": "Union"
-        },
-        "loading": {
-          "defaultValue": {
-            "value": "false"
-          },
-          "description": "Displays an inline loading spinner and disables user interaction while setting `aria-busy=\"true\"`.",
-          "name": "loading",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Button.tsx",
-            "name": "ButtonProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Button.tsx",
-              "name": "ButtonProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "boolean | undefined"
-          },
-          "shortPropTypeName": null
         },
         "icon": {
           "defaultValue": null,

@@ -5,6 +5,9 @@ packages:
 allowBuilds:
   '@parcel/watcher': true
   '@swc/core': true
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-plugin-rsc-router': true
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-reporter-docgen': true
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/9f2da91037a02e9f8a3fd8cbfdca65453b000558#path:packages/parcel-rsc-router': true
   esbuild: true
   lmdb: true
   msgpackr-extract: true
@@ -14,4 +17,4 @@ minimumReleaseAgeExclude:
 
 patchedDependencies:
   '@parcel/fs': patches/@parcel__fs.patch
-  '@parcel/packager-react-static@2.16.4': patches/@parcel__packager-react-static@2.16.4.patch
+  'parcel@3.0.0-alpha.3': patches/parcel@3.0.0-alpha.3.patch

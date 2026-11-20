@@ -1,6 +1,6 @@
 {
   "name": "Divider",
-  "path": "packages/core/src/components/Divider.tsx",
+  "path": "../../packages/core/src/components/Divider.tsx",
   "fileName": "Divider.tsx",
   "props": {
     "orientation": {
@@ -56,13 +56,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\" | undefined",
+        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
             "value": "\"none\""
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
@@ -75,9 +78,6 @@
           },
           {
             "value": "\"xl\""
-          },
-          {
-            "value": "\"xs\""
           }
         ]
       },

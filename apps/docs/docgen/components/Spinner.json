@@ -1,6 +1,6 @@
 {
   "name": "Spinner",
-  "path": "packages/core/src/components/Spinner.tsx",
+  "path": "../../packages/core/src/components/Spinner.tsx",
   "fileName": "Spinner.tsx",
   "props": {
     "size": {
@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
+        "raw": "\"inherit\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -34,6 +34,9 @@
             "value": "\"2xs\""
           },
           {
+            "value": "\"xs\""
+          },
+          {
             "value": "\"sm\""
           },
           {
@@ -41,9 +44,6 @@
           },
           {
             "value": "\"lg\""
-          },
-          {
-            "value": "\"xs\""
           },
           {
             "value": "\"xl\""
@@ -71,22 +71,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"error\" | \"muted\" | \"primary\" | \"success\" | \"warning\" | \"info\" | undefined",
+        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"info\" | \"muted\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"inherit\""
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"muted\""
-          },
-          {
             "value": "\"primary\""
+          },
+          {
+            "value": "\"inherit\""
           },
           {
             "value": "\"success\""
@@ -95,7 +89,13 @@
             "value": "\"warning\""
           },
           {
+            "value": "\"error\""
+          },
+          {
             "value": "\"info\""
+          },
+          {
+            "value": "\"muted\""
           }
         ]
       },

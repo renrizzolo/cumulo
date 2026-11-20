@@ -1,6 +1,6 @@
 {
   "name": "Tooltip.Root",
-  "path": "packages/core/src/components/Tooltip.tsx",
+  "path": "../../packages/core/src/components/Tooltip.tsx",
   "fileName": "Tooltip.tsx",
   "props": {
     "open": {
@@ -126,6 +126,46 @@
         "name": "ReactNode"
       },
       "shortPropTypeName": null
+    },
+    "level": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "Surface elevation level for the popover content.\nCan be 0, 1, 2, or 'inherit' to inherit the surface level from the parent context.",
+      "name": "level",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+        "name": "PopoverProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Popover.tsx",
+          "name": "PopoverProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "PopoverLevel | undefined",
+        "value": [
+          {
+            "value": "undefined"
+          },
+          {
+            "value": "0"
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "2"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
@@ -233,7 +273,7 @@
           "required": false,
           "type": {
             "name": "enum",
-            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+            "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
             "value": [
               {
                 "value": "undefined"
@@ -249,6 +289,9 @@
               },
               {
                 "value": "\"ghost\""
+              },
+              {
+                "value": "\"default\""
               }
             ]
           },

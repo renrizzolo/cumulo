@@ -1,6 +1,6 @@
 {
   "name": "Button",
-  "path": "packages/core/src/components/Button.tsx",
+  "path": "../../packages/core/src/components/Button.tsx",
   "fileName": "Button.tsx",
   "props": {
     "variant": {
@@ -22,7 +22,7 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | undefined",
+        "raw": "\"primary\" | \"outline\" | \"secondary\" | \"ghost\" | \"default\" | undefined",
         "value": [
           {
             "value": "undefined"
@@ -38,6 +38,9 @@
           },
           {
             "value": "\"ghost\""
+          },
+          {
+            "value": "\"default\""
           }
         ]
       },

@@ -1,6 +1,6 @@
 {
   "name": "Kbd",
-  "path": "packages/core/src/components/Kbd.tsx",
+  "path": "../../packages/core/src/components/Kbd.tsx",
   "fileName": "Kbd.tsx",
   "props": {
     "size": {
@@ -22,19 +22,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"xs\" | undefined",
+        "raw": "\"xs\" | \"sm\" | \"md\" | undefined",
         "value": [
           {
             "value": "undefined"
+          },
+          {
+            "value": "\"xs\""
           },
           {
             "value": "\"sm\""
           },
           {
             "value": "\"md\""
-          },
-          {
-            "value": "\"xs\""
           }
         ]
       },

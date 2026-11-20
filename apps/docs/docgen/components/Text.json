@@ -1,6 +1,6 @@
 {
   "name": "Text",
-  "path": "packages/core/src/components/Text.tsx",
+  "path": "../../packages/core/src/components/Text.tsx",
   "fileName": "Text.tsx",
   "props": {
     "type": {
@@ -73,31 +73,31 @@
             "value": "\"small\""
           },
           {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"span\""
+          },
+          {
             "value": "\"label\""
           },
           {
             "value": "\"code\""
           },
           {
-            "value": "\"dd\""
+            "value": "\"p\""
           },
           {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"dt\""
+            "value": "\"strong\""
           },
           {
             "value": "\"em\""
           },
           {
-            "value": "\"p\""
+            "value": "\"dt\""
           },
           {
-            "value": "\"span\""
-          },
-          {
-            "value": "\"strong\""
+            "value": "\"dd\""
           }
         ]
       },
@@ -173,16 +173,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
+        "raw": "\"bold\" | \"normal\" | \"medium\" | \"semibold\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
-            "value": "\"normal\""
+            "value": "\"bold\""
           },
           {
-            "value": "\"bold\""
+            "value": "\"normal\""
           },
           {
             "value": "\"medium\""
@@ -251,13 +251,25 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
+        "raw": "\"primary\" | \"inherit\" | \"success\" | \"warning\" | \"error\" | \"default\" | \"muted\" | \"subtle\" | undefined",
         "value": [
           {
             "value": "undefined"
           },
           {
+            "value": "\"primary\""
+          },
+          {
             "value": "\"inherit\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "\"warning\""
+          },
+          {
+            "value": "\"error\""
           },
           {
             "value": "\"default\""
@@ -267,18 +279,6 @@
           },
           {
             "value": "\"subtle\""
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"warning\""
           }
         ]
       },
