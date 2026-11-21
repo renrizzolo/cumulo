@@ -13,7 +13,7 @@ import type { PageProps } from '@renr/parcel-rsc-router';
 import React, { type ReactNode } from 'react';
 
 import AppLayout, { type DocsLayoutMode, isFullWidthLayout } from '../Layout';
-import { BundlerAlert, RscAlert } from './Alerts';
+import { BundlerAlert } from './Alerts';
 import { CodeBlock } from './CodeBlock';
 import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
@@ -52,7 +52,6 @@ const components = {
   TokenTable,
   PropsTable,
   ComponentPreview,
-  RscAlert,
   BundlerAlert,
 };
 

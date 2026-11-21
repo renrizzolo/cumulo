@@ -15,14 +15,10 @@ An accessible, token-styled radio input component utilizing native `<input type=
 ```tsx
 import { Radio } from '@cumulo/core/components/Radio';
 import * as RadioGroup from '@cumulo/core/components/RadioGroup';
-import { createRadioGroup } from '@cumulo/core/components/RadioGroup';
-import * as Field from '@cumulo/core/components/Field';
 
 // Optional: create a strictly typed RadioGroup
-const PlanRadioGroup = createRadioGroup<'standard' | 'pro' | 'enterprise'>();
+const PlanRadioGroup = RadioGroup.createRadioGroup<'standard' | 'pro' | 'enterprise'>();
 ```
-
-<RscAlert component="RadioGroup" />
 
 ### Examples
 
