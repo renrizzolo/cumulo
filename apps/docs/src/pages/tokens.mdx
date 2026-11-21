@@ -50,12 +50,26 @@ You can also import `@cumulo/core/theme.css` and selectively override specific t
 
 Use the [theme builder](/theme-builder) to test and generate theme overrides interactively.
 
+##### Sync `vars` with your stylesheet (optional)
+
+The typed `vars` contract (and its hover doc comments showing each token's value) is generated from `@cumulo/core/theme.css`. After you change variables in a custom stylesheet, regenerate it with the CLI so editor tooltips and types match your values:
+
+```bash
+# Update the installed @cumulo/core package in place
+npx @cumulo/core generate-theme --css ./src/styles.css --in-place
+
+# Or write a standalone contract file instead
+npx @cumulo/core generate-theme --css ./src/styles.css --out ./src/vars.ts
+```
+
+Re-run it whenever your stylesheet's tokens change. See `npx @cumulo/core --help` for all options.
+
 ### Consume tokens in code
 
 Import `vars` from `@cumulo/core` to access typed CSS variable references in your component styles:
 
 ```ts
-import { vars } from '@cumulo/core';
+import { vars } from '@cumulo/core/contract';
 import { style } from '@cumulo/css';
 
 export const card = style({

@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useCallback } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import React, { useCallback } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { fieldIntentStyles, sizes } from '../intents.js';
 import {
   useValueGroup,
   notifyStringValue,
@@ -13,6 +13,7 @@ import {
   type ValueItemProps,
   type TypedGroup,
 } from '../hooks/useValueGroup.js';
+import { fieldIntentStyles, sizes } from '../intents.js';
 
 const selectRecipe = recipe(
   {

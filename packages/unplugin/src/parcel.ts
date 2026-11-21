@@ -1,4 +1,5 @@
 import { Transformer } from '@parcel/plugin';
+
 import { shouldProcessFile, extractAndRewrite } from './core/extractor.js';
 
 export const cumulo = new Transformer({

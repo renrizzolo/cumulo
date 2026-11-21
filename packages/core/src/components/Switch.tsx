@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useCallback, useState } from 'react';
 import { recipe, cx, type RecipeVariants, createThemeContract, createTheme } from '@cumulo/css';
+import React, { useCallback, useState } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { focusRing, controlIntent, controlInput } from '../intents.js';

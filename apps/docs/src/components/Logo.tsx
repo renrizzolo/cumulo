@@ -1,6 +1,7 @@
-import React from 'react';
+import { vars } from '@cumulo/core/contract';
+import { type ElementProps } from '@cumulo/core/ElementProps';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
-import { vars, type ElementProps } from '@cumulo/core';
+import React from 'react';
 
 const logoRecipe = recipe({
   base: {

@@ -1,6 +1,5 @@
 'use client';
 
-import React, { useCallback, useState, useRef } from 'react';
 import {
   recipe,
   style,
@@ -9,6 +8,8 @@ import {
   createThemeContract,
   createTheme,
 } from '@cumulo/css';
+import React, { useCallback, useState, useRef } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';

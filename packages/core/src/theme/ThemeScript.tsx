@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   DEFAULT_THEME_STORAGE_KEY,
   DEFAULT_MODE_STORAGE_KEY,

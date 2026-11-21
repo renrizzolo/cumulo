@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { vars } from '../src/index.js';
+
 import { checkboxRecipe } from '../src/components/Checkbox.js';
 import { radioRecipe } from '../src/components/Radio.js';
 import { switchRecipe } from '../src/components/Switch.js';
+import { vars } from '../src/index.js';
 
 describe('@cumulo/core', () => {
   it('exports theme contract dynamically matching CSS variables in theme.css', () => {

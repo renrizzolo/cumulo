@@ -1,6 +1,5 @@
 'use client';
 
-import React, { createContext, useContext, useCallback, useState, useRef } from 'react';
 import {
   recipe,
   style,
@@ -9,11 +8,13 @@ import {
   createThemeContract,
   createTheme,
 } from '@cumulo/css';
+import React, { createContext, useContext, useCallback, useState, useRef } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlIntent, controlInput } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import type { ValueGroupContextBase } from '../hooks/useValueGroup.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 
 export type RadioGroupOrientation = 'horizontal' | 'vertical';
 

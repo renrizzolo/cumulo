@@ -1,5 +1,6 @@
 'use client';
 
+import { recipe, style, cx } from '@cumulo/css';
 import React, {
   createContext,
   use,
@@ -11,12 +12,12 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
-import { recipe, style, cx } from '@cumulo/css';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
+import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 import { Button, type ButtonProps } from './Button.js';
 import { StackProps, VStack } from './Stack.js';
-import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 
 export type CollapsiblePart = 'trigger' | 'content';
 

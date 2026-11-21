@@ -1,5 +1,5 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { HStack, VStack } from '@cumulo/core';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
 import * as Avatar from '@cumulo/core/components/Avatar';
 import avatarDoc from '../../../docgen/components/Avatar.json';
 export default Layout;
@@ -9,10 +9,9 @@ export default Layout;
 Avatars represent user identities, organization profiles, and account representations with automatic image fallback, initials derivation, status indicators, and group stacking.
 
 ```tsx
-import { Avatar, AvatarGroup } from '@cumulo/core';
+import * as Avatar from '@cumulo/core/components/Avatar';
+import { AvatarGroup } from '@cumulo/core/components/Avatar';
 ```
-
-<RscAlert component="Avatar" />
 
 ### Examples
 

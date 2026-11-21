@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { create, style } from '@cumulo/css';
-import { Text, vars, type VarPath, VarValue, Popover, HStack } from '@cumulo/core';
+import * as Popover from '@cumulo/core/components/Popover';
+import { HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
+import { vars, type VarPath, VarValue } from '@cumulo/core/contract';
 import { Intent } from '@cumulo/core/intents';
+import { create, style } from '@cumulo/css';
+import React, { useState, useCallback } from 'react';
 
 type ColorIntent = Intent | 'grey';
 type ColorStep = (typeof STEPS)[number];

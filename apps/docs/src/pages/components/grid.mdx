@@ -1,5 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Surface, Text, VStack } from '@cumulo/core';
+import { Surface } from '@cumulo/core/components/Surface';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as Grid from '@cumulo/core/components/Grid';
 import gridDoc from '../../../docgen/components/Grid.json';
 export default Layout;
@@ -9,7 +11,7 @@ export default Layout;
 CSS Grid layout primitive supporting fixed column counts, responsive auto-fit (`minColumnWidth`), token spacing, and `Grid.Item` column/row spanning.
 
 ```tsx
-import { Grid } from '@cumulo/core';
+import * as Grid from '@cumulo/core/components/Grid';
 ```
 
 ### Examples

@@ -1,6 +1,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { describe, it, expect, vi } from 'vitest';
+
 import { withCumulo } from '../src/next.js';
 import cumuloPostcss from '../src/postcss.js';
 

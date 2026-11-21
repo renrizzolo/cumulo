@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+
 import { extractCssFromFile, shouldProcessFile } from './core/extractor.js';
 import type { CumuloPluginOptions } from './types.js';
 

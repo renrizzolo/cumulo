@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
-import { describe, it, expect, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { describe, it, expect, afterEach } from 'vitest';
+
 import { Textarea } from '../src/components/Textarea.js';
 import { Field } from '../src/index.js';
 

@@ -1,10 +1,13 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { describe, it, expect } from 'vitest';
+
 import {
-  buildWithVite,
-  buildWithRollup,
   buildWithEsbuild,
+  buildWithParcel,
+  buildWithRollup,
+  buildWithVite,
   buildWithWebpack,
 } from '../../src/helpers/bundler-builders.js';
 
@@ -83,4 +86,12 @@ describe('Bundler Integration & CSS Extraction', () => {
     verifyExtractedCss(result.cssContent, 'Webpack');
     verifyZeroRuntimeJs(result.jsContent, 'Webpack');
   }, 20000);
+
+  it('Parcel (v2) extracts valid CSS for all fixture components', async () => {
+    const outDir = path.resolve(__dirname, '../.temp/parcel');
+    const result = await buildWithParcel(outDir);
+    expect(result.bundlerName).toBe('Parcel');
+    verifyExtractedCss(result.cssContent, 'Parcel');
+    verifyZeroRuntimeJs(result.jsContent, 'Parcel');
+  }, 60000);
 });

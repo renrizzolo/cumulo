@@ -1,5 +1,7 @@
 import path from 'node:path';
+
 import { describe, it, expect } from 'vitest';
+
 import {
   extractAndRewrite,
   extractCssFromCode,

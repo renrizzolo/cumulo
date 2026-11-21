@@ -3,6 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { useState } from 'react';
 import { afterEach, describe, expect, test, vi } from 'vitest';
+
 import { useDismissible } from './useDismissible';
 
 afterEach(() => {

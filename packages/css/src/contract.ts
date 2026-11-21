@@ -8,10 +8,6 @@ import type {
   ThemeContract,
 } from './types.js';
 
-function isPlainRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
 export function pathToVarName(path: string[], prefix = 'c'): `--${string}` {
   const kebab = path
     .map((segment) => segment.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase())
@@ -23,7 +19,7 @@ export function flattenValues(values: object, path: string[] = [], prefix = 'c')
   const result: CSSVariableMap = {};
   for (const [key, value] of Object.entries(values)) {
     const currentPath = [...path, key];
-    if (isPlainRecord(value)) {
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
       Object.assign(result, flattenValues(value, currentPath, prefix));
     } else if (value !== undefined && value !== null) {
       result[pathToVarName(currentPath, prefix)] = String(value);

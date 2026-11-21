@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { HStack, Stack } from '@cumulo/core/components/Stack';
+import { vars } from '@cumulo/core/contract';
 import { cx as mergeClasses, keyframes, style, type StyleRule } from '@cumulo/css';
-import { HStack, Stack, vars } from '@cumulo/core';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const EASE_SPRING_BOUNCE = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 const EASE_IN_OUT_SMOOTH = 'cubic-bezier(0.45, 0, 0.55, 1)';

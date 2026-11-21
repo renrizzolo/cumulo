@@ -1,7 +1,7 @@
-import { hash } from './hash.js';
-import { sheet } from './sheet.js';
 import { camelToKebab } from './create.js';
+import { hash } from './hash.js';
 import { attachMeta } from './meta.js';
+import { sheet } from './sheet.js';
 import type { CSSProperties } from './types.js';
 
 export type KeyframeSteps = {

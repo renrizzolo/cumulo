@@ -2,8 +2,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import * as Diff from 'diff';
 import ts from 'typescript';
+
 import { getCliArg, isDirectExecution, writeCliOutputFile } from './cli-utils.ts';
 
 const __filename = fileURLToPath(import.meta.url);

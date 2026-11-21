@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { runThemeGeneration } from '../src/cli/themeGenerator.ts';
 
 const __filename = fileURLToPath(import.meta.url);

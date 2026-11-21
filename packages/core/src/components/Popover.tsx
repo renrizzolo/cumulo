@@ -1,5 +1,6 @@
 'use client';
 
+import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -12,18 +13,18 @@ import React, {
   type ReactNode,
   type MouseEvent,
 } from 'react';
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { Button, type ButtonProps } from './Button.js';
-import { useMergeRefs } from '../hooks/useMergeRefs.js';
-import { useFocus } from '../hooks/useFocus.js';
 import {
   useDismissible,
   handlePopoverToggleEvent,
   safeHidePopover,
   togglePopoverFromTrigger,
 } from '../hooks/useDismissible.js';
+import { useFocus } from '../hooks/useFocus.js';
+import { useMergeRefs } from '../hooks/useMergeRefs.js';
+import { Button, type ButtonProps } from './Button.js';
 
 export type PopoverLevel = 0 | 1 | 2 | 'inherit';
 

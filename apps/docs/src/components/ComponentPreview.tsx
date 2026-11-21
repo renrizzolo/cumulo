@@ -1,7 +1,8 @@
 import React from 'react';
+
+import { reactNodeToJsx } from '../utils/reactNodeToJsx.js';
 import { CodeBlock } from './CodeBlock.js';
 import { ComponentPreviewClient } from './ComponentPreviewClient.js';
-import { reactNodeToJsx } from '../utils/reactNodeToJsx.js';
 import { SupportedLanguages } from './HighlightedCode.js';
 
 export function ComponentPreview({

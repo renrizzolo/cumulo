@@ -1,5 +1,8 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { VStack, HStack, Heading, Text, Button } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { VStack, HStack } from '@cumulo/core/components/Stack';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Text } from '@cumulo/core/components/Text';
 import * as Card from '@cumulo/core/components/Card';
 import cardDoc from '../../../docgen/components/Card.json';
 export default Layout;
@@ -9,7 +12,7 @@ export default Layout;
 Cards group related content and actions into a distinct, elevated surface container.
 
 ```tsx
-import { Card } from '@cumulo/core';
+import * as Card from '@cumulo/core/components/Card';
 ```
 
 ### Examples

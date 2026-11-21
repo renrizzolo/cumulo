@@ -3,7 +3,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { afterAll, describe, expect, it } from 'vitest';
+
 import { extractCss } from '../src/index.js';
 
 const __filename = fileURLToPath(import.meta.url);

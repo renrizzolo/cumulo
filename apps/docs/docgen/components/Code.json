@@ -3,83 +3,6 @@
   "path": "../../packages/core/src/components/Code.tsx",
   "fileName": "Code.tsx",
   "props": {
-    "variant": {
-      "defaultValue": {
-        "value": "base"
-      },
-      "description": "",
-      "name": "variant",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Code.tsx",
-        "name": "CodeProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Code.tsx",
-          "name": "CodeProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"primary\" | \"subtle\" | \"base\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"subtle\""
-          },
-          {
-            "value": "\"base\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "wrap": {
-      "defaultValue": {
-        "value": "wrap"
-      },
-      "description": "",
-      "name": "wrap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Code.tsx",
-        "name": "CodeProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Code.tsx",
-          "name": "CodeProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"balance\""
-          },
-          {
-            "value": "\"pretty\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "className": {
       "defaultValue": null,
       "description": "",
@@ -113,6 +36,83 @@
       "required": false,
       "type": {
         "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "base"
+      },
+      "description": "",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Code.tsx",
+        "name": "CodeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Code.tsx",
+          "name": "CodeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"base\" | \"primary\" | \"subtle\" | undefined",
+        "value": [
+          {
+            "value": "\"base\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"subtle\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": {
+        "value": "wrap"
+      },
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Code.tsx",
+        "name": "CodeProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Code.tsx",
+          "name": "CodeProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"balance\" | \"nowrap\" | \"pretty\" | \"wrap\" | undefined",
+        "value": [
+          {
+            "value": "\"balance\""
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"pretty\""
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
       "shortPropTypeName": null
     }

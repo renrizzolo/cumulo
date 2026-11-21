@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
+
 import * as ButtonGroup from '../src/components/ButtonGroup.js';
 import { createButtonGroup } from '../src/components/ButtonGroup.js';
 

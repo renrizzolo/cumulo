@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/vitest';
+import { render, cleanup } from '@testing-library/react';
 import React, { useRef } from 'react';
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, cleanup } from '@testing-library/react';
+
 import { useMergeRefs, mergeRefs, assignRef } from './useMergeRefs.js';
 
 afterEach(() => {

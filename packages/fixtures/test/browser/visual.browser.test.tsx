@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { page, commands } from 'vitest/browser';
+
 import { App } from '../../src/shared/App.js';
 
 declare module 'vitest/browser' {

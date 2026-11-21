@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { VStack, Text } from '@cumulo/core';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as Tabs from '@cumulo/core/components/Tabs';
 import tabsDoc from '../../../docgen/components/Tabs.json';
 export default Layout;
@@ -9,13 +10,12 @@ export default Layout;
 An accessible compound tabbed interface supporting line, pill, and bordered styles with full keyboard arrow navigation.
 
 ```tsx
-import { Tabs, createTabs } from '@cumulo/core';
+import * as Tabs from '@cumulo/core/components/Tabs';
+import { createTabs } from '@cumulo/core/components/Tabs';
 
 // Optional: create a strictly typed Tabs group
 const SettingsTabs = createTabs<'account' | 'password' | 'notifications'>();
 ```
-
-<RscAlert component="Tabs" />
 
 ### Examples
 

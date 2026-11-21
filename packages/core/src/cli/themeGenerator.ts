@@ -378,5 +378,5 @@ export async function runThemeGeneration(options: GenerateThemeOptions = {}): Pr
     return;
   }
 
-  throw new Error('You must provide either --out-path or --in-place.');
+  throw new Error('You must provide either --out or --in-place.');
 }

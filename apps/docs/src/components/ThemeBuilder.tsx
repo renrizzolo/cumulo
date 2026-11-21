@@ -1,39 +1,37 @@
 'use client';
 
-import {
-  Alert,
-  Badge,
-  Button,
-  ButtonGroup,
-  Card,
-  Code,
-  Collapsible,
-  Dialog,
-  Divider,
-  Field,
-  Grid,
-  Header,
-  Heading,
-  HStack,
-  Input,
-  Kbd,
-  Link,
-  Menu,
-  Popover,
-  Select,
-  Spinner,
-  Surface,
-  Table,
-  Tabs,
-  Text,
-  ThemeToggle,
-  Tooltip,
-  vars,
-  VStack,
-  type AlertVariant,
-} from '@cumulo/core';
+import * as Alert from '@cumulo/core/components/Alert';
+import { type AlertVariant } from '@cumulo/core/components/Alert';
+import { Badge } from '@cumulo/core/components/Badge';
+import { Button } from '@cumulo/core/components/Button';
+import * as ButtonGroup from '@cumulo/core/components/ButtonGroup';
+import * as Card from '@cumulo/core/components/Card';
+import { Code } from '@cumulo/core/components/Code';
+import * as Collapsible from '@cumulo/core/components/Collapsible';
+import * as Dialog from '@cumulo/core/components/Dialog';
+import { Divider } from '@cumulo/core/components/Divider';
+import * as Field from '@cumulo/core/components/Field';
+import * as Grid from '@cumulo/core/components/Grid';
+import { Header } from '@cumulo/core/components/Header';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Input } from '@cumulo/core/components/Input';
+import { Kbd } from '@cumulo/core/components/Kbd';
+import { Link } from '@cumulo/core/components/Link';
+import * as Menu from '@cumulo/core/components/Menu';
+import * as Popover from '@cumulo/core/components/Popover';
+import * as Select from '@cumulo/core/components/Select';
+import { Spinner } from '@cumulo/core/components/Spinner';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
+import { Surface } from '@cumulo/core/components/Surface';
+import * as Table from '@cumulo/core/components/Table';
+import * as Tabs from '@cumulo/core/components/Tabs';
+import { Text } from '@cumulo/core/components/Text';
+import { ThemeToggle } from '@cumulo/core/components/ThemeToggle';
+import * as Tooltip from '@cumulo/core/components/Tooltip';
+import { vars } from '@cumulo/core/contract';
 import { createTheme, createThemeContract, cx, style } from '@cumulo/css';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { ColorTokens } from './ColorTokens';
 import { CopyButton } from './CopyButton';
 

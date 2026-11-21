@@ -1,5 +1,6 @@
-import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+import React from 'react';
+
 import { vars } from '../contract.js';
 import { focusRing } from '../intents.js';
 import { textSharedRecipe } from '../typography.js';

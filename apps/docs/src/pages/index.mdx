@@ -1,5 +1,7 @@
 import Layout from '../components/MDXLayout.tsx';
-import { Badge, Text, HStack } from '@cumulo/core';
+import { Badge } from '@cumulo/core/components/Badge';
+import { HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as Card from '@cumulo/core/components/Card';
 import * as Alert from '@cumulo/core/components/Alert';
 import * as List from '@cumulo/core/components/List';
@@ -132,6 +134,34 @@ Define the token variables on `:root` or scoped `[data-theme='...']` attributes.
 In most cases you will want to import `@cumulo/core/theme.css` and override select CSS variables.
 
 See the [Tokens and theming](/tokens) reference for the complete list of CSS variables.
+
+##### Sync `vars` with your stylesheet (optional)
+
+The typed `vars` contract (and its hover doc comments showing each token's value) is generated from `@cumulo/core/theme.css`. After you change variables in a custom stylesheet, regenerate it with the CLI so editor tooltips and types match your values:
+
+```bash
+# Update the installed @cumulo/core package in place
+npx @cumulo/core generate-theme --css ./src/styles.css --in-place
+
+# Or write a standalone contract file instead
+npx @cumulo/core generate-theme --css ./src/styles.css --out ./src/vars.ts
+```
+
+Re-run it whenever your stylesheet's tokens change. See `npx @cumulo/core --help` for all options.
+
+### Importing components
+
+Import each component from its own path. This keeps bundles small, because you only get the CSS for the components you use, and it makes React Server Component boundaries explicit.
+
+```tsx
+import { Button } from '@cumulo/core/components/Button';
+
+export function Save() {
+  return <Button intent="primary">Save changes</Button>;
+}
+```
+
+Compound components are imported as a namespace, for example `import * as Field from '@cumulo/core/components/Field';`. The root `@cumulo/core` entry is deprecated.
 
 ### Next steps
 

@@ -1,11 +1,12 @@
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import * as SideNav from '../src/components/SideNav.js';
+
 import * as Sidebar from '../src/components/Sidebar.js';
 import { SidebarContext, type SidebarContextValue } from '../src/components/Sidebar.js';
+import * as SideNav from '../src/components/SideNav.js';
 
 const mockSidebarContext: SidebarContextValue = {
   type: 'push',

@@ -1,8 +1,9 @@
-import React, { useState, act } from 'react';
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { useState, act } from 'react';
+import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
+
 import * as Sidebar from '../src/components/Sidebar.js';
 import { useSidebar } from '../src/components/Sidebar.js';
 

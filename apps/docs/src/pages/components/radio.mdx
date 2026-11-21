@@ -1,6 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Label, HStack, VStack } from '@cumulo/core';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
 import * as Field from '@cumulo/core/components/Field';
+import { Label } from '@cumulo/core/components/Label';
 import { Radio } from '@cumulo/core/components/Radio';
 import * as RadioGroup from '@cumulo/core/components/RadioGroup';
 import radioDoc from '../../../docgen/components/Radio.json';
@@ -12,13 +13,12 @@ export default Layout;
 An accessible, token-styled radio input component utilizing native `<input type="radio">` with circular indicator styling, error intent, and compound `RadioGroup` (`RadioGroup.Root`, `RadioGroup.Item`) grouping.
 
 ```tsx
-import { RadioGroup, Radio, createRadioGroup, Field } from '@cumulo/core';
+import { Radio } from '@cumulo/core/components/Radio';
+import * as RadioGroup from '@cumulo/core/components/RadioGroup';
 
 // Optional: create a strictly typed RadioGroup
-const PlanRadioGroup = createRadioGroup<'standard' | 'pro' | 'enterprise'>();
+const PlanRadioGroup = RadioGroup.createRadioGroup<'standard' | 'pro' | 'enterprise'>();
 ```
-
-<RscAlert component="RadioGroup" />
 
 ### Examples
 

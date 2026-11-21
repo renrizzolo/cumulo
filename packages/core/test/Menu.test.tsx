@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
-import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+
 import * as Menu from '../src/components/Menu.js';
 
 describe('Menu Component', () => {

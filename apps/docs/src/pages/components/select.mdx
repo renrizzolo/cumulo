@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Container, VStack, HStack } from '@cumulo/core';
+import { VStack, HStack } from '@cumulo/core/components/Stack';
+import { Container } from '@cumulo/core/components/Container';
 import * as Select from '@cumulo/core/components/Select';
 import * as Field from '@cumulo/core/components/Field';
 import selectDoc from '../../../docgen/components/Select.json';
@@ -10,7 +11,9 @@ export default Layout;
 Customizable `<select>` dropdown control (`appearance: base-select`) with styled `::picker(select)` popup, options, checkmarks, option groups, variants, intents, sizing scales, and compound `Field.Select` integration.
 
 ```tsx
-import { Select, createSelect, Field } from '@cumulo/core';
+import * as Select from '@cumulo/core/components/Select';
+import { createSelect } from '@cumulo/core/components/Select';
+import * as Field from '@cumulo/core/components/Field';
 
 // Optional: create a strictly typed Select
 const RegionSelect = createSelect<'us-east' | 'us-west' | 'eu-central' | 'ap-south'>();

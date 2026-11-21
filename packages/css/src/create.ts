@@ -1,6 +1,6 @@
 import { hash } from './hash.js';
-import { sheet } from './sheet.js';
 import { attachMeta } from './meta.js';
+import { sheet } from './sheet.js';
 import type {
   StyleProperties,
   StyleRule,

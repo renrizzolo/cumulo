@@ -3,10 +3,30 @@
   "path": "../../packages/core/src/components/Badge.tsx",
   "fileName": "Badge.tsx",
   "props": {
-    "variant": {
+    "className": {
       "defaultValue": null,
       "description": "",
-      "name": "variant",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "color": {
+      "defaultValue": null,
+      "description": "",
+      "name": "color",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Badge.tsx",
         "name": "BadgeProps"
@@ -20,19 +40,31 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"outline\" | \"secondary\" | undefined",
+        "raw": "\"beige\" | \"blue\" | \"green\" | \"pink\" | \"purple\" | \"sky\" | \"yellow\" | undefined",
         "value": [
           {
+            "value": "\"beige\""
+          },
+          {
+            "value": "\"blue\""
+          },
+          {
+            "value": "\"green\""
+          },
+          {
+            "value": "\"pink\""
+          },
+          {
+            "value": "\"purple\""
+          },
+          {
+            "value": "\"sky\""
+          },
+          {
+            "value": "\"yellow\""
+          },
+          {
             "value": "undefined"
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"outline\""
-          },
-          {
-            "value": "\"secondary\""
           }
         ]
       },
@@ -55,10 +87,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"primary\" | \"success\" | \"warning\" | \"error\" | \"info\" | undefined",
+        "raw": "\"error\" | \"info\" | \"primary\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"error\""
+          },
+          {
+            "value": "\"info\""
           },
           {
             "value": "\"primary\""
@@ -70,14 +105,27 @@
             "value": "\"warning\""
           },
           {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"info\""
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLSpanElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
     },
     "size": {
       "defaultValue": {
@@ -98,31 +146,31 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | undefined",
+        "raw": "\"2xs\" | \"md\" | \"sm\" | \"xs\" | undefined",
         "value": [
-          {
-            "value": "undefined"
-          },
           {
             "value": "\"2xs\""
           },
           {
-            "value": "\"xs\""
+            "value": "\"md\""
           },
           {
             "value": "\"sm\""
           },
           {
-            "value": "\"md\""
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "color": {
+    "variant": {
       "defaultValue": null,
       "description": "",
-      "name": "color",
+      "name": "variant",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Badge.tsx",
         "name": "BadgeProps"
@@ -136,71 +184,23 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"beige\" | \"blue\" | \"green\" | \"pink\" | \"purple\" | \"yellow\" | \"sky\" | undefined",
+        "raw": "\"outline\" | \"primary\" | \"secondary\" | undefined",
         "value": [
           {
+            "value": "\"outline\""
+          },
+          {
+            "value": "\"primary\""
+          },
+          {
+            "value": "\"secondary\""
+          },
+          {
             "value": "undefined"
-          },
-          {
-            "value": "\"beige\""
-          },
-          {
-            "value": "\"blue\""
-          },
-          {
-            "value": "\"green\""
-          },
-          {
-            "value": "\"pink\""
-          },
-          {
-            "value": "\"purple\""
-          },
-          {
-            "value": "\"yellow\""
-          },
-          {
-            "value": "\"sky\""
           }
         ]
       },
       "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
-    "ref": {
-      "defaultValue": null,
-      "description": "",
-      "name": "ref",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Ref<HTMLSpanElement> | undefined"
-      },
-      "shortPropTypeName": "Union"
     }
   }
 }

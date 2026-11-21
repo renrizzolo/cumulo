@@ -1,7 +1,12 @@
 import Layout from '../../components/MDXLayout.tsx';
 import { DualSidebarExample } from '../../components/DualSidebarExample.tsx';
 import { readSourceFile } from '../../utils/readSourceFile.ts';
-import { Panel, Surface, VStack, HStack, Heading, Text, vars } from '@cumulo/core';
+import { vars } from '@cumulo/core/contract';
+import { Surface } from '@cumulo/core/components/Surface';
+import { VStack, HStack } from '@cumulo/core/components/Stack';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Text } from '@cumulo/core/components/Text';
+import { Panel } from '@cumulo/core/components/Panel';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
 import * as SideNav from '@cumulo/core/components/SideNav';
 import sidebarDoc from '../../../docgen/components/Sidebar.json';
@@ -14,10 +19,9 @@ export const dualSidebarCode = readSourceFile('components/DualSidebarExample.tsx
 A collapsible application sidebar primitive managing expanded and icon-only states, docked or floating variants, and width animations.
 
 ```tsx
-import { Sidebar, useSidebar } from '@cumulo/core';
+import * as Sidebar from '@cumulo/core/components/Sidebar';
+import { useSidebar } from '@cumulo/core/components/Sidebar';
 ```
-
-<RscAlert component="Sidebar" />
 
 ### Examples
 

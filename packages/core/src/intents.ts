@@ -1,4 +1,5 @@
 import { recipe, style } from '@cumulo/css';
+
 import { vars } from './contract.js';
 
 export type BaseVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
