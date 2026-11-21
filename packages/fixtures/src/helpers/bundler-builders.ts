@@ -53,22 +53,25 @@ function readDistResult(bundlerName: string, distDir: string): BundlerBuildResul
   };
 }
 
-function writeEntryHtml(dir: string): string {
+function writeEntryHtml(dir: string, entryFile = 'entry.tsx'): string {
   const entryHtml = path.resolve(dir, 'index.html');
   const htmlWithScript = HTML_TEMPLATE.replace(
     '</body>',
-    `<script type="module" src="${path.resolve(FIXTURES_DIR, 'entry.tsx').replace(/\\/g, '/')}"></script></body>`,
+    `<script type="module" src="${path.resolve(FIXTURES_DIR, entryFile).replace(/\\/g, '/')}"></script></body>`,
   );
   fs.writeFileSync(entryHtml, htmlWithScript, 'utf-8');
   return entryHtml;
 }
 
-export async function buildWithVite(outDir: string): Promise<BundlerBuildResult> {
+export async function buildWithVite(
+  outDir: string,
+  entryFile = 'entry.tsx',
+): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   const packageRoot = path.resolve(__dirname, '../../');
-  const entryHtml = writeEntryHtml(outDir);
+  const entryHtml = writeEntryHtml(outDir, entryFile);
   const distDir = path.resolve(outDir, 'dist');
   await vite.build({
     root: packageRoot,
@@ -87,14 +90,17 @@ export async function buildWithVite(outDir: string): Promise<BundlerBuildResult>
   return readDistResult('Vite', distDir);
 }
 
-export async function buildWithRollup(outDir: string): Promise<BundlerBuildResult> {
+export async function buildWithRollup(
+  outDir: string,
+  entryFile = 'entry.tsx',
+): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   let extractedCss = '';
 
   const bundle = await rollup.rollup({
-    input: path.resolve(FIXTURES_DIR, 'entry.tsx'),
+    input: path.resolve(FIXTURES_DIR, entryFile),
     plugins: [
       replace({
         preventAssignment: true,
@@ -151,12 +157,15 @@ export async function buildWithRollup(outDir: string): Promise<BundlerBuildResul
   };
 }
 
-export async function buildWithEsbuild(outDir: string): Promise<BundlerBuildResult> {
+export async function buildWithEsbuild(
+  outDir: string,
+  entryFile = 'entry.tsx',
+): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   await esbuild.build({
-    entryPoints: [path.resolve(FIXTURES_DIR, 'entry.tsx')],
+    entryPoints: [path.resolve(FIXTURES_DIR, entryFile)],
     bundle: true,
     outdir: outDir,
     plugins: [esbuildPlugin()],
@@ -196,7 +205,10 @@ export async function buildWithEsbuild(outDir: string): Promise<BundlerBuildResu
   };
 }
 
-export async function buildWithWebpack(outDir: string): Promise<BundlerBuildResult> {
+export async function buildWithWebpack(
+  outDir: string,
+  entryFile = 'entry.tsx',
+): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
@@ -205,7 +217,7 @@ export async function buildWithWebpack(outDir: string): Promise<BundlerBuildResu
       {
         context: path.resolve(__dirname, '../../'),
         mode: 'production',
-        entry: path.resolve(FIXTURES_DIR, 'entry.tsx'),
+        entry: path.resolve(FIXTURES_DIR, entryFile),
         output: {
           path: outDir,
           filename: 'bundle.js',
@@ -276,9 +288,28 @@ export async function buildWithWebpack(outDir: string): Promise<BundlerBuildResu
   };
 }
 
-export async function buildWithParcel(outDir: string): Promise<BundlerBuildResult> {
+export async function buildWithParcel(
+  outDir: string,
+  entryFile = 'entry.tsx',
+): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
+
+  fs.writeFileSync(path.resolve(outDir, 'pnpm-lock.yaml'), '', 'utf-8');
+  fs.writeFileSync(
+    path.resolve(outDir, 'package.json'),
+    JSON.stringify(
+      {
+        name: 'parcel-fixture',
+        private: true,
+        type: 'module',
+        '@parcel/resolver-default': { packageExports: true },
+      },
+      null,
+      2,
+    ),
+    'utf-8',
+  );
 
   const tempSrcDir = path.resolve(outDir, 'src');
   fs.mkdirSync(tempSrcDir, { recursive: true });
@@ -295,10 +326,20 @@ export async function buildWithParcel(outDir: string): Promise<BundlerBuildResul
   );
   fs.writeFileSync(path.resolve(outDir, '.parcelrc'), parcelrcContent, 'utf-8');
 
-  const entryHtml = writeEntryHtml(tempSrcDir);
+  const relEntry = path
+    .relative(tempSrcDir, path.resolve(FIXTURES_DIR, entryFile))
+    .replace(/\\/g, '/');
+  fs.writeFileSync(path.resolve(tempSrcDir, 'entry.tsx'), `import '${relEntry}';\n`, 'utf-8');
+  const entryHtml = path.resolve(tempSrcDir, 'index.html');
+  fs.writeFileSync(
+    entryHtml,
+    HTML_TEMPLATE.replace('</body>', '<script type="module" src="./entry.tsx"></script></body>'),
+    'utf-8',
+  );
   const distDir = path.resolve(outDir, 'dist');
+  const parcelBin = path.resolve(__dirname, '../../node_modules/parcel/lib/bin.js');
   execSync(
-    `pnpm exec parcel build "${entryHtml}" --dist-dir "${distDir}" --no-cache --no-source-maps`,
+    `node "${parcelBin}" build "${entryHtml}" --dist-dir "${distDir}" --no-cache --no-source-maps`,
     {
       cwd: outDir,
       stdio: 'pipe',
@@ -408,13 +449,21 @@ function runNextBuildAndCollectCss(outDir: string, turbopack?: boolean): string 
 
 export async function buildNextAppRouter(
   outDir: string,
-  options?: { turbopack?: boolean },
+  options?: { turbopack?: boolean; pageContent?: string; extraFiles?: Record<string, string> },
 ): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
 
   const appDir = path.resolve(outDir, 'app');
   fs.mkdirSync(appDir, { recursive: true });
+
+  if (options?.extraFiles) {
+    for (const [relPath, content] of Object.entries(options.extraFiles)) {
+      const target = path.resolve(appDir, relPath);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, content, 'utf-8');
+    }
+  }
 
   writeNextProjectScaffold(
     outDir,
@@ -437,7 +486,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 `;
   fs.writeFileSync(path.resolve(appDir, 'layout.tsx'), layoutContent, 'utf-8');
 
-  const pageContent = `
+  const pageContent =
+    options?.pageContent ??
+    `
 import { style, recipe } from '@cumulo/css';
 
 const boxStyle = style({
@@ -483,7 +534,7 @@ export default function Page() {
 
 export async function buildNextPagesRouter(
   outDir: string,
-  options?: { turbopack?: boolean },
+  options?: { turbopack?: boolean; pageContent?: string; extraFiles?: Record<string, string> },
 ): Promise<BundlerBuildResult> {
   fs.rmSync(outDir, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
   fs.mkdirSync(outDir, { recursive: true });
@@ -492,6 +543,14 @@ export async function buildNextPagesRouter(
   const stylesDir = path.resolve(outDir, 'styles');
   fs.mkdirSync(pagesDir, { recursive: true });
   fs.mkdirSync(stylesDir, { recursive: true });
+
+  if (options?.extraFiles) {
+    for (const [relPath, content] of Object.entries(options.extraFiles)) {
+      const target = path.resolve(outDir, relPath);
+      fs.mkdirSync(path.dirname(target), { recursive: true });
+      fs.writeFileSync(target, content, 'utf-8');
+    }
+  }
 
   writeNextProjectScaffold(
     outDir,
@@ -511,7 +570,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 `;
   fs.writeFileSync(path.resolve(pagesDir, '_app.tsx'), appContent, 'utf-8');
 
-  const indexContent = `
+  const indexContent =
+    options?.pageContent ??
+    `
 import { style, recipe } from '@cumulo/css';
 
 const pageStyle = style({
