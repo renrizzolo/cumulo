@@ -1,6 +1,7 @@
 import { style } from '@cumulo/css';
 
 // Generated at test time by the Cumulo CLI (`generate-theme --out`).
+// @ts-expect-error generated test file
 import { vars } from './.temp/vars.js';
 
 export const generatedVarsBox = style(
