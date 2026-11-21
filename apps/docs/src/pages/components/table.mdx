@@ -1,5 +1,8 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Badge, Code, Text, Table } from '@cumulo/core';
+import { Badge } from '@cumulo/core/components/Badge';
+import { Text } from '@cumulo/core/components/Text';
+import { Code } from '@cumulo/core/components/Code';
+import * as Table from '@cumulo/core/components/Table';
 import tableDoc from '../../../docgen/components/Table.json';
 export default Layout;
 
@@ -8,7 +11,7 @@ export default Layout;
 Table renders tabular data across customizable headers, rows, cells, and captions with bordered and interactive hover states.
 
 ```tsx
-import { Table } from '@cumulo/core';
+import * as Table from '@cumulo/core/components/Table';
 ```
 
 ### Examples

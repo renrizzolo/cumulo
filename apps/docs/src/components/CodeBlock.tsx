@@ -1,4 +1,6 @@
-import { Surface, vars, type ElementProps } from '@cumulo/core';
+import { Surface } from '@cumulo/core/components/Surface';
+import { vars } from '@cumulo/core/contract';
+import { type ElementProps } from '@cumulo/core/ElementProps';
 import { cx, style } from '@cumulo/css';
 import React from 'react';
 

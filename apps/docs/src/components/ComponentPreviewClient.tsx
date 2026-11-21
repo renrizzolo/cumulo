@@ -1,6 +1,12 @@
 'use client';
 
-import { ButtonGroup, Collapsible, HStack, Panel, Surface, Text, vars, VStack } from '@cumulo/core';
+import * as ButtonGroup from '@cumulo/core/components/ButtonGroup';
+import * as Collapsible from '@cumulo/core/components/Collapsible';
+import { Panel } from '@cumulo/core/components/Panel';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
+import { Surface } from '@cumulo/core/components/Surface';
+import { Text } from '@cumulo/core/components/Text';
+import { vars } from '@cumulo/core/contract';
 import { style } from '@cumulo/css';
 import React, { useState } from 'react';
 

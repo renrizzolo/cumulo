@@ -1,5 +1,8 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Flow, Heading, Text, Button } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Text } from '@cumulo/core/components/Text';
+import { Flow } from '@cumulo/core/components/Flow';
 import flowDoc from '../../../docgen/components/Flow.json';
 export default Layout;
 
@@ -8,7 +11,7 @@ export default Layout;
 Vertical text flow and rhythm primitive based on [Andy Bell's lobotomized owl flow pattern](https://piccalil.li/blog/flow-utility/) (`.flow > * + *`). Automatically spaces sequential sibling elements using CSS custom properties (`--flow-space`) with sensible relative defaults (`1em`).
 
 ```tsx
-import { Flow } from '@cumulo/core';
+import { Flow } from '@cumulo/core/components/Flow';
 ```
 
 ## Flow

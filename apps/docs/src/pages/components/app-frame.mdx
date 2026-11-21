@@ -1,5 +1,11 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Flow, Panel, Heading, VStack, Text, Code, AppFrame } from '@cumulo/core';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Text } from '@cumulo/core/components/Text';
+import { Code } from '@cumulo/core/components/Code';
+import { Flow } from '@cumulo/core/components/Flow';
+import { Panel } from '@cumulo/core/components/Panel';
+import * as AppFrame from '@cumulo/core/components/AppFrame';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
 import * as SideNav from '@cumulo/core/components/SideNav';
 import * as Table from '@cumulo/core/components/Table';
@@ -11,7 +17,9 @@ export default Layout;
 The top-level application shell. `AppFrame.Root` lays out a sidebar beside `AppFrame.Main` in a row, and `AppFrame.Main` stacks a header above a scrollable content area.
 
 ```tsx
-import { AppFrame, Sidebar, Panel } from '@cumulo/core';
+import { Panel } from '@cumulo/core/components/Panel';
+import * as Sidebar from '@cumulo/core/components/Sidebar';
+import * as AppFrame from '@cumulo/core/components/AppFrame';
 ```
 
 `AppFrame` only handles layout. For docked, inset or floating styles, set `variant` on [`Sidebar`](/components/sidebar).

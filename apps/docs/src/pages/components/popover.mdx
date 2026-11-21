@@ -1,5 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Button, VStack, Text } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as Popover from '@cumulo/core/components/Popover';
 import popoverDoc from '../../../docgen/components/Popover.json';
 export default Layout;
@@ -9,7 +11,7 @@ export default Layout;
 A lightweight non-modal floating overlay built on the native [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API) with automatic top-layer elevation and light-dismiss behavior.
 
 ```tsx
-import { Popover } from '@cumulo/core';
+import * as Popover from '@cumulo/core/components/Popover';
 ```
 
 <RscAlert component="Popover" />

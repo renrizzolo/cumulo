@@ -1,5 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Surface, VStack, Text } from '@cumulo/core';
+import { Surface } from '@cumulo/core/components/Surface';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import surfaceDoc from '../../../docgen/components/Surface.json';
 export default Layout;
 
@@ -8,7 +10,7 @@ export default Layout;
 Contextual surface container that coordinates depth levels (`0`, `1`, `2`), semantic HTML tags (`as="section" | "article" | "aside" | ...`), and automatically adapts child tokens.
 
 ```tsx
-import { Surface } from '@cumulo/core';
+import { Surface } from '@cumulo/core/components/Surface';
 ```
 
 ### Examples

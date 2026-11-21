@@ -1,6 +1,9 @@
-import { Panel, ThemeScript, vars, Container } from '@cumulo/core';
 import * as AppFrame from '@cumulo/core/components/AppFrame';
+import { Container } from '@cumulo/core/components/Container';
+import { Panel } from '@cumulo/core/components/Panel';
 import * as Sidebar from '@cumulo/core/components/Sidebar';
+import { vars } from '@cumulo/core/contract';
+import { ThemeScript } from '@cumulo/core/theme/ThemeScript';
 import { style } from '@cumulo/css';
 import type { PageProps } from '@renr/parcel-rsc-router';
 import React from 'react';

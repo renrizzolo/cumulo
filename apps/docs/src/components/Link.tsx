@@ -1,4 +1,4 @@
-import { Link as CumuloLink } from '@cumulo/core';
+import { Link as CumuloLink } from '@cumulo/core/components/Link';
 import { Link as RouterLink } from '@renr/parcel-rsc-router';
 
 import { flatRoutes, type RoutePath } from '../../routes';

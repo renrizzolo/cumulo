@@ -1,5 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Button, Text, VStack } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as Card from '@cumulo/core/components/Card';
 import * as Collapsible from '@cumulo/core/components/Collapsible';
 import collapsibleDoc from '../../../docgen/components/Collapsible.json';
@@ -10,7 +12,7 @@ export default Layout;
 An interactive compound component that expands and collapses content with smooth CSS Grid animations.
 
 ```tsx
-import { Collapsible } from '@cumulo/core';
+import * as Collapsible from '@cumulo/core/components/Collapsible';
 ```
 
 <RscAlert component="Collapsible" />

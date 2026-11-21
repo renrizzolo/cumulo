@@ -1,6 +1,12 @@
 'use server-entry';
 
-import { Code, Divider, Flow, Heading, HStack, Link as CumuloLink, Text } from '@cumulo/core';
+import { Code } from '@cumulo/core/components/Code';
+import { Divider } from '@cumulo/core/components/Divider';
+import { Flow } from '@cumulo/core/components/Flow';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Link as CumuloLink } from '@cumulo/core/components/Link';
+import { HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import { textBase } from '@cumulo/core/typography';
 import { style } from '@cumulo/css';
 import type { PageProps } from '@renr/parcel-rsc-router';

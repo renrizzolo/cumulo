@@ -3,6 +3,8 @@ import { defineConfig } from 'tsdown';
 export default defineConfig({
   entry: [
     'src/index.ts',
+    'src/components/*.tsx',
+    '!src/**/*.test.*',
     'src/theme.css',
     'src/intents.ts',
     'src/layout.ts',

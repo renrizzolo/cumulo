@@ -1,6 +1,9 @@
 'use client';
 
-import { Table, Code, Text, vars, type VarPath, type VarValue } from '@cumulo/core';
+import { Code } from '@cumulo/core/components/Code';
+import * as Table from '@cumulo/core/components/Table';
+import { Text } from '@cumulo/core/components/Text';
+import { vars, type VarPath, type VarValue } from '@cumulo/core/contract';
 import { style } from '@cumulo/css';
 import React from 'react';
 

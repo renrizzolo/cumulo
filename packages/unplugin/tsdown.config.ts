@@ -16,4 +16,12 @@ export default defineConfig({
   dts: true,
   clean: false,
   exports: true,
+  outputOptions: {
+    // Entries intentionally expose both named and default exports.
+    exports: 'named',
+  },
+  inputOptions: {
+    // The ESM build uses import.meta.resolve; the CJS build falls back to createRequire.
+    checks: { emptyImportMeta: false },
+  },
 });

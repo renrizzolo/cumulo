@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Button, VStack } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { VStack } from '@cumulo/core/components/Stack';
 import * as Alert from '@cumulo/core/components/Alert';
 import alertDoc from '../../../docgen/components/Alert.json';
 export default Layout;
@@ -9,7 +10,7 @@ export default Layout;
 Compound inline callout and status banner for communicating contextual feedback, warnings, errors, and system notices.
 
 ```tsx
-import { Alert } from '@cumulo/core';
+import * as Alert from '@cumulo/core/components/Alert';
 ```
 
 <RscAlert component="Alert" />

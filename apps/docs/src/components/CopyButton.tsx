@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
 import React, { useState, useCallback } from 'react';
 
 export interface CopyButtonProps {

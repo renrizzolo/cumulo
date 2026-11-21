@@ -1,6 +1,9 @@
 'use client';
 
-import { Button, vars, useSidebar, Panel } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { Panel } from '@cumulo/core/components/Panel';
+import { useSidebar } from '@cumulo/core/components/Sidebar';
+import { vars } from '@cumulo/core/contract';
 import { keyframes, style } from '@cumulo/css';
 import { Link } from '@renr/parcel-rsc-router';
 import React from 'react';

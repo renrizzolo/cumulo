@@ -1,13 +1,11 @@
-import {
-  Surface,
-  VStack,
-  Text,
-  Button,
-  Field,
-  Table,
-  Collapsible,
-  ThemeToggle,
-} from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import * as Collapsible from '@cumulo/core/components/Collapsible';
+import * as Field from '@cumulo/core/components/Field';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Surface } from '@cumulo/core/components/Surface';
+import * as Table from '@cumulo/core/components/Table';
+import { Text } from '@cumulo/core/components/Text';
+import { ThemeToggle } from '@cumulo/core/components/ThemeToggle';
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 

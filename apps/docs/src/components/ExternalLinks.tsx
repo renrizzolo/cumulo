@@ -1,4 +1,4 @@
-import { vars } from '@cumulo/core';
+import { vars } from '@cumulo/core/contract';
 import { style } from '@cumulo/css';
 import React from 'react';
 

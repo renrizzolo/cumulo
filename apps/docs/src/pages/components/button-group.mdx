@@ -1,5 +1,6 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { VStack, HStack, Text } from '@cumulo/core';
+import { VStack, HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as ButtonGroup from '@cumulo/core/components/ButtonGroup';
 import buttonGroupDoc from '../../../docgen/components/ButtonGroup.json';
 export default Layout;
@@ -9,7 +10,8 @@ export default Layout;
 A segmented button toggle and action grouping component built on top of `Flex`. Supports single selection, keyboard arrow navigation, roving tab index, and full layout customization via flex props.
 
 ```tsx
-import { ButtonGroup, createButtonGroup } from '@cumulo/core';
+import * as ButtonGroup from '@cumulo/core/components/ButtonGroup';
+import { createButtonGroup } from '@cumulo/core/components/ButtonGroup';
 
 // Optional: create a strictly typed ButtonGroup
 const PeriodButtonGroup = createButtonGroup<'daily' | 'weekly' | 'monthly' | 'yearly'>();

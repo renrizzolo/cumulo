@@ -1,6 +1,7 @@
 'use client';
 
-import { HStack, Stack, vars } from '@cumulo/core';
+import { HStack, Stack } from '@cumulo/core/components/Stack';
+import { vars } from '@cumulo/core/contract';
 import { cx as mergeClasses, keyframes, style, type StyleRule } from '@cumulo/css';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 

@@ -1,5 +1,5 @@
-import { Code } from '@cumulo/core';
 import * as Alert from '@cumulo/core/components/Alert';
+import { Code } from '@cumulo/core/components/Code';
 import React from 'react';
 
 import { Link } from './Link';

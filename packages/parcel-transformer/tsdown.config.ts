@@ -6,4 +6,7 @@ export default defineConfig({
   dts: true,
   clean: false,
   exports: true,
+  outputOptions: {
+    exports: 'named',
+  },
 });
