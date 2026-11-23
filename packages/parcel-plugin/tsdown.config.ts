@@ -6,5 +6,5 @@ export default defineConfig({
   dts: {
     entry: ['src/index.ts'],
   },
-  clean: false,
+  clean: !process.argv.includes('--watch'),
 });

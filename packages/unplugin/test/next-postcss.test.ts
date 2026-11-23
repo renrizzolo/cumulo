@@ -92,4 +92,42 @@ describe('PostCSS Cumulo plugin', () => {
     expect(appendedCss).toContain('display:flex');
     expect(mockMessages.length).toBeGreaterThan(0);
   });
+
+  it('extracts CSS for app files that only import @cumulo/core components without @cumulo/css', async () => {
+    const fs = await import('node:fs');
+    const os = await import('node:os');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-postcss-core-only-'));
+    const srcDir = path.join(tempDir, 'src');
+    fs.mkdirSync(srcDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(srcDir, 'Page.tsx'),
+      `import { Button } from '@cumulo/core/components/Button';\nexport default function Page() { return <Button>Click</Button>; }\n`,
+      'utf-8',
+    );
+
+    const originalCwd = process.cwd();
+    try {
+      process.chdir(tempDir);
+      const plugin = cumuloPostcss();
+
+      let appendedCss = '';
+      const mockRoot = {
+        append(css: string): void {
+          appendedCss += css;
+        },
+        walk(): void {},
+      };
+      const mockMessages: unknown[] = [];
+
+      await plugin.Once(mockRoot, {
+        result: { opts: { from: 'globals.css' }, messages: mockMessages },
+      });
+
+      expect(appendedCss).toContain('.btn-base-');
+      expect(mockMessages.length).toBe(1);
+    } finally {
+      process.chdir(originalCwd);
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
 });

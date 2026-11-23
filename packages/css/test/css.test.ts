@@ -590,5 +590,66 @@ describe('@cumulo/css', () => {
       expect(simple(undefined)).toBe(simple.classNames.base);
       expect(simple({})).toBe(simple.classNames.base);
     });
+
+    it('matches runtimeRecipe behavior for null, undefined, booleans, numbers, and compoundVariants', () => {
+      const compiled = recipe(
+        {
+          base: { display: 'flex' },
+          variants: {
+            size: {
+              sm: { padding: 4 },
+              md: { padding: 8 },
+              null: { padding: 99 },
+            },
+            active: {
+              true: { opacity: 1 },
+              false: { opacity: 0.5 },
+            },
+            level: {
+              0: { zIndex: 0 },
+              1: { zIndex: 1 },
+            },
+          },
+          compoundVariants: [
+            {
+              variants: { size: 'sm', active: true },
+              style: { fontWeight: 700 },
+            },
+          ],
+          defaultVariants: { size: 'sm', active: true, level: 0 },
+        },
+        'parity',
+      );
+
+      const rt = runtimeRecipe({
+        base: compiled.classNames.base,
+        variants: compiled.classNames.variants,
+        compoundVariants: compiled.classNames.compoundVariants.map((cv) => ({
+          variants: {
+            ...(cv.variants.size !== undefined ? { size: cv.variants.size } : {}),
+            ...(cv.variants.active !== undefined ? { active: cv.variants.active } : {}),
+            ...(cv.variants.level !== undefined ? { level: cv.variants.level } : {}),
+          },
+          className: cv.className,
+        })),
+        defaultVariants: { size: 'sm', active: true, level: 0 },
+      });
+
+      expect(rt()).toBe(compiled());
+      expect(rt({ size: undefined, active: true, level: 1 })).toBe(
+        compiled({ size: undefined, active: true, level: 1 }),
+      );
+      expect(rt({ size: 'md', active: false, level: 0 })).toBe(
+        compiled({ size: 'md', active: false, level: 0 }),
+      );
+
+      // null must clear defaultVariants without stringifying to the "null" variant key or matching compoundVariants
+      const nullResult = rt({ size: null, active: true, level: 0 });
+      expect(nullResult).not.toContain(compiled.classNames.variants.size.null);
+      expect(nullResult).not.toContain(compiled.classNames.variants.size.sm);
+      expect(nullResult).not.toContain(compiled.classNames.compoundVariants[0]?.className ?? 'cv');
+      expect(nullResult).toContain(compiled.classNames.base ?? '');
+      expect(nullResult).toContain(compiled.classNames.variants.active.true);
+    });
   });
 });

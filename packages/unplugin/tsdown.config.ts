@@ -13,7 +13,7 @@ export default defineConfig([
     ],
     format: ['esm', 'cjs'],
     dts: true,
-    clean: false,
+    clean: !process.argv.includes('--watch'),
     exports: true,
     outputOptions: {
       // Entries intentionally expose both named and default exports.

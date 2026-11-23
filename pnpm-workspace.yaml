@@ -11,9 +11,6 @@ allowBuilds:
   esbuild: true
   lmdb: true
   msgpackr-extract: true
-  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/64ad2b344b929bd278f7492802fa1767ba0b5707#path:packages/parcel-plugin-rsc-router': set this to true or false
-  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/64ad2b344b929bd278f7492802fa1767ba0b5707#path:packages/parcel-reporter-docgen': set this to true or false
-  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/64ad2b344b929bd278f7492802fa1767ba0b5707#path:packages/parcel-rsc-router': set this to true or false
 
 minimumReleaseAgeExclude:
   - '@renr/*'

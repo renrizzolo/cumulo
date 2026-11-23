@@ -144,4 +144,54 @@ describe('Theme Generator & CLI', () => {
 
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
+
+  it('writes valid ESM JS to contract.mjs and TypeScript declarations to contract.d.mts in --in-place mode', async () => {
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-inplace-test-'));
+    const distDir = path.join(tempDir, 'node_modules/@cumulo/core/dist');
+    fs.mkdirSync(distDir, { recursive: true });
+
+    const originalCwd = process.cwd();
+    try {
+      process.chdir(tempDir);
+      await runThemeGeneration({
+        customCssContent: ':root { --theme-spacing-md: 18px; }',
+        inPlace: true,
+        silent: true,
+      });
+
+      const dtsContent = fs.readFileSync(path.join(distDir, 'contract.d.mts'), 'utf-8');
+      const mjsContent = fs.readFileSync(path.join(distDir, 'contract.mjs'), 'utf-8');
+
+      expect(dtsContent).toContain('export type ThemeVars = typeof vars;');
+      expect(dtsContent).toContain('/** 18px */');
+
+      // contract.mjs must be valid ESM JavaScript with no TypeScript-only syntax
+      expect(mjsContent).toContain('export const vars = {');
+      expect(mjsContent).toContain("Symbol.for('__CUMULO_META__')");
+      expect(mjsContent).not.toContain('as const');
+      expect(mjsContent).not.toContain('export type ');
+
+      // Verify Node can actually import the generated contract.mjs
+      const imported: unknown = await import(
+        `file://${path.join(distDir, 'contract.mjs')}?t=${Date.now()}`
+      );
+      expect(typeof imported).toBe('object');
+      expect(imported).not.toBeNull();
+      if (
+        typeof imported !== 'object' ||
+        imported === null ||
+        !('vars' in imported) ||
+        typeof imported.vars !== 'object' ||
+        imported.vars === null
+      ) {
+        throw new Error('Expected contract.mjs to export vars object');
+      }
+      expect(Reflect.get(imported.vars, Symbol.for('__CUMULO_META__'))).toEqual({
+        kind: 'contract',
+      });
+    } finally {
+      process.chdir(originalCwd);
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
 });

@@ -4,6 +4,6 @@ export default defineConfig({
   entry: ['src/index.ts', 'src/runtime.ts'],
   format: ['esm'],
   dts: true,
-  clean: false,
-  exports: true,
+  clean: !process.argv.includes('--watch'),
+  exports: false,
 });

@@ -13,7 +13,7 @@ export default defineConfig({
   ],
   format: ['esm'],
   dts: true,
-  clean: false,
+  clean: !process.argv.includes('--watch'),
   exports: false,
   target: 'es2022',
   unbundle: true,

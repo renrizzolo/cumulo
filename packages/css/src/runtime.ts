@@ -19,7 +19,7 @@ export interface RuntimeTheme {
   toString(): string;
 }
 
-export type RuntimeVariantValue = string | number | boolean | undefined;
+export type RuntimeVariantValue = string | number | boolean | null | undefined;
 
 export interface RuntimeRecipeCompoundVariant {
   readonly variants: Record<string, RuntimeVariantValue>;
@@ -110,7 +110,7 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
 
     for (const variantName of variantKeys) {
       const propValue = mergedProps[variantName];
-      if (propValue !== undefined) {
+      if (propValue !== undefined && propValue !== null) {
         const variantClass = variants[variantName]?.[normalizeValue(propValue)];
         if (variantClass) {
           classes.push(variantClass);
@@ -120,11 +120,11 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
 
     for (const { variants: cvVariants, className } of compoundVariants) {
       const match = Object.entries(cvVariants).every(([key, expectedValue]) => {
-        if (expectedValue === undefined) {
+        if (expectedValue === undefined || expectedValue === null) {
           return false;
         }
         const actualValue = mergedProps[key];
-        if (actualValue === undefined) {
+        if (actualValue === undefined || actualValue === null) {
           return false;
         }
         return normalizeValue(actualValue) === normalizeValue(expectedValue);

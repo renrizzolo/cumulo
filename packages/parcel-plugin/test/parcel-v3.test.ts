@@ -680,4 +680,153 @@ console.log(Box, combine('a', 'b'));
     expect(css2).toMatch(/#445566|#456/);
     expect(css2).not.toMatch(/#112233|#123/);
   }, 60000);
+
+  it('handles standalone generated vars without @cumulo/css, cross-file recipe extend, and re-exports without order conflicts', () => {
+    const dir = path.join(TEMP_ROOT, 'edge-cases-app');
+    const srcDir = path.join(dir, 'src');
+    const distDir = path.join(dir, 'dist');
+    cleanDir(dir);
+    fs.mkdirSync(srcDir, { recursive: true });
+    setupFixtureNodeModules(dir);
+
+    fs.writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify(
+        { name: 'parcel-v3-edge-cases-fixture', private: true, type: 'module' },
+        null,
+        2,
+      ),
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(dir, '.parcelrc'),
+      JSON.stringify(
+        {
+          extends: '@parcel/config-default',
+          transformers: {
+            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...', '@cumulo/parcel-plugin'],
+            'cumulo-css:*': ['@cumulo/parcel-plugin'],
+          },
+        },
+        null,
+        2,
+      ),
+      'utf-8',
+    );
+
+    // Simulated generated `--out` vars contract with __CUMULO_META__
+    fs.writeFileSync(
+      path.join(srcDir, 'vars.ts'),
+      `export const vars = {
+  spacing: {
+    /** 0.987rem */
+    md: 'var(--theme-spacing-md)',
+    unusedToken: 'var(--theme-unused-sentinel)',
+  },
+} as const;
+
+Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
+  value: { kind: 'contract' },
+  enumerable: false,
+  configurable: true,
+});
+`,
+      'utf-8',
+    );
+
+    // Standalone file importing ONLY ./vars (no @cumulo/css import)
+    fs.writeFileSync(
+      path.join(srcDir, 'StandaloneVars.ts'),
+      `import { vars } from './vars';
+export const standaloneGap = vars.spacing.md;
+`,
+      'utf-8',
+    );
+
+    // Base recipe in a separate file
+    fs.writeFileSync(
+      path.join(srcDir, 'BaseRecipe.ts'),
+      `import { recipe } from '@cumulo/css';
+export const baseCard = recipe(
+  {
+    base: { display: 'grid' },
+    variants: {
+      tone: {
+        brand: { color: '#114488' },
+      },
+    },
+  },
+  'p3-xf-base',
+);
+`,
+      'utf-8',
+    );
+
+    // Cross-file recipe({ extend: baseCard })
+    fs.writeFileSync(
+      path.join(srcDir, 'ExtendedCard.ts'),
+      `import { recipe } from '@cumulo/css';
+import { baseCard } from './BaseRecipe';
+
+export const extendedCard = recipe(
+  {
+    extend: baseCard,
+    variants: {
+      elevated: {
+        true: { padding: 16 },
+      },
+    },
+  },
+  'p3-xf-ext',
+);
+`,
+      'utf-8',
+    );
+
+    // Re-export module that also defines its own style (tests Pass 1a re-export detection)
+    fs.writeFileSync(
+      path.join(srcDir, 'ReexportCard.ts'),
+      `import { style } from '@cumulo/css';
+export { extendedCard } from './ExtendedCard';
+export const wrapperStyle = style({ margin: 8 }, 'p3-reexport-wrap');
+`,
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'entry.ts'),
+      `import { standaloneGap } from './StandaloneVars';
+import { extendedCard, wrapperStyle } from './ReexportCard';
+
+document.body.style.gap = standaloneGap;
+document.body.className = wrapperStyle.className + ' ' + extendedCard({ tone: 'brand', elevated: true });
+`,
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'index.html'),
+      `<!DOCTYPE html><html><head></head><body><script type="module" src="./entry.ts"></script></body></html>`,
+      'utf-8',
+    );
+
+    const buildOutput = runParcelBuild(['src/index.html', '--dist-dir', distDir], dir);
+    expect(buildOutput).not.toContain('Stylesheets are imported in conflicting orders');
+
+    const allCss = collectFilesByExt(distDir, '.css')
+      .map((f) => fs.readFileSync(f, 'utf-8'))
+      .join('\n');
+    expect(allCss).toContain('.p3-xf-ext-base-');
+    expect(allCss).toContain('.p3-xf-ext-tone-brand-');
+    expect(allCss).toContain('.p3-xf-ext-elevated-true-');
+    expect(allCss).toContain('.p3-reexport-wrap-');
+
+    const allJs = collectFilesByExt(distDir, '.js')
+      .map((f) => fs.readFileSync(f, 'utf-8'))
+      .join('\n');
+    expect(allJs).toContain('var(--theme-spacing-md)');
+    expect(allJs).not.toContain('--theme-unused-sentinel');
+    expect(allJs).not.toContain('compileStyleRule');
+  }, 60000);
 });

@@ -52,4 +52,38 @@ describe('Next.js Integration & CSS Extraction', () => {
     expect(result.cssContent).toContain('.next-pages-badge-base-');
     expect(result.cssContent).toContain('.next-pages-badge-status-active-');
   }, 60000);
+
+  it('Next.js App Router (Turbopack) extracts CSS for @cumulo/core components without @cumulo/css in the page', async () => {
+    const outDir = path.resolve(__dirname, '../.temp/next-app-core-only-turbopack');
+    const coreOnlyPage = `
+import { Button } from '@cumulo/core/components/Button';
+
+export default function Page() {
+  return <Button variant="primary">Core Only</Button>;
+}
+`;
+    const result = await buildNextAppRouter(outDir, {
+      turbopack: true,
+      pageContent: coreOnlyPage,
+    });
+
+    expect(result.cssContent).toContain('.btn-base-');
+  }, 60000);
+
+  it('Next.js Pages Router (Webpack) extracts CSS for @cumulo/core components without @cumulo/css in the page', async () => {
+    const outDir = path.resolve(__dirname, '../.temp/next-pages-core-only-webpack');
+    const coreOnlyPage = `
+import { Button } from '@cumulo/core/components/Button';
+
+export default function HomePage() {
+  return <Button variant="primary">Core Only</Button>;
+}
+`;
+    const result = await buildNextPagesRouter(outDir, {
+      turbopack: false,
+      pageContent: coreOnlyPage,
+    });
+
+    expect(result.cssContent).toContain('.btn-base-');
+  }, 60000);
 });

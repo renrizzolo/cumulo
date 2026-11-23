@@ -20,6 +20,26 @@ describe('unplugin extractor', () => {
       ),
     ).toBe(true);
     expect(
+      shouldProcessFile(
+        `import { vars as tokens } from '@cumulo/core/contract';\nexport const w = tokens.size.xl;`,
+        'Box.tsx',
+      ),
+    ).toBe(true);
+    expect(
+      shouldProcessFile(
+        `import { vars } from './vars';\nexport const r = vars.radius.md;`,
+        'Box.tsx',
+      ),
+    ).toBe(true);
+    expect(
+      shouldProcessFile(
+        `import {\n  vars as tokens,\n} from '../theme-vars';\nexport const r = tokens.radius.md;`,
+        'Box.tsx',
+      ),
+    ).toBe(true);
+    expect(shouldProcessFile(`import type { vars } from './vars';`, 'Types.ts')).toBe(false);
+    expect(shouldProcessFile(`import { myvars } from './utils';`, 'Box.tsx')).toBe(false);
+    expect(
       shouldProcessFile(`import { runtimeStyle } from '@cumulo/css/runtime';`, 'Button.tsx'),
     ).toBe(false);
     expect(shouldProcessFile(`export function recipe() {}\nrecipe({ base: {} });`, 'App.tsx')).toBe(
@@ -372,5 +392,69 @@ export function read(vars: { size: { xl: string } }) {
     const rewritten = result.code ?? '';
 
     expect(rewritten).toContain('return vars.size.xl;');
+  });
+
+  it('extractAndRewrite inlines aliased contract imports, JSX style props, and template literals', async () => {
+    const code = `
+import { vars as tokens } from '@cumulo/core/contract';
+
+export function Box() {
+  return (
+    <div style={{ gap: tokens.spacing.md, width: \`calc(\${tokens.size.xl} * 2)\` }} />
+  );
+}
+`;
+
+    const result = await extractAndRewrite(code, 'AliasedJsxVars.tsx');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    expect(rewritten).toContain('"var(--theme-spacing-md)"');
+    expect(rewritten).toContain('"var(--theme-size-xl)"');
+    expect(rewritten).not.toContain('@cumulo/core/contract');
+  });
+
+  it('extractAndRewrite preserves vars import when destructured or accessed as a non-leaf group', async () => {
+    const code = `
+import { vars } from '@cumulo/core/contract';
+
+export function readSpacing() {
+  const { spacing } = vars;
+  return {
+    group: vars.spacing,
+    md: vars.spacing.md,
+    fromDestructure: spacing.sm,
+  };
+}
+`;
+
+    const result = await extractAndRewrite(code, 'NonLeafVars.tsx');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    expect(rewritten).toContain('md: "var(--theme-spacing-md)"');
+    expect(rewritten).toContain('group: vars.spacing');
+    expect(rewritten).toContain('const { spacing } = vars;');
+    expect(rewritten).toContain("from '@cumulo/core/contract'");
+  });
+
+  it('extractAndRewrite preserves directive prologue with CRLF line endings and leading comments', async () => {
+    const code = [
+      '// Copyright header with unicode: 🚀 café',
+      '"use client";',
+      "import { style } from '@cumulo/css';",
+      "export const card = style({ padding: 12 }, 'crlf-card');",
+    ].join('\r\n');
+
+    const result = await extractAndRewrite(code, 'CrlfDirective.tsx');
+    expect(result.css).toContain('.crlf-card-');
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+
+    const directiveIdx = rewritten.indexOf('"use client";');
+    const runtimeImportIdx = rewritten.indexOf("from '@cumulo/css/runtime'");
+    expect(directiveIdx).toBeGreaterThan(-1);
+    expect(runtimeImportIdx).toBeGreaterThan(directiveIdx);
+    expect(rewritten).toContain('__cumuloStyle(');
   });
 });

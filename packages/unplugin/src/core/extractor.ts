@@ -278,7 +278,9 @@ function logExtractionWarning(filePath: string, warning: string): void {
 }
 
 const CUMULO_CSS_SPECIFIER_RE = /['"]@cumulo\/css['"]/;
-const CUMULO_CORE_SPECIFIER_RE = /['"]@cumulo\/core(?:\/contract)?['"]/;
+const CUMULO_CONTRACT_SPECIFIER_RE = /['"]@cumulo\/core\/contract['"]/;
+const CUMULO_CORE_SPECIFIER_RE = /['"]@cumulo\/core['"]/;
+const NAMED_VARS_IMPORT_RE = /\bimport\s*\{[^}]*\bvars\b[^}]*\}\s*from\s*['"]/;
 const SKIPPED_CUMULO_PACKAGES = [
   'node_modules/@cumulo/css/',
   'node_modules/@cumulo/parcel-plugin/',
@@ -287,8 +289,9 @@ const SKIPPED_CUMULO_PACKAGES = [
 ];
 
 /**
- * Checks if source code imports from `@cumulo/css` (excluding `@cumulo/css/runtime`)
- * or accesses `vars` imported from `@cumulo/core`.
+ * Checks if source code imports from `@cumulo/css` (excluding `@cumulo/css/runtime`),
+ * imports from `@cumulo/core/contract`, imports a named `vars` binding (e.g. a generated
+ * `--out` theme contract or aliased `vars`), or accesses `vars` imported from `@cumulo/core`.
  */
 export function shouldProcessFile(
   code: string,
@@ -327,11 +330,15 @@ export function shouldProcessFile(
     return false;
   }
 
-  if (CUMULO_CSS_SPECIFIER_RE.test(code)) {
+  if (CUMULO_CSS_SPECIFIER_RE.test(code) || CUMULO_CONTRACT_SPECIFIER_RE.test(code)) {
     return true;
   }
 
-  return CUMULO_CORE_SPECIFIER_RE.test(code) && (code.includes('vars.') || code.includes('vars['));
+  if (CUMULO_CORE_SPECIFIER_RE.test(code) && (code.includes('vars.') || code.includes('vars['))) {
+    return true;
+  }
+
+  return NAMED_VARS_IMPORT_RE.test(code);
 }
 
 let extractionQueue: Promise<void> = Promise.resolve();

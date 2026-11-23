@@ -27,12 +27,11 @@ const SKIPPED_CUMULO_PACKAGES: &[&str] = &[
   "node_modules/@cumulo/unplugin/",
 ];
 const CUMULO_CSS_SPECIFIERS: &[&str] = &["'@cumulo/css'", "\"@cumulo/css\""];
-const CUMULO_CORE_SPECIFIERS: &[&str] = &[
-  "'@cumulo/core'",
-  "\"@cumulo/core\"",
+const CUMULO_CONTRACT_SPECIFIERS: &[&str] = &[
   "'@cumulo/core/contract'",
   "\"@cumulo/core/contract\"",
 ];
+const CUMULO_CORE_SPECIFIERS: &[&str] = &["'@cumulo/core'", "\"@cumulo/core\""];
 
 #[derive(Debug, Default, Clone, Deserialize)]
 struct PluginConfig {
@@ -170,7 +169,7 @@ pub struct CumuloPlugin {
   project_root: PathBuf,
   config_dir: Option<PathBuf>,
   worker: Mutex<Option<ExtractorWorker>>,
-  cache: Mutex<HashMap<(PathBuf, u64), CachedExtraction>>,
+  cache: Mutex<HashMap<PathBuf, (u64, CachedExtraction)>>,
 }
 
 impl CumuloPlugin {
@@ -280,15 +279,18 @@ impl CumuloPlugin {
   ) -> Result<ExtractResponse, Diagnostic> {
     let response = self.run_extraction(file_path, code, options)?;
     let dep_stamps = collect_dep_stamps(&response.dependencies);
-    let key = (file_path.to_path_buf(), hash_str(code));
+    let content_hash = hash_str(code);
 
     if let Ok(mut cache) = self.cache.lock() {
       cache.insert(
-        key,
-        CachedExtraction {
-          response: response.clone(),
-          dep_stamps,
-        },
+        file_path.to_path_buf(),
+        (
+          content_hash,
+          CachedExtraction {
+            response: response.clone(),
+            dep_stamps,
+          },
+        ),
       );
     }
 
@@ -301,10 +303,11 @@ impl CumuloPlugin {
     code: &str,
     options: &Options,
   ) -> Result<ExtractResponse, Diagnostic> {
-    let key = (file_path.to_path_buf(), hash_str(code));
+    let content_hash = hash_str(code);
 
     if let Ok(cache) = self.cache.lock()
-      && let Some(entry) = cache.get(&key)
+      && let Some((cached_hash, entry)) = cache.get(file_path)
+      && *cached_hash == content_hash
       && dep_stamps_match(&entry.dep_stamps)
     {
       return Ok(entry.response.clone());
@@ -376,10 +379,10 @@ impl Plugin for CumuloPlugin {
 
     if !is_post_js {
       if let Some(rewritten) = result.code {
-        let has_remaining_imports = rewritten.contains("import ") || rewritten.contains("import{");
+        let has_remaining_imports = has_module_dependencies(&rewritten);
         asset.set_content(&rewritten);
-        // If no JS imports remain (e.g. a file with only createGlobalStyles), Parcel's JS
-        // transformer won't add any dependencies, so attach the stylesheet right here.
+        // If no JS imports/re-exports remain (e.g. a file with only createGlobalStyles),
+        // Parcel's JS transformer won't add any dependencies, so attach the stylesheet here.
         if has_css && !has_remaining_imports {
           add_css_dependency(asset, file_name)?;
         }
@@ -388,7 +391,7 @@ impl Plugin for CumuloPlugin {
 
       // If rewriting was skipped and the user did not configure a post-JS pass,
       // attach the stylesheet dependency directly if there are no imports to conflict with.
-      if has_css && !source.contains("import ") && !source.contains("import{") {
+      if has_css && !has_module_dependencies(&source) {
         add_css_dependency(asset, file_name)?;
       }
       return Ok(());
@@ -489,6 +492,134 @@ fn is_candidate_path(file_path: &Path, config: &PluginConfig) -> bool {
   has_allowed_extension(&id)
 }
 
+fn is_ident_byte(b: u8) -> bool {
+  b.is_ascii_alphanumeric() || b == b'_' || b == b'$'
+}
+
+fn contains_ident_word(slice: &str, word: &str) -> bool {
+  let bytes = slice.as_bytes();
+  let mut search_from = 0;
+  while let Some(rel) = slice[search_from..].find(word) {
+    let start = search_from + rel;
+    let end = start + word.len();
+    let before_ok = start == 0 || !is_ident_byte(bytes[start - 1]);
+    let after_ok = end == bytes.len() || !is_ident_byte(bytes[end]);
+    if before_ok && after_ok {
+      return true;
+    }
+    search_from = start + 1;
+  }
+  false
+}
+
+/// Matches named value imports referencing `vars` (e.g. `import { vars } from './vars'`
+/// or `import { vars as tokens } from '@cumulo/core'`), excluding `import type { ... }`.
+fn has_named_vars_import(code: &str) -> bool {
+  let bytes = code.as_bytes();
+  let mut search_from = 0;
+
+  while let Some(rel) = code[search_from..].find("import") {
+    let start = search_from + rel;
+    let end = start + "import".len();
+    search_from = end;
+
+    if start > 0 && is_ident_byte(bytes[start - 1]) {
+      continue;
+    }
+    if end < bytes.len() && is_ident_byte(bytes[end]) {
+      continue;
+    }
+
+    let rest = code[end..].trim_start();
+    let Some(after_brace) = rest.strip_prefix('{') else {
+      continue;
+    };
+    let Some(close_idx) = after_brace.find('}') else {
+      continue;
+    };
+    let specifiers = &after_brace[..close_idx];
+    if !contains_ident_word(specifiers, "vars") {
+      continue;
+    }
+    let after_close = after_brace[close_idx + 1..].trim_start();
+    if let Some(after_from) = after_close.strip_prefix("from") {
+      let after_from_bytes = after_from.as_bytes();
+      if after_from_bytes.first().is_some_and(|b| is_ident_byte(*b)) {
+        continue;
+      }
+      let spec = after_from.trim_start();
+      if spec.starts_with('\'') || spec.starts_with('"') {
+        return true;
+      }
+    }
+  }
+
+  false
+}
+
+/// Checks whether JS/TS source still contains ESM import or re-export statements
+/// (`import ...` or `export ... from '...'`) that Parcel's JS transformer will turn
+/// into module dependencies.
+fn has_module_dependencies(code: &str) -> bool {
+  if code.contains("import ")
+    || code.contains("import{")
+    || code.contains("import*")
+    || code.contains("import'")
+    || code.contains("import\"")
+  {
+    return true;
+  }
+
+  let bytes = code.as_bytes();
+  let mut search_from = 0;
+  while let Some(rel) = code[search_from..].find("export") {
+    let start = search_from + rel;
+    let end = start + "export".len();
+    search_from = end;
+
+    if start > 0 && is_ident_byte(bytes[start - 1]) {
+      continue;
+    }
+    if end < bytes.len() && is_ident_byte(bytes[end]) {
+      continue;
+    }
+
+    let rest = code[end..].trim_start();
+    let after_clause = if let Some(after_brace) = rest.strip_prefix('{') {
+      let Some(close_idx) = after_brace.find('}') else {
+        continue;
+      };
+      after_brace[close_idx + 1..].trim_start()
+    } else if let Some(after_star) = rest.strip_prefix('*') {
+      let after_star = after_star.trim_start();
+      if let Some(after_as) = after_star.strip_prefix("as") {
+        let trimmed = after_as.trim_start();
+        let ident_end = trimmed
+          .bytes()
+          .position(|b| !is_ident_byte(b))
+          .unwrap_or(trimmed.len());
+        trimmed[ident_end..].trim_start()
+      } else {
+        after_star
+      }
+    } else {
+      continue;
+    };
+
+    if let Some(after_from) = after_clause.strip_prefix("from") {
+      if after_from.as_bytes().first().is_some_and(|b| is_ident_byte(*b)) {
+        continue;
+      }
+      let spec = after_from.trim_start();
+      if spec.starts_with('\'') || spec.starts_with('"') {
+        return true;
+      }
+    }
+  }
+
+  false
+}
+
 fn should_process_file(code: &str, file_path: &Path, config: &PluginConfig) -> bool {
   if code.is_empty() {
     return false;
@@ -506,12 +637,23 @@ fn should_process_file(code: &str, file_path: &Path, config: &PluginConfig) -> b
   if !is_candidate_path(file_path, config) {
     return false;
   }
-  if CUMULO_CSS_SPECIFIERS.iter().any(|spec| code.contains(spec)) {
+  if CUMULO_CSS_SPECIFIERS.iter().any(|spec| code.contains(spec))
+    || CUMULO_CONTRACT_SPECIFIERS
+      .iter()
+      .any(|spec| code.contains(spec))
+  {
     return true;
   }
 
-  CUMULO_CORE_SPECIFIERS.iter().any(|spec| code.contains(spec))
+  if CUMULO_CORE_SPECIFIERS
+    .iter()
+    .any(|spec| code.contains(spec))
     && (code.contains("vars.") || code.contains("vars["))
+  {
+    return true;
+  }
+
+  has_named_vars_import(code)
 }
 
 fn hash_str(value: &str) -> u64 {
@@ -620,6 +762,31 @@ mod tests {
       Path::new("/app/src/Box.tsx"),
       &config
     ));
+    assert!(should_process_file(
+      "import { vars as tokens } from '@cumulo/core/contract';\nexport const w = tokens.size.xl;",
+      Path::new("/app/src/Box.tsx"),
+      &config
+    ));
+    assert!(should_process_file(
+      "import { vars } from './vars';\nexport const r = vars.radius.md;",
+      Path::new("/app/src/Box.tsx"),
+      &config
+    ));
+    assert!(should_process_file(
+      "import {\n  vars as tokens,\n} from '../theme-vars';\nexport const r = tokens.radius.md;",
+      Path::new("/app/src/Box.tsx"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "import type { vars } from './vars';",
+      Path::new("/app/src/Types.ts"),
+      &config
+    ));
+    assert!(!should_process_file(
+      "import { myvars } from './utils';",
+      Path::new("/app/src/Box.tsx"),
+      &config
+    ));
     assert!(!should_process_file(
       "import { runtimeStyle } from '@cumulo/css/runtime';",
       Path::new("/app/src/Card.tsx"),
@@ -665,6 +832,18 @@ mod tests {
       Path::new("/app/src/Card.tsx.cumulo.css"),
       &config
     ));
+  }
+
+  #[test]
+  fn test_has_module_dependencies_detects_imports_and_reexports() {
+    assert!(has_module_dependencies("import { x } from './a';"));
+    assert!(has_module_dependencies("import{x}from './a';"));
+    assert!(has_module_dependencies("import'./side-effect';"));
+    assert!(has_module_dependencies("export { Foo } from './Foo';"));
+    assert!(has_module_dependencies("export * from './Bar';"));
+    assert!(has_module_dependencies("export * as NS from \"./Baz\";"));
+    assert!(!has_module_dependencies("void 0;\nexport const x = 1;"));
+    assert!(!has_module_dependencies("export const from = 'local';"));
   }
 
   #[test]

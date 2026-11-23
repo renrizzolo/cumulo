@@ -70,6 +70,8 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
 
       const filesToProcess: string[] = [];
 
+      const cumuloCoreImportRe = /['"]@cumulo\/core(?:\/[^'"]*)?['"]/;
+
       for (const file of uniqueFiles) {
         let code = '';
         try {
@@ -78,7 +80,11 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
           continue;
         }
 
-        if (!shouldProcessFile(code, file, options)) {
+        const isExcluded = shouldExclude(file);
+        const importsCoreComponent =
+          !isExcluded && /\.(tsx?|jsx?|mjs|cjs)$/.test(file) && cumuloCoreImportRe.test(code);
+
+        if (!shouldProcessFile(code, file, options) && !importsCoreComponent) {
           continue;
         }
 

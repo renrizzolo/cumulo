@@ -3,9 +3,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
-import { extractAndRewrite } from '../../../unplugin/src/core/extractor.js';
+import { extractAndRewrite, shouldProcessFile } from '../../../unplugin/src/core/extractor.js';
 import {
   buildNextAppRouter,
   buildNextPagesRouter,
@@ -22,6 +22,7 @@ const CORE_CLI = path.resolve(__dirname, '../../../core/bin/cumulo.mjs');
 const SHARED_TEMP = path.resolve(__dirname, '../../src/shared/.temp');
 const VARS_FILE = path.resolve(SHARED_TEMP, 'vars.ts');
 const STYLE_FILE = path.resolve(__dirname, '../../src/shared/generated-vars-style.ts');
+const STANDALONE_FILE = path.resolve(__dirname, '../../src/shared/generated-vars-standalone.ts');
 const ENTRY = 'generated-vars-entry.tsx';
 const CUSTOM_RADIUS = '0.987rem';
 
@@ -36,6 +37,10 @@ function verify(result: BundlerBuildResult, name: string, options?: { allowMetaS
   verifyCss(result, name);
   // Direct `vars.radius.md` access in generated-vars-style.ts was inlined to the literal string.
   expect(result.jsContent, `[${name}] inlined var string`).toContain('var(--theme-radius-md)');
+  // Direct `vars.spacing.lg` access in generated-vars-standalone.ts (no @cumulo/css import) was also inlined.
+  expect(result.jsContent, `[${name}] inlined standalone var string`).toContain(
+    'var(--theme-spacing-lg)',
+  );
   // The generated vars object (and its unreferenced tokens) never reaches the client bundle.
   if (!options?.allowMetaSymbol) {
     expect(result.jsContent, `[${name}] leaked contract meta`).not.toContain('__CUMULO_META__');
@@ -75,18 +80,30 @@ describe('Generated `--out` vars file', () => {
     );
   });
 
+  afterAll(() => {
+    fs.rmSync(SHARED_TEMP, { recursive: true, force: true });
+  });
+
   it('carries synced values and contract metadata', () => {
     const code = fs.readFileSync(VARS_FILE, 'utf-8');
     expect(code).toContain(CUSTOM_RADIUS);
     expect(code).toContain('__CUMULO_META__');
   });
 
-  it('the rewriter inlines static vars leaves from the generated file', async () => {
+  it('the rewriter inlines static vars leaves from the generated file (with or without @cumulo/css)', async () => {
     const styleResult = await extractAndRewrite(fs.readFileSync(STYLE_FILE, 'utf-8'), STYLE_FILE);
     expect(styleResult.code).toBeDefined();
     expect(styleResult.code).toContain('"var(--theme-radius-md)"');
     expect(styleResult.code).not.toMatch(/\bvars\./);
     expect(styleResult.code).not.toContain('.temp/vars');
+
+    const standaloneCode = fs.readFileSync(STANDALONE_FILE, 'utf-8');
+    expect(shouldProcessFile(standaloneCode, STANDALONE_FILE)).toBe(true);
+    const standaloneResult = await extractAndRewrite(standaloneCode, STANDALONE_FILE);
+    expect(standaloneResult.code).toBeDefined();
+    expect(standaloneResult.code).toContain('"var(--theme-spacing-lg)"');
+    expect(standaloneResult.code).not.toMatch(/\bvars\./);
+    expect(standaloneResult.code).not.toContain('.temp/vars');
   });
 
   it('Vite inlines vars from the generated file', async () => {
