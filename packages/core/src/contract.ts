@@ -137,7 +137,7 @@ export const vars = {
       none: 'var(--theme-line-height-none)',
       /** 1.25 */
       tight: 'var(--theme-line-height-tight)',
-      /** 1.4 */
+      /** 1.45 */
       normal: 'var(--theme-line-height-normal)',
       /** 1.65 */
       relaxed: 'var(--theme-line-height-relaxed)',
