@@ -52,17 +52,27 @@ Use the [theme builder](/theme-builder) to test and generate theme overrides int
 
 ##### Sync `vars` with your stylesheet (optional)
 
-The typed `vars` contract (and its hover doc comments showing each token's value) is generated from `@cumulo/core/theme.css`. After you change variables in a custom stylesheet, regenerate it with the CLI so editor tooltips and types match your values:
+The typed `vars` contract (and its hover doc comments showing each token's value) is generated from `@cumulo/core/theme.css`. When you override tokens in a custom stylesheet, generate a standalone contract file in your project so editor tooltips match your values — the bundler plugins automatically inline `vars.*` accesses from it with zero client bundle overhead:
 
 ```bash
-# Update the installed @cumulo/core package in place
-npx @cumulo/core generate-theme --css ./src/styles.css --in-place
-
-# Or write a standalone contract file instead
 npx @cumulo/core generate-theme --css ./src/styles.css --out ./src/vars.ts
+
+# Opt in to also include your own custom CSS variables (e.g. --brand-accent -> vars.brand.accent)
+npx @cumulo/core generate-theme --css ./src/styles.css --out ./src/vars.ts --include-custom
 ```
 
-Re-run it whenever your stylesheet's tokens change. See `npx @cumulo/core --help` for all options.
+Or automate regeneration on every build and watch-mode edit via the bundler plugin `theme` option (`@cumulo/unplugin`, `@cumulo/unplugin/postcss`, or `@cumulo/parcel-plugin` in `package.json`):
+
+```ts
+// vite.config.ts
+cumulo({
+  theme: {
+    css: './src/styles.css',
+    out: './src/vars.ts',
+    includeCustomVars: true, // optional
+  },
+});
+```
 
 ### Consume tokens in code
 

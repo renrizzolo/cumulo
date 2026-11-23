@@ -1,6 +1,12 @@
 import readline from 'node:readline';
 
-import { extractCss, type ExtractCssRequest, type ExtractCssResult } from './index.js';
+import {
+  extractCss,
+  syncThemeContract,
+  type CumuloThemeOptions,
+  type ExtractCssRequest,
+  type ExtractCssResult,
+} from './index.js';
 
 const IPC_PREFIX = '__CUMULO_PARCEL_IPC__';
 
@@ -15,6 +21,19 @@ console.debug = (...args: unknown[]): void => {
   console.error(...args);
 };
 
+interface SyncThemeIpcRequest {
+  type: 'syncTheme';
+  theme: CumuloThemeOptions;
+  projectRoot?: string;
+}
+
+interface ExtractIpcRequest {
+  type: 'extract';
+  request: ExtractCssRequest;
+}
+
+type WorkerRequest = SyncThemeIpcRequest | ExtractIpcRequest;
+
 function parseProjectRootArg(argv: string[]): string | undefined {
   const idx = argv.indexOf('--project-root');
   if (idx !== -1 && idx + 1 < argv.length) {
@@ -27,15 +46,38 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-function parseRequest(line: string, defaultProjectRoot?: string): ExtractCssRequest | null {
+function parseRequest(line: string, defaultProjectRoot?: string): WorkerRequest | null {
   const parsed: unknown = JSON.parse(line);
-  if (!isRecord(parsed) || typeof parsed.filePath !== 'string') {
+  if (!isRecord(parsed)) {
+    return null;
+  }
+
+  if (parsed.type === 'syncTheme') {
+    if (typeof parsed.css !== 'string' || typeof parsed.out !== 'string') {
+      return null;
+    }
+    return {
+      type: 'syncTheme',
+      theme: {
+        css: parsed.css,
+        out: parsed.out,
+        includeCustomVars: parsed.includeCustomVars === true,
+        baseCss: typeof parsed.baseCss === 'string' ? parsed.baseCss : undefined,
+      },
+      projectRoot: typeof parsed.projectRoot === 'string' ? parsed.projectRoot : defaultProjectRoot,
+    };
+  }
+
+  if (typeof parsed.filePath !== 'string') {
     return null;
   }
   return {
-    filePath: parsed.filePath,
-    code: typeof parsed.code === 'string' ? parsed.code : undefined,
-    projectRoot: typeof parsed.projectRoot === 'string' ? parsed.projectRoot : defaultProjectRoot,
+    type: 'extract',
+    request: {
+      filePath: parsed.filePath,
+      code: typeof parsed.code === 'string' ? parsed.code : undefined,
+      projectRoot: typeof parsed.projectRoot === 'string' ? parsed.projectRoot : defaultProjectRoot,
+    },
   };
 }
 
@@ -57,8 +99,8 @@ async function main(): Promise<void> {
     }
 
     try {
-      const request = parseRequest(line, defaultProjectRoot);
-      if (!request) {
+      const parsed = parseRequest(line, defaultProjectRoot);
+      if (!parsed) {
         writeResponse({
           css: '',
           dependencies: [],
@@ -67,7 +109,16 @@ async function main(): Promise<void> {
         continue;
       }
 
-      const result = await extractCss(request);
+      if (parsed.type === 'syncTheme') {
+        await syncThemeContract(parsed.theme, parsed.projectRoot);
+        writeResponse({
+          css: '',
+          dependencies: [],
+        });
+        continue;
+      }
+
+      const result = await extractCss(parsed.request);
       writeResponse(result);
     } catch (err: unknown) {
       const message = err instanceof Error ? (err.stack ?? err.message) : String(err);

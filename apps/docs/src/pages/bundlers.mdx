@@ -241,6 +241,11 @@ The `cumulo()` plugin factory accepts an optional configuration object:
 cumulo({
   include: ['./src/**/*.{ts,tsx}'],
   exclude: ['**/*.stories.{ts,tsx}'],
+  theme: {
+    css: './src/styles.css',
+    out: './src/vars.ts',
+    includeCustomVars: true,
+  },
 });
 ```
 
@@ -301,6 +306,23 @@ cumulo({
         <Code variant="subtle">true</Code>
       </Table.Cell>
       <Table.Cell>Whether to automatically inject styles in development environments.</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code variant="primary">theme</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">CumuloThemeOptions</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">undefined</Code>
+      </Table.Cell>
+      <Table.Cell>
+        Automatically regenerates a standalone <Code>vars.ts</Code> contract from your custom
+        stylesheet (<Code>css</Code>, <Code>out</Code>, optional <Code>includeCustomVars</Code>) on
+        build and watch updates. Also supported under <Code>"@cumulo/parcel-plugin"</Code> in{' '}
+        <Code>package.json</Code>.
+      </Table.Cell>
     </Table.Row>
   </Table.Body>
 </Table.Root>

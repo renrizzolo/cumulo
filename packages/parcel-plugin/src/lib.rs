@@ -33,12 +33,25 @@ const CUMULO_CONTRACT_SPECIFIERS: &[&str] = &[
 ];
 const CUMULO_CORE_SPECIFIERS: &[&str] = &["'@cumulo/core'", "\"@cumulo/core\""];
 
+#[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+struct ThemeConfig {
+  css: String,
+  out: String,
+  #[serde(default)]
+  include_custom_vars: bool,
+  #[serde(default)]
+  base_css: Option<String>,
+}
+
 #[derive(Debug, Default, Clone, Deserialize)]
 struct PluginConfig {
   #[serde(default)]
   include: Vec<String>,
   #[serde(default)]
   exclude: Vec<String>,
+  #[serde(default)]
+  theme: Option<ThemeConfig>,
 }
 
 #[derive(Debug, Default, Clone, Deserialize)]
@@ -52,6 +65,19 @@ struct PackageJson {
 struct ExtractRequest<'a> {
   file_path: &'a str,
   code: &'a str,
+  project_root: &'a str,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+struct SyncThemeRequest<'a> {
+  #[serde(rename = "type")]
+  request_type: &'static str,
+  css: &'a str,
+  out: &'a str,
+  include_custom_vars: bool,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  base_css: Option<&'a str>,
   project_root: &'a str,
 }
 
@@ -70,6 +96,8 @@ struct CachedExtraction {
   response: ExtractResponse,
   dep_stamps: Vec<(PathBuf, Option<(SystemTime, u64)>)>,
 }
+
+type ThemeStamp = (Option<(SystemTime, u64)>, Option<(SystemTime, u64)>);
 
 struct ExtractorWorker {
   child: Child,
@@ -111,24 +139,7 @@ impl ExtractorWorker {
     })
   }
 
-  fn extract(
-    &mut self,
-    file_path: &Path,
-    code: &str,
-    project_root: &Path,
-  ) -> Result<ExtractResponse, String> {
-    let file_path_str = file_path.to_string_lossy();
-    let project_root_str = project_root.to_string_lossy();
-
-    let request = ExtractRequest {
-      file_path: &file_path_str,
-      code,
-      project_root: &project_root_str,
-    };
-
-    let payload = serde_json::to_string(&request)
-      .map_err(|err| format!("Failed to serialize extraction request: {err}"))?;
-
+  fn send_and_read(&mut self, payload: &str) -> Result<ExtractResponse, String> {
     self
       .stdin
       .write_all(payload.as_bytes())
@@ -155,6 +166,53 @@ impl ExtractorWorker {
       }
     }
   }
+
+  fn extract(
+    &mut self,
+    file_path: &Path,
+    code: &str,
+    project_root: &Path,
+  ) -> Result<ExtractResponse, String> {
+    let file_path_str = file_path.to_string_lossy();
+    let project_root_str = project_root.to_string_lossy();
+
+    let request = ExtractRequest {
+      file_path: &file_path_str,
+      code,
+      project_root: &project_root_str,
+    };
+
+    let payload = serde_json::to_string(&request)
+      .map_err(|err| format!("Failed to serialize extraction request: {err}"))?;
+    self.send_and_read(&payload)
+  }
+
+  fn sync_theme(
+    &mut self,
+    css: &Path,
+    out: &Path,
+    include_custom_vars: bool,
+    base_css: Option<&Path>,
+    project_root: &Path,
+  ) -> Result<ExtractResponse, String> {
+    let css_str = css.to_string_lossy();
+    let out_str = out.to_string_lossy();
+    let base_css_str = base_css.map(|p| p.to_string_lossy());
+    let project_root_str = project_root.to_string_lossy();
+
+    let request = SyncThemeRequest {
+      request_type: "syncTheme",
+      css: &css_str,
+      out: &out_str,
+      include_custom_vars,
+      base_css: base_css_str.as_deref(),
+      project_root: &project_root_str,
+    };
+
+    let payload = serde_json::to_string(&request)
+      .map_err(|err| format!("Failed to serialize theme sync request: {err}"))?;
+    self.send_and_read(&payload)
+  }
 }
 
 impl Drop for ExtractorWorker {
@@ -170,6 +228,7 @@ pub struct CumuloPlugin {
   config_dir: Option<PathBuf>,
   worker: Mutex<Option<ExtractorWorker>>,
   cache: Mutex<HashMap<PathBuf, (u64, CachedExtraction)>>,
+  theme_stamp: Mutex<Option<ThemeStamp>>,
 }
 
 impl CumuloPlugin {
@@ -207,6 +266,7 @@ impl CumuloPlugin {
       } else {
         pkg_config.exclude
       },
+      theme: inline.theme.or(pkg_config.theme),
     };
 
     Ok(Self {
@@ -215,7 +275,98 @@ impl CumuloPlugin {
       config_dir,
       worker: Mutex::new(None),
       cache: Mutex::new(HashMap::new()),
+      theme_stamp: Mutex::new(None),
     })
+  }
+
+  fn maybe_sync_theme(&self, file_path: &Path, options: &Options) -> Result<(), Diagnostic> {
+    let Some(ref theme) = self.config.theme else {
+      return Ok(());
+    };
+
+    let base_dir = self.config_dir.as_deref().unwrap_or(&self.project_root);
+    let css_path = resolve_config_path(base_dir, &theme.css);
+    let out_path = resolve_config_path(base_dir, &theme.out);
+    let base_css_path = theme
+      .base_css
+      .as_deref()
+      .map(|p| resolve_config_path(base_dir, p));
+
+    // Track the theme CSS file in Parcel's dependency graph so watch mode invalidates on edit.
+    let _ = options.read_file(&css_path);
+    if let Some(ref base_css) = base_css_path {
+      let _ = options.read_file(base_css);
+    }
+
+    let current_stamp: ThemeStamp = (
+      file_stamp(&css_path),
+      base_css_path.as_deref().and_then(file_stamp),
+    );
+
+    if let Ok(guard) = self.theme_stamp.lock()
+      && guard.as_ref() == Some(&current_stamp)
+      && out_path.is_file()
+    {
+      return Ok(());
+    }
+
+    let worker_path = find_worker_script(
+      file_path,
+      self.config_dir.as_deref(),
+      &self.project_root,
+      options,
+    )
+    .ok_or_else(|| {
+      Diagnostic::new(format!(
+        "Could not locate {PACKAGE_NAME} extractor worker (dist/worker.mjs) from \"{}\" or \"{}\".",
+        file_path.display(),
+        self.project_root.display()
+      ))
+      .with_hint(format!(
+        "Ensure {PACKAGE_NAME} is installed and built (packages/parcel-plugin/dist/worker.mjs)."
+      ))
+    })?;
+
+    let mut worker_guard = self
+      .worker
+      .lock()
+      .map_err(|_| Diagnostic::new(format!("Failed to acquire {PACKAGE_NAME} worker lock")))?;
+
+    for attempt in 0..2 {
+      if worker_guard.is_none() {
+        let spawned = ExtractorWorker::spawn(&worker_path, &self.project_root)
+          .map_err(Diagnostic::new)?;
+        *worker_guard = Some(spawned);
+      }
+
+      if let Some(worker) = worker_guard.as_mut() {
+        match worker.sync_theme(
+          &css_path,
+          &out_path,
+          theme.include_custom_vars,
+          base_css_path.as_deref(),
+          &self.project_root,
+        ) {
+          Ok(response) => {
+            maybe_log_warning(response.warning.as_deref(), options);
+            if let Ok(mut stamp_guard) = self.theme_stamp.lock() {
+              *stamp_guard = Some(current_stamp);
+            }
+            return Ok(());
+          }
+          Err(err) => {
+            *worker_guard = None;
+            if attempt == 1 {
+              return Err(Diagnostic::new(err));
+            }
+          }
+        }
+      }
+    }
+
+    Err(Diagnostic::new(format!(
+      "{PACKAGE_NAME} theme sync failed after restarting worker"
+    )))
   }
 
   fn run_extraction(
@@ -343,6 +494,10 @@ impl Plugin for CumuloPlugin {
     // Only intercept normal (un-pipelined) JS/TS assets on Pass 1.
     if asset.pipeline().is_some() {
       return Ok(());
+    }
+
+    if self.config.theme.is_some() {
+      self.maybe_sync_theme(&file_path, options)?;
     }
 
     if !is_candidate_path(&file_path, &self.config) {
@@ -851,6 +1006,7 @@ mod tests {
     let config = PluginConfig {
       include: vec!["custom-styles".to_owned()],
       exclude: vec!["ignored.tsx".to_owned()],
+      theme: None,
     };
 
     assert!(!should_process_file(
@@ -898,5 +1054,39 @@ mod tests {
     assert!(!dep_stamps_match(&stamps));
 
     let _ = fs::remove_dir_all(&dir);
+  }
+
+  #[test]
+  fn test_deserialize_theme_config() {
+    let pkg: PackageJson = serde_json::from_str(
+      r#"{
+        "@cumulo/parcel-plugin": {
+          "theme": {
+            "css": "./src/styles.css",
+            "out": "./src/vars.ts",
+            "includeCustomVars": true
+          }
+        }
+      }"#,
+    )
+    .expect("valid package.json config");
+
+    let theme = pkg
+      .plugin_config
+      .and_then(|cfg| cfg.theme)
+      .expect("theme config");
+    assert_eq!(theme.css, "./src/styles.css");
+    assert_eq!(theme.out, "./src/vars.ts");
+    assert!(theme.include_custom_vars);
+    assert_eq!(theme.base_css, None);
+  }
+}
+
+fn resolve_config_path(base_dir: &Path, raw: &str) -> PathBuf {
+  let candidate = Path::new(raw);
+  if candidate.is_absolute() {
+    candidate.to_path_buf()
+  } else {
+    base_dir.join(candidate)
   }
 }

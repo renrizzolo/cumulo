@@ -829,4 +829,114 @@ document.body.className = wrapperStyle.className + ' ' + extendedCard({ tone: 'b
     expect(allJs).not.toContain('--theme-unused-sentinel');
     expect(allJs).not.toContain('compileStyleRule');
   }, 60000);
+
+  it('auto-generates vars.ts (including opt-in custom vars) via package.json theme config and inlines leaves', () => {
+    const dir = path.join(TEMP_ROOT, 'auto-theme-sync-app');
+    const srcDir = path.join(dir, 'src');
+    const distDir = path.join(dir, 'dist');
+    cleanDir(dir);
+    fs.mkdirSync(srcDir, { recursive: true });
+    setupFixtureNodeModules(dir);
+
+    fs.writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify(
+        {
+          name: 'parcel-v3-theme-sync-fixture',
+          private: true,
+          type: 'module',
+          '@cumulo/parcel-plugin': {
+            theme: {
+              css: './src/styles.css',
+              out: './src/vars.ts',
+              includeCustomVars: true,
+            },
+          },
+        },
+        null,
+        2,
+      ),
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(dir, '.parcelrc'),
+      JSON.stringify(
+        {
+          extends: '@parcel/config-default',
+          transformers: {
+            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...', '@cumulo/parcel-plugin'],
+            'cumulo-css:*': ['@cumulo/parcel-plugin'],
+          },
+        },
+        null,
+        2,
+      ),
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'styles.css'),
+      `:root {\n  --theme-radius-md: 0.912rem;\n  --brand-accent: #ff3388;\n}\n`,
+      'utf-8',
+    );
+
+    // Note: src/vars.ts does NOT exist yet — @cumulo/parcel-plugin generates it automatically.
+    fs.writeFileSync(
+      path.join(srcDir, 'Card.ts'),
+      `import { style } from '@cumulo/css';
+import { vars } from './vars';
+
+export const cardStyle = style(
+  {
+    borderRadius: vars.radius.md,
+    color: vars.brand.accent,
+  },
+  'p3-auto-theme-card',
+);
+
+export const accentToken = vars.brand.accent;
+`,
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'entry.ts'),
+      `import './styles.css';
+import { accentToken, cardStyle } from './Card';
+
+document.body.className = cardStyle.className;
+document.body.style.color = accentToken;
+`,
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'index.html'),
+      `<!DOCTYPE html><html><head></head><body><script type="module" src="./entry.ts"></script></body></html>`,
+      'utf-8',
+    );
+
+    runParcelBuild(['src/index.html', '--dist-dir', distDir], dir);
+
+    const generatedVarsPath = path.join(srcDir, 'vars.ts');
+    expect(fs.existsSync(generatedVarsPath)).toBe(true);
+    const generatedVars = fs.readFileSync(generatedVarsPath, 'utf-8');
+    expect(generatedVars).toContain('/** 0.912rem */');
+    expect(generatedVars).toContain("accent: 'var(--brand-accent)'");
+
+    const allCss = collectFilesByExt(distDir, '.css')
+      .map((f) => fs.readFileSync(f, 'utf-8'))
+      .join('\n');
+    expect(allCss).toContain('.p3-auto-theme-card-');
+    expect(allCss).toContain('var(--brand-accent)');
+
+    const allJs = collectFilesByExt(distDir, '.js')
+      .map((f) => fs.readFileSync(f, 'utf-8'))
+      .join('\n');
+    expect(allJs).toContain('var(--brand-accent)');
+    expect(allJs).not.toContain('0.912rem');
+    expect(allJs).not.toContain('--theme-spacing-md');
+    expect(allJs).not.toContain('compileStyleRule');
+  }, 60000);
 });

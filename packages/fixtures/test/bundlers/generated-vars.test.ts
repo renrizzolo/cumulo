@@ -181,4 +181,89 @@ describe('Generated `--out` vars file', () => {
       'Next.js Pages Router (Webpack)',
     );
   }, 60000);
+
+  it('Vite auto-generates vars.ts (including opt-in custom vars) via the plugin theme option', async () => {
+    const vite = await import('vite');
+    const { cumulo: vitePlugin } = await import('@cumulo/unplugin/vite');
+
+    const workDir = path.resolve(__dirname, '../.temp/vars-vite-auto-theme');
+    const distDir = path.resolve(workDir, 'dist');
+    fs.rmSync(workDir, { recursive: true, force: true });
+    fs.mkdirSync(workDir, { recursive: true });
+
+    const cssFile = path.resolve(workDir, 'styles.css');
+    const outVarsFile = path.resolve(workDir, 'vars.ts');
+    const cardTs = path.resolve(workDir, 'card.ts');
+    const entryTs = path.resolve(workDir, 'entry.ts');
+    const entryHtml = path.resolve(workDir, 'index.html');
+
+    fs.writeFileSync(
+      cssFile,
+      `:root {\n  --theme-radius-md: 0.876rem;\n  --brand-accent: #cc2288;\n}\n`,
+      'utf-8',
+    );
+    fs.writeFileSync(
+      cardTs,
+      `import { style } from '@cumulo/css';
+import { vars } from './vars';
+
+export const box = style(
+  { borderRadius: vars.radius.md, color: vars.brand.accent },
+  'vite-auto-theme',
+);
+export const accent = vars.brand.accent;
+`,
+      'utf-8',
+    );
+    fs.writeFileSync(
+      entryTs,
+      `import { accent, box } from './card';
+
+document.body.className = box.className;
+document.body.style.color = accent;
+`,
+      'utf-8',
+    );
+    fs.writeFileSync(
+      entryHtml,
+      `<!DOCTYPE html><html><head></head><body><script type="module" src="${entryTs.replace(/\\/g, '/')}"></script></body></html>`,
+      'utf-8',
+    );
+
+    await vite.build({
+      root: path.resolve(__dirname, '../..'),
+      configFile: false,
+      logLevel: 'silent',
+      plugins: [
+        vitePlugin({
+          theme: {
+            css: cssFile,
+            out: outVarsFile,
+            includeCustomVars: true,
+          },
+        }),
+      ],
+      build: {
+        outDir: distDir,
+        emptyOutDir: true,
+        rollupOptions: { input: entryHtml },
+      },
+    });
+
+    expect(fs.existsSync(outVarsFile)).toBe(true);
+    const generated = fs.readFileSync(outVarsFile, 'utf-8');
+    expect(generated).toContain('/** 0.876rem */');
+    expect(generated).toContain("accent: 'var(--brand-accent)'");
+
+    const distFiles = fs.readdirSync(distDir, { recursive: true }).map(String);
+    const cssFileOut = distFiles.find((f) => f.endsWith('.css'));
+    const jsFileOut = distFiles.find((f) => f.endsWith('.js'));
+    const cssOut = cssFileOut ? fs.readFileSync(path.resolve(distDir, cssFileOut), 'utf-8') : '';
+    const jsOut = jsFileOut ? fs.readFileSync(path.resolve(distDir, jsFileOut), 'utf-8') : '';
+
+    expect(cssOut).toContain('var(--brand-accent)');
+    expect(jsOut).toContain('var(--brand-accent)');
+    expect(jsOut).not.toContain('0.876rem');
+    expect(jsOut).not.toContain('--theme-spacing-md');
+  }, 30000);
 });

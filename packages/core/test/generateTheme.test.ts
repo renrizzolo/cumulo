@@ -145,52 +145,73 @@ describe('Theme Generator & CLI', () => {
     fs.rmSync(tempDir, { recursive: true, force: true });
   });
 
-  it('writes valid ESM JS to contract.mjs and TypeScript declarations to contract.d.mts in --in-place mode', async () => {
-    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-inplace-test-'));
-    const distDir = path.join(tempDir, 'node_modules/@cumulo/core/dist');
-    fs.mkdirSync(distDir, { recursive: true });
+  it('includes custom CSS variables when includeCustomVars / --include-custom is enabled', async () => {
+    const customCss = `
+      :root {
+        --theme-spacing-md: 18px;
+        --brand-accent: #ff5500;
+        --brand-sidebar-width: 280px;
+      }
+      [data-theme='alt'] {
+        --brand-accent: #0055ff;
+      }
+    `;
 
-    const originalCwd = process.cwd();
+    const result = await generateTheme({
+      customCssContent: customCss,
+      includeCustomVars: true,
+    });
+
+    expect(result.overriddenVars).toEqual(['--theme-spacing-md']);
+    expect(result.customVars).toEqual(['--brand-accent', '--brand-sidebar-width']);
+    expect(result.ignoredVars).toEqual([]);
+    expect(result.standaloneCode).toContain("accent: 'var(--brand-accent)'");
+    expect(result.standaloneCode).toContain('/** #0055ff */');
+    expect(result.standaloneCode).toContain("width: 'var(--brand-sidebar-width)'");
+    expect(result.standaloneCode).toContain('/** 280px */');
+
+    // Verify CLI flag `--include-custom` works end-to-end
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-custom-cli-'));
+    const cssFile = path.join(tempDir, 'theme.css');
+    const outFile = path.join(tempDir, 'vars.ts');
     try {
-      process.chdir(tempDir);
-      await runThemeGeneration({
-        customCssContent: ':root { --theme-spacing-md: 18px; }',
-        inPlace: true,
+      fs.writeFileSync(cssFile, customCss, 'utf-8');
+      await runCli([
+        'generate-theme',
+        `--css=${cssFile}`,
+        `--out=${outFile}`,
+        '--include-custom',
+        '--silent',
+      ]);
+
+      const content = fs.readFileSync(outFile, 'utf-8');
+      expect(content).toContain("accent: 'var(--brand-accent)'");
+      expect(content).toContain("width: 'var(--brand-sidebar-width)'");
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it('skips rewriting output file when content is unchanged and requires --out', async () => {
+    await expect(runThemeGeneration({ silent: true })).rejects.toThrow('--out');
+
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-noop-write-'));
+    const outFile = path.join(tempDir, 'vars.ts');
+    try {
+      const firstWrite = await runThemeGeneration({
+        customCssContent: ':root { --theme-spacing-md: 14px; }',
+        outPath: outFile,
         silent: true,
       });
+      expect(firstWrite).toBe(true);
 
-      const dtsContent = fs.readFileSync(path.join(distDir, 'contract.d.mts'), 'utf-8');
-      const mjsContent = fs.readFileSync(path.join(distDir, 'contract.mjs'), 'utf-8');
-
-      expect(dtsContent).toContain('export type ThemeVars = typeof vars;');
-      expect(dtsContent).toContain('/** 18px */');
-
-      // contract.mjs must be valid ESM JavaScript with no TypeScript-only syntax
-      expect(mjsContent).toContain('export const vars = {');
-      expect(mjsContent).toContain("Symbol.for('__CUMULO_META__')");
-      expect(mjsContent).not.toContain('as const');
-      expect(mjsContent).not.toContain('export type ');
-
-      // Verify Node can actually import the generated contract.mjs
-      const imported: unknown = await import(
-        `file://${path.join(distDir, 'contract.mjs')}?t=${Date.now()}`
-      );
-      expect(typeof imported).toBe('object');
-      expect(imported).not.toBeNull();
-      if (
-        typeof imported !== 'object' ||
-        imported === null ||
-        !('vars' in imported) ||
-        typeof imported.vars !== 'object' ||
-        imported.vars === null
-      ) {
-        throw new Error('Expected contract.mjs to export vars object');
-      }
-      expect(Reflect.get(imported.vars, Symbol.for('__CUMULO_META__'))).toEqual({
-        kind: 'contract',
+      const secondWrite = await runThemeGeneration({
+        customCssContent: ':root { --theme-spacing-md: 14px; }',
+        outPath: outFile,
+        silent: true,
       });
+      expect(secondWrite).toBe(false);
     } finally {
-      process.chdir(originalCwd);
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
   });

@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 import { extractCssFromFile, shouldProcessFile } from './core/extractor.js';
+import { syncThemeContract } from './core/themeSync.js';
 import type { CumuloPluginOptions } from './types.js';
 
 export interface CumuloPostcssOptions extends CumuloPluginOptions {
@@ -39,6 +40,17 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
     postcssPlugin: 'cumulo-postcss',
     async Once(root: PostcssRoot, helpers: { result: PostcssResult }): Promise<void> {
       const cwd = process.cwd();
+
+      if (options.theme) {
+        const synced = await syncThemeContract(options.theme, cwd);
+        helpers.result.messages.push({
+          type: 'dependency',
+          plugin: 'cumulo-postcss',
+          file: synced.cssPath,
+          parent: helpers.result.opts?.from,
+        });
+      }
+
       const patterns = options.include ?? [
         'src/**/*.{tsx,jsx,ts,js}',
         'app/**/*.{tsx,jsx,ts,js}',

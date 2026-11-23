@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import { createUnplugin } from 'unplugin';
 
 import {
@@ -6,10 +8,17 @@ import {
   extractCssFromFile,
   extractAndRewrite,
 } from './core/extractor.js';
+import { syncThemeContract } from './core/themeSync.js';
 import type { CumuloPluginOptions } from './types.js';
 
 export * from './types.js';
-export { shouldProcessFile, extractCssFromCode, extractCssFromFile, extractAndRewrite };
+export {
+  shouldProcessFile,
+  extractCssFromCode,
+  extractCssFromFile,
+  extractAndRewrite,
+  syncThemeContract,
+};
 
 const VIRTUAL_CSS_SUFFIX = '.cumulo.css';
 const cssMap = new Map<string, string>();
@@ -21,10 +30,30 @@ export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
   (options: CumuloPluginOptions | undefined = {}) => {
     const virtualModuleId = options?.virtualModuleId;
     const virtualSuffix = virtualModuleId || VIRTUAL_CSS_SUFFIX;
+    const themeOptions = options?.theme;
 
     return {
       name: 'cumulo-unplugin',
       enforce: 'pre',
+
+      async buildStart() {
+        if (!themeOptions) {
+          return;
+        }
+        const result = await syncThemeContract(themeOptions);
+        if (typeof this.addWatchFile === 'function') {
+          this.addWatchFile(result.cssPath);
+        }
+      },
+
+      async watchChange(id: string) {
+        if (!themeOptions) {
+          return;
+        }
+        if (path.resolve(id) === path.resolve(themeOptions.css)) {
+          await syncThemeContract(themeOptions);
+        }
+      },
 
       resolveId(id: string) {
         const cleanId = normalizeId(id);
