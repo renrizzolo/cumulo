@@ -2,6 +2,7 @@
 
 import * as Alert from '@cumulo/core/components/Alert';
 import { type AlertVariant } from '@cumulo/core/components/Alert';
+import * as Avatar from '@cumulo/core/components/Avatar';
 import { Badge } from '@cumulo/core/components/Badge';
 import { Button } from '@cumulo/core/components/Button';
 import * as ButtonGroup from '@cumulo/core/components/ButtonGroup';
@@ -2292,9 +2293,11 @@ export function ThemeBuilder(): React.JSX.Element {
                               <Text type="caption" color="muted">
                                 3 members displayed
                               </Text>
-                              <Button variant="secondary" size="sm">
-                                Manage Team
-                              </Button>
+                              <Avatar.Group>
+                                <Avatar.Root color="blue" name="Alex Rivera" />
+                                <Avatar.Root color="green" name="Morgan Blake" />
+                                <Avatar.Root color="purple" name="Taylor Reed" />
+                              </Avatar.Group>
                             </Card.Footer>
                           </VStack>
                         </Card.Root>
