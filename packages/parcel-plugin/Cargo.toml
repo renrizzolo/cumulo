@@ -1,0 +1,15 @@
+[package]
+name = "cumulo-parcel-plugin"
+version = "0.2.0-alpha.1"
+edition = "2024"
+license = "MIT"
+description = "Native Parcel v3 plugin for Cumulo static CSS extraction"
+repository = "https://github.com/renrizzolo/cumulo"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+parcel-plugin = "0.2.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

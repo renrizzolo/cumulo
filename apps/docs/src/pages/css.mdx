@@ -13,9 +13,9 @@ Understand where `@cumulo/css` runs and what dependencies it requires:
 - **Build-time dependency**: Install `@cumulo/unplugin` as a development dependency (`devDependencies`). At build time, the plugin extracts CSS rules from `style()`, `create()`, and `keyframes()` into static `.css` files.
 - **Zero runtime CSS injection**: In production, the client bundle contains no CSS parser and injects no `<style>` tags into the document head.
 - **Runtime JavaScript execution**:
-  - `recipe()` returns a function that computes pre-compiled class names based on variant options.
+  - `recipe()` compiles down to a lightweight variant lookup over pre-compiled class names.
   - `cx()` concatenates and filters class name strings.
-  - `props()` returns `{ className, style }` objects for JSX element spreading.
+- **Lean runtime entrypoint**: `@cumulo/css/runtime` (~0.9 kB gzipped) exports `cx`, `createThemeContract`, `assignVars`, and lightweight stand-ins for `style()`, `recipe()`, `keyframes()` and `createTheme()`. When a bundler plugin rewrites your modules, it points these imports at `@cumulo/css/runtime`, so the stylesheet registry, hashing, and CSS compiler are left out of client bundles. You don't import it directly.
 
 ### Installation
 
@@ -70,7 +70,7 @@ Design tokens imported from `vars` reference CSS variables provided by `@cumulo/
 
 ```tsx
 import { style, create } from '@cumulo/css';
-import { vars } from '@cumulo/core';
+import { vars } from '@cumulo/core/contract';
 
 // Single style definition
 export const card = style({
@@ -119,7 +119,7 @@ Use `recipe()` to define multi-variant styles with default variants and compound
 
 ```tsx
 import { recipe, type RecipeVariants } from '@cumulo/css';
-import { vars } from '@cumulo/core';
+import { vars } from '@cumulo/core/contract';
 
 export const button = recipe({
   base: {
@@ -223,23 +223,17 @@ export const spinner = style({
 });
 ```
 
-### Class merging and JSX props
+### Class merging
 
-Use `cx()` to merge class names, conditional values, and compiled styles.
-
-Use `props()` to merge class names and inline styles into an object for JSX spreading:
+Use `cx()` to merge class names, conditional values, and compiled styles:
 
 ```tsx
-import { cx, props } from '@cumulo/css';
+import { cx } from '@cumulo/css';
 import { buttonStyles } from './button.js';
 
-// Merge class names:
 const className = cx(buttonStyles.base, isPrimary && buttonStyles.primary, 'custom-class');
 
-// Return { className, style } for JSX spreading:
-const elementProps = props(buttonStyles.base, { style: { marginTop: 8 } });
-
-<button {...elementProps}>Save</button>;
+<button className={className}>Save</button>;
 ```
 
-Both `cx()` and `props()` run in JavaScript at runtime. They perform string concatenation and object assignment without DOM side effects.
+`cx()` runs in JavaScript at runtime and performs string concatenation without DOM side effects.

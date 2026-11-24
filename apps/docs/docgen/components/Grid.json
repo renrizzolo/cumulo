@@ -1,8 +1,51 @@
 {
   "name": "Grid.Root",
-  "path": "packages/core/src/components/Grid.tsx",
+  "path": "../../packages/core/src/components/Grid.tsx",
   "fileName": "Grid.tsx",
   "props": {
+    "align": {
+      "defaultValue": {
+        "value": "stretch"
+      },
+      "description": "",
+      "name": "align",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"baseline\" | \"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
+        "value": [
+          {
+            "value": "\"baseline\""
+          },
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"stretch\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "as": {
       "defaultValue": {
         "value": "div"
@@ -25,47 +68,67 @@
         "raw": "StackTag | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"section\""
-          },
-          {
             "value": "\"article\""
-          },
-          {
-            "value": "\"header\""
-          },
-          {
-            "value": "\"footer\""
-          },
-          {
-            "value": "\"nav\""
           },
           {
             "value": "\"aside\""
           },
           {
-            "value": "\"main\""
+            "value": "\"div\""
+          },
+          {
+            "value": "\"footer\""
           },
           {
             "value": "\"form\""
           },
           {
-            "value": "\"ul\""
+            "value": "\"header\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"nav\""
           },
           {
             "value": "\"ol\""
           },
           {
+            "value": "\"section\""
+          },
+          {
             "value": "\"span\""
+          },
+          {
+            "value": "\"ul\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
     },
     "columns": {
       "defaultValue": {
@@ -86,19 +149,19 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "1 | \"auto-fit\" | \"auto-fill\" | 2 | 3 | 4 | 5 | 6 | 12 | undefined",
+        "raw": "\"auto-fill\" | \"auto-fit\" | 1 | 12 | 2 | 3 | 4 | 5 | 6 | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
-            "value": "1"
+            "value": "\"auto-fill\""
           },
           {
             "value": "\"auto-fit\""
           },
           {
-            "value": "\"auto-fill\""
+            "value": "1"
+          },
+          {
+            "value": "12"
           },
           {
             "value": "2"
@@ -116,7 +179,140 @@
             "value": "6"
           },
           {
-            "value": "12"
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "flex": {
+      "defaultValue": null,
+      "description": "",
+      "name": "flex",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+        "value": [
+          {
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"initial\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "1"
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "gap": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "gap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xl\" | \"2xs\" | \"3xs\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"3xs\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "justify": {
+      "defaultValue": {
+        "value": "stretch"
+      },
+      "description": "",
+      "name": "justify",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+        "name": "GridProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+          "name": "GridProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
+        "value": [
+          {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"end\""
+          },
+          {
+            "value": "\"start\""
+          },
+          {
+            "value": "\"stretch\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
@@ -144,61 +340,6 @@
       },
       "shortPropTypeName": null
     },
-    "gap": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "gap",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-        "name": "GridProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-          "name": "GridProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"3xs\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"3xs\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "padding": {
       "defaultValue": null,
       "description": "",
@@ -216,176 +357,35 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
+        "raw": "\"2xl\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
+            "value": "\"2xl\""
           },
           {
             "value": "\"lg\""
           },
           {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "align": {
-      "defaultValue": {
-        "value": "stretch"
-      },
-      "description": "",
-      "name": "align",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-        "name": "GridProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-          "name": "GridProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"start\" | \"center\" | \"end\" | \"baseline\" | \"stretch\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"baseline\""
-          },
-          {
-            "value": "\"stretch\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "justify": {
-      "defaultValue": {
-        "value": "stretch"
-      },
-      "description": "",
-      "name": "justify",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-        "name": "GridProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-          "name": "GridProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"start\" | \"center\" | \"end\" | \"stretch\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"start\""
-          },
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"end\""
-          },
-          {
-            "value": "\"stretch\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "flex": {
-      "defaultValue": null,
-      "description": "",
-      "name": "flex",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-        "name": "GridProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-          "name": "GridProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"auto\""
-          },
-          {
-            "value": "1"
-          },
-          {
-            "value": "\"initial\""
+            "value": "\"md\""
           },
           {
             "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
     },
     "ref": {
       "defaultValue": null,
@@ -430,128 +430,43 @@
             "raw": "StackTag | undefined",
             "value": [
               {
-                "value": "undefined"
-              },
-              {
-                "value": "\"div\""
-              },
-              {
-                "value": "\"section\""
-              },
-              {
                 "value": "\"article\""
-              },
-              {
-                "value": "\"header\""
-              },
-              {
-                "value": "\"footer\""
-              },
-              {
-                "value": "\"nav\""
               },
               {
                 "value": "\"aside\""
               },
               {
-                "value": "\"main\""
+                "value": "\"div\""
+              },
+              {
+                "value": "\"footer\""
               },
               {
                 "value": "\"form\""
               },
               {
-                "value": "\"ul\""
+                "value": "\"header\""
+              },
+              {
+                "value": "\"main\""
+              },
+              {
+                "value": "\"nav\""
               },
               {
                 "value": "\"ol\""
               },
               {
+                "value": "\"section\""
+              },
+              {
                 "value": "\"span\""
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "colSpan": {
-          "defaultValue": null,
-          "description": "",
-          "name": "colSpan",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-            "name": "GridItemProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-              "name": "GridItemProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "1 | \"full\" | 2 | 3 | 4 | 6 | 12 | undefined",
-            "value": [
+              },
+              {
+                "value": "\"ul\""
+              },
               {
                 "value": "undefined"
-              },
-              {
-                "value": "1"
-              },
-              {
-                "value": "\"full\""
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "4"
-              },
-              {
-                "value": "6"
-              },
-              {
-                "value": "12"
-              }
-            ]
-          },
-          "shortPropTypeName": null
-        },
-        "rowSpan": {
-          "defaultValue": null,
-          "description": "",
-          "name": "rowSpan",
-          "parent": {
-            "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-            "name": "GridItemProps"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/packages/core/src/components/Grid.tsx",
-              "name": "GridItemProps"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "enum",
-            "raw": "1 | 2 | 3 | 4 | undefined",
-            "value": [
-              {
-                "value": "undefined"
-              },
-              {
-                "value": "1"
-              },
-              {
-                "value": "2"
-              },
-              {
-                "value": "3"
-              },
-              {
-                "value": "4"
               }
             ]
           },
@@ -577,6 +492,53 @@
           },
           "shortPropTypeName": "string | function"
         },
+        "colSpan": {
+          "defaultValue": null,
+          "description": "",
+          "name": "colSpan",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+            "name": "GridItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+              "name": "GridItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"full\" | 1 | 12 | 2 | 3 | 4 | 6 | undefined",
+            "value": [
+              {
+                "value": "\"full\""
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "12"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "6"
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
         "ref": {
           "defaultValue": null,
           "description": "",
@@ -590,6 +552,44 @@
           "required": false,
           "type": {
             "name": "Ref<HTMLElement> | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "rowSpan": {
+          "defaultValue": null,
+          "description": "",
+          "name": "rowSpan",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+            "name": "GridItemProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Grid.tsx",
+              "name": "GridItemProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "1 | 2 | 3 | 4 | undefined",
+            "value": [
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "3"
+              },
+              {
+                "value": "4"
+              },
+              {
+                "value": "undefined"
+              }
+            ]
           },
           "shortPropTypeName": null
         }

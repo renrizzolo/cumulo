@@ -1,8 +1,9 @@
 'use client';
 
+import { HStack, Stack } from '@cumulo/core/components/Stack';
+import { vars } from '@cumulo/core/contract';
+import { cx as mergeClasses, keyframes, style, type StyleRule } from '@cumulo/css';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { cx as mergeClasses, keyframes, style } from '@cumulo/css';
-import { HStack, Stack, vars } from '@cumulo/core';
 
 const EASE_SPRING_BOUNCE = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 const EASE_IN_OUT_SMOOTH = 'cubic-bezier(0.45, 0, 0.55, 1)';
@@ -247,42 +248,39 @@ const touchOnlyHintStyle = style(
   'doc-footer-game-hint-touch',
 );
 
-function parallaxLayer(kf: { name: string }, id: string): ReturnType<typeof style> {
-  return style(
-    {
-      willChange: 'transform',
-      '@supports': {
-        '((animation-timeline: view()) and (animation-range: entry))': {
-          animationName: kf.name,
-          animationTimingFunction: 'linear',
-          animationFillMode: 'both',
-          animationTimeline: '--footer-landscape',
-          animationRange: 'entry 20% entry 100%',
-        },
-      },
-      '@media': {
-        '(prefers-reduced-motion: reduce)': { animationName: 'none !important' },
+function parallaxLayerRule(kf: { name: string }): StyleRule {
+  return {
+    willChange: 'transform',
+    '@supports': {
+      '((animation-timeline: view()) and (animation-range: entry))': {
+        animationName: kf.name,
+        animationTimingFunction: 'linear',
+        animationFillMode: 'both',
+        animationTimeline: '--footer-landscape',
+        animationRange: 'entry 20% entry 100%',
       },
     },
-    id,
-  );
+    '@media': {
+      '(prefers-reduced-motion: reduce)': { animationName: 'none !important' },
+    },
+  };
 }
 
-const parallaxSkyLayerStyle = parallaxLayer(parallaxSkyShift, 'doc-footer-parallax-sky');
-const parallaxFarMtnLayerStyle = parallaxLayer(
-  parallaxFarMountainShift,
+const parallaxSkyLayerStyle = style(parallaxLayerRule(parallaxSkyShift), 'doc-footer-parallax-sky');
+const parallaxFarMtnLayerStyle = style(
+  parallaxLayerRule(parallaxFarMountainShift),
   'doc-footer-parallax-far-mtn',
 );
-const parallaxMidLakeLayerStyle = parallaxLayer(
-  parallaxMidLakeShift,
+const parallaxMidLakeLayerStyle = style(
+  parallaxLayerRule(parallaxMidLakeShift),
   'doc-footer-parallax-mid-lake',
 );
-const parallaxLawnDepthLayerStyle = parallaxLayer(
-  parallaxLawnDepthRise,
+const parallaxLawnDepthLayerStyle = style(
+  parallaxLayerRule(parallaxLawnDepthRise),
   'doc-footer-parallax-lawn-depth',
 );
-const parallaxFrontGrassLayerStyle = parallaxLayer(
-  parallaxFrontGrassRise,
+const parallaxFrontGrassLayerStyle = style(
+  parallaxLayerRule(parallaxFrontGrassRise),
   'doc-footer-parallax-front-grass',
 );
 

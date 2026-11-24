@@ -1,8 +1,9 @@
 import '@testing-library/jest-dom/vitest';
-import React, { useState } from 'react';
-import { describe, it, expect, vi, afterEach } from 'vitest';
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { useState } from 'react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+
 import { Checkbox } from '../src/components/Checkbox.js';
 import { Field } from '../src/index.js';
 

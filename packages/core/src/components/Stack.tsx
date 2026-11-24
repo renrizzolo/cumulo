@@ -1,5 +1,6 @@
-import React from 'react';
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+import React from 'react';
+
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, gapStyles } from '../layout.js';
 

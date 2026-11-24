@@ -1,7 +1,9 @@
 'use client';
 
+import { HStack } from '@cumulo/core/components/Stack';
+import { ThemeToggle } from '@cumulo/core/components/ThemeToggle';
+import { setDefaultTheme } from '@cumulo/core/theme/theme';
 import React from 'react';
-import { HStack, ThemeToggle, setDefaultTheme } from '@cumulo/core';
 
 setDefaultTheme('docs');
 

@@ -1,5 +1,5 @@
-import { cumulo as webpackPlugin } from './webpack.js';
 import type { CumuloPluginOptions } from './types.js';
+import { cumulo as webpackPlugin } from './webpack.js';
 
 export interface NextWebpackConfig {
   plugins?: unknown[];

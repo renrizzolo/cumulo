@@ -1,4 +1,5 @@
 import { getSingletonHighlighter, type BundledLanguage } from 'shiki';
+
 import { cumuloTheme } from './shikiTheme';
 
 const supportedLangs: BundledLanguage[] = [

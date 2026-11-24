@@ -1,5 +1,6 @@
-import React from 'react';
 import { keyframes, recipe, cx, type RecipeVariants } from '@cumulo/css';
+import React from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 

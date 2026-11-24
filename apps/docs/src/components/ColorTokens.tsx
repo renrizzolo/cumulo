@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { create, style } from '@cumulo/css';
-import { Text, vars, type VarPath, Button } from '@cumulo/core';
+import * as Popover from '@cumulo/core/components/Popover';
+import { HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
+import { vars, type VarPath, VarValue } from '@cumulo/core/contract';
 import { Intent } from '@cumulo/core/intents';
+import { create, style } from '@cumulo/css';
+import React, { useState, useCallback } from 'react';
 
 type ColorIntent = Intent | 'grey';
 type ColorStep = (typeof STEPS)[number];
@@ -114,37 +117,58 @@ interface SwatchProps {
 
 function Swatch({ intent, step }: SwatchProps): React.JSX.Element {
   const [copied, setCopied] = useState(false);
-  const tokenVar = vars[intent][step];
-  const cssVar = tokenVar.replace(/^var\((--[^)]+)\)$/, '$1');
+  const cssVar: VarValue = `var(--theme-${intent}-${step})`;
+  const varPath = `vars.${intent}[${step}]`;
+
   const isLightStep = step <= 400;
 
-  const handleCopy = useCallback(async () => {
+  const handleCopy = useCallback(async (text: string) => {
     try {
-      await navigator.clipboard.writeText(tokenVar);
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     } catch {
       // Fallback
     }
-  }, [tokenVar]);
+  }, []);
 
   return (
-    <Button
-      type="button"
-      className={colorSwatchStyle.className}
-      onClick={handleCopy}
-      aria-label={`Copy ${cssVar}`}
-      style={{
-        backgroundColor: tokenVar,
-        color: isLightStep ? 'light-dark(#0f172a, #f8fafc)' : 'light-dark(#ffffff, #0f172a)',
-      }}
-    >
-      {copied ? (
-        <span className={copiedFeedbackStyle.className}>Copied!</span>
-      ) : (
-        <span className={stepLabelStyle.className}>{step}</span>
-      )}
-    </Button>
+    <Popover.Root>
+      <Popover.Trigger
+        className={colorSwatchStyle.className}
+        aria-label="open copy menu"
+        style={{
+          backgroundColor: cssVar,
+          color: isLightStep ? 'light-dark(#0f172a, #f8fafc)' : 'light-dark(#ffffff, #0f172a)',
+        }}
+      >
+        {copied ? (
+          <span className={copiedFeedbackStyle.className}>Copied!</span>
+        ) : (
+          <span className={stepLabelStyle.className}>{step}</span>
+        )}
+      </Popover.Trigger>
+      <Popover.Content placement="bottom" size="sm">
+        <HStack gap="sm">
+          <Popover.Close
+            width="full"
+            onClick={() => {
+              void handleCopy(cssVar);
+            }}
+          >
+            Copy CSS
+          </Popover.Close>
+          <Popover.Close
+            width="full"
+            onClick={() => {
+              void handleCopy(varPath);
+            }}
+          >
+            Copy JS
+          </Popover.Close>
+        </HStack>
+      </Popover.Content>
+    </Popover.Root>
   );
 }
 

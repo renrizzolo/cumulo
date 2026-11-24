@@ -1,5 +1,6 @@
 import { Transformer } from '@parcel/plugin';
-import { shouldProcessFile, extractCssFromCode, extractCssFromFile } from './core/extractor.js';
+
+import { shouldProcessFile, extractAndRewrite } from './core/extractor.js';
 
 export const cumulo = new Transformer({
   async transform({ asset }) {
@@ -10,9 +11,13 @@ export const cumulo = new Transformer({
       return [asset];
     }
 
-    const css = (await extractCssFromCode(code, id)) || (await extractCssFromFile(id));
+    const result = await extractAndRewrite(code, id);
 
-    if (!css) {
+    if (result.code) {
+      asset.setCode(result.code);
+    }
+
+    if (!result.css) {
       return [asset];
     }
 
@@ -28,7 +33,7 @@ export const cumulo = new Transformer({
       asset,
       {
         type: 'css',
-        content: css,
+        content: result.css,
         uniqueKey,
         sideEffects: true,
       },

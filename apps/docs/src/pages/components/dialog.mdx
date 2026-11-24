@@ -1,5 +1,7 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Button, VStack, HStack, Text } from '@cumulo/core';
+import { Button } from '@cumulo/core/components/Button';
+import { VStack, HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import * as Dialog from '@cumulo/core/components/Dialog';
 import * as Popover from '@cumulo/core/components/Popover';
 import dialogDoc from '../../../docgen/components/Dialog.json';
@@ -10,10 +12,8 @@ export default Layout;
 A cutting-edge modal overlay component built directly on the native HTML5 `<dialog>` element, supporting declarative light-dismiss and top-layer promotion.
 
 ```tsx
-import { Dialog } from '@cumulo/core';
+import * as Dialog from '@cumulo/core/components/Dialog';
 ```
-
-<RscAlert component="Dialog" />
 
 ### Examples
 

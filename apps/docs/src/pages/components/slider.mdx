@@ -1,5 +1,8 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Slider, HStack, VStack, Text, Badge } from '@cumulo/core';
+import { Badge } from '@cumulo/core/components/Badge';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
+import { Slider } from '@cumulo/core/components/Slider';
 import * as Field from '@cumulo/core/components/Field';
 import sliderDoc from '../../../docgen/components/Slider.json';
 export default Layout;
@@ -9,7 +12,7 @@ export default Layout;
 An accessible range slider component for selecting numeric values along a track, with smooth thumb dragging, sizing, intent variants, and Field integration.
 
 ```tsx
-import { Slider } from '@cumulo/core';
+import { Slider } from '@cumulo/core/components/Slider';
 ```
 
 ### Examples

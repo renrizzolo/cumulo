@@ -1,12 +1,12 @@
 {
   "name": "Text",
-  "path": "packages/core/src/components/Text.tsx",
+  "path": "../../packages/core/src/components/Text.tsx",
   "fileName": "Text.tsx",
   "props": {
-    "type": {
+    "align": {
       "defaultValue": null,
-      "description": "Semantic type that contextually sets size, line-height, and font weight",
-      "name": "type",
+      "description": "",
+      "name": "align",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Text.tsx",
         "name": "TextProps"
@@ -20,28 +20,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"display\" | \"body\" | \"label\" | \"lead\" | \"caption\" | \"code\" | undefined",
+        "raw": "\"center\" | \"justify\" | \"left\" | \"right\" | undefined",
         "value": [
           {
+            "value": "\"center\""
+          },
+          {
+            "value": "\"justify\""
+          },
+          {
+            "value": "\"left\""
+          },
+          {
+            "value": "\"right\""
+          },
+          {
             "value": "undefined"
-          },
-          {
-            "value": "\"display\""
-          },
-          {
-            "value": "\"body\""
-          },
-          {
-            "value": "\"label\""
-          },
-          {
-            "value": "\"lead\""
-          },
-          {
-            "value": "\"caption\""
-          },
-          {
-            "value": "\"code\""
           }
         ]
       },
@@ -67,15 +61,6 @@
         "raw": "TextElement | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
-            "value": "\"small\""
-          },
-          {
-            "value": "\"label\""
-          },
-          {
             "value": "\"code\""
           },
           {
@@ -91,22 +76,53 @@
             "value": "\"em\""
           },
           {
+            "value": "\"label\""
+          },
+          {
             "value": "\"p\""
+          },
+          {
+            "value": "\"small\""
           },
           {
             "value": "\"span\""
           },
           {
             "value": "\"strong\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "size": {
+    "className": {
       "defaultValue": null,
       "description": "",
-      "name": "size",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "color": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "",
+      "name": "color",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Text.tsx",
         "name": "TextProps"
@@ -120,75 +136,34 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | \"3xl\" | \"base\" | undefined",
+        "raw": "\"default\" | \"error\" | \"inherit\" | \"muted\" | \"primary\" | \"subtle\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"default\""
           },
           {
-            "value": "\"2xs\""
+            "value": "\"error\""
           },
           {
-            "value": "\"xs\""
+            "value": "\"inherit\""
           },
           {
-            "value": "\"sm\""
+            "value": "\"muted\""
           },
           {
-            "value": "\"md\""
+            "value": "\"primary\""
           },
           {
-            "value": "\"lg\""
+            "value": "\"subtle\""
           },
           {
-            "value": "\"xl\""
+            "value": "\"success\""
           },
           {
-            "value": "\"2xl\""
+            "value": "\"warning\""
           },
-          {
-            "value": "\"3xl\""
-          },
-          {
-            "value": "\"base\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "weight": {
-      "defaultValue": null,
-      "description": "",
-      "name": "weight",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Text.tsx",
-        "name": "TextProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Text.tsx",
-          "name": "TextProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"normal\" | \"bold\" | \"medium\" | \"semibold\" | undefined",
-        "value": [
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"normal\""
-          },
-          {
-            "value": "\"bold\""
-          },
-          {
-            "value": "\"medium\""
-          },
-          {
-            "value": "\"semibold\""
           }
         ]
       },
@@ -211,11 +186,8 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"normal\" | \"tight\" | \"relaxed\" | undefined",
+        "raw": "\"none\" | \"normal\" | \"relaxed\" | \"tight\" | undefined",
         "value": [
-          {
-            "value": "undefined"
-          },
           {
             "value": "\"none\""
           },
@@ -223,109 +195,38 @@
             "value": "\"normal\""
           },
           {
+            "value": "\"relaxed\""
+          },
+          {
             "value": "\"tight\""
           },
           {
-            "value": "\"relaxed\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "color": {
-      "defaultValue": {
-        "value": "default"
-      },
-      "description": "",
-      "name": "color",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Text.tsx",
-        "name": "TextProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Text.tsx",
-          "name": "TextProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"inherit\" | \"default\" | \"muted\" | \"subtle\" | \"primary\" | \"error\" | \"success\" | \"warning\" | undefined",
-        "value": [
-          {
             "value": "undefined"
-          },
-          {
-            "value": "\"inherit\""
-          },
-          {
-            "value": "\"default\""
-          },
-          {
-            "value": "\"muted\""
-          },
-          {
-            "value": "\"subtle\""
-          },
-          {
-            "value": "\"primary\""
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"success\""
-          },
-          {
-            "value": "\"warning\""
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "align": {
+    "ref": {
       "defaultValue": null,
       "description": "",
-      "name": "align",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Text.tsx",
-        "name": "TextProps"
-      },
+      "name": "ref",
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Text.tsx",
-          "name": "TextProps"
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"left\" | \"right\" | \"center\" | \"justify\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"left\""
-          },
-          {
-            "value": "\"right\""
-          },
-          {
-            "value": "\"center\""
-          },
-          {
-            "value": "\"justify\""
-          }
-        ]
+        "name": "Ref<HTMLElement> | undefined"
       },
       "shortPropTypeName": null
     },
-    "wrap": {
+    "size": {
       "defaultValue": null,
       "description": "",
-      "name": "wrap",
+      "name": "size",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Text.tsx",
         "name": "TextProps"
@@ -339,22 +240,37 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"wrap\" | \"nowrap\" | \"balance\" | \"pretty\" | undefined",
+        "raw": "\"2xl\" | \"2xs\" | \"3xl\" | \"base\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\" | undefined",
         "value": [
           {
+            "value": "\"2xl\""
+          },
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"3xl\""
+          },
+          {
+            "value": "\"base\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
             "value": "undefined"
-          },
-          {
-            "value": "\"wrap\""
-          },
-          {
-            "value": "\"nowrap\""
-          },
-          {
-            "value": "\"balance\""
-          },
-          {
-            "value": "\"pretty\""
           }
         ]
       },
@@ -377,10 +293,13 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"none\" | \"uppercase\" | \"capitalize\" | \"lowercase\" | undefined",
+        "raw": "\"capitalize\" | \"lowercase\" | \"none\" | \"uppercase\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"capitalize\""
+          },
+          {
+            "value": "\"lowercase\""
           },
           {
             "value": "\"none\""
@@ -389,10 +308,7 @@
             "value": "\"uppercase\""
           },
           {
-            "value": "\"capitalize\""
-          },
-          {
-            "value": "\"lowercase\""
+            "value": "undefined"
           }
         ]
       },
@@ -418,39 +334,123 @@
       },
       "shortPropTypeName": null
     },
-    "className": {
+    "type": {
       "defaultValue": null,
-      "description": "",
-      "name": "className",
+      "description": "Semantic type that contextually sets size, line-height, and font weight",
+      "name": "type",
       "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
       },
       "declarations": [
         {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "string | undefined"
+        "name": "enum",
+        "raw": "\"body\" | \"caption\" | \"code\" | \"display\" | \"label\" | \"lead\" | undefined",
+        "value": [
+          {
+            "value": "\"body\""
+          },
+          {
+            "value": "\"caption\""
+          },
+          {
+            "value": "\"code\""
+          },
+          {
+            "value": "\"display\""
+          },
+          {
+            "value": "\"label\""
+          },
+          {
+            "value": "\"lead\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
-      "shortPropTypeName": "string | function"
+      "shortPropTypeName": null
     },
-    "ref": {
+    "weight": {
       "defaultValue": null,
       "description": "",
-      "name": "ref",
+      "name": "weight",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
+      },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "Ref<HTMLElement> | undefined"
+        "name": "enum",
+        "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
+        "value": [
+          {
+            "value": "\"bold\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"normal\""
+          },
+          {
+            "value": "\"semibold\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "wrap": {
+      "defaultValue": null,
+      "description": "",
+      "name": "wrap",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Text.tsx",
+        "name": "TextProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Text.tsx",
+          "name": "TextProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"balance\" | \"nowrap\" | \"pretty\" | \"wrap\" | undefined",
+        "value": [
+          {
+            "value": "\"balance\""
+          },
+          {
+            "value": "\"nowrap\""
+          },
+          {
+            "value": "\"pretty\""
+          },
+          {
+            "value": "\"wrap\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
       "shortPropTypeName": null
     }

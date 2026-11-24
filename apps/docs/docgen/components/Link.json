@@ -1,82 +1,23 @@
 {
   "name": "Link",
-  "path": "packages/core/src/components/Link.tsx",
+  "path": "../../packages/core/src/components/Link.tsx",
   "fileName": "Link.tsx",
   "props": {
-    "variant": {
-      "defaultValue": {
-        "value": "default"
-      },
-      "description": "",
-      "name": "variant",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Link.tsx",
-        "name": "LinkBaseProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Link.tsx",
-          "name": "LinkBaseProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"default\" | \"subtle\" | \"plain\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"default\""
-          },
-          {
-            "value": "\"subtle\""
-          },
-          {
-            "value": "\"plain\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "weight": {
+    "as": {
       "defaultValue": null,
       "description": "",
-      "name": "weight",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Link.tsx",
-        "name": "LinkBaseProps"
-      },
+      "name": "as",
       "declarations": [
         {
           "fileName": "cumulo/packages/core/src/components/Link.tsx",
-          "name": "LinkBaseProps"
+          "name": "TypeLiteral"
         }
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"medium\" | \"normal\" | \"bold\" | \"semibold\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"medium\""
-          },
-          {
-            "value": "\"normal\""
-          },
-          {
-            "value": "\"bold\""
-          },
-          {
-            "value": "\"semibold\""
-          }
-        ]
+        "name": "ElementType<any, keyof IntrinsicElements> | undefined"
       },
-      "shortPropTypeName": null
+      "shortPropTypeName": "Union"
     },
     "external": {
       "defaultValue": {
@@ -100,21 +41,80 @@
       },
       "shortPropTypeName": null
     },
-    "as": {
-      "defaultValue": null,
+    "variant": {
+      "defaultValue": {
+        "value": "default"
+      },
       "description": "",
-      "name": "as",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkBaseProps"
+      },
       "declarations": [
         {
           "fileName": "cumulo/packages/core/src/components/Link.tsx",
-          "name": "TypeLiteral"
+          "name": "LinkBaseProps"
         }
       ],
       "required": false,
       "type": {
-        "name": "ElementType<any, keyof IntrinsicElements> | undefined"
+        "name": "enum",
+        "raw": "\"default\" | \"plain\" | \"subtle\" | undefined",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"plain\""
+          },
+          {
+            "value": "\"subtle\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
-      "shortPropTypeName": "Union"
+      "shortPropTypeName": null
+    },
+    "weight": {
+      "defaultValue": null,
+      "description": "",
+      "name": "weight",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Link.tsx",
+        "name": "LinkBaseProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Link.tsx",
+          "name": "LinkBaseProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"bold\" | \"medium\" | \"normal\" | \"semibold\" | undefined",
+        "value": [
+          {
+            "value": "\"bold\""
+          },
+          {
+            "value": "\"medium\""
+          },
+          {
+            "value": "\"normal\""
+          },
+          {
+            "value": "\"semibold\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   }
 }

@@ -1,0 +1,78 @@
+{
+  "name": "@cumulo/parcel-plugin",
+  "version": "0.2.0-alpha.1",
+  "description": "Native Parcel v3 plugin for Cumulo CSS static extraction",
+  "keywords": [
+    "css",
+    "cumulo",
+    "parcel",
+    "parcel-v3"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renrizzolo/cumulo.git",
+    "directory": "packages/parcel-plugin"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsdown --watch",
+    "build": "node ../../scripts/build-rust.mjs && tsdown",
+    "build:rust": "node ../../scripts/build-rust.mjs",
+    "test:rust": "node ../../scripts/build-rust.mjs --test",
+    "prepack": "node ../../scripts/prepack-plugin.mjs",
+    "type-check": "oxlint"
+  },
+  "dependencies": {
+    "@cumulo/css": "workspace:*",
+    "@cumulo/unplugin": "workspace:*"
+  },
+  "devDependencies": {
+    "@cumulo/core": "workspace:*",
+    "@parcel/rsc": "3.0.0-alpha.3",
+    "@types/node": "^22.13.9",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "parcel": "3.0.0-alpha.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-server-dom-parcel": "^19.2.8",
+    "tsdown": "^0.22.14",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=22",
+    "parcel": "^3.0.0-alpha.3"
+  },
+  "parcel": {
+    "abi": 1,
+    "devLibrary": "./target/release/libcumulo_parcel_plugin",
+    "artifacts": {
+      "aarch64-apple-darwin": "@cumulo/parcel-plugin-darwin-arm64",
+      "x86_64-apple-darwin": "@cumulo/parcel-plugin-darwin-x64",
+      "x86_64-pc-windows-msvc": "@cumulo/parcel-plugin-win32-x64-msvc",
+      "aarch64-pc-windows-msvc": "@cumulo/parcel-plugin-win32-arm64-msvc",
+      "x86_64-unknown-linux-gnu": "@cumulo/parcel-plugin-linux-x64-gnu",
+      "aarch64-unknown-linux-gnu": "@cumulo/parcel-plugin-linux-arm64-gnu",
+      "x86_64-unknown-linux-musl": "@cumulo/parcel-plugin-linux-x64-musl",
+      "aarch64-unknown-linux-musl": "@cumulo/parcel-plugin-linux-arm64-musl"
+    }
+  }
+}

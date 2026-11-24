@@ -1,11 +1,7 @@
-import type { ClassValue, CompiledStyle, CreatedTheme, CSSProperties } from './types.js';
+import type { ClassValue, CompiledStyle, CreatedTheme } from './types.js';
 
 function isCompiledStyleOrTheme(val: object): val is CompiledStyle | CreatedTheme {
   return 'className' in val && typeof val.className === 'string';
-}
-
-function hasStyleProp(val: object): val is { style?: CSSProperties } {
-  return 'style' in val && !('className' in val);
 }
 
 function toClassName(value: ClassValue): string {
@@ -25,9 +21,8 @@ function toClassName(value: ClassValue): string {
     }
 
     const classes: string[] = [];
-    const record = value as Record<string, boolean | undefined | null>;
-    for (const key of Object.keys(record)) {
-      if (record[key]) {
+    for (const [key, active] of Object.entries(value)) {
+      if (active) {
         classes.push(key);
       }
     }
@@ -49,29 +44,4 @@ export function cx(...inputs: ClassValue[]): string {
     }
   }
   return result.join(' ');
-}
-
-/**
- * Merges styles and returns a JSX-friendly props object `{ className, style }`.
- */
-export function props(...inputs: (ClassValue | { style?: CSSProperties })[]): {
-  className: string;
-  style?: CSSProperties;
-} {
-  const classInputs: ClassValue[] = [];
-  let inlineStyle: CSSProperties | undefined;
-
-  for (const input of inputs) {
-    if (input && typeof input === 'object' && hasStyleProp(input) && input.style) {
-      inlineStyle = Object.assign(inlineStyle ?? {}, input.style);
-    } else {
-      classInputs.push(input as ClassValue);
-    }
-  }
-
-  const className = cx(...classInputs);
-  return {
-    className,
-    ...(inlineStyle ? { style: inlineStyle } : {}),
-  };
 }

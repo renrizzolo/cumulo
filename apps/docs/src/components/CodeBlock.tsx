@@ -1,8 +1,11 @@
-import { Surface, vars, type ElementProps } from '@cumulo/core';
+import { Surface } from '@cumulo/core/components/Surface';
+import { vars } from '@cumulo/core/contract';
+import { type ElementProps } from '@cumulo/core/ElementProps';
 import { cx, style } from '@cumulo/css';
 import React from 'react';
-import { HighlightedCode, SupportedLanguages } from './HighlightedCode';
+
 import { CopyButton } from './CopyButton';
+import { HighlightedCode, SupportedLanguages } from './HighlightedCode';
 
 export interface CodeBlockProps extends ElementProps<HTMLDivElement> {
   children: string;

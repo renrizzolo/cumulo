@@ -10,7 +10,7 @@ export { create, style, compileStyleRule, camelToKebab } from './create.js';
 
 export { keyframes, type KeyframeSteps, type KeyframeAnimation } from './keyframes.js';
 
-export { cx, props } from './cx.js';
+export { cx } from './cx.js';
 
 export { sheet, getSheetCss, resetSheet } from './sheet.js';
 

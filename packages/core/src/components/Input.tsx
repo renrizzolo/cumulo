@@ -1,5 +1,6 @@
-import React from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import React from 'react';
+
 import { vars } from '../contract.js';
 import { ElementProps } from '../ElementProps.js';
 import { fieldIntentStyles, sizes } from '../intents.js';

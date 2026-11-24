@@ -1,56 +1,27 @@
 {
   "name": "Spinner",
-  "path": "packages/core/src/components/Spinner.tsx",
+  "path": "../../packages/core/src/components/Spinner.tsx",
   "fileName": "Spinner.tsx",
   "props": {
-    "size": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "Size of the spinner icon. Use `'inherit'` inside buttons or text to match `1em`.",
-      "name": "size",
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
-        "name": "SpinnerProps"
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
-          "name": "SpinnerProps"
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
         }
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"inherit\" | \"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"inherit\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"xl\""
-          }
-        ]
+        "name": "string | undefined"
       },
-      "shortPropTypeName": null
+      "shortPropTypeName": "string | function"
     },
     "intent": {
       "defaultValue": {
@@ -71,16 +42,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"inherit\" | \"error\" | \"muted\" | \"primary\" | \"success\" | \"warning\" | \"info\" | undefined",
+        "raw": "\"error\" | \"info\" | \"inherit\" | \"muted\" | \"primary\" | \"success\" | \"warning\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"error\""
+          },
+          {
+            "value": "\"info\""
           },
           {
             "value": "\"inherit\""
-          },
-          {
-            "value": "\"error\""
           },
           {
             "value": "\"muted\""
@@ -95,7 +66,7 @@
             "value": "\"warning\""
           },
           {
-            "value": "\"info\""
+            "value": "undefined"
           }
         ]
       },
@@ -123,26 +94,6 @@
       },
       "shortPropTypeName": null
     },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -158,6 +109,55 @@
         "name": "Ref<SVGSVGElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "Size of the spinner icon. Use `'inherit'` inside buttons or text to match `1em`.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+        "name": "SpinnerProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Spinner.tsx",
+          "name": "SpinnerProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xs\" | \"inherit\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   }
 }

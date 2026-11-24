@@ -1,8 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useMemo, type ReactNode, type MouseEvent } from 'react';
 import { recipe, cx } from '@cumulo/css';
-import { Button, type ButtonProps, type ButtonVariants } from './Button.js';
+import React, { createContext, useContext, useMemo, type ReactNode, type MouseEvent } from 'react';
+
 import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import {
@@ -13,6 +13,7 @@ import {
   type ValueGroupContextBase,
   type TypedGroup,
 } from '../hooks/useValueGroup.js';
+import { Button, type ButtonProps, type ButtonVariants } from './Button.js';
 import { Stack, type StackProps } from './Stack.js';
 
 type ButtonGroupOrientation = 'horizontal' | 'vertical';

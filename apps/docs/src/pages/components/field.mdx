@@ -1,5 +1,8 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { Container, VStack, Kbd, Text } from '@cumulo/core';
+import { Kbd } from '@cumulo/core/components/Kbd';
+import { VStack } from '@cumulo/core/components/Stack';
+import { Container } from '@cumulo/core/components/Container';
+import { Text } from '@cumulo/core/components/Text';
 import * as Field from '@cumulo/core/components/Field';
 import fieldDoc from '../../../docgen/components/Field.json';
 export default Layout;
@@ -9,10 +12,8 @@ export default Layout;
 Accessible compound form field coordinating labels, inputs, selects, textareas, checkboxes, switches, radio groups, descriptions, and error states.
 
 ```tsx
-import { Field } from '@cumulo/core';
+import * as Field from '@cumulo/core/components/Field';
 ```
-
-<RscAlert component="Field" />
 
 ### Examples
 

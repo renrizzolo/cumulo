@@ -1,28 +1,8 @@
 {
   "name": "Label",
-  "path": "packages/core/src/components/Label.tsx",
+  "path": "../../packages/core/src/components/Label.tsx",
   "fileName": "Label.tsx",
   "props": {
-    "htmlFor": {
-      "defaultValue": null,
-      "description": "",
-      "name": "htmlFor",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Label.tsx",
-        "name": "LabelProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Label.tsx",
-          "name": "LabelProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
     "className": {
       "defaultValue": null,
       "description": "",
@@ -42,6 +22,26 @@
         "name": "string | undefined"
       },
       "shortPropTypeName": "string | function"
+    },
+    "htmlFor": {
+      "defaultValue": null,
+      "description": "",
+      "name": "htmlFor",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Label.tsx",
+        "name": "LabelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Label.tsx",
+          "name": "LabelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
     },
     "ref": {
       "defaultValue": null,

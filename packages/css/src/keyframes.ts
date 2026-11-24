@@ -1,6 +1,7 @@
-import { hash } from './hash.js';
-import { sheet } from './sheet.js';
 import { camelToKebab } from './create.js';
+import { hash } from './hash.js';
+import { attachMeta } from './meta.js';
+import { sheet } from './sheet.js';
 import type { CSSProperties } from './types.js';
 
 export type KeyframeSteps = {
@@ -35,11 +36,14 @@ export function keyframes(steps: KeyframeSteps, prefix = 'k'): KeyframeAnimation
 
   sheet.insertRule(css);
 
-  return {
-    name,
-    css,
-    toString() {
-      return this.name;
+  return attachMeta(
+    {
+      name,
+      css,
+      toString() {
+        return this.name;
+      },
     },
-  };
+    { kind: 'keyframes', name },
+  );
 }

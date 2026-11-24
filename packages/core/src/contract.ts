@@ -137,7 +137,7 @@ export const vars = {
       none: 'var(--theme-line-height-none)',
       /** 1.25 */
       tight: 'var(--theme-line-height-tight)',
-      /** 1.4 */
+      /** 1.45 */
       normal: 'var(--theme-line-height-normal)',
       /** 1.65 */
       relaxed: 'var(--theme-line-height-relaxed)',
@@ -680,6 +680,12 @@ export const vars = {
     fg: 'var(--theme-sky-fg)',
   },
 } as const;
+
+Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
+  value: { kind: 'contract' },
+  enumerable: false,
+  configurable: true,
+});
 
 export type ThemeVars = typeof vars;
 

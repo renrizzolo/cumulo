@@ -1,8 +1,111 @@
 {
   "name": "Panel",
-  "path": "packages/core/src/components/Panel.tsx",
+  "path": "../../packages/core/src/components/Panel.tsx",
   "fileName": "Panel.tsx",
   "props": {
+    "as": {
+      "defaultValue": {
+        "value": "div"
+      },
+      "description": "Semantic HTML tag.",
+      "name": "as",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+        "name": "PanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+          "name": "PanelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "PanelTag | undefined",
+        "value": [
+          {
+            "value": "\"aside\""
+          },
+          {
+            "value": "\"div\""
+          },
+          {
+            "value": "\"footer\""
+          },
+          {
+            "value": "\"header\""
+          },
+          {
+            "value": "\"main\""
+          },
+          {
+            "value": "\"nav\""
+          },
+          {
+            "value": "\"section\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
+    "direction": {
+      "defaultValue": {
+        "value": "column"
+      },
+      "description": "Flex layout direction.",
+      "name": "direction",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+        "name": "PanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+          "name": "PanelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"column\" | \"row\" | undefined",
+        "value": [
+          {
+            "value": "\"column\""
+          },
+          {
+            "value": "\"row\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
     "divider": {
       "defaultValue": null,
       "description": "Toggles 1px border dividers along specific edge(s).\nCan be boolean (`true` for all sides), a side string (`'bottom'`, `'top'`, `'left'`, `'right'`, `'x'`, `'y'`, `'all'`),\nor an array of sides (`['bottom', 'right']`).",
@@ -23,12 +126,10 @@
       },
       "shortPropTypeName": null
     },
-    "scrollbar": {
-      "defaultValue": {
-        "value": "none"
-      },
-      "description": "Scrollbar and overflow variant.\n- `'none'`: no overflow container (content flows naturally).\n- `'default'`: scrollable viewport using native browser scrollbars without custom styling.\n- `'thin'`: scrollable viewport with thin, theme-colored scrollbars.",
-      "name": "scrollbar",
+    "flex": {
+      "defaultValue": null,
+      "description": "Flex distribution variant.",
+      "name": "flex",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Panel.tsx",
         "name": "PanelProps"
@@ -42,19 +143,22 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "PanelScrollbar | undefined",
+        "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"auto\""
+          },
+          {
+            "value": "\"initial\""
           },
           {
             "value": "\"none\""
           },
           {
-            "value": "\"default\""
+            "value": "1"
           },
           {
-            "value": "\"thin\""
+            "value": "undefined"
           }
         ]
       },
@@ -82,7 +186,7 @@
         "raw": "PanelOverflow | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"both\""
           },
           {
             "value": "\"x\""
@@ -91,50 +195,16 @@
             "value": "\"y\""
           },
           {
-            "value": "\"both\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "direction": {
-      "defaultValue": {
-        "value": "column"
-      },
-      "description": "Flex layout direction.",
-      "name": "direction",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
-        "name": "PanelProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
-          "name": "PanelProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"column\" | \"row\" | undefined",
-        "value": [
-          {
             "value": "undefined"
-          },
-          {
-            "value": "\"column\""
-          },
-          {
-            "value": "\"row\""
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "flex": {
+    "padding": {
       "defaultValue": null,
-      "description": "Flex distribution variant.",
-      "name": "flex",
+      "description": "Padding variant scale.",
+      "name": "padding",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Panel.tsx",
         "name": "PanelProps"
@@ -148,22 +218,84 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"auto\" | 1 | \"initial\" | \"none\" | undefined",
+        "raw": "\"2xl\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"2xl\""
           },
           {
-            "value": "\"auto\""
+            "value": "\"lg\""
           },
           {
-            "value": "1"
-          },
-          {
-            "value": "\"initial\""
+            "value": "\"md\""
           },
           {
             "value": "\"none\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "scrollbar": {
+      "defaultValue": {
+        "value": "none"
+      },
+      "description": "Scrollbar and overflow variant.\n- `'none'`: no overflow container (content flows naturally).\n- `'default'`: scrollable viewport using native browser scrollbars without custom styling.\n- `'thin'`: scrollable viewport with thin, theme-colored scrollbars.",
+      "name": "scrollbar",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+        "name": "PanelProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
+          "name": "PanelProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "PanelScrollbar | undefined",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"none\""
+          },
+          {
+            "value": "\"thin\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
@@ -189,144 +321,12 @@
         "raw": "\"full\" | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"full\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "padding": {
-      "defaultValue": null,
-      "description": "Padding variant scale.",
-      "name": "padding",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
-        "name": "PanelProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
-          "name": "PanelProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"none\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\" | undefined",
-        "value": [
+          },
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"none\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
-          },
-          {
-            "value": "\"2xl\""
           }
         ]
-      },
-      "shortPropTypeName": null
-    },
-    "as": {
-      "defaultValue": {
-        "value": "div"
-      },
-      "description": "Semantic HTML tag.",
-      "name": "as",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Panel.tsx",
-        "name": "PanelProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Panel.tsx",
-          "name": "PanelProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "PanelTag | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"div\""
-          },
-          {
-            "value": "\"header\""
-          },
-          {
-            "value": "\"main\""
-          },
-          {
-            "value": "\"aside\""
-          },
-          {
-            "value": "\"footer\""
-          },
-          {
-            "value": "\"section\""
-          },
-          {
-            "value": "\"nav\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
-    "ref": {
-      "defaultValue": null,
-      "description": "",
-      "name": "ref",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Ref<HTMLElement> | undefined"
       },
       "shortPropTypeName": null
     }

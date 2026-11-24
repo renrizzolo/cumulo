@@ -1,7 +1,7 @@
 'use client';
 
+import { useDismissible } from '@cumulo/core/hooks/useDismissible';
 import React, { createContext, use, useCallback, useEffect, useMemo, useState } from 'react';
-import { useDismissible } from '@cumulo/core';
 
 export interface MobileNavContextValue {
   isOpen: boolean;

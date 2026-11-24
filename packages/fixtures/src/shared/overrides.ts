@@ -1,4 +1,4 @@
-import { style, cx, props } from '@cumulo/css';
+import { style, cx } from '@cumulo/css';
 
 export const baseCardStyle = style(
   {
@@ -22,12 +22,8 @@ export const highlightedCardStyle = style(
   'override-highlight',
 );
 
-export const customBoxProps = props(baseCardStyle, {
-  style: {
-    boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-    transform: 'translateY(-2px)',
-  },
-  className: highlightedCardStyle.className,
-});
+export const customBoxProps: { className: string; style?: undefined } = {
+  className: cx(baseCardStyle, highlightedCardStyle.className),
+};
 
 export const mergedClassNames = cx(baseCardStyle, highlightedCardStyle);

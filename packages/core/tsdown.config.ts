@@ -3,6 +3,8 @@ import { defineConfig } from 'tsdown';
 export default defineConfig({
   entry: [
     'src/index.ts',
+    'src/components/*.tsx',
+    '!src/**/*.test.*',
     'src/theme.css',
     'src/intents.ts',
     'src/layout.ts',
@@ -11,7 +13,7 @@ export default defineConfig({
   ],
   format: ['esm'],
   dts: true,
-  clean: false,
+  clean: !process.argv.includes('--watch'),
   exports: false,
   target: 'es2022',
   unbundle: true,

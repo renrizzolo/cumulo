@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+
 import { describe, expect, it } from 'vitest';
+
 import { runCli } from '../src/cli/index.js';
 import { generateTheme, runThemeGeneration } from '../src/cli/themeGenerator.js';
 
@@ -141,5 +143,76 @@ describe('Theme Generator & CLI', () => {
     expect(content).toContain("lg: 'var(--theme-spacing-lg)'");
 
     fs.rmSync(tempDir, { recursive: true, force: true });
+  });
+
+  it('includes custom CSS variables when includeCustomVars / --include-custom is enabled', async () => {
+    const customCss = `
+      :root {
+        --theme-spacing-md: 18px;
+        --brand-accent: #ff5500;
+        --brand-sidebar-width: 280px;
+      }
+      [data-theme='alt'] {
+        --brand-accent: #0055ff;
+      }
+    `;
+
+    const result = await generateTheme({
+      customCssContent: customCss,
+      includeCustomVars: true,
+    });
+
+    expect(result.overriddenVars).toEqual(['--theme-spacing-md']);
+    expect(result.customVars).toEqual(['--brand-accent', '--brand-sidebar-width']);
+    expect(result.ignoredVars).toEqual([]);
+    expect(result.standaloneCode).toContain("accent: 'var(--brand-accent)'");
+    expect(result.standaloneCode).toContain('/** #0055ff */');
+    expect(result.standaloneCode).toContain("width: 'var(--brand-sidebar-width)'");
+    expect(result.standaloneCode).toContain('/** 280px */');
+
+    // Verify CLI flag `--include-custom` works end-to-end
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-custom-cli-'));
+    const cssFile = path.join(tempDir, 'theme.css');
+    const outFile = path.join(tempDir, 'vars.ts');
+    try {
+      fs.writeFileSync(cssFile, customCss, 'utf-8');
+      await runCli([
+        'generate-theme',
+        `--css=${cssFile}`,
+        `--out=${outFile}`,
+        '--include-custom',
+        '--silent',
+      ]);
+
+      const content = fs.readFileSync(outFile, 'utf-8');
+      expect(content).toContain("accent: 'var(--brand-accent)'");
+      expect(content).toContain("width: 'var(--brand-sidebar-width)'");
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it('skips rewriting output file when content is unchanged and requires --out', async () => {
+    await expect(runThemeGeneration({ silent: true })).rejects.toThrow('--out');
+
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-noop-write-'));
+    const outFile = path.join(tempDir, 'vars.ts');
+    try {
+      const firstWrite = await runThemeGeneration({
+        customCssContent: ':root { --theme-spacing-md: 14px; }',
+        outPath: outFile,
+        silent: true,
+      });
+      expect(firstWrite).toBe(true);
+
+      const secondWrite = await runThemeGeneration({
+        customCssContent: ':root { --theme-spacing-md: 14px; }',
+        outPath: outFile,
+        silent: true,
+      });
+      expect(secondWrite).toBe(false);
+    } finally {
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   });
 });

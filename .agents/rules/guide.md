@@ -31,9 +31,13 @@ cumulo/
 │   │       ├── recipe.ts      # recipe() multi-variant component builder
 │   │       ├── createTheme.ts # createThemeContract(), createTheme(), assignVars()
 │   │       ├── keyframes.ts   # keyframes() animation definition
-│   │       └── cx.ts          # cx() class merging utility
+│   │       ├── cx.ts          # cx() class merging utility
+│   │       ├── contract.ts    # Pure contract helpers (createThemeContract, assignVars)
+│   │       ├── meta.ts        # Build-time serialization metadata (Symbol.for('__CUMULO_META__'))
+│   │       └── runtime.ts     # Lean @cumulo/css/runtime entrypoint (no sheet, hash, or compiler)
 │   ├── unplugin/              # Compile-time CSS extraction unplugin (Vite, Rollup, Webpack, esbuild, Parcel, Next.js, PostCSS)
-│   ├── parcel-transformer/    # Custom Parcel transformer for CSS extraction & static/RSC compilation
+│   ├── parcel-plugin/         # Native Parcel v3 plugin (Rust + Node worker): CSS extraction, JS rewriting, RSC support
+│   ├── parcel-transformer/    # Parcel v2 transformer for CSS extraction & static/RSC compilation
 │   └── fixtures/              # Bundler integration tests & Vitest Playwright browser visual tests
 ├── apps/
 │   └── docs/                  # React Static / Parcel documentation site
@@ -77,6 +81,7 @@ Cumulo uses an atomic, compile-time extracted CSS engine. **Do not use arbitrary
 - **Static Styles (`style`)**:
   ```ts
   import { style } from '@cumulo/css';
+
   import { vars } from '../contract.js';
 
   export const containerStyle = style({
@@ -89,6 +94,7 @@ Cumulo uses an atomic, compile-time extracted CSS engine. **Do not use arbitrary
 - **Variant Recipes (`recipe`)**:
   ```ts
   import { recipe } from '@cumulo/css';
+
   import { vars } from '../contract.js';
 
   export const buttonRecipe = recipe({
@@ -147,7 +153,9 @@ Cumulo extracts styles ahead-of-time at build time:
 - **`@cumulo/unplugin`**: Universal unplugin with dedicated entrypoints for `/vite`, `/webpack`, `/rollup`, `/esbuild`, `/parcel`, `/next`, and `/postcss`. Every entrypoint exports `cumulo` and `default`.
 - **Next.js (Turbopack & Webpack)**: PostCSS is the recommended zero-config integration across Turbopack and Webpack. Add `'@cumulo/unplugin/postcss': {}` in `postcss.config.mjs` and `@cumulo;` to your global stylesheet (`app/globals.css` or `styles/globals.css`), requiring zero modifications to `next.config.mjs`.
 - **`@cumulo/unplugin/next`**: Optional `withCumulo` wrapper specifically for Next.js Webpack workflows that do not use PostCSS.
-- **`@cumulo/parcel-transformer`**: Custom Parcel transformer for static and RSC CSS compilation.
+- **`@cumulo/parcel-plugin`**: Native Parcel v3 plugin. Two-stage pipeline `["@cumulo/parcel-plugin", "...", "@cumulo/parcel-plugin"]` rewrites JS before `@parcel/transformer-js` and attaches CSS after JS imports.
+- **`@cumulo/parcel-transformer`**: Parcel v2 transformer for static and RSC CSS compilation (no JS rewriting).
+- **Compile-time JS rewriting**: The unplugin and parcel-plugin replace evaluated top-level `style()`, `create()`, `keyframes()`, `recipe()`, `createTheme()` calls with `@cumulo/css/runtime` lookups, redirect `cx`/`createThemeContract`/`assignVars` to `@cumulo/css/runtime`, and inline static `vars.a.b` member accesses. Keep `vars` paths static; dynamic indexing (`vars[intent][step]`) keeps `vars` in the client bundle.
 
 ---
 

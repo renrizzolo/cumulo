@@ -1,5 +1,20 @@
 'use client';
 
+import { Badge } from '@cumulo/core/components/Badge';
+import { Button } from '@cumulo/core/components/Button';
+import { Divider } from '@cumulo/core/components/Divider';
+import * as Field from '@cumulo/core/components/Field';
+import { Kbd } from '@cumulo/core/components/Kbd';
+import { Panel } from '@cumulo/core/components/Panel';
+import * as Sidebar from '@cumulo/core/components/Sidebar';
+import { useSidebar } from '@cumulo/core/components/Sidebar';
+import * as SideNav from '@cumulo/core/components/SideNav';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
+import * as Tooltip from '@cumulo/core/components/Tooltip';
+import { vars } from '@cumulo/core/contract';
+import { keyframes, style } from '@cumulo/css';
+import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import React, {
   createContext,
   use,
@@ -9,28 +24,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { keyframes, style } from '@cumulo/css';
-import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
+
 import { routesByPage } from '../../routes';
-import {
-  Sidebar,
-  SideNav,
-  Panel,
-  HStack,
-  VStack,
-  Text,
-  Badge,
-  Button,
-  Field,
-  vars,
-  useSidebar,
-  Tooltip,
-  Divider,
-  Kbd,
-} from '@cumulo/core';
-import { Version } from './Version';
 import { Logo } from './Logo';
 import { useMobileNav } from './MobileNavContext';
+import { Version } from './Version';
 
 interface NavItem {
   label: string;

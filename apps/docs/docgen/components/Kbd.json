@@ -1,45 +1,8 @@
 {
   "name": "Kbd",
-  "path": "packages/core/src/components/Kbd.tsx",
+  "path": "../../packages/core/src/components/Kbd.tsx",
   "fileName": "Kbd.tsx",
   "props": {
-    "size": {
-      "defaultValue": {
-        "value": "sm"
-      },
-      "description": "Size scale of the keyboard shortcut badge.",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Kbd.tsx",
-        "name": "KbdProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Kbd.tsx",
-          "name": "KbdProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"xs\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"xs\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "className": {
       "defaultValue": null,
       "description": "",
@@ -73,6 +36,43 @@
       "required": false,
       "type": {
         "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "size": {
+      "defaultValue": {
+        "value": "sm"
+      },
+      "description": "Size scale of the keyboard shortcut badge.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Kbd.tsx",
+        "name": "KbdProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Kbd.tsx",
+          "name": "KbdProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"md\" | \"sm\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
       "shortPropTypeName": null
     }

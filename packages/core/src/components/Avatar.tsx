@@ -1,5 +1,6 @@
 'use client';
 
+import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -9,7 +10,7 @@ import React, {
   type ReactNode,
   type SyntheticEvent,
 } from 'react';
-import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 

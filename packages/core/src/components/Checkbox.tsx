@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
+
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { focusRing, controlIntent, controlInput } from '../intents.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
+import { focusRing, controlIntent, controlInput } from '../intents.js';
 
 export const checkboxRecipe = recipe(
   {

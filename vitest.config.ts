@@ -1,6 +1,7 @@
-import { defineConfig } from 'vitest/config';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+import { defineConfig } from 'vitest/config';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -38,6 +39,15 @@ export default defineConfig({
         test: {
           name: 'unplugin',
           include: ['packages/unplugin/**/*.test.{ts,tsx}'],
+          environment: 'node',
+          globals: true,
+          benchmark: { include: [] },
+        },
+      },
+      {
+        test: {
+          name: 'parcel-plugin',
+          include: ['packages/parcel-plugin/**/*.test.{ts,tsx}'],
           environment: 'node',
           globals: true,
           benchmark: { include: [] },

@@ -1,6 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import {
+  captureApiSnapshot,
+  diffApiSnapshots,
+  type ApiDiffReport,
+  type ExportChange,
+} from './api-diff.ts';
 import {
   calculateTotalMetrics,
   collectBundleSizes,
@@ -9,12 +16,6 @@ import {
   type BundleEntry,
   type BundleSizeReport,
 } from './bundle-size.ts';
-import {
-  captureApiSnapshot,
-  diffApiSnapshots,
-  type ApiDiffReport,
-  type ExportChange,
-} from './api-diff.ts';
 import { getCliArg, isDirectExecution, writeCliOutputFile } from './cli-utils.ts';
 
 const __filename = fileURLToPath(import.meta.url);

@@ -1,6 +1,8 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { describe, it, expect, vi } from 'vitest';
+
 import { withCumulo } from '../src/next.js';
 import cumuloPostcss from '../src/postcss.js';
 
@@ -89,5 +91,92 @@ describe('PostCSS Cumulo plugin', () => {
     expect(appendedCss).toContain('.basic-box-');
     expect(appendedCss).toContain('display:flex');
     expect(mockMessages.length).toBeGreaterThan(0);
+  });
+
+  it('extracts CSS for app files that only import @cumulo/core components without @cumulo/css', async () => {
+    const fs = await import('node:fs');
+    const os = await import('node:os');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-postcss-core-only-'));
+    const srcDir = path.join(tempDir, 'src');
+    fs.mkdirSync(srcDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(srcDir, 'Page.tsx'),
+      `import { Button } from '@cumulo/core/components/Button';\nexport default function Page() { return <Button>Click</Button>; }\n`,
+      'utf-8',
+    );
+
+    const originalCwd = process.cwd();
+    try {
+      process.chdir(tempDir);
+      const plugin = cumuloPostcss();
+
+      let appendedCss = '';
+      const mockRoot = {
+        append(css: string): void {
+          appendedCss += css;
+        },
+        walk(): void {},
+      };
+      const mockMessages: unknown[] = [];
+
+      await plugin.Once(mockRoot, {
+        result: { opts: { from: 'globals.css' }, messages: mockMessages },
+      });
+
+      expect(appendedCss).toContain('.btn-base-');
+      expect(mockMessages.length).toBe(1);
+    } finally {
+      process.chdir(originalCwd);
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
+
+  it('automatically syncs a standalone vars contract (with opt-in custom vars) when theme option is set', async () => {
+    const fs = await import('node:fs');
+    const os = await import('node:os');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-postcss-theme-sync-'));
+    const srcDir = path.join(tempDir, 'src');
+    fs.mkdirSync(srcDir, { recursive: true });
+    const cssPath = path.join(srcDir, 'styles.css');
+    const outPath = path.join(srcDir, 'vars.ts');
+    fs.writeFileSync(
+      cssPath,
+      `:root {\n  --theme-radius-md: 0.777rem;\n  --brand-accent: #ff4400;\n}\n`,
+      'utf-8',
+    );
+
+    const originalCwd = process.cwd();
+    try {
+      process.chdir(tempDir);
+      const plugin = cumuloPostcss({
+        theme: {
+          css: './src/styles.css',
+          out: './src/vars.ts',
+          includeCustomVars: true,
+        },
+      });
+
+      const mockMessages: unknown[] = [];
+      await plugin.Once(
+        { append(): void {}, walk(): void {} },
+        { result: { opts: { from: 'globals.css' }, messages: mockMessages } },
+      );
+
+      expect(fs.existsSync(outPath)).toBe(true);
+      const generated = fs.readFileSync(outPath, 'utf-8');
+      expect(generated).toContain('/** 0.777rem */');
+      expect(generated).toContain("accent: 'var(--brand-accent)'");
+      expect(generated).toContain('/** #ff4400 */');
+      expect(mockMessages).toContainEqual(
+        expect.objectContaining({
+          type: 'dependency',
+          plugin: 'cumulo-postcss',
+          file: fs.realpathSync(cssPath),
+        }),
+      );
+    } finally {
+      process.chdir(originalCwd);
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
   });
 });

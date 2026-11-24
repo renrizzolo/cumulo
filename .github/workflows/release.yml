@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -15,9 +16,46 @@ permissions:
   id-token: write
 
 jobs:
+  check-native-plugins:
+    name: Check Native Plugins
+    runs-on: ubuntu-latest
+    outputs:
+      needs_publish: ${{ steps.check.outputs.needs_publish }}
+      paths: ${{ steps.check.outputs.paths }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - name: Check unpublished native plugins
+        id: check
+        run: node scripts/check-native-plugins.mjs packages/parcel-plugin
+
+  publish-native-plugins:
+    name: Publish Native Plugins
+    needs: check-native-plugins
+    if: needs.check-native-plugins.outputs.needs_publish == 'true'
+    permissions:
+      contents: read
+      id-token: write
+    uses: parcel-bundler/parcel/.github/workflows/native-plugin.yml@v3.0.0-alpha.3
+    with:
+      paths: ${{ needs.check-native-plugins.outputs.paths }}
+      publish: true
+
   release:
     name: Release / Version Packages
+    needs: [check-native-plugins, publish-native-plugins]
+    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
 
     steps:
       - name: Checkout repository

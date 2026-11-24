@@ -1,22 +1,20 @@
 'use client';
 
-import {
-  Badge,
-  Button,
-  Card,
-  Container,
-  Link as CumuloLink,
-  Field,
-  Grid,
-  Heading,
-  HStack,
-  Text,
-  vars,
-  VStack,
-} from '@cumulo/core';
+import { Badge } from '@cumulo/core/components/Badge';
+import { Button } from '@cumulo/core/components/Button';
+import * as Card from '@cumulo/core/components/Card';
+import { Container } from '@cumulo/core/components/Container';
+import * as Field from '@cumulo/core/components/Field';
+import * as Grid from '@cumulo/core/components/Grid';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Link as CumuloLink } from '@cumulo/core/components/Link';
+import { HStack, VStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
+import { vars } from '@cumulo/core/contract';
 import { style } from '@cumulo/css';
 import { Link as RouterLink, type RoutePath } from '@renr/parcel-rsc-router';
 import React, { useCallback, useState } from 'react';
+
 import {
   ExternalArrowIcon,
   GitHubIcon,

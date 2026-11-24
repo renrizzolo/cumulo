@@ -1,5 +1,5 @@
 import Layout from '../../components/MDXLayout.tsx';
-import { HStack } from '@cumulo/core';
+import { HStack } from '@cumulo/core/components/Stack';
 import * as Tooltip from '@cumulo/core/components/Tooltip';
 import tooltipDoc from '../../../docgen/components/Tooltip.json';
 export default Layout;
@@ -9,10 +9,8 @@ export default Layout;
 A lightweight hint built on the native HTML [Popover API](https://developer.mozilla.org/en-US/docs/Web/API/Popover_API) and CSS anchor positioning.
 
 ```tsx
-import { Tooltip } from '@cumulo/core';
+import * as Tooltip from '@cumulo/core/components/Tooltip';
 ```
-
-<RscAlert component="Tooltip" />
 
 ### Examples
 

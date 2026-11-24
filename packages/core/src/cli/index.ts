@@ -1,6 +1,14 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
+
 import { handleGenerateTheme } from './commands/generateTheme.js';
+
+export {
+  generateTheme,
+  runThemeGeneration,
+  type GeneratedThemeResult,
+  type GenerateThemeOptions,
+} from './themeGenerator.js';
 
 const USAGE = `
 Cumulo CLI
@@ -13,8 +21,8 @@ Commands:
 
 Options for generate-theme:
   --css <path>       Path to custom CSS file (e.g. './src/styles.css') containing theme overrides
-  --out <path>       Output path (e.g. './src/vars.ts') for generated standalone TypeScript contract file
-  --in-place         Update installed @cumulo/core package in node_modules in-place
+  --out <path>       Output path (e.g. './src/vars.ts') for generated standalone TypeScript contract file (required)
+  --include-custom   Include custom CSS variables not defined in Cumulo's default theme.css
   --base-css <path>  Path to base canonical theme.css (defaults to Cumulo default theme.css)
   --silent           Suppress informational output
   -h, --help         Show this help message
@@ -28,7 +36,7 @@ export async function runCli(argv = process.argv.slice(2)): Promise<void> {
       options: {
         css: { type: 'string' },
         out: { type: 'string' },
-        'in-place': { type: 'boolean' },
+        'include-custom': { type: 'boolean', default: false },
         'base-css': { type: 'string' },
         silent: { type: 'boolean', default: false },
         help: { type: 'boolean', short: 'h', default: false },
@@ -55,7 +63,7 @@ export async function runCli(argv = process.argv.slice(2)): Promise<void> {
         await handleGenerateTheme({
           css: typeof values.css === 'string' ? values.css : undefined,
           out: typeof values.out === 'string' ? values.out : undefined,
-          'in-place': Boolean(values['in-place']),
+          'include-custom': Boolean(values['include-custom']),
           'base-css': typeof values['base-css'] === 'string' ? values['base-css'] : undefined,
           silent: Boolean(values.silent),
         });

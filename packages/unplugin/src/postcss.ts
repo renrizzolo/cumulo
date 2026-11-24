@@ -1,6 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
+
 import { extractCssFromFile, shouldProcessFile } from './core/extractor.js';
+import { syncThemeContract } from './core/themeSync.js';
 import type { CumuloPluginOptions } from './types.js';
 
 export interface CumuloPostcssOptions extends CumuloPluginOptions {
@@ -38,6 +40,17 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
     postcssPlugin: 'cumulo-postcss',
     async Once(root: PostcssRoot, helpers: { result: PostcssResult }): Promise<void> {
       const cwd = process.cwd();
+
+      if (options.theme) {
+        const synced = await syncThemeContract(options.theme, cwd);
+        helpers.result.messages.push({
+          type: 'dependency',
+          plugin: 'cumulo-postcss',
+          file: synced.cssPath,
+          parent: helpers.result.opts?.from,
+        });
+      }
+
       const patterns = options.include ?? [
         'src/**/*.{tsx,jsx,ts,js}',
         'app/**/*.{tsx,jsx,ts,js}',
@@ -69,6 +82,8 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
 
       const filesToProcess: string[] = [];
 
+      const cumuloCoreImportRe = /['"]@cumulo\/core(?:\/[^'"]*)?['"]/;
+
       for (const file of uniqueFiles) {
         let code = '';
         try {
@@ -77,7 +92,11 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
           continue;
         }
 
-        if (!shouldProcessFile(code, file, options)) {
+        const isExcluded = shouldExclude(file);
+        const importsCoreComponent =
+          !isExcluded && /\.(tsx?|jsx?|mjs|cjs)$/.test(file) && cumuloCoreImportRe.test(code);
+
+        if (!shouldProcessFile(code, file, options) && !importsCoreComponent) {
           continue;
         }
 

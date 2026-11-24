@@ -1,6 +1,7 @@
-import React from 'react';
-import { highlightCode } from '../highlighter';
 import { format } from 'oxfmt';
+import React from 'react';
+
+import { highlightCode } from '../highlighter';
 
 // separate as it's not actually supported by oxfmt, will ignore formatting if used.
 type Txt = 'txt';

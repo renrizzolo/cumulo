@@ -1,79 +1,8 @@
 {
   "name": "Tabs.Root",
-  "path": "packages/core/src/components/Tabs.tsx",
+  "path": "../../packages/core/src/components/Tabs.tsx",
   "fileName": "Tabs.tsx",
   "props": {
-    "orientation": {
-      "defaultValue": {
-        "value": "horizontal"
-      },
-      "description": "",
-      "name": "orientation",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-        "name": "TabsProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-          "name": "TabsProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "TabsOrientation | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"horizontal\""
-          },
-          {
-            "value": "\"vertical\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "variant": {
-      "defaultValue": {
-        "value": "line"
-      },
-      "description": "",
-      "name": "variant",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-        "name": "TabsProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
-          "name": "TabsProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "TabsVariant | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"line\""
-          },
-          {
-            "value": "\"pill\""
-          },
-          {
-            "value": "\"bordered\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
     "className": {
       "defaultValue": null,
       "description": "",
@@ -93,42 +22,6 @@
         "name": "string | undefined"
       },
       "shortPropTypeName": "string | function"
-    },
-    "ref": {
-      "defaultValue": null,
-      "description": "",
-      "name": "ref",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Ref<HTMLDivElement> | undefined"
-      },
-      "shortPropTypeName": "Union"
-    },
-    "value": {
-      "defaultValue": null,
-      "description": "Controlled selected value.",
-      "name": "value",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-        "name": "ValueGroupProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-          "name": "ValueGroupProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
     },
     "defaultValue": {
       "defaultValue": null,
@@ -169,6 +62,113 @@
         "name": "((value: T) => void) | undefined"
       },
       "shortPropTypeName": "function"
+    },
+    "orientation": {
+      "defaultValue": {
+        "value": "horizontal"
+      },
+      "description": "",
+      "name": "orientation",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "TabsOrientation | undefined",
+        "value": [
+          {
+            "value": "\"horizontal\""
+          },
+          {
+            "value": "\"vertical\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLDivElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "Controlled selected value.",
+      "name": "value",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "variant": {
+      "defaultValue": {
+        "value": "line"
+      },
+      "description": "",
+      "name": "variant",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+        "name": "TabsProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Tabs.tsx",
+          "name": "TabsProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "TabsVariant | undefined",
+        "value": [
+          {
+            "value": "\"bordered\""
+          },
+          {
+            "value": "\"line\""
+          },
+          {
+            "value": "\"pill\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   },
   "subcomponents": {
@@ -216,6 +216,26 @@
     "Trigger": {
       "name": "Tabs.Trigger",
       "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
         "disabled": {
           "defaultValue": {
             "value": "false"
@@ -237,26 +257,6 @@
             "name": "boolean | undefined"
           },
           "shortPropTypeName": null
-        },
-        "className": {
-          "defaultValue": null,
-          "description": "",
-          "name": "className",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-            "name": "HTMLAttributes"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-              "name": "HTMLAttributes"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": "string | function"
         },
         "ref": {
           "defaultValue": null,
@@ -299,6 +299,26 @@
     "Content": {
       "name": "Tabs.Content",
       "props": {
+        "className": {
+          "defaultValue": null,
+          "description": "",
+          "name": "className",
+          "parent": {
+            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+            "name": "HTMLAttributes"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+              "name": "HTMLAttributes"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": "string | function"
+        },
         "keepMounted": {
           "defaultValue": {
             "value": "false"
@@ -320,26 +340,6 @@
             "name": "boolean | undefined"
           },
           "shortPropTypeName": null
-        },
-        "className": {
-          "defaultValue": null,
-          "description": "",
-          "name": "className",
-          "parent": {
-            "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-            "name": "HTMLAttributes"
-          },
-          "declarations": [
-            {
-              "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-              "name": "HTMLAttributes"
-            }
-          ],
-          "required": false,
-          "type": {
-            "name": "string | undefined"
-          },
-          "shortPropTypeName": "string | function"
         },
         "ref": {
           "defaultValue": null,

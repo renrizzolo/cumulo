@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import zlib from 'node:zlib';
+
 import { getCliArg, isDirectExecution, writeCliOutputFile } from './cli-utils.ts';
 
 const __filename = fileURLToPath(import.meta.url);

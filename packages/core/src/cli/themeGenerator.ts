@@ -25,9 +25,11 @@ export interface GenerateThemeOptions {
    */
   outPath?: string;
   /**
-   * Whether to update an installed @cumulo/core package in node_modules in-place
+   * Include custom CSS variables not defined in Cumulo's default `theme.css`
+   * in the generated `vars` contract.
+   * Defaults to `false`.
    */
-  inPlace?: boolean;
+  includeCustomVars?: boolean;
   /**
    * Silent mode (suppress logs)
    */
@@ -39,6 +41,7 @@ export interface GeneratedThemeResult {
   standaloneCode: string;
   canonicalVars: string[];
   overriddenVars: string[];
+  customVars: string[];
   ignoredVars: string[];
   varValues: Map<string, string>;
 }
@@ -82,12 +85,12 @@ function buildTreeFromVars(vars: string[]): NestedTree {
 
   for (const v of vars) {
     const raw = v.replace(/^--/, '');
-    let parts = raw.split('-');
+    let parts = raw.split('-').filter(Boolean);
 
     // Normalize group prefix
     if (parts[0] === 'theme') {
       parts = parts.slice(1);
-    } else if (parts[0] === 'color' && parts[parts.length - 1] === 'base') {
+    } else if (parts[0] === 'color' && parts.length === 3 && parts[2] === 'base') {
       parts = ['seed', parts[1]];
     }
 
@@ -240,7 +243,9 @@ export async function generateTheme(
     }
   }
 
+  const baseVarNames = new Set(seenVars);
   const overriddenVars: string[] = [];
+  const customVars: string[] = [];
   const ignoredVars: string[] = [];
 
   if (customCss) {
@@ -252,10 +257,17 @@ export async function generateTheme(
       const name = customMatch[1];
       const value = customMatch[2].trim().replace(/\s+/g, ' ');
 
-      if (seenVars.has(name)) {
+      if (baseVarNames.has(name)) {
         varValues.set(name, value);
         if (!overriddenVars.includes(name)) {
           overriddenVars.push(name);
+        }
+      } else if (options.includeCustomVars) {
+        varValues.set(name, value);
+        if (!seenVars.has(name)) {
+          seenVars.add(name);
+          canonicalVars.push(name);
+          customVars.push(name);
         }
       } else {
         if (!ignoredVars.includes(name)) {
@@ -268,8 +280,17 @@ export async function generateTheme(
   // 3. Build contract tree in strict source order
   const contractTree = buildTreeFromVars(canonicalVars);
 
+  const serializedTree = serializeObjectWithComments(contractTree, varValues);
+  const metaAttachment = `Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
+  value: { kind: 'contract' },
+  enumerable: false,
+  configurable: true,
+});`;
+
   const endContent = `
-export const vars = ${serializeObjectWithComments(contractTree, varValues)} as const;
+export const vars = ${serializedTree} as const;
+
+${metaAttachment}
 
 export type ThemeVars = typeof vars;
 
@@ -310,67 +331,51 @@ export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends
     standaloneCode: await tryFormatCode('theme-vars.ts', standaloneContent),
     canonicalVars,
     overriddenVars,
+    customVars,
     ignoredVars,
     varValues,
   };
 }
 
 /**
- * Executes theme generation and writes outputs according to options.
+ * Executes theme generation and writes the standalone contract file to `options.outPath`.
+ * Skips writing if the target file already matches the generated output.
+ *
+ * @returns `true` if the output file was created or updated, `false` if already up to date.
  */
-export async function runThemeGeneration(options: GenerateThemeOptions = {}): Promise<void> {
+export async function runThemeGeneration(options: GenerateThemeOptions = {}): Promise<boolean> {
+  if (!options.outPath) {
+    throw new Error('You must provide --out <path>.');
+  }
+
   const result = await generateTheme(options);
-
-  if (options.outPath) {
-    const targetFile = path.resolve(options.outPath);
-    const parentDir = path.dirname(targetFile);
-    if (!fs.existsSync(parentDir)) {
-      fs.mkdirSync(parentDir, { recursive: true });
-    }
-    fs.writeFileSync(targetFile, result.standaloneCode);
-    if (!options.silent) {
-      console.log(`[cumulo] Wrote theme contract to ${targetFile}`);
-      if (result.overriddenVars.length > 0) {
-        console.log(
-          `[cumulo] Applied ${result.overriddenVars.length} theme overrides from custom CSS.`,
-        );
-      }
-      if (result.ignoredVars.length > 0) {
-        console.log(
-          `[cumulo] Ignored ${result.ignoredVars.length} custom properties not defined in default theme contract.`,
-        );
-      }
-    }
-    return;
+  const targetFile = path.resolve(options.outPath);
+  const parentDir = path.dirname(targetFile);
+  if (!fs.existsSync(parentDir)) {
+    fs.mkdirSync(parentDir, { recursive: true });
   }
 
-  if (options.inPlace) {
-    // Resolve installed @cumulo/core in consumer project
-    const nodeModulesCandidate = path.resolve(process.cwd(), 'node_modules/@cumulo/core');
-    if (!fs.existsSync(nodeModulesCandidate)) {
-      throw new Error(
-        'Could not find @cumulo/core in node_modules to update in-place. Run npm/pnpm install first.',
-      );
-    }
-    const distDir = path.join(nodeModulesCandidate, 'dist');
-    const contractDts = path.join(distDir, 'contract.d.mts');
-    const contractMjs = path.join(distDir, 'contract.mjs');
+  const existing = fs.existsSync(targetFile) ? fs.readFileSync(targetFile, 'utf-8') : undefined;
+  if (existing === result.standaloneCode) {
+    return false;
+  }
 
-    if (fs.existsSync(path.dirname(contractDts))) {
-      fs.writeFileSync(contractDts, result.contractCode);
-      fs.writeFileSync(contractMjs, result.contractCode);
-    }
-
-    if (!options.silent) {
+  fs.writeFileSync(targetFile, result.standaloneCode);
+  if (!options.silent) {
+    console.log(`[cumulo] Wrote theme contract to ${targetFile}`);
+    if (result.overriddenVars.length > 0) {
       console.log(
-        `[cumulo] Updated @cumulo/core in node_modules in-place with custom theme values.`,
+        `[cumulo] Applied ${result.overriddenVars.length} theme overrides from custom CSS.`,
       );
-      if (result.overriddenVars.length > 0) {
-        console.log(`[cumulo] Applied ${result.overriddenVars.length} theme overrides.`);
-      }
     }
-    return;
+    if (result.customVars.length > 0) {
+      console.log(`[cumulo] Added ${result.customVars.length} custom CSS variables to contract.`);
+    }
+    if (result.ignoredVars.length > 0) {
+      console.log(
+        `[cumulo] Ignored ${result.ignoredVars.length} custom properties not defined in default theme contract. Pass --include-custom to include them.`,
+      );
+    }
   }
-
-  throw new Error('You must provide either --out-path or --in-place.');
+  return true;
 }

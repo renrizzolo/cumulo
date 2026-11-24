@@ -1,7 +1,10 @@
 import Layout from '../components/MDXLayout.tsx';
 import * as Alert from '@cumulo/core/components/Alert';
 import * as Table from '@cumulo/core/components/Table';
-import { HStack, Badge, Text, Code } from '@cumulo/core';
+import { Badge } from '@cumulo/core/components/Badge';
+import { HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
+import { Code } from '@cumulo/core/components/Code';
 export default Layout;
 
 # Bundler Integration
@@ -16,7 +19,7 @@ Traditional CSS-in-JS libraries inject runtime `<style>` tags into the DOM durin
 - **Pure static CSS output**: Styles written with `style()`, `recipe()`, and design tokens from `@cumulo/core` compile into standard `.css` files managed by your bundler.
 - **Full React 19 & RSC support**: Cumulo runs seamlessly across Server Components, SSR, static generation, and client islands.
 
-To make this possible, `@cumulo/unplugin` (or `@cumulo/parcel-transformer`) intercepts your modules at build time, evaluates style declarations in isolated contexts, and attaches extracted styles directly to your bundler's asset graph.
+To make this possible, `@cumulo/unplugin`, `@cumulo/parcel-plugin` (Parcel v3), or `@cumulo/parcel-transformer` (Parcel v2) intercepts your modules at build time, evaluates style declarations in isolated contexts, and attaches extracted styles directly to your bundler's asset graph.
 
 ### Installation
 
@@ -26,7 +29,10 @@ Install the build plugin as a development dependency:
 # For Vite, Webpack, Next.js, Rollup, or esbuild:
 pnpm add -D @cumulo/unplugin
 
-# For Parcel:
+# For Parcel v3:
+pnpm add -D @cumulo/parcel-plugin
+
+# For Parcel v2:
 pnpm add -D @cumulo/parcel-transformer
 ```
 
@@ -160,7 +166,26 @@ await esbuild.build({
 
 #### Parcel
 
-Parcel uses a dedicated transformer plugin `@cumulo/parcel-transformer`. Register it in your `.parcelrc`:
+##### Parcel v3 (Native Plugin)
+
+Parcel v3 (`^3.0.0-alpha.3`) uses the native Rust plugin `@cumulo/parcel-plugin`. Register it in your `.parcelrc` for both your JS/TS/JSX/TSX sources and the `cumulo-css:*` named pipeline:
+
+```json
+// .parcelrc
+{
+  "extends": "@parcel/config-default",
+  "transformers": {
+    "*.{js,mjs,jsx,ts,tsx}": ["@cumulo/parcel-plugin", "...", "@cumulo/parcel-plugin"],
+    "cumulo-css:*": ["@cumulo/parcel-plugin"]
+  }
+}
+```
+
+`@cumulo/parcel-plugin` works across both standard browser builds and Parcel v3 React Server Components (RSC) builds, extracting static CSS from Server Components and `"use client"` components without mutating top-of-file directives.
+
+##### Parcel v2
+
+Parcel v2 uses `@cumulo/parcel-transformer`. Register it in your `.parcelrc`:
 
 ```json
 // .parcelrc
@@ -195,6 +220,18 @@ Host Bundler CSS Pipeline ──► Emits static styles.css`}
 2. **Evaluation**: Matches are evaluated via an isolated Node runtime loader (`jiti`), executing the style functions and capturing CSS in the internal stylesheet registry.
 3. **Virtual CSS Injection**: The plugin injects an import to a virtual stylesheet (e.g. `App.tsx.cumulo.css`) at the top of the module.
 4. **Bundler Hand-off**: The host bundler (Vite, Webpack, etc.) treats the virtual module as standard CSS, applying PostCSS, autoprefixing, minification, and code splitting.
+5. **JS Rewriting**: Evaluated top-level `style()`, `create()`, `keyframes()`, `recipe()`, and `createTheme()` calls are rewritten to lightweight `@cumulo/css/runtime` lookups. Imports only used by rewritten calls are pruned, `cx` is redirected to `@cumulo/css/runtime`, and static `vars.a.b` accesses are inlined to their `var(--…)` strings. The style definitions, the CSS compiler, and the stylesheet registry never reach client bundles. Parcel v3 (`@cumulo/parcel-plugin`) and `@cumulo/unplugin` do this; the Parcel v2 transformer extracts CSS only.
+
+<Alert.Root intent="info">
+  <Alert.Icon />
+  <Alert.Content>
+    <Alert.Description>
+      Use static <Code>vars</Code> paths such as <Code>vars.color.primary.base</Code>. A dynamic
+      lookup like <Code>vars[intent][step]</Code> cannot be inlined, so <Code>vars</Code> stays in
+      the client bundle.
+    </Alert.Description>
+  </Alert.Content>
+</Alert.Root>
 
 ### Plugin options
 
@@ -204,6 +241,11 @@ The `cumulo()` plugin factory accepts an optional configuration object:
 cumulo({
   include: ['./src/**/*.{ts,tsx}'],
   exclude: ['**/*.stories.{ts,tsx}'],
+  theme: {
+    css: './src/styles.css',
+    out: './src/vars.ts',
+    includeCustomVars: true,
+  },
 });
 ```
 
@@ -264,6 +306,23 @@ cumulo({
         <Code variant="subtle">true</Code>
       </Table.Cell>
       <Table.Cell>Whether to automatically inject styles in development environments.</Table.Cell>
+    </Table.Row>
+    <Table.Row>
+      <Table.Cell>
+        <Code variant="primary">theme</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">CumuloThemeOptions</Code>
+      </Table.Cell>
+      <Table.Cell>
+        <Code variant="subtle">undefined</Code>
+      </Table.Cell>
+      <Table.Cell>
+        Automatically regenerates a standalone <Code>vars.ts</Code> contract from your custom
+        stylesheet (<Code>css</Code>, <Code>out</Code>, optional <Code>includeCustomVars</Code>) on
+        build and watch updates. Also supported under <Code>"@cumulo/parcel-plugin"</Code> in{' '}
+        <Code>package.json</Code>.
+      </Table.Cell>
     </Table.Row>
   </Table.Body>
 </Table.Root>

@@ -1,98 +1,32 @@
 {
   "name": "Slider",
-  "path": "packages/core/src/components/Slider.tsx",
+  "path": "../../packages/core/src/components/Slider.tsx",
   "fileName": "Slider.tsx",
   "props": {
-    "value": {
+    "className": {
       "defaultValue": null,
-      "description": "The controlled numeric value of the slider.",
-      "name": "value",
+      "description": "",
+      "name": "className",
       "parent": {
-        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-        "name": "SliderProps"
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
       },
       "declarations": [
         {
-          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-          "name": "SliderProps"
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
         }
       ],
       "required": false,
       "type": {
-        "name": "number | undefined"
+        "name": "string | undefined"
       },
-      "shortPropTypeName": null
+      "shortPropTypeName": "string | function"
     },
     "defaultValue": {
       "defaultValue": null,
       "description": "The initial uncontrolled numeric value of the slider. Defaults to min or 0.",
       "name": "defaultValue",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-        "name": "SliderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-          "name": "SliderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "min": {
-      "defaultValue": {
-        "value": "0"
-      },
-      "description": "The minimum permitted value. Defaults to 0.",
-      "name": "min",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-        "name": "SliderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-          "name": "SliderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "max": {
-      "defaultValue": {
-        "value": "100"
-      },
-      "description": "The maximum permitted value. Defaults to 100.",
-      "name": "max",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-        "name": "SliderProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
-          "name": "SliderProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "number | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "step": {
-      "defaultValue": {
-        "value": "1"
-      },
-      "description": "The granularity of stepping. Defaults to 1.",
-      "name": "step",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Slider.tsx",
         "name": "SliderProps"
@@ -131,24 +65,24 @@
         "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"default\""
           },
           {
             "value": "\"error\""
+          },
+          {
+            "value": "undefined"
           }
         ]
       },
       "shortPropTypeName": null
     },
-    "size": {
+    "max": {
       "defaultValue": {
-        "value": "md"
+        "value": "100"
       },
-      "description": "Size variant. Defaults to 'md'.",
-      "name": "size",
+      "description": "The maximum permitted value. Defaults to 100.",
+      "name": "max",
       "parent": {
         "fileName": "cumulo/packages/core/src/components/Slider.tsx",
         "name": "SliderProps"
@@ -161,22 +95,29 @@
       ],
       "required": false,
       "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          }
-        ]
+        "name": "number | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "min": {
+      "defaultValue": {
+        "value": "0"
+      },
+      "description": "The minimum permitted value. Defaults to 0.",
+      "name": "min",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+        "name": "SliderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+          "name": "SliderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | undefined"
       },
       "shortPropTypeName": null
     },
@@ -200,26 +141,6 @@
       },
       "shortPropTypeName": "function"
     },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -235,6 +156,85 @@
         "name": "Ref<HTMLInputElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "Size variant. Defaults to 'md'.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+        "name": "SliderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+          "name": "SliderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"lg\" | \"md\" | \"sm\" | undefined",
+        "value": [
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "step": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "The granularity of stepping. Defaults to 1.",
+      "name": "step",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+        "name": "SliderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+          "name": "SliderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "The controlled numeric value of the slider.",
+      "name": "value",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+        "name": "SliderProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Slider.tsx",
+          "name": "SliderProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "number | undefined"
+      },
+      "shortPropTypeName": null
     }
   }
 }

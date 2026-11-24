@@ -1,8 +1,9 @@
 import React from 'react';
+
 import type { ElementProps } from '../ElementProps.js';
 import { Heading, HeadingVariants, type HeadingLevel } from './Heading.js';
-import { Text } from './Text.js';
 import { VStack, HStack, type StackVariants } from './Stack.js';
+import { Text } from './Text.js';
 
 export interface HeaderProps extends ElementProps<HTMLDivElement> {
   title?: React.ReactNode;

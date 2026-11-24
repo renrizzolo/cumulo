@@ -1,6 +1,6 @@
 {
   "name": "Switch",
-  "path": "packages/core/src/components/Switch.tsx",
+  "path": "../../packages/core/src/components/Switch.tsx",
   "fileName": "Switch.tsx",
   "props": {
     "checked": {
@@ -22,6 +22,26 @@
         "name": "boolean | undefined"
       },
       "shortPropTypeName": null
+    },
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
     },
     "defaultChecked": {
       "defaultValue": {
@@ -67,50 +87,13 @@
         "raw": "\"default\" | \"error\" | undefined",
         "value": [
           {
-            "value": "undefined"
-          },
-          {
             "value": "\"default\""
           },
           {
             "value": "\"error\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "size": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Switch.tsx",
-        "name": "SwitchProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Switch.tsx",
-          "name": "SwitchProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"sm\" | \"md\" | \"lg\" | undefined",
-        "value": [
+          },
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
           }
         ]
       },
@@ -136,26 +119,6 @@
       },
       "shortPropTypeName": "function"
     },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
     "ref": {
       "defaultValue": null,
       "description": "",
@@ -171,6 +134,43 @@
         "name": "Ref<HTMLInputElement> | undefined"
       },
       "shortPropTypeName": "Union"
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+        "name": "SwitchProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Switch.tsx",
+          "name": "SwitchProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"lg\" | \"md\" | \"sm\" | undefined",
+        "value": [
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
     }
   }
 }

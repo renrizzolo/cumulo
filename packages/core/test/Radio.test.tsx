@@ -1,12 +1,13 @@
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
-import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { describe, it, expect, vi } from 'vitest';
+
+import * as Field from '../src/components/Field.js';
 import { Radio } from '../src/components/Radio.js';
 import * as RadioGroup from '../src/components/RadioGroup.js';
 import { createRadioGroup } from '../src/components/RadioGroup.js';
-import * as Field from '../src/components/Field.js';
 
 describe('Radio Component', () => {
   it('renders native input type="radio" correctly', () => {

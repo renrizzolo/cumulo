@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+
 import {
   createThemeContract,
   createTheme,
@@ -8,10 +9,10 @@ import {
   recipe,
   keyframes,
   cx,
-  props,
   resetSheet,
   getSheetCss,
 } from '../src/index.js';
+import { runtimeKeyframes, runtimeRecipe, runtimeStyle, runtimeTheme } from '../src/runtime.js';
 
 describe('@cumulo/css', () => {
   beforeEach(() => {
@@ -215,7 +216,7 @@ describe('@cumulo/css', () => {
     });
   });
 
-  describe('cx and props', () => {
+  describe('cx', () => {
     it('merges classnames, compiled styles, themes, and handles falsy values', () => {
       const s1 = style({ color: 'red' });
       const s2 = style({ background: 'blue' });
@@ -233,17 +234,96 @@ describe('@cumulo/css', () => {
       const condition: boolean = false;
       expect(cx(['arr1', ['arr2', condition && 'arr3']])).toBe('arr1 arr2');
     });
+  });
 
-    it('merges classNames and style objects with props()', () => {
-      const s1 = style({ color: 'green' });
-      const result = props(s1, 'extra-class', { style: { zIndex: 5, opacity: 0.8 } });
+  describe('runtime helpers (@cumulo/css/runtime)', () => {
+    it('constructs lightweight style, keyframes, theme, and recipe helpers without touching sheet', () => {
+      const s = runtimeStyle('box-abc');
+      expect(s.className).toBe('box-abc');
+      expect(String(s)).toBe('box-abc');
+      expect(cx(s, 'extra')).toBe('box-abc extra');
 
-      expect(result.className).toBe(`${s1.className} extra-class`);
-      expect(result.style).toEqual({ zIndex: 5, opacity: 0.8 });
+      const kf = runtimeKeyframes('spin-xyz');
+      expect(kf.name).toBe('spin-xyz');
+      expect(String(kf)).toBe('spin-xyz');
 
-      const plain = props('simple');
-      expect(plain.className).toBe('simple');
-      expect(plain.style).toBeUndefined();
+      const th = runtimeTheme('theme-123', { '--c-bg': '#fff' });
+      expect(th.className).toBe('theme-123');
+      expect(th.vars).toEqual({ '--c-bg': '#fff' });
+      expect(String(th)).toBe('theme-123');
+
+      const btn = runtimeRecipe({
+        base: 'btn-base',
+        variants: {
+          variant: { primary: 'btn-primary', ghost: 'btn-ghost' },
+          active: { true: 'btn-active', false: 'btn-inactive' },
+          level: { 0: 'btn-l0', 1: 'btn-l1' },
+        },
+        compoundVariants: [
+          { variants: { variant: 'primary', active: true }, className: 'btn-cv' },
+          { variants: { level: 1, active: true }, className: 'btn-l1-active' },
+        ],
+        defaultVariants: { variant: 'primary', active: false, level: 0 },
+      });
+
+      expect(btn.variants()).toEqual(['variant', 'active', 'level']);
+      expect(btn.classNames.base).toBe('btn-base');
+      expect(btn()).toBe('btn-base btn-primary btn-inactive btn-l0');
+      expect(btn({ active: true })).toBe('btn-base btn-primary btn-active btn-l0 btn-cv');
+      expect(btn({ variant: 'ghost', active: true, level: 1 })).toBe(
+        'btn-base btn-ghost btn-active btn-l1 btn-l1-active',
+      );
+      expect(getSheetCss()).toBe('');
+    });
+
+    it('attaches non-enumerable Symbol.for(__CUMULO_META__) metadata on build-time APIs', () => {
+      const META = Symbol.for('__CUMULO_META__');
+
+      const s = style({ color: 'red' }, 'meta-s');
+      expect(Reflect.get(s, META)).toEqual({ kind: 'style', className: s.className });
+      expect(Object.keys(s)).not.toContain(META);
+
+      const c = create({ box: { padding: 8 } }, 'meta-c');
+      expect(Reflect.get(c, META)).toEqual({
+        kind: 'create',
+        entries: { box: c.box.className },
+      });
+      expect(Object.keys(c)).toEqual(['box']);
+
+      const kf = keyframes({ from: { opacity: 0 }, to: { opacity: 1 } }, 'meta-kf');
+      expect(Reflect.get(kf, META)).toEqual({ kind: 'keyframes', name: kf.name });
+
+      const contract = createThemeContract({ bg: null }, 'meta');
+      expect(Reflect.get(contract, META)).toEqual({ kind: 'contract' });
+      const th = createTheme(contract, { bg: '#000' });
+      expect(Reflect.get(th, META)).toEqual({
+        kind: 'theme',
+        className: th.className,
+        vars: { '--meta-bg': '#000' },
+      });
+
+      const glob = createGlobalTheme(':root', contract, { bg: '#fff' });
+      expect(Reflect.get(glob, META)).toEqual({
+        kind: 'global',
+        vars: { '--meta-bg': '#fff' },
+      });
+
+      const rec = recipe(
+        {
+          base: { display: 'flex' },
+          variants: { level: { 0: { opacity: 1 }, 1: { opacity: 0.5 } } },
+          defaultVariants: { level: 0 },
+        },
+        'meta-rec',
+      );
+      expect(Reflect.get(rec, META)).toEqual({
+        kind: 'recipe',
+        config: {
+          base: rec.classNames.base,
+          variants: rec.classNames.variants,
+          defaultVariants: { level: 0 },
+        },
+      });
     });
   });
 
@@ -509,6 +589,67 @@ describe('@cumulo/css', () => {
       expect(simple()).toBe(simple.classNames.base);
       expect(simple(undefined)).toBe(simple.classNames.base);
       expect(simple({})).toBe(simple.classNames.base);
+    });
+
+    it('matches runtimeRecipe behavior for null, undefined, booleans, numbers, and compoundVariants', () => {
+      const compiled = recipe(
+        {
+          base: { display: 'flex' },
+          variants: {
+            size: {
+              sm: { padding: 4 },
+              md: { padding: 8 },
+              null: { padding: 99 },
+            },
+            active: {
+              true: { opacity: 1 },
+              false: { opacity: 0.5 },
+            },
+            level: {
+              0: { zIndex: 0 },
+              1: { zIndex: 1 },
+            },
+          },
+          compoundVariants: [
+            {
+              variants: { size: 'sm', active: true },
+              style: { fontWeight: 700 },
+            },
+          ],
+          defaultVariants: { size: 'sm', active: true, level: 0 },
+        },
+        'parity',
+      );
+
+      const rt = runtimeRecipe({
+        base: compiled.classNames.base,
+        variants: compiled.classNames.variants,
+        compoundVariants: compiled.classNames.compoundVariants.map((cv) => ({
+          variants: {
+            ...(cv.variants.size !== undefined ? { size: cv.variants.size } : {}),
+            ...(cv.variants.active !== undefined ? { active: cv.variants.active } : {}),
+            ...(cv.variants.level !== undefined ? { level: cv.variants.level } : {}),
+          },
+          className: cv.className,
+        })),
+        defaultVariants: { size: 'sm', active: true, level: 0 },
+      });
+
+      expect(rt()).toBe(compiled());
+      expect(rt({ size: undefined, active: true, level: 1 })).toBe(
+        compiled({ size: undefined, active: true, level: 1 }),
+      );
+      expect(rt({ size: 'md', active: false, level: 0 })).toBe(
+        compiled({ size: 'md', active: false, level: 0 }),
+      );
+
+      // null must clear defaultVariants without stringifying to the "null" variant key or matching compoundVariants
+      const nullResult = rt({ size: null, active: true, level: 0 });
+      expect(nullResult).not.toContain(compiled.classNames.variants.size.null);
+      expect(nullResult).not.toContain(compiled.classNames.variants.size.sm);
+      expect(nullResult).not.toContain(compiled.classNames.compoundVariants[0]?.className ?? 'cv');
+      expect(nullResult).toContain(compiled.classNames.base ?? '');
+      expect(nullResult).toContain(compiled.classNames.variants.active.true);
     });
   });
 });

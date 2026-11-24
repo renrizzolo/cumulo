@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@parcel/fs': 79c7dca41303553f2fd7d0f7c5ef481da38fefb5e6d2ad06e9f30c8301706ac5
-  '@parcel/packager-react-static@2.16.4': 65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f
+  parcel@3.0.0-alpha.3: 8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9
 
 importers:
 
@@ -15,18 +15,9 @@ importers:
       '@changesets/cli':
         specifier: ^3.0.1
         version: 3.0.1
-      '@parcel/packager-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/runtime-rsc':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/transformer-inline-string':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/transformer-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+      '@parcel/rsc':
+        specifier: ^3.0.0-alpha.3
+        version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@types/node':
         specifier: ^24
         version: 24.13.3
@@ -42,6 +33,9 @@ importers:
       oxlint:
         specifier: ^1.94.0
         version: 1.94.0
+      react:
+        specifier: ^19.2.8
+        version: 19.2.8
       react-server-dom-parcel:
         specifier: ^19.2.8
         version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -63,15 +57,12 @@ importers:
       '@cumulo/css':
         specifier: workspace:*
         version: link:../../packages/css
-      '@parcel/config-default':
-        specifier: ^2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)
       '@parcel/rsc':
-        specifier: ^2.16.4
-        version: 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        specifier: ^3.0.0-alpha.3
+        version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@renr/parcel-rsc-router':
-        specifier: ^1.0.0-beta.12
-        version: 1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+        specifier: github:renrizzolo/parcel-rsc-react#parcel-v3&path:packages/parcel-rsc-router
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -82,21 +73,15 @@ importers:
         specifier: ^19.2.8
         version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
     devDependencies:
-      '@cumulo/parcel-transformer':
+      '@cumulo/parcel-plugin':
         specifier: workspace:*
-        version: link:../../packages/parcel-transformer
-      '@parcel/packager-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/transformer-react-static':
-        specifier: 2.16.4
-        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
+        version: link:../../packages/parcel-plugin
+      '@renr/parcel-plugin-rsc-router':
+        specifier: github:renrizzolo/parcel-rsc-react#parcel-v3&path:packages/parcel-plugin-rsc-router
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
       '@renr/parcel-reporter-docgen':
-        specifier: ^0.1.0-beta.9
-        version: 0.1.0-beta.9(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-reporter-rsc-router':
-        specifier: ^1.0.0-beta.19
-        version: 1.0.0-beta.19(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))
+        specifier: github:renrizzolo/parcel-rsc-react#parcel-v3&path:packages/parcel-reporter-docgen
+        version: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-reporter-docgen
       '@types/react':
         specifier: ^19.2.18
         version: 19.2.18
@@ -104,8 +89,8 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(@types/react@19.2.18)
       parcel:
-        specifier: ^2.16.4
-        version: 2.16.4(@swc/helpers@0.5.23)
+        specifier: ^3.0.0-alpha.3
+        version: 3.0.0-alpha.3(patch_hash=8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9)
       shiki:
         specifier: ^4.4.3
         version: 4.4.3
@@ -183,6 +168,9 @@ importers:
         specifier: ^19.2.8
         version: 19.2.8(react@19.2.8)
     devDependencies:
+      '@parcel/config-default':
+        specifier: ^2.16.4
+        version: 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@swc/helpers@0.5.23)
       '@rollup/plugin-commonjs':
         specifier: ^29.0.3
         version: 29.0.3(rollup@4.63.1)
@@ -253,6 +241,49 @@ importers:
         specifier: ^5.110.1
         version: 5.110.1(@swc/core@1.16.0(@swc/helpers@0.5.23))(esbuild@0.28.2)(lightningcss@1.33.0)(postcss@8.5.26)
 
+  packages/parcel-plugin:
+    dependencies:
+      '@cumulo/css':
+        specifier: workspace:*
+        version: link:../css
+      '@cumulo/unplugin':
+        specifier: workspace:*
+        version: link:../unplugin
+    devDependencies:
+      '@cumulo/core':
+        specifier: workspace:*
+        version: link:../core
+      '@parcel/rsc':
+        specifier: 3.0.0-alpha.3
+        version: 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      '@types/node':
+        specifier: ^22.13.9
+        version: 22.20.1
+      '@types/react':
+        specifier: ^19.2.18
+        version: 19.2.18
+      '@types/react-dom':
+        specifier: ^19.2.4
+        version: 19.2.4(@types/react@19.2.18)
+      parcel:
+        specifier: 3.0.0-alpha.3
+        version: 3.0.0-alpha.3(patch_hash=8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9)
+      react:
+        specifier: ^19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: ^19.2.8
+        version: 19.2.8(react@19.2.8)
+      react-server-dom-parcel:
+        specifier: ^19.2.8
+        version: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      tsdown:
+        specifier: ^0.22.14
+        version: 0.22.14(@tsdown/css@0.22.14)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.8.2
+        version: 5.9.3
+
   packages/parcel-transformer:
     dependencies:
       '@cumulo/unplugin':
@@ -277,6 +308,9 @@ importers:
       jiti:
         specifier: ^2.7.0
         version: 2.7.0
+      oxc-parser:
+        specifier: ^0.159.0
+        version: 0.159.0
       unplugin:
         specifier: ^2.2.0
         version: 2.3.11
@@ -931,8 +965,133 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@oxc-parser/binding-android-arm-eabi@0.159.0':
+    resolution: {integrity: sha512-9/yHxYVeyVzS3CEilO17axbtudUEmySuCL5x4nRz63nld21u4sdxXNhAOLeLCw/c8puAu9RmMb1+FWpq6jJYeQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [android]
+
+  '@oxc-parser/binding-android-arm64@0.159.0':
+    resolution: {integrity: sha512-w9/NlA/feGMweV8DD1yzNwRAgusdGawCxqK+p3bVhDhXDeg8ahIeJxK/iVTOSA8s4dcnRS8hZYumznAFiKMf5Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [android]
+
+  '@oxc-parser/binding-darwin-arm64@0.159.0':
+    resolution: {integrity: sha512-ybQsbjJR9K/vpmUFfpp8mz7gUPVUZRgI4Oci+g0QwKZAh0m5fSzayXvGrrBIIEQwYPa+Q83kvFUluc0RlNZxTg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@oxc-parser/binding-darwin-x64@0.159.0':
+    resolution: {integrity: sha512-J2wQ6NVZGRgnIaw1CHotZPwIqFtLb3Bm/rh5Bsa45/kaeRqYN21IiaSY0CM7HPd49tt5lWkLEgLzWF1RcGY/nw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [darwin]
+
+  '@oxc-parser/binding-freebsd-x64@0.159.0':
+    resolution: {integrity: sha512-2m2Ei566aZdgHw1lpdEsYFJyvfTfMfYqZa7FqYSdLAsatNI4uj1G7dt9TuRKzSC8sd870MvIK2j/jBqHwYRo+g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.159.0':
+    resolution: {integrity: sha512-E2MRPHA/CKm81FU6wOoFbuGt7AoEdQYOjTiUgpNp5UgSFTX8Na5iR986TiG4GXxMaxHiXBMqRF2UXSqrVmUzrQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-arm-musleabihf@0.159.0':
+    resolution: {integrity: sha512-BMJjs3iDvWef8t/FoBdhF7RpyNTk5Zm/6BveT+6JNsl2FK6jy4zG71T8rfJbYEyP9TRJ7jnm8Glb0O6VeJXIrA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm]
+    os: [linux]
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.159.0':
+    resolution: {integrity: sha512-O+kPugGeoMKraX3ItOs0U0d6DvWVcgVf9jA6YaGmEnngJIBdcIU/DFmNlLJwRD+ZuiDl+nAM+C6JZ+cOXGN9wA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-arm64-musl@0.159.0':
+    resolution: {integrity: sha512-7rRQZZZjdr49S7Y550sM2KWTQtLyhz74+l6A8dUgHq0rxqJWt1GHJnZPIVSc5G6dwtPcx39ZUYf8CXmaxIQu3g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-linux-ppc64-gnu@0.159.0':
+    resolution: {integrity: sha512-5PXsuw1HeAPrGHFkoAuWtqKh6spW7s5u/OKORhlr2KMqrROAj3azYg0MfsjWbcSr5VBqnS2sp7aNz88MoEhSQw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ppc64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-riscv64-gnu@0.159.0':
+    resolution: {integrity: sha512-dd8F9Fv+gYN4S2O53vn+JtMrjZLyiwzdzH6u8iC2zrloDtRBLgJRXWWAZ03gCIoEtAmynoIDCl3HvSZD0sSp6Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-riscv64-musl@0.159.0':
+    resolution: {integrity: sha512-JHie9br++hDW7Y5z7Z3HgyUp+ToYzZLQ6r0XY1fdIAoKBDuknKdZh7uR1yxMflv3NzIRwCZk6j0vKiSAYnIuOA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [riscv64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-linux-s390x-gnu@0.159.0':
+    resolution: {integrity: sha512-BMvYKECH7wCb70/2xHF8R94jjIX8zG4n58fLkN9wdjTI079x7FOGPd+Gp5dfQ8ouv2pZJZ5p9wA1Kbm0BYMVYw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [s390x]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-x64-gnu@0.159.0':
+    resolution: {integrity: sha512-dH2vcVJi2sqSd2S51WB/LXyoJKho+TL7UoCDOuMZ+0mggFF9Gf4fjspo89hZnT/KrINBJg3UsGlfogHGHUmQNA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@oxc-parser/binding-linux-x64-musl@0.159.0':
+    resolution: {integrity: sha512-QTuiVVnxBfelO1dokkRh5scfEkodbvpeiXfgnb7N3196/FIiCwVt44UXwnuU3RI2QjdeLQgr7CfN0SJ0UdvfGg==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@oxc-parser/binding-openharmony-arm64@0.159.0':
+    resolution: {integrity: sha512-lropr2CN3zGJ46uEY0AXviiXip6jRo3p7Hr6AqGFZx34EU9j58kWFHM3boqjjbrQkiPRBH/ZsTHolAf6ZehYmw==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@oxc-parser/binding-win32-arm64-msvc@0.159.0':
+    resolution: {integrity: sha512-8Mpnrt5JMCz4YJZsliH2L4LivJ1Go8Z9VEFbjqIHmp7yUO9XMwqqvcetl+uqcBbj9+vTXDLw8GPWhiVLv670fA==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [arm64]
+    os: [win32]
+
+  '@oxc-parser/binding-win32-ia32-msvc@0.159.0':
+    resolution: {integrity: sha512-Rzwjdp1yCMXmBvf3/L6wMg2JnkRF7lLacSHvq7NwKMYD6gNwsdwnQrotnY3CCDyng7C2b0GKA9TtrN321LoU4w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [ia32]
+    os: [win32]
+
+  '@oxc-parser/binding-win32-x64-msvc@0.159.0':
+    resolution: {integrity: sha512-cZIw4RN4DvSdFONNCbR3PR7vvfviFnlbU6pflZFXH9ll/fuaPkgcXrQq3DLISmDnZ3E3Vly9zHmIdJgjsD+W0w==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    cpu: [x64]
+    os: [win32]
+
   '@oxc-project/types@0.144.0':
     resolution: {integrity: sha512-nuhZIOLuI6TFQ32I/WnUx+SCPY7SdSKwgnFHydAuoS1+Z4BRcaP+RRJmGzl9lw+0OFF7UmaESf7KQRXaNLHypg==}
+
+  '@oxc-project/types@0.159.0':
+    resolution: {integrity: sha512-QWjWhxheluOJ82kDHNyps00UvRpQCtI34B5A/SzpgQycUD/79FuvT4I0aQIfE/bdPwKmX4QPftnywFBH6FxJhQ==}
 
   '@oxfmt/binding-android-arm-eabi@0.75.0':
     resolution: {integrity: sha512-zHJ7LcTN46/5mtoLxsUu14pdF9ixFwDURtmxZ0CeNwqom5qB5NRVqU6o2GRZ7QPdNBW8G6j9UTJzQ+EDevMH0w==}
@@ -1415,10 +1574,6 @@ packages:
     resolution: {integrity: sha512-A9j60G9OmbTkEeE4WRMXCiErEprHLs9NkUlC4HXCxmSrPMOVaMaMva2LdejE3A9kujZqYtYfuc8+a+jN+Nro4w==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
 
-  '@parcel/packager-react-static@2.16.4':
-    resolution: {integrity: sha512-uUtgzUU1ZW9cRCHpSJ9fnN0oHjVeXKBi4P9BxZCCndqUYiaS/kb/fK/82uk2ZLvJydM5+5ECwV7a0kc9RlOVvA==}
-    engines: {node: '>= 16.0.0', parcel: ^2.16.4}
-
   '@parcel/packager-svg@2.16.4':
     resolution: {integrity: sha512-LT9l7eInFrAZJ6w3mYzAUgDq3SIzYbbQyW46Dz26M9lJQbf6uCaATUTac3BEHegW0ikDuw4OOGHK41BVqeeusg==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
@@ -1426,6 +1581,50 @@ packages:
   '@parcel/packager-wasm@2.16.4':
     resolution: {integrity: sha512-AY96Aqu/RpmaSZK2RGkIrZWjAperDw8DAlxLAiaP1D/RPVnikZtl5BmcUt/Wz3PrzG7/q9ZVqqKkWsLmhkjXZQ==}
     engines: {node: '>=16.0.0', parcel: ^2.16.4}
+
+  '@parcel/parcel3-darwin-arm64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-RFRnqTNDR7VSK2jw0XnYlNBZngaj8Q9OLLW7Wx7uUTgWDBMO3xcO/4SrVZIO1sBifD17Y+H8R8avjlpGD+S/mg==}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@parcel/parcel3-darwin-x64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-lGLIS8SLmNSCJSMK3j49DeW/8HYP9vIEiesiu2wlf61kyZ9XY93VzeV3a0ZRDmxZ906GH5ul3QZ73osKSRyyew==}
+    cpu: [x64]
+    os: [darwin]
+
+  '@parcel/parcel3-linux-arm64-musl@3.0.0-alpha.3':
+    resolution: {integrity: sha512-cwQQOQPC5Y2sXKCVMs4oazgSkVaqV7/jkGPxEEI6cqqWM0pmgKIGdV7ek3MFIlkYuGh+9lDFU/nwXaSb4uN5uQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [musl]
+
+  '@parcel/parcel3-linux-arm64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-fSOvytq/MjmxMGSPIePeEWMwTGxL6ZU4YxWIxLZkdTggb4svDP3cvlANtk52yiQWRKCZ32FPtApAaW2U/Kk0yQ==}
+    cpu: [arm64]
+    os: [linux]
+    libc: [glibc]
+
+  '@parcel/parcel3-linux-x64-musl@3.0.0-alpha.3':
+    resolution: {integrity: sha512-TjI/P26JiO5y07VGCX+HrghFUJNina1Vr/WXVpSmD2tQnEUKGnECosuYBKJMLe515C+XloSPo3+9e/AkM4Mp2w==}
+    cpu: [x64]
+    os: [linux]
+    libc: [musl]
+
+  '@parcel/parcel3-linux-x64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-BiRU/O8GYbRRuLkHhjNjQhu5eOQ3yC4tQpG+WzImONK2sJG0bI1JPOPVie/+W7ons2kXB8lPjh1SRj25+KaKAg==}
+    cpu: [x64]
+    os: [linux]
+    libc: [glibc]
+
+  '@parcel/parcel3-win32-arm64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-oT+pjQZQ10NVyc0GJ1VTgx76VRKLR0qDXh1ess41Ral7q/HvcJF4KiUkqsxLwUCPbFuLku5RtsgS5vFkqbfloA==}
+    cpu: [arm64]
+    os: [win32]
+
+  '@parcel/parcel3-win32-x64@3.0.0-alpha.3':
+    resolution: {integrity: sha512-QhkS4O/0Mo7vyMR6XI/RIp5yJyj3s7TflBWdX+U7BdJ5UuAVR+hpCIUJQq654mL5/kSBieXq//iiU/3HTE3RIg==}
+    cpu: [x64]
+    os: [win32]
 
   '@parcel/plugin@2.16.4':
     resolution: {integrity: sha512-aN2VQoRGC1eB41ZCDbPR/Sp0yKOxe31oemzPx1nJzOuebK2Q6FxSrJ9Bjj9j/YCaLzDtPwelsuLOazzVpXJ6qg==}
@@ -1453,8 +1652,8 @@ packages:
     peerDependencies:
       '@parcel/core': '*'
 
-  '@parcel/rsc@2.16.4':
-    resolution: {integrity: sha512-mu5qk7Hbdzwf1tgkm5VDwqeH94IHV7t839amfLZkvcgQT7QWVitV+hctKlDC77EQq4z4hrfa3X7lQtoFekQP1A==}
+  '@parcel/rsc@3.0.0-alpha.3':
+    resolution: {integrity: sha512-LNaehsNrp9H2DKVW+Ig7W6Cvb3WnmTZeMotwaydt6xQBDjTjcr8q/Cr94BPPKpWKWIbhG0OuzMElP5Xnu4pKPw==}
     peerDependencies:
       react: ^19.1.0
       react-dom: ^19.1.0
@@ -1558,10 +1757,6 @@ packages:
     peerDependencies:
       '@parcel/core': ^2.16.4
 
-  '@parcel/transformer-inline-string@2.16.4':
-    resolution: {integrity: sha512-Kr5YZbN3xeb3asvle9+Nso/Tqxy0I/mdV2oQC30NuVVP+PXbOD4fC24QtORyt0V1UX93KqgmXKl7G75767FcVg==}
-    engines: {node: '>= 16.0.0', parcel: ^2.16.4}
-
   '@parcel/transformer-js@2.16.4':
     resolution: {integrity: sha512-FD2fdO6URwAGBPidb3x1dDgLBt972mko0LelcSU05aC/pcKaV9mbCtINbPul1MlStzkxDelhuImcCYIyerheVQ==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
@@ -1590,10 +1785,6 @@ packages:
 
   '@parcel/transformer-react-refresh-wrap@2.16.4':
     resolution: {integrity: sha512-MiLNZrsGQJTANKKa4lzZyUbGj/en0Hms474mMdQkCBFg6GmjfmXwaMMgtTfPA3ZwSp2+3LeObCyca/f9B2gBZQ==}
-    engines: {node: '>= 16.0.0', parcel: ^2.16.4}
-
-  '@parcel/transformer-react-static@2.16.4':
-    resolution: {integrity: sha512-6TJX7//0vs8kS0w11CpWUUdVo7C+vWdcpI1qSpUm6IWE9OfB1Z7lQ5wo5GdRqsGCkKXEc/A3COfajeIqSjfZ/w==}
     engines: {node: '>= 16.0.0', parcel: ^2.16.4}
 
   '@parcel/transformer-svg@2.16.4':
@@ -1708,18 +1899,25 @@ packages:
   '@quansync/fs@1.0.0':
     resolution: {integrity: sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ==}
 
-  '@renr/parcel-reporter-docgen@0.1.0-beta.9':
-    resolution: {integrity: sha512-RomE5N0NTl3IWovRkL4mRlM5kkt1IfbpngC5vBTe4L5zV/1P9f0lC6se78z8zBOj68HK6RHot09GgtFwRDvFqQ==}
-
-  '@renr/parcel-reporter-rsc-router@1.0.0-beta.19':
-    resolution: {integrity: sha512-2h0i0U1qIQk6929p+JNySf4s02BAyAgeLLc1f7O4/CTO514Iae7YdKsbZFeMHIRMves4/aTX++Oo1E/kaZTcdw==}
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-plugin-rsc-router':
+    resolution: {gitHosted: true, integrity: sha512-Mf5QbpHBeY+zI0Aus4AbdR24g0f5knauZ1WyDhQPzg3AjiOl5A7EW3D1PG+HXiSHAIJPus0C3pxWh7hvJ4SOQQ==, path: packages/parcel-plugin-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994}
+    version: 1.0.0-beta.19
+    engines: {parcel: ^3.0.0-alpha.3}
+    hasBin: true
     peerDependencies:
-      '@renr/parcel-rsc-router': 1.0.0-beta.11
+      '@renr/parcel-rsc-router': workspace:*
 
-  '@renr/parcel-rsc-router@1.0.0-beta.12':
-    resolution: {integrity: sha512-Ms3znXW+qWuSmR1xeLMUMwnct3iDvVP1zKCm3L2TLf9qRBocbbdItgVhzcCAGxJNnfJLTnw/Yvrr3S8j860Ezg==}
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-reporter-docgen':
+    resolution: {gitHosted: true, integrity: sha512-Mf5QbpHBeY+zI0Aus4AbdR24g0f5knauZ1WyDhQPzg3AjiOl5A7EW3D1PG+HXiSHAIJPus0C3pxWh7hvJ4SOQQ==, path: packages/parcel-reporter-docgen, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994}
+    version: 0.1.0-beta.10
+    engines: {parcel: ^3.0.0-alpha.3}
+    hasBin: true
+
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-rsc-router':
+    resolution: {gitHosted: true, integrity: sha512-Mf5QbpHBeY+zI0Aus4AbdR24g0f5knauZ1WyDhQPzg3AjiOl5A7EW3D1PG+HXiSHAIJPus0C3pxWh7hvJ4SOQQ==, path: packages/parcel-rsc-router, tarball: https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994}
+    version: 1.0.0-beta.12
     peerDependencies:
-      '@parcel/rsc': ^2
+      '@parcel/rsc': ^3.0.0-alpha.3
       react: ^19
       react-server-dom-parcel: ^19
 
@@ -2713,14 +2911,6 @@ packages:
   decimal.js@10.6.0:
     resolution: {integrity: sha512-YpgQiITW3JXGntzdUmyUR1V812Hn8T1YVXhCu+wO3OpS4eU9l4YdD3qjyiKdV6mvV29zapkMeD390UVEf2lkUg==}
 
-  dedent@1.7.2:
-    resolution: {integrity: sha512-WzMx3mW98SN+zn3hgemf4OzdmyNhhhKz5Ay0pUfQiMQ3e1g+xmTJWp/pKdwKVXhdSkAEGIIzqeuWrL3mV/AXbA==}
-    peerDependencies:
-      babel-plugin-macros: ^3.1.0
-    peerDependenciesMeta:
-      babel-plugin-macros:
-        optional: true
-
   deepmerge@4.3.1:
     resolution: {integrity: sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==}
     engines: {node: '>=0.10.0'}
@@ -3253,6 +3443,10 @@ packages:
   ordered-binary@1.6.1:
     resolution: {integrity: sha512-QkCdPooczexPLiXIrbVOPYkR3VO3T6v2OyKRkR1Xbhpy7/LAVXwahnRCgRp78Oe/Ehf0C/HATAxfSr6eA1oX+w==}
 
+  oxc-parser@0.159.0:
+    resolution: {integrity: sha512-Z1OaHU1EeTtobDHlYOAijfCTZr13PpWs/ZvwbJHaz5zOHfV6fLSmYZwB6klE8cggz51syi8HmLikHju0orJr4g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+
   oxfmt@0.75.0:
     resolution: {integrity: sha512-/ZKvY5asfsVi9hdkOmRIumqOPu6kxlTgiJSZf54uq29kKew+Gu1FFAnEkGePyvLVW+MAYu41D6XggnzoElQzPw==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -3304,6 +3498,11 @@ packages:
   parcel@2.16.4:
     resolution: {integrity: sha512-RQlrqs4ujYNJpTQi+dITqPKNhRWEqpjPd1YBcGp50Wy3FcJHpwu0/iRm7XWz2dKU/Bwp2qCcVYPIeEDYi2uOUw==}
     engines: {node: '>= 16.0.0'}
+    hasBin: true
+
+  parcel@3.0.0-alpha.3:
+    resolution: {integrity: sha512-XTbBrkke2N3GG0YlRoosSkoho1OBw734bLHt43R2jYYCV5KSoiOu+bP2/hTPed54ULSYADvNI97MxRF8H4QExw==}
+    engines: {node: '>= 18'}
     hasBin: true
 
   parse5@8.0.1:
@@ -4434,7 +4633,66 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.4.6':
     optional: true
 
+  '@oxc-parser/binding-android-arm-eabi@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-android-arm64@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-darwin-arm64@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-darwin-x64@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-freebsd-x64@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm-gnueabihf@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm-musleabihf@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-gnu@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-arm64-musl@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-ppc64-gnu@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-riscv64-gnu@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-riscv64-musl@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-s390x-gnu@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-gnu@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-linux-x64-musl@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-openharmony-arm64@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-arm64-msvc@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-ia32-msvc@0.159.0':
+    optional: true
+
+  '@oxc-parser/binding-win32-x64-msvc@0.159.0':
+    optional: true
+
   '@oxc-project/types@0.144.0': {}
+
+  '@oxc-project/types@0.159.0': {}
 
   '@oxfmt/binding-android-arm-eabi@0.75.0':
     optional: true
@@ -4883,19 +5141,6 @@ snapshots:
       - '@parcel/core'
       - napi-wasm
 
-  '@parcel/packager-react-static@2.16.4(patch_hash=65fc65855351d657832665b1e34175388a5633a68b81e7f5284717ac64d6d35f)(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
-    dependencies:
-      '@parcel/node-resolver-core': 3.7.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/rust': 2.16.4
-      '@parcel/types': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@parcel/utils': 2.16.4
-      nullthrows: 1.1.1
-      rsc-html-stream: 0.0.6
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
   '@parcel/packager-svg@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
@@ -4912,6 +5157,30 @@ snapshots:
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
+
+  '@parcel/parcel3-darwin-arm64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-darwin-x64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-arm64-musl@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-arm64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-x64-musl@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-linux-x64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-win32-arm64@3.0.0-alpha.3':
+    optional: true
+
+  '@parcel/parcel3-win32-x64@3.0.0-alpha.3':
+    optional: true
 
   '@parcel/plugin@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
@@ -4966,7 +5235,7 @@ snapshots:
     transitivePeerDependencies:
       - napi-wasm
 
-  '@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -5095,13 +5364,6 @@ snapshots:
     transitivePeerDependencies:
       - napi-wasm
 
-  '@parcel/transformer-inline-string@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
-    dependencies:
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
   '@parcel/transformer-js@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
     dependencies:
       '@parcel/core': 2.16.4(@swc/helpers@0.5.23)
@@ -5169,13 +5431,6 @@ snapshots:
       '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
       '@parcel/utils': 2.16.4
       react-refresh: 0.16.0
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - napi-wasm
-
-  '@parcel/transformer-react-static@2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
-    dependencies:
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
     transitivePeerDependencies:
       - '@parcel/core'
       - napi-wasm
@@ -5293,38 +5548,25 @@ snapshots:
     dependencies:
       quansync: 1.0.0
 
-  '@renr/parcel-reporter-docgen@0.1.0-beta.9(@parcel/core@2.16.4(@swc/helpers@0.5.23))':
+  '@renr/parcel-plugin-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-plugin-rsc-router(@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
     dependencies:
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      dedent: 1.7.2
-      react-docgen-typescript: 2.4.0(@typescript/typescript6@6.0.2)
-      tinyglobby: 0.2.17
-      typescript: '@typescript/typescript6@6.0.2'
-    transitivePeerDependencies:
-      - '@parcel/core'
-      - babel-plugin-macros
-      - napi-wasm
-
-  '@renr/parcel-reporter-rsc-router@1.0.0-beta.19(@parcel/core@2.16.4(@swc/helpers@0.5.23))(@renr/parcel-rsc-router@1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8))':
-    dependencies:
-      '@parcel/diagnostic': 2.16.4
-      '@parcel/plugin': 2.16.4(@parcel/core@2.16.4(@swc/helpers@0.5.23))
-      '@renr/parcel-rsc-router': 1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
-      dedent: 1.7.2
+      '@renr/parcel-rsc-router': https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
       oxfmt: 0.75.0
       tinyglobby: 0.2.17
     transitivePeerDependencies:
       - '@astrojs/compiler-rs'
-      - '@parcel/core'
-      - babel-plugin-macros
-      - napi-wasm
       - svelte
       - vite-plus
 
-  '@renr/parcel-rsc-router@1.0.0-beta.12(@parcel/rsc@2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+  '@renr/parcel-reporter-docgen@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-reporter-docgen':
     dependencies:
-      '@parcel/rsc': 2.16.4(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      react-docgen-typescript: 2.4.0(@typescript/typescript6@6.0.2)
+      tinyglobby: 0.2.17
+      typescript: '@typescript/typescript6@6.0.2'
+
+  '@renr/parcel-rsc-router@https://codeload.github.com/renrizzolo/parcel-rsc-react/tar.gz/6171c8c237e70da53888c09e81c38cced9fb2994#path:packages/parcel-rsc-router(@parcel/rsc@3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react-server-dom-parcel@19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      '@parcel/rsc': 3.0.0-alpha.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       react: 19.2.8
       react-server-dom-parcel: 19.2.8(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
 
@@ -6092,8 +6334,6 @@ snapshots:
 
   decimal.js@10.6.0: {}
 
-  dedent@1.7.2: {}
-
   deepmerge@4.3.1: {}
 
   defu@6.1.7: {}
@@ -6573,6 +6813,30 @@ snapshots:
 
   ordered-binary@1.6.1: {}
 
+  oxc-parser@0.159.0:
+    dependencies:
+      '@oxc-project/types': 0.159.0
+    optionalDependencies:
+      '@oxc-parser/binding-android-arm-eabi': 0.159.0
+      '@oxc-parser/binding-android-arm64': 0.159.0
+      '@oxc-parser/binding-darwin-arm64': 0.159.0
+      '@oxc-parser/binding-darwin-x64': 0.159.0
+      '@oxc-parser/binding-freebsd-x64': 0.159.0
+      '@oxc-parser/binding-linux-arm-gnueabihf': 0.159.0
+      '@oxc-parser/binding-linux-arm-musleabihf': 0.159.0
+      '@oxc-parser/binding-linux-arm64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-arm64-musl': 0.159.0
+      '@oxc-parser/binding-linux-ppc64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-riscv64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-riscv64-musl': 0.159.0
+      '@oxc-parser/binding-linux-s390x-gnu': 0.159.0
+      '@oxc-parser/binding-linux-x64-gnu': 0.159.0
+      '@oxc-parser/binding-linux-x64-musl': 0.159.0
+      '@oxc-parser/binding-openharmony-arm64': 0.159.0
+      '@oxc-parser/binding-win32-arm64-msvc': 0.159.0
+      '@oxc-parser/binding-win32-ia32-msvc': 0.159.0
+      '@oxc-parser/binding-win32-x64-msvc': 0.159.0
+
   oxfmt@0.75.0:
     dependencies:
       tinypool: 2.2.0
@@ -6665,6 +6929,17 @@ snapshots:
     transitivePeerDependencies:
       - '@swc/helpers'
       - napi-wasm
+
+  parcel@3.0.0-alpha.3(patch_hash=8e33efefaa2290469cc436ca4a75117adec29105412405944f861066d5dcd7a9):
+    optionalDependencies:
+      '@parcel/parcel3-darwin-arm64': 3.0.0-alpha.3
+      '@parcel/parcel3-darwin-x64': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-arm64': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-arm64-musl': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-x64': 3.0.0-alpha.3
+      '@parcel/parcel3-linux-x64-musl': 3.0.0-alpha.3
+      '@parcel/parcel3-win32-arm64': 3.0.0-alpha.3
+      '@parcel/parcel3-win32-x64': 3.0.0-alpha.3
 
   parse5@8.0.1:
     dependencies:

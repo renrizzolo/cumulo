@@ -1,6 +1,6 @@
 {
   "name": "Flow",
-  "path": "packages/core/src/components/Flow.tsx",
+  "path": "../../packages/core/src/components/Flow.tsx",
   "fileName": "Flow.tsx",
   "props": {
     "as": {
@@ -22,13 +22,16 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"article\" | \"form\" | \"main\" | \"div\" | \"section\" | \"aside\" | undefined",
+        "raw": "\"article\" | \"aside\" | \"div\" | \"form\" | \"main\" | \"section\" | undefined",
         "value": [
           {
-            "value": "undefined"
+            "value": "\"article\""
           },
           {
-            "value": "\"article\""
+            "value": "\"aside\""
+          },
+          {
+            "value": "\"div\""
           },
           {
             "value": "\"form\""
@@ -37,48 +40,10 @@
             "value": "\"main\""
           },
           {
-            "value": "\"div\""
-          },
-          {
             "value": "\"section\""
           },
           {
-            "value": "\"aside\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "space": {
-      "defaultValue": null,
-      "description": "",
-      "name": "space",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Flow.tsx",
-        "name": "FlowProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Flow.tsx",
-          "name": "FlowProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"md\" | \"lg\" | \"xl\" | undefined",
-        "value": [
-          {
             "value": "undefined"
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xl\""
           }
         ]
       },
@@ -117,6 +82,41 @@
       "required": false,
       "type": {
         "name": "Ref<HTMLElement> | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "space": {
+      "defaultValue": null,
+      "description": "",
+      "name": "space",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+        "name": "FlowProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Flow.tsx",
+          "name": "FlowProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"lg\" | \"md\" | \"xl\" | undefined",
+        "value": [
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
       },
       "shortPropTypeName": null
     }

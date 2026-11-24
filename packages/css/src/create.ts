@@ -1,4 +1,5 @@
 import { hash } from './hash.js';
+import { attachMeta } from './meta.js';
 import { sheet } from './sheet.js';
 import type {
   StyleProperties,
@@ -172,13 +173,16 @@ export function style(rule: StyleRule, prefix = 'c'): CompiledStyle {
 
   sheet.insertRules(cssRules);
 
-  return {
-    className,
-    css,
-    toString() {
-      return this.className;
+  return attachMeta(
+    {
+      className,
+      css,
+      toString() {
+        return this.className;
+      },
     },
-  };
+    { kind: 'style', className },
+  );
 }
 
 /**
@@ -207,11 +211,14 @@ export function create<T extends StyleDefinitions>(
   prefix = 'c',
 ): CompiledStyles<T> {
   const result = {} as Record<keyof T, CompiledStyle>;
+  const entries: Record<string, string> = {};
   for (const key of Object.keys(definitions) as (keyof T)[]) {
     const def = definitions[key];
     if (def) {
-      result[key] = style(def, `${prefix}-${String(key)}`);
+      const compiled = style(def, `${prefix}-${String(key)}`);
+      result[key] = compiled;
+      entries[String(key)] = compiled.className;
     }
   }
-  return result;
+  return attachMeta(result, { kind: 'create', entries });
 }

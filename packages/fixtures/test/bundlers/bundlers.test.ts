@@ -1,10 +1,13 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
 import { describe, it, expect } from 'vitest';
+
 import {
-  buildWithVite,
-  buildWithRollup,
   buildWithEsbuild,
+  buildWithParcel,
+  buildWithRollup,
+  buildWithVite,
   buildWithWebpack,
 } from '../../src/helpers/bundler-builders.js';
 
@@ -45,12 +48,19 @@ function verifyExtractedCss(rawCss: string, bundlerName: string) {
   );
 }
 
+function verifyZeroRuntimeJs(jsContent: string, bundlerName: string) {
+  expect(jsContent.length, `[${bundlerName}] js output missing`).toBeGreaterThan(0);
+  expect(jsContent, `[${bundlerName}] leaked sheet runtime`).not.toContain('__CUMULO_STYLESHEET__');
+  expect(jsContent, `[${bundlerName}] leaked style compiler`).not.toContain('compileStyleRule');
+}
+
 describe('Bundler Integration & CSS Extraction', () => {
   it('Vite extracts valid CSS for all fixture components', async () => {
     const outDir = path.resolve(__dirname, '../.temp/vite');
     const result = await buildWithVite(outDir);
     expect(result.bundlerName).toBe('Vite');
     verifyExtractedCss(result.cssContent, 'Vite');
+    verifyZeroRuntimeJs(result.jsContent, 'Vite');
   }, 20000);
 
   it('Rollup extracts valid CSS for all fixture components', async () => {
@@ -58,6 +68,7 @@ describe('Bundler Integration & CSS Extraction', () => {
     const result = await buildWithRollup(outDir);
     expect(result.bundlerName).toBe('Rollup');
     verifyExtractedCss(result.cssContent, 'Rollup');
+    verifyZeroRuntimeJs(result.jsContent, 'Rollup');
   }, 20000);
 
   it('esbuild extracts valid CSS for all fixture components', async () => {
@@ -65,6 +76,7 @@ describe('Bundler Integration & CSS Extraction', () => {
     const result = await buildWithEsbuild(outDir);
     expect(result.bundlerName).toBe('esbuild');
     verifyExtractedCss(result.cssContent, 'esbuild');
+    verifyZeroRuntimeJs(result.jsContent, 'esbuild');
   }, 20000);
 
   it('Webpack extracts valid CSS for all fixture components', async () => {
@@ -72,5 +84,14 @@ describe('Bundler Integration & CSS Extraction', () => {
     const result = await buildWithWebpack(outDir);
     expect(result.bundlerName).toBe('Webpack');
     verifyExtractedCss(result.cssContent, 'Webpack');
+    verifyZeroRuntimeJs(result.jsContent, 'Webpack');
   }, 20000);
+
+  it('Parcel (v2) extracts valid CSS for all fixture components', async () => {
+    const outDir = path.resolve(__dirname, '../.temp/parcel');
+    const result = await buildWithParcel(outDir);
+    expect(result.bundlerName).toBe('Parcel');
+    verifyExtractedCss(result.cssContent, 'Parcel');
+    verifyZeroRuntimeJs(result.jsContent, 'Parcel');
+  }, 60000);
 });

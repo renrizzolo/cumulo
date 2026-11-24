@@ -1,3 +1,8 @@
+/**
+ * @deprecated Convenience entry only. Import from per-component paths for explicit
+ * RSC boundaries and stable CSS ordering, e.g. '@cumulo/core/components/Button'.
+ * @module
+ */
 export type { ElementProps } from './ElementProps.js';
 
 // Contract

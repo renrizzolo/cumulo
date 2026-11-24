@@ -1,18 +1,27 @@
-import { Code, Divider, Flow, Heading, HStack, Link as CumuloLink, Text } from '@cumulo/core';
+'use server-entry';
+
+import { Code } from '@cumulo/core/components/Code';
+import { Divider } from '@cumulo/core/components/Divider';
+import { Flow } from '@cumulo/core/components/Flow';
+import { Heading } from '@cumulo/core/components/Heading';
+import { Link as CumuloLink } from '@cumulo/core/components/Link';
+import { HStack } from '@cumulo/core/components/Stack';
+import { Text } from '@cumulo/core/components/Text';
 import { textBase } from '@cumulo/core/typography';
 import { style } from '@cumulo/css';
-import React, { type ReactNode } from 'react';
 import type { PageProps } from '@renr/parcel-rsc-router';
+import React, { type ReactNode } from 'react';
+
 import AppLayout, { type DocsLayoutMode, isFullWidthLayout } from '../Layout';
+import { BundlerAlert } from './Alerts';
 import { CodeBlock } from './CodeBlock';
 import { ColorTokens } from './ColorTokens';
 import { ComponentPreview } from './ComponentPreview';
 import { ExternalArrowIcon, GitHubIcon, subtleLinkStyle } from './ExternalLinks';
-import { PropsTable, type DocgenData } from './PropsTable';
-import { BundlerAlert, RscAlert } from './Alerts';
-import { TokenTable } from './TokenTable';
 import { Link } from './Link';
 import { Logo } from './Logo';
+import { PropsTable, type DocgenData } from './PropsTable';
+import { TokenTable } from './TokenTable';
 
 const GITHUB_BLOB_BASE = 'https://github.com/renrizzolo/cumulo/blob/main';
 
@@ -43,7 +52,6 @@ const components = {
   TokenTable,
   PropsTable,
   ComponentPreview,
-  RscAlert,
   BundlerAlert,
 };
 
@@ -241,7 +249,7 @@ function injectComponentSourceLinks(
       {sources.map((source) => (
         <CumuloLink
           key={source.path}
-          href={`${GITHUB_BLOB_BASE}/${source.path}`}
+          href={`${GITHUB_BLOB_BASE}/${source.path.replace(/^(\.\.\/)+/, '')}`}
           external
           variant="plain"
           className={subtleLinkStyle.className}

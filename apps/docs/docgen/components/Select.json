@@ -1,8 +1,28 @@
 {
   "name": "Select.Root",
-  "path": "packages/core/src/components/Select.tsx",
+  "path": "../../packages/core/src/components/Select.tsx",
   "fileName": "Select.tsx",
   "props": {
+    "className": {
+      "defaultValue": null,
+      "description": "",
+      "name": "className",
+      "parent": {
+        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+        "name": "HTMLAttributes"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
+          "name": "HTMLAttributes"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": "string | function"
+    },
     "defaultValue": {
       "defaultValue": null,
       "description": "Initial selected value when uncontrolled (use `\"\"` to select the placeholder option).",
@@ -15,6 +35,168 @@
         {
           "fileName": "cumulo/packages/core/src/components/Select.tsx",
           "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "intent": {
+      "defaultValue": {
+        "value": "default"
+      },
+      "description": "Visual validation intent of the select control.",
+      "name": "intent",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"default\" | \"error\" | \"success\" | undefined",
+        "value": [
+          {
+            "value": "\"default\""
+          },
+          {
+            "value": "\"error\""
+          },
+          {
+            "value": "\"success\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "onValueChange": {
+      "defaultValue": null,
+      "description": "Callback fired when the selected value changes.",
+      "name": "onValueChange",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "((value: T) => void) | undefined"
+      },
+      "shortPropTypeName": "function"
+    },
+    "placeholder": {
+      "defaultValue": null,
+      "description": "Optional placeholder text rendered as a disabled initial `<option value=\"\">`.",
+      "name": "placeholder",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "string | undefined"
+      },
+      "shortPropTypeName": null
+    },
+    "ref": {
+      "defaultValue": null,
+      "description": "",
+      "name": "ref",
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/ElementProps.ts",
+          "name": "TypeLiteral"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "Ref<HTMLSelectElement> | undefined"
+      },
+      "shortPropTypeName": "Union"
+    },
+    "size": {
+      "defaultValue": {
+        "value": "md"
+      },
+      "description": "Height and typography scale of the select control.",
+      "name": "size",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/components/Select.tsx",
+        "name": "SelectProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/components/Select.tsx",
+          "name": "SelectProps"
+        }
+      ],
+      "required": false,
+      "type": {
+        "name": "enum",
+        "raw": "\"2xs\" | \"inherit\" | \"lg\" | \"md\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+        "value": [
+          {
+            "value": "\"2xs\""
+          },
+          {
+            "value": "\"inherit\""
+          },
+          {
+            "value": "\"lg\""
+          },
+          {
+            "value": "\"md\""
+          },
+          {
+            "value": "\"sm\""
+          },
+          {
+            "value": "\"xl\""
+          },
+          {
+            "value": "\"xs\""
+          },
+          {
+            "value": "undefined"
+          }
+        ]
+      },
+      "shortPropTypeName": null
+    },
+    "value": {
+      "defaultValue": null,
+      "description": "Controlled selected value.",
+      "name": "value",
+      "parent": {
+        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+        "name": "ValueGroupProps"
+      },
+      "declarations": [
+        {
+          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
+          "name": "ValueGroupProps"
         }
       ],
       "required": false,
@@ -42,14 +224,8 @@
       "required": false,
       "type": {
         "name": "enum",
-        "raw": "\"outline\" | \"field\" | \"filled\" | \"ghost\" | undefined",
+        "raw": "\"field\" | \"filled\" | \"ghost\" | \"outline\" | undefined",
         "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"outline\""
-          },
           {
             "value": "\"field\""
           },
@@ -58,192 +234,16 @@
           },
           {
             "value": "\"ghost\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "intent": {
-      "defaultValue": {
-        "value": "default"
-      },
-      "description": "Visual validation intent of the select control.",
-      "name": "intent",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Select.tsx",
-        "name": "SelectProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Select.tsx",
-          "name": "SelectProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"default\" | \"error\" | \"success\" | undefined",
-        "value": [
+          },
+          {
+            "value": "\"outline\""
+          },
           {
             "value": "undefined"
-          },
-          {
-            "value": "\"default\""
-          },
-          {
-            "value": "\"error\""
-          },
-          {
-            "value": "\"success\""
           }
         ]
       },
       "shortPropTypeName": null
-    },
-    "size": {
-      "defaultValue": {
-        "value": "md"
-      },
-      "description": "Height and typography scale of the select control.",
-      "name": "size",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Select.tsx",
-        "name": "SelectProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Select.tsx",
-          "name": "SelectProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "enum",
-        "raw": "\"inherit\" | \"2xs\" | \"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\" | undefined",
-        "value": [
-          {
-            "value": "undefined"
-          },
-          {
-            "value": "\"inherit\""
-          },
-          {
-            "value": "\"2xs\""
-          },
-          {
-            "value": "\"sm\""
-          },
-          {
-            "value": "\"md\""
-          },
-          {
-            "value": "\"lg\""
-          },
-          {
-            "value": "\"xs\""
-          },
-          {
-            "value": "\"xl\""
-          }
-        ]
-      },
-      "shortPropTypeName": null
-    },
-    "placeholder": {
-      "defaultValue": null,
-      "description": "Optional placeholder text rendered as a disabled initial `<option value=\"\">`.",
-      "name": "placeholder",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/components/Select.tsx",
-        "name": "SelectProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/components/Select.tsx",
-          "name": "SelectProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "className": {
-      "defaultValue": null,
-      "description": "",
-      "name": "className",
-      "parent": {
-        "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-        "name": "HTMLAttributes"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/node_modules/.pnpm/@types+react@19.2.18/node_modules/@types/react/index.d.ts",
-          "name": "HTMLAttributes"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": "string | function"
-    },
-    "ref": {
-      "defaultValue": null,
-      "description": "",
-      "name": "ref",
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/ElementProps.ts",
-          "name": "TypeLiteral"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "Ref<HTMLSelectElement> | undefined"
-      },
-      "shortPropTypeName": "Union"
-    },
-    "value": {
-      "defaultValue": null,
-      "description": "Controlled selected value.",
-      "name": "value",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-        "name": "ValueGroupProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-          "name": "ValueGroupProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "string | undefined"
-      },
-      "shortPropTypeName": null
-    },
-    "onValueChange": {
-      "defaultValue": null,
-      "description": "Callback fired when the selected value changes.",
-      "name": "onValueChange",
-      "parent": {
-        "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-        "name": "ValueGroupProps"
-      },
-      "declarations": [
-        {
-          "fileName": "cumulo/packages/core/src/hooks/useValueGroup.ts",
-          "name": "ValueGroupProps"
-        }
-      ],
-      "required": false,
-      "type": {
-        "name": "((value: T) => void) | undefined"
-      },
-      "shortPropTypeName": "function"
     }
   },
   "subcomponents": {
