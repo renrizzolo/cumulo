@@ -102,13 +102,36 @@ export function compileStyleRule(
     }
   }
 
+  // Handle @starting-style on base rule
+  if (rule['@starting-style']) {
+    const startingDecls = serializeProperties(rule['@starting-style']);
+    if (startingDecls) {
+      cssRules.push(`@starting-style{.${className}{${startingDecls}}}`);
+    }
+  }
+
   // Handle selectors map
   if (rule.selectors) {
     for (const [selectorPattern, subProps] of Object.entries(rule.selectors)) {
+      const selector = selectorPattern.replace(/&/g, `.${className}`);
       const decls = serializeProperties(subProps);
       if (decls) {
-        const selector = selectorPattern.replace(/&/g, `.${className}`);
         cssRules.push(`${selector}{${decls}}`);
+      }
+      if (subProps['@starting-style']) {
+        const startingDecls = serializeProperties(subProps['@starting-style']);
+        if (startingDecls) {
+          cssRules.push(`@starting-style{${selector}{${startingDecls}}}`);
+        }
+      }
+      if (subProps['@media']) {
+        for (const [query, mediaProps] of Object.entries(subProps['@media'])) {
+          const mediaDecls = serializeProperties(mediaProps);
+          if (mediaDecls) {
+            const cleanQuery = query.startsWith('@media') ? query : `@media ${query}`;
+            cssRules.push(`${cleanQuery}{${selector}{${mediaDecls}}}`);
+          }
+        }
       }
     }
   }

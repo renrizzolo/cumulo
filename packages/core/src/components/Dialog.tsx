@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  createThemeContract,
-  keyframes,
-  recipe,
-  style,
-  cx,
-  type RecipeVariants,
-} from '@cumulo/css';
+import { createThemeContract, recipe, style, cx, type RecipeVariants } from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -186,46 +179,6 @@ function DialogTrigger({
  * DialogContent
  * -----------------------------------------------------------------------------------------------*/
 
-const dialogFadeIn = keyframes(
-  {
-    from: { opacity: 0, transform: 'scale(0.97)' },
-    to: { opacity: 1, transform: 'scale(1)' },
-  },
-  'dialog-fade-in',
-);
-
-const dialogSlideFromBottom = keyframes(
-  {
-    from: { transform: 'translateY(100%)' },
-    to: { transform: 'translateY(0)' },
-  },
-  'dialog-slide-bottom',
-);
-
-const dialogSlideFromRight = keyframes(
-  {
-    from: { transform: 'translateX(100%)' },
-    to: { transform: 'translateX(0)' },
-  },
-  'dialog-slide-right',
-);
-
-const dialogSlideFromLeft = keyframes(
-  {
-    from: { transform: 'translateX(-100%)' },
-    to: { transform: 'translateX(0)' },
-  },
-  'dialog-slide-left',
-);
-
-const backdropFadeIn = keyframes(
-  {
-    from: { opacity: 0 },
-    to: { opacity: 1 },
-  },
-  'dialog-backdrop-fade-in',
-);
-
 const dialogContract = createThemeContract(
   {
     duration: null,
@@ -249,17 +202,30 @@ const dialogRecipe = recipe(
       outline: 'none',
       overflowY: 'auto',
       gap: vars.spacing.md,
+      transition: `opacity ${dialogContract.duration} ${vars.ease.default}, transform ${dialogContract.duration} ${vars.ease.default}, overlay ${dialogContract.duration} ${vars.ease.default} allow-discrete, display ${dialogContract.duration} ${vars.ease.default} allow-discrete`,
       selectors: {
         '&[open]': {
           display: 'flex',
           flexDirection: 'column',
+          opacity: 1,
+          transform: 'translate3d(0, 0, 0) scale(1)',
         },
         '&::backdrop': {
           backgroundColor: `color-mix(in oklch, ${vars.fg} 35%, transparent)`,
           backdropFilter: 'blur(4px)',
+          opacity: 0,
+          transition: `opacity ${dialogContract.duration} ${vars.ease.default}, overlay ${dialogContract.duration} ${vars.ease.default} allow-discrete, display ${dialogContract.duration} ${vars.ease.default} allow-discrete`,
+          '@media': {
+            '(prefers-reduced-motion: reduce)': {
+              transition: 'none',
+            },
+          },
         },
         '&[open]::backdrop': {
-          animation: `${backdropFadeIn.name} ${dialogContract.duration} ${vars.ease.default}`,
+          opacity: 1,
+          '@starting-style': {
+            opacity: 0,
+          },
         },
       },
       '@media': {
@@ -267,7 +233,7 @@ const dialogRecipe = recipe(
           ...dialogContract.$set({
             duration: '0ms',
           }),
-          animation: 'none',
+          transition: 'none',
         },
       },
     },
@@ -278,7 +244,16 @@ const dialogRecipe = recipe(
           borderWidth: 1,
           borderRadius: vars.radius.xl,
           maxHeight: 'calc(100dvh - 4rem)',
-          animation: `${dialogFadeIn.name} ${dialogContract.duration} ${vars.ease.default}`,
+          opacity: 0,
+          transform: 'scale(0.97)',
+          selectors: {
+            '&[open]': {
+              '@starting-style': {
+                opacity: 0,
+                transform: 'scale(0.97)',
+              },
+            },
+          },
         },
         bottom: {
           margin: 'auto auto 0 auto',
@@ -293,7 +268,14 @@ const dialogRecipe = recipe(
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
-          animation: `${dialogSlideFromBottom.name} ${dialogContract.duration} ${vars.ease.default}`,
+          transform: 'translateY(100%)',
+          selectors: {
+            '&[open]': {
+              '@starting-style': {
+                transform: 'translateY(100%)',
+              },
+            },
+          },
         },
         right: {
           margin: '0 0 0 auto',
@@ -305,7 +287,14 @@ const dialogRecipe = recipe(
           borderBottomWidth: 0,
           borderLeftWidth: 1,
           borderRadius: 0,
-          animation: `${dialogSlideFromRight.name} ${dialogContract.duration} ${vars.ease.default}`,
+          transform: 'translateX(100%)',
+          selectors: {
+            '&[open]': {
+              '@starting-style': {
+                transform: 'translateX(100%)',
+              },
+            },
+          },
         },
         left: {
           margin: '0 auto 0 0',
@@ -317,7 +306,14 @@ const dialogRecipe = recipe(
           borderBottomWidth: 0,
           borderLeftWidth: 0,
           borderRadius: 0,
-          animation: `${dialogSlideFromLeft.name} ${dialogContract.duration} ${vars.ease.default}`,
+          transform: 'translateX(-100%)',
+          selectors: {
+            '&[open]': {
+              '@starting-style': {
+                transform: 'translateX(-100%)',
+              },
+            },
+          },
         },
       },
       size: {

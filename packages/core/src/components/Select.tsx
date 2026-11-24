@@ -61,6 +61,22 @@ const selectRecipe = recipe(
           boxShadow: vars.shadow['2'],
           fontFamily: vars.font.sans,
           outline: 'none',
+          opacity: 0,
+          transform: 'scale(0.96)',
+          transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}, overlay ${vars.duration.fast} ${vars.ease.default} allow-discrete, display ${vars.duration.fast} ${vars.ease.default} allow-discrete`,
+          '@media': {
+            '(prefers-reduced-motion: reduce)': {
+              transition: 'none',
+            },
+          },
+        },
+        '&:open::picker(select)': {
+          opacity: 1,
+          transform: 'scale(1)',
+          '@starting-style': {
+            opacity: 0,
+            transform: 'scale(0.96)',
+          },
         },
         '& option': {
           marginBlock: vars.spacing['2xs'],

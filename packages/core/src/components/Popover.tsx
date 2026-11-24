@@ -375,9 +375,25 @@ const popoverRecipe = recipe(
       inset: 'auto',
       boxSizing: 'border-box',
       outline: 'none',
+      opacity: 0,
+      transform: 'scale(0.96)',
+      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}, overlay ${vars.duration.fast} ${vars.ease.default} allow-discrete, display ${vars.duration.fast} ${vars.ease.default} allow-discrete`,
       selectors: {
+        '&:popover-open': {
+          opacity: 1,
+          transform: 'scale(1)',
+          '@starting-style': {
+            opacity: 0,
+            transform: 'scale(0.96)',
+          },
+        },
         '&::backdrop': {
           backgroundColor: 'transparent',
+        },
+      },
+      '@media': {
+        '(prefers-reduced-motion: reduce)': {
+          transition: 'none',
         },
       },
       '@supports': {
@@ -420,7 +436,6 @@ const popoverRecipe = recipe(
           pointerEvents: 'none',
           maxWidth: 'max-content',
           zIndex: 1000,
-          transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
         },
       },
       placement: {

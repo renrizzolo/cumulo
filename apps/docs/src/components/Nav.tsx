@@ -13,7 +13,7 @@ import { HStack, VStack } from '@cumulo/core/components/Stack';
 import { Text } from '@cumulo/core/components/Text';
 import * as Tooltip from '@cumulo/core/components/Tooltip';
 import { vars } from '@cumulo/core/contract';
-import { keyframes, style } from '@cumulo/css';
+import { style } from '@cumulo/css';
 import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import React, {
   createContext,
@@ -70,8 +70,15 @@ const mobileNavContainerStyle = style({
       bottom: 0,
       left: 0,
       height: '100dvh',
+      visibility: 'visible',
+      transition: `width ${vars.duration.normal} ${vars.ease.default}, margin ${vars.duration.normal} ${vars.ease.default}, box-shadow ${vars.duration.normal} ${vars.ease.default}, visibility ${vars.duration.normal} ${vars.ease.default} allow-discrete`,
+      '@media': {
+        '(prefers-reduced-motion: reduce)': {
+          transition: 'none',
+        },
+      },
     },
-    '&[data-visually-collapsed="true"]': {
+    '&&[data-visually-collapsed="true"]': {
       visibility: 'hidden',
       pointerEvents: 'none',
     },
@@ -83,28 +90,32 @@ const mobileNavContainerStyle = style({
   },
 });
 
-const fadeIn = keyframes({
-  from: {
-    opacity: 0,
-  },
-  to: {
-    opacity: 1,
-  },
-});
-
 const mobileBackdropStyle = style({
   position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
+  inset: 0,
   backgroundColor: `color-mix(in oklch, ${vars.fg} 25%, transparent)`,
   backdropFilter: `blur(${vars.spacing['2xs']})`,
   zIndex: 35,
-  animation: `${fadeIn.name} ${vars.duration.normal} ${vars.ease.default}`,
+  display: 'none',
+  opacity: 0,
+  pointerEvents: 'none',
+  transition: `opacity ${vars.duration.normal} ${vars.ease.default}, display ${vars.duration.normal} ${vars.ease.default} allow-discrete`,
+  selectors: {
+    '&[data-state="open"]': {
+      display: 'block',
+      opacity: 1,
+      pointerEvents: 'auto',
+      '@starting-style': {
+        opacity: 0,
+      },
+    },
+  },
   '@media': {
     '(min-width: 960px)': {
       display: 'none !important',
+    },
+    '(prefers-reduced-motion: reduce)': {
+      transition: 'none',
     },
   },
 });
@@ -999,13 +1010,12 @@ function MobileSidebarNav(): React.JSX.Element {
 
   return (
     <>
-      {isMobileOpen && (
-        <div
-          className={mobileBackdropStyle.className}
-          onClick={closeMobileNav}
-          aria-hidden="true"
-        />
-      )}
+      <div
+        className={mobileBackdropStyle.className}
+        data-state={isMobileOpen ? 'open' : 'closed'}
+        onClick={closeMobileNav}
+        aria-hidden="true"
+      />
       <Sidebar.Provider
         type="overlay"
         variant="docked"

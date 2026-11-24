@@ -205,7 +205,6 @@ export const menuContentRecipe = recipe(
       inset: 'auto',
       boxSizing: 'border-box',
       outline: 'none',
-      display: 'flex',
       flexDirection: 'column',
       gap: '2px',
       minWidth: '180px',
@@ -219,12 +218,29 @@ export const menuContentRecipe = recipe(
       color: vars.surface.fg,
       boxShadow: vars.shadow['2'],
       zIndex: 50,
+      opacity: 0,
+      transform: 'scale(0.96)',
+      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}, overlay ${vars.duration.fast} ${vars.ease.default} allow-discrete, display ${vars.duration.fast} ${vars.ease.default} allow-discrete`,
       selectors: {
+        '&:popover-open': {
+          display: 'flex',
+          opacity: 1,
+          transform: 'scale(1)',
+          '@starting-style': {
+            opacity: 0,
+            transform: 'scale(0.96)',
+          },
+        },
         '&:not(:popover-open):not([data-state="open"])': {
           display: 'none',
         },
         '&::backdrop': {
           backgroundColor: 'transparent',
+        },
+      },
+      '@media': {
+        '(prefers-reduced-motion: reduce)': {
+          transition: 'none',
         },
       },
       '@supports': {
