@@ -201,12 +201,12 @@ const dialogRecipe = recipe(
       boxSizing: 'border-box',
       outline: 'none',
       overflowY: 'auto',
+      flexDirection: 'column',
       gap: vars.spacing.md,
       transition: `opacity ${dialogContract.duration} ${vars.ease.default}, transform ${dialogContract.duration} ${vars.ease.default}, overlay ${dialogContract.duration} ${vars.ease.default} allow-discrete, display ${dialogContract.duration} ${vars.ease.default} allow-discrete`,
       selectors: {
         '&[open]': {
           display: 'flex',
-          flexDirection: 'column',
           opacity: 1,
           transform: 'translate3d(0, 0, 0) scale(1)',
         },
