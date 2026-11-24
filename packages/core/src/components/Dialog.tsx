@@ -1,6 +1,14 @@
 'use client';
 
-import { createThemeContract, recipe, style, cx, type RecipeVariants } from '@cumulo/css';
+import {
+  createThemeContract,
+  recipe,
+  style,
+  cx,
+  type RecipeFunction,
+  type RecipeVariants,
+  type StyleRule,
+} from '@cumulo/css';
 import React, {
   createContext,
   useContext,
@@ -21,6 +29,7 @@ import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 import { useSwipeDismiss, type SwipeDirection } from '../hooks/useSwipeDismiss.js';
+import { discreteBackdrop, discreteFadeScale, discreteSlide } from '../transitions.js';
 import { Button, type ButtonProps } from './Button.js';
 import { Flow } from './Flow.js';
 import { Heading, type HeadingProps } from './Heading.js';
@@ -186,57 +195,49 @@ const dialogContract = createThemeContract(
   'dialog',
 );
 
-const dialogRecipe = recipe(
+export type DialogPlacement = 'center' | 'bottom' | 'right' | 'left';
+type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
+
+const dialogRecipe: RecipeFunction<{
+  placement: Record<DialogPlacement, StyleRule>;
+  size: Record<DialogSize, StyleRule>;
+}> = recipe(
   {
-    base: {
-      ...dialogContract.$set({
-        duration: vars.duration.normal,
-      }),
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      backgroundColor: vars.surface.bg.DEFAULT,
-      color: vars.surface.fg,
-      boxShadow: vars.shadow['2'],
-      padding: vars.spacing.xl,
-      boxSizing: 'border-box',
-      outline: 'none',
-      overflowY: 'auto',
-      flexDirection: 'column',
-      gap: vars.spacing.md,
-      transition: `opacity ${dialogContract.duration} ${vars.ease.default}, transform ${dialogContract.duration} ${vars.ease.default}, overlay ${dialogContract.duration} ${vars.ease.default} allow-discrete, display ${dialogContract.duration} ${vars.ease.default} allow-discrete`,
-      selectors: {
-        '&[open]': {
-          display: 'flex',
-          opacity: 1,
-          transform: 'translate3d(0, 0, 0) scale(1)',
-        },
-        '&::backdrop': {
-          backgroundColor: `color-mix(in oklch, ${vars.fg} 35%, transparent)`,
-          backdropFilter: 'blur(4px)',
-          opacity: 0,
-          transition: `opacity ${dialogContract.duration} ${vars.ease.default}, overlay ${dialogContract.duration} ${vars.ease.default} allow-discrete, display ${dialogContract.duration} ${vars.ease.default} allow-discrete`,
-          '@media': {
-            '(prefers-reduced-motion: reduce)': {
-              transition: 'none',
-            },
+    base: [
+      discreteBackdrop({ duration: dialogContract.duration }),
+      {
+        ...dialogContract.$set({
+          duration: vars.duration.normal,
+        }),
+        borderStyle: 'solid',
+        borderColor: vars.surface.border,
+        backgroundColor: vars.surface.bg.DEFAULT,
+        color: vars.surface.fg,
+        boxShadow: vars.shadow['2'],
+        padding: vars.spacing.xl,
+        boxSizing: 'border-box',
+        outline: 'none',
+        overflowY: 'auto',
+        flexDirection: 'column',
+        gap: vars.spacing.md,
+        selectors: {
+          '&[open]': {
+            display: 'flex',
+          },
+          '&::backdrop': {
+            backgroundColor: `color-mix(in oklch, ${vars.fg} 35%, transparent)`,
+            backdropFilter: 'blur(4px)',
           },
         },
-        '&[open]::backdrop': {
-          opacity: 1,
-          '@starting-style': {
-            opacity: 0,
+        '@media': {
+          '(prefers-reduced-motion: reduce)': {
+            ...dialogContract.$set({
+              duration: '0ms',
+            }),
           },
         },
       },
-      '@media': {
-        '(prefers-reduced-motion: reduce)': {
-          ...dialogContract.$set({
-            duration: '0ms',
-          }),
-          transition: 'none',
-        },
-      },
-    },
+    ],
     variants: {
       placement: {
         center: {
@@ -244,16 +245,11 @@ const dialogRecipe = recipe(
           borderWidth: 1,
           borderRadius: vars.radius.xl,
           maxHeight: 'calc(100dvh - 4rem)',
-          opacity: 0,
-          transform: 'scale(0.97)',
-          selectors: {
-            '&[open]': {
-              '@starting-style': {
-                opacity: 0,
-                transform: 'scale(0.97)',
-              },
-            },
-          },
+          ...discreteFadeScale({
+            openSelector: '&[open]',
+            duration: dialogContract.duration,
+            scale: 0.97,
+          }),
         },
         bottom: {
           margin: 'auto auto 0 auto',
@@ -268,14 +264,11 @@ const dialogRecipe = recipe(
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
-          transform: 'translateY(100%)',
-          selectors: {
-            '&[open]': {
-              '@starting-style': {
-                transform: 'translateY(100%)',
-              },
-            },
-          },
+          ...discreteSlide({
+            openSelector: '&[open]',
+            from: 'bottom',
+            duration: dialogContract.duration,
+          }),
         },
         right: {
           margin: '0 0 0 auto',
@@ -287,14 +280,11 @@ const dialogRecipe = recipe(
           borderBottomWidth: 0,
           borderLeftWidth: 1,
           borderRadius: 0,
-          transform: 'translateX(100%)',
-          selectors: {
-            '&[open]': {
-              '@starting-style': {
-                transform: 'translateX(100%)',
-              },
-            },
-          },
+          ...discreteSlide({
+            openSelector: '&[open]',
+            from: 'right',
+            duration: dialogContract.duration,
+          }),
         },
         left: {
           margin: '0 auto 0 0',
@@ -306,14 +296,11 @@ const dialogRecipe = recipe(
           borderBottomWidth: 0,
           borderLeftWidth: 0,
           borderRadius: 0,
-          transform: 'translateX(-100%)',
-          selectors: {
-            '&[open]': {
-              '@starting-style': {
-                transform: 'translateX(-100%)',
-              },
-            },
-          },
+          ...discreteSlide({
+            openSelector: '&[open]',
+            from: 'left',
+            duration: dialogContract.duration,
+          }),
         },
       },
       size: {
@@ -378,7 +365,6 @@ const dialogRecipe = recipe(
 );
 
 type DialogVariants = RecipeVariants<typeof dialogRecipe>;
-export type DialogPlacement = NonNullable<DialogVariants['placement']>;
 
 const DialogPlacementContext = createContext<DialogPlacement>('center');
 

@@ -24,6 +24,7 @@ import {
 } from '../hooks/useDismissible.js';
 import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
+import { popoverTransition } from '../transitions.js';
 import { Button, type ButtonProps } from './Button.js';
 
 export type PopoverLevel = 0 | 1 | 2 | 'inherit';
@@ -367,42 +368,29 @@ function PopoverTrigger({
 
 const popoverRecipe = recipe(
   {
-    base: {
-      position: 'fixed',
-      positionArea: 'bottom span-right',
-      positionTryFallbacks: 'flip-block, flip-inline, flip-block flip-inline',
-      margin: 0,
-      inset: 'auto',
-      boxSizing: 'border-box',
-      outline: 'none',
-      opacity: 0,
-      transform: 'scale(0.96)',
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}, overlay ${vars.duration.fast} ${vars.ease.default} allow-discrete, display ${vars.duration.fast} ${vars.ease.default} allow-discrete`,
-      selectors: {
-        '&:popover-open': {
-          opacity: 1,
-          transform: 'scale(1)',
-          '@starting-style': {
-            opacity: 0,
-            transform: 'scale(0.96)',
+    base: [
+      popoverTransition,
+      {
+        position: 'fixed',
+        positionArea: 'bottom span-right',
+        positionTryFallbacks: 'flip-block, flip-inline, flip-block flip-inline',
+        margin: 0,
+        inset: 'auto',
+        boxSizing: 'border-box',
+        outline: 'none',
+        selectors: {
+          '&::backdrop': {
+            backgroundColor: 'transparent',
           },
         },
-        '&::backdrop': {
-          backgroundColor: 'transparent',
+        '@supports': {
+          'not (position-anchor: --a)': {
+            inset: 0,
+            margin: 'auto',
+          },
         },
       },
-      '@media': {
-        '(prefers-reduced-motion: reduce)': {
-          transition: 'none',
-        },
-      },
-      '@supports': {
-        'not (position-anchor: --a)': {
-          inset: 0,
-          margin: 'auto',
-        },
-      },
-    },
+    ],
     variants: {
       variant: {
         popover: {

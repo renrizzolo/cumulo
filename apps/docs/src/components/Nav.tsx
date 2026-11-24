@@ -13,6 +13,7 @@ import { HStack, VStack } from '@cumulo/core/components/Stack';
 import { Text } from '@cumulo/core/components/Text';
 import * as Tooltip from '@cumulo/core/components/Tooltip';
 import { vars } from '@cumulo/core/contract';
+import { discreteFade } from '@cumulo/core/transitions';
 import { style } from '@cumulo/css';
 import { Link, type RoutePath, type RouteHtml, type PageProps } from '@renr/parcel-rsc-router';
 import React, {
@@ -90,32 +91,32 @@ const mobileNavContainerStyle = style({
   },
 });
 
+const mobileBackdropFade = discreteFade({
+  openSelector: '&[data-state="open"]',
+  duration: vars.duration.normal,
+  topLayer: false,
+});
+
 const mobileBackdropStyle = style({
+  ...mobileBackdropFade,
   position: 'fixed',
   inset: 0,
   backgroundColor: `color-mix(in oklch, ${vars.fg} 25%, transparent)`,
   backdropFilter: `blur(${vars.spacing['2xs']})`,
   zIndex: 35,
   display: 'none',
-  opacity: 0,
   pointerEvents: 'none',
-  transition: `opacity ${vars.duration.normal} ${vars.ease.default}, display ${vars.duration.normal} ${vars.ease.default} allow-discrete`,
   selectors: {
     '&[data-state="open"]': {
+      ...mobileBackdropFade.selectors?.['&[data-state="open"]'],
       display: 'block',
-      opacity: 1,
       pointerEvents: 'auto',
-      '@starting-style': {
-        opacity: 0,
-      },
     },
   },
   '@media': {
+    ...mobileBackdropFade['@media'],
     '(min-width: 960px)': {
       display: 'none !important',
-    },
-    '(prefers-reduced-motion: reduce)': {
-      transition: 'none',
     },
   },
 });

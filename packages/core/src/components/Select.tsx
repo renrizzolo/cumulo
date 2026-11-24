@@ -14,122 +14,110 @@ import {
   type TypedGroup,
 } from '../hooks/useValueGroup.js';
 import { fieldIntentStyles, sizes } from '../intents.js';
+import { selectPickerTransition } from '../transitions.js';
 
 const selectRecipe = recipe(
   {
     extend: [fieldIntentStyles, sizes],
-    base: {
-      display: 'flex',
-      alignItems: 'center',
-      width: '100%',
-      appearance: 'none',
-      fontFamily: vars.font.sans,
-      color: vars.surface.fg,
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      borderRadius: vars.radius.control,
-      outline: 'none',
-      boxSizing: 'border-box',
-      cursor: 'pointer',
-      transition: `all ${vars.duration.fast} ${vars.ease.default}`,
-      ':focus-visible': {
-        borderColor: vars.primary['600'],
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
-      },
-      ':disabled': {
-        opacity: 0.5,
-        cursor: 'not-allowed',
-      },
-      selectors: {
-        '&, &::picker(select)': {
-          appearance: 'base-select',
+    base: [
+      selectPickerTransition,
+      {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        appearance: 'none',
+        fontFamily: vars.font.sans,
+        color: vars.surface.fg,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: vars.surface.border,
+        borderRadius: vars.radius.control,
+        outline: 'none',
+        boxSizing: 'border-box',
+        cursor: 'pointer',
+        transition: `all ${vars.duration.fast} ${vars.ease.default}`,
+        ':focus-visible': {
+          borderColor: vars.primary['600'],
+          boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
         },
-        '&::picker-icon': {
-          display: 'none',
-        },
-        '&::picker(select)': {
-          minWidth: 'anchor-size(self-inline)',
-          marginBlock: vars.spacing['2xs'],
-          padding: vars.spacing['2xs'],
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: vars.surface.border,
-          borderRadius: vars.radius.lg,
-          backgroundColor: vars.surface.bg.DEFAULT,
-          color: vars.surface.fg,
-          boxShadow: vars.shadow['2'],
-          fontFamily: vars.font.sans,
-          outline: 'none',
-          opacity: 0,
-          transform: 'scale(0.96)',
-          transition: `opacity ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}, overlay ${vars.duration.fast} ${vars.ease.default} allow-discrete, display ${vars.duration.fast} ${vars.ease.default} allow-discrete`,
-          '@media': {
-            '(prefers-reduced-motion: reduce)': {
-              transition: 'none',
-            },
-          },
-        },
-        '&:open::picker(select)': {
-          opacity: 1,
-          transform: 'scale(1)',
-          '@starting-style': {
-            opacity: 0,
-            transform: 'scale(0.96)',
-          },
-        },
-        '& option': {
-          marginBlock: vars.spacing['2xs'],
-          display: 'flex',
-          alignItems: 'center',
-          gap: vars.spacing.xs,
-          padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
-          borderRadius: vars.radius.md,
-          color: vars.surface.fg,
-          backgroundColor: 'transparent',
-          fontFamily: vars.font.sans,
-          fontSize: vars.font.size.sm,
-          fontWeight: vars.font.weight.normal,
-          cursor: 'pointer',
-          transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
-        },
-        '& > option:first-child': {
-          marginBlockStart: 0,
-        },
-        '& > option:last-child, & > optgroup:last-child > option:last-child': {
-          marginBlockEnd: 0,
-        },
-        '& option:hover, & option:focus-visible': {
-          backgroundColor: vars.surface.secondary.hover,
-          color: vars.surface.fg,
-          outline: 'none',
-        },
-        '& option:checked': {
-          backgroundColor: vars.surface.secondary.DEFAULT,
-          color: vars.surface.fg,
-          fontWeight: vars.font.weight.semibold,
-        },
-        '& option:disabled': {
+        ':disabled': {
           opacity: 0.5,
           cursor: 'not-allowed',
         },
-        '& option::checkmark': {
-          color: vars.primary['600'],
-          fontWeight: vars.font.weight.bold,
-        },
-        '& optgroup': {
-          fontFamily: vars.font.sans,
-          fontSize: vars.font.size.xs,
-          fontWeight: vars.font.weight.semibold,
-          color: vars.surface.muted,
-          padding: 0,
-        },
-        '& optgroup::before, & optgroup legend': {
-          display: 'block',
-          padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
+        selectors: {
+          '&, &::picker(select)': {
+            appearance: 'base-select',
+          },
+          '&::picker-icon': {
+            display: 'none',
+          },
+          '&::picker(select)': {
+            minWidth: 'anchor-size(self-inline)',
+            marginBlock: vars.spacing['2xs'],
+            padding: vars.spacing['2xs'],
+            borderWidth: 1,
+            borderStyle: 'solid',
+            borderColor: vars.surface.border,
+            borderRadius: vars.radius.lg,
+            backgroundColor: vars.surface.bg.DEFAULT,
+            color: vars.surface.fg,
+            boxShadow: vars.shadow['2'],
+            fontFamily: vars.font.sans,
+            outline: 'none',
+          },
+          '& option': {
+            marginBlock: vars.spacing['2xs'],
+            display: 'flex',
+            alignItems: 'center',
+            gap: vars.spacing.xs,
+            padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+            borderRadius: vars.radius.md,
+            color: vars.surface.fg,
+            backgroundColor: 'transparent',
+            fontFamily: vars.font.sans,
+            fontSize: vars.font.size.sm,
+            fontWeight: vars.font.weight.normal,
+            cursor: 'pointer',
+            transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
+          },
+          '& > option:first-child': {
+            marginBlockStart: 0,
+          },
+          '& > option:last-child, & > optgroup:last-child > option:last-child': {
+            marginBlockEnd: 0,
+          },
+          '& option:hover, & option:focus-visible': {
+            backgroundColor: vars.surface.secondary.hover,
+            color: vars.surface.fg,
+            outline: 'none',
+          },
+          '& option:checked': {
+            backgroundColor: vars.surface.secondary.DEFAULT,
+            color: vars.surface.fg,
+            fontWeight: vars.font.weight.semibold,
+          },
+          '& option:disabled': {
+            opacity: 0.5,
+            cursor: 'not-allowed',
+          },
+          '& option::checkmark': {
+            color: vars.primary['600'],
+            fontWeight: vars.font.weight.bold,
+          },
+          '& optgroup': {
+            fontFamily: vars.font.sans,
+            fontSize: vars.font.size.xs,
+            fontWeight: vars.font.weight.semibold,
+            color: vars.surface.muted,
+            padding: 0,
+          },
+          '& optgroup::before, & optgroup legend': {
+            display: 'block',
+            padding: `${vars.spacing['2xs']} ${vars.spacing.xs}`,
+          },
         },
       },
-    },
+    ],
     variants: {
       variant: {
         field: {},

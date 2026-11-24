@@ -237,6 +237,49 @@ describe('@cumulo/css', () => {
       );
     });
 
+    it('deep-merges overlapping selectors and @starting-style across recipe base rules', () => {
+      const transitionPreset = {
+        opacity: 0,
+        selectors: {
+          '&:popover-open': {
+            opacity: 1,
+            transform: 'scale(1)',
+            '@starting-style': {
+              opacity: 0,
+              transform: 'scale(0.96)',
+            },
+          },
+        },
+      };
+
+      const menu = recipe({
+        base: [
+          transitionPreset,
+          {
+            selectors: {
+              '&:popover-open': {
+                display: 'flex',
+              },
+            },
+          },
+        ],
+        variants: {
+          size: {
+            sm: { padding: 4 },
+          },
+        },
+      });
+
+      const baseClass = menu.classNames.base;
+      const sheetCss = getSheetCss();
+      expect(sheetCss).toContain(
+        `.${baseClass}:popover-open{opacity:1;transform:scale(1);display:flex;}`,
+      );
+      expect(sheetCss).toContain(
+        `@starting-style{.${baseClass}:popover-open{opacity:0;transform:scale(0.96);}}`,
+      );
+    });
+
     it('creates named style mappings with create()', () => {
       const styles = create({
         header: { padding: 12 },
