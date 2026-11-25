@@ -79,8 +79,7 @@ function extractRows(report: VitestBenchReport): BenchRow[] {
     }
   }
 
-  // oxlint-disable-next-line unicorn/no-array-sort -- tsconfig targets ES2022 where Array#toSorted is unavailable
-  return [...rows].sort((a, b) => b.hz - a.hz);
+  return rows.toSorted((a, b) => b.hz - a.hz);
 }
 
 function formatTable(rows: readonly BenchRow[]): string {
