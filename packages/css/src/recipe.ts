@@ -1,7 +1,11 @@
 import { style } from './create.js';
-import { cx } from './cx.js';
 import { attachMeta } from './meta.js';
-import type { RuntimeRecipeCompoundVariant, RuntimeVariantValue } from './runtime.js';
+import {
+  runtimeRecipe,
+  type RuntimeRecipeCompoundVariant,
+  type RuntimeRecipeConfig,
+  type RuntimeVariantValue,
+} from './runtime.js';
 import type { StyleRule } from './types.js';
 
 type VariantDefinitions = Record<string, Record<string, StyleRule>>;
@@ -65,13 +69,6 @@ export interface RecipeFunction<T extends VariantDefinitions = {}> {
 }
 
 export type RecipeVariants<T> = T extends RecipeFunction<infer V> ? VariantSelection<V> : never;
-
-function normalizeValue(value: unknown): string {
-  if (typeof value === 'boolean') {
-    return value ? 'true' : 'false';
-  }
-  return String(value);
-}
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -252,55 +249,7 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
     className: style(cv.style, `${prefix}-cv-${index}`).className,
   }));
 
-  // 6. Zero-runtime resolver
-  const recipeFn = ((props?: VariantSelection<CombinedVariants>) => {
-    const classes: (string | undefined)[] = [baseClassName];
-    const mergedProps: Record<string, unknown> = { ...mergedDefaultVariants };
-    if (props) {
-      for (const [key, val] of Object.entries(props)) {
-        if (val !== undefined) {
-          mergedProps[key] = val;
-        }
-      }
-    }
-
-    for (const variantName of Object.keys(mergedVariants)) {
-      const propValue = mergedProps[variantName];
-      if (propValue !== undefined && propValue !== null) {
-        const normalized = normalizeValue(propValue);
-        const variantClass = compiledVariants[variantName]?.[normalized];
-        if (variantClass) {
-          classes.push(variantClass);
-        }
-      }
-    }
-
-    for (const { variants: cvVariants, className } of compiledCompoundVariants) {
-      const match = Object.entries(cvVariants).every(([key, expectedValue]) => {
-        const actualValue = mergedProps[key];
-        if (actualValue === undefined || actualValue === null) {
-          return false;
-        }
-        return normalizeValue(actualValue) === normalizeValue(expectedValue);
-      });
-
-      if (match) {
-        classes.push(className);
-      }
-    }
-
-    return cx(...classes);
-  }) as RecipeFunction<CombinedVariants>;
-
-  recipeFn.variants = () => Object.keys(mergedVariants);
-  recipeFn.options = options as RecipeOptions<CombinedVariants, unknown>;
-  recipeFn.classNames = {
-    base: baseClassName,
-    variants: compiledVariants as RecipeFunction<CombinedVariants>['classNames']['variants'],
-    compoundVariants:
-      compiledCompoundVariants as RecipeFunction<CombinedVariants>['classNames']['compoundVariants'],
-  };
-
+  // 6. Delegate runtime lookup to runtimeRecipe()
   const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compiledCompoundVariants.map(
     (cv) => {
       const variantsRecord: Record<string, RuntimeVariantValue> = {};
@@ -320,15 +269,21 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
     }
   }
 
+  const runtimeConfig: RuntimeRecipeConfig = {
+    ...(baseClassName !== undefined ? { base: baseClassName } : {}),
+    variants: compiledVariants,
+    ...(runtimeCompoundVariants.length > 0 ? { compoundVariants: runtimeCompoundVariants } : {}),
+    ...(Object.keys(runtimeDefaultVariants).length > 0
+      ? { defaultVariants: runtimeDefaultVariants }
+      : {}),
+  };
+
+  const recipeFn = Object.assign(runtimeRecipe(runtimeConfig), {
+    options: options as RecipeOptions<CombinedVariants, unknown>,
+  }) as unknown as RecipeFunction<CombinedVariants>;
+
   return attachMeta(recipeFn, {
     kind: 'recipe',
-    config: {
-      ...(baseClassName !== undefined ? { base: baseClassName } : {}),
-      variants: compiledVariants,
-      ...(runtimeCompoundVariants.length > 0 ? { compoundVariants: runtimeCompoundVariants } : {}),
-      ...(Object.keys(runtimeDefaultVariants).length > 0
-        ? { defaultVariants: runtimeDefaultVariants }
-        : {}),
-    },
+    config: runtimeConfig,
   });
 }

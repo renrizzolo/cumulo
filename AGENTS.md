@@ -31,7 +31,7 @@ These rules are strictly enforced across all packages in this monorepo (`@cumulo
 - **Never create or import from barrel files** like `src/components/index.ts`, `src/hooks/index.ts`, or `src/tokens/index.ts`.
 - **Direct internal imports**: Internal monorepo files must import directly from target source modules (`import { useFocus } from '../hooks/useFocus.js';`).
 - **No wildcard re-exports**: Do not use `export * from '...'`. Use explicit named exports from canonical package entrypoints (`packages/core/src/index.ts`).
-- **Clean root exports**: Never export private styling utilities (`layout.ts`, `intents.ts`, `typography.ts`) or private recipes from the root entrypoint.
+- **Clean root exports**: Never export private styling utilities (`layout.ts`, `intents.ts`, `transitions.ts`, `typography.ts`) or private recipes from the root entrypoint.
 
 ### React 19 Component Authoring
 

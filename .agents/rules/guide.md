@@ -24,6 +24,7 @@ cumulo/
 │   │       ├── intents.ts     # Shared intent & variant styling utilities
 │   │       ├── layout.ts      # Shared layout CSS helper rules
 │   │       ├── theme.css      # Prebuilt reset (@layer reset) & token variables (@layer base)
+│   │       ├── transitions.ts # Shared CSS discrete-property transition helpers & presets
 │   │       └── typography.ts  # Shared typography CSS helper rules
 │   ├── css/                   # Zero-dependency, type-safe CSS framework (@cumulo/css)
 │   │   └── src/
@@ -51,22 +52,24 @@ cumulo/
 
 ### Component Feature Map (`packages/core/src/components/`)
 
-| Category               | Components                                                                                               | Notes / Key Subcomponents                                                                                                                                           |
-| :--------------------- | :------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Forms & Input**      | `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Slider`, `Label`   | `Field` compound namespace (`Root`, `Input`, `Select`, `Textarea`, `Checkbox`, `Switch`, `Slider`, `Radio`, `RadioGroup`, `Label`, `Error`, `Description`, `Group`) |
-| **Overlays**           | `Dialog`, `Popover`, `Tooltip`, `Menu`                                                                   | Native HTML5 `<dialog>` and `popover="auto"` / `popover="manual"` with CSS Anchor Positioning                                                                       |
-| **App Layout**         | `AppFrame`, `Header`, `Panel`, `Sidebar`, `SideNav`                                                      | Modern responsive frame primitives; `Sidebar` features collapsible levels, toggles, `useSidebar` hook, and top-layer tooltip isolation                              |
-| **Layout & Flow**      | `Stack` (`HStack`, `VStack`), `Grid`, `Container`, `Flow`, `Divider`, `Table`, `List`, `DescriptionList` | Flex/grid layouts, token-aware spacing, and structured list/tabular display                                                                                         |
-| **Navigation & Tabs**  | `Tabs`, `ButtonGroup`, `Link`                                                                            | Roving focus keyboard navigation, accessible tabs with controlled/uncontrolled state, polymorphic `Link`                                                            |
-| **Feedback & Display** | `Surface`, `Card`, `Alert`, `Avatar`, `Badge`, `Button`, `Collapsible`, `Spinner`, `ThemeToggle`         | Polymorphic surfaces, intents (`primary`, `success`, `warning`, `error`, `neutral`, `info`), avatars, alerts, and dark-mode toggles                                 |
-| **Typography**         | `Heading`, `Text`, `Code`, `Kbd`                                                                         | Semantic elements (`h1`–`h6`, `p`, `span`, `code`, `kbd`), variant styles tied to typography tokens                                                                 |
+| Category               | Components                                                                                               | Notes / Key Subcomponents                                                                                                                                                                       |
+| :--------------------- | :------------------------------------------------------------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Forms & Input**      | `Field`, `Input`, `Textarea`, `Select`, `Checkbox`, `Radio`, `RadioGroup`, `Switch`, `Slider`, `Label`   | `Field` compound namespace (`Root`, `Input`, `Select`, `Textarea`, `Checkbox`, `Switch`, `Slider`, `Radio`, `RadioGroup`, `Label`, `Error`, `Description`, `Group`)                             |
+| **Overlays**           | `Dialog`, `Popover`, `Tooltip`, `Menu`                                                                   | Native HTML5 `<dialog>` (`center`/`bottom`/`left`/`right` placements + `Dialog.Handle`) and `popover="auto"` / `popover="manual"` with CSS Anchor Positioning & discrete enter/exit transitions |
+| **App Layout**         | `AppFrame`, `Header`, `Panel`, `Sidebar`, `SideNav`                                                      | Modern responsive frame primitives; `Sidebar` features collapsible levels, toggles, `useSidebar` hook, and top-layer tooltip isolation                                                          |
+| **Layout & Flow**      | `Stack` (`HStack`, `VStack`), `Grid`, `Container`, `Flow`, `Divider`, `Table`, `List`, `DescriptionList` | Flex/grid layouts, token-aware spacing, and structured list/tabular display                                                                                                                     |
+| **Navigation & Tabs**  | `Tabs`, `ButtonGroup`, `Link`                                                                            | Roving focus keyboard navigation, accessible tabs with controlled/uncontrolled state, polymorphic `Link`                                                                                        |
+| **Feedback & Display** | `Surface`, `Card`, `Alert`, `Avatar`, `Badge`, `Button`, `Collapsible`, `Spinner`, `ThemeToggle`         | Polymorphic surfaces, intents (`primary`, `success`, `warning`, `error`, `neutral`, `info`), avatars, alerts, and dark-mode toggles                                                             |
+| **Typography**         | `Heading`, `Text`, `Code`, `Kbd`                                                                         | Semantic elements (`h1`–`h6`, `p`, `span`, `code`, `kbd`), variant styles tied to typography tokens                                                                                             |
 
 ### Headless Hooks Map (`packages/core/src/hooks/`)
 
 - [`useDismissible`](file:///packages/core/src/hooks/useDismissible.ts): Layer-isolated click-outside and Escape key stack dismissal.
+- [`useDrag`](file:///packages/core/src/hooks/useDrag.ts): Pointer-capture drag primitive (`'x' | 'y' | 'both'`, threshold gating, displacement & velocity).
 - [`useFocus`](file:///packages/core/src/hooks/useFocus.ts): Discriminated focus management (`type: 'modality'` for Dialog/Popover traps, `type: 'navigation'` for roving tabIndex / arrow keys).
 - [`useMergeRefs`](file:///packages/core/src/hooks/useMergeRefs.ts): Composes multiple internal and external React 19 refs.
 - [`usePartsRegistry`](file:///packages/core/src/hooks/usePartsRegistry.ts): Coordinates dynamic child component presence within compound parents.
+- [`useSwipeDismiss`](file:///packages/core/src/hooks/useSwipeDismiss.ts): Swipe-to-dismiss gesture hook built on `useDrag` (used by `Dialog.Handle`).
 - [`useValueGroup`](file:///packages/core/src/hooks/useValueGroup.ts): Shared selection state and typed compound factory for `RadioGroup`, `Tabs`, and `ButtonGroup`.
 - [`useTheme`](file:///packages/core/src/theme/useTheme.ts): Controls active theme, color mode (`light`, `dark`, `system`), and resolved mode.
 

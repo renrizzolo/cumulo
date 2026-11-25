@@ -35,7 +35,7 @@
     "dev": "tsdown --watch",
     "build": "tsdown",
     "type-check": "oxlint",
-    "bench": "vitest bench"
+    "bench": "node scripts/update-bench-readme.ts"
   },
   "devDependencies": {
     "csstype": "^3.2.3",

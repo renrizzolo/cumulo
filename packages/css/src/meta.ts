@@ -5,7 +5,7 @@ import type { RuntimeRecipeConfig } from './runtime.js';
  * return values so bundler extractors can serialize them to `@cumulo/css/runtime` directly
  * without duck-typing object shapes.
  */
-export const CUMULO_META_KEY = Symbol.for('__CUMULO_META__');
+export const CUMULO_META_KEY = /* @__PURE__ */ Symbol.for('__CUMULO_META__');
 
 export type CumuloRuntimeMeta =
   | { readonly kind: 'style'; readonly className: string }

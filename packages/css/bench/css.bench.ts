@@ -38,8 +38,8 @@ describe('@cumulo/css benchmarks', () => {
         ':focus-visible': {
           outline: '2px solid blue',
         },
-        selectors: {
-          '@media (min-width: 768px)': {
+        '@media': {
+          '(min-width: 768px)': {
             padding: 24,
             flexDirection: 'row',
           },

@@ -8,7 +8,7 @@ Lightweight, zero-dependency, type-safe CSS framework inspired by StyleX and Van
 - **Ultra-Light Footprint**: ~4.0 kB gzip (~3.5 kB brotli) in production builds.
 - **Compile-Time Extraction**: Extracts static CSS at build time via `@cumulo/unplugin` (Vite, Rollup, Webpack, esbuild, Parcel v2 and v3 via `@cumulo/parcel-transformer` / `@cumulo/parcel-plugin`) with automatic runtime stylesheet fallback.
 - **Lean Runtime Entrypoint**: `@cumulo/css/runtime` (~0.9 kB gzip) is what rewritten modules import in client bundles. It contains no stylesheet registry, hashing, or CSS compiler.
-- **Strictly Type-Safe**: Complete TypeScript types for standard CSS properties, pseudo-classes, pseudo-elements, container queries, and nested media queries.
+- **Strictly Type-Safe**: Complete TypeScript types for standard CSS properties, pseudo-classes, pseudo-elements, container queries, `@starting-style`, and nested media queries.
 - **High-Performance Variant Recipes**: First-class `recipe()` primitive with variant defaults, overrides, compound variants, and recipe inheritance.
 - **Type-Safe Theme Contracts**: `createThemeContract()` and `createTheme()` for guaranteed contract parity across multiple brand themes and color schemes.
 - **Pretty Fast**: Sub-microsecond variant resolution and class merging.
@@ -27,7 +27,7 @@ pnpm add @cumulo/css
 
 ### `style()`
 
-Create atomic, deterministic CSS classes with support for pseudo-classes, pseudo-elements, media queries, and nested selectors:
+Create atomic, deterministic CSS classes with support for pseudo-classes, pseudo-elements, media queries, `@starting-style`, and nested selectors:
 
 ```ts
 import { style } from '@cumulo/css';
@@ -43,8 +43,8 @@ export const buttonStyle = style({
   ':hover': {
     backgroundColor: '#2563eb',
   },
-  selectors: {
-    '@media (max-width: 640px)': {
+  '@media': {
+    '(max-width: 640px)': {
       width: '100%',
     },
   },
@@ -165,16 +165,20 @@ const className = cx(
 
 ## Benchmarks
 
+<!-- benchmarks:start -->
+
 Benchmarked with **Vitest Bench** (`packages/css/bench/css.bench.ts`) on Node 24 (V8).
 
 | Benchmark Test                             |  Operations / sec   | Mean Latency | p99 Latency |  Samples  |
 | :----------------------------------------- | :-----------------: | :----------: | :---------: | :-------: |
-| **`cx` (simple strings)**                  | **5,316,767 ops/s** |  `0.18 µs`   |  `0.40 µs`  | 4,261,705 |
-| **`cx` (mixed conditionals & objects)**    | **3,063,345 ops/s** |  `0.38 µs`   |  `0.79 µs`  | 2,351,092 |
-| **`recipe` (default variants)**            | **1,645,423 ops/s** |  `0.77 µs`   |  `1.54 µs`  | 1,281,340 |
-| **`recipe` (overriding variants)**         | **1,374,801 ops/s** |  `0.84 µs`   |  `1.66 µs`  | 1,176,495 |
-| **`recipe` (compound variant match)**      | **1,084,493 ops/s** |  `1.09 µs`   |  `2.54 µs`  |  898,521  |
-| **`style` (simple atomic)**                |  **615,434 ops/s**  |  `1.83 µs`   |  `3.59 µs`  |  562,666  |
-| **`keyframes` definition**                 |  **219,567 ops/s**  |  `5.61 µs`   | `37.40 µs`  |  178,643  |
-| **`style` (complex with media & pseudos)** |  **150,943 ops/s**  |  `6.99 µs`   | `14.50 µs`  |  142,356  |
-| **`createTheme` instantiation**            |  **76,325 ops/s**   |  `15.09 µs`  | `67.10 µs`  |  66,240   |
+| **`cx` (simple strings)**                  | **9,715,882 ops/s** |  `0.10 µs`   |  `0.20 µs`  | 9,467,659 |
+| **`cx` (mixed conditionals & objects)**    | **3,306,562 ops/s** |  `0.30 µs`   |  `0.50 µs`  | 3,154,459 |
+| **`recipe` (default variants)**            | **2,786,281 ops/s** |  `0.40 µs`   |  `0.50 µs`  | 2,684,062 |
+| **`recipe` (overriding variants)**         | **2,474,152 ops/s** |  `0.40 µs`   |  `0.60 µs`  | 2,398,669 |
+| **`recipe` (compound variant match)**      | **1,947,318 ops/s** |  `0.50 µs`   |  `0.70 µs`  | 1,912,729 |
+| **`style` (simple atomic)**                |  **606,700 ops/s**  |  `1.70 µs`   |  `2.00 µs`  |  595,304  |
+| **`keyframes` definition**                 |  **382,300 ops/s**  |  `2.70 µs`   |  `3.10 µs`  |  376,336  |
+| **`style` (complex with media & pseudos)** |  **159,321 ops/s**  |  `6.40 µs`   |  `7.30 µs`  |  157,079  |
+| **`createTheme` instantiation**            |  **130,330 ops/s**  |  `7.80 µs`   | `11.40 µs`  |  128,421  |
+
+<!-- benchmarks:end -->

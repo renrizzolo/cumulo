@@ -1,6 +1,7 @@
 import { assignVars, createThemeContract, flattenValues, resolvePrefix } from './contract.js';
 import { hash } from './hash.js';
 import { attachMeta } from './meta.js';
+import { runtimeTheme } from './runtime.js';
 import { sheet } from './sheet.js';
 import type {
   NullableTokens,
@@ -39,17 +40,11 @@ export function createTheme<T extends NullableTokens>(
 
   sheet.insertRule(css);
 
-  return attachMeta(
-    {
-      className,
-      vars: flattened,
-      css,
-      toString() {
-        return this.className;
-      },
-    },
-    { kind: 'theme', className, vars: flattened },
-  );
+  return attachMeta(Object.assign(runtimeTheme(className, flattened), { css }), {
+    kind: 'theme',
+    className,
+    vars: flattened,
+  });
 }
 
 /**
