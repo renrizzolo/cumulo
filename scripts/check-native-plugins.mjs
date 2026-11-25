@@ -92,26 +92,33 @@ async function waitForPublished() {
 
   const maxAttempts = 24;
   const intervalMs = 5000;
-  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const pending = [];
-    for (const target of targets) {
-      if (!(await isVisibleInRegistry(target.name, target.version))) {
-        pending.push(`${target.name}@${target.version}`);
-      }
-    }
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  async function poll(attempt) {
+    const results = await Promise.all(
+      targets.map(async (target) => ({
+        label: `${target.name}@${target.version}`,
+        visible: await isVisibleInRegistry(target.name, target.version),
+      })),
+    );
+    const pending = results.filter((r) => !r.visible).map((r) => r.label);
     if (pending.length === 0) {
       console.log('All native plugins are visible on npm; waiting 5s for CDN propagation...');
-      await new Promise((resolve) => setTimeout(resolve, intervalMs));
+      await delay(intervalMs);
       return;
+    }
+    if (attempt >= maxAttempts) {
+      console.error('Timed out waiting for native plugins to appear on npm.');
+      process.exit(1);
     }
     console.log(
       `Attempt ${attempt}/${maxAttempts}: waiting for npm propagation of ${pending.join(', ')}...`,
     );
-    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+    await delay(intervalMs);
+    await poll(attempt + 1);
   }
 
-  console.error('Timed out waiting for native plugins to appear on npm.');
-  process.exit(1);
+  await poll(1);
 }
 
 if (waitMode) {
