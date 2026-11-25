@@ -18,7 +18,7 @@
     "test:watch": "vitest watch",
     "test:browser": "pnpm --filter @cumulo/fixtures exec vitest run --project browser",
     "bench": "vitest bench",
-    "bench:css": "vitest bench packages/css",
+    "bench:css": "pnpm --filter @cumulo/css bench",
     "changeset": "changeset",
     "version": "changeset version",
     "release": "pnpm build && changeset publish"

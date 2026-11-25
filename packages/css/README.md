@@ -165,6 +165,8 @@ const className = cx(
 
 ## Benchmarks
 
+<!-- benchmarks:start -->
+
 Benchmarked with **Vitest Bench** (`packages/css/bench/css.bench.ts`) on Node 24 (V8).
 
 | Benchmark Test                             |  Operations / sec   | Mean Latency | p99 Latency |  Samples  |
@@ -178,3 +180,5 @@ Benchmarked with **Vitest Bench** (`packages/css/bench/css.bench.ts`) on Node 24
 | **`keyframes` definition**                 |  **382,300 ops/s**  |  `2.70 µs`   |  `3.10 µs`  |  376,336  |
 | **`style` (complex with media & pseudos)** |  **159,321 ops/s**  |  `6.40 µs`   |  `7.30 µs`  |  157,079  |
 | **`createTheme` instantiation**            |  **130,330 ops/s**  |  `7.80 µs`   | `11.40 µs`  |  128,421  |
+
+<!-- benchmarks:end -->
