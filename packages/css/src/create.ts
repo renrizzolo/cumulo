@@ -1,5 +1,6 @@
 import { hash } from './hash.js';
 import { attachMeta } from './meta.js';
+import { runtimeStyle } from './runtime.js';
 import { sheet } from './sheet.js';
 import type {
   StyleProperties,
@@ -196,16 +197,7 @@ export function style(rule: StyleRule, prefix = 'c'): CompiledStyle {
 
   sheet.insertRules(cssRules);
 
-  return attachMeta(
-    {
-      className,
-      css,
-      toString() {
-        return this.className;
-      },
-    },
-    { kind: 'style', className },
-  );
+  return attachMeta(Object.assign(runtimeStyle(className), { css }), { kind: 'style', className });
 }
 
 /**
