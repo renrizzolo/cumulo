@@ -156,6 +156,12 @@ const preStyle = style(
 interface ThemeConfig {
   name: string;
   intentStyle: 'solid' | 'pastel' | 'pastel-dark';
+  controlStyle: 'flat' | 'raised' | '3d';
+  borders: {
+    controlWidth: string;
+    fieldWidth: string;
+    surfaceWidth: string;
+  };
   colors: {
     primary: string;
     success: string;
@@ -196,6 +202,12 @@ interface ThemeConfig {
 const DEFAULT_THEME: ThemeConfig = {
   name: 'my-theme',
   intentStyle: 'solid',
+  controlStyle: 'flat',
+  borders: {
+    controlWidth: '1px',
+    fieldWidth: '1px',
+    surfaceWidth: '1px',
+  },
   colors: {
     primary: '#2563eb',
     success: '#009b50',
@@ -237,10 +249,12 @@ interface PresetThemeShape {
   id: string;
   name: string;
   badge: string;
-  config: Partial<Omit<ThemeConfig, 'scales' | 'fonts'>> & {
+  config: Partial<Omit<ThemeConfig, 'scales' | 'fonts' | 'borders'>> & {
     scales?: Partial<ThemeConfig['scales']>;
     fonts?: Partial<ThemeConfig['fonts']>;
+    borders?: Partial<ThemeConfig['borders']>;
     intentStyle?: ThemeConfig['intentStyle'];
+    controlStyle?: ThemeConfig['controlStyle'];
   };
 }
 
@@ -793,6 +807,10 @@ function isIntentStyle(value: unknown): value is ThemeConfig['intentStyle'] {
   return value === 'solid' || value === 'pastel' || value === 'pastel-dark';
 }
 
+function isControlStyle(value: unknown): value is ThemeConfig['controlStyle'] {
+  return value === 'flat' || value === 'raised' || value === '3d';
+}
+
 type ParseThemeResult = { ok: true; theme: ThemeConfig } | { ok: false; error: string };
 
 function parseThemeJson(text: string): ParseThemeResult {
@@ -806,8 +824,20 @@ function parseThemeJson(text: string): ParseThemeResult {
     return { ok: false, error: 'Expected a JSON object exported from the theme builder.' };
   }
   const d = DEFAULT_THEME;
-  const { colors, scales, radii, spacing, fonts } = data;
-  if (![colors, scales, radii, spacing, fonts, data.intentStyle, data.name].some(Boolean)) {
+  const { colors, scales, radii, spacing, fonts, borders } = data;
+  if (
+    ![
+      colors,
+      scales,
+      radii,
+      spacing,
+      fonts,
+      borders,
+      data.intentStyle,
+      data.controlStyle,
+      data.name,
+    ].some(Boolean)
+  ) {
     return { ok: false, error: 'No theme fields found (name, colors, radii, spacing, fonts…).' };
   }
   const chroma = readNumber(scales, 'chroma', d.scales.chroma);
@@ -830,6 +860,12 @@ function parseThemeJson(text: string): ParseThemeResult {
     theme: {
       name: readString(data, 'name', d.name),
       intentStyle: isIntentStyle(data.intentStyle) ? data.intentStyle : d.intentStyle,
+      controlStyle: isControlStyle(data.controlStyle) ? data.controlStyle : d.controlStyle,
+      borders: {
+        controlWidth: readString(borders, 'controlWidth', d.borders.controlWidth),
+        fieldWidth: readString(borders, 'fieldWidth', d.borders.fieldWidth),
+        surfaceWidth: readString(borders, 'surfaceWidth', d.borders.surfaceWidth),
+      },
       colors: {
         primary: readString(colors, 'primary', d.colors.primary),
         success: readString(colors, 'success', d.colors.success),
@@ -1043,6 +1079,11 @@ export function ThemeBuilder(): React.JSX.Element {
       ...theme,
       ...preset.config,
       intentStyle: preset.config.intentStyle ?? 'solid',
+      controlStyle: preset.config.controlStyle ?? 'flat',
+      borders: {
+        ...DEFAULT_THEME.borders,
+        ...preset.config.borders,
+      },
       colors: nextColors,
       scales: {
         chroma: nextChroma,
@@ -1133,6 +1174,75 @@ export function ThemeBuilder(): React.JSX.Element {
   --theme-info-fg: light-dark(#ffffff, var(--theme-info-100));`
           : '';
 
+    const controlStyleOverrides =
+      theme.controlStyle === 'raised'
+        ? `
+
+  /* Control Style: Raised (or set data-control-style="raised" on <html>) */
+  --theme-control-bg-image: linear-gradient(
+    180deg,
+    light-dark(rgb(255 255 255 / 0.18), rgb(255 255 255 / 0.12)) 0%,
+    light-dark(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.16)) 100%
+  );
+  --theme-control-bg-image-hover: linear-gradient(
+    180deg,
+    light-dark(rgb(255 255 255 / 0.24), rgb(255 255 255 / 0.16)) 0%,
+    light-dark(rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.12)) 100%
+  );
+  --theme-control-primary-border: light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.16));
+  --theme-control-secondary-border: var(--theme-border);
+  --theme-control-shadow:
+    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.16)),
+    0 1px 2px light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.45));
+  --theme-control-shadow-hover:
+    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.42), rgb(255 255 255 / 0.2)),
+    0 2px 4px light-dark(rgb(0 0 0 / 0.16), rgb(0 0 0 / 0.55));
+  --theme-control-shadow-active: inset 0 1px 2px light-dark(rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.5));
+  --theme-field-shadow: inset 0 1px 2px light-dark(rgb(0 0 0 / 0.07), rgb(0 0 0 / 0.35));`
+        : theme.controlStyle === '3d'
+          ? `
+
+  /* Control Style: 3D / Tactile (or set data-control-style="3d" on <html>) */
+  --theme-control-bg-image: linear-gradient(
+    180deg,
+    light-dark(rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.14)) 0%,
+    light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.2)) 100%
+  );
+  --theme-control-bg-image-hover: linear-gradient(
+    180deg,
+    light-dark(rgb(255 255 255 / 0.28), rgb(255 255 255 / 0.18)) 0%,
+    light-dark(rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.16)) 100%
+  );
+  --theme-control-primary-border: light-dark(rgb(0 0 0 / 0.2), rgb(255 255 255 / 0.18));
+  --theme-control-secondary-border: var(--theme-border);
+  --theme-control-shadow:
+    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.2)),
+    0 3px 0 light-dark(rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.65)),
+    0 4px 6px var(--shadow-color);
+  --theme-control-shadow-hover:
+    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.24)),
+    0 3px 0 light-dark(rgb(0 0 0 / 0.26), rgb(0 0 0 / 0.72)),
+    0 5px 8px var(--shadow-color);
+  --theme-control-shadow-active:
+    inset 0 1px 2px light-dark(rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.55)),
+    0 1px 0 light-dark(rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.65));
+  --theme-control-active-transform: translateY(2px);
+  --theme-field-shadow: inset 0 2px 3px light-dark(rgb(0 0 0 / 0.09), rgb(0 0 0 / 0.42));`
+          : '';
+
+    const hasCustomBorders =
+      theme.borders.controlWidth !== '1px' ||
+      theme.borders.fieldWidth !== '1px' ||
+      theme.borders.surfaceWidth !== '1px';
+    const borderOverrides = hasCustomBorders
+      ? `
+
+  /* Border Widths */
+  --theme-control-border-width: ${theme.borders.controlWidth};
+  --theme-field-border-width: ${theme.borders.fieldWidth};
+  --surface-stroke-width: ${theme.borders.surfaceWidth};`
+      : '';
+
     const darkScaleOverrides = !theme.scales.sameAsLight
       ? `\n  --theme-chroma-scale-dark: ${theme.scales.chromaDark};\n  --theme-contrast-scale-dark: ${theme.scales.contrastDark};\n  --theme-lightness-offset-dark: ${theme.scales.lightnessDark};`
       : '';
@@ -1148,7 +1258,7 @@ export function ThemeBuilder(): React.JSX.Element {
   /* Palette Tuning */
   --theme-chroma-scale: ${theme.scales.chroma};
   --theme-contrast-scale: ${theme.scales.contrast};
-  --theme-lightness-offset: ${theme.scales.lightness};${darkScaleOverrides}${pastelOverrides}
+  --theme-lightness-offset: ${theme.scales.lightness};${darkScaleOverrides}${pastelOverrides}${controlStyleOverrides}${borderOverrides}
 
   /* Border Radii */
   --theme-radius-control: ${theme.radii.control};
@@ -1224,10 +1334,14 @@ export function ThemeBuilder(): React.JSX.Element {
       RADIUS_PRESETS[Math.floor(Math.random() * RADIUS_PRESETS.length)] ?? RADIUS_PRESETS[2];
     const intentChoices: Array<ThemeConfig['intentStyle']> = ['solid', 'pastel', 'pastel-dark'];
     const randomIntent = intentChoices[Math.floor(Math.random() * intentChoices.length)] ?? 'solid';
+    const controlChoices: Array<ThemeConfig['controlStyle']> = ['flat', 'raised', '3d'];
+    const randomControl =
+      controlChoices[Math.floor(Math.random() * controlChoices.length)] ?? 'flat';
     setLocalColors(nextColors);
     setTheme((prev) => ({
       ...prev,
       intentStyle: randomIntent,
+      controlStyle: randomControl,
       colors: nextColors,
       radii: { ...randomRadius.values },
     }));
@@ -1413,6 +1527,99 @@ export function ThemeBuilder(): React.JSX.Element {
                         <Select.Option value="pastel-dark">Pastel (dark)</Select.Option>
                       </Field.Select>
                     </Field.Root>
+
+                    <Field.Root>
+                      <Field.Label>Control style</Field.Label>
+                      <Field.Select
+                        size="sm"
+                        value={theme.controlStyle}
+                        onValueChange={(val) => {
+                          if (val === 'flat' || val === 'raised' || val === '3d') {
+                            setTheme((prev) => ({ ...prev, controlStyle: val }));
+                          }
+                        }}
+                      >
+                        <Select.Option value="flat">Flat (Default)</Select.Option>
+                        <Select.Option value="raised">Raised</Select.Option>
+                        <Select.Option value="3d">3D / Tactile</Select.Option>
+                      </Field.Select>
+                    </Field.Root>
+
+                    <Collapsible.Root>
+                      <Collapsible.Trigger variant="ghost" size="xs" width="full">
+                        Fine-tune border widths ▾
+                      </Collapsible.Trigger>
+                      <Collapsible.Content>
+                        <VStack gap="md" className={tabContentStyle.className}>
+                          <Field.Root>
+                            <HStack
+                              justify="between"
+                              align="center"
+                              className={fullWidthStyle.className}
+                            >
+                              <Field.Label>Control border</Field.Label>
+                              <Code>{theme.borders.controlWidth}</Code>
+                            </HStack>
+                            <Field.Slider
+                              min={0}
+                              max={3}
+                              step={0.5}
+                              value={parseFloat(theme.borders.controlWidth) || 0}
+                              onValueChange={(val: number) =>
+                                setTheme((prev) => ({
+                                  ...prev,
+                                  borders: { ...prev.borders, controlWidth: `${val}px` },
+                                }))
+                              }
+                            />
+                          </Field.Root>
+                          <Field.Root>
+                            <HStack
+                              justify="between"
+                              align="center"
+                              className={fullWidthStyle.className}
+                            >
+                              <Field.Label>Field border</Field.Label>
+                              <Code>{theme.borders.fieldWidth}</Code>
+                            </HStack>
+                            <Field.Slider
+                              min={0}
+                              max={3}
+                              step={0.5}
+                              value={parseFloat(theme.borders.fieldWidth) || 0}
+                              onValueChange={(val: number) =>
+                                setTheme((prev) => ({
+                                  ...prev,
+                                  borders: { ...prev.borders, fieldWidth: `${val}px` },
+                                }))
+                              }
+                            />
+                          </Field.Root>
+                          <Field.Root>
+                            <HStack
+                              justify="between"
+                              align="center"
+                              className={fullWidthStyle.className}
+                            >
+                              <Field.Label>Surface border</Field.Label>
+                              <Code>{theme.borders.surfaceWidth}</Code>
+                            </HStack>
+                            <Field.Slider
+                              min={0}
+                              max={3}
+                              step={0.5}
+                              value={parseFloat(theme.borders.surfaceWidth) || 0}
+                              onValueChange={(val: number) =>
+                                setTheme((prev) => ({
+                                  ...prev,
+                                  borders: { ...prev.borders, surfaceWidth: `${val}px` },
+                                }))
+                              }
+                            />
+                          </Field.Root>
+                        </VStack>
+                      </Collapsible.Content>
+                    </Collapsible.Root>
 
                     <Divider />
 
@@ -1710,7 +1917,13 @@ export function ThemeBuilder(): React.JSX.Element {
               <VStack gap="xl">
                 {/* Live Theme Scoped Preview Container */}
                 <Surface bordered={false} level={previewSurfaceLevel} padding="lg">
-                  <div data-intent-style={theme.intentStyle} className={fullWidthStyle.className}>
+                  <div
+                    data-intent-style={theme.intentStyle}
+                    data-control-style={
+                      theme.controlStyle === 'flat' ? undefined : theme.controlStyle
+                    }
+                    className={fullWidthStyle.className}
+                  >
                     <VStack gap="xl">
                       <Header
                         size="md"
