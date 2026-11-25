@@ -1,5 +1,11 @@
 # @cumulo/parcel-transformer
 
+## 0.2.0-alpha.3
+
+### Patch Changes
+
+- @cumulo/unplugin@0.2.0-alpha.3
+
 ## 0.2.0-alpha.2
 
 ### Patch Changes
