@@ -1,5 +1,23 @@
 # @cumulo/core
 
+## 0.2.0-alpha.3
+
+### Minor Changes
+
+- 981d8d3: - `@cumulo/css`:
+  - Add support for `@starting-style` rules (both top-level and nested within `selectors`) and selector-nested `@media` rules in `style()` and `recipe()`.
+  - Deep-merge nested rule objects (such as `selectors` and `@starting-style`) when combining `recipe()` `base` arrays and `extend` presets.
+  - `@cumulo/core`:
+    - Add `Dialog` sheet placements (`placement?: 'center' | 'bottom' | 'left' | 'right'`), `Dialog.Handle` drag-to-dismiss subcomponent, and reusable `useDrag` / `useSwipeDismiss` gesture hooks.
+    - Add `@cumulo/core/transitions` (`discreteFade`, `discreteFadeScale`, `discreteSlide`, `discreteBackdrop`, `popoverTransition`, `selectPickerTransition`) with `prefers-reduced-motion: reduce` support.
+    - Add CSS discrete property enter/exit transitions (`allow-discrete` + `@starting-style`) across all `Dialog` placements and `::backdrop`, as well as `Popover`, `Tooltip`, `Menu`, and `Select` picker.
+
+### Patch Changes
+
+- Updated dependencies [7f1708b]
+- Updated dependencies [981d8d3]
+  - @cumulo/css@0.2.0-alpha.3
+
 ## 0.2.0-alpha.2
 
 ### Minor Changes
