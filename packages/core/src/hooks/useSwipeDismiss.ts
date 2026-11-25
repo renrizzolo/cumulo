@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useRef } from 'react';
+
 import { vars } from '../contract.js';
 import { useDrag, type DragAxis, type DragState } from './useDrag.js';
 

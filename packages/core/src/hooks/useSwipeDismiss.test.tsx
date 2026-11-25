@@ -1,7 +1,8 @@
 import '@testing-library/jest-dom/vitest';
+import { render, screen, fireEvent } from '@testing-library/react';
 import React, { useRef } from 'react';
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+
 import { useSwipeDismiss, type SwipeDirection } from './useSwipeDismiss.js';
 
 function SwipeHarness({
