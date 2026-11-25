@@ -16,7 +16,7 @@ export const checkboxRecipe = recipe(
       justifyContent: 'center',
       width: vars.size['2xs'],
       height: vars.size['2xs'],
-      borderRadius: vars.radius.md,
+      borderRadius: `min(${vars.radius.md}, 30%)`,
       borderWidth: vars.control.border.width,
       backgroundColor: vars.surface.bg.DEFAULT,
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
