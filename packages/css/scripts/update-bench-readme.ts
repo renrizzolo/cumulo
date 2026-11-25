@@ -19,6 +19,28 @@ const LABEL_MAP: Readonly<Record<string, string>> = {
   'createTheme instantiation': '**`createTheme` instantiation**',
 };
 
+interface VitestBenchTask {
+  name?: string;
+  latency?: {
+    mean?: number;
+    p99?: number;
+    samplesCount?: number;
+  };
+  throughput?: {
+    mean?: number;
+  };
+}
+
+interface VitestBenchReport {
+  testResults?: Array<{
+    assertionResults?: Array<{
+      benchmarks?: Array<{
+        tasks?: VitestBenchTask[];
+      }>;
+    }>;
+  }>;
+}
+
 interface BenchRow {
   readonly label: string;
   readonly hz: number;
@@ -27,47 +49,30 @@ interface BenchRow {
   readonly samples: number;
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-function extractRows(json: unknown): BenchRow[] {
-  if (!isRecord(json) || !Array.isArray(json.testResults)) {
-    throw new Error('Unexpected Vitest JSON report structure: missing testResults');
-  }
-
+function extractRows(report: VitestBenchReport): BenchRow[] {
   const rows: BenchRow[] = [];
 
-  for (const fileResult of json.testResults) {
-    if (!isRecord(fileResult) || !Array.isArray(fileResult.assertionResults)) continue;
-    for (const assertion of fileResult.assertionResults) {
-      if (!isRecord(assertion) || !Array.isArray(assertion.benchmarks)) continue;
-      for (const group of assertion.benchmarks) {
-        if (!isRecord(group) || !Array.isArray(group.tasks)) continue;
-        for (const task of group.tasks) {
-          if (!isRecord(task) || typeof task.name !== 'string') continue;
-          if (!isRecord(task.latency) || !isRecord(task.throughput)) continue;
-
-          const hz = task.throughput.mean;
-          const meanMs = task.latency.mean;
-          const p99Ms = task.latency.p99;
-          const samples = task.latency.samplesCount;
-
+  for (const fileResult of report.testResults ?? []) {
+    for (const assertion of fileResult.assertionResults ?? []) {
+      for (const group of assertion.benchmarks ?? []) {
+        for (const task of group.tasks ?? []) {
+          const { name, latency, throughput } = task;
           if (
-            typeof hz !== 'number' ||
-            typeof meanMs !== 'number' ||
-            typeof p99Ms !== 'number' ||
-            typeof samples !== 'number'
+            !name ||
+            throughput?.mean === undefined ||
+            latency?.mean === undefined ||
+            latency.p99 === undefined ||
+            latency.samplesCount === undefined
           ) {
             continue;
           }
 
           rows.push({
-            label: LABEL_MAP[task.name] ?? `**${task.name}**`,
-            hz,
-            meanMs,
-            p99Ms,
-            samples,
+            label: LABEL_MAP[name] ?? `**${name}**`,
+            hz: throughput.mean,
+            meanMs: latency.mean,
+            p99Ms: latency.p99,
+            samples: latency.samplesCount,
           });
         }
       }
@@ -121,8 +126,8 @@ function main(): void {
       },
     );
 
-    const raw: unknown = JSON.parse(readFileSync(outputPath, 'utf8'));
-    const rows = extractRows(raw);
+    const report: VitestBenchReport = JSON.parse(readFileSync(outputPath, 'utf8'));
+    const rows = extractRows(report);
     if (rows.length === 0) {
       throw new Error('No benchmark tasks found in Vitest JSON report');
     }
