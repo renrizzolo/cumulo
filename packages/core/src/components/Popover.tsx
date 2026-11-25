@@ -24,6 +24,7 @@ import {
 } from '../hooks/useDismissible.js';
 import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
+import { popoverTransition } from '../transitions.js';
 import { Button, type ButtonProps } from './Button.js';
 
 export type PopoverLevel = 0 | 1 | 2 | 'inherit';
@@ -367,26 +368,29 @@ function PopoverTrigger({
 
 const popoverRecipe = recipe(
   {
-    base: {
-      position: 'fixed',
-      positionArea: 'bottom span-right',
-      positionTryFallbacks: 'flip-block, flip-inline, flip-block flip-inline',
-      margin: 0,
-      inset: 'auto',
-      boxSizing: 'border-box',
-      outline: 'none',
-      selectors: {
-        '&::backdrop': {
-          backgroundColor: 'transparent',
+    base: [
+      popoverTransition,
+      {
+        position: 'fixed',
+        positionArea: 'bottom span-right',
+        positionTryFallbacks: 'flip-block, flip-inline, flip-block flip-inline',
+        margin: 0,
+        inset: 'auto',
+        boxSizing: 'border-box',
+        outline: 'none',
+        selectors: {
+          '&::backdrop': {
+            backgroundColor: 'transparent',
+          },
+        },
+        '@supports': {
+          'not (position-anchor: --a)': {
+            inset: 0,
+            margin: 'auto',
+          },
         },
       },
-      '@supports': {
-        'not (position-anchor: --a)': {
-          inset: 0,
-          margin: 'auto',
-        },
-      },
-    },
+    ],
     variants: {
       variant: {
         popover: {
@@ -420,7 +424,6 @@ const popoverRecipe = recipe(
           pointerEvents: 'none',
           maxWidth: 'max-content',
           zIndex: 1000,
-          transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
         },
       },
       placement: {

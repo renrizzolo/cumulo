@@ -30,6 +30,7 @@ export type {
   StyleProperties,
   PseudoClass,
   PseudoElement,
+  SelectorStyleRule,
   ComplexStyleRule,
   StyleRule,
   StyleDefinitions,

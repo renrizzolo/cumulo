@@ -24,6 +24,7 @@ import {
 import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { focusRing } from '../intents.js';
+import { popoverTransition } from '../transitions.js';
 import { Button, type ButtonProps } from './Button.js';
 import { Divider, type DividerProps } from './Divider.js';
 
@@ -197,43 +198,48 @@ function MenuTrigger({
 
 export const menuContentRecipe = recipe(
   {
-    base: {
-      position: 'fixed',
-      positionArea: 'block-end span-inline-end',
-      positionTryFallbacks: 'flip-block, flip-inline',
-      margin: 0,
-      inset: 'auto',
-      boxSizing: 'border-box',
-      outline: 'none',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '2px',
-      minWidth: '180px',
-      maxWidth: 'min(90vw, 320px)',
-      padding: vars.spacing['2xs'],
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      borderRadius: vars.radius.lg,
-      backgroundColor: vars.surface.bg.DEFAULT,
-      color: vars.surface.fg,
-      boxShadow: vars.shadow['2'],
-      zIndex: 50,
-      selectors: {
-        '&:not(:popover-open):not([data-state="open"])': {
-          display: 'none',
+    base: [
+      popoverTransition,
+      {
+        position: 'fixed',
+        positionArea: 'block-end span-inline-end',
+        positionTryFallbacks: 'flip-block, flip-inline',
+        margin: 0,
+        inset: 'auto',
+        boxSizing: 'border-box',
+        outline: 'none',
+        flexDirection: 'column',
+        gap: '2px',
+        minWidth: '180px',
+        maxWidth: 'min(90vw, 320px)',
+        padding: vars.spacing['2xs'],
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: vars.surface.border,
+        borderRadius: vars.radius.lg,
+        backgroundColor: vars.surface.bg.DEFAULT,
+        color: vars.surface.fg,
+        boxShadow: vars.shadow['2'],
+        zIndex: 50,
+        selectors: {
+          '&:popover-open': {
+            display: 'flex',
+          },
+          '&:not(:popover-open):not([data-state="open"])': {
+            display: 'none',
+          },
+          '&::backdrop': {
+            backgroundColor: 'transparent',
+          },
         },
-        '&::backdrop': {
-          backgroundColor: 'transparent',
+        '@supports': {
+          'not (position-anchor: --a)': {
+            inset: 0,
+            margin: 'auto',
+          },
         },
       },
-      '@supports': {
-        'not (position-anchor: --a)': {
-          inset: 0,
-          margin: 'auto',
-        },
-      },
-    },
+    ],
     variants: {
       placement: {
         'bottom-start': {

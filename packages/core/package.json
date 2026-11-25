@@ -81,6 +81,11 @@
       "import": "./dist/layout.mjs",
       "default": "./dist/layout.mjs"
     },
+    "./transitions": {
+      "types": "./dist/transitions.d.mts",
+      "import": "./dist/transitions.mjs",
+      "default": "./dist/transitions.mjs"
+    },
     "./typography": {
       "types": "./dist/typography.d.mts",
       "import": "./dist/typography.mjs",

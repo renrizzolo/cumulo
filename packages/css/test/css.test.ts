@@ -186,6 +186,100 @@ describe('@cumulo/css', () => {
       );
     });
 
+    it('handles @starting-style and selector-nested @starting-style and @media rules', () => {
+      const dialogStyle = style({
+        opacity: 0,
+        transitionBehavior: 'allow-discrete',
+        '@starting-style': {
+          opacity: 0,
+        },
+        selectors: {
+          '&[open]': {
+            opacity: 1,
+            transform: 'scale(1)',
+            '@starting-style': {
+              opacity: 0,
+              transform: 'scale(0.96)',
+            },
+          },
+          '&::backdrop': {
+            opacity: 0,
+            transition: 'opacity 200ms ease, display 200ms ease allow-discrete',
+            '@media': {
+              '(prefers-reduced-motion: reduce)': {
+                transition: 'none',
+              },
+            },
+          },
+          '&[open]::backdrop': {
+            opacity: 1,
+            '@starting-style': {
+              opacity: 0,
+            },
+          },
+        },
+      });
+
+      const sheetCss = getSheetCss();
+      expect(sheetCss).toContain(
+        `.${dialogStyle.className}{opacity:0;transition-behavior:allow-discrete;}`,
+      );
+      expect(sheetCss).toContain(`@starting-style{.${dialogStyle.className}{opacity:0;}}`);
+      expect(sheetCss).toContain(`.${dialogStyle.className}[open]{opacity:1;transform:scale(1);}`);
+      expect(sheetCss).toContain(
+        `@starting-style{.${dialogStyle.className}[open]{opacity:0;transform:scale(0.96);}}`,
+      );
+      expect(sheetCss).toContain(
+        `@media (prefers-reduced-motion: reduce){.${dialogStyle.className}::backdrop{transition:none;}}`,
+      );
+      expect(sheetCss).toContain(
+        `@starting-style{.${dialogStyle.className}[open]::backdrop{opacity:0;}}`,
+      );
+    });
+
+    it('deep-merges overlapping selectors and @starting-style across recipe base rules', () => {
+      const transitionPreset = {
+        opacity: 0,
+        selectors: {
+          '&:popover-open': {
+            opacity: 1,
+            transform: 'scale(1)',
+            '@starting-style': {
+              opacity: 0,
+              transform: 'scale(0.96)',
+            },
+          },
+        },
+      };
+
+      const menu = recipe({
+        base: [
+          transitionPreset,
+          {
+            selectors: {
+              '&:popover-open': {
+                display: 'flex',
+              },
+            },
+          },
+        ],
+        variants: {
+          size: {
+            sm: { padding: 4 },
+          },
+        },
+      });
+
+      const baseClass = menu.classNames.base;
+      const sheetCss = getSheetCss();
+      expect(sheetCss).toContain(
+        `.${baseClass}:popover-open{opacity:1;transform:scale(1);display:flex;}`,
+      );
+      expect(sheetCss).toContain(
+        `@starting-style{.${baseClass}:popover-open{opacity:0;transform:scale(0.96);}}`,
+      );
+    });
+
     it('creates named style mappings with create()', () => {
       const styles = create({
         header: { padding: 12 },

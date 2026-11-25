@@ -132,7 +132,7 @@ export * as Collapsible from './components/Collapsible.js';
 export { useCollapsible, type CollapsibleContextValue } from './components/Collapsible.js';
 
 export * as Dialog from './components/Dialog.js';
-export { useDialog, type DialogContextValue } from './components/Dialog.js';
+export { useDialog, type DialogContextValue, type DialogPlacement } from './components/Dialog.js';
 
 export * as Popover from './components/Popover.js';
 export { usePopover, type PopoverContextValue, type PopoverLevel } from './components/Popover.js';
@@ -207,6 +207,19 @@ export { setDefaultTheme } from './theme/theme.js';
 
 // hooks
 export { useDismissible } from './hooks/useDismissible.js';
+export {
+  useDrag,
+  type DragAxis,
+  type DragState,
+  type UseDragOptions,
+  type UseDragReturn,
+} from './hooks/useDrag.js';
+export {
+  useSwipeDismiss,
+  type SwipeDirection,
+  type UseSwipeDismissOptions,
+  type UseSwipeDismissReturn,
+} from './hooks/useSwipeDismiss.js';
 export { useFocus } from './hooks/useFocus.js';
 export {
   useValueGroup,

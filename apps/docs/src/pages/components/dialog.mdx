@@ -57,6 +57,82 @@ import * as Dialog from '@cumulo/core/components/Dialog';
   </Dialog.Root>
 </ComponentPreview>
 
+<ComponentPreview title="Sheet Placements">
+  <HStack gap="sm" wrap>
+    <Dialog.Root>
+      <Dialog.Trigger variant="secondary">Bottom Sheet</Dialog.Trigger>
+      <Dialog.Content placement="bottom" size="sm">
+        <Dialog.Handle />
+        <Dialog.Header>
+          <Dialog.Title>Share Document</Dialog.Title>
+          <Dialog.Description>
+            Drag the handle downward, click the backdrop, or press Escape to dismiss.
+          </Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Body>
+          <VStack gap="sm">
+            <Text size="sm" color="muted">
+              Bottom sheets anchor centered along the bottom edge with rounded top corners,
+              responsive width sizing, and safe-area padding for mobile devices.
+            </Text>
+          </VStack>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close variant="secondary">Close</Dialog.Close>
+          <Dialog.Close variant="primary">Copy Link</Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+
+    <Dialog.Root>
+      <Dialog.Trigger variant="secondary">Right Sheet</Dialog.Trigger>
+      <Dialog.Content placement="right" size="md">
+        <Dialog.Header>
+          <Dialog.Title>Inspector</Dialog.Title>
+          <Dialog.Description>
+            Side sheets span full viewport height with Dialog.Body expanding to keep the footer
+            anchored at the bottom.
+          </Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Body>
+          <VStack gap="sm">
+            <Text size="sm" color="muted">
+              Content scrolls naturally within the dialog container, or you can compose a Panel
+              inside Dialog.Body for an independent scroll region.
+            </Text>
+          </VStack>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close variant="secondary">Cancel</Dialog.Close>
+          <Dialog.Close variant="primary">Apply Changes</Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+
+    <Dialog.Root>
+      <Dialog.Trigger variant="secondary">Left Sheet</Dialog.Trigger>
+      <Dialog.Content placement="left" size="sm">
+        <Dialog.Header>
+          <Dialog.Title>Navigation</Dialog.Title>
+          <Dialog.Description>Left-anchored drawer for secondary panels.</Dialog.Description>
+        </Dialog.Header>
+        <Dialog.Body>
+          <VStack gap="sm">
+            <Text size="sm" color="muted">
+              Supports all size variants (`sm`, `md`, `lg`, `xl`, and `full`) with light-dismiss
+              and focus trapping.
+            </Text>
+          </VStack>
+        </Dialog.Body>
+        <Dialog.Footer>
+          <Dialog.Close variant="secondary">Done</Dialog.Close>
+        </Dialog.Footer>
+      </Dialog.Content>
+    </Dialog.Root>
+
+  </HStack>
+</ComponentPreview>
+
 ### Component API
 
 <PropsTable data={dialogDoc} />

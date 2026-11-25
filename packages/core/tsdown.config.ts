@@ -8,6 +8,7 @@ export default defineConfig({
     'src/theme.css',
     'src/intents.ts',
     'src/layout.ts',
+    'src/transitions.ts',
     'src/typography.ts',
     'src/cli/index.ts',
   ],

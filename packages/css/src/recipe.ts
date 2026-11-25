@@ -73,20 +73,34 @@ function normalizeValue(value: unknown): string {
   return String(value);
 }
 
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function mergePlainObjects(
+  target: Record<string, unknown>,
+  source: object,
+): Record<string, unknown> {
+  const out: Record<string, unknown> = { ...target };
+  for (const [key, value] of Object.entries(source)) {
+    const existing = out[key];
+    if (isPlainObject(value) && isPlainObject(existing)) {
+      out[key] = mergePlainObjects(existing, value);
+    } else {
+      out[key] = value;
+    }
+  }
+  return out;
+}
+
 function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefined {
   const defined = rules.filter((r): r is StyleRule => Boolean(r));
   if (defined.length === 0) return undefined;
   if (defined.length === 1) return defined[0];
-  const result: Record<string, unknown> = {};
+  let result: Record<string, unknown> = {};
 
   for (const rule of defined) {
-    for (const [key, value] of Object.entries(rule)) {
-      if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-        result[key] = Object.assign({}, (result[key] as Record<string, unknown>) || {}, value);
-      } else {
-        result[key] = value;
-      }
-    }
+    result = mergePlainObjects(result, rule);
   }
 
   return result as StyleRule;
