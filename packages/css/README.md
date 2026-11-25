@@ -8,7 +8,7 @@ Lightweight, zero-dependency, type-safe CSS framework inspired by StyleX and Van
 - **Ultra-Light Footprint**: ~4.0 kB gzip (~3.5 kB brotli) in production builds.
 - **Compile-Time Extraction**: Extracts static CSS at build time via `@cumulo/unplugin` (Vite, Rollup, Webpack, esbuild, Parcel v2 and v3 via `@cumulo/parcel-transformer` / `@cumulo/parcel-plugin`) with automatic runtime stylesheet fallback.
 - **Lean Runtime Entrypoint**: `@cumulo/css/runtime` (~0.9 kB gzip) is what rewritten modules import in client bundles. It contains no stylesheet registry, hashing, or CSS compiler.
-- **Strictly Type-Safe**: Complete TypeScript types for standard CSS properties, pseudo-classes, pseudo-elements, container queries, and nested media queries.
+- **Strictly Type-Safe**: Complete TypeScript types for standard CSS properties, pseudo-classes, pseudo-elements, container queries, `@starting-style`, and nested media queries.
 - **High-Performance Variant Recipes**: First-class `recipe()` primitive with variant defaults, overrides, compound variants, and recipe inheritance.
 - **Type-Safe Theme Contracts**: `createThemeContract()` and `createTheme()` for guaranteed contract parity across multiple brand themes and color schemes.
 - **Pretty Fast**: Sub-microsecond variant resolution and class merging.
@@ -27,7 +27,7 @@ pnpm add @cumulo/css
 
 ### `style()`
 
-Create atomic, deterministic CSS classes with support for pseudo-classes, pseudo-elements, media queries, and nested selectors:
+Create atomic, deterministic CSS classes with support for pseudo-classes, pseudo-elements, media queries, `@starting-style`, and nested selectors:
 
 ```ts
 import { style } from '@cumulo/css';
@@ -43,8 +43,8 @@ export const buttonStyle = style({
   ':hover': {
     backgroundColor: '#2563eb',
   },
-  selectors: {
-    '@media (max-width: 640px)': {
+  '@media': {
+    '(max-width: 640px)': {
       width: '100%',
     },
   },
