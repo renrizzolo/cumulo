@@ -2,9 +2,11 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const pluginDirs = process.argv.slice(2);
+const args = process.argv.slice(2);
+const waitMode = args[0] === '--wait';
+const pluginDirs = waitMode ? args.slice(1) : args;
 if (pluginDirs.length === 0) {
-  console.error('Usage: node scripts/check-native-plugins.mjs <plugin-dir>...');
+  console.error('Usage: node scripts/check-native-plugins.mjs [--wait] <plugin-dir>...');
   process.exit(1);
 }
 
@@ -65,6 +67,63 @@ function writeOutput(needsPublish, dirs) {
   }
   fs.appendFileSync(outputPath, `needs_publish=${needsPublish}\n`);
   fs.appendFileSync(outputPath, `paths<<EOF\n${dirs.join('\n')}\nEOF\n`);
+}
+
+async function isVisibleInRegistry(name, version) {
+  if (!isPublished(name, version)) {
+    return false;
+  }
+  const res = await fetch(`https://registry.npmjs.org/${encodeURIComponent(name)}`, {
+    headers: { accept: 'application/vnd.npm.install-v1+json' },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    return false;
+  }
+  const data = await res.json();
+  return Boolean(data.versions && Object.hasOwn(data.versions, version));
+}
+
+async function waitForPublished() {
+  const targets = pluginDirs.map((dir) => {
+    const pkg = JSON.parse(fs.readFileSync(path.resolve(dir, 'package.json'), 'utf-8'));
+    return { dir, name: pkg.name, version: pkg.version };
+  });
+
+  const maxAttempts = 24;
+  const intervalMs = 5000;
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  async function poll(attempt) {
+    const results = await Promise.all(
+      targets.map(async (target) => ({
+        label: `${target.name}@${target.version}`,
+        visible: await isVisibleInRegistry(target.name, target.version),
+      })),
+    );
+    const pending = results.filter((r) => !r.visible).map((r) => r.label);
+    if (pending.length === 0) {
+      console.log('All native plugins are visible on npm; waiting 5s for CDN propagation...');
+      await delay(intervalMs);
+      return;
+    }
+    if (attempt >= maxAttempts) {
+      console.error('Timed out waiting for native plugins to appear on npm.');
+      process.exit(1);
+    }
+    console.log(
+      `Attempt ${attempt}/${maxAttempts}: waiting for npm propagation of ${pending.join(', ')}...`,
+    );
+    await delay(intervalMs);
+    await poll(attempt + 1);
+  }
+
+  await poll(1);
+}
+
+if (waitMode) {
+  await waitForPublished();
+  process.exit(0);
 }
 
 if (hasPendingChangesets()) {
