@@ -397,7 +397,7 @@ const popoverRecipe = recipe(
         popover: {
           width: 'fit-content',
           height: 'fit-content',
-          borderWidth: 1,
+          borderWidth: vars.surface.stroke.width,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
           borderRadius: vars.radius.lg,

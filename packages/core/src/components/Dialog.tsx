@@ -243,7 +243,7 @@ const dialogRecipe: RecipeFunction<{
       placement: {
         center: {
           margin: 'auto',
-          borderWidth: 1,
+          borderWidth: vars.surface.stroke.width,
           borderRadius: vars.radius.xl,
           maxHeight: 'calc(100dvh - 4rem)',
           ...discreteFadeScale({

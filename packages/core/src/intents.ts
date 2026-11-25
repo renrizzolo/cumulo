@@ -186,6 +186,9 @@ export const interactiveBaseVariantStyles = recipe(
             backgroundImage: vars.control.bg.image.hover,
             boxShadow: vars.control.shadow.hover,
           },
+          ':active': {
+            boxShadow: vars.control.shadow.active,
+          },
         },
         secondary: {
           ':hover': {
@@ -193,17 +196,26 @@ export const interactiveBaseVariantStyles = recipe(
             backgroundImage: vars.control.bg.image.hover,
             boxShadow: vars.control.shadow.hover,
           },
+          ':active': {
+            boxShadow: vars.control.shadow.active,
+          },
         },
         outline: {
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
             boxShadow: vars.control.shadow.hover,
           },
+          ':active': {
+            boxShadow: vars.control.shadow.active,
+          },
         },
         ghost: {
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
             backgroundImage: 'none',
+            boxShadow: 'none',
+          },
+          ':active': {
             boxShadow: 'none',
           },
         },

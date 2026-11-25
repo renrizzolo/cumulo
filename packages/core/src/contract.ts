@@ -610,6 +610,10 @@ export const vars = {
       /** var(--theme-primary-border) */
       border: 'var(--surface-primary-border)',
     },
+    stroke: {
+      /** var(--theme-surface-stroke-width) */
+      width: 'var(--surface-stroke-width)',
+    },
     bg: {
       /** var(--theme-bg-0) */
       DEFAULT: 'var(--surface-bg)',
@@ -626,10 +630,6 @@ export const vars = {
     subtle: 'var(--surface-subtle)',
     /** var(--theme-border) */
     border: 'var(--surface-border)',
-    stroke: {
-      /** 1px */
-      width: 'var(--surface-stroke-width)',
-    },
     secondary: {
       /** light-dark(var(--theme-grey-50), var(--theme-grey-200)) */
       DEFAULT: 'var(--surface-secondary)',

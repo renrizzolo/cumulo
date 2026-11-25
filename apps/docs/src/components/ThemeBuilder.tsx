@@ -1240,7 +1240,7 @@ export function ThemeBuilder(): React.JSX.Element {
   /* Border Widths */
   --theme-control-border-width: ${theme.borders.controlWidth};
   --theme-field-border-width: ${theme.borders.fieldWidth};
-  --surface-stroke-width: ${theme.borders.surfaceWidth};`
+  --theme-surface-stroke-width: ${theme.borders.surfaceWidth};`
       : '';
 
     const darkScaleOverrides = !theme.scales.sameAsLight

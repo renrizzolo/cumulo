@@ -32,7 +32,6 @@ export const buttonRecipe = recipe(
       },
       ':active': {
         transform: vars.control.active.transform,
-        boxShadow: vars.control.shadow.active,
       },
     },
     variants: {

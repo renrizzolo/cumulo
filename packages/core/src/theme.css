@@ -1308,6 +1308,8 @@
     --theme-field-bg-image: none;
     --theme-field-shadow: none;
     --theme-field-shadow-focus: 0 0 0 3px var(--theme-primary-subtle);
+
+    --theme-surface-stroke-width: 1px;
   }
 
   /* Raised control style: subtle top sheen gradient, crisp bevel highlight, soft depth */
@@ -1389,7 +1391,7 @@
     --surface-muted: var(--theme-muted);
     --surface-subtle: var(--theme-subtle);
     --surface-border: var(--theme-border);
-    --surface-stroke-width: 1px;
+    --surface-stroke-width: var(--theme-surface-stroke-width);
     --surface-primary: var(--theme-surface-primary);
     --surface-primary-hover: light-dark(var(--theme-primary-100), var(--theme-primary-200));
     --surface-primary-fg: var(--theme-fg);

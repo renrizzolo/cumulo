@@ -214,7 +214,7 @@ export const menuContentRecipe = recipe(
         minWidth: '180px',
         maxWidth: 'min(90vw, 320px)',
         padding: vars.spacing['2xs'],
-        borderWidth: 1,
+        borderWidth: vars.surface.stroke.width,
         borderStyle: 'solid',
         borderColor: vars.surface.border,
         borderRadius: vars.radius.lg,

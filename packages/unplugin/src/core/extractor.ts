@@ -122,6 +122,15 @@ export function cleanSourceCode(source: string): string {
   return normalizeRelativeImports(stripIgnoredImports(source));
 }
 
+const LAYER_ORDER_HEADER = '@layer reset,base,components,utilities;';
+
+function ensureLayerOrder(css: string): string {
+  if (!css || !css.includes('@layer ') || css.startsWith(LAYER_ORDER_HEADER)) {
+    return css;
+  }
+  return `${LAYER_ORDER_HEADER}\n${css}`;
+}
+
 function resolveCumuloCssPath(projectRoot?: string): string | undefined {
   if (projectRoot) {
     try {
@@ -435,7 +444,7 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
         await ctx.jiti.evalModule(codeToEval, {
           filename: absolutePath,
         });
-        const css = sheet.getCss();
+        const css = ensureLayerOrder(sheet.getCss());
         const rewrittenCode = rewritePlan ? rewritePlan.applyRewrites(recorded) : null;
         if (css || rewrittenCode) {
           return {
@@ -459,7 +468,7 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
         sheet.clear();
         globalThis.__cumuloExtractorDepDepth = 0;
         await ctx.jiti.import(absolutePath);
-        const css = sheet.getCss();
+        const css = ensureLayerOrder(sheet.getCss());
         return {
           css,
           dependencies: Array.from(ctx.dependencies),
