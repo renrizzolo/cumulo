@@ -75,6 +75,28 @@ export type StyleRule = ComplexStyleRule;
 
 export type StyleDefinitions<Keys extends string = string> = Record<Keys, StyleRule>;
 
+export interface StyleOptions {
+  /** Class name prefix (default `'c'`). */
+  prefix?: string;
+  /** Optional CSS cascade layer name (e.g. `'components'`). */
+  layer?: string;
+  /** Optional CSS at-rule wrapper (e.g. `'@media (min-width: 768px)'` or `'@container (min-width: 400px)'`). */
+  atRule?: string;
+}
+
+/**
+ * Map of breakpoint keys (e.g. `'sm'`, `'md'`) to CSS at-rule or media query strings
+ * (e.g. `'@media (min-width: 768px)'`, `'(min-width: 768px)'`, or `'@container card (min-width: 480px)'`).
+ */
+export type BreakpointsMap = Readonly<Record<string, string>>;
+
+/**
+ * Value that can be either a static value `T` or a responsive breakpoint map `{ initial?: T, [bp]?: T }`.
+ */
+export type ResponsiveValue<T, B extends string = never> = [B] extends [never]
+  ? T
+  : T | ({ initial?: T } & Partial<Record<B, T>>);
+
 export interface CompiledStyle {
   className: string;
   css: string;

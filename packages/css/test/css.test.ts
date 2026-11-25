@@ -746,4 +746,193 @@ describe('@cumulo/css', () => {
       expect(nullResult).toContain(compiled.classNames.variants.active.true);
     });
   });
+
+  describe('cascade layers (@layer)', () => {
+    it('wraps style(), create(), createTheme(), and recipe() rules in @layer and isolates hashes', () => {
+      const unlayered = style({ padding: '16px' }, 'box');
+      const layered = style({ padding: '16px' }, { prefix: 'box', layer: 'components' });
+
+      expect(layered.className).not.toBe(unlayered.className);
+      expect(layered.css).toBe(`@layer components{.${layered.className}{padding:16px;}}`);
+      expect(unlayered.css).toBe(`.${unlayered.className}{padding:16px;}`);
+
+      const map = create(
+        { a: { color: 'red' }, b: { color: 'blue' } },
+        { prefix: 'm', layer: 'utilities' },
+      );
+      expect(map.a.css).toContain('@layer utilities{');
+      expect(map.b.css).toContain('@layer utilities{');
+
+      const contract = createThemeContract({ bg: null }, 't');
+      const unlayeredTheme = createTheme(contract, { bg: 'white' });
+      const layeredTheme = createTheme(contract, { bg: 'white' }, { layer: 'components' });
+      expect(layeredTheme.className).not.toBe(unlayeredTheme.className);
+      expect(layeredTheme.css).toBe(`@layer components{.${layeredTheme.className}{--t-bg:white;}}`);
+    });
+
+    it('propagates layer through recipe() extend and allows child override', () => {
+      const parent = recipe(
+        {
+          layer: 'components',
+          variants: {
+            size: {
+              sm: { padding: 4 },
+            },
+          },
+        },
+        'p',
+      );
+
+      const inherited = recipe(
+        {
+          extend: [parent],
+          base: { display: 'flex' },
+        },
+        'c1',
+      );
+
+      const overridden = recipe(
+        {
+          layer: 'utilities',
+          extend: [parent],
+          base: { display: 'grid' },
+        },
+        'c2',
+      );
+
+      const css = getSheetCss();
+      expect(css).toContain(`@layer components{.${inherited.classNames.base}{display:flex;}}`);
+      expect(css).toContain(`@layer utilities{.${overridden.classNames.base}{display:grid;}}`);
+    });
+  });
+
+  describe('responsive variants (@media and @container)', () => {
+    it('compiles @media responsive variants in breakpoint order with selectors and layer support', () => {
+      const box = recipe(
+        {
+          layer: 'components',
+          breakpoints: {
+            sm: '(min-width: 640px)',
+            md: '@media (min-width: 768px)',
+          },
+          responsiveVariants: ['padding'],
+          variants: {
+            padding: {
+              sm: {
+                padding: '8px',
+                selectors: {
+                  '& > *': { '--parent-padding': '8px' },
+                },
+              },
+              lg: {
+                padding: '24px',
+                selectors: {
+                  '& > *': { '--parent-padding': '24px' },
+                },
+              },
+            },
+          },
+        },
+        'resp',
+      );
+
+      const css = getSheetCss();
+      const smClass = box.classNames.responsiveVariants?.padding?.sm?.lg;
+      const mdClass = box.classNames.responsiveVariants?.padding?.md?.lg;
+
+      expect(smClass).toBeDefined();
+      expect(mdClass).toBeDefined();
+      expect(css).toContain(
+        `@layer components{@media (min-width: 640px){.${smClass}{padding:24px;}}}`,
+      );
+      expect(css).toContain(
+        `@layer components{@media (min-width: 640px){.${smClass} > *{--parent-padding:24px;}}}`,
+      );
+      expect(css).toContain(
+        `@layer components{@media (min-width: 768px){.${mdClass}{padding:24px;}}}`,
+      );
+
+      // Breakpoint order: sm must be emitted before md
+      expect(css.indexOf(`.${smClass}`)).toBeLessThan(css.indexOf(`.${mdClass}`));
+
+      // Runtime resolution for primitive and responsive object props
+      expect(box({ padding: 'sm' })).toBe(box.classNames.variants.padding.sm);
+      const responsiveClasses = box({ padding: { initial: 'sm', md: 'lg' } });
+      expect(responsiveClasses).toBe(`${box.classNames.variants.padding.sm} ${mdClass}`);
+      expect(box({ padding: { md: 'lg' } })).toBe(mdClass);
+    });
+
+    it('supports custom @container query breakpoints', () => {
+      const card = recipe(
+        {
+          breakpoints: {
+            compact: '@container card (min-width: 400px)',
+            wide: '@container card (min-width: 640px)',
+          },
+          responsiveVariants: ['layout'],
+          variants: {
+            layout: {
+              stack: { flexDirection: 'column' },
+              row: { flexDirection: 'row' },
+            },
+          },
+        },
+        'cq',
+      );
+
+      const css = getSheetCss();
+      const wideRow = card.classNames.responsiveVariants?.layout?.wide?.row;
+      expect(wideRow).toBeDefined();
+      expect(css).toContain(`@container card (min-width: 640px){.${wideRow}{flex-direction:row;}}`);
+      expect(card({ layout: { initial: 'stack', wide: 'row' } })).toBe(
+        `${card.classNames.variants.layout.stack} ${wideRow}`,
+      );
+    });
+
+    it('inherits breakpoints and responsiveVariants through extend and matches runtimeRecipe', () => {
+      const paddingRecipe = recipe(
+        {
+          breakpoints: {
+            md: '@media (min-width: 768px)',
+          },
+          responsiveVariants: ['padding'],
+          variants: {
+            padding: {
+              sm: { padding: '8px' },
+              lg: { padding: '24px' },
+            },
+          },
+        },
+        'ext-pad',
+      );
+
+      const surface = recipe(
+        {
+          extend: [paddingRecipe],
+          base: { display: 'flex' },
+          variants: {
+            bordered: {
+              true: { borderWidth: 1 },
+              false: { borderWidth: 0 },
+            },
+          },
+        },
+        'ext-surface',
+      );
+
+      const result = surface({ padding: { initial: 'sm', md: 'lg' }, bordered: true });
+      const mdLg = surface.classNames.responsiveVariants?.padding?.md?.lg;
+      expect(mdLg).toBeDefined();
+      expect(result).toContain(surface.classNames.variants.padding.sm);
+      expect(result).toContain(mdLg);
+      expect(result).toContain(surface.classNames.variants.bordered.true);
+
+      const rt = runtimeRecipe({
+        base: surface.classNames.base,
+        variants: surface.classNames.variants,
+        responsiveVariants: surface.classNames.responsiveVariants,
+      });
+      expect(rt({ padding: { initial: 'sm', md: 'lg' }, bordered: true })).toBe(result);
+    });
+  });
 });

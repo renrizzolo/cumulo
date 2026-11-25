@@ -368,6 +368,7 @@ function PopoverTrigger({
 
 const popoverRecipe = recipe(
   {
+    layer: 'components',
     base: [
       popoverTransition,
       {

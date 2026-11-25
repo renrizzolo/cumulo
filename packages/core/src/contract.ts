@@ -615,6 +615,8 @@ export const vars = {
       DEFAULT: 'var(--surface-bg)',
       /** var(--theme-bg-1) */
       next: 'var(--surface-bg-next)',
+      /** none */
+      image: 'var(--surface-bg-image)',
     },
     /** var(--theme-fg) */
     fg: 'var(--surface-fg)',
@@ -624,6 +626,10 @@ export const vars = {
     subtle: 'var(--surface-subtle)',
     /** var(--theme-border) */
     border: 'var(--surface-border)',
+    stroke: {
+      /** 1px */
+      width: 'var(--surface-stroke-width)',
+    },
     secondary: {
       /** light-dark(var(--theme-grey-50), var(--theme-grey-200)) */
       DEFAULT: 'var(--surface-secondary)',
@@ -678,6 +684,60 @@ export const vars = {
     bg: 'var(--theme-sky-bg)',
     /** light-dark(#0369a1, #7dd3fc) */
     fg: 'var(--theme-sky-fg)',
+  },
+  control: {
+    border: {
+      /** 1px */
+      width: 'var(--theme-control-border-width)',
+    },
+    bg: {
+      image: {
+        /** none */
+        DEFAULT: 'var(--theme-control-bg-image)',
+        /** var(--theme-control-bg-image) */
+        hover: 'var(--theme-control-bg-image-hover)',
+      },
+    },
+    shadow: {
+      /** none */
+      DEFAULT: 'var(--theme-control-shadow)',
+      /** var(--theme-control-shadow) */
+      hover: 'var(--theme-control-shadow-hover)',
+      /** none */
+      active: 'var(--theme-control-shadow-active)',
+    },
+    primary: {
+      /** transparent */
+      border: 'var(--theme-control-primary-border)',
+    },
+    secondary: {
+      /** transparent */
+      border: 'var(--theme-control-secondary-border)',
+    },
+    active: {
+      /** scale(0.98) */
+      transform: 'var(--theme-control-active-transform)',
+    },
+    text: {
+      /** none */
+      shadow: 'var(--theme-control-text-shadow)',
+    },
+  },
+  field: {
+    border: {
+      /** 1px */
+      width: 'var(--theme-field-border-width)',
+    },
+    bg: {
+      /** none */
+      image: 'var(--theme-field-bg-image)',
+    },
+    shadow: {
+      /** none */
+      DEFAULT: 'var(--theme-field-shadow)',
+      /** 0 0 0 3px var(--theme-primary-subtle) */
+      focus: 'var(--theme-field-shadow-focus)',
+    },
   },
 } as const;
 

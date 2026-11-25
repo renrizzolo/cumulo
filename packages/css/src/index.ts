@@ -22,6 +22,7 @@ export {
   type RecipeFunction,
   type RecipeVariants,
   type VariantSelection,
+  type ResponsiveVariantSelection,
   type CompoundVariant,
 } from './recipe.js';
 
@@ -34,6 +35,9 @@ export type {
   ComplexStyleRule,
   StyleRule,
   StyleDefinitions,
+  StyleOptions,
+  BreakpointsMap,
+  ResponsiveValue,
   CompiledStyle,
   CompiledStyles,
   NullableTokens,

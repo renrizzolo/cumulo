@@ -21,6 +21,10 @@ export interface RuntimeTheme {
 
 export type RuntimeVariantValue = string | number | boolean | null | undefined;
 
+export type RuntimeVariantProp =
+  | RuntimeVariantValue
+  | Readonly<Record<string, RuntimeVariantValue>>;
+
 export interface RuntimeRecipeCompoundVariant {
   readonly variants: Record<string, RuntimeVariantValue>;
   readonly className: string;
@@ -29,16 +33,18 @@ export interface RuntimeRecipeCompoundVariant {
 export interface RuntimeRecipeConfig {
   readonly base?: string;
   readonly variants: Record<string, Record<string, string>>;
+  readonly responsiveVariants?: Record<string, Record<string, Record<string, string>>>;
   readonly compoundVariants?: readonly RuntimeRecipeCompoundVariant[];
   readonly defaultVariants?: Record<string, RuntimeVariantValue>;
 }
 
 export interface RuntimeRecipeFn {
-  (props?: Record<string, RuntimeVariantValue>): string;
+  (props?: Record<string, RuntimeVariantProp>): string;
   variants: () => string[];
   classNames: {
     base?: string;
     variants: Record<string, Record<string, string>>;
+    responsiveVariants?: Record<string, Record<string, Record<string, string>>>;
     compoundVariants: readonly RuntimeRecipeCompoundVariant[];
   };
   defaultVariants: Record<string, RuntimeVariantValue>;
@@ -49,6 +55,12 @@ function normalizeValue(value: string | number | boolean): string {
     return value ? 'true' : 'false';
   }
   return String(value);
+}
+
+function isResponsiveObject(
+  value: RuntimeVariantProp,
+): value is Readonly<Record<string, RuntimeVariantValue>> {
+  return typeof value === 'object' && value !== null;
 }
 
 /**
@@ -93,12 +105,18 @@ export function runtimeTheme(className: string, vars: Record<string, string>): R
  * Contains only precomputed static class name lookups — no CSS compiler, hashing, or style objects.
  */
 export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
-  const { base, variants, compoundVariants = [], defaultVariants = {} } = config;
+  const {
+    base,
+    variants,
+    responsiveVariants,
+    compoundVariants = [],
+    defaultVariants = {},
+  } = config;
   const variantKeys = Object.keys(variants);
 
-  const fn = (props?: Record<string, RuntimeVariantValue>): string => {
+  const fn = (props?: Record<string, RuntimeVariantProp>): string => {
     const classes: (string | undefined)[] = [base];
-    const mergedProps: Record<string, RuntimeVariantValue> = { ...defaultVariants };
+    const mergedProps: Record<string, RuntimeVariantProp> = { ...defaultVariants };
 
     if (props) {
       for (const [key, val] of Object.entries(props)) {
@@ -110,7 +128,31 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
 
     for (const variantName of variantKeys) {
       const propValue = mergedProps[variantName];
-      if (propValue !== undefined && propValue !== null) {
+      if (propValue === undefined || propValue === null) {
+        continue;
+      }
+
+      if (isResponsiveObject(propValue)) {
+        const initialVal = propValue.initial;
+        if (initialVal !== undefined && initialVal !== null) {
+          const initialClass = variants[variantName]?.[normalizeValue(initialVal)];
+          if (initialClass) {
+            classes.push(initialClass);
+          }
+        }
+        const bpMap = responsiveVariants?.[variantName];
+        if (bpMap) {
+          for (const [bp, optionMap] of Object.entries(bpMap)) {
+            const bpVal = propValue[bp];
+            if (bpVal !== undefined && bpVal !== null) {
+              const bpClass = optionMap[normalizeValue(bpVal)];
+              if (bpClass) {
+                classes.push(bpClass);
+              }
+            }
+          }
+        }
+      } else {
         const variantClass = variants[variantName]?.[normalizeValue(propValue)];
         if (variantClass) {
           classes.push(variantClass);
@@ -123,7 +165,8 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
         if (expectedValue === undefined || expectedValue === null) {
           return false;
         }
-        const actualValue = mergedProps[key];
+        const rawActual = mergedProps[key];
+        const actualValue = isResponsiveObject(rawActual) ? rawActual.initial : rawActual;
         if (actualValue === undefined || actualValue === null) {
           return false;
         }
@@ -143,6 +186,7 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
     classNames: {
       base,
       variants,
+      ...(responsiveVariants ? { responsiveVariants } : {}),
       compoundVariants,
     },
     defaultVariants,

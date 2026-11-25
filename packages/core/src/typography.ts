@@ -4,6 +4,7 @@ import { vars } from './contract.js';
 
 export const weightStyles = recipe(
   {
+    layer: 'components',
     variants: {
       weight: {
         normal: { fontWeight: vars.font.weight.normal },
@@ -18,6 +19,7 @@ export const weightStyles = recipe(
 
 export const lineHeightStyles = recipe(
   {
+    layer: 'components',
     variants: {
       lineHeight: {
         none: { lineHeight: vars.line.height.none },
@@ -32,6 +34,7 @@ export const lineHeightStyles = recipe(
 
 export const textColorStyles = recipe(
   {
+    layer: 'components',
     variants: {
       color: {
         default: { color: vars.surface.fg },
@@ -50,6 +53,7 @@ export const textColorStyles = recipe(
 
 export const alignStyles = recipe(
   {
+    layer: 'components',
     variants: {
       align: {
         left: { textAlign: 'left' },
@@ -64,6 +68,7 @@ export const alignStyles = recipe(
 
 export const wrapStyles = recipe(
   {
+    layer: 'components',
     variants: {
       wrap: {
         wrap: { overflowWrap: 'break-word' },
@@ -78,6 +83,7 @@ export const wrapStyles = recipe(
 
 export const transformStyles = recipe(
   {
+    layer: 'components',
     variants: {
       transform: {
         uppercase: { textTransform: 'uppercase' },
@@ -96,7 +102,7 @@ export const truncateStyle = style(
     textOverflow: 'ellipsis',
     whiteSpace: 'nowrap',
   },
-  'type-truncate',
+  { prefix: 'type-truncate', layer: 'components' },
 );
 
 export const textBase = {
@@ -105,10 +111,11 @@ export const textBase = {
   MozOsxFontSmoothing: 'grayscale',
 };
 
-export const textBaseStyles = style(textBase);
+export const textBaseStyles = style(textBase, { layer: 'components' });
 
 export const textSharedRecipe = recipe(
   {
+    layer: 'components',
     extend: [
       weightStyles,
       lineHeightStyles,

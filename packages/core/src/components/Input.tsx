@@ -7,6 +7,7 @@ import { fieldIntentStyles, sizes } from '../intents.js';
 
 const inputRecipe = recipe(
   {
+    layer: 'components',
     extend: [fieldIntentStyles, sizes],
     base: {
       display: 'flex',
@@ -15,7 +16,7 @@ const inputRecipe = recipe(
       width: '100%',
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      borderWidth: 1,
+      borderWidth: vars.field.border.width,
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       borderRadius: vars.radius.control,
@@ -27,11 +28,11 @@ const inputRecipe = recipe(
       },
       ':focus-visible': {
         borderColor: vars.primary['600'],
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
+        boxShadow: vars.field.shadow.focus,
       },
       ':focus-within': {
         borderColor: vars.primary['600'],
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
+        boxShadow: vars.field.shadow.focus,
       },
       ':disabled': {
         opacity: 0.5,
@@ -82,7 +83,7 @@ const innerInputStyle = style(
       cursor: 'not-allowed',
     },
   },
-  'input-inner',
+  { prefix: 'input-inner', layer: 'components' },
 );
 
 const adornmentSlotStyle = style(
@@ -100,7 +101,7 @@ const adornmentSlotStyle = style(
       },
     },
   },
-  'input-adornment',
+  { prefix: 'input-adornment', layer: 'components' },
 );
 
 export type InputVariants = RecipeVariants<typeof inputRecipe>;

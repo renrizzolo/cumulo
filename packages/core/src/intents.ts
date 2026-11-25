@@ -131,27 +131,37 @@ export function createInteractiveIntentCompoundVariants<T extends Intent>(intent
  */
 export const staticBaseVariantStyles = recipe(
   {
+    layer: 'components',
     variants: {
       variant: {
         primary: {
           backgroundColor: vars.primary.DEFAULT,
+          backgroundImage: vars.control.bg.image.DEFAULT,
           color: vars.primary.fg,
-          borderColor: 'transparent',
+          borderColor: vars.control.primary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
+          textShadow: vars.control.text.shadow,
         },
         secondary: {
           backgroundColor: vars.surface.secondary.DEFAULT,
+          backgroundImage: vars.control.bg.image.DEFAULT,
           color: vars.surface.fg,
-          borderColor: 'transparent',
+          borderColor: vars.control.secondary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
         },
         outline: {
           backgroundColor: 'transparent',
+          backgroundImage: 'none',
           color: vars.surface.fg,
           borderColor: vars.surface.secondary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
         },
         ghost: {
           backgroundColor: 'transparent',
+          backgroundImage: 'none',
           color: vars.surface.fg,
           borderColor: 'transparent',
+          boxShadow: 'none',
         },
       },
     },
@@ -167,26 +177,34 @@ export const staticBaseVariantStyles = recipe(
  */
 export const interactiveBaseVariantStyles = recipe(
   {
+    layer: 'components',
     variants: {
       variant: {
         primary: {
           ':hover': {
             backgroundColor: vars.primary.hover,
+            backgroundImage: vars.control.bg.image.hover,
+            boxShadow: vars.control.shadow.hover,
           },
         },
         secondary: {
           ':hover': {
             backgroundColor: vars.surface.secondary.hover,
+            backgroundImage: vars.control.bg.image.hover,
+            boxShadow: vars.control.shadow.hover,
           },
         },
         outline: {
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
+            boxShadow: vars.control.shadow.hover,
           },
         },
         ghost: {
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
+            backgroundImage: 'none',
+            boxShadow: 'none',
           },
         },
       },
@@ -200,6 +218,7 @@ export const interactiveBaseVariantStyles = recipe(
  */
 export const baseVariantStyles = recipe(
   {
+    layer: 'components',
     extend: [staticBaseVariantStyles, interactiveBaseVariantStyles],
     variants: {},
   },
@@ -211,6 +230,7 @@ export const baseVariantStyles = recipe(
  */
 export const sizes = recipe(
   {
+    layer: 'components',
     variants: {
       size: {
         '2xs': {
@@ -263,6 +283,7 @@ export const sizes = recipe(
  */
 export const staticIntentStyles = recipe(
   {
+    layer: 'components',
     extend: [staticBaseVariantStyles],
     variants: {
       intent: {
@@ -306,6 +327,7 @@ export const baseIntentStyles = staticIntentStyles;
  */
 export const interactiveIntentStyles = recipe(
   {
+    layer: 'components',
     extend: [staticIntentStyles, interactiveBaseVariantStyles],
     variants: {
       intent: {
@@ -354,12 +376,15 @@ export const buttonIntentStyles = interactiveIntentStyles;
  */
 export const fieldVariantStyles = recipe(
   {
+    layer: 'components',
     variants: {
       variant: {
         field: {
           backgroundColor: vars.surface.bg.DEFAULT,
+          backgroundImage: vars.field.bg.image,
           color: vars.surface.fg,
           borderColor: vars.surface.border,
+          boxShadow: vars.field.shadow.DEFAULT,
           ':hover': {
             backgroundColor: vars.surface.bg.next,
           },
@@ -378,6 +403,7 @@ export const fieldVariantStyles = recipe(
  */
 export const fieldIntentStyles = recipe(
   {
+    layer: 'components',
     extend: [fieldVariantStyles],
     variants: {
       intent: {
@@ -402,19 +428,23 @@ export const fieldIntentStyles = recipe(
 
 /**
  * Shared focus ring style and recipe for interactive components.
+ * Uses `outline` + `outlineOffset` so custom control `boxShadow` tokens are preserved on focus.
  */
 export const focusRingStyles = {
   outline: 'none',
   ':focus-visible': {
-    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+    outline: `2px solid ${vars.primary.focus}`,
+    outlineOffset: '2px',
   },
   ':has(:focus-visible)': {
-    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+    outline: `2px solid ${vars.primary.focus}`,
+    outlineOffset: '2px',
   },
 } as const;
 
 export const focusRing = recipe(
   {
+    layer: 'components',
     base: focusRingStyles,
     variants: {
       variant: { default: {} },
@@ -428,6 +458,7 @@ export const focusRing = recipe(
  */
 export const controlIntent = recipe(
   {
+    layer: 'components',
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -443,10 +474,13 @@ export const controlIntent = recipe(
       checked: {
         true: {
           backgroundColor: vars.primary.DEFAULT,
+          backgroundImage: vars.control.bg.image.DEFAULT,
           borderColor: vars.primary.DEFAULT,
+          boxShadow: vars.control.shadow.DEFAULT,
           selectors: {
             '&:has(input:hover)': {
               backgroundColor: vars.primary.hover,
+              backgroundImage: vars.control.bg.image.hover,
               borderColor: vars.primary.hover,
             },
           },
@@ -472,11 +506,13 @@ export const controlIntent = recipe(
           },
           ':focus-visible': {
             borderColor: vars.error['600'],
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['600']}`,
+            outline: `2px solid ${vars.error['600']}`,
+            outlineOffset: '2px',
           },
           ':has(:focus-visible)': {
             borderColor: vars.error['600'],
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['600']}`,
+            outline: `2px solid ${vars.error['600']}`,
+            outlineOffset: '2px',
           },
         },
       },
@@ -528,7 +564,7 @@ export const visuallyHidden = style(
     border: 0,
     opacity: 0,
   },
-  'visually-hidden',
+  { prefix: 'visually-hidden', layer: 'components' },
 );
 
 /**
@@ -547,5 +583,5 @@ export const controlInput = style(
     cursor: 'inherit',
     zIndex: 1,
   },
-  'control-input',
+  { prefix: 'control-input', layer: 'components' },
 );

@@ -9,10 +9,9 @@ import type { GapVariant } from '../layout.js';
 import { markerIconBase, markerIconSizes } from './List.js';
 import { Text, type TextProps, type TextVariants } from './Text.js';
 
-const GAP_PRESETS: Record<
-  NonNullable<GapVariant>,
-  { gapX: NonNullable<GapVariant>; gapY: NonNullable<GapVariant> }
-> = {
+type StaticGapVariant = Extract<GapVariant, string>;
+
+const GAP_PRESETS: Record<StaticGapVariant, { gapX: StaticGapVariant; gapY: StaticGapVariant }> = {
   none: { gapX: 'none', gapY: 'none' },
   '3xs': { gapX: '2xs', gapY: '3xs' },
   '2xs': { gapX: 'xs', gapY: '2xs' },
@@ -26,6 +25,7 @@ const GAP_PRESETS: Record<
 
 const descriptionListRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'grid',
       margin: 0,
@@ -145,6 +145,7 @@ const descriptionListRecipe = recipe(
 
 const descriptionListItemRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'flex',
       flexDirection: 'column',
@@ -207,7 +208,7 @@ const descriptionListContainerStyle = style(
     width: '100%',
     minWidth: 0,
   },
-  'description-list-container',
+  { prefix: 'description-list-container', layer: 'components' },
 );
 
 const descriptionListTermStyle = style(
@@ -218,7 +219,7 @@ const descriptionListTermStyle = style(
     margin: 0,
     padding: 0,
   },
-  'description-list-term',
+  { prefix: 'description-list-term', layer: 'components' },
 );
 
 const descriptionListDescriptionStyle = style(
@@ -227,11 +228,12 @@ const descriptionListDescriptionStyle = style(
     padding: 0,
     minWidth: 0,
   },
-  'description-list-description',
+  { prefix: 'description-list-description', layer: 'components' },
 );
 
 const descriptionListIconRecipe = recipe(
   {
+    layer: 'components',
     base: markerIconBase,
     variants: {
       size: markerIconSizes,
@@ -269,17 +271,17 @@ export interface DescriptionListRootProps extends ElementProps<HTMLDListElement>
    * Proportional gap preset where the x-axis gap is wider than the y-axis gap.
    * @default 'sm'
    */
-  gap?: GapVariant;
+  gap?: StaticGapVariant;
   /**
    * Explicit horizontal column gap spacing between terms and descriptions.
    * Overrides the horizontal gap from `gap`.
    */
-  gapX?: GapVariant;
+  gapX?: StaticGapVariant;
   /**
    * Explicit vertical row gap spacing between items.
    * Overrides the vertical gap from `gap`.
    */
-  gapY?: GapVariant;
+  gapY?: StaticGapVariant;
   /**
    * Layout arrangement for the description list.
    * - `'default'` / `'horizontal'`: Term and description are placed horizontally side-by-side.

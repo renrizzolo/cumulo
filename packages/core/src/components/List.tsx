@@ -62,6 +62,7 @@ const useList = (): ListContextValue => {
 
 const listRecipe = recipe(
   {
+    layer: 'components',
     extend: [gapStyles],
     base: {
       display: 'flex',
@@ -89,6 +90,7 @@ const listRecipe = recipe(
 
 const listItemRecipe = recipe(
   {
+    layer: 'components',
     extend: [gapStyles],
     base: {
       display: 'flex',
@@ -105,6 +107,7 @@ const listItemRecipe = recipe(
 
 const listIconRecipe = recipe(
   {
+    layer: 'components',
     base: markerIconBase,
     variants: {
       size: markerIconSizes,
@@ -116,32 +119,41 @@ const listIconRecipe = recipe(
   'list-icon',
 );
 
-const bulletDotStyle = style({
-  display: 'inline-block',
-  width: vars.spacing['2xs'],
-  height: vars.spacing['2xs'],
-  borderRadius: vars.radius.full,
-  backgroundColor: 'currentColor',
-});
+const bulletDotStyle = style(
+  {
+    display: 'inline-block',
+    width: vars.spacing['2xs'],
+    height: vars.spacing['2xs'],
+    borderRadius: vars.radius.full,
+    backgroundColor: 'currentColor',
+  },
+  { layer: 'components' },
+);
 
-const orderedCounterStyle = style({
-  counterIncrement: 'cumulo-list-counter',
-  selectors: {
-    '&::before': {
-      content: 'counter(cumulo-list-counter) "."',
-      fontVariantNumeric: 'tabular-nums',
-      fontWeight: vars.font.weight.medium,
-      color: vars.surface.muted,
-      fontSize: vars.font.size.sm,
-      lineHeight: vars.line.height.normal,
+const orderedCounterStyle = style(
+  {
+    counterIncrement: 'cumulo-list-counter',
+    selectors: {
+      '&::before': {
+        content: 'counter(cumulo-list-counter) "."',
+        fontVariantNumeric: 'tabular-nums',
+        fontWeight: vars.font.weight.medium,
+        color: vars.surface.muted,
+        fontSize: vars.font.size.sm,
+        lineHeight: vars.line.height.normal,
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const listContentStyle = style({
-  flex: 1,
-  minWidth: 0,
-});
+const listContentStyle = style(
+  {
+    flex: 1,
+    minWidth: 0,
+  },
+  { layer: 'components' },
+);
 
 export type ListVariants = RecipeVariants<typeof listRecipe>;
 export type ListItemVariants = RecipeVariants<typeof listItemRecipe>;

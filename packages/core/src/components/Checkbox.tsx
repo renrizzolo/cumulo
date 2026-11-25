@@ -10,13 +10,14 @@ import { focusRing, controlIntent, controlInput } from '../intents.js';
 
 export const checkboxRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing, controlIntent],
     base: {
       justifyContent: 'center',
       width: vars.size['2xs'],
       height: vars.size['2xs'],
       borderRadius: vars.radius.md,
-      borderWidth: 1,
+      borderWidth: vars.control.border.width,
       backgroundColor: vars.surface.bg.DEFAULT,
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       selectors: {
@@ -60,13 +61,16 @@ export const checkboxRecipe = recipe(
 
 export type CheckboxVariants = RecipeVariants<typeof checkboxRecipe>;
 
-const iconStyle = style({
-  width: '75%',
-  height: '75%',
-  display: 'block',
-  flexShrink: 0,
-  pointerEvents: 'none',
-});
+const iconStyle = style(
+  {
+    width: '75%',
+    height: '75%',
+    display: 'block',
+    flexShrink: 0,
+    pointerEvents: 'none',
+  },
+  { prefix: 'checkbox-icon', layer: 'components' },
+);
 
 function CheckIcon({ className }: { className?: string } = {}): React.JSX.Element {
   return (

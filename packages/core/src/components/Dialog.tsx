@@ -203,6 +203,7 @@ const dialogRecipe: RecipeFunction<{
   size: Record<DialogSize, StyleRule>;
 }> = recipe(
   {
+    layer: 'components',
     base: [
       discreteBackdrop({ duration: dialogContract.duration }),
       {
@@ -483,7 +484,7 @@ const dialogHandleStyles = style(
       cursor: 'grabbing',
     },
   },
-  'dialog-handle',
+  { prefix: 'dialog-handle', layer: 'components' },
 );
 
 const dialogHandleBarStyles = style(
@@ -499,7 +500,7 @@ const dialogHandleBarStyles = style(
       },
     },
   },
-  'dialog-handle-bar',
+  { prefix: 'dialog-handle-bar', layer: 'components' },
 );
 
 interface DialogHandleProps extends ElementProps<HTMLDivElement> {
@@ -580,7 +581,7 @@ const dialogHeaderStyles = style(
   {
     flexShrink: 0,
   },
-  'dialog-header',
+  { prefix: 'dialog-header', layer: 'components' },
 );
 
 function DialogHeader({
@@ -604,7 +605,7 @@ const dialogBodyStyles = style(
   {
     flex: '1 1 auto',
   },
-  'dialog-body',
+  { prefix: 'dialog-body', layer: 'components' },
 );
 
 function DialogBody({
@@ -628,7 +629,7 @@ const dialogFooterStyles = style(
   {
     flexShrink: 0,
   },
-  'dialog-footer',
+  { prefix: 'dialog-footer', layer: 'components' },
 );
 
 function DialogFooter({

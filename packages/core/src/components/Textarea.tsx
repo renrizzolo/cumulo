@@ -9,13 +9,14 @@ import { fieldIntentStyles } from '../intents.js';
 
 const textareaRecipe = recipe(
   {
+    layer: 'components',
     extend: [fieldIntentStyles],
     base: {
       display: 'flex',
       width: '100%',
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      borderWidth: 1,
+      borderWidth: vars.field.border.width,
       borderStyle: 'solid',
       borderRadius: `min(${vars.radius.control}, ${vars.spacing.md})`,
       outline: 'none',
@@ -27,7 +28,7 @@ const textareaRecipe = recipe(
       },
       ':focus-visible': {
         borderColor: vars.primary['600'],
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
+        boxShadow: vars.field.shadow.focus,
       },
       ':disabled': {
         opacity: 0.5,

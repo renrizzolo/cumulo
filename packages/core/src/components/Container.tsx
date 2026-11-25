@@ -1,11 +1,15 @@
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
+import { breakpoints } from '../breakpoints.js';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 
 const containerRecipe = recipe(
   {
+    layer: 'components',
+    breakpoints,
+    responsiveVariants: ['size', 'padding'],
     base: {
       width: '100%',
       boxSizing: 'border-box',

@@ -18,6 +18,7 @@ import { selectPickerTransition } from '../transitions.js';
 
 const selectRecipe = recipe(
   {
+    layer: 'components',
     extend: [fieldIntentStyles, sizes],
     base: [
       selectPickerTransition,
@@ -28,7 +29,7 @@ const selectRecipe = recipe(
         appearance: 'none',
         fontFamily: vars.font.sans,
         color: vars.surface.fg,
-        borderWidth: 1,
+        borderWidth: vars.field.border.width,
         borderStyle: 'solid',
         borderColor: vars.surface.border,
         borderRadius: vars.radius.control,
@@ -38,7 +39,7 @@ const selectRecipe = recipe(
         transition: `all ${vars.duration.fast} ${vars.ease.default}`,
         ':focus-visible': {
           borderColor: vars.primary['600'],
-          boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
+          boxShadow: vars.field.shadow.focus,
         },
         ':disabled': {
           opacity: 0.5,
@@ -206,7 +207,7 @@ const selectWrapperStyle = style(
     alignItems: 'center',
     width: '100%',
   },
-  'select-wrapper',
+  { prefix: 'select-wrapper', layer: 'components' },
 );
 
 const chevronContainerStyle = style(
@@ -237,15 +238,18 @@ const chevronContainerStyle = style(
       },
     },
   },
-  'select-chevron',
+  { prefix: 'select-chevron', layer: 'components' },
 );
 
-const chevronSvgStyle = style({
-  width: vars.size['3xs'],
-  height: vars.size['3xs'],
-  display: 'block',
-  flexShrink: 0,
-});
+const chevronSvgStyle = style(
+  {
+    width: vars.size['3xs'],
+    height: vars.size['3xs'],
+    display: 'block',
+    flexShrink: 0,
+  },
+  { layer: 'components' },
+);
 
 export type SelectVariants = RecipeVariants<typeof selectRecipe>;
 

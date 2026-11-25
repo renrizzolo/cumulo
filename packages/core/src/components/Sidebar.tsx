@@ -30,6 +30,7 @@ const defaultFloatingMargin = vars.spacing.sm;
 
 const sidebarRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'flex',
       flexDirection: 'column',
@@ -631,11 +632,14 @@ SidebarRoot.displayName = 'Sidebar.Root';
 
 type SidebarProps = SidebarProviderProps & SidebarRootProps;
 
-const toggleIconStyle = style({
-  width: '18px',
-  height: '18px',
-  flexShrink: 0,
-});
+const toggleIconStyle = style(
+  {
+    width: '18px',
+    height: '18px',
+    flexShrink: 0,
+  },
+  { layer: 'components' },
+);
 
 interface SidebarToggleProps extends ButtonProps {
   children?: React.ReactNode;
@@ -708,57 +712,69 @@ SidebarToggle.displayName = 'Sidebar.Toggle';
 
 const collapsedHeaderSelector = '[data-visually-collapsed="true"] &';
 
-const sidebarHeaderStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
-  minHeight: vars.size.sm,
-  boxSizing: 'border-box',
-});
+const sidebarHeaderStyle = style(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    minHeight: vars.size.sm,
+    boxSizing: 'border-box',
+  },
+  { layer: 'components' },
+);
 
-const sidebarHeaderTitleStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  opacity: 1,
-  flex: 1,
-  minWidth: 0,
-  marginRight: vars.spacing.xs,
-  whiteSpace: 'nowrap',
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, margin-right ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    '& > *': {
-      flexShrink: 0,
-      whiteSpace: 'nowrap',
-    },
-    [collapsedHeaderSelector]: {
-      opacity: 0,
-      width: 0,
-      flex: 0,
-      marginRight: 0,
-      pointerEvents: 'none',
-      textOverflow: 'clip',
-      // Delay layout collapse until after opacity fade completes
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}, margin-right 0s linear ${vars.duration.fast}`,
+const sidebarHeaderTitleStyle = style(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    opacity: 1,
+    flex: 1,
+    minWidth: 0,
+    marginRight: vars.spacing.xs,
+    whiteSpace: 'nowrap',
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}, margin-right ${vars.duration.normal} ${vars.ease.default}`,
+    selectors: {
+      '& > *': {
+        flexShrink: 0,
+        whiteSpace: 'nowrap',
+      },
+      [collapsedHeaderSelector]: {
+        opacity: 0,
+        width: 0,
+        flex: 0,
+        marginRight: 0,
+        pointerEvents: 'none',
+        textOverflow: 'clip',
+        // Delay layout collapse until after opacity fade completes
+        transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}, margin-right 0s linear ${vars.duration.fast}`,
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const sidebarHeaderTitleCollapsedStyle = style({
-  display: 'none',
-  alignItems: 'center',
-  minWidth: 0,
-  selectors: {
-    [collapsedHeaderSelector]: {
-      display: 'inline-flex',
+const sidebarHeaderTitleCollapsedStyle = style(
+  {
+    display: 'none',
+    alignItems: 'center',
+    minWidth: 0,
+    selectors: {
+      [collapsedHeaderSelector]: {
+        display: 'inline-flex',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const sidebarHeaderActionsStyle = style({
-  flexShrink: 0,
-  marginLeft: 'auto',
-});
+const sidebarHeaderActionsStyle = style(
+  {
+    flexShrink: 0,
+    marginLeft: 'auto',
+  },
+  { layer: 'components' },
+);
 
 interface SidebarHeaderProps extends ElementProps<HTMLDivElement> {
   /**
@@ -800,41 +816,47 @@ function SidebarHeader({
 
 SidebarHeader.displayName = 'Sidebar.Header';
 
-const sidebarFooterStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  minWidth: 0,
-  boxSizing: 'border-box',
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-height ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    [collapsedHeaderSelector]: {
-      opacity: 0,
-      maxHeight: 0,
-      pointerEvents: 'none',
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-height 0s linear ${vars.duration.fast}`,
+const sidebarFooterStyle = style(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    minWidth: 0,
+    boxSizing: 'border-box',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-height ${vars.duration.normal} ${vars.ease.default}`,
+    selectors: {
+      [collapsedHeaderSelector]: {
+        opacity: 0,
+        maxHeight: 0,
+        pointerEvents: 'none',
+        transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-height 0s linear ${vars.duration.fast}`,
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const sidebarFooterContentStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'inherit',
-  width: '100%',
-  flex: 1,
-  minWidth: 0,
-  gap: vars.spacing.xs,
-  selectors: {
-    '& > *': {
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
+const sidebarFooterContentStyle = style(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'inherit',
+    width: '100%',
+    flex: 1,
+    minWidth: 0,
+    gap: vars.spacing.xs,
+    selectors: {
+      '& > *': {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
 interface SidebarFooterProps extends ElementProps<HTMLDivElement> {
   children?: React.ReactNode;
@@ -862,6 +884,7 @@ const noShrinkNoWrap: { flexShrink: number; whiteSpace: 'nowrap' } = {
 
 const sidebarContentRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'flex',
       flexDirection: 'column',
@@ -955,6 +978,7 @@ SidebarContent.displayName = 'Sidebar.Content';
 
 const sidebarHoverZoneRecipe = recipe(
   {
+    layer: 'components',
     base: {
       boxSizing: 'border-box',
       zIndex: 35,

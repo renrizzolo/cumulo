@@ -198,6 +198,7 @@ function MenuTrigger({
 
 export const menuContentRecipe = recipe(
   {
+    layer: 'components',
     base: [
       popoverTransition,
       {
@@ -377,6 +378,7 @@ function MenuContent({
 
 export const menuItemRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing],
     base: {
       display: 'flex',
@@ -434,33 +436,42 @@ export const menuItemRecipe = recipe(
   'menu-item',
 );
 
-const itemMainStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: vars.spacing.xs,
-  minWidth: 0,
-  flex: 1,
-});
+const itemMainStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: vars.spacing.xs,
+    minWidth: 0,
+    flex: 1,
+  },
+  { layer: 'components' },
+);
 
-const itemIconStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
-  width: vars.size['3xs'],
-  height: vars.size['3xs'],
-  color: 'currentColor',
-});
+const itemIconStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    width: vars.size['3xs'],
+    height: vars.size['3xs'],
+    color: 'currentColor',
+  },
+  { layer: 'components' },
+);
 
-const itemShortcutStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  flexShrink: 0,
-  marginLeft: 'auto',
-  fontSize: vars.font.size.xs,
-  color: vars.surface.subtle,
-  fontFamily: vars.font.mono,
-});
+const itemShortcutStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    marginLeft: 'auto',
+    fontSize: vars.font.size.xs,
+    color: vars.surface.subtle,
+    fontFamily: vars.font.mono,
+  },
+  { layer: 'components' },
+);
 
 export type MenuItemVariants = RecipeVariants<typeof menuItemRecipe>;
 
@@ -532,23 +543,29 @@ function MenuItem({
  * MenuGroup, MenuLabel, MenuSeparator
  * -----------------------------------------------------------------------------------------------*/
 
-const menuGroupStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-});
+const menuGroupStyle = style(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2px',
+  },
+  { layer: 'components' },
+);
 
-const menuLabelStyle = style({
-  paddingInline: vars.spacing.xs,
-  paddingBlock: vars.spacing['3xs'],
-  fontSize: vars.font.size['2xs'],
-  fontWeight: vars.font.weight.semibold,
-  textTransform: 'uppercase',
-  letterSpacing: '0.05em',
-  color: vars.surface.subtle,
-  fontFamily: vars.font.sans,
-  userSelect: 'none',
-});
+const menuLabelStyle = style(
+  {
+    paddingInline: vars.spacing.xs,
+    paddingBlock: vars.spacing['3xs'],
+    fontSize: vars.font.size['2xs'],
+    fontWeight: vars.font.weight.semibold,
+    textTransform: 'uppercase',
+    letterSpacing: '0.05em',
+    color: vars.surface.subtle,
+    fontFamily: vars.font.sans,
+    userSelect: 'none',
+  },
+  { layer: 'components' },
+);
 
 export interface MenuGroupProps extends Omit<ElementProps<HTMLDivElement>, 'role'> {
   children?: ReactNode;

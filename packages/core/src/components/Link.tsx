@@ -7,6 +7,7 @@ import { textSharedRecipe } from '../typography.js';
 
 const linkRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing, textSharedRecipe],
     base: {
       display: 'inline-flex',

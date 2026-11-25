@@ -6,6 +6,7 @@ import type { ElementProps } from '../ElementProps.js';
 
 const dividerRecipe = recipe(
   {
+    layer: 'components',
     base: {
       border: 'none',
       backgroundColor: vars.surface.border,

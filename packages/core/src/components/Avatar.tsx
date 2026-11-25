@@ -16,6 +16,7 @@ import type { ElementProps } from '../ElementProps.js';
 
 const avatarRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'relative',
       display: 'inline-flex',
@@ -125,6 +126,7 @@ const avatarRecipe = recipe(
 
 const avatarBadgeRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'absolute',
       display: 'block',
@@ -214,45 +216,60 @@ const avatarBadgeRecipe = recipe(
   'avatar-badge',
 );
 
-const avatarImageStyle = style({
-  width: '100%',
-  height: '100%',
-  objectFit: 'cover',
-  borderRadius: 'inherit',
-});
+const avatarImageStyle = style(
+  {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: 'inherit',
+  },
+  { layer: 'components' },
+);
 
-const avatarFallbackStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '100%',
-  height: '100%',
-  lineHeight: vars.line.height.none,
-  textTransform: 'uppercase',
-  borderRadius: 'inherit',
-});
+const avatarFallbackStyle = style(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    lineHeight: vars.line.height.none,
+    textTransform: 'uppercase',
+    borderRadius: 'inherit',
+  },
+  { layer: 'components' },
+);
 
-const defaultAvatarIconStyle = style({
-  width: '60%',
-  height: '60%',
-  display: 'block',
-  fill: 'currentColor',
-});
+const defaultAvatarIconStyle = style(
+  {
+    width: '60%',
+    height: '60%',
+    display: 'block',
+    fill: 'currentColor',
+  },
+  { layer: 'components' },
+);
 
-const avatarGroupStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  flexDirection: 'row',
-});
+const avatarGroupStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  { layer: 'components' },
+);
 
-const avatarGroupItemStyle = style({
-  boxShadow: `0 0 0 2px ${vars.bg['0']}`,
-  selectors: {
-    '&:not(:first-child)': {
-      marginInlineStart: 'calc(-1 * var(--avatar-overlap, 8px))',
+const avatarGroupItemStyle = style(
+  {
+    boxShadow: `0 0 0 2px ${vars.bg['0']}`,
+    selectors: {
+      '&:not(:first-child)': {
+        marginInlineStart: 'calc(-1 * var(--avatar-overlap, 8px))',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
 export type AvatarVariants = RecipeVariants<typeof avatarRecipe>;
 export type AvatarSize = NonNullable<AvatarVariants['size']>;

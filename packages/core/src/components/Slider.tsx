@@ -26,20 +26,25 @@ const sliderContract = createThemeContract({
   },
 });
 
-const sliderTheme = createTheme(sliderContract, {
-  track: {
-    height: `calc(${vars.spacing['2xs']} + ${vars.spacing['3xs']})`,
+const sliderTheme = createTheme(
+  sliderContract,
+  {
+    track: {
+      height: `calc(${vars.spacing['2xs']} + ${vars.spacing['3xs']})`,
+    },
+    thumb: {
+      size: `calc(${vars.size['2xs']} - ${vars.spacing['3xs']})`,
+    },
+    root: {
+      height: vars.size.sm,
+    },
   },
-  thumb: {
-    size: `calc(${vars.size['2xs']} - ${vars.spacing['3xs']})`,
-  },
-  root: {
-    height: vars.size.sm,
-  },
-});
+  { layer: 'components' },
+);
 
 export const sliderRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'relative',
       display: 'inline-flex',
@@ -107,7 +112,7 @@ const trackWrapperStyle = style(
     display: 'flex',
     alignItems: 'center',
   },
-  'slider-track-wrapper',
+  { prefix: 'slider-track-wrapper', layer: 'components' },
 );
 
 const trackStyle = style(
@@ -119,11 +124,12 @@ const trackStyle = style(
     backgroundColor: vars.surface.secondary.DEFAULT,
     overflow: 'hidden',
   },
-  'slider-track',
+  { prefix: 'slider-track', layer: 'components' },
 );
 
 export const sliderRangeRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'absolute',
       left: 0,
@@ -160,6 +166,7 @@ export const sliderRangeRecipe = recipe(
 
 export const sliderThumbRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'absolute',
       top: '50%',
@@ -239,7 +246,7 @@ const inputStyle = style(
       },
     },
   },
-  'slider-input',
+  { prefix: 'slider-input', layer: 'components' },
 );
 
 export type SliderVariants = RecipeVariants<typeof sliderRecipe>;

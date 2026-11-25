@@ -10,6 +10,7 @@ import type { ElementProps } from '../ElementProps.js';
 
 const appFrameRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'flex',
       flexDirection: 'row',
@@ -89,7 +90,7 @@ const appFrameMainStyle = style(
     minHeight: 0,
     position: 'relative',
   },
-  'app-frame-main',
+  { prefix: 'app-frame-main', layer: 'components' },
 );
 
 interface AppFrameMainProps extends ElementProps<HTMLElement> {

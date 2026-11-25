@@ -1,44 +1,24 @@
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+import { style, cx } from '@cumulo/css';
 import React from 'react';
 
 import { vars } from '../contract.js';
-import type { ElementProps } from '../ElementProps.js';
-import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 import { Header } from './Header.js';
-import { HStack, VStack, type StackProps } from './Stack.js';
-import { Surface, type SurfaceProps } from './Surface.js';
+import { HStack, VStack, type StackProps, type StackVariants } from './Stack.js';
+import { Surface, type SurfaceProps, type SurfaceVariants } from './Surface.js';
 
-const cardRecipe = recipe(
+const cardStyle = style(
   {
-    extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
-    base: {
-      borderWidth: 1,
-      borderStyle: 'solid',
-      borderColor: vars.surface.border,
-      // boxShadow: vars.shadow['0'],
-    },
-    variants: {},
-    defaultVariants: {
-      padding: 'md',
-      overflow: 'hidden',
-      radius: 'lg',
-    },
+    borderWidth: vars.surface.stroke.width,
+    borderStyle: 'solid',
+    borderColor: vars.surface.border,
   },
-  'card',
+  { prefix: 'card', layer: 'components' },
 );
 
-export type CardVariants = RecipeVariants<typeof cardRecipe>;
+export type CardVariants = Pick<SurfaceVariants, 'padding' | 'overflow' | 'radius'> &
+  Pick<StackVariants, 'flex' | 'direction' | 'gap' | 'align' | 'justify' | 'wrap'>;
 
-export interface CardProps extends ElementProps<HTMLElement> {
-  as?: SurfaceProps['as'];
-  level?: SurfaceProps['level'];
-  variant?: SurfaceProps['variant'];
-  padding?: CardVariants['padding'];
-  overflow?: CardVariants['overflow'];
-  flex?: CardVariants['flex'];
-  radius?: CardVariants['radius'];
-  children?: React.ReactNode;
-}
+export interface CardProps extends SurfaceProps {}
 
 function CardRoot({
   as,
@@ -46,15 +26,12 @@ function CardRoot({
   variant = 'default',
   padding = 'md',
   overflow = 'hidden',
-  flex,
   radius = 'lg',
   className,
   children,
   ref,
   ...props
 }: CardProps): React.JSX.Element {
-  const classes = cardRecipe({ padding, overflow, flex, radius });
-
   return (
     <Surface
       as={as}
@@ -64,8 +41,7 @@ function CardRoot({
       padding={padding}
       radius={radius}
       overflow={overflow}
-      flex={flex}
-      className={cx(classes, className)}
+      className={cx(cardStyle, className)}
       {...props}
     >
       {children}

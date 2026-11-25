@@ -13,6 +13,7 @@ export const tableContract = createThemeContract(
 
 const tableRecipe = recipe(
   {
+    layer: 'components',
     base: {
       width: '100%',
       borderCollapse: 'separate',
@@ -66,9 +67,12 @@ const tableRecipe = recipe(
   'table',
 );
 
-const tableWrapper = style({
-  overflowX: 'auto',
-});
+const tableWrapper = style(
+  {
+    overflowX: 'auto',
+  },
+  { layer: 'components' },
+);
 
 const tableHeadCellStyle = style(
   {
@@ -81,7 +85,7 @@ const tableHeadCellStyle = style(
     backgroundColor: tableContract.bg,
     textAlign: 'left',
   },
-  'table-th',
+  { prefix: 'table-th', layer: 'components' },
 );
 
 const tableCellStyle = style(
@@ -93,7 +97,7 @@ const tableCellStyle = style(
     borderBottomColor: vars.surface.border,
     verticalAlign: 'top',
   },
-  'table-td',
+  { prefix: 'table-td', layer: 'components' },
 );
 
 type TableVariants = RecipeVariants<typeof tableRecipe>;
