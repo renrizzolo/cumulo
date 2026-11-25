@@ -104,7 +104,7 @@ export default function MDXLayout({
                 className={subtleLinkStyle.className}
               >
                 <GitHubIcon />
-                <span>View this page on GitHub</span>
+                <span>Edit this page</span>
                 <ExternalArrowIcon />
               </CumuloLink>
             </HStack>
@@ -255,7 +255,7 @@ function injectComponentSourceLinks(
           className={subtleLinkStyle.className}
         >
           <GitHubIcon />
-          <span>{sources.length > 1 ? `View ${source.name} on GitHub` : 'View on GitHub'}</span>
+          <span>{sources.length > 1 ? `View ${source.name} source` : 'View source'}</span>
           <ExternalArrowIcon />
         </CumuloLink>
       ))}
