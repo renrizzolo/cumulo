@@ -1,6 +1,6 @@
 {
   "name": "@cumulo/core",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.0-alpha.3",
   "description": "Core design tokens, theme contracts, and base utilities for Cumulo UI",
   "license": "MIT",
   "repository": {
