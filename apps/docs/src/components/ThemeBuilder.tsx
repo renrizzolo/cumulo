@@ -157,6 +157,7 @@ interface ThemeConfig {
   name: string;
   intentStyle: 'solid' | 'pastel' | 'pastel-dark';
   controlStyle: 'flat' | 'raised' | '3d';
+  controlDepth: number;
   borders: {
     controlWidth: string;
     fieldWidth: string;
@@ -203,6 +204,7 @@ const DEFAULT_THEME: ThemeConfig = {
   name: 'my-theme',
   intentStyle: 'solid',
   controlStyle: 'flat',
+  controlDepth: 1,
   borders: {
     controlWidth: '1px',
     fieldWidth: '1px',
@@ -255,6 +257,7 @@ interface PresetThemeShape {
     borders?: Partial<ThemeConfig['borders']>;
     intentStyle?: ThemeConfig['intentStyle'];
     controlStyle?: ThemeConfig['controlStyle'];
+    controlDepth?: number;
   };
 }
 
@@ -861,6 +864,7 @@ function parseThemeJson(text: string): ParseThemeResult {
       name: readString(data, 'name', d.name),
       intentStyle: isIntentStyle(data.intentStyle) ? data.intentStyle : d.intentStyle,
       controlStyle: isControlStyle(data.controlStyle) ? data.controlStyle : d.controlStyle,
+      controlDepth: readNumber(data, 'controlDepth', d.controlDepth),
       borders: {
         controlWidth: readString(borders, 'controlWidth', d.borders.controlWidth),
         fieldWidth: readString(borders, 'fieldWidth', d.borders.fieldWidth),
@@ -1080,6 +1084,7 @@ export function ThemeBuilder(): React.JSX.Element {
       ...preset.config,
       intentStyle: preset.config.intentStyle ?? 'solid',
       controlStyle: preset.config.controlStyle ?? 'flat',
+      controlDepth: preset.config.controlDepth ?? DEFAULT_THEME.controlDepth,
       borders: {
         ...DEFAULT_THEME.borders,
         ...preset.config.borders,
@@ -1179,55 +1184,57 @@ export function ThemeBuilder(): React.JSX.Element {
         ? `
 
   /* Control Style: Raised (or set data-control-style="raised" on <html>) */
+  --theme-control-depth: ${theme.controlDepth};
   --theme-control-bg-image: linear-gradient(
     180deg,
-    light-dark(rgb(255 255 255 / 0.18), rgb(255 255 255 / 0.12)) 0%,
-    light-dark(rgb(0 0 0 / 0.06), rgb(0 0 0 / 0.16)) 100%
+    light-dark(rgb(255 255 255 / calc(0.12 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.08 * var(--theme-control-depth, 1)))) 0%,
+    light-dark(rgb(0 0 0 / calc(0.04 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.12 * var(--theme-control-depth, 1)))) 100%
   );
   --theme-control-bg-image-hover: linear-gradient(
     180deg,
-    light-dark(rgb(255 255 255 / 0.24), rgb(255 255 255 / 0.16)) 0%,
-    light-dark(rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.12)) 100%
+    light-dark(rgb(255 255 255 / calc(0.16 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.11 * var(--theme-control-depth, 1)))) 0%,
+    light-dark(rgb(0 0 0 / calc(0.03 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.09 * var(--theme-control-depth, 1)))) 100%
   );
-  --theme-control-primary-border: light-dark(rgb(0 0 0 / 0.14), rgb(255 255 255 / 0.16));
+  --theme-control-primary-border: light-dark(rgb(0 0 0 / calc(0.1 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.12 * var(--theme-control-depth, 1))));
   --theme-control-secondary-border: var(--theme-border);
   --theme-control-shadow:
-    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.35), rgb(255 255 255 / 0.16)),
-    0 1px 2px light-dark(rgb(0 0 0 / 0.12), rgb(0 0 0 / 0.45));
+    inset 0 1px 0 light-dark(rgb(255 255 255 / calc(0.24 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.12 * var(--theme-control-depth, 1)))),
+    0 calc(1px * var(--theme-control-depth, 1)) calc(2px * var(--theme-control-depth, 1)) light-dark(rgb(0 0 0 / calc(0.07 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.26 * var(--theme-control-depth, 1))));
   --theme-control-shadow-hover:
-    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.42), rgb(255 255 255 / 0.2)),
-    0 2px 4px light-dark(rgb(0 0 0 / 0.16), rgb(0 0 0 / 0.55));
-  --theme-control-shadow-active: inset 0 1px 2px light-dark(rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.5));
-  --theme-field-shadow: inset 0 1px 2px light-dark(rgb(0 0 0 / 0.07), rgb(0 0 0 / 0.35));`
+    inset 0 1px 0 light-dark(rgb(255 255 255 / calc(0.3 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.15 * var(--theme-control-depth, 1)))),
+    0 calc(1.5px * var(--theme-control-depth, 1)) calc(3px * var(--theme-control-depth, 1)) light-dark(rgb(0 0 0 / calc(0.1 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.34 * var(--theme-control-depth, 1))));
+  --theme-control-shadow-active: inset 0 1px 2px light-dark(rgb(0 0 0 / calc(0.12 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.35 * var(--theme-control-depth, 1))));
+  --theme-field-shadow: inset 0 1px 2px light-dark(rgb(0 0 0 / calc(0.05 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.24 * var(--theme-control-depth, 1))));`
         : theme.controlStyle === '3d'
           ? `
 
   /* Control Style: 3D / Tactile (or set data-control-style="3d" on <html>) */
+  --theme-control-depth: ${theme.controlDepth};
   --theme-control-bg-image: linear-gradient(
     180deg,
-    light-dark(rgb(255 255 255 / 0.22), rgb(255 255 255 / 0.14)) 0%,
-    light-dark(rgb(0 0 0 / 0.08), rgb(0 0 0 / 0.2)) 100%
+    light-dark(rgb(255 255 255 / calc(0.15 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.1 * var(--theme-control-depth, 1)))) 0%,
+    light-dark(rgb(0 0 0 / calc(0.05 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.14 * var(--theme-control-depth, 1)))) 100%
   );
   --theme-control-bg-image-hover: linear-gradient(
     180deg,
-    light-dark(rgb(255 255 255 / 0.28), rgb(255 255 255 / 0.18)) 0%,
-    light-dark(rgb(0 0 0 / 0.05), rgb(0 0 0 / 0.16)) 100%
+    light-dark(rgb(255 255 255 / calc(0.2 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.13 * var(--theme-control-depth, 1)))) 0%,
+    light-dark(rgb(0 0 0 / calc(0.03 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.11 * var(--theme-control-depth, 1)))) 100%
   );
-  --theme-control-primary-border: light-dark(rgb(0 0 0 / 0.2), rgb(255 255 255 / 0.18));
+  --theme-control-primary-border: light-dark(rgb(0 0 0 / calc(0.14 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.14 * var(--theme-control-depth, 1))));
   --theme-control-secondary-border: var(--theme-border);
   --theme-control-shadow:
-    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.4), rgb(255 255 255 / 0.2)),
-    0 3px 0 light-dark(rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.65)),
-    0 4px 6px var(--shadow-color);
+    inset 0 1px 0 light-dark(rgb(255 255 255 / calc(0.28 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.14 * var(--theme-control-depth, 1)))),
+    0 calc(2px * var(--theme-control-depth, 1)) 0 light-dark(rgb(0 0 0 / calc(0.14 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.45 * var(--theme-control-depth, 1)))),
+    0 calc(2px * var(--theme-control-depth, 1)) calc(4px * var(--theme-control-depth, 1)) light-dark(rgb(0 0 0 / calc(0.06 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.28 * var(--theme-control-depth, 1))));
   --theme-control-shadow-hover:
-    inset 0 1px 0 light-dark(rgb(255 255 255 / 0.45), rgb(255 255 255 / 0.24)),
-    0 3px 0 light-dark(rgb(0 0 0 / 0.26), rgb(0 0 0 / 0.72)),
-    0 5px 8px var(--shadow-color);
+    inset 0 1px 0 light-dark(rgb(255 255 255 / calc(0.32 * var(--theme-control-depth, 1))), rgb(255 255 255 / calc(0.17 * var(--theme-control-depth, 1)))),
+    0 calc(2px * var(--theme-control-depth, 1)) 0 light-dark(rgb(0 0 0 / calc(0.17 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.52 * var(--theme-control-depth, 1)))),
+    0 calc(3px * var(--theme-control-depth, 1)) calc(5px * var(--theme-control-depth, 1)) light-dark(rgb(0 0 0 / calc(0.08 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.32 * var(--theme-control-depth, 1))));
   --theme-control-shadow-active:
-    inset 0 1px 2px light-dark(rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.55)),
-    0 1px 0 light-dark(rgb(0 0 0 / 0.22), rgb(0 0 0 / 0.65));
-  --theme-control-active-transform: translateY(2px);
-  --theme-field-shadow: inset 0 2px 3px light-dark(rgb(0 0 0 / 0.09), rgb(0 0 0 / 0.42));`
+    inset 0 1px 2px light-dark(rgb(0 0 0 / calc(0.14 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.4 * var(--theme-control-depth, 1)))),
+    0 calc(0.5px * var(--theme-control-depth, 1)) 0 light-dark(rgb(0 0 0 / calc(0.14 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.45 * var(--theme-control-depth, 1))));
+  --theme-control-active-transform: translateY(calc(1.5px * var(--theme-control-depth, 1)));
+  --theme-field-shadow: inset 0 1px 2px light-dark(rgb(0 0 0 / calc(0.06 * var(--theme-control-depth, 1))), rgb(0 0 0 / calc(0.28 * var(--theme-control-depth, 1))));`
           : '';
 
     const hasCustomBorders =
@@ -1544,6 +1551,18 @@ export function ThemeBuilder(): React.JSX.Element {
                         <Select.Option value="3d">3D / Tactile</Select.Option>
                       </Field.Select>
                     </Field.Root>
+
+                    {theme.controlStyle !== 'flat' ? (
+                      <ScaleSliderField
+                        label="Control depth"
+                        code="--theme-control-depth"
+                        value={theme.controlDepth}
+                        min={0.25}
+                        max={2}
+                        step={0.25}
+                        onChange={(val) => setTheme((prev) => ({ ...prev, controlDepth: val }))}
+                      />
+                    ) : null}
 
                     <Collapsible.Root>
                       <Collapsible.Trigger variant="ghost" size="xs" width="full">

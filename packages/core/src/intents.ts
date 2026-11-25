@@ -136,32 +136,23 @@ export const staticBaseVariantStyles = recipe(
       variant: {
         primary: {
           backgroundColor: vars.primary.DEFAULT,
-          backgroundImage: vars.control.bg.image.DEFAULT,
           color: vars.primary.fg,
-          borderColor: vars.control.primary.border,
-          boxShadow: vars.control.shadow.DEFAULT,
-          textShadow: vars.control.text.shadow,
+          borderColor: 'transparent',
         },
         secondary: {
           backgroundColor: vars.surface.secondary.DEFAULT,
-          backgroundImage: vars.control.bg.image.DEFAULT,
           color: vars.surface.fg,
-          borderColor: vars.control.secondary.border,
-          boxShadow: vars.control.shadow.DEFAULT,
+          borderColor: 'transparent',
         },
         outline: {
           backgroundColor: 'transparent',
-          backgroundImage: 'none',
           color: vars.surface.fg,
           borderColor: vars.surface.secondary.border,
-          boxShadow: vars.control.shadow.DEFAULT,
         },
         ghost: {
           backgroundColor: 'transparent',
-          backgroundImage: 'none',
           color: vars.surface.fg,
           borderColor: 'transparent',
-          boxShadow: 'none',
         },
       },
     },
@@ -173,7 +164,8 @@ export const staticBaseVariantStyles = recipe(
 );
 
 /**
- * Interactive hover styles for base variants.
+ * Interactive hover, active, and control appearance styles for base variants.
+ * Kept separate from staticBaseVariantStyles so non-interactive Badges and Alerts remain flat.
  */
 export const interactiveBaseVariantStyles = recipe(
   {
@@ -181,6 +173,10 @@ export const interactiveBaseVariantStyles = recipe(
     variants: {
       variant: {
         primary: {
+          backgroundImage: vars.control.bg.image.DEFAULT,
+          borderColor: vars.control.primary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
+          textShadow: vars.control.text.shadow,
           ':hover': {
             backgroundColor: vars.primary.hover,
             backgroundImage: vars.control.bg.image.hover,
@@ -191,6 +187,9 @@ export const interactiveBaseVariantStyles = recipe(
           },
         },
         secondary: {
+          backgroundImage: vars.control.bg.image.DEFAULT,
+          borderColor: vars.control.secondary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
           ':hover': {
             backgroundColor: vars.surface.secondary.hover,
             backgroundImage: vars.control.bg.image.hover,
@@ -201,6 +200,8 @@ export const interactiveBaseVariantStyles = recipe(
           },
         },
         outline: {
+          backgroundImage: 'none',
+          boxShadow: vars.control.shadow.DEFAULT,
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
             boxShadow: vars.control.shadow.hover,
@@ -210,6 +211,8 @@ export const interactiveBaseVariantStyles = recipe(
           },
         },
         ghost: {
+          backgroundImage: 'none',
+          boxShadow: 'none',
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
             backgroundImage: 'none',
@@ -400,7 +403,7 @@ export const fieldVariantStyles = recipe(
           ':hover': {
             backgroundColor: vars.surface.bg.next,
           },
-          ':focus': {
+          ':focus-visible': {
             backgroundColor: vars.surface.bg.next,
           },
         },

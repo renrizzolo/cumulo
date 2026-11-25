@@ -686,6 +686,8 @@ export const vars = {
     fg: 'var(--theme-sky-fg)',
   },
   control: {
+    /** 1 */
+    depth: 'var(--theme-control-depth)',
     border: {
       /** 1px */
       width: 'var(--theme-control-border-width)',
