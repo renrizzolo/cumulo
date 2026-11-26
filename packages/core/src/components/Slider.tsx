@@ -179,6 +179,8 @@ export const sliderThumbRecipe = recipe(
       borderStyle: 'solid',
       borderColor: vars.primary.DEFAULT,
       boxShadow: vars.shadow['0'],
+      outline: `2px none ${vars.primary.focus}`,
+      outlineOffset: '2px',
       pointerEvents: 'none',
       boxSizing: 'border-box',
       transition: `transform ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
@@ -188,7 +190,8 @@ export const sliderThumbRecipe = recipe(
         },
         '[data-slider-root]:has(input:focus-visible) &': {
           borderColor: vars.primary.DEFAULT,
-          boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+          outline: `2px solid ${vars.primary.focus}`,
+          outlineOffset: '2px',
         },
       },
     },
@@ -197,13 +200,15 @@ export const sliderThumbRecipe = recipe(
         default: {},
         error: {
           borderColor: vars.error.bg,
+          outlineColor: vars.error['600'],
           selectors: {
             '[data-slider-root]:has(input:hover:not(:disabled)) &': {
               borderColor: vars.error.hover,
             },
             '[data-slider-root]:has(input:focus-visible) &': {
               borderColor: vars.error.bg,
-              boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['400']}`,
+              outline: `2px solid ${vars.error['600']}`,
+              outlineOffset: '2px',
             },
           },
         },

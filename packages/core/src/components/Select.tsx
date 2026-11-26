@@ -33,13 +33,11 @@ const selectRecipe = recipe(
         borderStyle: 'solid',
         borderColor: vars.surface.border,
         borderRadius: vars.radius.control,
-        outline: 'none',
         boxSizing: 'border-box',
         cursor: 'pointer',
         transition: `all ${vars.duration.fast} ${vars.ease.default}`,
         ':focus-visible': {
           borderColor: vars.primary['600'],
-          boxShadow: vars.field.shadow.focus,
         },
         ':disabled': {
           opacity: 0.5,

@@ -734,12 +734,8 @@ export const vars = {
       /** none */
       image: 'var(--theme-field-bg-image)',
     },
-    shadow: {
-      /** none */
-      DEFAULT: 'var(--theme-field-shadow)',
-      /** 0 0 0 3px var(--theme-primary-subtle) */
-      focus: 'var(--theme-field-shadow-focus)',
-    },
+    /** none */
+    shadow: 'var(--theme-field-shadow)',
   },
 } as const;
 

@@ -19,7 +19,6 @@ const textareaRecipe = recipe(
       borderWidth: vars.field.border.width,
       borderStyle: 'solid',
       borderRadius: `min(${vars.radius.control}, ${vars.spacing.md})`,
-      outline: 'none',
       boxSizing: 'border-box',
       transition: `border-color ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}`,
       minHeight: '5rem',
@@ -28,7 +27,6 @@ const textareaRecipe = recipe(
       },
       ':focus-visible': {
         borderColor: vars.primary['600'],
-        boxShadow: vars.field.shadow.focus,
       },
       ':disabled': {
         opacity: 0.5,

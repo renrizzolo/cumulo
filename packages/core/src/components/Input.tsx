@@ -20,7 +20,6 @@ const inputRecipe = recipe(
       borderStyle: 'solid',
       borderColor: vars.surface.border,
       borderRadius: vars.radius.control,
-      outline: 'none',
       boxSizing: 'border-box',
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       '::placeholder': {
@@ -28,11 +27,9 @@ const inputRecipe = recipe(
       },
       ':focus-visible': {
         borderColor: vars.primary['600'],
-        boxShadow: vars.field.shadow.focus,
       },
       ':focus-within': {
         borderColor: vars.primary['600'],
-        boxShadow: vars.field.shadow.focus,
       },
       ':disabled': {
         opacity: 0.5,

@@ -387,61 +387,6 @@ export const allIntentStyles = interactiveIntentStyles;
 export const buttonIntentStyles = interactiveIntentStyles;
 
 /**
- * Variant style for form inputs.
- */
-export const fieldVariantStyles = recipe(
-  {
-    layer: 'components',
-    variants: {
-      variant: {
-        field: {
-          backgroundColor: vars.surface.bg.DEFAULT,
-          backgroundImage: vars.field.bg.image,
-          color: vars.surface.fg,
-          borderColor: vars.surface.border,
-          boxShadow: vars.field.shadow.DEFAULT,
-          ':hover': {
-            backgroundColor: vars.surface.bg.next,
-          },
-          ':focus-visible': {
-            backgroundColor: vars.surface.bg.next,
-          },
-        },
-      },
-    },
-  },
-  'field-var',
-);
-
-/**
- * Field intent compound styles (e.g. error border for form inputs).
- */
-export const fieldIntentStyles = recipe(
-  {
-    layer: 'components',
-    extend: [fieldVariantStyles],
-    variants: {
-      intent: {
-        default: {},
-        error: {
-          borderColor: vars.error['600'],
-          ':focus-visible': {
-            borderColor: vars.error['600'],
-          },
-          ':focus-within': {
-            borderColor: vars.error['600'],
-          },
-        },
-      },
-    },
-    defaultVariants: {
-      intent: 'default',
-    },
-  },
-  'field-intent',
-);
-
-/**
  * Shared focus ring style and recipe for interactive components.
  * Uses `outline` + `outlineOffset` so custom control `boxShadow` tokens are preserved on focus.
  */
@@ -467,6 +412,70 @@ export const focusRing = recipe(
     },
   },
   'focus-ring',
+);
+
+/**
+ * Variant style for form inputs.
+ */
+export const fieldVariantStyles = recipe(
+  {
+    layer: 'components',
+    variants: {
+      variant: {
+        field: {
+          backgroundColor: vars.surface.bg.DEFAULT,
+          backgroundImage: vars.field.bg.image,
+          color: vars.surface.fg,
+          borderColor: vars.surface.border,
+          boxShadow: vars.field.shadow,
+          ':hover': {
+            backgroundColor: vars.surface.bg.next,
+          },
+          ':focus-visible': {
+            backgroundColor: vars.surface.bg.next,
+          },
+        },
+      },
+    },
+  },
+  'field-var',
+);
+
+/**
+ * Field intent compound styles (e.g. error border and focus ring for form inputs).
+ */
+export const fieldIntentStyles = recipe(
+  {
+    layer: 'components',
+    extend: [fieldVariantStyles],
+    base: focusRingStyles,
+    variants: {
+      intent: {
+        default: {},
+        error: {
+          borderColor: vars.error['600'],
+          outlineColor: vars.error['600'],
+          ':focus-visible': {
+            borderColor: vars.error['600'],
+            outline: `2px solid ${vars.error['600']}`,
+            outlineOffset: '2px',
+          },
+          ':has(:focus-visible)': {
+            borderColor: vars.error['600'],
+            outline: `2px solid ${vars.error['600']}`,
+            outlineOffset: '2px',
+          },
+          ':focus-within': {
+            borderColor: vars.error['600'],
+          },
+        },
+      },
+    },
+    defaultVariants: {
+      intent: 'default',
+    },
+  },
+  'field-intent',
 );
 
 /**

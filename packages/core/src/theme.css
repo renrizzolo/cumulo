@@ -1308,7 +1308,6 @@
     --theme-field-border-width: 1px;
     --theme-field-bg-image: none;
     --theme-field-shadow: none;
-    --theme-field-shadow-focus: 0 0 0 3px var(--theme-primary-subtle);
 
     --theme-surface-stroke-width: 1px;
   }
