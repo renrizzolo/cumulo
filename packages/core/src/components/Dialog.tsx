@@ -442,8 +442,9 @@ function DialogContent({
     type: 'modality',
     trap: true,
     open,
+    // these are handled by showModal/close
     focusOnMount: false,
-    restoreFocusOnUnmount: true,
+    restoreFocusOnUnmount: false,
   });
 
   useEffect(() => {
@@ -458,12 +459,6 @@ function DialogContent({
     if (open) {
       if (!dialog.open) {
         dialog.showModal();
-        if (
-          !dialog.querySelector('[autofocus]') &&
-          !dialog.querySelector('[popover][data-state="open"]')
-        ) {
-          dialog.focus();
-        }
       }
     } else {
       if (dialog.open) {
@@ -474,6 +469,7 @@ function DialogContent({
 
   const classes = dialogRecipe({ placement, size });
   const scrollClasses = dialogScrollRecipe({ placement });
+
   const mergedRef = useMergeRefs(dialogRef, focusRef, dismissibleRef, ref);
   const resolvedLabelledBy = ariaLabelledby || getPartId('title');
   const resolvedDescribedBy = ariaDescribedby || getPartId('description');
@@ -483,7 +479,6 @@ function DialogContent({
     <dialog
       ref={mergedRef}
       id={id}
-      tabIndex={-1}
       closedby="any"
       data-placement={placement}
       data-state={open ? 'open' : 'closed'}
