@@ -82,9 +82,9 @@ export const vars = {
     snappy: 'var(--theme-duration-snappy)',
     /** 125ms */
     fast: 'var(--theme-duration-fast)',
-    /** 235ms */
+    /** 200ms */
     normal: 'var(--theme-duration-normal)',
-    /** 400ms */
+    /** 280ms */
     slow: 'var(--theme-duration-slow)',
   },
   ease: {

@@ -215,12 +215,11 @@ const dialogRecipe: RecipeFunction<{
         backgroundColor: vars.surface.bg.DEFAULT,
         color: vars.surface.fg,
         boxShadow: vars.shadow['2'],
-        padding: vars.spacing.xl,
+        padding: 0,
         boxSizing: 'border-box',
         outline: 'none',
-        overflowY: 'auto',
+        overflow: 'hidden',
         flexDirection: 'column',
-        gap: vars.spacing.md,
         selectors: {
           '&[open]': {
             display: 'flex',
@@ -264,7 +263,6 @@ const dialogRecipe: RecipeFunction<{
           borderTopRightRadius: vars.radius.xl,
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
-          paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
           ...discreteSlide({
             openSelector: '&[open]',
             from: 'bottom',
@@ -367,6 +365,39 @@ const dialogRecipe: RecipeFunction<{
 
 type DialogVariants = RecipeVariants<typeof dialogRecipe>;
 
+const dialogScrollRecipe = recipe(
+  {
+    layer: 'components',
+    base: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: vars.spacing.md,
+      flex: '1 1 auto',
+      minHeight: 0,
+      width: '100%',
+      padding: vars.spacing.xl,
+      boxSizing: 'border-box',
+      overflowY: 'auto',
+      overscrollBehavior: 'contain',
+      scrollbarWidth: 'thin',
+    },
+    variants: {
+      placement: {
+        center: {},
+        bottom: {
+          paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
+        },
+        right: {},
+        left: {},
+      },
+    },
+    defaultVariants: {
+      placement: 'center',
+    },
+  },
+  'dialog-scroll',
+);
+
 const DialogPlacementContext = createContext<DialogPlacement>('center');
 
 interface DialogContentProps extends ElementProps<HTMLDialogElement> {
@@ -397,6 +428,7 @@ function DialogContent({
 }: DialogContentProps): React.JSX.Element {
   const { open, setOpen, dialogRef, contentId, registerPart, getPartId } = useDialog();
   const id = providedId || contentId;
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -410,6 +442,7 @@ function DialogContent({
   const focusRef = useFocus<HTMLDialogElement>({
     type: 'modality',
     trap: true,
+    open,
     focusOnMount: true,
     restoreFocusOnUnmount: true,
   });
@@ -418,7 +451,7 @@ function DialogContent({
     return registerPart('content', id);
   }, [id, registerPart]);
 
-  // Handle native HTML5 showModal / close lifecycle
+  // Handle native HTML5 showModal / close lifecycle and keep initial scroll at top
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -427,6 +460,17 @@ function DialogContent({
       if (!dialog.open) {
         dialog.showModal();
       }
+      dialog.scrollTop = 0;
+      if (scrollRef.current) {
+        scrollRef.current.scrollTop = 0;
+      }
+      const frame = requestAnimationFrame(() => {
+        dialog.scrollTop = 0;
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = 0;
+        }
+      });
+      return () => cancelAnimationFrame(frame);
     } else {
       if (dialog.open) {
         dialog.close();
@@ -435,6 +479,7 @@ function DialogContent({
   }, [open, dialogRef]);
 
   const classes = dialogRecipe({ placement, size });
+  const scrollClasses = dialogScrollRecipe({ placement });
   const mergedRef = useMergeRefs(dialogRef, focusRef, dismissibleRef, ref);
   const resolvedLabelledBy = ariaLabelledby || getPartId('title');
   const resolvedDescribedBy = ariaDescribedby || getPartId('description');
@@ -453,9 +498,11 @@ function DialogContent({
       className={cx(classes, className)}
       {...props}
     >
-      <DialogPlacementContext.Provider value={placement}>
-        {children}
-      </DialogPlacementContext.Provider>
+      <div ref={scrollRef} className={scrollClasses}>
+        <DialogPlacementContext.Provider value={placement}>
+          {children}
+        </DialogPlacementContext.Provider>
+      </div>
     </dialog>
   );
 }

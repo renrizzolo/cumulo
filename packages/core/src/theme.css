@@ -138,8 +138,8 @@
     /* Transitions & Motion */
     --theme-duration-snappy: 55ms;
     --theme-duration-fast: 125ms;
-    --theme-duration-normal: 235ms;
-    --theme-duration-slow: 400ms;
+    --theme-duration-normal: 200ms;
+    --theme-duration-slow: 280ms;
     --theme-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
 
     /* Typography */

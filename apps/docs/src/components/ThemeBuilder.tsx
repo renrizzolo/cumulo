@@ -198,6 +198,12 @@ interface ThemeConfig {
     sans: string;
     mono: string;
   };
+  durations: {
+    snappy: string;
+    fast: string;
+    normal: string;
+    slow: string;
+  };
 }
 
 const DEFAULT_THEME: ThemeConfig = {
@@ -245,16 +251,23 @@ const DEFAULT_THEME: ThemeConfig = {
     sans: "'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
     mono: "'Cascadia Code', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   },
+  durations: {
+    snappy: '55ms',
+    fast: '125ms',
+    normal: '200ms',
+    slow: '280ms',
+  },
 };
 
 interface PresetThemeShape {
   id: string;
   name: string;
   badge: string;
-  config: Partial<Omit<ThemeConfig, 'scales' | 'fonts' | 'borders'>> & {
+  config: Partial<Omit<ThemeConfig, 'scales' | 'fonts' | 'borders' | 'durations'>> & {
     scales?: Partial<ThemeConfig['scales']>;
     fonts?: Partial<ThemeConfig['fonts']>;
     borders?: Partial<ThemeConfig['borders']>;
+    durations?: Partial<ThemeConfig['durations']>;
     intentStyle?: ThemeConfig['intentStyle'];
     controlStyle?: ThemeConfig['controlStyle'];
     controlDepth?: number;
@@ -496,6 +509,36 @@ const SPACING_PRESETS = [
       xl: '3rem',
     },
   },
+];
+
+const DURATION_PRESETS = [
+  {
+    label: 'Instant (0ms)',
+    values: { snappy: '0ms', fast: '0ms', normal: '0ms', slow: '0ms' },
+  },
+  {
+    label: 'Snappy',
+    values: { snappy: '40ms', fast: '90ms', normal: '150ms', slow: '220ms' },
+  },
+  {
+    label: 'Standard (Default)',
+    values: { snappy: '55ms', fast: '125ms', normal: '200ms', slow: '280ms' },
+  },
+  {
+    label: 'Relaxed',
+    values: { snappy: '80ms', fast: '180ms', normal: '280ms', slow: '380ms' },
+  },
+];
+
+const DURATION_CONFIGS: Array<{
+  label: string;
+  key: keyof ThemeConfig['durations'];
+  max: number;
+}> = [
+  { label: 'Snappy', key: 'snappy', max: 200 },
+  { label: 'Fast', key: 'fast', max: 350 },
+  { label: 'Normal', key: 'normal', max: 500 },
+  { label: 'Slow', key: 'slow', max: 600 },
 ];
 
 const FONT_PRESETS = [
@@ -827,7 +870,7 @@ function parseThemeJson(text: string): ParseThemeResult {
     return { ok: false, error: 'Expected a JSON object exported from the theme builder.' };
   }
   const d = DEFAULT_THEME;
-  const { colors, scales, radii, spacing, fonts, borders } = data;
+  const { colors, scales, radii, spacing, fonts, borders, durations } = data;
   if (
     ![
       colors,
@@ -836,6 +879,7 @@ function parseThemeJson(text: string): ParseThemeResult {
       spacing,
       fonts,
       borders,
+      durations,
       data.intentStyle,
       data.controlStyle,
       data.name,
@@ -904,6 +948,12 @@ function parseThemeJson(text: string): ParseThemeResult {
       fonts: {
         sans: readString(fonts, 'sans', d.fonts.sans),
         mono: readString(fonts, 'mono', d.fonts.mono),
+      },
+      durations: {
+        snappy: readString(durations, 'snappy', d.durations.snappy),
+        fast: readString(durations, 'fast', d.durations.fast),
+        normal: readString(durations, 'normal', d.durations.normal),
+        slow: readString(durations, 'slow', d.durations.slow),
       },
     },
   };
@@ -1088,6 +1138,10 @@ export function ThemeBuilder(): React.JSX.Element {
       borders: {
         ...DEFAULT_THEME.borders,
         ...preset.config.borders,
+      },
+      durations: {
+        ...DEFAULT_THEME.durations,
+        ...preset.config.durations,
       },
       colors: nextColors,
       scales: {
@@ -1280,6 +1334,12 @@ export function ThemeBuilder(): React.JSX.Element {
   --theme-spacing-md: ${theme.spacing.md};
   --theme-spacing-lg: ${theme.spacing.lg};
   --theme-spacing-xl: ${theme.spacing.xl};
+
+  /* Transitions & Motion */
+  --theme-duration-snappy: ${theme.durations.snappy};
+  --theme-duration-fast: ${theme.durations.fast};
+  --theme-duration-normal: ${theme.durations.normal};
+  --theme-duration-slow: ${theme.durations.slow};
 
   /* Typography */
   --theme-font-sans: ${theme.fonts.sans};
@@ -1487,6 +1547,7 @@ export function ThemeBuilder(): React.JSX.Element {
                   <Tabs.Trigger value="radii">Radius</Tabs.Trigger>
                   <Tabs.Trigger value="spacing">Spacing</Tabs.Trigger>
                   <Tabs.Trigger value="typography">Type</Tabs.Trigger>
+                  <Tabs.Trigger value="motion">Motion</Tabs.Trigger>
                 </Tabs.List>
 
                 <Tabs.Content value="colors">
@@ -1911,6 +1972,110 @@ export function ThemeBuilder(): React.JSX.Element {
                               }
                             />
                           </Field.Root>
+                        </VStack>
+                      </Collapsible.Content>
+                    </Collapsible.Root>
+                  </VStack>
+                </Tabs.Content>
+
+                <Tabs.Content value="motion">
+                  <VStack gap="lg" className={tabContentStyle.className}>
+                    <Field.Root>
+                      <Field.Label>Motion preset</Field.Label>
+                      <Field.Select
+                        size="sm"
+                        value={
+                          DURATION_PRESETS.find(
+                            (p) =>
+                              p.values.snappy === theme.durations.snappy &&
+                              p.values.fast === theme.durations.fast &&
+                              p.values.normal === theme.durations.normal &&
+                              p.values.slow === theme.durations.slow,
+                          )?.label ?? ''
+                        }
+                        onValueChange={(label) => {
+                          const preset = DURATION_PRESETS.find((p) => p.label === label);
+                          if (preset) {
+                            setTheme((prev) => ({ ...prev, durations: { ...preset.values } }));
+                          }
+                        }}
+                      >
+                        {!DURATION_PRESETS.some(
+                          (p) =>
+                            p.values.snappy === theme.durations.snappy &&
+                            p.values.fast === theme.durations.fast &&
+                            p.values.normal === theme.durations.normal &&
+                            p.values.slow === theme.durations.slow,
+                        ) ? (
+                          <Select.Option value="" disabled>
+                            Custom
+                          </Select.Option>
+                        ) : null}
+                        {DURATION_PRESETS.map((preset) => (
+                          <Select.Option key={preset.label} value={preset.label}>
+                            {preset.label}
+                          </Select.Option>
+                        ))}
+                      </Field.Select>
+                    </Field.Root>
+
+                    <Field.Root>
+                      <HStack justify="between" align="center" className={fullWidthStyle.className}>
+                        <Field.Label>Base duration</Field.Label>
+                        <Code>{theme.durations.normal}</Code>
+                      </HStack>
+                      <Field.Slider
+                        min={0}
+                        max={400}
+                        step={10}
+                        value={parseFloat(theme.durations.normal) || 0}
+                        onValueChange={(normalMs: number) =>
+                          setTheme((prev) => ({
+                            ...prev,
+                            durations: {
+                              snappy: `${Math.round(normalMs * 0.275)}ms`,
+                              fast: `${Math.round(normalMs * 0.625)}ms`,
+                              normal: `${Math.round(normalMs)}ms`,
+                              slow: `${Math.round(normalMs * 1.4)}ms`,
+                            },
+                          }))
+                        }
+                      />
+                    </Field.Root>
+
+                    <Collapsible.Root>
+                      <Collapsible.Trigger variant="ghost" size="xs" width="full">
+                        Fine-tune each step ▾
+                      </Collapsible.Trigger>
+                      <Collapsible.Content>
+                        <VStack gap="md" className={tabContentStyle.className}>
+                          {DURATION_CONFIGS.map((item) => (
+                            <Field.Root key={item.key}>
+                              <HStack
+                                justify="between"
+                                align="center"
+                                className={fullWidthStyle.className}
+                              >
+                                <Field.Label>{item.label}</Field.Label>
+                                <Code>{theme.durations[item.key]}</Code>
+                              </HStack>
+                              <Field.Slider
+                                min={0}
+                                max={item.max}
+                                step={5}
+                                value={parseFloat(theme.durations[item.key]) || 0}
+                                onValueChange={(ms: number) =>
+                                  setTheme((prev) => ({
+                                    ...prev,
+                                    durations: {
+                                      ...prev.durations,
+                                      [item.key]: `${Math.round(ms)}ms`,
+                                    },
+                                  }))
+                                }
+                              />
+                            </Field.Root>
+                          ))}
                         </VStack>
                       </Collapsible.Content>
                     </Collapsible.Root>
