@@ -524,6 +524,8 @@ export const vars = {
     hover: 'var(--theme-error-hover)',
     /** #ffffff */
     fg: 'var(--theme-error-fg)',
+    /** light-dark(var(--theme-error-300), var(--theme-error-400)) */
+    focus: 'var(--theme-error-focus)',
     secondary: {
       bg: {
         /** var(--theme-error-50) */

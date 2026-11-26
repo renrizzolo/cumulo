@@ -1134,6 +1134,7 @@
     --theme-error-bg: var(--theme-error-600);
     --theme-error-hover: var(--theme-error-700);
     --theme-error-fg: #ffffff;
+    --theme-error-focus: light-dark(var(--theme-error-300), var(--theme-error-400));
     --theme-error-secondary-bg: var(--theme-error-50);
     --theme-error-secondary-bg-hover: light-dark(var(--theme-error-100), var(--theme-error-200));
     --theme-error-secondary-fg: var(--theme-error-600);

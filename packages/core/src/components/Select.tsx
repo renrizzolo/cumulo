@@ -36,9 +36,6 @@ const selectRecipe = recipe(
         boxSizing: 'border-box',
         cursor: 'pointer',
         transition: `all ${vars.duration.fast} ${vars.ease.default}`,
-        ':focus-visible': {
-          borderColor: vars.surface.subtle,
-        },
         ':disabled': {
           opacity: 0.5,
           cursor: 'not-allowed',

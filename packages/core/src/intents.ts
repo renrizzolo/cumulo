@@ -454,15 +454,15 @@ export const fieldIntentStyles = recipe(
         default: {},
         error: {
           borderColor: vars.error['600'],
-          outlineColor: vars.error['600'],
+          outlineColor: vars.error.focus,
           ':focus-visible': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error['600']}`,
+            outline: `2px solid ${vars.error.focus}`,
             outlineOffset: '2px',
           },
           ':has(:focus-visible)': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error['600']}`,
+            outline: `2px solid ${vars.error.focus}`,
             outlineOffset: '2px',
           },
           ':focus-within': {
@@ -524,7 +524,7 @@ export const controlIntent = recipe(
         default: {},
         error: {
           borderColor: vars.error['600'],
-          outlineColor: vars.error['600'],
+          outlineColor: vars.error.focus,
           selectors: {
             '&:has(input:hover)': {
               borderColor: vars.error['700'],
@@ -532,12 +532,12 @@ export const controlIntent = recipe(
           },
           ':focus-visible': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error['600']}`,
+            outline: `2px solid ${vars.error.focus}`,
             outlineOffset: '2px',
           },
           ':has(:focus-visible)': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error['600']}`,
+            outline: `2px solid ${vars.error.focus}`,
             outlineOffset: '2px',
           },
         },

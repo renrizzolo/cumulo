@@ -190,6 +190,7 @@ export const sliderThumbRecipe = recipe(
         },
         '[data-slider-root]:has(input:focus-visible) &': {
           borderColor: vars.primary.DEFAULT,
+          boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}`,
           outline: `2px solid ${vars.primary.focus}`,
           outlineOffset: '2px',
         },
@@ -200,14 +201,15 @@ export const sliderThumbRecipe = recipe(
         default: {},
         error: {
           borderColor: vars.error.bg,
-          outlineColor: vars.error['600'],
+          outlineColor: vars.error.focus,
           selectors: {
             '[data-slider-root]:has(input:hover:not(:disabled)) &': {
               borderColor: vars.error.hover,
             },
             '[data-slider-root]:has(input:focus-visible) &': {
               borderColor: vars.error.bg,
-              outline: `2px solid ${vars.error['600']}`,
+              boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}`,
+              outline: `2px solid ${vars.error.focus}`,
               outlineOffset: '2px',
             },
           },

@@ -25,12 +25,6 @@ const inputRecipe = recipe(
       '::placeholder': {
         color: vars.surface.subtle,
       },
-      ':focus-visible': {
-        borderColor: vars.surface.subtle,
-      },
-      ':focus-within': {
-        borderColor: vars.surface.subtle,
-      },
       ':disabled': {
         opacity: 0.5,
         cursor: 'not-allowed',
