@@ -446,7 +446,8 @@ export const fieldIntentStyles = recipe(
  * Uses `outline` + `outlineOffset` so custom control `boxShadow` tokens are preserved on focus.
  */
 export const focusRingStyles = {
-  outline: 'none',
+  outline: `2px none ${vars.primary.focus}`,
+  outlineOffset: '2px',
   ':focus-visible': {
     outline: `2px solid ${vars.primary.focus}`,
     outlineOffset: '2px',
@@ -514,6 +515,7 @@ export const controlIntent = recipe(
         default: {},
         error: {
           borderColor: vars.error['600'],
+          outlineColor: vars.error['600'],
           selectors: {
             '&:has(input:hover)': {
               borderColor: vars.error['700'],
