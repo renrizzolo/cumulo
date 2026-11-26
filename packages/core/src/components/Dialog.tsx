@@ -428,7 +428,6 @@ function DialogContent({
 }: DialogContentProps): React.JSX.Element {
   const { open, setOpen, dialogRef, contentId, registerPart, getPartId } = useDialog();
   const id = providedId || contentId;
-  const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const handleClose = useCallback(() => {
     setOpen(false);
@@ -443,7 +442,7 @@ function DialogContent({
     type: 'modality',
     trap: true,
     open,
-    focusOnMount: true,
+    focusOnMount: false,
     restoreFocusOnUnmount: true,
   });
 
@@ -451,7 +450,7 @@ function DialogContent({
     return registerPart('content', id);
   }, [id, registerPart]);
 
-  // Handle native HTML5 showModal / close lifecycle and keep initial scroll at top
+  // Handle native HTML5 showModal / close lifecycle
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -459,18 +458,13 @@ function DialogContent({
     if (open) {
       if (!dialog.open) {
         dialog.showModal();
-      }
-      dialog.scrollTop = 0;
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = 0;
-      }
-      const frame = requestAnimationFrame(() => {
-        dialog.scrollTop = 0;
-        if (scrollRef.current) {
-          scrollRef.current.scrollTop = 0;
+        if (
+          !dialog.querySelector('[autofocus]') &&
+          !dialog.querySelector('[popover][data-state="open"]')
+        ) {
+          dialog.focus();
         }
-      });
-      return () => cancelAnimationFrame(frame);
+      }
     } else {
       if (dialog.open) {
         dialog.close();
@@ -489,6 +483,7 @@ function DialogContent({
     <dialog
       ref={mergedRef}
       id={id}
+      tabIndex={-1}
       closedby="any"
       data-placement={placement}
       data-state={open ? 'open' : 'closed'}
@@ -498,7 +493,7 @@ function DialogContent({
       className={cx(classes, className)}
       {...props}
     >
-      <div ref={scrollRef} className={scrollClasses}>
+      <div className={scrollClasses}>
         <DialogPlacementContext.Provider value={placement}>
           {children}
         </DialogPlacementContext.Provider>

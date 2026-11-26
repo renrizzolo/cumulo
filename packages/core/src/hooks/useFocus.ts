@@ -143,13 +143,13 @@ export function useFocus<T extends HTMLElement = HTMLElement>(
       if (items.length > 0) {
         requestAnimationFrame(() => {
           if (!container.contains(document.activeElement)) {
-            items[0]?.focus({ preventScroll: true });
+            items[0]?.focus();
           }
         });
       } else if (container.tabIndex >= -1) {
         requestAnimationFrame(() => {
           if (!container.contains(document.activeElement)) {
-            container.focus({ preventScroll: true });
+            container.focus();
           }
         });
       }
