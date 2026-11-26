@@ -7,6 +7,8 @@ import type {
   StyleRule,
   StyleDefinitions,
   StyleOptions,
+  AtRule,
+  CssLayer,
   CompiledStyle,
   CompiledStyles,
 } from './types.js';
@@ -78,14 +80,16 @@ function serializeProperties(properties: StyleProperties | object): string {
   return declarations.join('');
 }
 
-function wrapCssRules(rules: string[], wrapper: string): string[] {
-  return rules.map((r) => `${wrapper}{${r}}`);
+/** Wraps each rule in the given at-rule preludes, innermost first (e.g. `[atRule, layer]`). */
+function wrapCssRules(rules: string[], wrappers: (string | undefined)[]): string[] {
+  const active = wrappers.filter((w): w is string => Boolean(w));
+  return rules.map((rule) => active.reduce((inner, wrapper) => `${wrapper}{${inner}}`, rule));
 }
 
 function normalizeStyleOptions(prefixOrOptions?: string | StyleOptions): {
   prefix: string;
-  layer?: string;
-  atRule?: string;
+  layer?: CssLayer;
+  atRule?: AtRule;
 } {
   if (typeof prefixOrOptions === 'string') {
     return { prefix: prefixOrOptions };
@@ -97,12 +101,23 @@ function normalizeStyleOptions(prefixOrOptions?: string | StyleOptions): {
   };
 }
 
+/**
+ * Hash input for a style. Layered / at-rule-wrapped rules are salted so they never collide with
+ * their unlayered twin, while empty rules (`{}`) and unwrapped rules keep their legacy hash.
+ */
+function hashStyle(serialized: string, layer?: CssLayer, atRule?: AtRule): string {
+  if (serialized === '{}' || (!layer && !atRule)) {
+    return hash(serialized);
+  }
+  return hash(`${layer ?? ''}\0${atRule ?? ''}\0${serialized}`);
+}
+
 export function compileStyleRule(
   rule: StyleRule,
   className: string,
-  options?: { layer?: string; atRule?: string },
+  options?: { layer?: CssLayer; atRule?: AtRule },
 ): { cssRules: string[]; className: string } {
-  let cssRules: string[] = [];
+  const cssRules: string[] = [];
   const baseDecls = serializeProperties(rule);
   if (baseDecls) {
     cssRules.push(`.${className}{${baseDecls}}`);
@@ -191,14 +206,13 @@ export function compileStyleRule(
     }
   }
 
-  if (options?.atRule) {
-    cssRules = wrapCssRules(cssRules, options.atRule);
-  }
-  if (options?.layer) {
-    cssRules = wrapCssRules(cssRules, `@layer ${options.layer}`);
-  }
-
-  return { cssRules, className };
+  return {
+    cssRules: wrapCssRules(cssRules, [
+      options?.atRule,
+      options?.layer && `@layer ${options.layer}`,
+    ]),
+    className,
+  };
 }
 
 /**
@@ -223,11 +237,7 @@ export function style(
 ): CompiledStyle {
   const { prefix, layer, atRule } = normalizeStyleOptions(prefixOrOptions);
   const serialized = JSON.stringify(rule);
-  const hashInput =
-    serialized !== '{}' && (layer || atRule)
-      ? `${layer ?? ''}\0${atRule ?? ''}\0${serialized}`
-      : serialized;
-  const className = `${prefix}-${hash(hashInput)}`;
+  const className = `${prefix}-${hashStyle(serialized, layer, atRule)}`;
   const { cssRules } = compileStyleRule(rule, className, { layer, atRule });
   const css = cssRules.join('\n');
 

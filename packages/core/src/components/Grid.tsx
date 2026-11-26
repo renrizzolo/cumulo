@@ -1,7 +1,7 @@
 import { recipe, cx, createThemeContract, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
-import { breakpoints } from '../breakpoints.js';
+import { responsiveComponent } from '../breakpoints.js';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, gapStyles, paddingStyles } from '../layout.js';
 import type { StackTag } from './Stack.js';
@@ -15,8 +15,7 @@ export const gridContract = createThemeContract(
 
 const gridRecipe = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     extend: [flexStyles, gapStyles, paddingStyles],
     responsiveVariants: ['columns', 'align', 'justify'],
     base: {
@@ -69,8 +68,7 @@ const gridRecipe = recipe(
 
 const gridItemRecipe = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     responsiveVariants: ['colSpan', 'rowSpan'],
     base: {
       minWidth: 0,

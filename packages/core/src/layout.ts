@@ -1,6 +1,6 @@
 import { recipe, type RecipeVariants } from '@cumulo/css';
 
-import { breakpoints } from './breakpoints.js';
+import { responsiveComponent } from './breakpoints.js';
 import { vars } from './contract.js';
 
 /**
@@ -8,8 +8,7 @@ import { vars } from './contract.js';
  */
 export const flexStyles = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     responsiveVariants: ['flex'],
     variants: {
       flex: {
@@ -31,8 +30,7 @@ export type FlexVariant = FlexVariants['flex'];
  */
 export const overflowStyles = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     responsiveVariants: ['overflow'],
     variants: {
       overflow: {
@@ -54,8 +52,7 @@ export type OverflowVariant = OverflowVariants['overflow'];
  */
 export const paddingStyles = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     responsiveVariants: ['padding'],
     variants: {
       padding: {
@@ -136,8 +133,7 @@ export type PaddingVariant = PaddingVariants['padding'];
  */
 export const radiusStyles = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     responsiveVariants: ['radius'],
     variants: {
       radius: {
@@ -216,8 +212,7 @@ export type RadiusVariant = RadiusVariants['radius'];
  */
 export const gapStyles = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     responsiveVariants: ['gap'],
     variants: {
       gap: {

@@ -1,7 +1,7 @@
 import { recipe, cx, createThemeContract, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
-import { breakpoints } from '../breakpoints.js';
+import { responsiveComponent } from '../breakpoints.js';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, paddingStyles } from '../layout.js';
@@ -15,8 +15,7 @@ export const panelContract = createThemeContract(
 
 const panelRecipe = recipe(
   {
-    layer: 'components',
-    breakpoints,
+    ...responsiveComponent,
     extend: [flexStyles, paddingStyles],
     responsiveVariants: ['direction'],
     base: {

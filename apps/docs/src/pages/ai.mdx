@@ -24,6 +24,7 @@ RULES:
 2. Forms: Always use compound <Field.Root>, <Field.Label>, <Field.Input>, <Field.Error> slots.
 3. Styling: Never use Tailwind classes or arbitrary hex values. Use @cumulo/css style() or recipe() with tokens from vars.\* (@cumulo/core). Always look for available layout primitives before reaching for custom styles.
 4. Theming: Use data-theme for creating branded themes in CSS ([data-theme='<theme-name>'] { --color-primary-base: ... }). Import @cumulo/core/theme.css at your application root to supply base variables and resets, or provide a custom stylesheet defining the variables.
+5. Overrides: Cumulo styles live in `@layer components`, so any plain (unlayered) `className` or stylesheet rule overrides them without `!important` or specificity hacks. Responsive props (`gap`, `direction`, `padding`, ...) accept `{ initial, sm, md, lg, xl, '2xl' }` objects; breakpoints passed to `recipe()` must be full at-rules such as `'@media (min-width: 768px)'`.
 
 SELF-CHECK:
 Before completing your response, re-read your generated code and replace any unstyled <div> containers, raw hex colors, or inline styles with Cumulo primitives and vars.\* tokens, unless the user explicitly requests otherwise.`}

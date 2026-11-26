@@ -6,7 +6,14 @@ import {
   type RuntimeRecipeConfig,
   type RuntimeVariantValue,
 } from './runtime.js';
-import type { BreakpointsMap, ResponsiveValue, StyleRule } from './types.js';
+import type {
+  AtRule,
+  BreakpointsMap,
+  CssLayer,
+  ResponsiveClassMap,
+  ResponsiveValue,
+  StyleRule,
+} from './types.js';
 
 type VariantDefinitions = Record<string, Record<string, StyleRule>>;
 
@@ -46,19 +53,13 @@ export type ExtractRecipeVariants<E> =
         ? UnionToIntersection<ExtractRecipeVariants<U>>
         : {};
 
-export type ExtractRecipeBreakpoints<E> =
-  E extends RecipeFunction<infer _V, infer B, infer _R>
-    ? B
+/** Breakpoint keys and responsive variant keys contributed by an `extend` source. */
+export type ExtractRecipeMeta<E> =
+  E extends RecipeFunction<infer _V, infer B, infer R>
+    ? { breakpoints: B; responsive: R }
     : E extends readonly (infer U)[]
-      ? ExtractRecipeBreakpoints<U>
-      : never;
-
-export type ExtractRecipeResponsiveKeys<E> =
-  E extends RecipeFunction<infer _V, infer _B, infer R>
-    ? R
-    : E extends readonly (infer U)[]
-      ? ExtractRecipeResponsiveKeys<U>
-      : never;
+      ? ExtractRecipeMeta<U>
+      : { breakpoints: never; responsive: never };
 
 type CleanVariants<T extends VariantDefinitions> = string extends keyof T ? {} : T;
 
@@ -70,6 +71,9 @@ export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T e
     : unknown
   : unknown;
 
+/** Variants of a recipe, excluding responsive ones (compound variants match static values only). */
+type StaticVariants<V, R extends PropertyKey> = Omit<V, R>;
+
 export interface RecipeOptions<
   T extends VariantDefinitions = {},
   E = undefined,
@@ -77,16 +81,37 @@ export interface RecipeOptions<
   R extends keyof (CleanVariants<T> & ExtractRecipeVariants<E>) = never,
 > {
   /** Optional CSS cascade layer name (e.g. `'components'`). */
-  layer?: string;
-  /** Breakpoint map of keys to `@media` or `@container` query strings for `responsiveVariants`. */
+  layer?: CssLayer;
+  /** Breakpoint map of keys to full `@media` / `@container` / `@supports` at-rules for `responsiveVariants`. */
   breakpoints?: B;
   /** Variant keys that accept responsive breakpoint objects `{ initial?: ..., [bp]?: ... }`. */
   responsiveVariants?: readonly R[];
   base?: StyleRule | StyleRule[];
   extend?: E;
   variants?: T;
-  compoundVariants?: CompoundVariant<CleanVariants<T> & ExtractRecipeVariants<E>>[];
+  /** Compound variants may only reference non-responsive variants. */
+  compoundVariants?: CompoundVariant<
+    StaticVariants<
+      CleanVariants<T> & ExtractRecipeVariants<E>,
+      R | ExtractRecipeMeta<E>['responsive']
+    >
+  >[];
   defaultVariants?: VariantSelection<CleanVariants<T> & ExtractRecipeVariants<E>>;
+}
+
+/**
+ * Untyped, normalized shape of the options a recipe was created with.
+ * Stored on the recipe function so other recipes can `extend` it.
+ */
+export interface RecipeDefinition {
+  layer?: CssLayer;
+  breakpoints?: BreakpointsMap;
+  responsiveVariants?: readonly PropertyKey[];
+  base?: StyleRule | StyleRule[];
+  extend?: unknown;
+  variants?: VariantDefinitions;
+  compoundVariants?: CompoundVariant<VariantDefinitions>[];
+  defaultVariants?: Record<string, string | boolean | undefined>;
 }
 
 export interface RecipeFunction<
@@ -96,7 +121,7 @@ export interface RecipeFunction<
 > {
   (options?: ResponsiveVariantSelection<T, B, R>): string;
   variants: () => (keyof T)[];
-  options: RecipeOptions<T, unknown, BreakpointsMap>;
+  options: RecipeDefinition;
   classNames: {
     base?: string;
     variants: {
@@ -104,8 +129,8 @@ export interface RecipeFunction<
         [V in keyof T[K]]: string;
       };
     };
-    responsiveVariants?: Record<string, Record<string, Record<string, string>>>;
-    compoundVariants: Array<{
+    responsiveVariants?: ResponsiveClassMap;
+    compoundVariants: ReadonlyArray<{
       variants: VariantSelection<T>;
       className: string;
     }>;
@@ -117,18 +142,6 @@ export type RecipeVariants<T> =
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-function normalizeAtRule(query: string): string {
-  const trimmed = query.trim();
-  if (
-    trimmed.startsWith('@media') ||
-    trimmed.startsWith('@container') ||
-    trimmed.startsWith('@supports')
-  ) {
-    return trimmed;
-  }
-  return `@media ${trimmed}`;
 }
 
 function mergePlainObjects(
@@ -161,8 +174,8 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
 }
 
 interface OptionsCollector {
-  layer?: string;
-  breakpoints: Record<string, string>;
+  layer?: CssLayer;
+  breakpoints: BreakpointsMap;
   responsiveVariants: Set<string>;
   bases: StyleRule[];
   variants: Record<string, Record<string, StyleRule>>;
@@ -170,64 +183,86 @@ interface OptionsCollector {
   defaultVariants: Record<string, string | boolean | undefined>;
 }
 
-function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
-  if (!ext || (typeof ext !== 'object' && typeof ext !== 'function')) return;
+function isRecipeFunction(value: unknown): value is { options: RecipeDefinition } {
+  return typeof value === 'function' && 'options' in value && isPlainObject(value.options);
+}
 
-  const extOpts =
-    typeof ext === 'function' && 'options' in ext
-      ? (ext as { options: RecipeOptions<VariantDefinitions, unknown, BreakpointsMap> }).options
-      : (ext as RecipeOptions<VariantDefinitions, unknown, BreakpointsMap>);
+function isRecipeDefinition(value: unknown): value is RecipeDefinition {
+  return isPlainObject(value);
+}
 
-  if (!extOpts) return;
+/** Resolves an `extend` entry (recipe function or raw options object) to its definition. */
+function resolveDefinition(source: unknown): RecipeDefinition | undefined {
+  if (isRecipeFunction(source)) return source.options;
+  return isRecipeDefinition(source) ? source : undefined;
+}
 
-  if (extOpts.extend) {
-    const parentExts = Array.isArray(extOpts.extend) ? extOpts.extend : [extOpts.extend];
-    for (const parent of parentExts) {
-      collectExtendedOptions(parent, acc);
+/**
+ * Collects a definition into the accumulator, depth-first: parents (`extend`) are collected before
+ * the definition itself so that later sources override earlier ones.
+ */
+function collectDefinition(definition: RecipeDefinition, acc: OptionsCollector): void {
+  if (definition.extend) {
+    const parents = Array.isArray(definition.extend) ? definition.extend : [definition.extend];
+    for (const parent of parents) {
+      const parentDefinition = resolveDefinition(parent);
+      if (parentDefinition) collectDefinition(parentDefinition, acc);
     }
   }
 
-  if (extOpts.layer !== undefined) {
-    acc.layer = extOpts.layer;
+  if (definition.layer !== undefined) {
+    acc.layer = definition.layer;
   }
 
-  if (extOpts.breakpoints) {
-    Object.assign(acc.breakpoints, extOpts.breakpoints);
+  acc.breakpoints = { ...acc.breakpoints, ...definition.breakpoints };
+
+  for (const key of definition.responsiveVariants ?? []) {
+    acc.responsiveVariants.add(String(key));
   }
 
-  if (extOpts.responsiveVariants) {
-    for (const key of extOpts.responsiveVariants) {
-      acc.responsiveVariants.add(String(key));
+  if (definition.base) {
+    acc.bases.push(...(Array.isArray(definition.base) ? definition.base : [definition.base]));
+  }
+
+  for (const [variantName, options] of Object.entries(definition.variants ?? {})) {
+    const merged = (acc.variants[variantName] ??= {});
+    for (const [optionName, rule] of Object.entries(options)) {
+      merged[optionName] = mergeStyleRules([merged[optionName], rule]) ?? {};
     }
   }
 
-  if (extOpts.base) {
-    if (Array.isArray(extOpts.base)) {
-      acc.bases.push(...extOpts.base);
-    } else {
-      acc.bases.push(extOpts.base);
+  acc.compoundVariants.push(...(definition.compoundVariants ?? []));
+  Object.assign(acc.defaultVariants, definition.defaultVariants);
+}
+
+/** Compiles each rule of an option map into a class name: `option -> className`. */
+function compileOptionClasses(
+  rules: Record<string, StyleRule>,
+  classPrefix: string,
+  layer: CssLayer | undefined,
+  atRule?: AtRule,
+): Record<string, string> {
+  const classNames: Record<string, string> = {};
+  for (const [optionName, rule] of Object.entries(rules)) {
+    classNames[optionName] = style(rule, {
+      prefix: `${classPrefix}-${optionName}`,
+      layer,
+      atRule,
+    }).className;
+  }
+  return classNames;
+}
+
+function toRuntimeValues(
+  record: Record<string, string | boolean | number | undefined | object>,
+): Record<string, RuntimeVariantValue> {
+  const out: Record<string, RuntimeVariantValue> = {};
+  for (const [key, value] of Object.entries(record)) {
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      out[key] = value;
     }
   }
-
-  if (extOpts.variants) {
-    for (const vKey of Object.keys(extOpts.variants)) {
-      if (!acc.variants[vKey]) {
-        acc.variants[vKey] = {};
-      }
-      for (const optKey of Object.keys(extOpts.variants[vKey])) {
-        acc.variants[vKey][optKey] =
-          mergeStyleRules([acc.variants[vKey][optKey], extOpts.variants[vKey][optKey]]) || {};
-      }
-    }
-  }
-
-  if (extOpts.compoundVariants) {
-    acc.compoundVariants.push(...extOpts.compoundVariants);
-  }
-
-  if (extOpts.defaultVariants) {
-    Object.assign(acc.defaultVariants, extOpts.defaultVariants);
-  }
+  return out;
 }
 
 /**
@@ -242,180 +277,79 @@ export function recipe<
   R extends keyof (CleanVariants<T> & ExtractRecipeVariants<E>) = never,
 >(
   options: RecipeOptions<T, E, B, R> & RecipeOptionsValidation<T, E>,
-  prefix = 'r',
+  prefix?: string,
 ): RecipeFunction<
   CleanVariants<T> & ExtractRecipeVariants<E>,
-  ExtractBreakpointKeys<B> | ExtractRecipeBreakpoints<E>,
-  R | ExtractRecipeResponsiveKeys<E>
-> {
-  type CombinedVariants = CleanVariants<T> & ExtractRecipeVariants<E>;
-  type CombinedBreakpoints = ExtractBreakpointKeys<B> | ExtractRecipeBreakpoints<E>;
-  type CombinedResponsive = R | ExtractRecipeResponsiveKeys<E>;
-
+  ExtractBreakpointKeys<B> | ExtractRecipeMeta<E>['breakpoints'],
+  R | ExtractRecipeMeta<E>['responsive']
+>;
+export function recipe(options: object, prefix = 'r'): object {
+  if (!isRecipeDefinition(options)) {
+    throw new TypeError('recipe() expects an options object.');
+  }
   const collected: OptionsCollector = {
     breakpoints: {},
-    responsiveVariants: new Set<string>(),
+    responsiveVariants: new Set(),
     bases: [],
     variants: {},
     compoundVariants: [],
     defaultVariants: {},
   };
+  collectDefinition(options, collected);
 
-  // 1. Recursively collect extended options
-  if (options.extend) {
-    const extendArray = Array.isArray(options.extend) ? options.extend : [options.extend];
-    for (const ext of extendArray) {
-      collectExtendedOptions(ext, collected);
-    }
-  }
+  const { layer, breakpoints, responsiveVariants, bases, variants, compoundVariants } = collected;
 
-  // 2. Merge local options
-  if (options.layer !== undefined) {
-    collected.layer = options.layer;
-  }
-
-  if (options.breakpoints) {
-    Object.assign(collected.breakpoints, options.breakpoints);
-  }
-
-  if (options.responsiveVariants) {
-    for (const key of options.responsiveVariants) {
-      collected.responsiveVariants.add(String(key));
-    }
-  }
-
-  if (options.base) {
-    if (Array.isArray(options.base)) {
-      collected.bases.push(...options.base);
-    } else {
-      collected.bases.push(options.base);
-    }
-  }
-
-  if (options.variants) {
-    for (const vKey of Object.keys(options.variants)) {
-      if (!collected.variants[vKey]) {
-        collected.variants[vKey] = {};
-      }
-      for (const optKey of Object.keys(options.variants[vKey])) {
-        collected.variants[vKey][optKey] =
-          mergeStyleRules([collected.variants[vKey][optKey], options.variants[vKey][optKey]]) || {};
-      }
-    }
-  }
-
-  if (options.compoundVariants) {
-    collected.compoundVariants.push(
-      ...(options.compoundVariants as CompoundVariant<VariantDefinitions>[]),
-    );
-  }
-
-  if (options.defaultVariants) {
-    Object.assign(collected.defaultVariants, options.defaultVariants);
-  }
-
-  const {
-    layer,
-    breakpoints: mergedBreakpoints,
-    responsiveVariants: mergedResponsiveVariants,
-    bases,
-    variants: mergedVariants,
-    compoundVariants: mergedCompoundVariants,
-    defaultVariants: mergedDefaultVariants,
-  } = collected;
-
-  // 3. Compile base classes upfront
+  // 1. Base class
   const mergedBaseRule = mergeStyleRules(bases);
   const baseClassName = mergedBaseRule
     ? style(mergedBaseRule, { prefix: `${prefix}-base`, layer }).className
     : undefined;
 
-  // 4. Compile variant classes upfront
+  // 2. Variant classes
   const compiledVariants: Record<string, Record<string, string>> = {};
-  for (const variantName of Object.keys(mergedVariants)) {
-    compiledVariants[variantName] = {};
-    const variantOptions = mergedVariants[variantName];
-    if (variantOptions) {
-      for (const optionName of Object.keys(variantOptions)) {
-        const rule = variantOptions[optionName];
-        if (rule) {
-          compiledVariants[variantName][optionName] = style(rule, {
-            prefix: `${prefix}-${variantName}-${optionName}`,
-            layer,
-          }).className;
-        }
-      }
+  for (const [variantName, rules] of Object.entries(variants)) {
+    compiledVariants[variantName] = compileOptionClasses(rules, `${prefix}-${variantName}`, layer);
+  }
+
+  // 3. Responsive variant classes, emitted in breakpoint order so later breakpoints win the cascade
+  const compiledResponsiveVariants: ResponsiveClassMap = {};
+  for (const [bpKey, atRule] of Object.entries(breakpoints)) {
+    for (const variantName of responsiveVariants) {
+      const rules = variants[variantName];
+      if (!rules) continue;
+      (compiledResponsiveVariants[variantName] ??= {})[bpKey] = compileOptionClasses(
+        rules,
+        `${prefix}-${variantName}-${bpKey}`,
+        layer,
+        atRule,
+      );
     }
   }
 
-  // 4b. Compile responsive variant classes in breakpoint order so later breakpoints win the cascade
-  const compiledResponsiveVariants: Record<string, Record<string, Record<string, string>>> = {};
-  const breakpointEntries = Object.entries(mergedBreakpoints);
-  if (breakpointEntries.length > 0 && mergedResponsiveVariants.size > 0) {
-    for (const [bpKey, bpQuery] of breakpointEntries) {
-      const atRule = normalizeAtRule(bpQuery);
-      for (const variantName of mergedResponsiveVariants) {
-        const variantOptions = mergedVariants[variantName];
-        if (!variantOptions) continue;
-        if (!compiledResponsiveVariants[variantName]) {
-          compiledResponsiveVariants[variantName] = {};
-        }
-        const bpOptionsMap: Record<string, string> = {};
-        for (const optionName of Object.keys(variantOptions)) {
-          const rule = variantOptions[optionName];
-          if (rule) {
-            bpOptionsMap[optionName] = style(rule, {
-              prefix: `${prefix}-${variantName}-${bpKey}-${optionName}`,
-              layer,
-              atRule,
-            }).className;
-          }
-        }
-        compiledResponsiveVariants[variantName][bpKey] = bpOptionsMap;
-      }
-    }
-  }
-
-  // 5. Compile compound variant classes upfront
-  const compiledCompoundVariants = mergedCompoundVariants.map((cv, index) => ({
-    variants: cv.variants,
-    className: style(cv.style, { prefix: `${prefix}-cv-${index}`, layer }).className,
-  }));
-
-  // 6. Delegate runtime lookup to runtimeRecipe()
-  const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compiledCompoundVariants.map(
-    (cv) => {
-      const variantsRecord: Record<string, RuntimeVariantValue> = {};
-      for (const [k, v] of Object.entries(cv.variants)) {
-        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-          variantsRecord[k] = v;
-        }
-      }
-      return { variants: variantsRecord, className: cv.className };
-    },
+  // 4. Compound variant classes
+  const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compoundVariants.map(
+    (cv, index) => ({
+      variants: toRuntimeValues(cv.variants),
+      className: style(cv.style, { prefix: `${prefix}-cv-${index}`, layer }).className,
+    }),
   );
 
-  const runtimeDefaultVariants: Record<string, RuntimeVariantValue> = {};
-  for (const [k, v] of Object.entries(mergedDefaultVariants)) {
-    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-      runtimeDefaultVariants[k] = v;
-    }
-  }
+  const runtimeDefaultVariants = toRuntimeValues(collected.defaultVariants);
 
-  const hasResponsiveVariants = Object.keys(compiledResponsiveVariants).length > 0;
+  // 5. Delegate runtime lookup to runtimeRecipe()
   const runtimeConfig: RuntimeRecipeConfig = {
     ...(baseClassName !== undefined ? { base: baseClassName } : {}),
     variants: compiledVariants,
-    ...(hasResponsiveVariants ? { responsiveVariants: compiledResponsiveVariants } : {}),
+    ...(Object.keys(compiledResponsiveVariants).length > 0
+      ? { responsiveVariants: compiledResponsiveVariants }
+      : {}),
     ...(runtimeCompoundVariants.length > 0 ? { compoundVariants: runtimeCompoundVariants } : {}),
     ...(Object.keys(runtimeDefaultVariants).length > 0
       ? { defaultVariants: runtimeDefaultVariants }
       : {}),
   };
 
-  const recipeFn = Object.assign(runtimeRecipe(runtimeConfig), {
-    options: options as RecipeOptions<CombinedVariants, unknown, BreakpointsMap>,
-  }) as unknown as RecipeFunction<CombinedVariants, CombinedBreakpoints, CombinedResponsive>;
+  const recipeFn = Object.assign(runtimeRecipe(runtimeConfig), { options });
 
   return attachMeta(recipeFn, {
     kind: 'recipe',

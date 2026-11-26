@@ -53,6 +53,24 @@ describe('Dialog Component', () => {
     expect(closeMock).toHaveBeenCalledTimes(1);
   });
 
+  it('passes contentProps through to the inner content surface', () => {
+    const contentRef = React.createRef<HTMLElement>();
+    render(
+      <Dialog.Root defaultOpen>
+        <Dialog.Content data-testid="content" contentProps={{ ref: contentRef, id: 'inner-id' }}>
+          <Dialog.Body>Body</Dialog.Body>
+        </Dialog.Content>
+      </Dialog.Root>,
+    );
+
+    const dialog = screen.getByTestId('content');
+    const inner = contentRef.current;
+    if (!inner) throw new Error('Expected content surface ref to be set');
+    expect(inner.id).toBe('inner-id');
+    expect(inner.parentElement).toBe(dialog);
+    expect(dialog).not.toHaveAttribute('id', 'inner-id');
+  });
+
   it('connects aria-labelledby and aria-describedby automatically', () => {
     render(
       <Dialog.Root defaultOpen>

@@ -34,6 +34,7 @@ import { Button, type ButtonProps } from './Button.js';
 import { Flow } from './Flow.js';
 import { Heading, type HeadingProps } from './Heading.js';
 import { HStack, type StackProps } from './Stack.js';
+import { Surface, type SurfaceProps } from './Surface.js';
 import { Text, type TextProps } from './Text.js';
 
 export type DialogPart = 'title' | 'description' | 'content';
@@ -263,6 +264,7 @@ const dialogRecipe: RecipeFunction<{
           borderTopRightRadius: vars.radius.xl,
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
+          paddingBottom: 'env(safe-area-inset-bottom)',
           ...discreteSlide({
             openSelector: '&[open]',
             from: 'bottom',
@@ -365,37 +367,17 @@ const dialogRecipe: RecipeFunction<{
 
 type DialogVariants = RecipeVariants<typeof dialogRecipe>;
 
-const dialogScrollRecipe = recipe(
+/** Scroll container fitted inside the `<dialog>`; padding, gap and layout come from `Surface`. */
+const dialogScrollStyle = style(
   {
-    layer: 'components',
-    base: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: vars.spacing.md,
-      flex: '1 1 auto',
-      minHeight: 0,
-      width: '100%',
-      padding: vars.spacing.xl,
-      boxSizing: 'border-box',
-      overflowY: 'auto',
-      overscrollBehavior: 'contain',
-      scrollbarWidth: 'thin',
-    },
-    variants: {
-      placement: {
-        center: {},
-        bottom: {
-          paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
-        },
-        right: {},
-        left: {},
-      },
-    },
-    defaultVariants: {
-      placement: 'center',
-    },
+    flex: '1 1 auto',
+    minHeight: 0,
+    width: '100%',
+    boxSizing: 'border-box',
+    overscrollBehavior: 'contain',
+    scrollbarWidth: 'thin',
   },
-  'dialog-scroll',
+  { prefix: 'dialog-scroll', layer: 'components' },
 );
 
 const DialogPlacementContext = createContext<DialogPlacement>('center');
@@ -412,6 +394,13 @@ interface DialogContentProps extends ElementProps<HTMLDialogElement> {
    * @default 'center'
    */
   placement?: DialogPlacement;
+  /**
+   * Props passed through to the inner scrollable `Surface` that wraps the dialog children
+   * (`className`, `ref`, `padding`, `gap`, `align`, ...). The outer `<dialog>` receives the
+   * remaining props.
+   * @default { padding: 'xl', gap: 'md' }
+   */
+  contentProps?: Omit<SurfaceProps, 'as' | 'children'>;
   children?: ReactNode;
 }
 
@@ -420,6 +409,7 @@ function DialogContent({
   size = 'md',
   placement = 'center',
   className,
+  contentProps,
   children,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
@@ -468,7 +458,6 @@ function DialogContent({
   }, [open, dialogRef]);
 
   const classes = dialogRecipe({ placement, size });
-  const scrollClasses = dialogScrollRecipe({ placement });
 
   const mergedRef = useMergeRefs(dialogRef, focusRef, dismissibleRef, ref);
   const resolvedLabelledBy = ariaLabelledby || getPartId('title');
@@ -488,11 +477,20 @@ function DialogContent({
       className={cx(classes, className)}
       {...props}
     >
-      <div className={scrollClasses}>
+      <Surface
+        level={0}
+        bordered={false}
+        radius="none"
+        padding="xl"
+        gap="md"
+        overflow="auto"
+        {...contentProps}
+        className={cx(dialogScrollStyle, contentProps?.className)}
+      >
         <DialogPlacementContext.Provider value={placement}>
           {children}
         </DialogPlacementContext.Provider>
-      </div>
+      </Surface>
     </dialog>
   );
 }
@@ -512,8 +510,8 @@ const dialogHandleStyles = style(
     userSelect: 'none',
     cursor: 'grab',
     // Extend hit area flush to the top and side edges of the dialog padding box for touch devices
-    marginTop: `calc(${vars.spacing.xl} * -1)`,
-    marginInline: `calc(${vars.spacing.xl} * -1)`,
+    marginTop: `calc(var(--parent-padding, ${vars.spacing.xl}) * -1)`,
+    marginInline: `calc(var(--parent-padding, ${vars.spacing.xl}) * -1)`,
     paddingTop: vars.spacing.md,
     paddingBottom: vars.spacing.lg,
     paddingInline: vars.spacing.xl,

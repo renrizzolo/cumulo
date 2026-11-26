@@ -11,6 +11,8 @@ import {
   cx,
   resetSheet,
   getSheetCss,
+  LAYER_ORDER,
+  LAYER_ORDER_STATEMENT,
 } from '../src/index.js';
 import { runtimeKeyframes, runtimeRecipe, runtimeStyle, runtimeTheme } from '../src/runtime.js';
 
@@ -812,7 +814,7 @@ describe('@cumulo/css', () => {
         {
           layer: 'components',
           breakpoints: {
-            sm: '(min-width: 640px)',
+            sm: '@media (min-width: 640px)',
             md: '@media (min-width: 768px)',
           },
           responsiveVariants: ['padding'],
@@ -933,6 +935,83 @@ describe('@cumulo/css', () => {
         responsiveVariants: surface.classNames.responsiveVariants,
       });
       expect(rt({ padding: { initial: 'sm', md: 'lg' }, bordered: true })).toBe(result);
+    });
+
+    it('falls back to the default variant when a responsive object omits `initial`', () => {
+      const box = recipe(
+        {
+          breakpoints: { md: '@media (min-width: 768px)' },
+          responsiveVariants: ['gap'],
+          variants: { gap: { sm: { gap: 4 }, lg: { gap: 16 } } },
+          defaultVariants: { gap: 'sm' },
+        },
+        'dflt',
+      );
+      const mdLg = box.classNames.responsiveVariants?.gap?.md?.lg;
+      expect(box({ gap: { md: 'lg' } })).toBe(`${box.classNames.variants.gap.sm} ${mdLg}`);
+    });
+
+    it('does not apply compound variants to responsive values and rejects them at the type level', () => {
+      const button = recipe(
+        {
+          breakpoints: { md: '@media (min-width: 768px)' },
+          responsiveVariants: ['size'],
+          variants: {
+            size: { sm: { fontSize: 12 }, lg: { fontSize: 18 } },
+            tone: { loud: { color: 'red' }, quiet: { color: 'grey' } },
+          },
+          compoundVariants: [
+            { variants: { tone: 'loud' }, style: { fontWeight: 700 } },
+            // @ts-expect-error `size` is responsive, so it cannot appear in a compound variant
+            { variants: { size: 'lg' }, style: { textTransform: 'uppercase' } },
+          ],
+        },
+        'cmp',
+      );
+      const [toneCompound, sizeCompound] = button.classNames.compoundVariants;
+      expect(button({ tone: 'loud' })).toContain(toneCompound?.className);
+      expect(button({ size: 'lg' })).toContain(sizeCompound?.className);
+      expect(button({ size: { initial: 'lg' } })).not.toContain(sizeCompound?.className);
+    });
+
+    it('rejects bare media queries as breakpoints at the type level', () => {
+      recipe(
+        {
+          breakpoints: {
+            // @ts-expect-error breakpoints must be full at-rules such as `@media (...)`
+            sm: '(min-width: 640px)',
+          },
+          responsiveVariants: ['gap'],
+          variants: { gap: { sm: { gap: 4 } } },
+        },
+        'bad-bp',
+      );
+    });
+  });
+
+  describe('layers and at-rule wrapping', () => {
+    it('wraps rules as @layer > at-rule > rule and isolates layered hashes', () => {
+      const plain = style({ color: 'red' });
+      const layered = style({ color: 'red' }, { layer: 'components' });
+      const wrapped = style(
+        { color: 'red' },
+        { layer: 'components', atRule: '@media (min-width: 640px)' },
+      );
+
+      expect(layered.className).not.toBe(plain.className);
+      expect(wrapped.className).not.toBe(layered.className);
+      expect(layered.css).toBe(`@layer components{.${layered.className}{color:red;}}`);
+      expect(wrapped.css).toBe(
+        `@layer components{@media (min-width: 640px){.${wrapped.className}{color:red;}}}`,
+      );
+    });
+
+    it('keeps the empty-rule hash stable regardless of layer', () => {
+      expect(style({}, { layer: 'components' }).className).toBe(style({}).className);
+    });
+
+    it('declares the canonical layer order once', () => {
+      expect(LAYER_ORDER_STATEMENT).toBe(`@layer ${LAYER_ORDER.join(', ')};`);
     });
   });
 });

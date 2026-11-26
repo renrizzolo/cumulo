@@ -23,8 +23,11 @@ export {
   type RecipeVariants,
   type VariantSelection,
   type ResponsiveVariantSelection,
+  type RecipeDefinition,
   type CompoundVariant,
 } from './recipe.js';
+
+export { LAYER_ORDER, LAYER_ORDER_STATEMENT } from './layers.js';
 
 export type {
   CSSProperties,
@@ -37,7 +40,11 @@ export type {
   StyleDefinitions,
   StyleOptions,
   BreakpointsMap,
+  CssLayer,
+  AtRule,
   ResponsiveValue,
+  ResponsiveObject,
+  ResponsiveClassMap,
   CompiledStyle,
   CompiledStyles,
   NullableTokens,

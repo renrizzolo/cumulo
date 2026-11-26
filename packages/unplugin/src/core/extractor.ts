@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { LAYER_ORDER_STATEMENT } from '@cumulo/css';
 import { createJiti, type Jiti } from 'jiti';
 
 import type { CumuloPluginOptions } from '../types.js';
@@ -122,13 +123,12 @@ export function cleanSourceCode(source: string): string {
   return normalizeRelativeImports(stripIgnoredImports(source));
 }
 
-const LAYER_ORDER_HEADER = '@layer reset,base,components,utilities;';
-
+/** Prepends the canonical `@layer` order statement so layered rules sort deterministically. */
 function ensureLayerOrder(css: string): string {
-  if (!css || !css.includes('@layer ') || css.startsWith(LAYER_ORDER_HEADER)) {
+  if (!css.includes('@layer ') || css.startsWith(LAYER_ORDER_STATEMENT)) {
     return css;
   }
-  return `${LAYER_ORDER_HEADER}\n${css}`;
+  return `${LAYER_ORDER_STATEMENT}\n${css}`;
 }
 
 function resolveCumuloCssPath(projectRoot?: string): string | undefined {

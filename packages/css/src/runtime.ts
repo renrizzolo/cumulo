@@ -1,5 +1,6 @@
 import { assignVars, createThemeContract } from './contract.js';
 import { cx } from './cx.js';
+import type { ResponsiveClassMap } from './types.js';
 
 export { assignVars, createThemeContract, cx };
 
@@ -33,7 +34,7 @@ export interface RuntimeRecipeCompoundVariant {
 export interface RuntimeRecipeConfig {
   readonly base?: string;
   readonly variants: Record<string, Record<string, string>>;
-  readonly responsiveVariants?: Record<string, Record<string, Record<string, string>>>;
+  readonly responsiveVariants?: ResponsiveClassMap;
   readonly compoundVariants?: readonly RuntimeRecipeCompoundVariant[];
   readonly defaultVariants?: Record<string, RuntimeVariantValue>;
 }
@@ -44,7 +45,7 @@ export interface RuntimeRecipeFn {
   classNames: {
     base?: string;
     variants: Record<string, Record<string, string>>;
-    responsiveVariants?: Record<string, Record<string, Record<string, string>>>;
+    responsiveVariants?: ResponsiveClassMap;
     compoundVariants: readonly RuntimeRecipeCompoundVariant[];
   };
   defaultVariants: Record<string, RuntimeVariantValue>;
@@ -55,6 +56,10 @@ function normalizeValue(value: string | number | boolean): string {
     return value ? 'true' : 'false';
   }
   return String(value);
+}
+
+function isSet<T>(value: T | null | undefined): value is T {
+  return value !== undefined && value !== null;
 }
 
 function isResponsiveObject(
@@ -133,30 +138,19 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
       }
 
       if (isResponsiveObject(propValue)) {
-        const initialVal = propValue.initial;
-        if (initialVal !== undefined && initialVal !== null) {
-          const initialClass = variants[variantName]?.[normalizeValue(initialVal)];
-          if (initialClass) {
-            classes.push(initialClass);
-          }
-        }
-        const bpMap = responsiveVariants?.[variantName];
-        if (bpMap) {
-          for (const [bp, optionMap] of Object.entries(bpMap)) {
-            const bpVal = propValue[bp];
-            if (bpVal !== undefined && bpVal !== null) {
-              const bpClass = optionMap[normalizeValue(bpVal)];
-              if (bpClass) {
-                classes.push(bpClass);
-              }
-            }
-          }
+        // A partial responsive object falls back to the default variant below its first breakpoint.
+        const initialVal = propValue.initial ?? defaultVariants[variantName];
+        const initialClass = isSet(initialVal)
+          ? variants[variantName]?.[normalizeValue(initialVal)]
+          : undefined;
+        classes.push(initialClass);
+
+        for (const [bp, optionMap] of Object.entries(responsiveVariants?.[variantName] ?? {})) {
+          const bpVal = propValue[bp];
+          classes.push(isSet(bpVal) ? optionMap[normalizeValue(bpVal)] : undefined);
         }
       } else {
-        const variantClass = variants[variantName]?.[normalizeValue(propValue)];
-        if (variantClass) {
-          classes.push(variantClass);
-        }
+        classes.push(variants[variantName]?.[normalizeValue(propValue)]);
       }
     }
 
@@ -165,9 +159,9 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
         if (expectedValue === undefined || expectedValue === null) {
           return false;
         }
-        const rawActual = mergedProps[key];
-        const actualValue = isResponsiveObject(rawActual) ? rawActual.initial : rawActual;
-        if (actualValue === undefined || actualValue === null) {
+        const actualValue = mergedProps[key];
+        // Compound variants match static values only; responsive objects never match.
+        if (!isSet(actualValue) || isResponsiveObject(actualValue)) {
           return false;
         }
         return normalizeValue(actualValue) === normalizeValue(expectedValue);
