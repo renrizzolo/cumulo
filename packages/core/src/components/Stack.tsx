@@ -1,13 +1,14 @@
 import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
-import { responsiveComponent } from '../breakpoints.js';
+import { breakpoints } from '../breakpoints.js';
 import type { ElementProps } from '../ElementProps.js';
 import { flexStyles, gapStyles } from '../layout.js';
 
 const stackRecipe = recipe(
   {
-    ...responsiveComponent,
+    layer: 'components',
+    breakpoints,
     extend: [flexStyles, gapStyles],
     responsiveVariants: ['direction', 'align', 'justify', 'wrap'],
     base: {

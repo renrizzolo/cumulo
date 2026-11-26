@@ -394,12 +394,10 @@ export const focusRingStyles = {
   outline: `2px none ${vars.primary.focus}`,
   outlineOffset: '2px',
   ':focus-visible': {
-    outline: `2px solid ${vars.primary.focus}`,
-    outlineOffset: '2px',
+    outlineStyle: 'solid',
   },
   ':has(:focus-visible)': {
-    outline: `2px solid ${vars.primary.focus}`,
-    outlineOffset: '2px',
+    outlineStyle: 'solid',
   },
 } as const;
 
@@ -457,13 +455,9 @@ export const fieldIntentStyles = recipe(
           outlineColor: vars.error.focus,
           ':focus-visible': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error.focus}`,
-            outlineOffset: '2px',
           },
           ':has(:focus-visible)': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error.focus}`,
-            outlineOffset: '2px',
           },
           ':focus-within': {
             borderColor: vars.error['600'],
@@ -532,13 +526,9 @@ export const controlIntent = recipe(
           },
           ':focus-visible': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error.focus}`,
-            outlineOffset: '2px',
           },
           ':has(:focus-visible)': {
             borderColor: vars.error['600'],
-            outline: `2px solid ${vars.error.focus}`,
-            outlineOffset: '2px',
           },
         },
       },

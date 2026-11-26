@@ -25,12 +25,6 @@ export const breakpoints = {
   '2xl': `@media (min-width: ${breakpointWidths['2xl']})`,
 } as const satisfies Record<keyof typeof breakpointWidths, AtRule>;
 
-/**
- * Shared `recipe()` options for core components with responsive variants:
- * the `components` cascade layer plus the canonical viewport {@link breakpoints}.
- */
-export const responsiveComponent = { layer: 'components', breakpoints } as const;
-
 export type Breakpoint = keyof typeof breakpoints;
 
 /**
