@@ -26,10 +26,10 @@ const inputRecipe = recipe(
         color: vars.surface.subtle,
       },
       ':focus-visible': {
-        borderColor: vars.primary['600'],
+        borderColor: vars.surface.subtle,
       },
       ':focus-within': {
-        borderColor: vars.primary['600'],
+        borderColor: vars.surface.subtle,
       },
       ':disabled': {
         opacity: 0.5,
