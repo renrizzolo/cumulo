@@ -11,17 +11,13 @@ export const tableContract = createThemeContract(
   'table',
 );
 
-const tableRecipe = recipe(
+const tableWrapperRecipe = recipe(
   {
     base: {
       width: '100%',
-      borderCollapse: 'separate',
-      overflow: 'hidden',
-      textAlign: 'left',
-      fontSize: vars.font.size.sm,
-      fontFamily: vars.font.sans,
-      color: vars.surface.fg,
-      borderSpacing: 0,
+      maxWidth: '100%',
+      minWidth: 0,
+      overflowX: 'auto',
     },
     variants: {
       variant: {
@@ -31,6 +27,37 @@ const tableRecipe = recipe(
           borderWidth: 1,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
+        },
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+    },
+  },
+  'table-wrapper',
+);
+
+const tableRecipe = recipe(
+  {
+    base: {
+      width: '100%',
+      borderCollapse: 'separate',
+      textAlign: 'left',
+      fontSize: vars.font.size.sm,
+      fontFamily: vars.font.sans,
+      color: vars.surface.fg,
+      borderSpacing: 0,
+      selectors: {
+        '& code': {
+          overflowWrap: 'normal',
+          wordBreak: 'normal',
+        },
+      },
+    },
+    variants: {
+      variant: {
+        default: {},
+        bordered: {
           ...tableContract.$set({
             bg: vars.surface.bg.next,
           }),
@@ -66,10 +93,6 @@ const tableRecipe = recipe(
   'table',
 );
 
-const tableWrapper = style({
-  overflowX: 'auto',
-});
-
 const tableHeadCellStyle = style(
   {
     padding: `${vars.spacing.sm} ${vars.spacing.md}`,
@@ -80,6 +103,12 @@ const tableHeadCellStyle = style(
     borderBottomColor: vars.surface.border,
     backgroundColor: tableContract.bg,
     textAlign: 'left',
+    whiteSpace: 'nowrap',
+    '@media': {
+      '(max-width: 640px)': {
+        padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+      },
+    },
   },
   'table-th',
 );
@@ -92,6 +121,11 @@ const tableCellStyle = style(
     borderBottomStyle: 'solid',
     borderBottomColor: vars.surface.border,
     verticalAlign: 'top',
+    '@media': {
+      '(max-width: 640px)': {
+        padding: `${vars.spacing.xs} ${vars.spacing.sm}`,
+      },
+    },
   },
   'table-td',
 );
@@ -119,10 +153,11 @@ function TableRoot({
   ref,
   ...props
 }: TableProps): React.JSX.Element {
+  const wrapperClasses = tableWrapperRecipe({ variant });
   const classes = tableRecipe({ variant, interactive });
 
   return (
-    <div className={tableWrapper.className}>
+    <div className={wrapperClasses}>
       <table ref={ref} className={cx(classes, className)} {...props}>
         {children}
       </table>

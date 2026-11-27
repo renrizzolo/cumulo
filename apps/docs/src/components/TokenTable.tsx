@@ -342,6 +342,13 @@ const colorSwatchStyle = style({
   borderColor: vars.surface.border,
 });
 
+const descriptionCellStyle = style(
+  {
+    minWidth: '200px',
+  },
+  'token-table-description-cell',
+);
+
 export function TokenTable({
   category,
   type,
@@ -378,7 +385,7 @@ export function TokenTable({
             <Table.Cell>
               <Code variant="base">{token.variable}</Code>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell className={descriptionCellStyle.className}>
               <Text size="sm">{token.value || token.description}</Text>
             </Table.Cell>
             <Table.Cell>
