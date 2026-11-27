@@ -100,7 +100,7 @@ export interface StyleOptions {
  * Map of breakpoint keys (e.g. `'sm'`, `'md'`) to full at-rule strings
  * (e.g. `'@media (min-width: 768px)'` or `'@container card (min-width: 480px)'`).
  */
-export type BreakpointsMap = Readonly<Record<string, AtRule>>;
+export type BreakpointsMap = Readonly<Record<string, Exclude<AtRule, `@supports ${string}`>>>;
 
 /**
  * Responsive breakpoint map `{ initial?: T, [bp]?: T }`.
