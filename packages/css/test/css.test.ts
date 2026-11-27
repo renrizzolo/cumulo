@@ -808,7 +808,7 @@ describe('@cumulo/css', () => {
     });
   });
 
-  describe('layers and extend deduplication', () => {
+  describe('layers', () => {
     it('wraps rules in @layer and isolates layered hashes', () => {
       const plain = style({ color: 'red' });
       const layered = style({ color: 'red' }, { layer: 'components' });
@@ -823,51 +823,6 @@ describe('@cumulo/css', () => {
 
     it('declares the canonical layer order once', () => {
       expect(LAYER_ORDER_STATEMENT).toBe(`@layer ${LAYER_ORDER.join(', ')};`);
-    });
-
-    it('reuses parent variant classes on extend() unless overridden, relayered, or overlapping base', () => {
-      const parent = recipe(
-        {
-          layer: 'components',
-          variants: {
-            gap: { sm: { gap: '8px' }, lg: { gap: '24px' } },
-          },
-        },
-        'parent',
-      );
-
-      const child = recipe(
-        {
-          layer: 'components',
-          extend: [parent],
-          base: { display: 'flex' },
-        },
-        'child',
-      );
-
-      expect(child.classNames.variants.gap.sm).toBe(parent.classNames.variants.gap.sm);
-
-      // Different layer must compile a fresh class
-      const relayered = recipe(
-        {
-          layer: 'utilities',
-          extend: [parent],
-          base: { display: 'flex' },
-        },
-        'relayered',
-      );
-      expect(relayered.classNames.variants.gap.sm).not.toBe(parent.classNames.variants.gap.sm);
-
-      // Overlapping base property must compile a fresh class so variant wins source order
-      const overlapping = recipe(
-        {
-          layer: 'components',
-          extend: [parent],
-          base: { gap: '4px' },
-        },
-        'overlapping',
-      );
-      expect(overlapping.classNames.variants.gap.sm).not.toBe(parent.classNames.variants.gap.sm);
     });
   });
 });

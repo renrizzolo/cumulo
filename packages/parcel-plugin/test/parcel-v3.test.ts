@@ -818,7 +818,7 @@ document.body.className = wrapperStyle.className + ' ' + extendedCard({ tone: 'b
       .map((f) => fs.readFileSync(f, 'utf-8'))
       .join('\n');
     expect(allCss).toContain('.p3-xf-ext-base-');
-    expect(allCss).toContain('.p3-xf-base-tone-brand-');
+    expect(allCss).toContain('.p3-xf-ext-tone-brand-');
     expect(allCss).toContain('.p3-xf-ext-elevated-true-');
     expect(allCss).toContain('.p3-reexport-wrap-');
 

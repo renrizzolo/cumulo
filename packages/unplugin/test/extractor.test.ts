@@ -190,8 +190,8 @@ describe('unplugin extractor', () => {
     expect(css).toContain('display:inline-flex;');
     expect(css).toContain('.btn-variant-primary-');
     expect(css).toContain('.btn-variant-secondary-');
-    expect(css).toContain('.size-size-md-');
-    expect(css).toContain('.size-size-sm-');
+    expect(css).toContain('.btn-size-md-');
+    expect(css).toContain('.btn-size-sm-');
     expect(css).toContain('.btn-width-full-');
   });
 

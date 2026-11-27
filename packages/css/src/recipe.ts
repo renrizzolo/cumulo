@@ -1,4 +1,4 @@
-import { compileStyleRule, style } from './create.js';
+import { style } from './create.js';
 import { attachMeta } from './meta.js';
 import {
   runtimeRecipe,
@@ -6,7 +6,6 @@ import {
   type RuntimeRecipeConfig,
   type RuntimeVariantValue,
 } from './runtime.js';
-import { sheet } from './sheet.js';
 import type { CssLayer, StyleRule } from './types.js';
 
 type VariantDefinitions = Record<string, Record<string, StyleRule>>;
@@ -121,36 +120,16 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
   return result as StyleRule;
 }
 
-interface ReusableVariantEntry {
-  className: string;
-  layer?: CssLayer;
-}
-
 interface OptionsCollector {
   layer?: CssLayer;
   bases: StyleRule[];
   variants: Record<string, Record<string, StyleRule>>;
-  reusableVariants: Record<string, Record<string, ReusableVariantEntry | undefined>>;
   compoundVariants: CompoundVariant<VariantDefinitions>[];
   defaultVariants: Record<string, string | boolean | undefined>;
 }
 
-interface CompiledRecipeSource {
-  options: RecipeDefinition;
-  classNames: {
-    variants: Record<string, Record<string, string>>;
-  };
-}
-
-function isRecipeFunction(value: unknown): value is CompiledRecipeSource {
-  return (
-    typeof value === 'function' &&
-    'options' in value &&
-    isPlainObject(value.options) &&
-    'classNames' in value &&
-    isPlainObject(value.classNames) &&
-    isPlainObject(value.classNames.variants)
-  );
+function isRecipeFunction(value: unknown): value is { options: RecipeDefinition } {
+  return typeof value === 'function' && 'options' in value && isPlainObject(value.options);
 }
 
 function isRecipeDefinition(value: unknown): value is RecipeDefinition {
@@ -158,32 +137,15 @@ function isRecipeDefinition(value: unknown): value is RecipeDefinition {
 }
 
 /**
- * Checks whether a variant rule sets any CSS property or selector that could conflict with the
- * recipe's base rule (where source order matters). When there is no overlap, an extended parent's
- * already-compiled class name can be reused directly without emitting duplicate CSS.
- */
-function ruleOverlapsBase(rule: StyleRule, baseRule: StyleRule | undefined): boolean {
-  if (!baseRule) return false;
-  const baseKeys = Object.keys(baseRule);
-  if (baseKeys.length === 0) return false;
-  for (const key of Object.keys(rule)) {
-    if (key in baseRule) return true;
-    for (const baseKey of baseKeys) {
-      if (key.startsWith(baseKey) || baseKey.startsWith(key)) {
-        return true;
-      }
-    }
-  }
-  return false;
-}
-
-/**
  * Collects a definition (or compiled recipe function) into the accumulator, depth-first:
  * parents (`extend`) are collected before the definition itself so later sources override earlier ones.
  */
 function collectSource(source: unknown, acc: OptionsCollector): void {
-  const sourceFn = isRecipeFunction(source) ? source : undefined;
-  const definition = sourceFn ? sourceFn.options : isRecipeDefinition(source) ? source : undefined;
+  const definition = isRecipeFunction(source)
+    ? source.options
+    : isRecipeDefinition(source)
+      ? source
+      : undefined;
   if (!definition) return;
 
   if (definition.extend) {
@@ -203,22 +165,8 @@ function collectSource(source: unknown, acc: OptionsCollector): void {
 
   for (const [variantName, options] of Object.entries(definition.variants ?? {})) {
     const merged = (acc.variants[variantName] ??= {});
-    const reusable = (acc.reusableVariants[variantName] ??= {});
     for (const [optionName, rule] of Object.entries(options)) {
-      if (merged[optionName]) {
-        merged[optionName] = mergeStyleRules([merged[optionName], rule]) ?? {};
-        // Merged/overridden option cannot reuse a single parent's compiled class
-        reusable[optionName] = undefined;
-      } else {
-        merged[optionName] = rule;
-        const parentClass = sourceFn?.classNames.variants[variantName]?.[optionName];
-        if (parentClass) {
-          reusable[optionName] = {
-            className: parentClass,
-            layer: acc.layer,
-          };
-        }
-      }
+      merged[optionName] = mergeStyleRules([merged[optionName], rule]) ?? {};
     }
   }
 
@@ -231,28 +179,13 @@ function compileOptionClasses(
   rules: Record<string, StyleRule>,
   classPrefix: string,
   layer: CssLayer | undefined,
-  mergedBaseRule: StyleRule | undefined,
-  reusable?: Record<string, ReusableVariantEntry | undefined>,
 ): Record<string, string> {
   const classNames: Record<string, string> = {};
   for (const [optionName, rule] of Object.entries(rules)) {
-    const candidate = reusable?.[optionName];
-    const reusedClass =
-      candidate && candidate.layer === layer && !ruleOverlapsBase(rule, mergedBaseRule)
-        ? candidate.className
-        : undefined;
-
-    if (reusedClass) {
-      // Ensure the rule is present in the active sheet (Set deduplicates when already inserted,
-      // while isolated single-file extraction still captures it if the parent module is pruned).
-      sheet.insertRules(compileStyleRule(rule, reusedClass, { layer }).cssRules);
-      classNames[optionName] = reusedClass;
-    } else {
-      classNames[optionName] = style(rule, {
-        prefix: `${classPrefix}-${optionName}`,
-        layer,
-      }).className;
-    }
+    classNames[optionName] = style(rule, {
+      prefix: `${classPrefix}-${optionName}`,
+      layer,
+    }).className;
   }
   return classNames;
 }
@@ -284,13 +217,12 @@ export function recipe(options: object, prefix = 'r'): object {
   const collected: OptionsCollector = {
     bases: [],
     variants: {},
-    reusableVariants: {},
     compoundVariants: [],
     defaultVariants: {},
   };
   collectSource(options, collected);
 
-  const { layer, bases, variants, reusableVariants, compoundVariants } = collected;
+  const { layer, bases, variants, compoundVariants } = collected;
 
   // 1. Base class
   const mergedBaseRule = mergeStyleRules(bases);
@@ -298,16 +230,11 @@ export function recipe(options: object, prefix = 'r'): object {
     ? style(mergedBaseRule, { prefix: `${prefix}-base`, layer }).className
     : undefined;
 
-  // 2. Variant classes
+  // 2. Variant classes (compiled with child prefix so base -> variants -> compoundVariants
+  //    cascade order stays self-contained within each CSS chunk)
   const compiledVariants: Record<string, Record<string, string>> = {};
   for (const [variantName, rules] of Object.entries(variants)) {
-    compiledVariants[variantName] = compileOptionClasses(
-      rules,
-      `${prefix}-${variantName}`,
-      layer,
-      mergedBaseRule,
-      reusableVariants[variantName],
-    );
+    compiledVariants[variantName] = compileOptionClasses(rules, `${prefix}-${variantName}`, layer);
   }
 
   // 3. Compound variant classes
