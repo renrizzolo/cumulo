@@ -85,6 +85,13 @@ const descriptionStyle = style(
   'props-table-description',
 );
 
+const descriptionCellStyle = style(
+  {
+    minWidth: '240px',
+  },
+  'props-table-description-cell',
+);
+
 const descriptionListStyle = style(
   {
     margin: 0,
@@ -311,7 +318,7 @@ function PropsTableContent({
                   </Text>
                 )}
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className={descriptionCellStyle.className}>
                 {prop.description ? (
                   <Description source={prop.description} />
                 ) : (

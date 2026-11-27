@@ -29,6 +29,8 @@ const bodyStyle = style(
 const contentWrapperStyle = style(
   {
     flex: 1,
+    width: '100%',
+    minWidth: 0,
     padding: `${vars.spacing['2xl']} ${vars.spacing['2xl']} 120px`,
     boxSizing: 'border-box',
     '@media': {
