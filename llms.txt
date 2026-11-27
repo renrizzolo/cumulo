@@ -31,11 +31,11 @@ When generating or refactoring code using Cumulo, follow these rules:
   - Static styles: `style({ ... })`
   - Variant styles: `recipe({ base, variants, defaultVariants })`
   - Class composition: `cx(...)`
-  - Tokens: `vars.color.*`, `vars.spacing.*`, `vars.radius.*`, `vars.font.*`, `vars.shadow.*`
-  - **Never use raw hex, rgb, or hsl strings.** Every color resolves through `vars.color.*`.
+  - Tokens: `vars.surface.*`, `vars.primary.*`, `vars.spacing.*`, `vars.size.*`, `vars.container.*`, `vars.radius.*`, `vars.font.*`, `vars.line.*`, `vars.shadow.*`, `vars.duration.*`, `vars.ease.*`, `vars.control.*`, `vars.field.*`
+  - **Never use raw hex, rgb, or hsl strings.** Every color resolves through `vars.*`.
 
 ### 4. Theme & stylesheet setup
-- **Prebuilt theme stylesheet**: `@cumulo/core` ships with a prebuilt `theme.css` (`@cumulo/core/theme.css`) containing reset styles (`@layer reset`) and CSS token variables (`@layer base`).
+- **Prebuilt theme stylesheet**: `@cumulo/core` ships with a prebuilt `theme.css` (`@cumulo/core/theme.css`) containing reset styles (`@layer reset`), base CSS token variables (`@layer base` — colors, spacing, sizes, container widths, radii, typography, shadows, transitions, controls, and fields), and contextual surface levels (`@layer components`).
 - **Loading styles**: Import `@cumulo/core/theme.css` in your root entry file (or global stylesheet), or provide your own custom stylesheet defining the required CSS token variables.
 
 ### 5. Native top-layer overlays
