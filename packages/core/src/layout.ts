@@ -1,7 +1,14 @@
 import { recipe, type RecipeVariants } from '@cumulo/css';
 
-import { breakpoints } from './breakpoints.js';
 import { vars } from './contract.js';
+import type { ResponsiveProp } from './responsive.js';
+
+export const FLEX_VALUES = {
+  1: '1',
+  auto: 'auto',
+  initial: 'initial',
+  none: 'none',
+} as const;
 
 /**
  * Shared flex variants for layout primitives (Surface, Stack, Card).
@@ -9,8 +16,6 @@ import { vars } from './contract.js';
 export const flexStyles = recipe(
   {
     layer: 'components',
-    breakpoints,
-    responsiveVariants: ['flex'],
     variants: {
       flex: {
         1: { flex: 1 },
@@ -23,8 +28,16 @@ export const flexStyles = recipe(
   'layout-flex',
 );
 
-export type FlexVariants = RecipeVariants<typeof flexStyles>;
-export type FlexVariant = FlexVariants['flex'];
+export type StaticFlexVariant = NonNullable<RecipeVariants<typeof flexStyles>['flex']>;
+export type FlexVariant = ResponsiveProp<StaticFlexVariant>;
+export type FlexVariants = { flex?: FlexVariant };
+
+export const OVERFLOW_VALUES = {
+  hidden: 'hidden',
+  visible: 'visible',
+  auto: 'auto',
+  scroll: 'scroll',
+} as const;
 
 /**
  * Shared overflow variants for layout primitives (Surface, Card).
@@ -32,8 +45,6 @@ export type FlexVariant = FlexVariants['flex'];
 export const overflowStyles = recipe(
   {
     layer: 'components',
-    breakpoints,
-    responsiveVariants: ['overflow'],
     variants: {
       overflow: {
         hidden: { overflow: 'hidden' },
@@ -46,8 +57,19 @@ export const overflowStyles = recipe(
   'layout-overflow',
 );
 
-export type OverflowVariants = RecipeVariants<typeof overflowStyles>;
-export type OverflowVariant = OverflowVariants['overflow'];
+export type StaticOverflowVariant = NonNullable<RecipeVariants<typeof overflowStyles>['overflow']>;
+export type OverflowVariant = ResponsiveProp<StaticOverflowVariant>;
+export type OverflowVariants = { overflow?: OverflowVariant };
+
+export const PADDING_VALUES = {
+  none: '0px',
+  xs: vars.spacing.xs,
+  sm: vars.spacing.sm,
+  md: vars.spacing.md,
+  lg: vars.spacing.lg,
+  xl: vars.spacing.xl,
+  '2xl': vars.spacing['2xl'],
+} as const;
 
 /**
  * Shared 4-sided padding scale with CSS variable propagation for nested calculations.
@@ -55,8 +77,6 @@ export type OverflowVariant = OverflowVariants['overflow'];
 export const paddingStyles = recipe(
   {
     layer: 'components',
-    breakpoints,
-    responsiveVariants: ['padding'],
     variants: {
       padding: {
         none: {
@@ -128,8 +148,20 @@ export const paddingStyles = recipe(
   'layout-padding',
 );
 
-export type PaddingVariants = RecipeVariants<typeof paddingStyles>;
-export type PaddingVariant = PaddingVariants['padding'];
+export type StaticPaddingVariant = NonNullable<RecipeVariants<typeof paddingStyles>['padding']>;
+export type PaddingVariant = ResponsiveProp<StaticPaddingVariant>;
+export type PaddingVariants = { padding?: PaddingVariant };
+
+export const RADIUS_VALUES = {
+  none: vars.radius.none,
+  control: vars.radius.control,
+  md: vars.radius.md,
+  lg: vars.radius.lg,
+  xl: vars.radius.xl,
+  '2xl': vars.radius['2xl'],
+  full: vars.radius.full,
+  auto: 'max(0px, calc(var(--parent-radius, var(--theme-radius-xl)) - var(--parent-padding, 0px)))',
+} as const;
 
 /**
  * Shared border-radius scale with concentric nested curve computation.
@@ -137,8 +169,6 @@ export type PaddingVariant = PaddingVariants['padding'];
 export const radiusStyles = recipe(
   {
     layer: 'components',
-    breakpoints,
-    responsiveVariants: ['radius'],
     variants: {
       radius: {
         none: {
@@ -208,8 +238,21 @@ export const radiusStyles = recipe(
   'layout-radius',
 );
 
-export type RadiusVariants = RecipeVariants<typeof radiusStyles>;
-export type RadiusVariant = RadiusVariants['radius'];
+export type StaticRadiusVariant = NonNullable<RecipeVariants<typeof radiusStyles>['radius']>;
+export type RadiusVariant = ResponsiveProp<StaticRadiusVariant>;
+export type RadiusVariants = { radius?: RadiusVariant };
+
+export const GAP_VALUES = {
+  none: vars.spacing.none,
+  '3xs': vars.spacing['3xs'],
+  '2xs': vars.spacing['2xs'],
+  xs: vars.spacing.xs,
+  sm: vars.spacing.sm,
+  md: vars.spacing.md,
+  lg: vars.spacing.lg,
+  xl: vars.spacing.xl,
+  '2xl': vars.spacing['2xl'],
+} as const;
 
 /**
  * Shared gap scale for flex and grid layouts.
@@ -217,8 +260,6 @@ export type RadiusVariant = RadiusVariants['radius'];
 export const gapStyles = recipe(
   {
     layer: 'components',
-    breakpoints,
-    responsiveVariants: ['gap'],
     variants: {
       gap: {
         none: { gap: vars.spacing.none },
@@ -236,5 +277,6 @@ export const gapStyles = recipe(
   'layout-gap',
 );
 
-export type GapVariants = RecipeVariants<typeof gapStyles>;
-export type GapVariant = GapVariants['gap'];
+export type StaticGapVariant = NonNullable<RecipeVariants<typeof gapStyles>['gap']>;
+export type GapVariant = ResponsiveProp<StaticGapVariant>;
+export type GapVariants = { gap?: GapVariant };

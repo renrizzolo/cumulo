@@ -1,4 +1,4 @@
-import { style } from './create.js';
+import { compileStyleRule, style } from './create.js';
 import { attachMeta } from './meta.js';
 import {
   runtimeRecipe,
@@ -6,6 +6,7 @@ import {
   type RuntimeRecipeConfig,
   type RuntimeVariantValue,
 } from './runtime.js';
+import { sheet } from './sheet.js';
 import type {
   AtRule,
   BreakpointsMap,
@@ -70,6 +71,22 @@ export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T e
     ? 'Error: recipe() requires at least one of `variants` or `extend`. Use style() for static styles.'
     : unknown
   : unknown;
+
+export type ResponsiveOptionsValidation<
+  E,
+  B extends BreakpointsMap | undefined,
+  R extends PropertyKey,
+> = [B] extends [undefined]
+  ? [R] extends [never]
+    ? unknown
+    : [ExtractRecipeMeta<E>['breakpoints']] extends [never]
+      ? 'Error: recipe() with `responsiveVariants` requires `breakpoints` (or an extended recipe with breakpoints).'
+      : unknown
+  : [R | ExtractRecipeMeta<E>['responsive']] extends [never]
+    ? 'Error: recipe() with `breakpoints` requires `responsiveVariants` (or an extended recipe with responsive variants).'
+    : [ExtractBreakpointKeys<B> | ExtractRecipeMeta<E>['breakpoints']] extends [never]
+      ? 'Error: recipe() `breakpoints` must declare at least one breakpoint.'
+      : unknown;
 
 /** Variants of a recipe, excluding responsive ones (compound variants match static values only). */
 type StaticVariants<V, R extends PropertyKey> = Omit<V, R>;
@@ -173,40 +190,80 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
   return result as StyleRule;
 }
 
+interface ReusableVariantEntry {
+  className: string;
+  layer?: CssLayer;
+  breakpoints: BreakpointsMap;
+  responsive?: Record<string, Record<string, string>>;
+}
+
 interface OptionsCollector {
   layer?: CssLayer;
   breakpoints: BreakpointsMap;
   responsiveVariants: Set<string>;
   bases: StyleRule[];
   variants: Record<string, Record<string, StyleRule>>;
+  reusableVariants: Record<string, Record<string, ReusableVariantEntry | undefined>>;
   compoundVariants: CompoundVariant<VariantDefinitions>[];
   defaultVariants: Record<string, string | boolean | undefined>;
 }
 
-function isRecipeFunction(value: unknown): value is { options: RecipeDefinition } {
-  return typeof value === 'function' && 'options' in value && isPlainObject(value.options);
+interface CompiledRecipeSource {
+  options: RecipeDefinition;
+  classNames: {
+    variants: Record<string, Record<string, string>>;
+    responsiveVariants?: ResponsiveClassMap;
+  };
+}
+
+function isRecipeFunction(value: unknown): value is CompiledRecipeSource {
+  return (
+    typeof value === 'function' &&
+    'options' in value &&
+    isPlainObject(value.options) &&
+    'classNames' in value &&
+    isPlainObject(value.classNames) &&
+    isPlainObject(value.classNames.variants)
+  );
 }
 
 function isRecipeDefinition(value: unknown): value is RecipeDefinition {
   return isPlainObject(value);
 }
 
-/** Resolves an `extend` entry (recipe function or raw options object) to its definition. */
-function resolveDefinition(source: unknown): RecipeDefinition | undefined {
-  if (isRecipeFunction(source)) return source.options;
-  return isRecipeDefinition(source) ? source : undefined;
+/**
+ * Checks whether a variant rule sets any CSS property or selector that could conflict with the
+ * recipe's base rule (where source order matters). When there is no overlap, an extended parent's
+ * already-compiled class name can be reused directly without emitting duplicate CSS.
+ */
+function ruleOverlapsBase(rule: StyleRule, baseRule: StyleRule | undefined): boolean {
+  if (!baseRule) return false;
+  const baseKeys = Object.keys(baseRule);
+  if (baseKeys.length === 0) return false;
+  for (const key of Object.keys(rule)) {
+    if (key in baseRule) return true;
+    for (const baseKey of baseKeys) {
+      if (key.startsWith(baseKey) || baseKey.startsWith(key)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 /**
- * Collects a definition into the accumulator, depth-first: parents (`extend`) are collected before
- * the definition itself so that later sources override earlier ones.
+ * Collects a definition (or compiled recipe function) into the accumulator, depth-first:
+ * parents (`extend`) are collected before the definition itself so later sources override earlier ones.
  */
-function collectDefinition(definition: RecipeDefinition, acc: OptionsCollector): void {
+function collectSource(source: unknown, acc: OptionsCollector): void {
+  const sourceFn = isRecipeFunction(source) ? source : undefined;
+  const definition = sourceFn ? sourceFn.options : isRecipeDefinition(source) ? source : undefined;
+  if (!definition) return;
+
   if (definition.extend) {
     const parents = Array.isArray(definition.extend) ? definition.extend : [definition.extend];
     for (const parent of parents) {
-      const parentDefinition = resolveDefinition(parent);
-      if (parentDefinition) collectDefinition(parentDefinition, acc);
+      collectSource(parent, acc);
     }
   }
 
@@ -226,8 +283,24 @@ function collectDefinition(definition: RecipeDefinition, acc: OptionsCollector):
 
   for (const [variantName, options] of Object.entries(definition.variants ?? {})) {
     const merged = (acc.variants[variantName] ??= {});
+    const reusable = (acc.reusableVariants[variantName] ??= {});
     for (const [optionName, rule] of Object.entries(options)) {
-      merged[optionName] = mergeStyleRules([merged[optionName], rule]) ?? {};
+      if (merged[optionName]) {
+        merged[optionName] = mergeStyleRules([merged[optionName], rule]) ?? {};
+        // Merged/overridden option cannot reuse a single parent's compiled class
+        reusable[optionName] = undefined;
+      } else {
+        merged[optionName] = rule;
+        const parentClass = sourceFn?.classNames.variants[variantName]?.[optionName];
+        if (parentClass) {
+          reusable[optionName] = {
+            className: parentClass,
+            layer: acc.layer,
+            breakpoints: { ...acc.breakpoints },
+            responsive: sourceFn.classNames.responsiveVariants?.[variantName],
+          };
+        }
+      }
     }
   }
 
@@ -240,15 +313,36 @@ function compileOptionClasses(
   rules: Record<string, StyleRule>,
   classPrefix: string,
   layer: CssLayer | undefined,
-  atRule?: AtRule,
+  mergedBaseRule: StyleRule | undefined,
+  reusable?: Record<string, ReusableVariantEntry | undefined>,
+  bp?: { key: string; atRule: AtRule },
 ): Record<string, string> {
   const classNames: Record<string, string> = {};
   for (const [optionName, rule] of Object.entries(rules)) {
-    classNames[optionName] = style(rule, {
-      prefix: `${classPrefix}-${optionName}`,
-      layer,
-      atRule,
-    }).className;
+    const candidate = reusable?.[optionName];
+    const reusedClass =
+      candidate && candidate.layer === layer && !ruleOverlapsBase(rule, mergedBaseRule)
+        ? bp
+          ? candidate.breakpoints[bp.key] === bp.atRule
+            ? candidate.responsive?.[bp.key]?.[optionName]
+            : undefined
+          : candidate.className
+        : undefined;
+
+    if (reusedClass) {
+      // Ensure the rule is present in the active sheet (Set deduplicates when already inserted,
+      // while isolated single-file extraction still captures it if the parent module is pruned).
+      sheet.insertRules(
+        compileStyleRule(rule, reusedClass, { layer, atRule: bp?.atRule }).cssRules,
+      );
+      classNames[optionName] = reusedClass;
+    } else {
+      classNames[optionName] = style(rule, {
+        prefix: `${classPrefix}-${optionName}`,
+        layer,
+        atRule: bp?.atRule,
+      }).className;
+    }
   }
   return classNames;
 }
@@ -276,7 +370,9 @@ export function recipe<
   B extends BreakpointsMap | undefined = undefined,
   R extends keyof (CleanVariants<T> & ExtractRecipeVariants<E>) = never,
 >(
-  options: RecipeOptions<T, E, B, R> & RecipeOptionsValidation<T, E>,
+  options: RecipeOptions<T, E, B, R> &
+    RecipeOptionsValidation<T, E> &
+    ResponsiveOptionsValidation<E, B, R>,
   prefix?: string,
 ): RecipeFunction<
   CleanVariants<T> & ExtractRecipeVariants<E>,
@@ -292,12 +388,21 @@ export function recipe(options: object, prefix = 'r'): object {
     responsiveVariants: new Set(),
     bases: [],
     variants: {},
+    reusableVariants: {},
     compoundVariants: [],
     defaultVariants: {},
   };
-  collectDefinition(options, collected);
+  collectSource(options, collected);
 
-  const { layer, breakpoints, responsiveVariants, bases, variants, compoundVariants } = collected;
+  const {
+    layer,
+    breakpoints,
+    responsiveVariants,
+    bases,
+    variants,
+    reusableVariants,
+    compoundVariants,
+  } = collected;
 
   // 1. Base class
   const mergedBaseRule = mergeStyleRules(bases);
@@ -308,7 +413,13 @@ export function recipe(options: object, prefix = 'r'): object {
   // 2. Variant classes
   const compiledVariants: Record<string, Record<string, string>> = {};
   for (const [variantName, rules] of Object.entries(variants)) {
-    compiledVariants[variantName] = compileOptionClasses(rules, `${prefix}-${variantName}`, layer);
+    compiledVariants[variantName] = compileOptionClasses(
+      rules,
+      `${prefix}-${variantName}`,
+      layer,
+      mergedBaseRule,
+      reusableVariants[variantName],
+    );
   }
 
   // 3. Responsive variant classes, emitted in breakpoint order so later breakpoints win the cascade
@@ -321,7 +432,9 @@ export function recipe(options: object, prefix = 'r'): object {
         rules,
         `${prefix}-${variantName}-${bpKey}`,
         layer,
-        atRule,
+        mergedBaseRule,
+        reusableVariants[variantName],
+        { key: bpKey, atRule },
       );
     }
   }

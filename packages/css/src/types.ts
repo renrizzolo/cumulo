@@ -12,6 +12,12 @@ export interface CSSProperties extends CSSType.Properties<string | number> {
   cornerBottomLeftShape?: CornerShape;
 }
 
+export type CSSVarRef = `var(--${string})`;
+
+type BaseStyleProperties = Omit<CSSProperties, 'appearance'> & {
+  appearance?: CSSType.Properties['appearance'] | 'base-select';
+};
+
 /**
  * This is a supertype of CSSProperties, so we keep it separate
  * to avoid conflicts.
@@ -19,9 +25,11 @@ export interface CSSProperties extends CSSType.Properties<string | number> {
  * i.e `style()` and `recipe()` can use this, but they return
  * CSSProperties to remain compatible.
  **/
-export interface StyleProperties extends Omit<CSSProperties, 'appearance'> {
-  appearance?: CSSType.Properties['appearance'] | 'base-select';
-}
+export type StyleProperties = {
+  [K in keyof BaseStyleProperties]?: BaseStyleProperties[K] | CSSVarRef;
+} & {
+  [key: `--${string}`]: string | number | undefined;
+};
 
 type CornerShape =
   | CSSType.Globals

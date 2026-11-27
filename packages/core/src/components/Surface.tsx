@@ -2,7 +2,24 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
 import { vars } from '../contract.js';
-import { overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
+import {
+  OVERFLOW_VALUES,
+  PADDING_VALUES,
+  RADIUS_VALUES,
+  overflowStyles,
+  paddingStyles,
+  radiusStyles,
+  type OverflowVariant,
+  type PaddingVariant,
+  type RadiusVariant,
+} from '../layout.js';
+import {
+  mergeResponsiveStyles,
+  respOverflow,
+  respPadding,
+  respRadius,
+  splitResponsive,
+} from '../responsive.js';
 import { Stack, type StackProps } from './Stack.js';
 
 const surfaceRecipe = recipe(
@@ -45,13 +62,21 @@ const surfaceRecipe = recipe(
       level: 0,
       bordered: true,
       variant: 'default',
-      radius: 'xl',
     },
   },
   'surface',
 );
 
-export type SurfaceVariants = RecipeVariants<typeof surfaceRecipe>;
+type StaticSurfaceVariants = RecipeVariants<typeof surfaceRecipe>;
+
+export type SurfaceVariants = {
+  level?: StaticSurfaceVariants['level'];
+  bordered?: StaticSurfaceVariants['bordered'];
+  variant?: StaticSurfaceVariants['variant'];
+  padding?: PaddingVariant;
+  radius?: RadiusVariant;
+  overflow?: OverflowVariant;
+};
 
 export type SurfaceTag =
   | 'div'
@@ -80,31 +105,47 @@ export function Surface({
   level = 1,
   variant,
   padding,
-  radius,
+  radius = 'xl',
   bordered,
   overflow,
+  style: styleProp,
   className,
   children,
   ref,
   ...props
 }: SurfaceProps): React.JSX.Element {
+  const paddingRes = splitResponsive(padding, PADDING_VALUES, '--c-pad', respPadding);
+  const radiusRes = splitResponsive(radius, RADIUS_VALUES, '--c-rad', respRadius, 'xl');
+  const overflowRes = splitResponsive(overflow, OVERFLOW_VALUES, '--c-ovf', respOverflow);
+
   const recipeClasses = surfaceRecipe({
     level,
     variant,
-    padding,
+    padding: paddingRes.staticValue,
     bordered,
-    radius,
-    overflow,
+    radius: radiusRes.staticValue,
+    overflow: overflowRes.staticValue,
   });
+
+  const mergedStyle = mergeResponsiveStyles(
+    styleProp,
+    paddingRes.vars,
+    radiusRes.vars,
+    overflowRes.vars,
+  );
 
   return (
     <Stack
       as={as}
       ref={ref}
+      style={mergedStyle}
       className={cx(
         variant === 'primary' && 'surface-primary',
         `surface-${level}`,
         recipeClasses,
+        paddingRes.className,
+        radiusRes.className,
+        overflowRes.className,
         className,
       )}
       {...props}

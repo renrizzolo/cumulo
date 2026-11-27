@@ -1,10 +1,29 @@
 import { recipe, cx, createThemeContract, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
-import { breakpoints } from '../breakpoints.js';
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { flexStyles, paddingStyles } from '../layout.js';
+import {
+  FLEX_VALUES,
+  PADDING_VALUES,
+  flexStyles,
+  paddingStyles,
+  type FlexVariant,
+  type PaddingVariant,
+} from '../layout.js';
+import {
+  mergeResponsiveStyles,
+  respDirection,
+  respFlex,
+  respPadding,
+  splitResponsive,
+  type ResponsiveProp,
+} from '../responsive.js';
+
+const PANEL_DIRECTION_VALUES = {
+  column: 'column',
+  row: 'row',
+} as const;
 
 export const panelContract = createThemeContract(
   {
@@ -16,9 +35,7 @@ export const panelContract = createThemeContract(
 const panelRecipe = recipe(
   {
     layer: 'components',
-    breakpoints,
     extend: [flexStyles, paddingStyles],
-    responsiveVariants: ['direction'],
     base: {
       display: 'flex',
       boxSizing: 'border-box',
@@ -132,7 +149,13 @@ const panelRecipe = recipe(
   'panel',
 );
 
-export type PanelVariants = RecipeVariants<typeof panelRecipe>;
+type StaticPanelVariants = RecipeVariants<typeof panelRecipe>;
+
+export type PanelVariants = Omit<StaticPanelVariants, 'direction' | 'flex' | 'padding'> & {
+  direction?: ResponsiveProp<NonNullable<StaticPanelVariants['direction']>>;
+  flex?: FlexVariant;
+  padding?: PaddingVariant;
+};
 
 export type PanelScrollbar = NonNullable<PanelVariants['scrollbar']>;
 export type PanelOverflow = NonNullable<PanelVariants['overflow']>;
@@ -194,6 +217,7 @@ export function Panel({
   direction = 'column',
   flex,
   padding,
+  style: styleProp,
   className,
   width,
   children,
@@ -203,12 +227,22 @@ export function Panel({
   const isArray = Array.isArray(divider);
   const singleDivider = !isArray && divider !== undefined ? divider : undefined;
 
-  const classes = panelRecipe({
+  const dirRes = splitResponsive(
     direction,
+    PANEL_DIRECTION_VALUES,
+    '--c-dir',
+    respDirection,
+    'column',
+  );
+  const flexRes = splitResponsive(flex, FLEX_VALUES, '--c-flx', respFlex);
+  const paddingRes = splitResponsive(padding, PADDING_VALUES, '--c-pad', respPadding);
+
+  const classes = panelRecipe({
+    direction: dirRes.staticValue,
     scrollbar,
     overflow: scrollbar === 'none' ? undefined : overflow,
-    flex,
-    padding,
+    flex: flexRes.staticValue,
+    padding: paddingRes.staticValue,
     width,
     divider: singleDivider,
     dividerTop: isArray && divider.includes('top') ? true : undefined,
@@ -217,12 +251,15 @@ export function Panel({
     dividerRight: isArray && divider.includes('right') ? true : undefined,
   });
 
+  const mergedStyle = mergeResponsiveStyles(styleProp, dirRes.vars, flexRes.vars, paddingRes.vars);
+
   return React.createElement(
     Component,
     {
       ref,
       'data-part': 'panel',
-      className: cx(classes, className),
+      style: mergedStyle,
+      className: cx(classes, dirRes.className, flexRes.className, paddingRes.className, className),
       ...props,
     },
     children,

@@ -987,6 +987,86 @@ describe('@cumulo/css', () => {
         'bad-bp',
       );
     });
+
+    it('requires breakpoints and responsiveVariants to be paired at the type level', () => {
+      recipe(
+        // @ts-expect-error responsiveVariants without breakpoints
+        {
+          responsiveVariants: ['gap'],
+          variants: { gap: { sm: { gap: 4 } } },
+        },
+        'missing-bp',
+      );
+
+      recipe(
+        // @ts-expect-error breakpoints without responsiveVariants
+        {
+          breakpoints: { sm: '@media (min-width: 640px)' },
+          variants: { gap: { sm: { gap: 4 } } },
+        },
+        'missing-rv',
+      );
+
+      recipe(
+        // @ts-expect-error empty breakpoints map
+        {
+          breakpoints: {},
+          responsiveVariants: ['gap'],
+          variants: { gap: { sm: { gap: 4 } } },
+        },
+        'empty-bp',
+      );
+    });
+
+    it('reuses parent variant classes on extend() unless overridden, relayered, or overlapping base', () => {
+      const parent = recipe(
+        {
+          layer: 'components',
+          breakpoints: { md: '@media (min-width: 768px)' },
+          responsiveVariants: ['gap'],
+          variants: {
+            gap: { sm: { gap: '8px' }, lg: { gap: '24px' } },
+          },
+        },
+        'parent',
+      );
+
+      const child = recipe(
+        {
+          layer: 'components',
+          extend: [parent],
+          base: { display: 'flex' },
+        },
+        'child',
+      );
+
+      expect(child.classNames.variants.gap.sm).toBe(parent.classNames.variants.gap.sm);
+      expect(child.classNames.responsiveVariants?.gap?.md?.lg).toBe(
+        parent.classNames.responsiveVariants?.gap?.md?.lg,
+      );
+
+      // Different layer must compile a fresh class
+      const relayered = recipe(
+        {
+          layer: 'utilities',
+          extend: [parent],
+          base: { display: 'flex' },
+        },
+        'relayered',
+      );
+      expect(relayered.classNames.variants.gap.sm).not.toBe(parent.classNames.variants.gap.sm);
+
+      // Overlapping base property must compile a fresh class so variant wins source order
+      const overlapping = recipe(
+        {
+          layer: 'components',
+          extend: [parent],
+          base: { gap: '4px' },
+        },
+        'overlapping',
+      );
+      expect(overlapping.classNames.variants.gap.sm).not.toBe(parent.classNames.variants.gap.sm);
+    });
   });
 
   describe('layers and at-rule wrapping', () => {
