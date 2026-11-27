@@ -6,6 +6,8 @@ import type {
   StyleProperties,
   StyleRule,
   StyleDefinitions,
+  StyleOptions,
+  CssLayer,
   CompiledStyle,
   CompiledStyles,
 } from './types.js';
@@ -77,9 +79,40 @@ function serializeProperties(properties: StyleProperties | object): string {
   return declarations.join('');
 }
 
+/** Wraps each rule in `@layer <layer>{...}` when a layer is specified. */
+function wrapLayer(rules: string[], layer?: CssLayer): string[] {
+  if (!layer) return rules;
+  return rules.map((rule) => `@layer ${layer}{${rule}}`);
+}
+
+function normalizeStyleOptions(prefixOrOptions?: string | StyleOptions): {
+  prefix: string;
+  layer?: CssLayer;
+} {
+  if (typeof prefixOrOptions === 'string') {
+    return { prefix: prefixOrOptions };
+  }
+  return {
+    prefix: prefixOrOptions?.prefix ?? 'c',
+    layer: prefixOrOptions?.layer,
+  };
+}
+
+/**
+ * Hash input for a style. Layered rules are salted so they never collide with
+ * their unlayered twin, while empty rules (`{}`) and unlayered rules keep their legacy hash.
+ */
+function hashStyle(serialized: string, layer?: CssLayer): string {
+  if (serialized === '{}' || !layer) {
+    return hash(serialized);
+  }
+  return hash(`${layer}\0${serialized}`);
+}
+
 export function compileStyleRule(
   rule: StyleRule,
   className: string,
+  options?: { layer?: CssLayer },
 ): { cssRules: string[]; className: string } {
   const cssRules: string[] = [];
   const baseDecls = serializeProperties(rule);
@@ -170,7 +203,10 @@ export function compileStyleRule(
     }
   }
 
-  return { cssRules, className };
+  return {
+    cssRules: wrapLayer(cssRules, options?.layer),
+    className,
+  };
 }
 
 /**
@@ -189,10 +225,14 @@ export function compileStyleRule(
  *   );
  * }
  */
-export function style(rule: StyleRule, prefix = 'c'): CompiledStyle {
+export function style(
+  rule: StyleRule,
+  prefixOrOptions: string | StyleOptions = 'c',
+): CompiledStyle {
+  const { prefix, layer } = normalizeStyleOptions(prefixOrOptions);
   const serialized = JSON.stringify(rule);
-  const className = `${prefix}-${hash(serialized)}`;
-  const { cssRules } = compileStyleRule(rule, className);
+  const className = `${prefix}-${hashStyle(serialized, layer)}`;
+  const { cssRules } = compileStyleRule(rule, className, { layer });
   const css = cssRules.join('\n');
 
   sheet.insertRules(cssRules);
@@ -223,14 +263,15 @@ export function style(rule: StyleRule, prefix = 'c'): CompiledStyle {
  */
 export function create<T extends StyleDefinitions>(
   definitions: T,
-  prefix = 'c',
+  prefixOrOptions: string | StyleOptions = 'c',
 ): CompiledStyles<T> {
+  const { prefix, layer } = normalizeStyleOptions(prefixOrOptions);
   const result = {} as Record<keyof T, CompiledStyle>;
   const entries: Record<string, string> = {};
   for (const key of Object.keys(definitions) as (keyof T)[]) {
     const def = definitions[key];
     if (def) {
-      const compiled = style(def, `${prefix}-${String(key)}`);
+      const compiled = style(def, { prefix: `${prefix}-${String(key)}`, layer });
       result[key] = compiled;
       entries[String(key)] = compiled.className;
     }

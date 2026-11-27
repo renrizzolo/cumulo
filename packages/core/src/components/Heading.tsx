@@ -7,6 +7,7 @@ import { textSharedRecipe, truncateStyle, type TextSharedVariants } from '../typ
 
 const headingRecipe = recipe(
   {
+    layer: 'components',
     variants: {
       size: {
         xs: {

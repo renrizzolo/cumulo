@@ -8,6 +8,7 @@ import { Spinner } from './Spinner.js';
 
 export const buttonRecipe = recipe(
   {
+    layer: 'components',
     extend: [allIntentStyles, sizes, focusRing],
     base: {
       display: 'inline-flex',
@@ -18,18 +19,19 @@ export const buttonRecipe = recipe(
       fontWeight: vars.font.weight.medium,
       borderRadius: vars.radius.control,
       whiteSpace: 'nowrap',
-      borderWidth: 1,
+      borderWidth: vars.control.border.width,
       borderStyle: 'solid',
       borderColor: 'transparent',
       userSelect: 'none',
-      transition: `all ${vars.duration.slow} ${vars.ease.default}`,
+      transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       willChange: 'transform',
       ':disabled': {
         opacity: 0.5,
         cursor: 'not-allowed',
+        transform: 'none',
       },
       ':active': {
-        transform: 'scale(0.98)',
+        transform: vars.control.active.transform,
       },
     },
     variants: {

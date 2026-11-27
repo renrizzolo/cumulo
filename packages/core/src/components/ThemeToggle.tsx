@@ -7,12 +7,15 @@ import type { ColorMode } from '../theme/theme.js';
 import { useTheme } from '../theme/useTheme.js';
 import { Button, type ButtonProps } from './Button.js';
 
-const iconSvgStyle = style({
-  width: '1em',
-  height: '1em',
-  display: 'inline-block',
-  flexShrink: 0,
-});
+const iconSvgStyle = style(
+  {
+    width: '1em',
+    height: '1em',
+    display: 'inline-block',
+    flexShrink: 0,
+  },
+  { layer: 'components' },
+);
 
 export function SunIcon({ className }: { className?: string } = {}): React.JSX.Element {
   return (

@@ -27,16 +27,20 @@ export { createThemeContract, assignVars };
 export function createTheme<T extends NullableTokens>(
   _contract: ThemeContract<T> | MapTokensToVars<T> | T,
   values: MapTokensToValues<T>,
-  prefix?: string,
+  prefixOrOptions?: string | { prefix?: string; layer?: string },
 ): CreatedTheme {
+  const prefix = typeof prefixOrOptions === 'string' ? prefixOrOptions : prefixOrOptions?.prefix;
+  const layer = typeof prefixOrOptions === 'string' ? undefined : prefixOrOptions?.layer;
   const actualPrefix = resolvePrefix(_contract, prefix);
   const flattened = flattenValues(values, [], actualPrefix);
   const cssBody = Object.entries(flattened)
     .map(([varName, val]) => `${varName}:${val};`)
     .join('');
 
-  const className = `theme-${hash(cssBody)}`;
-  const css = `.${className}{${cssBody}}`;
+  const hashInput = layer ? `${layer}\0${cssBody}` : cssBody;
+  const className = `theme-${hash(hashInput)}`;
+  const rawCss = `.${className}{${cssBody}}`;
+  const css = layer ? `@layer ${layer}{${rawCss}}` : rawCss;
 
   sheet.insertRule(css);
 

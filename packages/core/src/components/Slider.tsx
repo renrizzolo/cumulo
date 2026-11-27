@@ -26,20 +26,25 @@ const sliderContract = createThemeContract({
   },
 });
 
-const sliderTheme = createTheme(sliderContract, {
-  track: {
-    height: `calc(${vars.spacing['2xs']} + ${vars.spacing['3xs']})`,
+const sliderTheme = createTheme(
+  sliderContract,
+  {
+    track: {
+      height: `calc(${vars.spacing['2xs']} + ${vars.spacing['3xs']})`,
+    },
+    thumb: {
+      size: `calc(${vars.size['2xs']} - ${vars.spacing['3xs']})`,
+    },
+    root: {
+      height: vars.size.sm,
+    },
   },
-  thumb: {
-    size: `calc(${vars.size['2xs']} - ${vars.spacing['3xs']})`,
-  },
-  root: {
-    height: vars.size.sm,
-  },
-});
+  { layer: 'components' },
+);
 
 export const sliderRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'relative',
       display: 'inline-flex',
@@ -107,7 +112,7 @@ const trackWrapperStyle = style(
     display: 'flex',
     alignItems: 'center',
   },
-  'slider-track-wrapper',
+  { prefix: 'slider-track-wrapper', layer: 'components' },
 );
 
 const trackStyle = style(
@@ -119,11 +124,12 @@ const trackStyle = style(
     backgroundColor: vars.surface.secondary.DEFAULT,
     overflow: 'hidden',
   },
-  'slider-track',
+  { prefix: 'slider-track', layer: 'components' },
 );
 
 export const sliderRangeRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'absolute',
       left: 0,
@@ -160,6 +166,7 @@ export const sliderRangeRecipe = recipe(
 
 export const sliderThumbRecipe = recipe(
   {
+    layer: 'components',
     base: {
       position: 'absolute',
       top: '50%',
@@ -172,16 +179,19 @@ export const sliderThumbRecipe = recipe(
       borderStyle: 'solid',
       borderColor: vars.primary.DEFAULT,
       boxShadow: vars.shadow['0'],
+      outline: `2px none ${vars.primary.focus}`,
+      outlineOffset: '2px',
       pointerEvents: 'none',
       boxSizing: 'border-box',
-      transition: `transform ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
+      transition: `transform ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}, background-color ${vars.duration.fast} ${vars.ease.default}`,
       selectors: {
         '[data-slider-root]:has(input:hover:not(:disabled)) &': {
           borderColor: vars.primary.hover,
         },
         '[data-slider-root]:has(input:focus-visible) &': {
           borderColor: vars.primary.DEFAULT,
-          boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
+          boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}`,
+          outlineStyle: 'solid',
         },
       },
     },
@@ -190,13 +200,13 @@ export const sliderThumbRecipe = recipe(
         default: {},
         error: {
           borderColor: vars.error.bg,
+          outlineColor: vars.error.focus,
           selectors: {
             '[data-slider-root]:has(input:hover:not(:disabled)) &': {
               borderColor: vars.error.hover,
             },
             '[data-slider-root]:has(input:focus-visible) &': {
               borderColor: vars.error.bg,
-              boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['400']}`,
             },
           },
         },
@@ -239,7 +249,7 @@ const inputStyle = style(
       },
     },
   },
-  'slider-input',
+  { prefix: 'slider-input', layer: 'components' },
 );
 
 export type SliderVariants = RecipeVariants<typeof sliderRecipe>;

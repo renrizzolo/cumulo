@@ -7,6 +7,7 @@ import { vars } from './contract.js';
  */
 export const flexStyles = recipe(
   {
+    layer: 'components',
     variants: {
       flex: {
         1: { flex: 1 },
@@ -27,6 +28,7 @@ export type FlexVariant = FlexVariants['flex'];
  */
 export const overflowStyles = recipe(
   {
+    layer: 'components',
     variants: {
       overflow: {
         hidden: { overflow: 'hidden' },
@@ -47,6 +49,7 @@ export type OverflowVariant = OverflowVariants['overflow'];
  */
 export const paddingStyles = recipe(
   {
+    layer: 'components',
     variants: {
       padding: {
         none: {
@@ -126,6 +129,7 @@ export type PaddingVariant = PaddingVariants['padding'];
  */
 export const radiusStyles = recipe(
   {
+    layer: 'components',
     variants: {
       radius: {
         none: {
@@ -203,6 +207,7 @@ export type RadiusVariant = RadiusVariants['radius'];
  */
 export const gapStyles = recipe(
   {
+    layer: 'components',
     variants: {
       gap: {
         none: { gap: vars.spacing.none },

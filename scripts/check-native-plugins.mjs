@@ -84,6 +84,10 @@ async function isVisibleInRegistry(name, version) {
   return Boolean(data.versions && Object.hasOwn(data.versions, version));
 }
 
+function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function waitForPublished() {
   const targets = pluginDirs.map((dir) => {
     const pkg = JSON.parse(fs.readFileSync(path.resolve(dir, 'package.json'), 'utf-8'));
@@ -92,7 +96,6 @@ async function waitForPublished() {
 
   const maxAttempts = 24;
   const intervalMs = 5000;
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   async function poll(attempt) {
     const results = await Promise.all(

@@ -6,7 +6,7 @@ import {
   type RuntimeRecipeConfig,
   type RuntimeVariantValue,
 } from './runtime.js';
-import type { StyleRule } from './types.js';
+import type { CssLayer, StyleRule } from './types.js';
 
 type VariantDefinitions = Record<string, Record<string, StyleRule>>;
 
@@ -36,6 +36,8 @@ export type ExtractRecipeVariants<E> =
         ? UnionToIntersection<ExtractRecipeVariants<U>>
         : {};
 
+type CleanVariants<T extends VariantDefinitions> = string extends keyof T ? {} : T;
+
 export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T extends never
   ? E extends undefined
     ? 'Error: recipe() requires at least one of `variants` or `extend`. Use style() for static styles.'
@@ -43,17 +45,32 @@ export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T e
   : unknown;
 
 export interface RecipeOptions<T extends VariantDefinitions = {}, E = undefined> {
+  /** Optional CSS cascade layer name (e.g. `'components'`). */
+  layer?: CssLayer;
   base?: StyleRule | StyleRule[];
   extend?: E;
   variants?: T;
-  compoundVariants?: CompoundVariant<T & ExtractRecipeVariants<E>>[];
-  defaultVariants?: VariantSelection<T & ExtractRecipeVariants<E>>;
+  compoundVariants?: CompoundVariant<CleanVariants<T> & ExtractRecipeVariants<E>>[];
+  defaultVariants?: VariantSelection<CleanVariants<T> & ExtractRecipeVariants<E>>;
+}
+
+/**
+ * Untyped, normalized shape of the options a recipe was created with.
+ * Stored on the recipe function so other recipes can `extend` it.
+ */
+export interface RecipeDefinition {
+  layer?: CssLayer;
+  base?: StyleRule | StyleRule[];
+  extend?: unknown;
+  variants?: VariantDefinitions;
+  compoundVariants?: CompoundVariant<VariantDefinitions>[];
+  defaultVariants?: Record<string, string | boolean | undefined>;
 }
 
 export interface RecipeFunction<T extends VariantDefinitions = {}> {
   (options?: VariantSelection<T>): string;
   variants: () => (keyof T)[];
-  options: RecipeOptions<T, unknown>;
+  options: RecipeDefinition;
   classNames: {
     base?: string;
     variants: {
@@ -61,7 +78,7 @@ export interface RecipeFunction<T extends VariantDefinitions = {}> {
         [V in keyof T[K]]: string;
       };
     };
-    compoundVariants: Array<{
+    compoundVariants: ReadonlyArray<{
       variants: VariantSelection<T>;
       className: string;
     }>;
@@ -104,171 +121,133 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
 }
 
 interface OptionsCollector {
+  layer?: CssLayer;
   bases: StyleRule[];
   variants: Record<string, Record<string, StyleRule>>;
   compoundVariants: CompoundVariant<VariantDefinitions>[];
   defaultVariants: Record<string, string | boolean | undefined>;
 }
 
-function collectExtendedOptions(ext: unknown, acc: OptionsCollector): void {
-  if (!ext || (typeof ext !== 'object' && typeof ext !== 'function')) return;
+function isRecipeFunction(value: unknown): value is { options: RecipeDefinition } {
+  return typeof value === 'function' && 'options' in value && isPlainObject(value.options);
+}
 
-  const extOpts =
-    typeof ext === 'function' && 'options' in ext
-      ? (ext as { options: RecipeOptions<VariantDefinitions, unknown> }).options
-      : (ext as RecipeOptions<VariantDefinitions, unknown>);
+function isRecipeDefinition(value: unknown): value is RecipeDefinition {
+  return isPlainObject(value);
+}
 
-  if (!extOpts) return;
+/**
+ * Collects a definition (or compiled recipe function) into the accumulator, depth-first:
+ * parents (`extend`) are collected before the definition itself so later sources override earlier ones.
+ */
+function collectSource(source: unknown, acc: OptionsCollector): void {
+  const definition = isRecipeFunction(source)
+    ? source.options
+    : isRecipeDefinition(source)
+      ? source
+      : undefined;
+  if (!definition) return;
 
-  if (extOpts.extend) {
-    const parentExts = Array.isArray(extOpts.extend) ? extOpts.extend : [extOpts.extend];
-    for (const parent of parentExts) {
-      collectExtendedOptions(parent, acc);
+  if (definition.extend) {
+    const parents = Array.isArray(definition.extend) ? definition.extend : [definition.extend];
+    for (const parent of parents) {
+      collectSource(parent, acc);
     }
   }
 
-  if (extOpts.base) {
-    if (Array.isArray(extOpts.base)) {
-      acc.bases.push(...extOpts.base);
-    } else {
-      acc.bases.push(extOpts.base);
+  if (definition.layer !== undefined) {
+    acc.layer = definition.layer;
+  }
+
+  if (definition.base) {
+    acc.bases.push(...(Array.isArray(definition.base) ? definition.base : [definition.base]));
+  }
+
+  for (const [variantName, options] of Object.entries(definition.variants ?? {})) {
+    const merged = (acc.variants[variantName] ??= {});
+    for (const [optionName, rule] of Object.entries(options)) {
+      merged[optionName] = mergeStyleRules([merged[optionName], rule]) ?? {};
     }
   }
 
-  if (extOpts.variants) {
-    for (const vKey of Object.keys(extOpts.variants)) {
-      if (!acc.variants[vKey]) {
-        acc.variants[vKey] = {};
-      }
-      for (const optKey of Object.keys(extOpts.variants[vKey])) {
-        acc.variants[vKey][optKey] =
-          mergeStyleRules([acc.variants[vKey][optKey], extOpts.variants[vKey][optKey]]) || {};
-      }
+  acc.compoundVariants.push(...(definition.compoundVariants ?? []));
+  Object.assign(acc.defaultVariants, definition.defaultVariants);
+}
+
+/** Compiles each rule of an option map into a class name: `option -> className`. */
+function compileOptionClasses(
+  rules: Record<string, StyleRule>,
+  classPrefix: string,
+  layer: CssLayer | undefined,
+): Record<string, string> {
+  const classNames: Record<string, string> = {};
+  for (const [optionName, rule] of Object.entries(rules)) {
+    classNames[optionName] = style(rule, {
+      prefix: `${classPrefix}-${optionName}`,
+      layer,
+    }).className;
+  }
+  return classNames;
+}
+
+function toRuntimeValues(
+  record: Record<string, string | boolean | number | undefined | object>,
+): Record<string, RuntimeVariantValue> {
+  const out: Record<string, RuntimeVariantValue> = {};
+  for (const [key, value] of Object.entries(record)) {
+    if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+      out[key] = value;
     }
   }
-
-  if (extOpts.compoundVariants) {
-    acc.compoundVariants.push(...extOpts.compoundVariants);
-  }
-
-  if (extOpts.defaultVariants) {
-    Object.assign(acc.defaultVariants, extOpts.defaultVariants);
-  }
+  return out;
 }
 
 /**
  * Creates a zero-runtime recipe/variants function.
- * Supports recursive extends of shared intent recipes and compiles all CSS upfront into static classes.
+ * Supports recursive extends and CSS cascade layers, compiling all CSS upfront into static classes.
  */
 export function recipe<T extends VariantDefinitions = {}, E = undefined>(
   options: RecipeOptions<T, E> & RecipeOptionsValidation<T, E>,
-  prefix = 'r',
-): RecipeFunction<T & ExtractRecipeVariants<E>> {
-  type CombinedVariants = T & ExtractRecipeVariants<E>;
-
+  prefix?: string,
+): RecipeFunction<CleanVariants<T> & ExtractRecipeVariants<E>>;
+export function recipe(options: object, prefix = 'r'): object {
+  if (!isRecipeDefinition(options)) {
+    throw new TypeError('recipe() expects an options object.');
+  }
   const collected: OptionsCollector = {
     bases: [],
     variants: {},
     compoundVariants: [],
     defaultVariants: {},
   };
+  collectSource(options, collected);
 
-  // 1. Recursively collect extended options
-  if (options.extend) {
-    const extendArray = Array.isArray(options.extend) ? options.extend : [options.extend];
-    for (const ext of extendArray) {
-      collectExtendedOptions(ext, collected);
-    }
-  }
+  const { layer, bases, variants, compoundVariants } = collected;
 
-  // 2. Merge local options
-  if (options.base) {
-    if (Array.isArray(options.base)) {
-      collected.bases.push(...options.base);
-    } else {
-      collected.bases.push(options.base);
-    }
-  }
-
-  if (options.variants) {
-    for (const vKey of Object.keys(options.variants)) {
-      if (!collected.variants[vKey]) {
-        collected.variants[vKey] = {};
-      }
-      for (const optKey of Object.keys(options.variants[vKey])) {
-        collected.variants[vKey][optKey] =
-          mergeStyleRules([collected.variants[vKey][optKey], options.variants[vKey][optKey]]) || {};
-      }
-    }
-  }
-
-  if (options.compoundVariants) {
-    collected.compoundVariants.push(
-      ...(options.compoundVariants as CompoundVariant<VariantDefinitions>[]),
-    );
-  }
-
-  if (options.defaultVariants) {
-    Object.assign(collected.defaultVariants, options.defaultVariants);
-  }
-
-  const {
-    bases,
-    variants: mergedVariants,
-    compoundVariants: mergedCompoundVariants,
-    defaultVariants: mergedDefaultVariants,
-  } = collected;
-
-  // 3. Compile base classes upfront
+  // 1. Base class
   const mergedBaseRule = mergeStyleRules(bases);
   const baseClassName = mergedBaseRule
-    ? style(mergedBaseRule, `${prefix}-base`).className
+    ? style(mergedBaseRule, { prefix: `${prefix}-base`, layer }).className
     : undefined;
 
-  // 4. Compile variant classes upfront
+  // 2. Variant classes (compiled with child prefix so base -> variants -> compoundVariants
+  //    cascade order stays self-contained within each CSS chunk)
   const compiledVariants: Record<string, Record<string, string>> = {};
-  for (const variantName of Object.keys(mergedVariants)) {
-    compiledVariants[variantName] = {};
-    const variantOptions = mergedVariants[variantName];
-    if (variantOptions) {
-      for (const optionName of Object.keys(variantOptions)) {
-        const rule = variantOptions[optionName];
-        if (rule) {
-          compiledVariants[variantName][optionName] = style(
-            rule,
-            `${prefix}-${variantName}-${optionName}`,
-          ).className;
-        }
-      }
-    }
+  for (const [variantName, rules] of Object.entries(variants)) {
+    compiledVariants[variantName] = compileOptionClasses(rules, `${prefix}-${variantName}`, layer);
   }
 
-  // 5. Compile compound variant classes upfront
-  const compiledCompoundVariants = mergedCompoundVariants.map((cv, index) => ({
-    variants: cv.variants,
-    className: style(cv.style, `${prefix}-cv-${index}`).className,
-  }));
-
-  // 6. Delegate runtime lookup to runtimeRecipe()
-  const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compiledCompoundVariants.map(
-    (cv) => {
-      const variantsRecord: Record<string, RuntimeVariantValue> = {};
-      for (const [k, v] of Object.entries(cv.variants)) {
-        if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-          variantsRecord[k] = v;
-        }
-      }
-      return { variants: variantsRecord, className: cv.className };
-    },
+  // 3. Compound variant classes
+  const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compoundVariants.map(
+    (cv, index) => ({
+      variants: toRuntimeValues(cv.variants),
+      className: style(cv.style, { prefix: `${prefix}-cv-${index}`, layer }).className,
+    }),
   );
 
-  const runtimeDefaultVariants: Record<string, RuntimeVariantValue> = {};
-  for (const [k, v] of Object.entries(mergedDefaultVariants)) {
-    if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-      runtimeDefaultVariants[k] = v;
-    }
-  }
+  const runtimeDefaultVariants = toRuntimeValues(collected.defaultVariants);
 
+  // 4. Delegate runtime lookup to runtimeRecipe()
   const runtimeConfig: RuntimeRecipeConfig = {
     ...(baseClassName !== undefined ? { base: baseClassName } : {}),
     variants: compiledVariants,
@@ -278,9 +257,7 @@ export function recipe<T extends VariantDefinitions = {}, E = undefined>(
       : {}),
   };
 
-  const recipeFn = Object.assign(runtimeRecipe(runtimeConfig), {
-    options: options as RecipeOptions<CombinedVariants, unknown>,
-  }) as unknown as RecipeFunction<CombinedVariants>;
+  const recipeFn = Object.assign(runtimeRecipe(runtimeConfig), { options });
 
   return attachMeta(recipeFn, {
     kind: 'recipe',

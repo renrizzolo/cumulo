@@ -12,6 +12,12 @@ export interface CSSProperties extends CSSType.Properties<string | number> {
   cornerBottomLeftShape?: CornerShape;
 }
 
+export type CSSVarRef = `var(--${string})`;
+
+type BaseStyleProperties = Omit<CSSProperties, 'appearance'> & {
+  appearance?: CSSType.Properties['appearance'] | 'base-select';
+};
+
 /**
  * This is a supertype of CSSProperties, so we keep it separate
  * to avoid conflicts.
@@ -19,9 +25,11 @@ export interface CSSProperties extends CSSType.Properties<string | number> {
  * i.e `style()` and `recipe()` can use this, but they return
  * CSSProperties to remain compatible.
  **/
-export interface StyleProperties extends Omit<CSSProperties, 'appearance'> {
-  appearance?: CSSType.Properties['appearance'] | 'base-select';
-}
+export type StyleProperties = {
+  [K in keyof BaseStyleProperties]?: BaseStyleProperties[K] | CSSVarRef;
+} & {
+  [key: `--${string}`]: string | number | undefined;
+};
 
 type CornerShape =
   | CSSType.Globals
@@ -74,6 +82,19 @@ export interface ComplexStyleRule extends StyleProperties {
 export type StyleRule = ComplexStyleRule;
 
 export type StyleDefinitions<Keys extends string = string> = Record<Keys, StyleRule>;
+
+/**
+ * Cascade layer name. The canonical Cumulo layers (see {@link LAYER_ORDER}) autocomplete,
+ * while custom layer names remain allowed.
+ */
+export type CssLayer = 'reset' | 'base' | 'components' | 'utilities' | (string & {});
+
+export interface StyleOptions {
+  /** Class name prefix (default `'c'`). */
+  prefix?: string;
+  /** Optional CSS cascade layer name (e.g. `'components'`). */
+  layer?: CssLayer;
+}
 
 export interface CompiledStyle {
   className: string;

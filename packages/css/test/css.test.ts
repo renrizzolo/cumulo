@@ -11,6 +11,8 @@ import {
   cx,
   resetSheet,
   getSheetCss,
+  LAYER_ORDER,
+  LAYER_ORDER_STATEMENT,
 } from '../src/index.js';
 import { runtimeKeyframes, runtimeRecipe, runtimeStyle, runtimeTheme } from '../src/runtime.js';
 
@@ -744,6 +746,83 @@ describe('@cumulo/css', () => {
       expect(nullResult).not.toContain(compiled.classNames.compoundVariants[0]?.className ?? 'cv');
       expect(nullResult).toContain(compiled.classNames.base ?? '');
       expect(nullResult).toContain(compiled.classNames.variants.active.true);
+    });
+  });
+
+  describe('cascade layers (@layer)', () => {
+    it('wraps style(), create(), createTheme(), and recipe() rules in @layer and isolates hashes', () => {
+      const unlayered = style({ padding: '16px' }, 'box');
+      const layered = style({ padding: '16px' }, { prefix: 'box', layer: 'components' });
+
+      expect(layered.className).not.toBe(unlayered.className);
+      expect(layered.css).toBe(`@layer components{.${layered.className}{padding:16px;}}`);
+      expect(unlayered.css).toBe(`.${unlayered.className}{padding:16px;}`);
+
+      const map = create(
+        { a: { color: 'red' }, b: { color: 'blue' } },
+        { prefix: 'm', layer: 'utilities' },
+      );
+      expect(map.a.css).toContain('@layer utilities{');
+      expect(map.b.css).toContain('@layer utilities{');
+
+      const contract = createThemeContract({ bg: null }, 't');
+      const unlayeredTheme = createTheme(contract, { bg: 'white' });
+      const layeredTheme = createTheme(contract, { bg: 'white' }, { layer: 'components' });
+      expect(layeredTheme.className).not.toBe(unlayeredTheme.className);
+      expect(layeredTheme.css).toBe(`@layer components{.${layeredTheme.className}{--t-bg:white;}}`);
+    });
+
+    it('propagates layer through recipe() extend and allows child override', () => {
+      const parent = recipe(
+        {
+          layer: 'components',
+          variants: {
+            size: {
+              sm: { padding: 4 },
+            },
+          },
+        },
+        'p',
+      );
+
+      const inherited = recipe(
+        {
+          extend: [parent],
+          base: { display: 'flex' },
+        },
+        'c1',
+      );
+
+      const overridden = recipe(
+        {
+          layer: 'utilities',
+          extend: [parent],
+          base: { display: 'grid' },
+        },
+        'c2',
+      );
+
+      const css = getSheetCss();
+      expect(css).toContain(`@layer components{.${inherited.classNames.base}{display:flex;}}`);
+      expect(css).toContain(`@layer utilities{.${overridden.classNames.base}{display:grid;}}`);
+    });
+  });
+
+  describe('layers', () => {
+    it('wraps rules in @layer and isolates layered hashes', () => {
+      const plain = style({ color: 'red' });
+      const layered = style({ color: 'red' }, { layer: 'components' });
+
+      expect(layered.className).not.toBe(plain.className);
+      expect(layered.css).toBe(`@layer components{.${layered.className}{color:red;}}`);
+    });
+
+    it('keeps the empty-rule hash stable regardless of layer', () => {
+      expect(style({}, { layer: 'components' }).className).toBe(style({}).className);
+    });
+
+    it('declares the canonical layer order once', () => {
+      expect(LAYER_ORDER_STATEMENT).toBe(`@layer ${LAYER_ORDER.join(', ')};`);
     });
   });
 });

@@ -14,6 +14,7 @@ export const gridContract = createThemeContract(
 
 const gridRecipe = recipe(
   {
+    layer: 'components',
     extend: [flexStyles, gapStyles, paddingStyles],
     base: {
       display: 'grid',
@@ -65,6 +66,7 @@ const gridRecipe = recipe(
 
 const gridItemRecipe = recipe(
   {
+    layer: 'components',
     base: {
       minWidth: 0,
     },

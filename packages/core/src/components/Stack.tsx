@@ -6,6 +6,7 @@ import { flexStyles, gapStyles } from '../layout.js';
 
 const stackRecipe = recipe(
   {
+    layer: 'components',
     extend: [flexStyles, gapStyles],
     base: {
       display: 'flex',

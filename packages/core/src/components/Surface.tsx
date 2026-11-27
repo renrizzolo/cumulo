@@ -2,16 +2,16 @@ import { recipe, cx, type RecipeVariants } from '@cumulo/css';
 import React from 'react';
 
 import { vars } from '../contract.js';
-import type { ElementProps } from '../ElementProps.js';
-import { flexStyles, overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
+import { overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
+import { Stack, type StackProps } from './Stack.js';
 
 const surfaceRecipe = recipe(
   {
-    extend: [flexStyles, overflowStyles, paddingStyles, radiusStyles],
+    layer: 'components',
+    extend: [overflowStyles, paddingStyles, radiusStyles],
     base: {
-      display: 'flex',
-      flexDirection: 'column',
       backgroundColor: vars.surface.bg.DEFAULT,
+      backgroundImage: vars.surface.bg.image,
       color: vars.surface.fg,
       transition: `background-color ${vars.duration.fast} ${vars.ease.default}, border-color ${vars.duration.fast} ${vars.ease.default}`,
     },
@@ -23,7 +23,7 @@ const surfaceRecipe = recipe(
       },
       bordered: {
         true: {
-          borderWidth: 1,
+          borderWidth: vars.surface.stroke.width,
           borderStyle: 'solid',
           borderColor: vars.surface.border,
           boxShadow: vars.surface.shadow,
@@ -63,7 +63,7 @@ export type SurfaceTag =
   | 'aside'
   | 'main';
 
-export interface SurfaceProps extends ElementProps<HTMLElement> {
+export interface SurfaceProps extends Omit<StackProps, 'as'> {
   as?: SurfaceTag;
   /** Sometimes it's desired to have the background colour only. */
   bordered?: SurfaceVariants['bordered'];
@@ -71,18 +71,16 @@ export interface SurfaceProps extends ElementProps<HTMLElement> {
   variant?: SurfaceVariants['variant'];
   padding?: SurfaceVariants['padding'];
   radius?: SurfaceVariants['radius'];
-  flex?: SurfaceVariants['flex'];
   overflow?: SurfaceVariants['overflow'];
   children?: React.ReactNode;
 }
 
 export function Surface({
-  as: Component = 'div',
+  as = 'div',
   level = 1,
   variant,
   padding,
   radius,
-  flex,
   bordered,
   overflow,
   className,
@@ -96,22 +94,22 @@ export function Surface({
     padding,
     bordered,
     radius,
-    flex,
     overflow,
   });
 
-  return React.createElement(
-    Component,
-    {
-      ref,
-      className: cx(
+  return (
+    <Stack
+      as={as}
+      ref={ref}
+      className={cx(
         variant === 'primary' && 'surface-primary',
         `surface-${level}`,
         recipeClasses,
         className,
-      ),
-      ...props,
-    },
-    children,
+      )}
+      {...props}
+    >
+      {children}
+    </Stack>
   );
 }

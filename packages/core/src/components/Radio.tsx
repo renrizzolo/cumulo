@@ -22,19 +22,24 @@ const radioContract = createThemeContract({
   size: null,
 });
 
-const radioTheme = createTheme(radioContract, {
-  size: vars.size['2xs'],
-});
+const radioTheme = createTheme(
+  radioContract,
+  {
+    size: vars.size['2xs'],
+  },
+  { layer: 'components' },
+);
 
 export const radioRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing, controlIntent],
     base: {
       justifyContent: 'center',
       width: radioContract.size,
       height: radioContract.size,
       borderRadius: vars.radius.full,
-      borderWidth: 1,
+      borderWidth: vars.control.border.width,
       backgroundColor: vars.surface.bg.DEFAULT,
       transition: `all ${vars.duration.fast} ${vars.ease.default}`,
       selectors: {
@@ -72,15 +77,18 @@ export interface RadioGroupContextValue<
 
 export const RadioGroupContext = createContext<RadioGroupContextValue | null>(null);
 
-const dotStyle = style({
-  width: `calc(${radioContract.size} / 2.5)`,
-  height: `calc(${radioContract.size} / 2.5)`,
-  borderRadius: vars.radius.full,
-  backgroundColor: vars.primary.fg,
-  display: 'block',
-  pointerEvents: 'none',
-  transition: `transform ${vars.duration.fast} ${vars.ease.default}`,
-});
+const dotStyle = style(
+  {
+    width: `calc(${radioContract.size} / 2.5)`,
+    height: `calc(${radioContract.size} / 2.5)`,
+    borderRadius: vars.radius.full,
+    backgroundColor: vars.primary.fg,
+    display: 'block',
+    pointerEvents: 'none',
+    transition: `transform ${vars.duration.fast} ${vars.ease.default}`,
+  },
+  { prefix: 'radio-dot', layer: 'components' },
+);
 
 export interface RadioProps<T extends string = string> extends Omit<
   ElementProps<HTMLInputElement>,

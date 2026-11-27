@@ -13,6 +13,7 @@ export const tableContract = createThemeContract(
 
 const tableWrapperRecipe = recipe(
   {
+    layer: 'components',
     base: {
       width: '100%',
       maxWidth: '100%',
@@ -39,6 +40,7 @@ const tableWrapperRecipe = recipe(
 
 const tableRecipe = recipe(
   {
+    layer: 'components',
     base: {
       width: '100%',
       borderCollapse: 'separate',
@@ -110,7 +112,7 @@ const tableHeadCellStyle = style(
       },
     },
   },
-  'table-th',
+  { prefix: 'table-th', layer: 'components' },
 );
 
 const tableCellStyle = style(
@@ -127,7 +129,7 @@ const tableCellStyle = style(
       },
     },
   },
-  'table-td',
+  { prefix: 'table-td', layer: 'components' },
 );
 
 type TableVariants = RecipeVariants<typeof tableRecipe>;

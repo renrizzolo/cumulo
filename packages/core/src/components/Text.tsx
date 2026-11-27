@@ -7,6 +7,7 @@ import { textSharedRecipe, truncateStyle } from '../typography.js';
 
 const textRecipe = recipe(
   {
+    layer: 'components',
     extend: [textSharedRecipe],
     variants: {
       type: {

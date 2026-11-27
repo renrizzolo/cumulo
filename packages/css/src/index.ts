@@ -22,8 +22,11 @@ export {
   type RecipeFunction,
   type RecipeVariants,
   type VariantSelection,
+  type RecipeDefinition,
   type CompoundVariant,
 } from './recipe.js';
+
+export { LAYER_ORDER, LAYER_ORDER_STATEMENT } from './layers.js';
 
 export type {
   CSSProperties,
@@ -34,6 +37,8 @@ export type {
   ComplexStyleRule,
   StyleRule,
   StyleDefinitions,
+  StyleOptions,
+  CssLayer,
   CompiledStyle,
   CompiledStyles,
   NullableTokens,

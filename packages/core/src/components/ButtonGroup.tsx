@@ -23,6 +23,7 @@ type ButtonGroupIntent = NonNullable<ButtonVariants['intent']>;
 
 const buttonGroupRecipe = recipe(
   {
+    layer: 'components',
     variants: {
       attached: {
         true: {},
