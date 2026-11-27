@@ -1,7 +1,6 @@
-import { style, recipe } from '@cumulo/css';
+import { style } from '@cumulo/css';
 import React from 'react';
 
-import { containerQuery } from '../../../core/src/breakpoints.js';
 import { Button } from '../../../core/src/components/Button.js';
 import * as Card from '../../../core/src/components/Card.js';
 
@@ -21,33 +20,6 @@ export const overrideButtonStyle = style(
   'consumer-btn-override',
 );
 
-export const containerWrapperStyle = style(
-  {
-    containerType: 'inline-size',
-    containerName: 'demo-card',
-  },
-  'cq-wrapper',
-);
-
-export const containerResponsiveRecipe = recipe(
-  {
-    breakpoints: {
-      wide: containerQuery('400px', 'demo-card'),
-    },
-    responsiveVariants: ['layout'],
-    base: {
-      display: 'flex',
-    },
-    variants: {
-      layout: {
-        stack: { flexDirection: 'column' },
-        row: { flexDirection: 'row' },
-      },
-    },
-  },
-  'cq-box',
-);
-
 export function OverrideFixture(): React.JSX.Element {
   return (
     <div>
@@ -65,35 +37,12 @@ export function OverrideFixture(): React.JSX.Element {
   );
 }
 
-export function ResponsiveFixture(): React.JSX.Element {
+export function StackCardFixture(): React.JSX.Element {
   return (
-    <Card.Root
-      data-testid="responsive-card"
-      padding={{ initial: 'xs', md: 'xl' }}
-      direction={{ initial: 'column', md: 'row' }}
-      gap="md"
-    >
+    <Card.Root data-testid="stack-card" padding="xl" direction="row" gap="md">
       <span>A</span>
       <span>B</span>
     </Card.Root>
-  );
-}
-
-export function ContainerQueryFixture(): React.JSX.Element {
-  return (
-    <div
-      data-testid="cq-parent"
-      className={containerWrapperStyle.className}
-      style={{ width: '300px' }}
-    >
-      <div
-        data-testid="cq-child"
-        className={containerResponsiveRecipe({ layout: { initial: 'stack', wide: 'row' } })}
-      >
-        <span>1</span>
-        <span>2</span>
-      </div>
-    </div>
   );
 }
 

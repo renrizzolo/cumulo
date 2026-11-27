@@ -5,13 +5,12 @@ import { page } from 'vitest/browser';
 
 import '../../../core/src/theme.css';
 import {
-  ContainerQueryFixture,
   ControlStyleFixture,
   OverrideFixture,
-  ResponsiveFixture,
+  StackCardFixture,
 } from '../../src/shared/CustomizationFixture.js';
 
-describe('Customization Browser Tests (Layers, Responsive, Control Styles)', () => {
+describe('Customization Browser Tests (Layers, Card Stack, Control Styles)', () => {
   let container: HTMLDivElement | null = null;
 
   beforeEach(() => {
@@ -45,41 +44,17 @@ describe('Customization Browser Tests (Layers, Responsive, Control Styles)', () 
     expect(btnStyle.borderRadius).toBe('0px');
   });
 
-  it('supports Stack props on Card/Surface and viewport @media responsive variants', async () => {
+  it('supports Stack layout props directly on Card/Surface', async () => {
     if (!container) throw new Error('Container not initialized');
     const root = createRoot(container);
-    root.render(<ResponsiveFixture />);
+    root.render(<StackCardFixture />);
 
-    await page.viewport(375, 800);
-    await expect.element(page.getByTestId('responsive-card')).toBeVisible();
-    const el = page.getByTestId('responsive-card').element();
-    const mobileStyle = window.getComputedStyle(el);
-    expect(mobileStyle.padding).toBe('8px');
-    expect(mobileStyle.flexDirection).toBe('column');
-    expect(mobileStyle.gap).toBe('16px');
-
-    await page.viewport(1024, 800);
-    const desktopStyle = window.getComputedStyle(el);
-    expect(desktopStyle.padding).toBe('32px');
-    expect(desktopStyle.flexDirection).toBe('row');
-  });
-
-  it('supports custom @container query responsive recipes', async () => {
-    if (!container) throw new Error('Container not initialized');
-    const root = createRoot(container);
-    root.render(<ContainerQueryFixture />);
-
-    await expect.element(page.getByTestId('cq-child')).toBeVisible();
-    const parentEl = page.getByTestId('cq-parent').element();
-    const childEl = page.getByTestId('cq-child').element();
-    if (!(parentEl instanceof HTMLElement)) {
-      throw new Error('Expected cq-parent to be HTMLElement');
-    }
-
-    expect(window.getComputedStyle(childEl).flexDirection).toBe('column');
-
-    parentEl.style.width = '500px';
-    expect(window.getComputedStyle(childEl).flexDirection).toBe('row');
+    await expect.element(page.getByTestId('stack-card')).toBeVisible();
+    const el = page.getByTestId('stack-card').element();
+    const computed = window.getComputedStyle(el);
+    expect(computed.padding).toBe('32px');
+    expect(computed.flexDirection).toBe('row');
+    expect(computed.gap).toBe('16px');
   });
 
   it('applies raised and 3d control-style presets while keeping ghost buttons flat', async () => {

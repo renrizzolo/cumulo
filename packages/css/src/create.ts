@@ -7,7 +7,6 @@ import type {
   StyleRule,
   StyleDefinitions,
   StyleOptions,
-  AtRule,
   CssLayer,
   CompiledStyle,
   CompiledStyles,
@@ -80,16 +79,15 @@ function serializeProperties(properties: StyleProperties | object): string {
   return declarations.join('');
 }
 
-/** Wraps each rule in the given at-rule preludes, innermost first (e.g. `[atRule, layer]`). */
-function wrapCssRules(rules: string[], wrappers: (string | undefined)[]): string[] {
-  const active = wrappers.filter((w): w is string => Boolean(w));
-  return rules.map((rule) => active.reduce((inner, wrapper) => `${wrapper}{${inner}}`, rule));
+/** Wraps each rule in `@layer <layer>{...}` when a layer is specified. */
+function wrapLayer(rules: string[], layer?: CssLayer): string[] {
+  if (!layer) return rules;
+  return rules.map((rule) => `@layer ${layer}{${rule}}`);
 }
 
 function normalizeStyleOptions(prefixOrOptions?: string | StyleOptions): {
   prefix: string;
   layer?: CssLayer;
-  atRule?: AtRule;
 } {
   if (typeof prefixOrOptions === 'string') {
     return { prefix: prefixOrOptions };
@@ -97,25 +95,24 @@ function normalizeStyleOptions(prefixOrOptions?: string | StyleOptions): {
   return {
     prefix: prefixOrOptions?.prefix ?? 'c',
     layer: prefixOrOptions?.layer,
-    atRule: prefixOrOptions?.atRule,
   };
 }
 
 /**
- * Hash input for a style. Layered / at-rule-wrapped rules are salted so they never collide with
- * their unlayered twin, while empty rules (`{}`) and unwrapped rules keep their legacy hash.
+ * Hash input for a style. Layered rules are salted so they never collide with
+ * their unlayered twin, while empty rules (`{}`) and unlayered rules keep their legacy hash.
  */
-function hashStyle(serialized: string, layer?: CssLayer, atRule?: AtRule): string {
-  if (serialized === '{}' || (!layer && !atRule)) {
+function hashStyle(serialized: string, layer?: CssLayer): string {
+  if (serialized === '{}' || !layer) {
     return hash(serialized);
   }
-  return hash(`${layer ?? ''}\0${atRule ?? ''}\0${serialized}`);
+  return hash(`${layer}\0${serialized}`);
 }
 
 export function compileStyleRule(
   rule: StyleRule,
   className: string,
-  options?: { layer?: CssLayer; atRule?: AtRule },
+  options?: { layer?: CssLayer },
 ): { cssRules: string[]; className: string } {
   const cssRules: string[] = [];
   const baseDecls = serializeProperties(rule);
@@ -207,10 +204,7 @@ export function compileStyleRule(
   }
 
   return {
-    cssRules: wrapCssRules(cssRules, [
-      options?.atRule,
-      options?.layer && `@layer ${options.layer}`,
-    ]),
+    cssRules: wrapLayer(cssRules, options?.layer),
     className,
   };
 }
@@ -235,10 +229,10 @@ export function style(
   rule: StyleRule,
   prefixOrOptions: string | StyleOptions = 'c',
 ): CompiledStyle {
-  const { prefix, layer, atRule } = normalizeStyleOptions(prefixOrOptions);
+  const { prefix, layer } = normalizeStyleOptions(prefixOrOptions);
   const serialized = JSON.stringify(rule);
-  const className = `${prefix}-${hashStyle(serialized, layer, atRule)}`;
-  const { cssRules } = compileStyleRule(rule, className, { layer, atRule });
+  const className = `${prefix}-${hashStyle(serialized, layer)}`;
+  const { cssRules } = compileStyleRule(rule, className, { layer });
   const css = cssRules.join('\n');
 
   sheet.insertRules(cssRules);
@@ -271,13 +265,13 @@ export function create<T extends StyleDefinitions>(
   definitions: T,
   prefixOrOptions: string | StyleOptions = 'c',
 ): CompiledStyles<T> {
-  const { prefix, layer, atRule } = normalizeStyleOptions(prefixOrOptions);
+  const { prefix, layer } = normalizeStyleOptions(prefixOrOptions);
   const result = {} as Record<keyof T, CompiledStyle>;
   const entries: Record<string, string> = {};
   for (const key of Object.keys(definitions) as (keyof T)[]) {
     const def = definitions[key];
     if (def) {
-      const compiled = style(def, { prefix: `${prefix}-${String(key)}`, layer, atRule });
+      const compiled = style(def, { prefix: `${prefix}-${String(key)}`, layer });
       result[key] = compiled;
       entries[String(key)] = compiled.className;
     }

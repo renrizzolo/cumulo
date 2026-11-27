@@ -5,7 +5,7 @@ import React, { createContext, useContext, useMemo } from 'react';
 
 import { vars } from '../contract.js';
 import type { ElementProps } from '../ElementProps.js';
-import { gapStyles, type StaticGapVariant } from '../layout.js';
+import { gapStyles, type GapVariant } from '../layout.js';
 
 /**
  * Shared base styles for inline marker icons (list bullets, description list term icons).
@@ -164,7 +164,7 @@ export interface ListRootBaseProps extends ElementProps<HTMLUListElement> {
    * Vertical gap spacing between list items.
    * @default 'sm'
    */
-  gap?: StaticGapVariant;
+  gap?: GapVariant;
   /**
    * Additional CSS class name.
    */
@@ -199,7 +199,7 @@ export interface ListItemBaseProps extends ElementProps<HTMLLIElement> {
    * Gap spacing between the marker/icon and the item content.
    * @default 'sm'
    */
-  gap?: StaticGapVariant;
+  gap?: GapVariant;
   className?: string;
   children?: React.ReactNode;
 }

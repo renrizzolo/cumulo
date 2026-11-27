@@ -5,14 +5,8 @@
  */
 export type { ElementProps } from './ElementProps.js';
 
-// Contract & Breakpoints
+// Contract
 export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
-export {
-  breakpoints,
-  containerQuery,
-  createContainerBreakpoints,
-  type Breakpoint,
-} from './breakpoints.js';
 
 // Components
 export {

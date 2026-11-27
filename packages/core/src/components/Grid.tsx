@@ -2,30 +2,7 @@ import { recipe, cx, createThemeContract, type RecipeVariants } from '@cumulo/cs
 import React from 'react';
 
 import type { ElementProps } from '../ElementProps.js';
-import {
-  FLEX_VALUES,
-  GAP_VALUES,
-  PADDING_VALUES,
-  flexStyles,
-  gapStyles,
-  paddingStyles,
-  type FlexVariant,
-  type GapVariant,
-  type PaddingVariant,
-} from '../layout.js';
-import {
-  mergeResponsiveStyles,
-  respAlign,
-  respColSpan,
-  respColumns,
-  respFlex,
-  respGap,
-  respJustifyItems,
-  respPadding,
-  respRowSpan,
-  splitResponsive,
-  type ResponsiveProp,
-} from '../responsive.js';
+import { flexStyles, gapStyles, paddingStyles } from '../layout.js';
 import type { StackTag } from './Stack.js';
 
 export const gridContract = createThemeContract(
@@ -34,50 +11,6 @@ export const gridContract = createThemeContract(
   },
   'grid',
 );
-
-const GRID_COLUMNS_VALUES = {
-  1: 'repeat(1, minmax(0, 1fr))',
-  2: 'repeat(2, minmax(0, 1fr))',
-  3: 'repeat(3, minmax(0, 1fr))',
-  4: 'repeat(4, minmax(0, 1fr))',
-  5: 'repeat(5, minmax(0, 1fr))',
-  6: 'repeat(6, minmax(0, 1fr))',
-  12: 'repeat(12, minmax(0, 1fr))',
-  'auto-fit': `repeat(auto-fit, minmax(min(100%, ${gridContract.minColumnWidth}), 1fr))`,
-  'auto-fill': `repeat(auto-fill, minmax(min(100%, ${gridContract.minColumnWidth}), 1fr))`,
-} as const;
-
-const GRID_ALIGN_VALUES = {
-  start: 'start',
-  center: 'center',
-  end: 'end',
-  stretch: 'stretch',
-  baseline: 'baseline',
-} as const;
-
-const GRID_JUSTIFY_VALUES = {
-  start: 'start',
-  center: 'center',
-  end: 'end',
-  stretch: 'stretch',
-} as const;
-
-const GRID_COL_SPAN_VALUES = {
-  1: 'span 1 / span 1',
-  2: 'span 2 / span 2',
-  3: 'span 3 / span 3',
-  4: 'span 4 / span 4',
-  6: 'span 6 / span 6',
-  12: 'span 12 / span 12',
-  full: '1 / -1',
-} as const;
-
-const GRID_ROW_SPAN_VALUES = {
-  1: 'span 1 / span 1',
-  2: 'span 2 / span 2',
-  3: 'span 3 / span 3',
-  4: 'span 4 / span 4',
-} as const;
 
 const gridRecipe = recipe(
   {
@@ -121,6 +54,12 @@ const gridRecipe = recipe(
         stretch: { justifyItems: 'stretch' },
       },
     },
+    defaultVariants: {
+      columns: 'auto-fit',
+      gap: 'md',
+      align: 'stretch',
+      justify: 'stretch',
+    },
   },
   'grid',
 );
@@ -152,22 +91,8 @@ const gridItemRecipe = recipe(
   'grid-item',
 );
 
-type StaticGridVariants = RecipeVariants<typeof gridRecipe>;
-type StaticGridItemVariants = RecipeVariants<typeof gridItemRecipe>;
-
-export type GridVariants = {
-  columns?: ResponsiveProp<NonNullable<StaticGridVariants['columns']>>;
-  gap?: GapVariant;
-  padding?: PaddingVariant;
-  align?: ResponsiveProp<NonNullable<StaticGridVariants['align']>>;
-  justify?: ResponsiveProp<NonNullable<StaticGridVariants['justify']>>;
-  flex?: FlexVariant;
-};
-
-export type GridItemVariants = {
-  colSpan?: ResponsiveProp<NonNullable<StaticGridItemVariants['colSpan']>>;
-  rowSpan?: ResponsiveProp<NonNullable<StaticGridItemVariants['rowSpan']>>;
-};
+export type GridVariants = RecipeVariants<typeof gridRecipe>;
+export type GridItemVariants = RecipeVariants<typeof gridItemRecipe>;
 
 export interface GridProps extends ElementProps<HTMLElement> {
   as?: StackTag;
@@ -204,54 +129,20 @@ function GridRoot({
   ref,
   ...props
 }: GridProps): React.JSX.Element {
-  const colsRes = splitResponsive(columns, GRID_COLUMNS_VALUES, '--c-col', respColumns, 'auto-fit');
-  const gapRes = splitResponsive(gap, GAP_VALUES, '--c-gap', respGap, 'md');
-  const paddingRes = splitResponsive(padding, PADDING_VALUES, '--c-pad', respPadding);
-  const alignRes = splitResponsive(align, GRID_ALIGN_VALUES, '--c-aln', respAlign, 'stretch');
-  const justifyRes = splitResponsive(
-    justify,
-    GRID_JUSTIFY_VALUES,
-    '--c-jsi',
-    respJustifyItems,
-    'stretch',
-  );
-  const flexRes = splitResponsive(flex, FLEX_VALUES, '--c-flx', respFlex);
-
-  const classes = gridRecipe({
-    columns: colsRes.staticValue,
-    gap: gapRes.staticValue,
-    padding: paddingRes.staticValue,
-    align: alignRes.staticValue,
-    justify: justifyRes.staticValue,
-    flex: flexRes.staticValue,
-  });
-
-  const customStyle = mergeResponsiveStyles(
-    styleProp,
-    minColumnWidth ? gridContract.$set({ minColumnWidth }) : undefined,
-    colsRes.vars,
-    gapRes.vars,
-    paddingRes.vars,
-    alignRes.vars,
-    justifyRes.vars,
-    flexRes.vars,
-  );
+  const classes = gridRecipe({ columns, gap, padding, align, justify, flex });
+  const customStyle = minColumnWidth
+    ? {
+        ...gridContract.$set({ minColumnWidth }),
+        ...styleProp,
+      }
+    : styleProp;
 
   return React.createElement(
     Component,
     {
       ref,
       style: customStyle,
-      className: cx(
-        classes,
-        colsRes.className,
-        gapRes.className,
-        paddingRes.className,
-        alignRes.className,
-        justifyRes.className,
-        flexRes.className,
-        className,
-      ),
+      className: cx(classes, className),
       ...props,
     },
     children,
@@ -269,28 +160,18 @@ function GridItem({
   as: Component = 'div',
   colSpan,
   rowSpan,
-  style: styleProp,
   className,
   children,
   ref,
   ...props
 }: GridItemProps): React.JSX.Element {
-  const colSpanRes = splitResponsive(colSpan, GRID_COL_SPAN_VALUES, '--c-csp', respColSpan);
-  const rowSpanRes = splitResponsive(rowSpan, GRID_ROW_SPAN_VALUES, '--c-rsp', respRowSpan);
-
-  const classes = gridItemRecipe({
-    colSpan: colSpanRes.staticValue,
-    rowSpan: rowSpanRes.staticValue,
-  });
-
-  const mergedStyle = mergeResponsiveStyles(styleProp, colSpanRes.vars, rowSpanRes.vars);
+  const classes = gridItemRecipe({ colSpan, rowSpan });
 
   return React.createElement(
     Component,
     {
       ref,
-      style: mergedStyle,
-      className: cx(classes, colSpanRes.className, rowSpanRes.className, className),
+      className: cx(classes, className),
       ...props,
     },
     children,

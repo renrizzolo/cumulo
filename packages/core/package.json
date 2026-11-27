@@ -61,11 +61,6 @@
       "import": "./dist/contract.mjs",
       "default": "./dist/contract.mjs"
     },
-    "./breakpoints": {
-      "types": "./dist/breakpoints.d.mts",
-      "import": "./dist/breakpoints.mjs",
-      "default": "./dist/breakpoints.mjs"
-    },
     "./cli": {
       "types": "./dist/cli/index.d.mts",
       "import": "./dist/cli/index.mjs",

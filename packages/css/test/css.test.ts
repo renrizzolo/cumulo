@@ -808,222 +808,27 @@ describe('@cumulo/css', () => {
     });
   });
 
-  describe('responsive variants (@media and @container)', () => {
-    it('compiles @media responsive variants in breakpoint order with selectors and layer support', () => {
-      const box = recipe(
-        {
-          layer: 'components',
-          breakpoints: {
-            sm: '@media (min-width: 640px)',
-            md: '@media (min-width: 768px)',
-          },
-          responsiveVariants: ['padding'],
-          variants: {
-            padding: {
-              sm: {
-                padding: '8px',
-                selectors: {
-                  '& > *': { '--parent-padding': '8px' },
-                },
-              },
-              lg: {
-                padding: '24px',
-                selectors: {
-                  '& > *': { '--parent-padding': '24px' },
-                },
-              },
-            },
-          },
-        },
-        'resp',
-      );
+  describe('layers and extend deduplication', () => {
+    it('wraps rules in @layer and isolates layered hashes', () => {
+      const plain = style({ color: 'red' });
+      const layered = style({ color: 'red' }, { layer: 'components' });
 
-      const css = getSheetCss();
-      const smClass = box.classNames.responsiveVariants?.padding?.sm?.lg;
-      const mdClass = box.classNames.responsiveVariants?.padding?.md?.lg;
-
-      expect(smClass).toBeDefined();
-      expect(mdClass).toBeDefined();
-      expect(css).toContain(
-        `@layer components{@media (min-width: 640px){.${smClass}{padding:24px;}}}`,
-      );
-      expect(css).toContain(
-        `@layer components{@media (min-width: 640px){.${smClass} > *{--parent-padding:24px;}}}`,
-      );
-      expect(css).toContain(
-        `@layer components{@media (min-width: 768px){.${mdClass}{padding:24px;}}}`,
-      );
-
-      // Breakpoint order: sm must be emitted before md
-      expect(css.indexOf(`.${smClass}`)).toBeLessThan(css.indexOf(`.${mdClass}`));
-
-      // Runtime resolution for primitive and responsive object props
-      expect(box({ padding: 'sm' })).toBe(box.classNames.variants.padding.sm);
-      const responsiveClasses = box({ padding: { initial: 'sm', md: 'lg' } });
-      expect(responsiveClasses).toBe(`${box.classNames.variants.padding.sm} ${mdClass}`);
-      expect(box({ padding: { md: 'lg' } })).toBe(mdClass);
+      expect(layered.className).not.toBe(plain.className);
+      expect(layered.css).toBe(`@layer components{.${layered.className}{color:red;}}`);
     });
 
-    it('supports custom @container query breakpoints', () => {
-      const card = recipe(
-        {
-          breakpoints: {
-            compact: '@container card (min-width: 400px)',
-            wide: '@container card (min-width: 640px)',
-          },
-          responsiveVariants: ['layout'],
-          variants: {
-            layout: {
-              stack: { flexDirection: 'column' },
-              row: { flexDirection: 'row' },
-            },
-          },
-        },
-        'cq',
-      );
-
-      const css = getSheetCss();
-      const wideRow = card.classNames.responsiveVariants?.layout?.wide?.row;
-      expect(wideRow).toBeDefined();
-      expect(css).toContain(`@container card (min-width: 640px){.${wideRow}{flex-direction:row;}}`);
-      expect(card({ layout: { initial: 'stack', wide: 'row' } })).toBe(
-        `${card.classNames.variants.layout.stack} ${wideRow}`,
-      );
+    it('keeps the empty-rule hash stable regardless of layer', () => {
+      expect(style({}, { layer: 'components' }).className).toBe(style({}).className);
     });
 
-    it('inherits breakpoints and responsiveVariants through extend and matches runtimeRecipe', () => {
-      const paddingRecipe = recipe(
-        {
-          breakpoints: {
-            md: '@media (min-width: 768px)',
-          },
-          responsiveVariants: ['padding'],
-          variants: {
-            padding: {
-              sm: { padding: '8px' },
-              lg: { padding: '24px' },
-            },
-          },
-        },
-        'ext-pad',
-      );
-
-      const surface = recipe(
-        {
-          extend: [paddingRecipe],
-          base: { display: 'flex' },
-          variants: {
-            bordered: {
-              true: { borderWidth: 1 },
-              false: { borderWidth: 0 },
-            },
-          },
-        },
-        'ext-surface',
-      );
-
-      const result = surface({ padding: { initial: 'sm', md: 'lg' }, bordered: true });
-      const mdLg = surface.classNames.responsiveVariants?.padding?.md?.lg;
-      expect(mdLg).toBeDefined();
-      expect(result).toContain(surface.classNames.variants.padding.sm);
-      expect(result).toContain(mdLg);
-      expect(result).toContain(surface.classNames.variants.bordered.true);
-
-      const rt = runtimeRecipe({
-        base: surface.classNames.base,
-        variants: surface.classNames.variants,
-        responsiveVariants: surface.classNames.responsiveVariants,
-      });
-      expect(rt({ padding: { initial: 'sm', md: 'lg' }, bordered: true })).toBe(result);
-    });
-
-    it('falls back to the default variant when a responsive object omits `initial`', () => {
-      const box = recipe(
-        {
-          breakpoints: { md: '@media (min-width: 768px)' },
-          responsiveVariants: ['gap'],
-          variants: { gap: { sm: { gap: 4 }, lg: { gap: 16 } } },
-          defaultVariants: { gap: 'sm' },
-        },
-        'dflt',
-      );
-      const mdLg = box.classNames.responsiveVariants?.gap?.md?.lg;
-      expect(box({ gap: { md: 'lg' } })).toBe(`${box.classNames.variants.gap.sm} ${mdLg}`);
-    });
-
-    it('does not apply compound variants to responsive values and rejects them at the type level', () => {
-      const button = recipe(
-        {
-          breakpoints: { md: '@media (min-width: 768px)' },
-          responsiveVariants: ['size'],
-          variants: {
-            size: { sm: { fontSize: 12 }, lg: { fontSize: 18 } },
-            tone: { loud: { color: 'red' }, quiet: { color: 'grey' } },
-          },
-          compoundVariants: [
-            { variants: { tone: 'loud' }, style: { fontWeight: 700 } },
-            // @ts-expect-error `size` is responsive, so it cannot appear in a compound variant
-            { variants: { size: 'lg' }, style: { textTransform: 'uppercase' } },
-          ],
-        },
-        'cmp',
-      );
-      const [toneCompound, sizeCompound] = button.classNames.compoundVariants;
-      expect(button({ tone: 'loud' })).toContain(toneCompound?.className);
-      expect(button({ size: 'lg' })).toContain(sizeCompound?.className);
-      expect(button({ size: { initial: 'lg' } })).not.toContain(sizeCompound?.className);
-    });
-
-    it('rejects bare media queries as breakpoints at the type level', () => {
-      recipe(
-        {
-          breakpoints: {
-            // @ts-expect-error breakpoints must be full at-rules such as `@media (...)`
-            sm: '(min-width: 640px)',
-          },
-          responsiveVariants: ['gap'],
-          variants: { gap: { sm: { gap: 4 } } },
-        },
-        'bad-bp',
-      );
-    });
-
-    it('requires breakpoints and responsiveVariants to be paired at the type level', () => {
-      recipe(
-        // @ts-expect-error responsiveVariants without breakpoints
-        {
-          responsiveVariants: ['gap'],
-          variants: { gap: { sm: { gap: 4 } } },
-        },
-        'missing-bp',
-      );
-
-      recipe(
-        // @ts-expect-error breakpoints without responsiveVariants
-        {
-          breakpoints: { sm: '@media (min-width: 640px)' },
-          variants: { gap: { sm: { gap: 4 } } },
-        },
-        'missing-rv',
-      );
-
-      recipe(
-        // @ts-expect-error empty breakpoints map
-        {
-          breakpoints: {},
-          responsiveVariants: ['gap'],
-          variants: { gap: { sm: { gap: 4 } } },
-        },
-        'empty-bp',
-      );
+    it('declares the canonical layer order once', () => {
+      expect(LAYER_ORDER_STATEMENT).toBe(`@layer ${LAYER_ORDER.join(', ')};`);
     });
 
     it('reuses parent variant classes on extend() unless overridden, relayered, or overlapping base', () => {
       const parent = recipe(
         {
           layer: 'components',
-          breakpoints: { md: '@media (min-width: 768px)' },
-          responsiveVariants: ['gap'],
           variants: {
             gap: { sm: { gap: '8px' }, lg: { gap: '24px' } },
           },
@@ -1041,9 +846,6 @@ describe('@cumulo/css', () => {
       );
 
       expect(child.classNames.variants.gap.sm).toBe(parent.classNames.variants.gap.sm);
-      expect(child.classNames.responsiveVariants?.gap?.md?.lg).toBe(
-        parent.classNames.responsiveVariants?.gap?.md?.lg,
-      );
 
       // Different layer must compile a fresh class
       const relayered = recipe(
@@ -1066,32 +868,6 @@ describe('@cumulo/css', () => {
         'overlapping',
       );
       expect(overlapping.classNames.variants.gap.sm).not.toBe(parent.classNames.variants.gap.sm);
-    });
-  });
-
-  describe('layers and at-rule wrapping', () => {
-    it('wraps rules as @layer > at-rule > rule and isolates layered hashes', () => {
-      const plain = style({ color: 'red' });
-      const layered = style({ color: 'red' }, { layer: 'components' });
-      const wrapped = style(
-        { color: 'red' },
-        { layer: 'components', atRule: '@media (min-width: 640px)' },
-      );
-
-      expect(layered.className).not.toBe(plain.className);
-      expect(wrapped.className).not.toBe(layered.className);
-      expect(layered.css).toBe(`@layer components{.${layered.className}{color:red;}}`);
-      expect(wrapped.css).toBe(
-        `@layer components{@media (min-width: 640px){.${wrapped.className}{color:red;}}}`,
-      );
-    });
-
-    it('keeps the empty-rule hash stable regardless of layer', () => {
-      expect(style({}, { layer: 'components' }).className).toBe(style({}).className);
-    });
-
-    it('declares the canonical layer order once', () => {
-      expect(LAYER_ORDER_STATEMENT).toBe(`@layer ${LAYER_ORDER.join(', ')};`);
     });
   });
 });

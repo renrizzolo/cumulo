@@ -7,14 +7,7 @@ import {
   type RuntimeVariantValue,
 } from './runtime.js';
 import { sheet } from './sheet.js';
-import type {
-  AtRule,
-  BreakpointsMap,
-  CssLayer,
-  ResponsiveClassMap,
-  ResponsiveValue,
-  StyleRule,
-} from './types.js';
+import type { CssLayer, StyleRule } from './types.js';
 
 type VariantDefinitions = Record<string, Record<string, StyleRule>>;
 
@@ -22,16 +15,6 @@ type BooleanMap<T> = T extends 'true' | 'false' ? boolean | T : T;
 
 export type VariantSelection<T extends VariantDefinitions> = {
   [K in keyof T]?: BooleanMap<keyof T[K]> | undefined;
-};
-
-export type ResponsiveVariantSelection<
-  T extends VariantDefinitions,
-  B extends string = never,
-  R extends PropertyKey = never,
-> = {
-  [K in keyof T]?:
-    | (K extends R ? ResponsiveValue<BooleanMap<keyof T[K]>, B> : BooleanMap<keyof T[K]>)
-    | undefined;
 };
 
 export type CompoundVariant<T extends VariantDefinitions> = {
@@ -46,25 +29,15 @@ export type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never
   : never;
 
 export type ExtractRecipeVariants<E> =
-  E extends RecipeFunction<infer V, infer _B, infer _R>
+  E extends RecipeFunction<infer V>
     ? V
-    : E extends RecipeOptions<infer V2, unknown, BreakpointsMap>
+    : E extends RecipeOptions<infer V2, unknown>
       ? V2
       : E extends readonly (infer U)[]
         ? UnionToIntersection<ExtractRecipeVariants<U>>
         : {};
 
-/** Breakpoint keys and responsive variant keys contributed by an `extend` source. */
-export type ExtractRecipeMeta<E> =
-  E extends RecipeFunction<infer _V, infer B, infer R>
-    ? { breakpoints: B; responsive: R }
-    : E extends readonly (infer U)[]
-      ? ExtractRecipeMeta<U>
-      : { breakpoints: never; responsive: never };
-
 type CleanVariants<T extends VariantDefinitions> = string extends keyof T ? {} : T;
-
-export type ExtractBreakpointKeys<B> = B extends BreakpointsMap ? keyof B & string : never;
 
 export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T extends never
   ? E extends undefined
@@ -72,47 +45,13 @@ export type RecipeOptionsValidation<T extends VariantDefinitions, E> = keyof T e
     : unknown
   : unknown;
 
-export type ResponsiveOptionsValidation<
-  E,
-  B extends BreakpointsMap | undefined,
-  R extends PropertyKey,
-> = [B] extends [undefined]
-  ? [R] extends [never]
-    ? unknown
-    : [ExtractRecipeMeta<E>['breakpoints']] extends [never]
-      ? 'Error: recipe() with `responsiveVariants` requires `breakpoints` (or an extended recipe with breakpoints).'
-      : unknown
-  : [R | ExtractRecipeMeta<E>['responsive']] extends [never]
-    ? 'Error: recipe() with `breakpoints` requires `responsiveVariants` (or an extended recipe with responsive variants).'
-    : [ExtractBreakpointKeys<B> | ExtractRecipeMeta<E>['breakpoints']] extends [never]
-      ? 'Error: recipe() `breakpoints` must declare at least one breakpoint.'
-      : unknown;
-
-/** Variants of a recipe, excluding responsive ones (compound variants match static values only). */
-type StaticVariants<V, R extends PropertyKey> = Omit<V, R>;
-
-export interface RecipeOptions<
-  T extends VariantDefinitions = {},
-  E = undefined,
-  B extends BreakpointsMap | undefined = undefined,
-  R extends keyof (CleanVariants<T> & ExtractRecipeVariants<E>) = never,
-> {
+export interface RecipeOptions<T extends VariantDefinitions = {}, E = undefined> {
   /** Optional CSS cascade layer name (e.g. `'components'`). */
   layer?: CssLayer;
-  /** Breakpoint map of keys to full `@media` / `@container` / `@supports` at-rules for `responsiveVariants`. */
-  breakpoints?: B;
-  /** Variant keys that accept responsive breakpoint objects `{ initial?: ..., [bp]?: ... }`. */
-  responsiveVariants?: readonly R[];
   base?: StyleRule | StyleRule[];
   extend?: E;
   variants?: T;
-  /** Compound variants may only reference non-responsive variants. */
-  compoundVariants?: CompoundVariant<
-    StaticVariants<
-      CleanVariants<T> & ExtractRecipeVariants<E>,
-      R | ExtractRecipeMeta<E>['responsive']
-    >
-  >[];
+  compoundVariants?: CompoundVariant<CleanVariants<T> & ExtractRecipeVariants<E>>[];
   defaultVariants?: VariantSelection<CleanVariants<T> & ExtractRecipeVariants<E>>;
 }
 
@@ -122,8 +61,6 @@ export interface RecipeOptions<
  */
 export interface RecipeDefinition {
   layer?: CssLayer;
-  breakpoints?: BreakpointsMap;
-  responsiveVariants?: readonly PropertyKey[];
   base?: StyleRule | StyleRule[];
   extend?: unknown;
   variants?: VariantDefinitions;
@@ -131,12 +68,8 @@ export interface RecipeDefinition {
   defaultVariants?: Record<string, string | boolean | undefined>;
 }
 
-export interface RecipeFunction<
-  T extends VariantDefinitions = {},
-  B extends string = never,
-  R extends PropertyKey = never,
-> {
-  (options?: ResponsiveVariantSelection<T, B, R>): string;
+export interface RecipeFunction<T extends VariantDefinitions = {}> {
+  (options?: VariantSelection<T>): string;
   variants: () => (keyof T)[];
   options: RecipeDefinition;
   classNames: {
@@ -146,7 +79,6 @@ export interface RecipeFunction<
         [V in keyof T[K]]: string;
       };
     };
-    responsiveVariants?: ResponsiveClassMap;
     compoundVariants: ReadonlyArray<{
       variants: VariantSelection<T>;
       className: string;
@@ -154,8 +86,7 @@ export interface RecipeFunction<
   };
 }
 
-export type RecipeVariants<T> =
-  T extends RecipeFunction<infer V, infer B, infer R> ? ResponsiveVariantSelection<V, B, R> : never;
+export type RecipeVariants<T> = T extends RecipeFunction<infer V> ? VariantSelection<V> : never;
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -193,14 +124,10 @@ function mergeStyleRules(rules: (StyleRule | undefined)[]): StyleRule | undefine
 interface ReusableVariantEntry {
   className: string;
   layer?: CssLayer;
-  breakpoints: BreakpointsMap;
-  responsive?: Record<string, Record<string, string>>;
 }
 
 interface OptionsCollector {
   layer?: CssLayer;
-  breakpoints: BreakpointsMap;
-  responsiveVariants: Set<string>;
   bases: StyleRule[];
   variants: Record<string, Record<string, StyleRule>>;
   reusableVariants: Record<string, Record<string, ReusableVariantEntry | undefined>>;
@@ -212,7 +139,6 @@ interface CompiledRecipeSource {
   options: RecipeDefinition;
   classNames: {
     variants: Record<string, Record<string, string>>;
-    responsiveVariants?: ResponsiveClassMap;
   };
 }
 
@@ -271,12 +197,6 @@ function collectSource(source: unknown, acc: OptionsCollector): void {
     acc.layer = definition.layer;
   }
 
-  acc.breakpoints = { ...acc.breakpoints, ...definition.breakpoints };
-
-  for (const key of definition.responsiveVariants ?? []) {
-    acc.responsiveVariants.add(String(key));
-  }
-
   if (definition.base) {
     acc.bases.push(...(Array.isArray(definition.base) ? definition.base : [definition.base]));
   }
@@ -296,8 +216,6 @@ function collectSource(source: unknown, acc: OptionsCollector): void {
           reusable[optionName] = {
             className: parentClass,
             layer: acc.layer,
-            breakpoints: { ...acc.breakpoints },
-            responsive: sourceFn.classNames.responsiveVariants?.[variantName],
           };
         }
       }
@@ -315,32 +233,24 @@ function compileOptionClasses(
   layer: CssLayer | undefined,
   mergedBaseRule: StyleRule | undefined,
   reusable?: Record<string, ReusableVariantEntry | undefined>,
-  bp?: { key: string; atRule: AtRule },
 ): Record<string, string> {
   const classNames: Record<string, string> = {};
   for (const [optionName, rule] of Object.entries(rules)) {
     const candidate = reusable?.[optionName];
     const reusedClass =
       candidate && candidate.layer === layer && !ruleOverlapsBase(rule, mergedBaseRule)
-        ? bp
-          ? candidate.breakpoints[bp.key] === bp.atRule
-            ? candidate.responsive?.[bp.key]?.[optionName]
-            : undefined
-          : candidate.className
+        ? candidate.className
         : undefined;
 
     if (reusedClass) {
       // Ensure the rule is present in the active sheet (Set deduplicates when already inserted,
       // while isolated single-file extraction still captures it if the parent module is pruned).
-      sheet.insertRules(
-        compileStyleRule(rule, reusedClass, { layer, atRule: bp?.atRule }).cssRules,
-      );
+      sheet.insertRules(compileStyleRule(rule, reusedClass, { layer }).cssRules);
       classNames[optionName] = reusedClass;
     } else {
       classNames[optionName] = style(rule, {
         prefix: `${classPrefix}-${optionName}`,
         layer,
-        atRule: bp?.atRule,
       }).className;
     }
   }
@@ -361,31 +271,17 @@ function toRuntimeValues(
 
 /**
  * Creates a zero-runtime recipe/variants function.
- * Supports recursive extends, CSS cascade layers, and responsive variants (`@media` & `@container`),
- * compiling all CSS upfront into static classes.
+ * Supports recursive extends and CSS cascade layers, compiling all CSS upfront into static classes.
  */
-export function recipe<
-  T extends VariantDefinitions = {},
-  E = undefined,
-  B extends BreakpointsMap | undefined = undefined,
-  R extends keyof (CleanVariants<T> & ExtractRecipeVariants<E>) = never,
->(
-  options: RecipeOptions<T, E, B, R> &
-    RecipeOptionsValidation<T, E> &
-    ResponsiveOptionsValidation<E, B, R>,
+export function recipe<T extends VariantDefinitions = {}, E = undefined>(
+  options: RecipeOptions<T, E> & RecipeOptionsValidation<T, E>,
   prefix?: string,
-): RecipeFunction<
-  CleanVariants<T> & ExtractRecipeVariants<E>,
-  ExtractBreakpointKeys<B> | ExtractRecipeMeta<E>['breakpoints'],
-  R | ExtractRecipeMeta<E>['responsive']
->;
+): RecipeFunction<CleanVariants<T> & ExtractRecipeVariants<E>>;
 export function recipe(options: object, prefix = 'r'): object {
   if (!isRecipeDefinition(options)) {
     throw new TypeError('recipe() expects an options object.');
   }
   const collected: OptionsCollector = {
-    breakpoints: {},
-    responsiveVariants: new Set(),
     bases: [],
     variants: {},
     reusableVariants: {},
@@ -394,15 +290,7 @@ export function recipe(options: object, prefix = 'r'): object {
   };
   collectSource(options, collected);
 
-  const {
-    layer,
-    breakpoints,
-    responsiveVariants,
-    bases,
-    variants,
-    reusableVariants,
-    compoundVariants,
-  } = collected;
+  const { layer, bases, variants, reusableVariants, compoundVariants } = collected;
 
   // 1. Base class
   const mergedBaseRule = mergeStyleRules(bases);
@@ -422,24 +310,7 @@ export function recipe(options: object, prefix = 'r'): object {
     );
   }
 
-  // 3. Responsive variant classes, emitted in breakpoint order so later breakpoints win the cascade
-  const compiledResponsiveVariants: ResponsiveClassMap = {};
-  for (const [bpKey, atRule] of Object.entries(breakpoints)) {
-    for (const variantName of responsiveVariants) {
-      const rules = variants[variantName];
-      if (!rules) continue;
-      (compiledResponsiveVariants[variantName] ??= {})[bpKey] = compileOptionClasses(
-        rules,
-        `${prefix}-${variantName}-${bpKey}`,
-        layer,
-        mergedBaseRule,
-        reusableVariants[variantName],
-        { key: bpKey, atRule },
-      );
-    }
-  }
-
-  // 4. Compound variant classes
+  // 3. Compound variant classes
   const runtimeCompoundVariants: RuntimeRecipeCompoundVariant[] = compoundVariants.map(
     (cv, index) => ({
       variants: toRuntimeValues(cv.variants),
@@ -449,13 +320,10 @@ export function recipe(options: object, prefix = 'r'): object {
 
   const runtimeDefaultVariants = toRuntimeValues(collected.defaultVariants);
 
-  // 5. Delegate runtime lookup to runtimeRecipe()
+  // 4. Delegate runtime lookup to runtimeRecipe()
   const runtimeConfig: RuntimeRecipeConfig = {
     ...(baseClassName !== undefined ? { base: baseClassName } : {}),
     variants: compiledVariants,
-    ...(Object.keys(compiledResponsiveVariants).length > 0
-      ? { responsiveVariants: compiledResponsiveVariants }
-      : {}),
     ...(runtimeCompoundVariants.length > 0 ? { compoundVariants: runtimeCompoundVariants } : {}),
     ...(Object.keys(runtimeDefaultVariants).length > 0
       ? { defaultVariants: runtimeDefaultVariants }

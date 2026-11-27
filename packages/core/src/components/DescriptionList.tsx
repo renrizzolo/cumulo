@@ -9,9 +9,10 @@ import type { GapVariant } from '../layout.js';
 import { markerIconBase, markerIconSizes } from './List.js';
 import { Text, type TextProps, type TextVariants } from './Text.js';
 
-type StaticGapVariant = Extract<GapVariant, string>;
-
-const GAP_PRESETS: Record<StaticGapVariant, { gapX: StaticGapVariant; gapY: StaticGapVariant }> = {
+const GAP_PRESETS: Record<
+  NonNullable<GapVariant>,
+  { gapX: NonNullable<GapVariant>; gapY: NonNullable<GapVariant> }
+> = {
   none: { gapX: 'none', gapY: 'none' },
   '3xs': { gapX: '2xs', gapY: '3xs' },
   '2xs': { gapX: 'xs', gapY: '2xs' },
@@ -271,17 +272,17 @@ export interface DescriptionListRootProps extends ElementProps<HTMLDListElement>
    * Proportional gap preset where the x-axis gap is wider than the y-axis gap.
    * @default 'sm'
    */
-  gap?: StaticGapVariant;
+  gap?: GapVariant;
   /**
    * Explicit horizontal column gap spacing between terms and descriptions.
    * Overrides the horizontal gap from `gap`.
    */
-  gapX?: StaticGapVariant;
+  gapX?: GapVariant;
   /**
    * Explicit vertical row gap spacing between items.
    * Overrides the vertical gap from `gap`.
    */
-  gapY?: StaticGapVariant;
+  gapY?: GapVariant;
   /**
    * Layout arrangement for the description list.
    * - `'default'` / `'horizontal'`: Term and description are placed horizontally side-by-side.
