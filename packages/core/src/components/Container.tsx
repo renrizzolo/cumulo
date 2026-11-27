@@ -6,6 +6,7 @@ import type { ElementProps } from '../ElementProps.js';
 
 const containerRecipe = recipe(
   {
+    layer: 'components',
     base: {
       width: '100%',
       boxSizing: 'border-box',

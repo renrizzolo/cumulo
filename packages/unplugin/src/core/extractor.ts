@@ -3,6 +3,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { LAYER_ORDER_STATEMENT } from '@cumulo/css';
 import { createJiti, type Jiti } from 'jiti';
 
 import type { CumuloPluginOptions } from '../types.js';
@@ -120,6 +121,14 @@ function normalizeRelativeImports(source: string): string {
 
 export function cleanSourceCode(source: string): string {
   return normalizeRelativeImports(stripIgnoredImports(source));
+}
+
+/** Prepends the canonical `@layer` order statement so layered rules sort deterministically. */
+function ensureLayerOrder(css: string): string {
+  if (!css.includes('@layer ') || css.startsWith(LAYER_ORDER_STATEMENT)) {
+    return css;
+  }
+  return `${LAYER_ORDER_STATEMENT}\n${css}`;
 }
 
 function resolveCumuloCssPath(projectRoot?: string): string | undefined {
@@ -435,7 +444,7 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
         await ctx.jiti.evalModule(codeToEval, {
           filename: absolutePath,
         });
-        const css = sheet.getCss();
+        const css = ensureLayerOrder(sheet.getCss());
         const rewrittenCode = rewritePlan ? rewritePlan.applyRewrites(recorded) : null;
         if (css || rewrittenCode) {
           return {
@@ -459,7 +468,7 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
         sheet.clear();
         globalThis.__cumuloExtractorDepDepth = 0;
         await ctx.jiti.import(absolutePath);
-        const css = sheet.getCss();
+        const css = ensureLayerOrder(sheet.getCss());
         return {
           css,
           dependencies: Array.from(ctx.dependencies),

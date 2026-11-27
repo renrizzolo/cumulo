@@ -26,6 +26,7 @@ const GAP_PRESETS: Record<
 
 const descriptionListRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'grid',
       margin: 0,
@@ -145,6 +146,7 @@ const descriptionListRecipe = recipe(
 
 const descriptionListItemRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'flex',
       flexDirection: 'column',
@@ -207,7 +209,7 @@ const descriptionListContainerStyle = style(
     width: '100%',
     minWidth: 0,
   },
-  'description-list-container',
+  { prefix: 'description-list-container', layer: 'components' },
 );
 
 const descriptionListTermStyle = style(
@@ -218,7 +220,7 @@ const descriptionListTermStyle = style(
     margin: 0,
     padding: 0,
   },
-  'description-list-term',
+  { prefix: 'description-list-term', layer: 'components' },
 );
 
 const descriptionListDescriptionStyle = style(
@@ -227,11 +229,12 @@ const descriptionListDescriptionStyle = style(
     padding: 0,
     minWidth: 0,
   },
-  'description-list-description',
+  { prefix: 'description-list-description', layer: 'components' },
 );
 
 const descriptionListIconRecipe = recipe(
   {
+    layer: 'components',
     base: markerIconBase,
     variants: {
       size: markerIconSizes,

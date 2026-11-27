@@ -20,23 +20,30 @@ export const sideNavContract = createThemeContract(
   'sidenav',
 );
 
-const sideNavTheme = createTheme(sideNavContract, {
-  itemPadding: vars.spacing.xs,
-  itemRadius: vars.radius.md,
-  itemSize: vars.size.sm,
-});
+const sideNavTheme = createTheme(
+  sideNavContract,
+  {
+    itemPadding: vars.spacing.xs,
+    itemRadius: vars.radius.md,
+    itemSize: vars.size.sm,
+  },
+  { layer: 'components' },
+);
 
-const sideNavStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  gap: vars.spacing['2xs'],
-  // clip with margin so that box shadow focus rings aren't hidden.
-  // we clip this so that when width transitions below the minimum width of the side nav items,
-  // it doesn't introduce a horizontal scrollbar
-  overflow: 'clip',
-  overflowClipMargin: '6px',
-});
+const sideNavStyle = style(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    gap: vars.spacing['2xs'],
+    // clip with margin so that box shadow focus rings aren't hidden.
+    // we clip this so that when width transitions below the minimum width of the side nav items,
+    // it doesn't introduce a horizontal scrollbar
+    overflow: 'clip',
+    overflowClipMargin: '6px',
+  },
+  { layer: 'components' },
+);
 
 interface SideNavProps extends ElementProps<HTMLElement> {
   'aria-label'?: string;
@@ -72,6 +79,7 @@ const collapsedSelector = '[data-visually-collapsed="true"] &';
 
 const sideNavItemRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing],
     base: {
       display: 'flex',
@@ -114,93 +122,111 @@ const sideNavItemRecipe = recipe(
   'sidenav-item',
 );
 
-const itemIconStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: sideNavContract.itemSize,
-  height: sideNavContract.itemSize,
-  marginInlineStart: `calc(-1 * ${sideNavContract.itemPadding})`,
-  flexShrink: 0,
-  opacity: 1,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
-      opacity: 0,
-      pointerEvents: 'none',
+const itemIconStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: sideNavContract.itemSize,
+    height: sideNavContract.itemSize,
+    marginInlineStart: `calc(-1 * ${sideNavContract.itemPadding})`,
+    flexShrink: 0,
+    opacity: 1,
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+    selectors: {
+      [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
+        opacity: 0,
+        pointerEvents: 'none',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const itemContentStyle = style({
-  display: 'flex',
-  alignItems: 'center',
-  flex: 1,
-  minWidth: 0,
-  gap: vars.spacing.xs,
-  overflow: 'hidden',
-  whiteSpace: 'nowrap',
-  opacity: 1,
-  // Fade in on expand
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    [collapsedSelector]: {
-      opacity: 0,
-      pointerEvents: 'none',
-      width: 0,
-      flex: '0 0 0px',
-      // Fade out quickly (fast), then collapse width/flex
-      transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}`,
+const itemContentStyle = style(
+  {
+    display: 'flex',
+    alignItems: 'center',
+    flex: 1,
+    minWidth: 0,
+    gap: vars.spacing.xs,
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+    opacity: 1,
+    // Fade in on expand
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+    selectors: {
+      [collapsedSelector]: {
+        opacity: 0,
+        pointerEvents: 'none',
+        width: 0,
+        flex: '0 0 0px',
+        // Fade out quickly (fast), then collapse width/flex
+        transition: `opacity ${vars.duration.fast} ${vars.ease.default}, width 0s linear ${vars.duration.fast}, flex 0s linear ${vars.duration.fast}`,
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const itemLabelStyle = style({
-  flex: 1,
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  minWidth: 0,
-  selectors: {
-    [collapsedSelector]: {
-      textOverflow: 'clip',
+const itemLabelStyle = style(
+  {
+    flex: 1,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    minWidth: 0,
+    selectors: {
+      [collapsedSelector]: {
+        textOverflow: 'clip',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const itemBadgeStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  flexShrink: 0,
-});
+const itemBadgeStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexShrink: 0,
+  },
+  { layer: 'components' },
+);
 
-const itemFallbackDotStyle = style({
-  width: '6px',
-  height: '6px',
-  borderRadius: vars.radius.full,
-  backgroundColor: 'currentColor',
-  opacity: 0.6,
-  flexShrink: 0,
-});
+const itemFallbackDotStyle = style(
+  {
+    width: '6px',
+    height: '6px',
+    borderRadius: vars.radius.full,
+    backgroundColor: 'currentColor',
+    opacity: 0.6,
+    flexShrink: 0,
+  },
+  { layer: 'components' },
+);
 
-const itemFallbackContainerStyle = style({
-  position: 'absolute',
-  left: `calc(${sideNavContract.itemSize} / 2)`,
-  top: '50%',
-  transform: 'translate(-50%, -50%)',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  pointerEvents: 'none',
-  opacity: 0,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    [`[data-visually-collapsed="true"]:not([data-zero-collapsed-width="true"]) &`]: {
-      opacity: 1,
-      transitionDelay: vars.duration.fast,
+const itemFallbackContainerStyle = style(
+  {
+    position: 'absolute',
+    left: `calc(${sideNavContract.itemSize} / 2)`,
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    pointerEvents: 'none',
+    opacity: 0,
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+    selectors: {
+      [`[data-visually-collapsed="true"]:not([data-zero-collapsed-width="true"]) &`]: {
+        opacity: 1,
+        transitionDelay: vars.duration.fast,
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
 interface SideNavItemProps extends ElementProps<HTMLElement> {
   icon?: React.ReactNode;
@@ -323,197 +349,227 @@ SideNavItem.displayName = 'SideNav.Item';
  * SideNavGroup
  * -----------------------------------------------------------------------------------------------*/
 
-const groupRootStyle = style({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: vars.spacing['3xs'],
-  width: '100%',
-});
+const groupRootStyle = style(
+  {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: vars.spacing['3xs'],
+    width: '100%',
+  },
+  { layer: 'components' },
+);
 
-const groupHeaderStyle = style({
-  fontSize: vars.font.size['2xs'],
-  fontWeight: vars.font.weight.semibold,
-  textTransform: 'uppercase',
-  letterSpacing: '0.06em',
-  color: vars.surface.subtle,
-  paddingInline: vars.spacing.xs,
-  margin: 0,
-  whiteSpace: 'nowrap',
-  width: '100%',
-  minWidth: sideNavContract.itemSize,
-  minHeight: vars.size['2xs'],
-  height: vars.size['2xs'],
-  display: 'flex',
-  alignItems: 'center',
-  boxSizing: 'border-box',
-  position: 'relative',
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
-  marginTop: vars.spacing.sm,
-  // represents group headers as a thin line when collapsed
-  '::after': {
-    content: '""',
-    display: 'block',
-    width: '20px',
-    height: '1px',
-    backgroundColor: vars.surface.border,
-    position: 'absolute',
-    left: `calc(${sideNavContract.itemSize} / 2)`,
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    opacity: 0,
-    pointerEvents: 'none',
+const groupHeaderStyle = style(
+  {
+    fontSize: vars.font.size['2xs'],
+    fontWeight: vars.font.weight.semibold,
+    textTransform: 'uppercase',
+    letterSpacing: '0.06em',
+    color: vars.surface.subtle,
+    paddingInline: vars.spacing.xs,
+    margin: 0,
+    whiteSpace: 'nowrap',
+    width: '100%',
+    minWidth: sideNavContract.itemSize,
+    minHeight: vars.size['2xs'],
+    height: vars.size['2xs'],
+    display: 'flex',
+    alignItems: 'center',
+    boxSizing: 'border-box',
+    position: 'relative',
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}`,
+    marginTop: vars.spacing.sm,
+    // represents group headers as a thin line when collapsed
+    '::after': {
+      content: '""',
+      display: 'block',
+      width: '20px',
+      height: '1px',
+      backgroundColor: vars.surface.border,
+      position: 'absolute',
+      left: `calc(${sideNavContract.itemSize} / 2)`,
+      top: '50%',
+      transform: 'translate(-50%, -50%)',
+      opacity: 0,
+      pointerEvents: 'none',
+      transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+    },
+    selectors: {
+      ':first-child > &': {
+        marginTop: 0,
+      },
+      [collapsedSelector]: {
+        color: 'transparent',
+        userSelect: 'none',
+      },
+      [`[data-visually-collapsed="true"]:not([data-zero-collapsed-width="true"]) &::after`]: {
+        opacity: 1,
+        transitionDelay: vars.duration.fast,
+      },
+    },
+  },
+  { layer: 'components' },
+);
+
+const groupTriggerStyle = style(
+  {
+    ...focusRingStyles,
+    display: 'flex',
+    alignItems: 'center',
+    width: '100%',
+    minWidth: sideNavContract.itemSize,
+    height: sideNavContract.itemSize,
+    paddingInline: sideNavContract.itemPadding,
+    borderRadius: sideNavContract.itemRadius,
+    fontSize: vars.font.size.sm,
+    fontWeight: vars.font.weight.semibold,
+    fontFamily: vars.font.sans,
+    color: vars.surface.fg,
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    textAlign: 'left',
+    whiteSpace: 'nowrap',
+    boxSizing: 'border-box',
+    willChange: 'transform',
+    transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
+    ':hover': {
+      backgroundColor: vars.surface.bg.next,
+    },
+    ':active': {
+      transform: 'scale(0.99)',
+    },
+  },
+  { layer: 'components' },
+);
+
+const chevronStyle = style(
+  {
+    width: '14px',
+    height: '14px',
+    flexShrink: 0,
+    transition: `transform ${vars.duration.fast} ${vars.ease.default}`,
+    selectors: {
+      '[data-state="open"] &': {
+        transform: 'rotate(90deg)',
+      },
+    },
+  },
+  { layer: 'components' },
+);
+
+const groupChevronContainerStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    width: `calc(${sideNavContract.itemSize} - 2 * ${sideNavContract.itemPadding})`,
+    height: `calc(${sideNavContract.itemSize} - 2 * ${sideNavContract.itemPadding})`,
+    opacity: 1,
     transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-  },
-  selectors: {
-    ':first-child > &': {
-      marginTop: 0,
-    },
-    [collapsedSelector]: {
-      color: 'transparent',
-      userSelect: 'none',
-    },
-    [`[data-visually-collapsed="true"]:not([data-zero-collapsed-width="true"]) &::after`]: {
-      opacity: 1,
-      transitionDelay: vars.duration.fast,
+    selectors: {
+      [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
+        opacity: 0,
+        pointerEvents: 'none',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const groupTriggerStyle = style({
-  ...focusRingStyles,
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  minWidth: sideNavContract.itemSize,
-  height: sideNavContract.itemSize,
-  paddingInline: sideNavContract.itemPadding,
-  borderRadius: sideNavContract.itemRadius,
-  fontSize: vars.font.size.sm,
-  fontWeight: vars.font.weight.semibold,
-  fontFamily: vars.font.sans,
-  color: vars.surface.fg,
-  backgroundColor: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  textAlign: 'left',
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  willChange: 'transform',
-  transition: `background-color ${vars.duration.fast} ${vars.ease.default}, color ${vars.duration.fast} ${vars.ease.default}, transform ${vars.duration.fast} ${vars.ease.default}`,
-  ':hover': {
-    backgroundColor: vars.surface.bg.next,
-  },
-  ':active': {
-    transform: 'scale(0.99)',
-  },
-});
-
-const chevronStyle = style({
-  width: '14px',
-  height: '14px',
-  flexShrink: 0,
-  transition: `transform ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    '[data-state="open"] &': {
-      transform: 'rotate(90deg)',
+const groupTriggerTitleStyle = style(
+  {
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    opacity: 1,
+    minWidth: 0,
+    flex: 1,
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
+    selectors: {
+      [collapsedSelector]: {
+        opacity: 0,
+        pointerEvents: 'none',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const groupChevronContainerStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
-  width: `calc(${sideNavContract.itemSize} - 2 * ${sideNavContract.itemPadding})`,
-  height: `calc(${sideNavContract.itemSize} - 2 * ${sideNavContract.itemPadding})`,
-  opacity: 1,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    [`[data-visually-collapsed="true"][data-zero-collapsed-width="true"] &`]: {
-      opacity: 0,
-      pointerEvents: 'none',
+const groupTriggerTrailingStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: vars.spacing.xs,
+    flexShrink: 0,
+    transition: `gap ${vars.duration.normal} ${vars.ease.default}`,
+    selectors: {
+      [collapsedSelector]: {
+        gap: 0,
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const groupTriggerTitleStyle = style({
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  whiteSpace: 'nowrap',
-  opacity: 1,
-  minWidth: 0,
-  flex: 1,
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}`,
-  selectors: {
-    [collapsedSelector]: {
-      opacity: 0,
-      pointerEvents: 'none',
+const groupTriggerBadgeStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    opacity: 1,
+    maxWidth: '80px',
+    overflow: 'hidden',
+    transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-width ${vars.duration.normal} ${vars.ease.default}`,
+    selectors: {
+      [collapsedSelector]: {
+        opacity: 0,
+        maxWidth: 0,
+        pointerEvents: 'none',
+      },
     },
   },
-});
+  { layer: 'components' },
+);
 
-const groupTriggerTrailingStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: vars.spacing.xs,
-  flexShrink: 0,
-  transition: `gap ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    [collapsedSelector]: {
-      gap: 0,
+const groupInnerStyle = style(
+  {
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    boxSizing: 'border-box',
+    gap: vars.spacing['3xs'],
+  },
+  { layer: 'components' },
+);
+
+const groupCollapsibleInnerStyle = style(
+  {
+    minHeight: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    width: `calc(100% - ${sideNavContract.itemPadding})`,
+    boxSizing: 'border-box',
+    marginLeft: sideNavContract.itemPadding,
+    gap: vars.spacing['3xs'],
+    paddingLeft: sideNavContract.itemPadding,
+    overflow: 'clip',
+    overflowClipMargin: '6px',
+    boxShadow: `inset 1px 0 0 0 ${vars.surface.border}`,
+    transition: `width ${vars.duration.normal} ${vars.ease.default}, padding-left ${vars.duration.normal} ${vars.ease.default}, margin-left ${vars.duration.normal} ${vars.ease.default}, box-shadow ${vars.duration.normal} ${vars.ease.default}`,
+    selectors: {
+      [collapsedSelector]: {
+        width: '100%',
+        paddingLeft: 0,
+        marginLeft: 0,
+        boxShadow: 'inset 1px 0 0 0 transparent',
+      },
     },
   },
-});
-
-const groupTriggerBadgeStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  flexShrink: 0,
-  opacity: 1,
-  maxWidth: '80px',
-  overflow: 'hidden',
-  transition: `opacity ${vars.duration.fast} ${vars.ease.default}, max-width ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    [collapsedSelector]: {
-      opacity: 0,
-      maxWidth: 0,
-      pointerEvents: 'none',
-    },
-  },
-});
-
-const groupInnerStyle = style({
-  minHeight: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  width: '100%',
-  boxSizing: 'border-box',
-  gap: vars.spacing['3xs'],
-});
-
-const groupCollapsibleInnerStyle = style({
-  minHeight: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  width: `calc(100% - ${sideNavContract.itemPadding})`,
-  boxSizing: 'border-box',
-  marginLeft: sideNavContract.itemPadding,
-  gap: vars.spacing['3xs'],
-  paddingLeft: sideNavContract.itemPadding,
-  overflow: 'clip',
-  overflowClipMargin: '6px',
-  boxShadow: `inset 1px 0 0 0 ${vars.surface.border}`,
-  transition: `width ${vars.duration.normal} ${vars.ease.default}, padding-left ${vars.duration.normal} ${vars.ease.default}, margin-left ${vars.duration.normal} ${vars.ease.default}, box-shadow ${vars.duration.normal} ${vars.ease.default}`,
-  selectors: {
-    [collapsedSelector]: {
-      width: '100%',
-      paddingLeft: 0,
-      marginLeft: 0,
-      boxShadow: 'inset 1px 0 0 0 transparent',
-    },
-  },
-});
+  { layer: 'components' },
+);
 
 interface SideNavGroupTriggerProps extends ElementProps<HTMLButtonElement> {
   badge?: React.ReactNode;

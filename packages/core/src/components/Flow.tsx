@@ -6,6 +6,7 @@ import type { ElementProps } from '../ElementProps.js';
 
 const flowRecipe = recipe(
   {
+    layer: 'components',
     base: {
       selectors: {
         '& > * + *': {

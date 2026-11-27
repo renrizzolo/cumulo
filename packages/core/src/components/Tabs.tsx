@@ -113,6 +113,7 @@ function TabsRoot<T extends string = string>({
 
 const tabsListRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -204,6 +205,7 @@ function TabsList({
 
 const tabsTriggerRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing],
     base: {
       display: 'inline-flex',
@@ -434,6 +436,7 @@ function TabsTrigger<T extends string = string>({
 
 const tabsContentRecipe = recipe(
   {
+    layer: 'components',
     base: {
       outline: 'none',
     },

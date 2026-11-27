@@ -23,20 +23,41 @@ html {
   --theme-line-height-normal: 1.5;
 }
 
-a {
-  color: var(--theme-primary);
-}
+@layer base {
+  a {
+    color: var(--theme-primary);
+  }
 
-ul,
-ol {
-  padding-left: var(--theme-spacing-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--theme-spacing-sm);
-}
+  ul,
+  ol {
+    padding-left: var(--theme-spacing-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--theme-spacing-sm);
+  }
 
-strong {
-  font-weight: 600;
+  strong {
+    font-weight: 600;
+  }
+
+  pre,
+  pre.shiki {
+    margin: 0;
+    padding: 0;
+    background-color: transparent !important;
+    font-family: var(--theme-font-mono);
+    font-size: var(--theme-font-size-sm);
+    line-height: var(--theme-line-height-relaxed);
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  pre code,
+  pre.shiki code {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
 }
 
 :root {
@@ -55,23 +76,4 @@ strong {
   --shiki-token-inserted: var(--theme-success-600);
   --shiki-token-deleted: var(--theme-error-600);
   --shiki-token-changed: var(--theme-warning-600);
-}
-
-pre,
-pre.shiki {
-  margin: 0;
-  padding: 0;
-  background-color: transparent !important;
-  font-family: var(--theme-font-mono);
-  font-size: var(--theme-font-size-sm);
-  line-height: var(--theme-line-height-relaxed);
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-pre code,
-pre.shiki code {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
 }

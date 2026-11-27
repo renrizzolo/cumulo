@@ -139,7 +139,7 @@ export function runtimeRecipe(config: RuntimeRecipeConfig): RuntimeRecipeFn {
   };
 
   return Object.assign(fn, {
-    variants: (): string[] => variantKeys,
+    variants: () => variantKeys,
     classNames: {
       base,
       variants,

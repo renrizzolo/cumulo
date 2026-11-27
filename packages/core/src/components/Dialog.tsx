@@ -34,6 +34,7 @@ import { Button, type ButtonProps } from './Button.js';
 import { Flow } from './Flow.js';
 import { Heading, type HeadingProps } from './Heading.js';
 import { HStack, type StackProps } from './Stack.js';
+import { Surface, type SurfaceProps } from './Surface.js';
 import { Text, type TextProps } from './Text.js';
 
 export type DialogPart = 'title' | 'description' | 'content';
@@ -203,6 +204,7 @@ const dialogRecipe: RecipeFunction<{
   size: Record<DialogSize, StyleRule>;
 }> = recipe(
   {
+    layer: 'components',
     base: [
       discreteBackdrop({ duration: dialogContract.duration }),
       {
@@ -214,12 +216,11 @@ const dialogRecipe: RecipeFunction<{
         backgroundColor: vars.surface.bg.DEFAULT,
         color: vars.surface.fg,
         boxShadow: vars.shadow['2'],
-        padding: vars.spacing.xl,
+        padding: 0,
         boxSizing: 'border-box',
         outline: 'none',
-        overflowY: 'auto',
+        overflow: 'hidden',
         flexDirection: 'column',
-        gap: vars.spacing.md,
         selectors: {
           '&[open]': {
             display: 'flex',
@@ -242,7 +243,7 @@ const dialogRecipe: RecipeFunction<{
       placement: {
         center: {
           margin: 'auto',
-          borderWidth: 1,
+          borderWidth: vars.surface.stroke.width,
           borderRadius: vars.radius.xl,
           maxHeight: 'calc(100dvh - 4rem)',
           ...discreteFadeScale({
@@ -263,7 +264,7 @@ const dialogRecipe: RecipeFunction<{
           borderTopRightRadius: vars.radius.xl,
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
-          paddingBottom: `max(${vars.spacing.xl}, env(safe-area-inset-bottom))`,
+          paddingBottom: 'env(safe-area-inset-bottom)',
           ...discreteSlide({
             openSelector: '&[open]',
             from: 'bottom',
@@ -366,6 +367,19 @@ const dialogRecipe: RecipeFunction<{
 
 type DialogVariants = RecipeVariants<typeof dialogRecipe>;
 
+/** Scroll container fitted inside the `<dialog>`; padding, gap and layout come from `Surface`. */
+const dialogScrollStyle = style(
+  {
+    flex: '1 1 auto',
+    minHeight: 0,
+    width: '100%',
+    boxSizing: 'border-box',
+    overscrollBehavior: 'contain',
+    scrollbarWidth: 'thin',
+  },
+  { prefix: 'dialog-scroll', layer: 'components' },
+);
+
 const DialogPlacementContext = createContext<DialogPlacement>('center');
 
 interface DialogContentProps extends ElementProps<HTMLDialogElement> {
@@ -380,6 +394,13 @@ interface DialogContentProps extends ElementProps<HTMLDialogElement> {
    * @default 'center'
    */
   placement?: DialogPlacement;
+  /**
+   * Props passed through to the inner scrollable `Surface` that wraps the dialog children
+   * (`className`, `ref`, `padding`, `gap`, `align`, ...). The outer `<dialog>` receives the
+   * remaining props.
+   * @default { padding: 'xl', gap: 'md' }
+   */
+  contentProps?: Omit<SurfaceProps, 'as' | 'children'>;
   children?: ReactNode;
 }
 
@@ -388,6 +409,7 @@ function DialogContent({
   size = 'md',
   placement = 'center',
   className,
+  contentProps,
   children,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
@@ -409,8 +431,10 @@ function DialogContent({
   const focusRef = useFocus<HTMLDialogElement>({
     type: 'modality',
     trap: true,
-    focusOnMount: true,
-    restoreFocusOnUnmount: true,
+    open,
+    // these are handled by showModal/close
+    focusOnMount: false,
+    restoreFocusOnUnmount: false,
   });
 
   useEffect(() => {
@@ -434,6 +458,7 @@ function DialogContent({
   }, [open, dialogRef]);
 
   const classes = dialogRecipe({ placement, size });
+
   const mergedRef = useMergeRefs(dialogRef, focusRef, dismissibleRef, ref);
   const resolvedLabelledBy = ariaLabelledby || getPartId('title');
   const resolvedDescribedBy = ariaDescribedby || getPartId('description');
@@ -452,9 +477,20 @@ function DialogContent({
       className={cx(classes, className)}
       {...props}
     >
-      <DialogPlacementContext.Provider value={placement}>
-        {children}
-      </DialogPlacementContext.Provider>
+      <Surface
+        level={0}
+        bordered={false}
+        radius="none"
+        padding="xl"
+        gap="md"
+        overflow="auto"
+        {...contentProps}
+        className={cx(dialogScrollStyle, contentProps?.className)}
+      >
+        <DialogPlacementContext.Provider value={placement}>
+          {children}
+        </DialogPlacementContext.Provider>
+      </Surface>
     </dialog>
   );
 }
@@ -474,8 +510,8 @@ const dialogHandleStyles = style(
     userSelect: 'none',
     cursor: 'grab',
     // Extend hit area flush to the top and side edges of the dialog padding box for touch devices
-    marginTop: `calc(${vars.spacing.xl} * -1)`,
-    marginInline: `calc(${vars.spacing.xl} * -1)`,
+    marginTop: `calc(var(--parent-padding, ${vars.spacing.xl}) * -1)`,
+    marginInline: `calc(var(--parent-padding, ${vars.spacing.xl}) * -1)`,
     paddingTop: vars.spacing.md,
     paddingBottom: vars.spacing.lg,
     paddingInline: vars.spacing.xl,
@@ -483,7 +519,7 @@ const dialogHandleStyles = style(
       cursor: 'grabbing',
     },
   },
-  'dialog-handle',
+  { prefix: 'dialog-handle', layer: 'components' },
 );
 
 const dialogHandleBarStyles = style(
@@ -499,7 +535,7 @@ const dialogHandleBarStyles = style(
       },
     },
   },
-  'dialog-handle-bar',
+  { prefix: 'dialog-handle-bar', layer: 'components' },
 );
 
 interface DialogHandleProps extends ElementProps<HTMLDivElement> {
@@ -580,7 +616,7 @@ const dialogHeaderStyles = style(
   {
     flexShrink: 0,
   },
-  'dialog-header',
+  { prefix: 'dialog-header', layer: 'components' },
 );
 
 function DialogHeader({
@@ -604,7 +640,7 @@ const dialogBodyStyles = style(
   {
     flex: '1 1 auto',
   },
-  'dialog-body',
+  { prefix: 'dialog-body', layer: 'components' },
 );
 
 function DialogBody({
@@ -628,7 +664,7 @@ const dialogFooterStyles = style(
   {
     flexShrink: 0,
   },
-  'dialog-footer',
+  { prefix: 'dialog-footer', layer: 'components' },
 );
 
 function DialogFooter({

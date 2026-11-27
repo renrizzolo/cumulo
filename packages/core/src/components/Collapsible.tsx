@@ -181,6 +181,7 @@ interface CollapsibleContentProps extends ElementProps<HTMLElement> {
 
 const collapsibleContentRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'grid',
       gridTemplateRows: '0fr',
@@ -214,10 +215,13 @@ const collapsibleContentRecipe = recipe(
   'collapsible-content',
 );
 
-const collapsibleInnerStyle = style({
-  minHeight: 0,
-  minWidth: 0,
-});
+const collapsibleInnerStyle = style(
+  {
+    minHeight: 0,
+    minWidth: 0,
+  },
+  { layer: 'components' },
+);
 
 function CollapsibleContent({
   id: providedId,

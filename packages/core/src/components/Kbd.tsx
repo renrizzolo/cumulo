@@ -6,6 +6,7 @@ import type { ElementProps } from '../ElementProps.js';
 
 const kbdRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'inline-flex',
       alignItems: 'center',

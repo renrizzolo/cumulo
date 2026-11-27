@@ -46,24 +46,30 @@ type FieldGroupVariants = StackVariants;
 
 interface FieldGroupProps extends StackProps {}
 
-const fieldDescriptionStyle = style({
-  ...textBase,
-  fontSize: vars.font.size.xs,
-  lineHeight: vars.line.height.normal,
-  color: vars.surface.muted,
-  margin: 0,
-  fontFamily: vars.font.sans,
-});
+const fieldDescriptionStyle = style(
+  {
+    ...textBase,
+    fontSize: vars.font.size.xs,
+    lineHeight: vars.line.height.normal,
+    color: vars.surface.muted,
+    margin: 0,
+    fontFamily: vars.font.sans,
+  },
+  { layer: 'components' },
+);
 
-const fieldErrorStyle = style({
-  ...textBase,
-  fontSize: vars.font.size.sm,
-  fontWeight: vars.font.weight.normal,
-  lineHeight: vars.line.height.normal,
-  color: vars.error.secondary.fg,
-  margin: 0,
-  fontFamily: vars.font.sans,
-});
+const fieldErrorStyle = style(
+  {
+    ...textBase,
+    fontSize: vars.font.size.sm,
+    fontWeight: vars.font.weight.normal,
+    lineHeight: vars.line.height.normal,
+    color: vars.error.secondary.fg,
+    margin: 0,
+    fontFamily: vars.font.sans,
+  },
+  { layer: 'components' },
+);
 
 interface FieldProps extends StackProps {
   children?: React.ReactNode;

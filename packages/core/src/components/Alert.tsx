@@ -12,6 +12,7 @@ import { Text, type TextProps } from './Text.js';
 
 const alertRecipe = recipe(
   {
+    layer: 'components',
     extend: [staticIntentStyles],
     base: {
       display: 'flex',
@@ -85,21 +86,27 @@ export const useAlert = (): AlertContextValue => {
   return context ?? { intent: 'info', variant: 'secondary' };
 };
 
-const iconWrapperStyle = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
-  width: vars.size['2xs'],
-  height: vars.size['2xs'],
-  marginTop: '1px',
-});
+const iconWrapperStyle = style(
+  {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+    width: vars.size['2xs'],
+    height: vars.size['2xs'],
+    marginTop: '1px',
+  },
+  { layer: 'components' },
+);
 
-const iconSvgStyle = style({
-  width: '100%',
-  height: '100%',
-  display: 'block',
-});
+const iconSvgStyle = style(
+  {
+    width: '100%',
+    height: '100%',
+    display: 'block',
+  },
+  { layer: 'components' },
+);
 
 function DefaultIntentIcon({ intent }: { intent: AlertIntent }): React.JSX.Element {
   if (intent === 'success') {

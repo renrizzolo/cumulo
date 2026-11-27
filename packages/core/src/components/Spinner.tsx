@@ -15,6 +15,7 @@ const spinKeyframes = keyframes({
 
 const spinnerRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'inline-block',
       flexShrink: 0,

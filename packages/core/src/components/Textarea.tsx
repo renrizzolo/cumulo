@@ -9,25 +9,21 @@ import { fieldIntentStyles } from '../intents.js';
 
 const textareaRecipe = recipe(
   {
+    layer: 'components',
     extend: [fieldIntentStyles],
     base: {
       display: 'flex',
       width: '100%',
       fontFamily: vars.font.sans,
       color: vars.surface.fg,
-      borderWidth: 1,
+      borderWidth: vars.field.border.width,
       borderStyle: 'solid',
       borderRadius: `min(${vars.radius.control}, ${vars.spacing.md})`,
-      outline: 'none',
       boxSizing: 'border-box',
       transition: `border-color ${vars.duration.fast} ${vars.ease.default}, box-shadow ${vars.duration.fast} ${vars.ease.default}`,
       minHeight: '5rem',
       '::placeholder': {
         color: vars.surface.subtle,
-      },
-      ':focus-visible': {
-        borderColor: vars.primary['600'],
-        boxShadow: `0 0 0 3px ${vars.primary.subtle}`,
       },
       ':disabled': {
         opacity: 0.5,

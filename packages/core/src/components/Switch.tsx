@@ -19,20 +19,25 @@ const switchContract = createThemeContract({
   },
 });
 
-const switchTheme = createTheme(switchContract, {
-  track: {
-    width: vars.size.sm,
-    height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
-    padding: vars.spacing['3xs'],
-    borderWidth: '1px',
+const switchTheme = createTheme(
+  switchContract,
+  {
+    track: {
+      width: vars.size.sm,
+      height: `calc(${switchContract.track.padding} * 2 + ${switchContract.thumb.size} + ${switchContract.track.borderWidth} * 2)`,
+      padding: vars.spacing['3xs'],
+      borderWidth: vars.control.border.width,
+    },
+    thumb: {
+      size: vars.size['4xs'],
+    },
   },
-  thumb: {
-    size: vars.size['4xs'],
-  },
-});
+  { layer: 'components' },
+);
 
 export const switchRecipe = recipe(
   {
+    layer: 'components',
     extend: [focusRing, controlIntent],
     base: {
       width: switchContract.track.width,
@@ -94,6 +99,7 @@ export const switchRecipe = recipe(
 
 const switchThumbRecipe = recipe(
   {
+    layer: 'components',
     base: {
       display: 'block',
       width: switchContract.thumb.size,

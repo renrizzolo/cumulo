@@ -14,6 +14,7 @@ export const panelContract = createThemeContract(
 
 const panelRecipe = recipe(
   {
+    layer: 'components',
     extend: [flexStyles, paddingStyles],
     base: {
       display: 'flex',

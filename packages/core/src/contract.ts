@@ -82,9 +82,9 @@ export const vars = {
     snappy: 'var(--theme-duration-snappy)',
     /** 125ms */
     fast: 'var(--theme-duration-fast)',
-    /** 235ms */
+    /** 200ms */
     normal: 'var(--theme-duration-normal)',
-    /** 400ms */
+    /** 280ms */
     slow: 'var(--theme-duration-slow)',
   },
   ease: {
@@ -524,6 +524,8 @@ export const vars = {
     hover: 'var(--theme-error-hover)',
     /** #ffffff */
     fg: 'var(--theme-error-fg)',
+    /** light-dark(var(--theme-error-300), var(--theme-error-400)) */
+    focus: 'var(--theme-error-focus)',
     secondary: {
       bg: {
         /** var(--theme-error-50) */
@@ -610,11 +612,17 @@ export const vars = {
       /** var(--theme-primary-border) */
       border: 'var(--surface-primary-border)',
     },
+    stroke: {
+      /** var(--theme-surface-stroke-width) */
+      width: 'var(--surface-stroke-width)',
+    },
     bg: {
       /** var(--theme-bg-0) */
       DEFAULT: 'var(--surface-bg)',
       /** var(--theme-bg-1) */
       next: 'var(--surface-bg-next)',
+      /** none */
+      image: 'var(--surface-bg-image)',
     },
     /** var(--theme-fg) */
     fg: 'var(--surface-fg)',
@@ -678,6 +686,58 @@ export const vars = {
     bg: 'var(--theme-sky-bg)',
     /** light-dark(#0369a1, #7dd3fc) */
     fg: 'var(--theme-sky-fg)',
+  },
+  control: {
+    /** 1 */
+    depth: 'var(--theme-control-depth)',
+    border: {
+      /** 1px */
+      width: 'var(--theme-control-border-width)',
+    },
+    bg: {
+      image: {
+        /** none */
+        DEFAULT: 'var(--theme-control-bg-image)',
+        /** var(--theme-control-bg-image) */
+        hover: 'var(--theme-control-bg-image-hover)',
+      },
+    },
+    shadow: {
+      /** none */
+      DEFAULT: 'var(--theme-control-shadow)',
+      /** var(--theme-control-shadow) */
+      hover: 'var(--theme-control-shadow-hover)',
+      /** none */
+      active: 'var(--theme-control-shadow-active)',
+    },
+    primary: {
+      /** transparent */
+      border: 'var(--theme-control-primary-border)',
+    },
+    secondary: {
+      /** transparent */
+      border: 'var(--theme-control-secondary-border)',
+    },
+    active: {
+      /** scale(0.98) */
+      transform: 'var(--theme-control-active-transform)',
+    },
+    text: {
+      /** none */
+      shadow: 'var(--theme-control-text-shadow)',
+    },
+  },
+  field: {
+    border: {
+      /** 1px */
+      width: 'var(--theme-field-border-width)',
+    },
+    bg: {
+      /** none */
+      image: 'var(--theme-field-bg-image)',
+    },
+    /** none */
+    shadow: 'var(--theme-field-shadow)',
   },
 } as const;
 

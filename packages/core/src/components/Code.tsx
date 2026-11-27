@@ -7,6 +7,7 @@ import { textBase, wrapStyles } from '../typography.js';
 
 const codeRecipe = recipe(
   {
+    layer: 'components',
     extend: [wrapStyles],
     base: {
       ...textBase,

@@ -8,6 +8,7 @@ import { textBaseStyles } from '../typography.js';
 
 const badgeRecipe = recipe(
   {
+    layer: 'components',
     extend: [staticIntentStyles, sizes],
     base: {
       display: 'inline-flex',

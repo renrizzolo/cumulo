@@ -131,6 +131,7 @@ export function createInteractiveIntentCompoundVariants<T extends Intent>(intent
  */
 export const staticBaseVariantStyles = recipe(
   {
+    layer: 'components',
     variants: {
       variant: {
         primary: {
@@ -163,30 +164,62 @@ export const staticBaseVariantStyles = recipe(
 );
 
 /**
- * Interactive hover styles for base variants.
+ * Interactive hover, active, and control appearance styles for base variants.
+ * Kept separate from staticBaseVariantStyles so non-interactive Badges and Alerts remain flat.
  */
 export const interactiveBaseVariantStyles = recipe(
   {
+    layer: 'components',
     variants: {
       variant: {
         primary: {
+          backgroundImage: vars.control.bg.image.DEFAULT,
+          borderColor: vars.control.primary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
+          textShadow: vars.control.text.shadow,
           ':hover': {
             backgroundColor: vars.primary.hover,
+            backgroundImage: vars.control.bg.image.hover,
+            boxShadow: vars.control.shadow.hover,
+          },
+          ':active': {
+            boxShadow: vars.control.shadow.active,
           },
         },
         secondary: {
+          backgroundImage: vars.control.bg.image.DEFAULT,
+          borderColor: vars.control.secondary.border,
+          boxShadow: vars.control.shadow.DEFAULT,
           ':hover': {
             backgroundColor: vars.surface.secondary.hover,
+            backgroundImage: vars.control.bg.image.hover,
+            boxShadow: vars.control.shadow.hover,
+          },
+          ':active': {
+            boxShadow: vars.control.shadow.active,
           },
         },
         outline: {
+          backgroundImage: 'none',
+          boxShadow: vars.control.shadow.DEFAULT,
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
+            boxShadow: vars.control.shadow.hover,
+          },
+          ':active': {
+            boxShadow: vars.control.shadow.active,
           },
         },
         ghost: {
+          backgroundImage: 'none',
+          boxShadow: 'none',
           ':hover': {
             backgroundColor: vars.surface.secondary.DEFAULT,
+            backgroundImage: 'none',
+            boxShadow: 'none',
+          },
+          ':active': {
+            boxShadow: 'none',
           },
         },
       },
@@ -200,6 +233,7 @@ export const interactiveBaseVariantStyles = recipe(
  */
 export const baseVariantStyles = recipe(
   {
+    layer: 'components',
     extend: [staticBaseVariantStyles, interactiveBaseVariantStyles],
     variants: {},
   },
@@ -211,6 +245,7 @@ export const baseVariantStyles = recipe(
  */
 export const sizes = recipe(
   {
+    layer: 'components',
     variants: {
       size: {
         '2xs': {
@@ -263,6 +298,7 @@ export const sizes = recipe(
  */
 export const staticIntentStyles = recipe(
   {
+    layer: 'components',
     extend: [staticBaseVariantStyles],
     variants: {
       intent: {
@@ -306,6 +342,7 @@ export const baseIntentStyles = staticIntentStyles;
  */
 export const interactiveIntentStyles = recipe(
   {
+    layer: 'components',
     extend: [staticIntentStyles, interactiveBaseVariantStyles],
     variants: {
       intent: {
@@ -350,20 +387,49 @@ export const allIntentStyles = interactiveIntentStyles;
 export const buttonIntentStyles = interactiveIntentStyles;
 
 /**
+ * Shared focus ring style and recipe for interactive components.
+ * Uses `outline` + `outlineOffset` so custom control `boxShadow` tokens are preserved on focus.
+ */
+export const focusRingStyles = {
+  outline: `2px none ${vars.primary.focus}`,
+  outlineOffset: '2px',
+  ':focus-visible': {
+    outlineStyle: 'solid',
+  },
+  ':has(:focus-visible)': {
+    outlineStyle: 'solid',
+  },
+} as const;
+
+export const focusRing = recipe(
+  {
+    layer: 'components',
+    base: focusRingStyles,
+    variants: {
+      variant: { default: {} },
+    },
+  },
+  'focus-ring',
+);
+
+/**
  * Variant style for form inputs.
  */
 export const fieldVariantStyles = recipe(
   {
+    layer: 'components',
     variants: {
       variant: {
         field: {
           backgroundColor: vars.surface.bg.DEFAULT,
+          backgroundImage: vars.field.bg.image,
           color: vars.surface.fg,
           borderColor: vars.surface.border,
+          boxShadow: vars.field.shadow,
           ':hover': {
             backgroundColor: vars.surface.bg.next,
           },
-          ':focus': {
+          ':focus-visible': {
             backgroundColor: vars.surface.bg.next,
           },
         },
@@ -374,17 +440,23 @@ export const fieldVariantStyles = recipe(
 );
 
 /**
- * Field intent compound styles (e.g. error border for form inputs).
+ * Field intent compound styles (e.g. error border and focus ring for form inputs).
  */
 export const fieldIntentStyles = recipe(
   {
+    layer: 'components',
     extend: [fieldVariantStyles],
+    base: focusRingStyles,
     variants: {
       intent: {
         default: {},
         error: {
           borderColor: vars.error['600'],
+          outlineColor: vars.error.focus,
           ':focus-visible': {
+            borderColor: vars.error['600'],
+          },
+          ':has(:focus-visible)': {
             borderColor: vars.error['600'],
           },
           ':focus-within': {
@@ -401,33 +473,11 @@ export const fieldIntentStyles = recipe(
 );
 
 /**
- * Shared focus ring style and recipe for interactive components.
- */
-export const focusRingStyles = {
-  outline: 'none',
-  ':focus-visible': {
-    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
-  },
-  ':has(:focus-visible)': {
-    boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.primary.focus}`,
-  },
-} as const;
-
-export const focusRing = recipe(
-  {
-    base: focusRingStyles,
-    variants: {
-      variant: { default: {} },
-    },
-  },
-  'focus-ring',
-);
-
-/**
  * Shared intent styles for custom selection controls (e.g. Checkbox, Radio, Switch).
  */
 export const controlIntent = recipe(
   {
+    layer: 'components',
     base: {
       display: 'inline-flex',
       alignItems: 'center',
@@ -443,10 +493,13 @@ export const controlIntent = recipe(
       checked: {
         true: {
           backgroundColor: vars.primary.DEFAULT,
+          backgroundImage: vars.control.bg.image.DEFAULT,
           borderColor: vars.primary.DEFAULT,
+          boxShadow: vars.control.shadow.DEFAULT,
           selectors: {
             '&:has(input:hover)': {
               backgroundColor: vars.primary.hover,
+              backgroundImage: vars.control.bg.image.hover,
               borderColor: vars.primary.hover,
             },
           },
@@ -465,6 +518,7 @@ export const controlIntent = recipe(
         default: {},
         error: {
           borderColor: vars.error['600'],
+          outlineColor: vars.error.focus,
           selectors: {
             '&:has(input:hover)': {
               borderColor: vars.error['700'],
@@ -472,11 +526,9 @@ export const controlIntent = recipe(
           },
           ':focus-visible': {
             borderColor: vars.error['600'],
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['600']}`,
           },
           ':has(:focus-visible)': {
             borderColor: vars.error['600'],
-            boxShadow: `0 0 0 2px ${vars.surface.bg.DEFAULT}, 0 0 0 4px ${vars.error['600']}`,
           },
         },
       },
@@ -528,7 +580,7 @@ export const visuallyHidden = style(
     border: 0,
     opacity: 0,
   },
-  'visually-hidden',
+  { prefix: 'visually-hidden', layer: 'components' },
 );
 
 /**
@@ -547,5 +599,5 @@ export const controlInput = style(
     cursor: 'inherit',
     zIndex: 1,
   },
-  'control-input',
+  { prefix: 'control-input', layer: 'components' },
 );
