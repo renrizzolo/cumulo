@@ -102,10 +102,11 @@ See [Bundler Setup](/bundlers) for Next.js, Webpack, Rollup, esbuild, and Parcel
 
 ### Load theme styles
 
-`@cumulo/core` ships with a prebuilt stylesheet at `@cumulo/core/theme.css`. It provides two layers:
+`@cumulo/core` ships with a prebuilt stylesheet at `@cumulo/core/theme.css`. It provides three layers:
 
 - **Reset styles** (`@layer reset`): Box-sizing, margin resets, baseline body styling, and form element font inheritance.
-- **Theme tokens** (`@layer base`): CSS variables for colors, surfaces, spacing, border radii, and typography scales.
+- **Theme tokens** (`@layer base`): CSS variables for colors, spacing, sizes, container widths, border radii, typography, shadows, transitions, controls, and fields.
+- **Surface & component styles** (`@layer components`): Contextual surface levels and component defaults so unlayered `className` overrides deterministically win.
 
 You have two options to load theme styles:
 
