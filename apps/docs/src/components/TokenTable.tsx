@@ -5,7 +5,7 @@ import * as Table from '@cumulo/core/components/Table';
 import { Text } from '@cumulo/core/components/Text';
 import { vars, type VarPath, type VarValue } from '@cumulo/core/contract';
 import { style } from '@cumulo/css';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export type TokenName = VarPath;
 export type TokenVariable = VarValue;
@@ -19,7 +19,9 @@ export type TokenPreview =
   | 'font-weight'
   | 'line-height'
   | 'color'
-  | 'shadow';
+  | 'shadow'
+  | 'duration'
+  | 'easing';
 
 export interface TokenItem {
   name: TokenName;
@@ -497,30 +499,35 @@ const PREDEFINED_TOKENS: Record<string, TokenItem[]> = {
       variable: 'var(--theme-duration-snappy)',
       value: '55ms',
       description: 'Micro-interactions (checkboxes, press states)',
+      preview: 'duration',
     },
     {
       name: 'vars.duration.fast',
       variable: 'var(--theme-duration-fast)',
       value: '125ms',
       description: 'Hover, focus, and color transitions',
+      preview: 'duration',
     },
     {
       name: 'vars.duration.normal',
       variable: 'var(--theme-duration-normal)',
       value: '200ms',
       description: 'Overlays, popovers, and panels',
+      preview: 'duration',
     },
     {
       name: 'vars.duration.slow',
       variable: 'var(--theme-duration-slow)',
       value: '280ms',
       description: 'Drawers and larger layout transitions',
+      preview: 'duration',
     },
     {
       name: 'vars.ease.default',
       variable: 'var(--theme-ease-default)',
       value: 'cubic-bezier(0.4, 0, 0.2, 1)',
       description: 'Standard UI easing curve',
+      preview: 'easing',
     },
   ],
   control: [
@@ -637,6 +644,30 @@ const colorSwatchStyle = style({
   borderColor: vars.surface.border,
 });
 
+const transitionTrackStyle = style({
+  width: '6.5rem',
+  padding: vars.spacing['3xs'],
+  borderRadius: vars.radius.md,
+  backgroundColor: vars.surface.secondary.DEFAULT,
+  borderWidth: 1,
+  borderStyle: 'solid',
+  borderColor: vars.surface.border,
+  boxSizing: 'border-box',
+});
+
+const transitionBoxStyle = style({
+  width: vars.size.xs,
+  height: vars.size.xs,
+  borderRadius: vars.radius.control,
+  backgroundColor: vars.primary.DEFAULT,
+  transitionProperty: 'transform',
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      transition: 'none',
+    },
+  },
+});
+
 const descriptionCellStyle = style(
   {
     minWidth: '200px',
@@ -644,7 +675,7 @@ const descriptionCellStyle = style(
   'token-table-description-cell',
 );
 
-function renderPreview(token: TokenItem): React.JSX.Element | null {
+function renderPreview(token: TokenItem, transitionAtEnd: boolean): React.JSX.Element | null {
   switch (token.preview) {
     case 'spacing':
     case 'size':
@@ -694,6 +725,25 @@ function renderPreview(token: TokenItem): React.JSX.Element | null {
           }}
         />
       );
+    case 'duration':
+    case 'easing': {
+      const translateX = transitionAtEnd
+        ? `translateX(calc(6.5rem - ${vars.size.xs} - ${vars.spacing['3xs']} * 2 - 2px))`
+        : 'translateX(0)';
+      return (
+        <div className={transitionTrackStyle.className} aria-hidden="true">
+          <div
+            className={transitionBoxStyle.className}
+            style={{
+              transform: translateX,
+              transitionDuration: token.preview === 'duration' ? token.variable : '700ms',
+              transitionTimingFunction:
+                token.preview === 'easing' ? token.variable : vars.ease.default,
+            }}
+          />
+        </div>
+      );
+    }
     default:
       return null;
   }
@@ -716,6 +766,22 @@ export function TokenTable({
 
   const resolvedTokens = customTokens || PREDEFINED_TOKENS[normalizedKey] || [];
   const hasPreview = resolvedTokens.some((token) => token.preview !== undefined);
+  const hasTransitionPreview = resolvedTokens.some(
+    (token) => token.preview === 'duration' || token.preview === 'easing',
+  );
+
+  const [transitionAtEnd, setTransitionAtEnd] = useState(false);
+
+  useEffect(() => {
+    if (!hasTransitionPreview) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const id = window.setInterval(() => {
+      setTransitionAtEnd((prev) => !prev);
+    }, 1100);
+    return () => {
+      window.clearInterval(id);
+    };
+  }, [hasTransitionPreview]);
 
   return (
     <Table.Root variant="bordered">
@@ -743,7 +809,7 @@ export function TokenTable({
                   : token.value || token.description}
               </Text>
             </Table.Cell>
-            {hasPreview && <Table.Cell>{renderPreview(token)}</Table.Cell>}
+            {hasPreview && <Table.Cell>{renderPreview(token, transitionAtEnd)}</Table.Cell>}
           </Table.Row>
         ))}
       </Table.Body>
