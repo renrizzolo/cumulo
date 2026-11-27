@@ -40,6 +40,7 @@ const tableWrapperRecipe = recipe(
 
 const tableRecipe = recipe(
   {
+    layer: 'components',
     base: {
       width: '100%',
       borderCollapse: 'separate',
