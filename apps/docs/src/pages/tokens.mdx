@@ -7,10 +7,11 @@ Cumulo powers its design tokens with native CSS custom properties.
 
 ### Prebuilt theme stylesheet
 
-`@cumulo/core` ships with a prebuilt stylesheet at `@cumulo/core/theme.css`. It includes two CSS cascade layers:
+`@cumulo/core` ships with a prebuilt stylesheet at `@cumulo/core/theme.css`. It declares `@layer reset, base, components, utilities;` and provides three layers:
 
 - **Reset styles (`@layer reset`)**: Box-sizing, margin resets, baseline body styling, and form element font inheritance.
-- **Theme variables (`@layer base`)**: CSS custom properties for surfaces, colors, spacing, radii, typography, and shadows.
+- **Theme variables (`@layer base`)**: CSS custom properties for colors, spacing, sizes, container widths, radii, typography, shadows, transitions, controls, and fields.
+- **Surface & component styles (`@layer components`)**: Contextual surface levels (`.surface-0`, `.surface-1`, `.surface-2`) and `@cumulo/core` component styles, so unlayered `className` overrides deterministically win.
 
 ### Load theme styles
 
@@ -85,7 +86,7 @@ import { style } from '@cumulo/css';
 export const card = style({
   padding: vars.spacing.md,
   borderRadius: vars.radius.md,
-  backgroundColor: vars.surface.bg,
+  backgroundColor: vars.surface.bg.DEFAULT,
 });
 ```
 
@@ -111,6 +112,18 @@ Each intent generates a 10-step shade scale (50–900) with contrast that adapts
 
 <TokenTable category="spacing" />
 
+### Sizes
+
+Common component heights and square icon dimensions.
+
+<TokenTable category="size" />
+
+### Container widths
+
+Maximum widths used by `<Container>`.
+
+<TokenTable category="container" />
+
 ### Border radius
 
 <TokenTable category="radius" />
@@ -122,3 +135,21 @@ Each intent generates a 10-step shade scale (50–900) with contrast that adapts
 ### Shadows
 
 <TokenTable category="shadow" />
+
+### Transitions
+
+Motion durations and easing curves used across interactive components and overlays.
+
+<TokenTable category="transition" />
+
+### Controls
+
+Flat-default tokens controlling the depth, sheen, border width, and press feedback of buttons and selection controls. Set `data-control-style="raised"` or `data-control-style="3d"` on `<html>` (or any ancestor) to opt into built-in tactile presets.
+
+<TokenTable category="control" />
+
+### Fields
+
+Appearance tokens for form inputs, textareas, and selects.
+
+<TokenTable category="field" />

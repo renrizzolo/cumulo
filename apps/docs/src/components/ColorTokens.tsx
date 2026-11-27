@@ -63,7 +63,7 @@ const colorGridStyle = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(10, minmax(0, 64px))',
   gap: vars.spacing.xs,
-  '@container': {
+  '@media': {
     '(max-width: 768px)': {
       gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
     },
@@ -79,10 +79,23 @@ const scaleGrid = create({
     gridTemplateColumns: 'max-content 1fr',
     alignItems: 'center',
     gap: vars.spacing.md,
+    '@media': {
+      '(max-width: 768px)': {
+        gridTemplateColumns: '1fr',
+      },
+    },
   },
-  child: {
+  row: {
     display: 'grid',
+    gridColumn: '1 / -1',
     gridTemplateColumns: 'subgrid',
+    alignItems: 'center',
+    '@media': {
+      '(max-width: 768px)': {
+        gridTemplateColumns: '1fr',
+        gap: vars.spacing.xs,
+      },
+    },
   },
 });
 
@@ -176,14 +189,14 @@ export function ColorTokens() {
   return (
     <div className={scaleGrid.parent.className}>
       {INTENT_SCALES.map((scale) => (
-        <React.Fragment key={scale.key}>
+        <div key={scale.key} className={scaleGrid.row.className}>
           <Text type="label">{scale.label}</Text>
           <div className={colorGridStyle.className}>
             {STEPS.map((step) => (
               <Swatch key={step} intent={scale.key} step={step} />
             ))}
           </div>
-        </React.Fragment>
+        </div>
       ))}
     </div>
   );
