@@ -8,7 +8,6 @@ export type { ElementProps } from './ElementProps.js';
 // Contract
 export {
   vars,
-  breakpoints,
   type ThemeVars,
   type ThemeBreakpoints,
   type VarPath,

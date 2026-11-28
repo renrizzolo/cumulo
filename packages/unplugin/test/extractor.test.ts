@@ -498,4 +498,42 @@ export const layout = recipe({
     expect(rewritten).toContain('"cardWide":');
     expect(rewritten).not.toContain("from '@cumulo/css'");
   });
+
+  it('extractAndRewrite supports passing vars.breakpoint to recipe() and inlines vars.breakpoint.md leaves', async () => {
+    const code = `
+import { vars } from '@cumulo/core/contract';
+import { recipe } from '@cumulo/css';
+
+export const stack = recipe({
+  layer: 'components',
+  breakpoints: {
+    ...vars.breakpoint,
+    cardWide: '@container card (min-width: 500px)',
+  },
+  responsiveVariants: {
+    direction: ['md', 'cardWide'],
+  },
+  variants: {
+    direction: {
+      column: { flexDirection: 'column' },
+      row: { flexDirection: 'row' },
+    },
+  },
+}, 'vars-bp');
+
+export function getMdQuery(): string {
+  return \`(min-width: \${vars.breakpoint.md})\`;
+}
+`;
+
+    const result = await extractAndRewrite(code, 'VarsBreakpointDemo.tsx');
+    expect(result.css).toContain('@media (min-width: 768px)');
+    expect(result.css).toContain('@container card (min-width: 500px)');
+
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+    expect(rewritten).toContain('"768px"');
+    expect(rewritten).not.toContain("from '@cumulo/core/contract'");
+    expect(rewritten).not.toContain("from '@cumulo/css'");
+  });
 });

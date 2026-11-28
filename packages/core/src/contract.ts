@@ -58,16 +58,16 @@ export const vars = {
     '2xl': 'var(--theme-container-2xl)',
   },
   breakpoint: {
-    /** 640px */
-    sm: 'var(--theme-breakpoint-sm)',
-    /** 768px */
-    md: 'var(--theme-breakpoint-md)',
-    /** 1024px */
-    lg: 'var(--theme-breakpoint-lg)',
-    /** 1280px */
-    xl: 'var(--theme-breakpoint-xl)',
-    /** 1440px */
-    '2xl': 'var(--theme-breakpoint-2xl)',
+    /** @media (min-width: 640px) */
+    sm: '640px',
+    /** @media (min-width: 768px) */
+    md: '768px',
+    /** @media (min-width: 1024px) */
+    lg: '1024px',
+    /** @media (min-width: 1280px) */
+    xl: '1280px',
+    /** @media (min-width: 1440px) */
+    '2xl': '1440px',
   },
   spacing: {
     /** 0px */
@@ -760,24 +760,10 @@ Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
 });
 
 export type ThemeVars = typeof vars;
-
-export const breakpoints = {
-  /** 640px */
-  sm: '@media (min-width: 640px)',
-  /** 768px */
-  md: '@media (min-width: 768px)',
-  /** 1024px */
-  lg: '@media (min-width: 1024px)',
-  /** 1280px */
-  xl: '@media (min-width: 1280px)',
-  /** 1440px */
-  '2xl': '@media (min-width: 1440px)',
-} as const;
-
-export type ThemeBreakpoints = typeof breakpoints;
+export type ThemeBreakpoints = ThemeVars['breakpoint'];
 
 // union of all the var values ("var(--surface-primary-hover)")
-export type VarValue<T = ThemeVars> = T extends string
+export type VarValue<T = ThemeVars> = T extends `var(--${string})`
   ? T
   : T extends Record<string, unknown>
     ? VarValue<T[keyof T]>

@@ -79,11 +79,54 @@ function setNestedPath(obj: NestedTree, pathSegments: string[], value: string) {
   }
 }
 
+function stripOuterQuotes(raw: string): string {
+  const trimmed = raw.trim();
+  if (
+    trimmed.length >= 2 &&
+    ((trimmed.startsWith("'") && trimmed.endsWith("'")) ||
+      (trimmed.startsWith('"') && trimmed.endsWith('"')))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
+function resolveVarValue(
+  rawValue: string,
+  varValues: ReadonlyMap<string, string>,
+  maxDepth = 4,
+): string {
+  let current = stripOuterQuotes(rawValue);
+  for (let i = 0; i < maxDepth; i++) {
+    const varRef = current.match(/^var\(\s*(--[a-zA-Z0-9_-]+)(?:\s*,\s*([^)]+))?\s*\)$/);
+    if (!varRef) {
+      break;
+    }
+    const referenced = varValues.get(varRef[1]);
+    if (referenced) {
+      current = stripOuterQuotes(referenced);
+    } else if (varRef[2]) {
+      current = stripOuterQuotes(varRef[2]);
+    } else {
+      break;
+    }
+  }
+  return current;
+}
+
+function isBreakpointVarName(name: string): boolean {
+  return name.startsWith('--theme-breakpoint-') || name.startsWith('--breakpoint-');
+}
+
 /**
  * Dynamically converts a flat list of CSS variables into a nested JavaScript object tree,
  * preserving source declaration order.
+ *
+ * Breakpoint variables (`--theme-breakpoint-*` / `--breakpoint-*`) store their resolved
+ * concrete length or query string directly (e.g. `'768px'`, `'@container card (min-width: 500px)'`)
+ * because CSS custom properties cannot be used inside `@media` / `@container` preludes.
  */
-function buildTreeFromVars(vars: string[]): NestedTree {
+function buildTreeFromVars(vars: string[], varValues: ReadonlyMap<string, string>): NestedTree {
   const tree: NestedTree = {};
 
   for (const v of vars) {
@@ -99,6 +142,14 @@ function buildTreeFromVars(vars: string[]): NestedTree {
 
     if (parts.length === 0) continue;
 
+    if (isBreakpointVarName(v)) {
+      const rawValue = varValues.get(v);
+      if (rawValue !== undefined) {
+        setNestedPath(tree, parts, resolveVarValue(rawValue, varValues));
+        continue;
+      }
+    }
+
     setNestedPath(tree, parts, `var(${v})`);
   }
 
@@ -113,6 +164,7 @@ function serializeObjectWithComments(
   obj: NestedTree,
   varValuesMap: Map<string, string>,
   indent = 2,
+  parentKey?: string,
 ): string {
   const spaces = ' '.repeat(indent);
   const entries = Object.entries(obj);
@@ -129,11 +181,14 @@ function serializeObjectWithComments(
 
       if (computedValue) {
         lines.push(`${spaces}/** ${computedValue.replace(/\*\//g, '* /')} */`);
+      } else if (parentKey === 'breakpoint') {
+        const normalized = normalizeBreakpointQuery(val);
+        lines.push(`${spaces}/** ${normalized.replace(/\*\//g, '* /')} */`);
       }
-      lines.push(`${spaces}${formattedKey}: '${val}',`);
+      lines.push(`${spaces}${formattedKey}: ${JSON.stringify(val)},`);
     } else if (typeof val === 'object' && val !== null) {
       lines.push(
-        `${spaces}${formattedKey}: ${serializeObjectWithComments(val, varValuesMap, indent + 2)},`,
+        `${spaces}${formattedKey}: ${serializeObjectWithComments(val, varValuesMap, indent + 2, key)},`,
       );
     }
   }
@@ -208,29 +263,6 @@ function resolveBaseCssPath(customBase?: string): string {
   );
 }
 
-function resolveVarValue(
-  rawValue: string,
-  varValues: ReadonlyMap<string, string>,
-  maxDepth = 4,
-): string {
-  let current = rawValue.trim();
-  for (let i = 0; i < maxDepth; i++) {
-    const varRef = current.match(/^var\(\s*(--[a-zA-Z0-9_-]+)(?:\s*,\s*([^)]+))?\s*\)$/);
-    if (!varRef) {
-      break;
-    }
-    const referenced = varValues.get(varRef[1]);
-    if (referenced) {
-      current = referenced.trim();
-    } else if (varRef[2]) {
-      current = varRef[2].trim();
-    } else {
-      break;
-    }
-  }
-  return current;
-}
-
 /**
  * Extracts ordered breakpoint queries from `--theme-breakpoint-*` (and custom `--breakpoint-*`)
  * CSS custom properties, resolving `var(...)` aliases and normalizing lengths into `@media (min-width: ...)`.
@@ -255,23 +287,6 @@ export function extractBreakpointsFromVars(
     result[bpKey] = normalizeBreakpointQuery(resolved);
   }
   return result;
-}
-
-function serializeBreakpoints(
-  breakpoints: Readonly<Record<string, BreakpointQuery>>,
-  rawValues: ReadonlyMap<string, string>,
-): string {
-  const lines: string[] = ['{'];
-  for (const [key, query] of Object.entries(breakpoints)) {
-    const formattedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : JSON.stringify(key);
-    const raw = rawValues.get(key);
-    if (raw) {
-      lines.push(`  /** ${raw.replace(/\*\//g, '* /')} */`);
-    }
-    lines.push(`  ${formattedKey}: ${JSON.stringify(query)},`);
-  }
-  lines.push('}');
-  return lines.join('\n');
 }
 
 function serializeBreakpointsAugmentation(
@@ -359,42 +374,23 @@ export async function generateTheme(
   }
 
   // 3. Build contract tree & breakpoints in strict source order
-  const contractTree = buildTreeFromVars(canonicalVars);
+  const contractTree = buildTreeFromVars(canonicalVars, varValues);
   const breakpoints = extractBreakpointsFromVars(varValues, canonicalVars);
-  const breakpointRawValues = new Map<string, string>();
-  for (const name of canonicalVars) {
-    let bpKey: string | undefined;
-    if (name.startsWith('--theme-breakpoint-')) {
-      bpKey = kebabToCamel(name.slice('--theme-breakpoint-'.length));
-    } else if (name.startsWith('--breakpoint-')) {
-      bpKey = kebabToCamel(name.slice('--breakpoint-'.length));
-    }
-    if (bpKey) {
-      const raw = varValues.get(name);
-      if (raw) {
-        breakpointRawValues.set(bpKey, resolveVarValue(raw, varValues));
-      }
-    }
-  }
 
   const hasCustomBreakpoints =
-    customVars.some((v) => v.startsWith('--theme-breakpoint-') || v.startsWith('--breakpoint-')) ||
-    overriddenVars.some((v) => v.startsWith('--theme-breakpoint-'));
+    customVars.some((v) => isBreakpointVarName(v)) ||
+    overriddenVars.some((v) => isBreakpointVarName(v));
 
   const serializedTree = serializeObjectWithComments(contractTree, varValues);
-  const serializedBreakpoints = serializeBreakpoints(breakpoints, breakpointRawValues);
   const metaAttachment = `Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
   value: { kind: 'contract' },
   enumerable: false,
   configurable: true,
 });`;
 
-  const breakpointsBlock =
+  const breakpointsTypeExport =
     Object.keys(breakpoints).length > 0
-      ? `
-export const breakpoints = ${serializedBreakpoints} as const;
-
-export type ThemeBreakpoints = typeof breakpoints;`
+      ? `\nexport type ThemeBreakpoints = ThemeVars['breakpoint'];`
       : '';
 
   const endContent = `
@@ -402,11 +398,10 @@ export const vars = ${serializedTree} as const;
 
 ${metaAttachment}
 
-export type ThemeVars = typeof vars;
-${breakpointsBlock}
+export type ThemeVars = typeof vars;${breakpointsTypeExport}
 
 // union of all the var values ("var(--surface-primary-hover)")
-export type VarValue<T = ThemeVars> = T extends string
+export type VarValue<T = ThemeVars> = T extends \`var(--\${string})\`
   ? T
   : T extends Record<string, unknown>
     ? VarValue<T[keyof T]>
