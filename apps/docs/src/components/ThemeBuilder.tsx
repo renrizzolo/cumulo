@@ -2191,41 +2191,39 @@ export function ThemeBuilder(): React.JSX.Element {
                               <Dialog.Trigger variant="secondary" size="sm">
                                 View CSS
                               </Dialog.Trigger>
-                              <Dialog.Content size="xl">
-                                <VStack gap="lg">
-                                  <Dialog.Header>
-                                    <Dialog.Title>Generated Theme CSS</Dialog.Title>
-                                    <Dialog.Description>
-                                      Drop this CSS block into your global stylesheet or apply{' '}
-                                      <Code>{`data-theme="${theme.name || 'my-theme'}"`}</Code> to
-                                      any container.
-                                    </Dialog.Description>
-                                  </Dialog.Header>
+                              <Dialog.Content size="lg">
+                                <Dialog.Header>
+                                  <Dialog.Title>Generated Theme CSS</Dialog.Title>
+                                  <Dialog.Description>
+                                    Drop this CSS block into your global stylesheet or apply{' '}
+                                    <Code>{`data-theme="${theme.name || 'my-theme'}"`}</Code> to any
+                                    container.
+                                  </Dialog.Description>
+                                </Dialog.Header>
 
-                                  <Surface
-                                    level={1}
-                                    padding="md"
-                                    radius="md"
-                                    className={codeSurfaceStyle.className}
-                                  >
-                                    <pre className={preStyle.className}>
-                                      <code>{generatedCss.exportCss}</code>
-                                    </pre>
-                                    <CopyButton
-                                      text={generatedCss.exportCss}
-                                      className={codeCopyButtonStyle.className}
-                                    />
-                                  </Surface>
+                                <Surface
+                                  level={1}
+                                  padding="md"
+                                  radius="md"
+                                  className={codeSurfaceStyle.className}
+                                >
+                                  <pre className={preStyle.className}>
+                                    <code>{generatedCss.exportCss}</code>
+                                  </pre>
+                                  <CopyButton
+                                    text={generatedCss.exportCss}
+                                    className={codeCopyButtonStyle.className}
+                                  />
+                                </Surface>
 
-                                  <HStack justify="between" gap="sm" wrap="wrap">
-                                    <Button variant="outline" size="sm" onClick={handleDownloadCss}>
-                                      Download .css
-                                    </Button>
-                                    <Dialog.Close variant="ghost" size="sm">
-                                      Close
-                                    </Dialog.Close>
-                                  </HStack>
-                                </VStack>
+                                <HStack justify="between" gap="sm" wrap="wrap">
+                                  <Button variant="primary" size="sm" onClick={handleDownloadCss}>
+                                    Download css file
+                                  </Button>
+                                  <Dialog.Close variant="ghost" size="sm">
+                                    Close
+                                  </Dialog.Close>
+                                </HStack>
                               </Dialog.Content>
                             </Dialog.Root>
 

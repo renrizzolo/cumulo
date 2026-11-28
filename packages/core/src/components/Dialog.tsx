@@ -29,12 +29,13 @@ import { useFocus } from '../hooks/useFocus.js';
 import { useMergeRefs } from '../hooks/useMergeRefs.js';
 import { usePartsRegistry } from '../hooks/usePartsRegistry.js';
 import { useSwipeDismiss, type SwipeDirection } from '../hooks/useSwipeDismiss.js';
+import { paddingStyles } from '../layout.js';
 import { discreteBackdrop, discreteFadeScale, discreteSlide } from '../transitions.js';
 import { Button, type ButtonProps } from './Button.js';
 import { Flow } from './Flow.js';
 import { Heading, type HeadingProps } from './Heading.js';
-import { HStack, type StackProps } from './Stack.js';
-import { Surface, type SurfaceProps } from './Surface.js';
+import { HStack, VStack, type StackProps, type StackVariants } from './Stack.js';
+import { getSurfaceClasses, surfaceRecipe, type SurfaceVariants } from './Surface.js';
 import { Text, type TextProps } from './Text.js';
 
 export type DialogPart = 'title' | 'description' | 'content';
@@ -202,6 +203,8 @@ type DialogSize = 'sm' | 'md' | 'lg' | 'xl' | 'full';
 const dialogRecipe: RecipeFunction<{
   placement: Record<DialogPlacement, StyleRule>;
   size: Record<DialogSize, StyleRule>;
+  bordered: Record<'true' | 'false', StyleRule>;
+  radius: Record<'default' | NonNullable<SurfaceVariants['radius']>, StyleRule>;
 }> = recipe(
   {
     layer: 'components',
@@ -243,8 +246,6 @@ const dialogRecipe: RecipeFunction<{
       placement: {
         center: {
           margin: 'auto',
-          borderWidth: vars.surface.stroke.width,
-          borderRadius: vars.radius.xl,
           maxHeight: 'calc(100dvh - 4rem)',
           ...discreteFadeScale({
             openSelector: '&[open]',
@@ -256,14 +257,6 @@ const dialogRecipe: RecipeFunction<{
           margin: 'auto auto 0 auto',
           maxWidth: '100%',
           maxHeight: '85dvh',
-          borderTopWidth: 1,
-          borderRightWidth: 1,
-          borderBottomWidth: 0,
-          borderLeftWidth: 1,
-          borderTopLeftRadius: vars.radius.xl,
-          borderTopRightRadius: vars.radius.xl,
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
           paddingBottom: 'env(safe-area-inset-bottom)',
           ...discreteSlide({
             openSelector: '&[open]',
@@ -276,11 +269,6 @@ const dialogRecipe: RecipeFunction<{
           height: '100dvh',
           maxHeight: '100dvh',
           maxWidth: '100%',
-          borderTopWidth: 0,
-          borderRightWidth: 0,
-          borderBottomWidth: 0,
-          borderLeftWidth: 1,
-          borderRadius: 0,
           ...discreteSlide({
             openSelector: '&[open]',
             from: 'right',
@@ -292,11 +280,6 @@ const dialogRecipe: RecipeFunction<{
           height: '100dvh',
           maxHeight: '100dvh',
           maxWidth: '100%',
-          borderTopWidth: 0,
-          borderRightWidth: 1,
-          borderBottomWidth: 0,
-          borderLeftWidth: 0,
-          borderRadius: 0,
           ...discreteSlide({
             openSelector: '&[open]',
             from: 'left',
@@ -311,8 +294,69 @@ const dialogRecipe: RecipeFunction<{
         xl: {},
         full: {},
       },
+      bordered: {
+        true: {},
+        false: {},
+      },
+      radius: {
+        default: {},
+        none: {},
+        control: {},
+        md: {},
+        lg: {},
+        xl: {},
+        '2xl': {},
+        full: {},
+        auto: {},
+      },
     },
     compoundVariants: [
+      // Placement default borders (only when bordered)
+      {
+        variants: { placement: 'bottom', bordered: true },
+        style: {
+          borderTopWidth: 1,
+          borderRightWidth: 1,
+          borderBottomWidth: 0,
+          borderLeftWidth: 1,
+        },
+      },
+      {
+        variants: { placement: 'right', bordered: true },
+        style: {
+          borderTopWidth: 0,
+          borderRightWidth: 0,
+          borderBottomWidth: 0,
+          borderLeftWidth: 1,
+        },
+      },
+      {
+        variants: { placement: 'left', bordered: true },
+        style: {
+          borderTopWidth: 0,
+          borderRightWidth: 1,
+          borderBottomWidth: 0,
+          borderLeftWidth: 0,
+        },
+      },
+      // Placement default radii (only when consumer has not set radius)
+      {
+        variants: { placement: 'bottom', radius: 'default' },
+        style: {
+          borderTopLeftRadius: vars.radius.xl,
+          borderTopRightRadius: vars.radius.xl,
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+        },
+      },
+      {
+        variants: { placement: 'right', radius: 'default' },
+        style: { borderRadius: 0 },
+      },
+      {
+        variants: { placement: 'left', radius: 'default' },
+        style: { borderRadius: 0 },
+      },
       // Center modal sizes
       { variants: { placement: 'center', size: 'sm' }, style: { width: 'min(90vw, 400px)' } },
       { variants: { placement: 'center', size: 'md' }, style: { width: 'min(90vw, 560px)' } },
@@ -360,29 +404,42 @@ const dialogRecipe: RecipeFunction<{
     defaultVariants: {
       placement: 'center',
       size: 'md',
+      bordered: true,
+      radius: 'default',
     },
   },
   'dialog-content',
 );
 
-type DialogVariants = RecipeVariants<typeof dialogRecipe>;
+type DialogVariants = Pick<RecipeVariants<typeof dialogRecipe>, 'placement' | 'size'>;
 
-/** Scroll container fitted inside the `<dialog>`; padding, gap and layout come from `Surface`. */
-const dialogScrollStyle = style(
+/** Scroll container fitted inside the `<dialog>`. */
+const dialogScrollRecipe = recipe(
   {
-    flex: '1 1 auto',
-    minHeight: 0,
-    width: '100%',
-    boxSizing: 'border-box',
-    overscrollBehavior: 'contain',
-    scrollbarWidth: 'thin',
+    layer: 'components',
+    extend: [paddingStyles],
+    base: {
+      minHeight: 0,
+      width: '100%',
+      overflow: 'auto',
+      boxSizing: 'border-box',
+      overscrollBehavior: 'contain',
+      scrollbarWidth: 'thin',
+    },
+    defaultVariants: {
+      padding: 'xl',
+    },
   },
-  { prefix: 'dialog-scroll', layer: 'components' },
+  'dialog-scroll',
 );
 
 const DialogPlacementContext = createContext<DialogPlacement>('center');
 
-interface DialogContentProps extends ElementProps<HTMLDialogElement> {
+interface DialogContentProps
+  extends
+    ElementProps<HTMLDialogElement>,
+    Omit<SurfaceVariants, 'padding'>,
+    Omit<StackVariants, 'width'> {
   /**
    * Controls the width of the dialog across all placements (or full viewport when `'full'`).
    * @default 'md'
@@ -395,12 +452,14 @@ interface DialogContentProps extends ElementProps<HTMLDialogElement> {
    */
   placement?: DialogPlacement;
   /**
-   * Props passed through to the inner scrollable `Surface` that wraps the dialog children
-   * (`className`, `ref`, `padding`, `gap`, `align`, ...). The outer `<dialog>` receives the
-   * remaining props.
-   * @default { padding: 'xl', gap: 'md' }
+   * Padding applied to the inner scrollable content container.
+   * @default 'xl'
    */
-  contentProps?: Omit<SurfaceProps, 'as' | 'children'>;
+  padding?: SurfaceVariants['padding'];
+  /**
+   * Additional class name applied to the inner scrollable content container.
+   */
+  contentClassName?: string;
   children?: ReactNode;
 }
 
@@ -408,8 +467,21 @@ function DialogContent({
   id: providedId,
   size = 'md',
   placement = 'center',
+  level,
+  variant,
+  bordered,
+  radius,
+  overflow,
+  padding = 'xl',
+  direction,
+  gap = 'md',
+  align,
+  justify,
+  wrap,
+  inline,
+  flex = 'auto',
   className,
-  contentProps,
+  contentClassName,
   children,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
@@ -457,7 +529,20 @@ function DialogContent({
     }
   }, [open, dialogRef]);
 
-  const classes = dialogRecipe({ placement, size });
+  const classes = dialogRecipe({
+    placement,
+    size,
+    bordered,
+    radius: radius ?? 'default',
+  });
+
+  const surfaceClasses = surfaceRecipe({
+    level,
+    variant,
+    bordered,
+    radius,
+    overflow,
+  });
 
   const mergedRef = useMergeRefs(dialogRef, focusRef, dismissibleRef, ref);
   const resolvedLabelledBy = ariaLabelledby || getPartId('title');
@@ -474,23 +559,23 @@ function DialogContent({
       aria-labelledby={resolvedLabelledBy}
       aria-describedby={resolvedDescribedBy}
       onClose={handleClose}
-      className={cx(classes, className)}
+      className={cx(classes, getSurfaceClasses({ level, variant }), surfaceClasses, className)}
       {...props}
     >
-      <Surface
-        level={0}
-        bordered={false}
-        radius="none"
-        padding="xl"
-        gap="md"
-        overflow="auto"
-        {...contentProps}
-        className={cx(dialogScrollStyle, contentProps?.className)}
+      <VStack
+        direction={direction}
+        gap={gap}
+        align={align}
+        justify={justify}
+        wrap={wrap}
+        inline={inline}
+        flex={flex}
+        className={cx(dialogScrollRecipe({ padding }), contentClassName)}
       >
         <DialogPlacementContext.Provider value={placement}>
           {children}
         </DialogPlacementContext.Provider>
-      </Surface>
+      </VStack>
     </dialog>
   );
 }

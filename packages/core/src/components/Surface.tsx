@@ -5,7 +5,7 @@ import { vars } from '../contract.js';
 import { overflowStyles, paddingStyles, radiusStyles } from '../layout.js';
 import { Stack, type StackProps } from './Stack.js';
 
-const surfaceRecipe = recipe(
+export const surfaceRecipe = recipe(
   {
     layer: 'components',
     extend: [overflowStyles, paddingStyles, radiusStyles],
@@ -75,6 +75,14 @@ export interface SurfaceProps extends Omit<StackProps, 'as'> {
   children?: React.ReactNode;
 }
 
+/** Computes the surface elevation and variant utility class strings. */
+export function getSurfaceClasses({
+  level = 0,
+  variant,
+}: Pick<SurfaceVariants, 'level' | 'variant'> = {}): string {
+  return cx(variant === 'primary' && 'surface-primary', `surface-${level}`);
+}
+
 export function Surface({
   as = 'div',
   level = 1,
@@ -101,12 +109,7 @@ export function Surface({
     <Stack
       as={as}
       ref={ref}
-      className={cx(
-        variant === 'primary' && 'surface-primary',
-        `surface-${level}`,
-        recipeClasses,
-        className,
-      )}
+      className={cx(getSurfaceClasses({ level, variant }), recipeClasses, className)}
       {...props}
     >
       {children}

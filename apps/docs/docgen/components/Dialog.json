@@ -418,6 +418,49 @@
     "Content": {
       "name": "Dialog.Content",
       "props": {
+        "align": {
+          "defaultValue": null,
+          "description": "",
+          "name": "align",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"baseline\" | \"center\" | \"end\" | \"start\" | \"stretch\" | undefined",
+            "value": [
+              {
+                "value": "\"baseline\""
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"end\""
+              },
+              {
+                "value": "\"start\""
+              },
+              {
+                "value": "\"stretch\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "bordered": {
+          "defaultValue": null,
+          "description": "",
+          "name": "bordered",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "| \"false\" \n|  \"true\" \n|  boolean \n|  undefined\n"
+          },
+          "shortPropTypeName": "Union"
+        },
         "className": {
           "defaultValue": null,
           "description": "",
@@ -438,12 +481,10 @@
           },
           "shortPropTypeName": "string | function"
         },
-        "contentProps": {
-          "defaultValue": {
-            "value": "{ padding: 'xl', gap: 'md' }"
-          },
-          "description": "Props passed through to the inner scrollable `Surface` that wraps the dialog children\n(`className`, `ref`, `padding`, `gap`, `align`, ...). The outer `<dialog>` receives the\nremaining props.",
-          "name": "contentProps",
+        "contentClassName": {
+          "defaultValue": null,
+          "description": "Additional class name applied to the inner scrollable content container.",
+          "name": "contentClassName",
           "parent": {
             "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
             "name": "DialogContentProps"
@@ -456,9 +497,265 @@
           ],
           "required": false,
           "type": {
-            "name": "Omit<SurfaceProps, \"children\" | \"as\"> | undefined"
+            "name": "string | undefined"
+          },
+          "shortPropTypeName": null
+        },
+        "direction": {
+          "defaultValue": null,
+          "description": "",
+          "name": "direction",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"column\" | \"column-reverse\" | \"row\" | \"row-reverse\" | undefined",
+            "value": [
+              {
+                "value": "\"column-reverse\""
+              },
+              {
+                "value": "\"column\""
+              },
+              {
+                "value": "\"row-reverse\""
+              },
+              {
+                "value": "\"row\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "flex": {
+          "defaultValue": {
+            "value": "auto"
+          },
+          "description": "",
+          "name": "flex",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | \"initial\" | \"none\" | 1 | undefined",
+            "value": [
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"initial\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "gap": {
+          "defaultValue": {
+            "value": "md"
+          },
+          "description": "",
+          "name": "gap",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xl\" | \"2xs\" | \"3xs\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+            "value": [
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"2xs\""
+              },
+              {
+                "value": "\"3xs\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "inline": {
+          "defaultValue": null,
+          "description": "",
+          "name": "inline",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "| \"false\" \n|  \"true\" \n|  boolean \n|  undefined\n"
           },
           "shortPropTypeName": "Union"
+        },
+        "justify": {
+          "defaultValue": null,
+          "description": "",
+          "name": "justify",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"around\" | \"between\" | \"center\" | \"end\" | \"evenly\" | \"start\" | undefined",
+            "value": [
+              {
+                "value": "\"around\""
+              },
+              {
+                "value": "\"between\""
+              },
+              {
+                "value": "\"center\""
+              },
+              {
+                "value": "\"end\""
+              },
+              {
+                "value": "\"evenly\""
+              },
+              {
+                "value": "\"start\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "level": {
+          "defaultValue": null,
+          "description": "",
+          "name": "level",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "0 | 1 | 2 | undefined",
+            "value": [
+              {
+                "value": "0"
+              },
+              {
+                "value": "1"
+              },
+              {
+                "value": "2"
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "overflow": {
+          "defaultValue": null,
+          "description": "",
+          "name": "overflow",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"auto\" | \"hidden\" | \"scroll\" | \"visible\" | undefined",
+            "value": [
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"hidden\""
+              },
+              {
+                "value": "\"scroll\""
+              },
+              {
+                "value": "\"visible\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "padding": {
+          "defaultValue": {
+            "value": "xl"
+          },
+          "description": "Padding applied to the inner scrollable content container.",
+          "name": "padding",
+          "parent": {
+            "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+            "name": "DialogContentProps"
+          },
+          "declarations": [
+            {
+              "fileName": "cumulo/packages/core/src/components/Dialog.tsx",
+              "name": "DialogContentProps"
+            }
+          ],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xl\" | \"lg\" | \"md\" | \"none\" | \"sm\" | \"xl\" | \"xs\" | undefined",
+            "value": [
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"sm\""
+              },
+              {
+                "value": "\"xl\""
+              },
+              {
+                "value": "\"xs\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
         },
         "placement": {
           "defaultValue": {
@@ -492,6 +789,47 @@
               },
               {
                 "value": "\"right\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "radius": {
+          "defaultValue": null,
+          "description": "",
+          "name": "radius",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"2xl\" | \"auto\" | \"control\" | \"full\" | \"lg\" | \"md\" | \"none\" | \"xl\" | undefined",
+            "value": [
+              {
+                "value": "\"2xl\""
+              },
+              {
+                "value": "\"auto\""
+              },
+              {
+                "value": "\"control\""
+              },
+              {
+                "value": "\"full\""
+              },
+              {
+                "value": "\"lg\""
+              },
+              {
+                "value": "\"md\""
+              },
+              {
+                "value": "\"none\""
+              },
+              {
+                "value": "\"xl\""
               },
               {
                 "value": "undefined"
@@ -551,6 +889,55 @@
               },
               {
                 "value": "\"xl\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "variant": {
+          "defaultValue": null,
+          "description": "",
+          "name": "variant",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"default\" | \"primary\" | undefined",
+            "value": [
+              {
+                "value": "\"default\""
+              },
+              {
+                "value": "\"primary\""
+              },
+              {
+                "value": "undefined"
+              }
+            ]
+          },
+          "shortPropTypeName": null
+        },
+        "wrap": {
+          "defaultValue": null,
+          "description": "",
+          "name": "wrap",
+          "declarations": [],
+          "required": false,
+          "type": {
+            "name": "enum",
+            "raw": "\"nowrap\" | \"wrap\" | \"wrap-reverse\" | undefined",
+            "value": [
+              {
+                "value": "\"nowrap\""
+              },
+              {
+                "value": "\"wrap-reverse\""
+              },
+              {
+                "value": "\"wrap\""
               },
               {
                 "value": "undefined"
