@@ -1,3 +1,5 @@
+import type { BreakpointMap } from '@cumulo/css';
+
 export interface CumuloThemeOptions {
   /**
    * Path to a custom CSS file containing theme overrides (e.g. './src/styles.css').
@@ -17,6 +19,13 @@ export interface CumuloThemeOptions {
    * Optional path to a custom base canonical `theme.css`.
    */
   baseCss?: string;
+}
+
+export interface CumuloResponsiveSafelist {
+  /** Breakpoint/condition keys whose responsive rules should always be retained (e.g. `['md', 'lg']`). */
+  breakpoints?: readonly string[];
+  /** Variant names whose responsive rules should always be retained (e.g. `['gap', 'direction']`). */
+  variants?: readonly string[];
 }
 
 export interface CumuloPluginOptions {
@@ -44,4 +53,23 @@ export interface CumuloPluginOptions {
    * configured custom theme stylesheet changes during builds or watch mode.
    */
   theme?: CumuloThemeOptions;
+  /**
+   * Breakpoints or custom container queries registered globally in `@cumulo/css` before
+   * evaluating modules (e.g. `{ sm: '@media (min-width: 640px)', cardWide: '@container card (min-width: 600px)' }`).
+   *
+   * When omitted and `theme` is configured, breakpoints are automatically extracted from
+   * `--theme-breakpoint-*` tokens in the theme stylesheet.
+   */
+  breakpoints?: BreakpointMap;
+  /**
+   * Conservatively prune provably unused responsive variant CSS rules in production builds
+   * and PostCSS output by scanning project source files.
+   * Default: `true`.
+   */
+  pruneResponsive?: boolean;
+  /**
+   * Optional safelist of breakpoint keys or variant names to always retain when
+   * `pruneResponsive` is enabled.
+   */
+  responsiveSafelist?: CumuloResponsiveSafelist;
 }

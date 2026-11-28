@@ -1,4 +1,4 @@
-@layer reset, base, components, utilities;
+@layer reset, base, components, responsive, utilities;
 
 @layer reset {
   /* Box sizing & margin reset */
@@ -123,6 +123,13 @@
     --theme-container-lg: 1024px;
     --theme-container-xl: 1280px;
     --theme-container-2xl: 1440px;
+
+    /* Breakpoints (matching container sizes) */
+    --theme-breakpoint-sm: 640px;
+    --theme-breakpoint-md: 768px;
+    --theme-breakpoint-lg: 1024px;
+    --theme-breakpoint-xl: 1280px;
+    --theme-breakpoint-2xl: 1440px;
 
     /* Common spacing */
     --theme-spacing-none: 0px;

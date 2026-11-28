@@ -6,6 +6,7 @@ import { handleGenerateTheme } from './commands/generateTheme.js';
 export {
   generateTheme,
   runThemeGeneration,
+  extractBreakpointsFromVars,
   type GeneratedThemeResult,
   type GenerateThemeOptions,
 } from './themeGenerator.js';

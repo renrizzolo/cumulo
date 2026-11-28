@@ -179,4 +179,62 @@ describe('PostCSS Cumulo plugin', () => {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
   });
+
+  it('prunes unused responsive CSS rules while preserving used Stack responsive variants and custom theme breakpoints', async () => {
+    const fs = await import('node:fs');
+    const os = await import('node:os');
+    const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cumulo-postcss-responsive-'));
+    const srcDir = path.join(tempDir, 'src');
+    fs.mkdirSync(srcDir, { recursive: true });
+    fs.writeFileSync(
+      path.join(srcDir, 'styles.css'),
+      `:root {\n  --theme-breakpoint-md: 800px;\n}\n`,
+      'utf-8',
+    );
+    fs.writeFileSync(
+      path.join(srcDir, 'Page.tsx'),
+      `import { Stack } from '@cumulo/core/components/Stack';
+export default function Page() {
+  return <Stack direction={{ initial: 'column', md: 'row' }} gap={{ initial: 'sm', lg: 'xl' }} />;
+}
+`,
+      'utf-8',
+    );
+
+    const originalCwd = process.cwd();
+    try {
+      process.chdir(tempDir);
+      const plugin = cumuloPostcss({
+        theme: {
+          css: './src/styles.css',
+          out: './src/vars.ts',
+        },
+      });
+
+      let appendedCss = '';
+      await plugin.Once(
+        {
+          append(css: string): void {
+            appendedCss += css;
+          },
+          walk(): void {},
+        },
+        { result: { opts: { from: 'globals.css' }, messages: [] } },
+      );
+
+      // Uses custom overridden md breakpoint (800px) and default lg breakpoint (1024px)
+      expect(appendedCss).toContain('@media (min-width: 800px)');
+      expect(appendedCss).toContain('@media (min-width: 1024px)');
+      expect(appendedCss).toContain('flex-direction:row');
+      expect(appendedCss).toContain('gap:var(--theme-spacing-xl)');
+
+      // Unused breakpoints sm (640px), xl (1280px), 2xl (1440px) must be pruned completely
+      expect(appendedCss).not.toContain('@media (min-width: 640px)');
+      expect(appendedCss).not.toContain('@media (min-width: 1280px)');
+      expect(appendedCss).not.toContain('@media (min-width: 1440px)');
+    } finally {
+      process.chdir(originalCwd);
+      fs.rmSync(tempDir, { recursive: true, force: true });
+    }
+  });
 });

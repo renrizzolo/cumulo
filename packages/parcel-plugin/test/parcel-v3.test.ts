@@ -939,4 +939,113 @@ document.body.style.color = accentToken;
     expect(allJs).not.toContain('--theme-spacing-md');
     expect(allJs).not.toContain('compileStyleRule');
   }, 60000);
+
+  it('registers custom breakpoints from package.json and compiles responsiveVariants in Parcel v3', () => {
+    const dir = path.join(TEMP_ROOT, 'responsive-breakpoints-app');
+    const srcDir = path.join(dir, 'src');
+    const distDir = path.join(dir, 'dist');
+    cleanDir(dir);
+    fs.mkdirSync(srcDir, { recursive: true });
+    setupFixtureNodeModules(dir);
+
+    fs.writeFileSync(
+      path.join(dir, 'package.json'),
+      JSON.stringify(
+        {
+          name: 'parcel-v3-responsive-fixture',
+          private: true,
+          type: 'module',
+          '@cumulo/parcel-plugin': {
+            breakpoints: {
+              tablet: '@media (min-width: 720px)',
+              cardWide: '@container card (min-width: 520px)',
+            },
+          },
+        },
+        null,
+        2,
+      ),
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(dir, '.parcelrc'),
+      JSON.stringify(
+        {
+          extends: '@parcel/config-default',
+          transformers: {
+            '*.{js,mjs,jsx,ts,tsx}': ['@cumulo/parcel-plugin', '...', '@cumulo/parcel-plugin'],
+            'cumulo-css:*': ['@cumulo/parcel-plugin'],
+          },
+        },
+        null,
+        2,
+      ),
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'Layout.ts'),
+      `import { recipe } from '@cumulo/css';
+
+export const layoutRecipe = recipe(
+  {
+    layer: 'components',
+    responsiveVariants: ['direction', 'gap'],
+    variants: {
+      direction: {
+        column: { flexDirection: 'column' },
+        row: { flexDirection: 'row' },
+      },
+      gap: {
+        xs: { gap: '4px' },
+        lg: { gap: '24px' },
+      },
+    },
+    defaultVariants: {
+      direction: 'column',
+      gap: 'lg',
+    },
+  },
+  'p3-resp',
+);
+`,
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'entry.ts'),
+      `import { layoutRecipe } from './Layout';
+
+document.body.className = layoutRecipe({
+  direction: { initial: 'column', tablet: 'row' },
+  gap: { initial: 'lg', cardWide: 'xs' },
+});
+`,
+      'utf-8',
+    );
+
+    fs.writeFileSync(
+      path.join(srcDir, 'index.html'),
+      `<!DOCTYPE html><html><head></head><body><script type="module" src="./entry.ts"></script></body></html>`,
+      'utf-8',
+    );
+
+    runParcelBuild(['src/index.html', '--dist-dir', distDir], dir);
+
+    const allCss = collectFilesByExt(distDir, '.css')
+      .map((f) => fs.readFileSync(f, 'utf-8'))
+      .join('\n');
+    expect(allCss).toContain('720px');
+    expect(allCss).toContain('520px');
+    expect(allCss).toContain('responsive.bp-tablet');
+    expect(allCss).toContain('responsive.bp-cardWide');
+
+    const allJs = collectFilesByExt(distDir, '.js')
+      .map((f) => fs.readFileSync(f, 'utf-8'))
+      .join('\n');
+    expect(allJs).toContain('tablet');
+    expect(allJs).toContain('cardWide');
+    expect(allJs).not.toContain('compileStyleRule');
+  }, 60000);
 });

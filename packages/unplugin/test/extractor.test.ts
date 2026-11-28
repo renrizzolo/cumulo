@@ -457,4 +457,83 @@ export function readSpacing() {
     expect(runtimeImportIdx).toBeGreaterThan(directiveIdx);
     expect(rewritten).toContain('__cumuloStyle(');
   });
+
+  it('extractAndRewrite registers custom breakpoints and serializes responsive recipe config', async () => {
+    const code = `
+import { recipe } from '@cumulo/css';
+
+export const layout = recipe({
+  layer: 'components',
+  responsiveVariants: ['gap', 'direction'],
+  variants: {
+    gap: {
+      xs: { gap: '4px' },
+      lg: { gap: '24px' },
+    },
+    direction: {
+      row: { flexDirection: 'row' },
+      column: { flexDirection: 'column' },
+    },
+  },
+  defaultVariants: {
+    direction: 'column',
+  },
+}, 'resp-test');
+`;
+
+    const result = await extractAndRewrite(code, 'ResponsiveDemo.tsx', {
+      tablet: '@media (min-width: 720px)',
+      cardWide: '@container card (min-width: 520px)',
+    });
+
+    expect(result.css).toContain('@media (min-width: 720px)');
+    expect(result.css).toContain('@container card (min-width: 520px)');
+    expect(result.css).toContain('@layer responsive.bp-tablet, responsive.bp-cardWide;');
+    expect(result.responsiveRules?.length).toBe(8);
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+    expect(rewritten).toContain('__cumuloRecipe(');
+    expect(rewritten).toContain('"responsive":');
+    expect(rewritten).toContain('"tablet":');
+    expect(rewritten).toContain('"cardWide":');
+    expect(rewritten).not.toContain("from '@cumulo/css'");
+  });
+
+  it('extractAndRewrite supports passing vars.breakpoint to recipe() and inlines vars.breakpoint.md leaves', async () => {
+    const code = `
+import { vars } from '@cumulo/core/contract';
+import { recipe } from '@cumulo/css';
+
+export const stack = recipe({
+  layer: 'components',
+  breakpoints: {
+    ...vars.breakpoint,
+    cardWide: '@container card (min-width: 500px)',
+  },
+  responsiveVariants: {
+    direction: ['md', 'cardWide'],
+  },
+  variants: {
+    direction: {
+      column: { flexDirection: 'column' },
+      row: { flexDirection: 'row' },
+    },
+  },
+}, 'vars-bp');
+
+export function getMdQuery(): string {
+  return \`(min-width: \${vars.breakpoint.md})\`;
+}
+`;
+
+    const result = await extractAndRewrite(code, 'VarsBreakpointDemo.tsx');
+    expect(result.css).toContain('@media (min-width: 768px)');
+    expect(result.css).toContain('@container card (min-width: 500px)');
+
+    expect(result.code).toBeDefined();
+    const rewritten = result.code ?? '';
+    expect(rewritten).toContain('"768px"');
+    expect(rewritten).not.toContain("from '@cumulo/core/contract'");
+    expect(rewritten).not.toContain("from '@cumulo/css'");
+  });
 });

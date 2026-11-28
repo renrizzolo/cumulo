@@ -24,6 +24,7 @@ const gridRecipe = recipe(
         minColumnWidth: '220px',
       }),
     },
+    responsiveVariants: ['columns', 'gap', 'padding', 'align', 'justify'],
     variants: {
       columns: {
         1: { gridTemplateColumns: 'repeat(1, minmax(0, 1fr))' },
@@ -70,6 +71,7 @@ const gridItemRecipe = recipe(
     base: {
       minWidth: 0,
     },
+    responsiveVariants: ['colSpan', 'rowSpan'],
     variants: {
       colSpan: {
         1: { gridColumn: 'span 1 / span 1' },

@@ -12,7 +12,8 @@ use parcel_plugin::{
   Asset, AssetFlags, BuildMode, Config, DependencyFlags, DependencyOptions, Diagnostic, ImportType,
   LogLevel, Options, Plugin, SpecifierType, register_plugin,
 };
-use serde::{Deserialize, Serialize};
+use serde::de::{self, MapAccess, Visitor};
+use serde::{Deserialize, Deserializer, Serialize};
 
 const PACKAGE_NAME: &str = "@cumulo/parcel-plugin";
 const CSS_PIPELINE: &str = "cumulo-css";
@@ -33,6 +34,74 @@ const CUMULO_CONTRACT_SPECIFIERS: &[&str] = &[
 ];
 const CUMULO_CORE_SPECIFIERS: &[&str] = &["'@cumulo/core'", "\"@cumulo/core\""];
 
+fn deserialize_ordered_breakpoints<'de, D>(
+  deserializer: D,
+) -> Result<Option<Vec<(String, String)>>, D::Error>
+where
+  D: Deserializer<'de>,
+{
+  struct OrderedMapVisitor;
+
+  impl<'de> Visitor<'de> for OrderedMapVisitor {
+    type Value = Vec<(String, String)>;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+      formatter.write_str("a JSON object mapping breakpoint names to query strings")
+    }
+
+    fn visit_map<M>(self, mut access: M) -> Result<Self::Value, M::Error>
+    where
+      M: MapAccess<'de>,
+    {
+      let mut entries = Vec::with_capacity(access.size_hint().unwrap_or(0));
+      while let Some((key, value)) = access.next_entry::<String, String>()? {
+        entries.push((key, value));
+      }
+      Ok(entries)
+    }
+  }
+
+  struct OptionVisitor;
+
+  impl<'de> Visitor<'de> for OptionVisitor {
+    type Value = Option<Vec<(String, String)>>;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+      formatter.write_str("an optional breakpoint map")
+    }
+
+    fn visit_none<E>(self) -> Result<Self::Value, E>
+    where
+      E: de::Error,
+    {
+      Ok(None)
+    }
+
+    fn visit_unit<E>(self) -> Result<Self::Value, E>
+    where
+      E: de::Error,
+    {
+      Ok(None)
+    }
+
+    fn visit_some<D2>(self, deserializer: D2) -> Result<Self::Value, D2::Error>
+    where
+      D2: Deserializer<'de>,
+    {
+      deserializer.deserialize_map(OrderedMapVisitor).map(Some)
+    }
+
+    fn visit_map<M>(self, access: M) -> Result<Self::Value, M::Error>
+    where
+      M: MapAccess<'de>,
+    {
+      OrderedMapVisitor.visit_map(access).map(Some)
+    }
+  }
+
+  deserializer.deserialize_option(OptionVisitor)
+}
+
 #[derive(Debug, Clone, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 struct ThemeConfig {
@@ -52,6 +121,8 @@ struct PluginConfig {
   exclude: Vec<String>,
   #[serde(default)]
   theme: Option<ThemeConfig>,
+  #[serde(default, deserialize_with = "deserialize_ordered_breakpoints")]
+  breakpoints: Option<Vec<(String, String)>>,
 }
 
 #[derive(Debug, Default, Clone, Deserialize)]
@@ -66,6 +137,8 @@ struct ExtractRequest<'a> {
   file_path: &'a str,
   code: &'a str,
   project_root: &'a str,
+  #[serde(skip_serializing_if = "Option::is_none")]
+  breakpoints: Option<&'a [(String, String)]>,
 }
 
 #[derive(Debug, Serialize)]
@@ -172,6 +245,7 @@ impl ExtractorWorker {
     file_path: &Path,
     code: &str,
     project_root: &Path,
+    breakpoints: Option<&[(String, String)]>,
   ) -> Result<ExtractResponse, String> {
     let file_path_str = file_path.to_string_lossy();
     let project_root_str = project_root.to_string_lossy();
@@ -180,6 +254,7 @@ impl ExtractorWorker {
       file_path: &file_path_str,
       code,
       project_root: &project_root_str,
+      breakpoints,
     };
 
     let payload = serde_json::to_string(&request)
@@ -267,6 +342,7 @@ impl CumuloPlugin {
         pkg_config.exclude
       },
       theme: inline.theme.or(pkg_config.theme),
+      breakpoints: inline.breakpoints.or(pkg_config.breakpoints),
     };
 
     Ok(Self {
@@ -405,7 +481,12 @@ impl CumuloPlugin {
       }
 
       if let Some(worker) = guard.as_mut() {
-        match worker.extract(file_path, code, &self.project_root) {
+        match worker.extract(
+          file_path,
+          code,
+          &self.project_root,
+          self.config.breakpoints.as_deref(),
+        ) {
           Ok(response) => return Ok(response),
           Err(err) => {
             *guard = None;
@@ -1007,6 +1088,7 @@ mod tests {
       include: vec!["custom-styles".to_owned()],
       exclude: vec!["ignored.tsx".to_owned()],
       theme: None,
+      breakpoints: None,
     };
 
     assert!(!should_process_file(
@@ -1079,6 +1161,40 @@ mod tests {
     assert_eq!(theme.out, "./src/vars.ts");
     assert!(theme.include_custom_vars);
     assert_eq!(theme.base_css, None);
+  }
+
+  #[test]
+  fn test_deserialize_ordered_breakpoints() {
+    let pkg: PackageJson = serde_json::from_str(
+      r#"{
+        "@cumulo/parcel-plugin": {
+          "breakpoints": {
+            "sm": "@media (min-width: 640px)",
+            "md": "768px",
+            "lg": "@media (min-width: 1024px)",
+            "cardWide": "@container card (min-width: 600px)"
+          }
+        }
+      }"#,
+    )
+    .expect("valid package.json breakpoints config");
+
+    let breakpoints = pkg
+      .plugin_config
+      .and_then(|cfg| cfg.breakpoints)
+      .expect("breakpoints config");
+    assert_eq!(
+      breakpoints,
+      vec![
+        ("sm".to_owned(), "@media (min-width: 640px)".to_owned()),
+        ("md".to_owned(), "768px".to_owned()),
+        ("lg".to_owned(), "@media (min-width: 1024px)".to_owned()),
+        (
+          "cardWide".to_owned(),
+          "@container card (min-width: 600px)".to_owned()
+        ),
+      ]
+    );
   }
 }
 

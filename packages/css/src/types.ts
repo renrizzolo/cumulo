@@ -87,7 +87,7 @@ export type StyleDefinitions<Keys extends string = string> = Record<Keys, StyleR
  * Cascade layer name. The canonical Cumulo layers (see {@link LAYER_ORDER}) autocomplete,
  * while custom layer names remain allowed.
  */
-export type CssLayer = 'reset' | 'base' | 'components' | 'utilities' | (string & {});
+export type CssLayer = 'reset' | 'base' | 'components' | 'responsive' | 'utilities' | (string & {});
 
 export interface StyleOptions {
   /** Class name prefix (default `'c'`). */

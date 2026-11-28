@@ -1,7 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { extractCssFromFile, shouldProcessFile } from './core/extractor.js';
+import {
+  DEFAULT_BREAKPOINTS,
+  LAYER_ORDER_STATEMENT,
+  formatResponsiveCss,
+  type BreakpointMap,
+  type ResponsiveRuleEntry,
+} from '@cumulo/css';
+
+import { extractCss, shouldProcessFile } from './core/extractor.js';
+import { createResponsiveUsageTracker } from './core/responsivePruner.js';
 import { syncThemeContract } from './core/themeSync.js';
 import type { CumuloPluginOptions } from './types.js';
 
@@ -40,9 +49,13 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
     postcssPlugin: 'cumulo-postcss',
     async Once(root: PostcssRoot, helpers: { result: PostcssResult }): Promise<void> {
       const cwd = process.cwd();
+      let activeBreakpoints: BreakpointMap | undefined = options.breakpoints;
 
       if (options.theme) {
         const synced = await syncThemeContract(options.theme, cwd);
+        if (!activeBreakpoints) {
+          activeBreakpoints = synced.breakpoints;
+        }
         helpers.result.messages.push({
           type: 'dependency',
           plugin: 'cumulo-postcss',
@@ -78,10 +91,12 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
       }
 
       const uniqueFiles = Array.from(new Set(matchedFiles));
-      const extractedRules = new Set<string>();
+      const pruneResponsive = options.pruneResponsive !== false;
+      const usageTracker = createResponsiveUsageTracker(
+        Object.keys(activeBreakpoints ?? DEFAULT_BREAKPOINTS),
+      );
 
       const filesToProcess: string[] = [];
-
       const cumuloCoreImportRe = /['"]@cumulo\/core(?:\/[^'"]*)?['"]/;
 
       for (const file of uniqueFiles) {
@@ -93,6 +108,10 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
         }
 
         const isExcluded = shouldExclude(file);
+        if (pruneResponsive && !isExcluded && /\.(tsx?|jsx?|mjs|cjs)$/.test(file)) {
+          usageTracker.scanSource(code, file);
+        }
+
         const importsCoreComponent =
           !isExcluded && /\.(tsx?|jsx?|mjs|cjs)$/.test(file) && cumuloCoreImportRe.test(code);
 
@@ -111,26 +130,99 @@ function cumuloPostcss(options: CumuloPostcssOptions = {}): PostcssPlugin {
       }
 
       const extractedResults = await Promise.all(
-        filesToProcess.map((file) => extractCssFromFile(file)),
+        filesToProcess.map((file) =>
+          extractCss({
+            filePath: file,
+            rewrite: false,
+            breakpoints: activeBreakpoints,
+          }),
+        ),
       );
 
-      for (const css of extractedResults) {
-        if (css) {
-          const rules = css.split('\n');
-          for (const rule of rules) {
+      const extractedBaseRules = new Set<string>();
+      const responsiveRuleMap = new Map<string, ResponsiveRuleEntry>();
+      const conditionOrder: string[] = [];
+      const conditionOrderSet = new Set<string>();
+
+      for (const key of Object.keys(activeBreakpoints ?? DEFAULT_BREAKPOINTS)) {
+        if (!conditionOrderSet.has(key)) {
+          conditionOrderSet.add(key);
+          conditionOrder.push(key);
+        }
+      }
+
+      for (const extracted of extractedResults) {
+        const baseCss = extracted.baseCss ?? extracted.css;
+        if (baseCss) {
+          for (const rule of baseCss.split('\n')) {
             const trimmed = rule.trim();
-            if (trimmed) {
-              extractedRules.add(trimmed);
+            if (trimmed && trimmed !== LAYER_ORDER_STATEMENT) {
+              extractedBaseRules.add(trimmed);
+            }
+          }
+        }
+
+        if (extracted.conditionOrder) {
+          for (const key of extracted.conditionOrder) {
+            if (!conditionOrderSet.has(key)) {
+              conditionOrderSet.add(key);
+              conditionOrder.push(key);
+            }
+          }
+        }
+
+        if (extracted.responsiveRules) {
+          for (const entry of extracted.responsiveRules) {
+            const existing = responsiveRuleMap.get(entry.className);
+            if (!existing) {
+              responsiveRuleMap.set(entry.className, {
+                ...entry,
+                usages: [...entry.usages],
+              });
+            } else {
+              const mergedUsages = [...existing.usages];
+              for (const u of entry.usages) {
+                if (
+                  !mergedUsages.some(
+                    (prev) =>
+                      prev.variantName === u.variantName && prev.optionName === u.optionName,
+                  )
+                ) {
+                  mergedUsages.push(u);
+                }
+              }
+              responsiveRuleMap.set(entry.className, {
+                ...existing,
+                usages: mergedUsages,
+              });
             }
           }
         }
       }
 
-      if (extractedRules.size === 0) {
+      const keptResponsiveEntries = Array.from(responsiveRuleMap.values()).filter(
+        (entry) => !pruneResponsive || usageTracker.isRuleUsed(entry, options.responsiveSafelist),
+      );
+
+      const responsiveCss = formatResponsiveCss(keptResponsiveEntries, conditionOrder);
+      const baseCssJoined = Array.from(extractedBaseRules).join('\n');
+
+      const combinedParts: string[] = [];
+      if (baseCssJoined) {
+        combinedParts.push(baseCssJoined);
+      }
+      if (responsiveCss) {
+        combinedParts.push(responsiveCss);
+      }
+
+      if (combinedParts.length === 0) {
         return;
       }
 
-      const combinedCss = Array.from(extractedRules).join('\n');
+      let combinedCss = combinedParts.join('\n');
+      if (combinedCss.includes('@layer ') && !combinedCss.startsWith(LAYER_ORDER_STATEMENT)) {
+        combinedCss = `${LAYER_ORDER_STATEMENT}\n${combinedCss}`;
+      }
 
       root.walk((node: PostcssNode): void => {
         if (node.type === 'atrule') {

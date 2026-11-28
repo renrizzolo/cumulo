@@ -57,6 +57,18 @@ export const vars = {
     /** 1440px */
     '2xl': 'var(--theme-container-2xl)',
   },
+  breakpoint: {
+    /** @media (min-width: 640px) */
+    sm: '640px',
+    /** @media (min-width: 768px) */
+    md: '768px',
+    /** @media (min-width: 1024px) */
+    lg: '1024px',
+    /** @media (min-width: 1280px) */
+    xl: '1280px',
+    /** @media (min-width: 1440px) */
+    '2xl': '1440px',
+  },
   spacing: {
     /** 0px */
     none: 'var(--theme-spacing-none)',
@@ -748,9 +760,10 @@ Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
 });
 
 export type ThemeVars = typeof vars;
+export type ThemeBreakpoints = ThemeVars['breakpoint'];
 
 // union of all the var values ("var(--surface-primary-hover)")
-export type VarValue<T = ThemeVars> = T extends string
+export type VarValue<T = ThemeVars> = T extends `var(--${string})`
   ? T
   : T extends Record<string, unknown>
     ? VarValue<T[keyof T]>
