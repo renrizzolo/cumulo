@@ -1,5 +1,16 @@
 # @cumulo/unplugin
 
+## 0.2.0-alpha.4
+
+### Minor Changes
+
+- af6dde5: Prepend the canonical `@layer` order declaration (`LAYER_ORDER_STATEMENT`) to extracted CSS containing `@layer` rules so cascade layer precedence is preserved regardless of stylesheet import order.
+
+### Patch Changes
+
+- Updated dependencies [af6dde5]
+  - @cumulo/css@0.2.0-alpha.4
+
 ## 0.2.0-alpha.3
 
 ### Patch Changes

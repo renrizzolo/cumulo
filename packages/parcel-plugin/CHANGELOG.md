@@ -1,5 +1,14 @@
 # @cumulo/parcel-plugin
 
+## 0.2.0-alpha.4
+
+### Patch Changes
+
+- Updated dependencies [af6dde5]
+- Updated dependencies [af6dde5]
+  - @cumulo/css@0.2.0-alpha.4
+  - @cumulo/unplugin@0.2.0-alpha.4
+
 ## 0.2.0-alpha.3
 
 ### Patch Changes
