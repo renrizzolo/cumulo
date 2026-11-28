@@ -1,5 +1,6 @@
 import path from 'node:path';
 
+import { DEFAULT_BREAKPOINTS, type BreakpointMap, type ResponsiveRuleEntry } from '@cumulo/css';
 import { createUnplugin } from 'unplugin';
 
 import {
@@ -8,10 +9,15 @@ import {
   extractCssFromFile,
   extractAndRewrite,
 } from './core/extractor.js';
+import {
+  createResponsiveUsageTracker,
+  pruneDeadResponsiveClasses,
+  type ResponsiveUsageTracker,
+} from './core/responsivePruner.js';
 import { syncThemeContract } from './core/themeSync.js';
 import type { CumuloPluginOptions } from './types.js';
 
-export * from './types.js';
+export type { CumuloPluginOptions, CumuloResponsiveSafelist, CumuloThemeOptions } from './types.js';
 export {
   shouldProcessFile,
   extractCssFromCode,
@@ -22,28 +28,126 @@ export {
 
 const VIRTUAL_CSS_SUFFIX = '.cumulo.css';
 const cssMap = new Map<string, string>();
+const JS_SOURCE_EXT_RE = /\.(tsx?|jsx?|mjs|cjs)$/;
 
 const normalizeId = (id: string): string =>
   id.replace(/^\0/, '').replace(/\\/g, '/').split('?')[0] || '';
+
+function isScannableUserSource(id: string): boolean {
+  const clean = normalizeId(id);
+  if (!clean || clean.includes('node_modules') || clean.endsWith('.cumulo.css')) {
+    return false;
+  }
+  return JS_SOURCE_EXT_RE.test(clean);
+}
+
+interface RollupAssetChunk {
+  type?: string;
+  fileName?: string;
+  source?: string | Uint8Array;
+}
+
+function isRollupCssAsset(value: unknown): value is RollupAssetChunk & { source: string } {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'type' in value &&
+    value.type === 'asset' &&
+    'fileName' in value &&
+    typeof value.fileName === 'string' &&
+    value.fileName.endsWith('.css') &&
+    'source' in value &&
+    typeof value.source === 'string'
+  );
+}
 
 export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
   (options: CumuloPluginOptions | undefined = {}) => {
     const virtualModuleId = options?.virtualModuleId;
     const virtualSuffix = virtualModuleId || VIRTUAL_CSS_SUFFIX;
     const themeOptions = options?.theme;
+    const pruneResponsive = options?.pruneResponsive !== false;
+    const safelist = options?.responsiveSafelist;
+
+    let activeBreakpoints: BreakpointMap | undefined = options?.breakpoints;
+    let isDevServer = false;
+    let usageTracker: ResponsiveUsageTracker = createResponsiveUsageTracker(
+      Object.keys(activeBreakpoints ?? DEFAULT_BREAKPOINTS),
+    );
+    const emittedResponsiveRules = new Map<string, ResponsiveRuleEntry>();
+
+    const recordResponsiveRules = (entries?: readonly ResponsiveRuleEntry[]): void => {
+      if (!entries) return;
+      for (const entry of entries) {
+        const existing = emittedResponsiveRules.get(entry.className);
+        if (!existing) {
+          emittedResponsiveRules.set(entry.className, {
+            ...entry,
+            usages: [...entry.usages],
+          });
+          continue;
+        }
+        const mergedUsages = [...existing.usages];
+        for (const u of entry.usages) {
+          if (
+            !mergedUsages.some(
+              (prev) => prev.variantName === u.variantName && prev.optionName === u.optionName,
+            )
+          ) {
+            mergedUsages.push(u);
+          }
+        }
+        emittedResponsiveRules.set(entry.className, {
+          ...existing,
+          usages: mergedUsages,
+        });
+      }
+    };
+
+    const computeDeadResponsiveClasses = (): Set<string> => {
+      const dead = new Set<string>();
+      if (!pruneResponsive || isDevServer || emittedResponsiveRules.size === 0) {
+        return dead;
+      }
+      for (const [className, entry] of emittedResponsiveRules) {
+        if (!usageTracker.isRuleUsed(entry, safelist)) {
+          dead.add(className);
+        }
+      }
+      return dead;
+    };
+
+    const pruneRollupBundle = (_outputOptions: unknown, bundle: Record<string, unknown>): void => {
+      const deadClasses = computeDeadResponsiveClasses();
+      if (deadClasses.size === 0) {
+        return;
+      }
+      for (const chunk of Object.values(bundle)) {
+        if (isRollupCssAsset(chunk)) {
+          chunk.source = pruneDeadResponsiveClasses(chunk.source, deadClasses);
+        }
+      }
+    };
 
     return {
       name: 'cumulo-unplugin',
       enforce: 'pre',
 
       async buildStart() {
-        if (!themeOptions) {
-          return;
+        emittedResponsiveRules.clear();
+        if (themeOptions) {
+          const result = await syncThemeContract(themeOptions);
+          if (typeof this.addWatchFile === 'function') {
+            this.addWatchFile(result.cssPath);
+          }
+          activeBreakpoints = options?.breakpoints ?? result.breakpoints;
+        } else {
+          activeBreakpoints = options?.breakpoints;
         }
-        const result = await syncThemeContract(themeOptions);
-        if (typeof this.addWatchFile === 'function') {
-          this.addWatchFile(result.cssPath);
-        }
+
+        usageTracker = createResponsiveUsageTracker(
+          Object.keys(activeBreakpoints ?? DEFAULT_BREAKPOINTS),
+        );
       },
 
       async watchChange(id: string) {
@@ -51,7 +155,8 @@ export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
           return;
         }
         if (path.resolve(id) === path.resolve(themeOptions.css)) {
-          await syncThemeContract(themeOptions);
+          const result = await syncThemeContract(themeOptions);
+          activeBreakpoints = options?.breakpoints ?? result.breakpoints;
         }
       },
 
@@ -80,11 +185,16 @@ export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
       },
 
       async transform(code: string, id: string) {
+        if (pruneResponsive && !isDevServer && isScannableUserSource(id)) {
+          usageTracker.scanSource(code, normalizeId(id));
+        }
+
         if (!shouldProcessFile(code, id, options)) {
           return null;
         }
 
-        const result = await extractAndRewrite(code, id);
+        const result = await extractAndRewrite(code, id, activeBreakpoints);
+        recordResponsiveRules(result.responsiveRules);
 
         if (!result.css && !result.code) {
           return null;
@@ -112,6 +222,57 @@ export const unplugin = createUnplugin<CumuloPluginOptions | undefined, false>(
           code: transformedCode,
           map: null,
         };
+      },
+
+      vite: {
+        configureServer() {
+          isDevServer = true;
+        },
+        generateBundle: {
+          order: 'post',
+          handler: pruneRollupBundle,
+        },
+      },
+
+      rollup: {
+        generateBundle: {
+          order: 'post',
+          handler: pruneRollupBundle,
+        },
+      },
+
+      webpack(compiler) {
+        const stage = compiler.webpack?.Compilation?.PROCESS_ASSETS_STAGE_OPTIMIZE_SIZE;
+        if (stage === undefined) {
+          return;
+        }
+        compiler.hooks.thisCompilation.tap('cumulo-unplugin-prune', (compilation) => {
+          compilation.hooks.processAssets.tap(
+            {
+              name: 'cumulo-unplugin-prune',
+              stage,
+            },
+            (assets) => {
+              const deadClasses = computeDeadResponsiveClasses();
+              if (deadClasses.size === 0) {
+                return;
+              }
+              const RawSource = compiler.webpack?.sources?.RawSource;
+              if (!RawSource) {
+                return;
+              }
+              for (const [assetName, asset] of Object.entries(assets)) {
+                if (!assetName.endsWith('.css')) continue;
+                const raw = asset.source();
+                const text = typeof raw === 'string' ? raw : raw.toString('utf-8');
+                const pruned = pruneDeadResponsiveClasses(text, deadClasses);
+                if (pruned !== text) {
+                  compilation.updateAsset(assetName, new RawSource(pruned));
+                }
+              }
+            },
+          );
+        });
       },
     };
   },

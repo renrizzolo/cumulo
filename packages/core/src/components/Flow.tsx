@@ -17,6 +17,7 @@ const flowRecipe = recipe(
         },
       },
     },
+    responsiveVariants: ['space'],
     variants: {
       space: {
         md: { '--flow-space': '1.25em' },

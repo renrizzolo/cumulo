@@ -2,6 +2,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { normalizeBreakpointQuery, type BreakpointQuery } from '@cumulo/css';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -44,6 +46,7 @@ export interface GeneratedThemeResult {
   customVars: string[];
   ignoredVars: string[];
   varValues: Map<string, string>;
+  breakpoints: Record<string, BreakpointQuery>;
 }
 
 function kebabToCamel(str: string): string {
@@ -205,6 +208,84 @@ function resolveBaseCssPath(customBase?: string): string {
   );
 }
 
+function resolveVarValue(
+  rawValue: string,
+  varValues: ReadonlyMap<string, string>,
+  maxDepth = 4,
+): string {
+  let current = rawValue.trim();
+  for (let i = 0; i < maxDepth; i++) {
+    const varRef = current.match(/^var\(\s*(--[a-zA-Z0-9_-]+)(?:\s*,\s*([^)]+))?\s*\)$/);
+    if (!varRef) {
+      break;
+    }
+    const referenced = varValues.get(varRef[1]);
+    if (referenced) {
+      current = referenced.trim();
+    } else if (varRef[2]) {
+      current = varRef[2].trim();
+    } else {
+      break;
+    }
+  }
+  return current;
+}
+
+/**
+ * Extracts ordered breakpoint queries from `--theme-breakpoint-*` (and custom `--breakpoint-*`)
+ * CSS custom properties, resolving `var(...)` aliases and normalizing lengths into `@media (min-width: ...)`.
+ */
+export function extractBreakpointsFromVars(
+  varValues: ReadonlyMap<string, string>,
+  canonicalVars: readonly string[],
+): Record<string, BreakpointQuery> {
+  const result: Record<string, BreakpointQuery> = {};
+  for (const name of canonicalVars) {
+    let bpKey: string | undefined;
+    if (name.startsWith('--theme-breakpoint-')) {
+      bpKey = kebabToCamel(name.slice('--theme-breakpoint-'.length));
+    } else if (name.startsWith('--breakpoint-')) {
+      bpKey = kebabToCamel(name.slice('--breakpoint-'.length));
+    }
+    if (!bpKey) continue;
+
+    const raw = varValues.get(name);
+    if (!raw) continue;
+    const resolved = resolveVarValue(raw, varValues);
+    result[bpKey] = normalizeBreakpointQuery(resolved);
+  }
+  return result;
+}
+
+function serializeBreakpoints(
+  breakpoints: Readonly<Record<string, BreakpointQuery>>,
+  rawValues: ReadonlyMap<string, string>,
+): string {
+  const lines: string[] = ['{'];
+  for (const [key, query] of Object.entries(breakpoints)) {
+    const formattedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : JSON.stringify(key);
+    const raw = rawValues.get(key);
+    if (raw) {
+      lines.push(`  /** ${raw.replace(/\*\//g, '* /')} */`);
+    }
+    lines.push(`  ${formattedKey}: ${JSON.stringify(query)},`);
+  }
+  lines.push('}');
+  return lines.join('\n');
+}
+
+function serializeBreakpointsAugmentation(
+  breakpoints: Readonly<Record<string, BreakpointQuery>>,
+): string {
+  const keys = Object.keys(breakpoints);
+  if (keys.length === 0) return '';
+  const entries = keys.map((key) => {
+    const formattedKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : JSON.stringify(key);
+    return `    ${formattedKey}: true;`;
+  });
+  return `declare module '@cumulo/css' {\n  interface CustomBreakpoints {\n${entries.join('\n')}\n  }\n}`;
+}
+
 /**
  * Core engine for generating theme contracts and token definitions.
  */
@@ -277,15 +358,44 @@ export async function generateTheme(
     }
   }
 
-  // 3. Build contract tree in strict source order
+  // 3. Build contract tree & breakpoints in strict source order
   const contractTree = buildTreeFromVars(canonicalVars);
+  const breakpoints = extractBreakpointsFromVars(varValues, canonicalVars);
+  const breakpointRawValues = new Map<string, string>();
+  for (const name of canonicalVars) {
+    let bpKey: string | undefined;
+    if (name.startsWith('--theme-breakpoint-')) {
+      bpKey = kebabToCamel(name.slice('--theme-breakpoint-'.length));
+    } else if (name.startsWith('--breakpoint-')) {
+      bpKey = kebabToCamel(name.slice('--breakpoint-'.length));
+    }
+    if (bpKey) {
+      const raw = varValues.get(name);
+      if (raw) {
+        breakpointRawValues.set(bpKey, resolveVarValue(raw, varValues));
+      }
+    }
+  }
+
+  const hasCustomBreakpoints =
+    customVars.some((v) => v.startsWith('--theme-breakpoint-') || v.startsWith('--breakpoint-')) ||
+    overriddenVars.some((v) => v.startsWith('--theme-breakpoint-'));
 
   const serializedTree = serializeObjectWithComments(contractTree, varValues);
+  const serializedBreakpoints = serializeBreakpoints(breakpoints, breakpointRawValues);
   const metaAttachment = `Object.defineProperty(vars, Symbol.for('__CUMULO_META__'), {
   value: { kind: 'contract' },
   enumerable: false,
   configurable: true,
 });`;
+
+  const breakpointsBlock =
+    Object.keys(breakpoints).length > 0
+      ? `
+export const breakpoints = ${serializedBreakpoints} as const;
+
+export type ThemeBreakpoints = typeof breakpoints;`
+      : '';
 
   const endContent = `
 export const vars = ${serializedTree} as const;
@@ -293,6 +403,7 @@ export const vars = ${serializedTree} as const;
 ${metaAttachment}
 
 export type ThemeVars = typeof vars;
+${breakpointsBlock}
 
 // union of all the var values ("var(--surface-primary-hover)")
 export type VarValue<T = ThemeVars> = T extends string
@@ -314,6 +425,10 @@ export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends
           : VarPath<T[K], \`\${Prefix}.\${K}\`>;
     }[keyof T & string];`;
 
+  const standaloneAugmentation = hasCustomBreakpoints
+    ? `\n\n${serializeBreakpointsAugmentation(breakpoints)}`
+    : '';
+
   // 5. Generate contract.ts content
   const contractContent = `// Auto-generated from theme.css by @cumulo/core theme generator
 
@@ -323,7 +438,7 @@ export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends
   // 6. Generate standalone file content (when exporting a single file for consumer apps)
   const standaloneContent = `// Auto-generated by @cumulo/core theme generator
 
-    ${endContent}
+    ${endContent}${standaloneAugmentation}
 `;
 
   return {
@@ -334,6 +449,7 @@ export type VarPath<T = typeof vars, Prefix extends string = 'vars'> = T extends
     customVars,
     ignoredVars,
     varValues,
+    breakpoints,
   };
 }
 

@@ -1,5 +1,7 @@
 import readline from 'node:readline';
 
+import { normalizeBreakpointQuery, type BreakpointMap, type BreakpointQuery } from '@cumulo/css';
+
 import {
   extractCss,
   syncThemeContract,
@@ -46,6 +48,38 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
+function parseBreakpointsPayload(raw: unknown): BreakpointMap | undefined {
+  if (!raw) {
+    return undefined;
+  }
+
+  const out: Record<string, BreakpointQuery> = {};
+  let count = 0;
+
+  if (Array.isArray(raw)) {
+    for (const item of raw) {
+      if (
+        Array.isArray(item) &&
+        item.length === 2 &&
+        typeof item[0] === 'string' &&
+        typeof item[1] === 'string'
+      ) {
+        out[item[0]] = normalizeBreakpointQuery(item[1]);
+        count++;
+      }
+    }
+  } else if (isRecord(raw)) {
+    for (const [key, value] of Object.entries(raw)) {
+      if (typeof value === 'string') {
+        out[key] = normalizeBreakpointQuery(value);
+        count++;
+      }
+    }
+  }
+
+  return count > 0 ? out : undefined;
+}
+
 function parseRequest(line: string, defaultProjectRoot?: string): WorkerRequest | null {
   const parsed: unknown = JSON.parse(line);
   if (!isRecord(parsed)) {
@@ -71,12 +105,14 @@ function parseRequest(line: string, defaultProjectRoot?: string): WorkerRequest 
   if (typeof parsed.filePath !== 'string') {
     return null;
   }
+  const breakpoints = parseBreakpointsPayload(parsed.breakpoints);
   return {
     type: 'extract',
     request: {
       filePath: parsed.filePath,
       code: typeof parsed.code === 'string' ? parsed.code : undefined,
       projectRoot: typeof parsed.projectRoot === 'string' ? parsed.projectRoot : defaultProjectRoot,
+      ...(breakpoints ? { breakpoints } : {}),
     },
   };
 }
@@ -87,6 +123,7 @@ function writeResponse(result: ExtractCssResult): void {
 
 async function main(): Promise<void> {
   const defaultProjectRoot = parseProjectRootArg(process.argv.slice(2));
+  let syncedThemeBreakpoints: BreakpointMap | undefined;
   const rl = readline.createInterface({
     input: process.stdin,
     crlfDelay: Infinity,
@@ -110,7 +147,8 @@ async function main(): Promise<void> {
       }
 
       if (parsed.type === 'syncTheme') {
-        await syncThemeContract(parsed.theme, parsed.projectRoot);
+        const synced = await syncThemeContract(parsed.theme, parsed.projectRoot);
+        syncedThemeBreakpoints = synced.breakpoints;
         writeResponse({
           css: '',
           dependencies: [],
@@ -118,7 +156,11 @@ async function main(): Promise<void> {
         continue;
       }
 
-      const result = await extractCss(parsed.request);
+      const effectiveRequest: ExtractCssRequest = {
+        ...parsed.request,
+        breakpoints: parsed.request.breakpoints ?? syncedThemeBreakpoints,
+      };
+      const result = await extractCss(effectiveRequest);
       writeResponse(result);
     } catch (err: unknown) {
       const message = err instanceof Error ? (err.stack ?? err.message) : String(err);

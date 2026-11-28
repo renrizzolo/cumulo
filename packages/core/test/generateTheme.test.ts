@@ -215,4 +215,45 @@ describe('Theme Generator & CLI', () => {
       fs.rmSync(tempDir, { recursive: true, force: true });
     }
   });
+
+  it('extracts default breakpoints matching Container sizes from theme.css', async () => {
+    const result = await generateTheme();
+
+    expect(result.breakpoints).toEqual({
+      sm: '@media (min-width: 640px)',
+      md: '@media (min-width: 768px)',
+      lg: '@media (min-width: 1024px)',
+      xl: '@media (min-width: 1280px)',
+      '2xl': '@media (min-width: 1440px)',
+    });
+
+    expect(result.contractCode).toContain('export const breakpoints = {');
+    expect(result.contractCode).toContain("md: '@media (min-width: 768px)'");
+    expect(result.contractCode).toContain('export type ThemeBreakpoints = typeof breakpoints;');
+    // Default theme without overrides should not emit CustomBreakpoints augmentation
+    expect(result.contractCode).not.toContain("declare module '@cumulo/css'");
+  });
+
+  it('resolves custom breakpoint overrides, var() aliases, and emits CustomBreakpoints augmentation', async () => {
+    const customCss = `
+      :root {
+        --theme-container-md: 800px;
+        --theme-breakpoint-md: var(--theme-container-md);
+        --theme-breakpoint-3xl: 1920px;
+      }
+    `;
+
+    const result = await generateTheme({
+      customCssContent: customCss,
+      includeCustomVars: true,
+    });
+
+    expect(result.breakpoints.md).toBe('@media (min-width: 800px)');
+    expect(result.breakpoints['3xl']).toBe('@media (min-width: 1920px)');
+    expect(result.standaloneCode).toContain("md: '@media (min-width: 800px)'");
+    expect(result.standaloneCode).toContain("'3xl': '@media (min-width: 1920px)'");
+    expect(result.standaloneCode).toContain("declare module '@cumulo/css'");
+    expect(result.standaloneCode).toContain('interface CustomBreakpoints');
+    expect(result.standaloneCode).toContain("'3xl': true;");
+  });
 });

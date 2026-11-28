@@ -7,13 +7,18 @@ import { describe, it, expect, vi } from 'vitest';
 import {
   Alert,
   Button,
+  Container,
+  Flow,
   Grid,
+  HStack,
   Input,
   Kbd,
   Link,
   Select,
   createSelect,
   Spinner,
+  Stack,
+  VStack,
 } from '../src/index.js';
 
 describe('Button loading state', () => {
@@ -148,5 +153,31 @@ describe('Grid, Spinner, Kbd, and Link primitives', () => {
     const link = screen.getByRole('link', { name: 'External Docs' });
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('accepts responsive object props on Stack, HStack, VStack, Grid, Container, and Flow', () => {
+    render(
+      <Container size={{ initial: 'sm', lg: 'xl' }} padding={{ initial: 'sm', md: 'lg' }}>
+        <Flow space={{ initial: 'md', lg: 'xl' }}>
+          <Stack direction={{ initial: 'column', md: 'row' }} gap={{ initial: 'sm', lg: 'xl' }}>
+            <HStack direction={{ md: 'column' }} gap={{ initial: 'xs', md: 'md' }}>
+              <span>HStack Child</span>
+            </HStack>
+            <VStack gap={{ initial: 'xs', xl: 'lg' }}>
+              <span>VStack Child</span>
+            </VStack>
+          </Stack>
+          <Grid.Root columns={{ initial: 1, md: 2, lg: 3 }} gap={{ initial: 'sm', lg: 'lg' }}>
+            <Grid.Item colSpan={{ initial: 1, md: 2 }}>
+              <span>Grid Item</span>
+            </Grid.Item>
+          </Grid.Root>
+        </Flow>
+      </Container>,
+    );
+
+    expect(screen.getByText('HStack Child')).toBeInTheDocument();
+    expect(screen.getByText('VStack Child')).toBeInTheDocument();
+    expect(screen.getByText('Grid Item')).toBeInTheDocument();
   });
 });

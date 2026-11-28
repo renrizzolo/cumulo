@@ -1,4 +1,4 @@
-import { recipe, cx, type RecipeVariants } from '@cumulo/css';
+import { recipe, cx, type RecipeVariants, type ResponsiveValue } from '@cumulo/css';
 import React from 'react';
 
 import type { ElementProps } from '../ElementProps.js';
@@ -11,6 +11,7 @@ const stackRecipe = recipe(
     base: {
       display: 'flex',
     },
+    responsiveVariants: ['direction', 'gap', 'align', 'justify', 'wrap'],
     variants: {
       direction: {
         row: { flexDirection: 'row' },
@@ -87,6 +88,19 @@ export interface StackProps extends ElementProps<HTMLElement> {
   children?: React.ReactNode;
 }
 
+function withInitialDefault<V extends string>(
+  value: ResponsiveValue<V> | undefined,
+  fallback: NoInfer<V>,
+): ResponsiveValue<V> {
+  if (value === undefined) {
+    return fallback;
+  }
+  if (typeof value === 'object' && value !== null && value.initial === undefined) {
+    return { ...value, initial: fallback };
+  }
+  return value;
+}
+
 export function Stack({
   as: Component = 'div',
   direction = 'column',
@@ -115,14 +129,16 @@ export function Stack({
   );
 }
 
-export function HStack({
-  direction = 'row',
-  align = 'center',
-  ...props
-}: StackProps): React.JSX.Element {
-  return <Stack direction={direction} align={align} {...props} />;
+export function HStack({ direction, align, ...props }: StackProps): React.JSX.Element {
+  return (
+    <Stack
+      direction={withInitialDefault(direction, 'row')}
+      align={withInitialDefault(align, 'center')}
+      {...props}
+    />
+  );
 }
 
-export function VStack({ direction = 'column', ...props }: StackProps): React.JSX.Element {
-  return <Stack direction={direction} {...props} />;
+export function VStack({ direction, ...props }: StackProps): React.JSX.Element {
+  return <Stack direction={withInitialDefault(direction, 'column')} {...props} />;
 }

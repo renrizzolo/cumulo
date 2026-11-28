@@ -6,7 +6,14 @@
 export type { ElementProps } from './ElementProps.js';
 
 // Contract
-export { vars, type ThemeVars, type VarPath, type VarValue } from './contract.js';
+export {
+  vars,
+  breakpoints,
+  type ThemeVars,
+  type ThemeBreakpoints,
+  type VarPath,
+  type VarValue,
+} from './contract.js';
 
 // Components
 export {

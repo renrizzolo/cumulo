@@ -3,7 +3,7 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { LAYER_ORDER_STATEMENT } from '@cumulo/css';
+import { LAYER_ORDER_STATEMENT, type BreakpointMap, type ResponsiveRuleEntry } from '@cumulo/css';
 import { createJiti, type Jiti } from 'jiti';
 
 import type { CumuloPluginOptions } from '../types.js';
@@ -24,10 +24,17 @@ export interface ExtractCssRequest {
    * Defaults to `true`.
    */
   rewrite?: boolean;
+  /**
+   * Optional breakpoint map to register in `@cumulo/css` prior to evaluating this module.
+   */
+  breakpoints?: BreakpointMap;
 }
 
 export interface ExtractCssResult {
   css: string;
+  baseCss?: string;
+  responsiveRules?: ResponsiveRuleEntry[];
+  conditionOrder?: readonly string[];
   code?: string;
   dependencies: string[];
   warning?: string;
@@ -35,6 +42,9 @@ export interface ExtractCssResult {
 
 export interface ExtractAndRewriteResult {
   css: string;
+  baseCss?: string;
+  responsiveRules?: ResponsiveRuleEntry[];
+  conditionOrder?: readonly string[];
   code?: string;
 }
 
@@ -46,11 +56,17 @@ declare global {
 interface CumuloSheet {
   clear: () => void;
   getCss: () => string;
+  getBaseCss?: () => string;
+  getResponsiveRules?: () => ResponsiveRuleEntry[];
+  getConditionOrder?: () => readonly string[];
   insertRule?: (rule: string) => void;
+  insertResponsiveRule?: (input: unknown) => void;
 }
 
 interface CumuloCssModule {
   sheet: CumuloSheet;
+  configureBreakpoints?: (breakpoints: BreakpointMap) => void;
+  resetBreakpoints?: () => void;
 }
 
 function isCumuloCssModule(value: unknown): value is CumuloCssModule {
@@ -369,6 +385,22 @@ export function extractCss(request: ExtractCssRequest): Promise<ExtractCssResult
   return result;
 }
 
+function collectSheetSnapshot(sheet: CumuloSheet): {
+  css: string;
+  baseCss: string;
+  responsiveRules: ResponsiveRuleEntry[];
+  conditionOrder: readonly string[];
+} {
+  const css = ensureLayerOrder(sheet.getCss());
+  const baseCss =
+    typeof sheet.getBaseCss === 'function' ? ensureLayerOrder(sheet.getBaseCss()) : css;
+  const responsiveRules =
+    typeof sheet.getResponsiveRules === 'function' ? sheet.getResponsiveRules() : [];
+  const conditionOrder =
+    typeof sheet.getConditionOrder === 'function' ? [...sheet.getConditionOrder()] : [];
+  return { css, baseCss, responsiveRules, conditionOrder };
+}
+
 async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCssResult> {
   const absolutePath = path.isAbsolute(request.filePath)
     ? path.resolve(request.filePath)
@@ -400,17 +432,33 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
 
   const sheet = cumuloCss.sheet;
   const originalInsertRule = sheet.insertRule;
+  const originalInsertResponsiveRule = sheet.insertResponsiveRule;
   const isolateDependencies = request.isolateDependencies === true;
   const shouldRewrite = request.rewrite !== false;
+  const hasCustomBreakpoints =
+    request.breakpoints !== undefined && typeof cumuloCss.configureBreakpoints === 'function';
 
   globalThis.__cumuloExtractorDepDepth = 0;
 
-  if (isolateDependencies && typeof originalInsertRule === 'function') {
-    sheet.insertRule = (rule: string): void => {
-      if ((globalThis.__cumuloExtractorDepDepth ?? 0) === 0) {
-        originalInsertRule.call(sheet, rule);
-      }
-    };
+  if (hasCustomBreakpoints && request.breakpoints) {
+    cumuloCss.configureBreakpoints?.(request.breakpoints);
+  }
+
+  if (isolateDependencies) {
+    if (typeof originalInsertRule === 'function') {
+      sheet.insertRule = (rule: string): void => {
+        if ((globalThis.__cumuloExtractorDepDepth ?? 0) === 0) {
+          originalInsertRule.call(sheet, rule);
+        }
+      };
+    }
+    if (typeof originalInsertResponsiveRule === 'function') {
+      sheet.insertResponsiveRule = (input: unknown): void => {
+        if ((globalThis.__cumuloExtractorDepDepth ?? 0) === 0) {
+          originalInsertResponsiveRule.call(sheet, input);
+        }
+      };
+    }
   }
 
   let evalError: unknown;
@@ -444,11 +492,14 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
         await ctx.jiti.evalModule(codeToEval, {
           filename: absolutePath,
         });
-        const css = ensureLayerOrder(sheet.getCss());
+        const snapshot = collectSheetSnapshot(sheet);
         const rewrittenCode = rewritePlan ? rewritePlan.applyRewrites(recorded) : null;
-        if (css || rewrittenCode) {
+        if (snapshot.css || rewrittenCode) {
           return {
-            css,
+            css: snapshot.css,
+            baseCss: snapshot.baseCss,
+            responsiveRules: snapshot.responsiveRules,
+            conditionOrder: snapshot.conditionOrder,
             ...(rewrittenCode ? { code: rewrittenCode } : {}),
             dependencies: Array.from(ctx.dependencies),
           };
@@ -468,9 +519,12 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
         sheet.clear();
         globalThis.__cumuloExtractorDepDepth = 0;
         await ctx.jiti.import(absolutePath);
-        const css = ensureLayerOrder(sheet.getCss());
+        const snapshot = collectSheetSnapshot(sheet);
         return {
-          css,
+          css: snapshot.css,
+          baseCss: snapshot.baseCss,
+          responsiveRules: snapshot.responsiveRules,
+          conditionOrder: snapshot.conditionOrder,
           dependencies: Array.from(ctx.dependencies),
         };
       } catch (fileErr: unknown) {
@@ -487,8 +541,16 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
       dependencies: Array.from(ctx.dependencies),
     };
   } finally {
-    if (isolateDependencies && typeof originalInsertRule === 'function') {
-      sheet.insertRule = originalInsertRule;
+    if (isolateDependencies) {
+      if (typeof originalInsertRule === 'function') {
+        sheet.insertRule = originalInsertRule;
+      }
+      if (typeof originalInsertResponsiveRule === 'function') {
+        sheet.insertResponsiveRule = originalInsertResponsiveRule;
+      }
+    }
+    if (hasCustomBreakpoints) {
+      cumuloCss.resetBreakpoints?.();
     }
     globalThis.__cumuloExtractorDepDepth = 0;
     globalThis.__cumuloRecord = undefined;
@@ -498,8 +560,11 @@ async function extractCssInternal(request: ExtractCssRequest): Promise<ExtractCs
 /**
  * Evaluates a file and extracts all CSS rules generated by `@cumulo/css`.
  */
-export async function extractCssFromFile(filePath: string): Promise<string> {
-  const result = await extractCss({ filePath, rewrite: false });
+export async function extractCssFromFile(
+  filePath: string,
+  breakpoints?: BreakpointMap,
+): Promise<string> {
+  const result = await extractCss({ filePath, rewrite: false, breakpoints });
   if (result.warning) {
     logExtractionWarning(filePath, result.warning);
   }
@@ -509,8 +574,12 @@ export async function extractCssFromFile(filePath: string): Promise<string> {
 /**
  * Evaluates an in-memory code string and extracts all CSS rules generated.
  */
-export async function extractCssFromCode(code: string, id: string): Promise<string> {
-  const result = await extractCss({ filePath: id, code, rewrite: false });
+export async function extractCssFromCode(
+  code: string,
+  id: string,
+  breakpoints?: BreakpointMap,
+): Promise<string> {
+  const result = await extractCss({ filePath: id, code, rewrite: false, breakpoints });
   if (result.warning) {
     logExtractionWarning(id, result.warning);
   }
@@ -526,13 +595,17 @@ export async function extractCssFromCode(code: string, id: string): Promise<stri
 export async function extractAndRewrite(
   code: string,
   id: string,
+  breakpoints?: BreakpointMap,
 ): Promise<ExtractAndRewriteResult> {
-  const result = await extractCss({ filePath: id, code, rewrite: true });
+  const result = await extractCss({ filePath: id, code, rewrite: true, breakpoints });
   if (result.warning) {
     logExtractionWarning(id, result.warning);
   }
   return {
     css: result.css,
+    baseCss: result.baseCss,
+    responsiveRules: result.responsiveRules,
+    conditionOrder: result.conditionOrder,
     ...(result.code ? { code: result.code } : {}),
   };
 }

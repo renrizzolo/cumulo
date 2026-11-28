@@ -13,6 +13,7 @@ const containerRecipe = recipe(
       marginLeft: 'auto',
       marginRight: 'auto',
     },
+    responsiveVariants: ['size', 'padding'],
     variants: {
       size: {
         sm: { maxWidth: vars.container.sm },

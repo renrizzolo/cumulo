@@ -1,4 +1,5 @@
 import { hash } from './hash.js';
+import { sanitizeConditionKey, toResponsiveLayerName } from './layers.js';
 import { attachMeta } from './meta.js';
 import { runtimeStyle } from './runtime.js';
 import { sheet } from './sheet.js';
@@ -277,4 +278,49 @@ export function create<T extends StyleDefinitions>(
     }
   }
   return attachMeta(result, { kind: 'create', entries });
+}
+
+export interface CompileResponsiveRuleOptions {
+  readonly conditionKey: string;
+  readonly atRule: string;
+  readonly layer?: CssLayer;
+  readonly variantName: string;
+  readonly optionName: string;
+}
+
+/**
+ * Compiles a variant `StyleRule` for a specific responsive condition (`@media` / `@container`),
+ * hashing purely by `(layer, atRule, rule)` so identical responsive declarations across
+ * different recipes share a single class name and CSS rule globally.
+ */
+export function compileResponsiveStyleRule(
+  rule: StyleRule,
+  options: CompileResponsiveRuleOptions,
+): string {
+  const serialized = JSON.stringify(rule);
+  if (serialized === '{}') {
+    return '';
+  }
+
+  const responsiveLayer =
+    options.layer === 'components' ? toResponsiveLayerName(options.conditionKey) : options.layer;
+  const safeKey = sanitizeConditionKey(options.conditionKey);
+  const className = `rv-${safeKey}-${hash(`${responsiveLayer ?? ''}\0${options.atRule}\0${serialized}`)}`;
+  const { cssRules } = compileStyleRule(rule, className);
+
+  if (cssRules.length === 0) {
+    return '';
+  }
+
+  sheet.insertResponsiveRule({
+    className,
+    conditionKey: options.conditionKey,
+    atRule: options.atRule,
+    layer: responsiveLayer,
+    innerRules: cssRules,
+    variantName: options.variantName,
+    optionName: options.optionName,
+  });
+
+  return className;
 }

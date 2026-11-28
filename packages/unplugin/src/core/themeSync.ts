@@ -3,12 +3,15 @@ import { createRequire } from 'node:module';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import type { CumuloThemeOptions } from '../types.js';
+import type { BreakpointMap, BreakpointQuery } from '@cumulo/css';
+
+import type { CumuloPluginOptions, CumuloThemeOptions } from '../types.js';
 
 export interface SyncThemeResult {
   cssPath: string;
   outPath: string;
   written: boolean;
+  breakpoints?: BreakpointMap;
 }
 
 interface CoreCliModule {
@@ -19,6 +22,12 @@ interface CoreCliModule {
     includeCustomVars?: boolean;
     silent?: boolean;
   }) => Promise<boolean>;
+  generateTheme?: (options: {
+    customCssPath?: string;
+    baseCssPath?: string;
+    includeCustomVars?: boolean;
+    silent?: boolean;
+  }) => Promise<{ breakpoints?: Record<string, BreakpointQuery> }>;
 }
 
 function isCoreCliModule(value: unknown): value is CoreCliModule {
@@ -81,6 +90,7 @@ async function loadCoreCli(projectRoot: string): Promise<CoreCliModule> {
 }
 
 const lastSyncedStampByOut = new Map<string, string>();
+const lastSyncedBreakpointsByOut = new Map<string, BreakpointMap | undefined>();
 const inFlightByOut = new Map<string, Promise<SyncThemeResult>>();
 
 /**
@@ -107,7 +117,12 @@ export function syncThemeContract(
   ].join('|');
 
   if (lastSyncedStampByOut.get(outPath) === stamp && fs.existsSync(outPath)) {
-    return Promise.resolve({ cssPath, outPath, written: false });
+    return Promise.resolve({
+      cssPath,
+      outPath,
+      written: false,
+      breakpoints: lastSyncedBreakpointsByOut.get(outPath),
+    });
   }
 
   const existing = inFlightByOut.get(outPath);
@@ -124,12 +139,43 @@ export function syncThemeContract(
       includeCustomVars,
       silent: true,
     });
+    let breakpoints: BreakpointMap | undefined;
+    if (typeof cli.generateTheme === 'function') {
+      const generated = await cli.generateTheme({
+        customCssPath: cssPath,
+        baseCssPath,
+        includeCustomVars,
+        silent: true,
+      });
+      if (generated.breakpoints && Object.keys(generated.breakpoints).length > 0) {
+        breakpoints = generated.breakpoints;
+      }
+    }
     lastSyncedStampByOut.set(outPath, stamp);
-    return { cssPath, outPath, written };
+    lastSyncedBreakpointsByOut.set(outPath, breakpoints);
+    return { cssPath, outPath, written, breakpoints };
   })().finally(() => {
     inFlightByOut.delete(outPath);
   });
 
   inFlightByOut.set(outPath, task);
   return task;
+}
+
+/**
+ * Resolves the active breakpoint map for a plugin invocation:
+ * explicit `options.breakpoints` takes precedence over breakpoints extracted from `options.theme`.
+ */
+export async function resolvePluginBreakpoints(
+  options?: CumuloPluginOptions,
+  projectRoot: string = process.cwd(),
+): Promise<BreakpointMap | undefined> {
+  if (options?.breakpoints) {
+    return options.breakpoints;
+  }
+  if (options?.theme) {
+    const synced = await syncThemeContract(options.theme, projectRoot);
+    return synced.breakpoints;
+  }
+  return undefined;
 }
