@@ -103,3 +103,5 @@ export function Divider({
     <hr ref={ref} aria-orientation={orientation} className={cx(classes, className)} {...props} />
   );
 }
+
+Divider.displayName = 'Divider';

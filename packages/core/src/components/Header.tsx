@@ -62,3 +62,5 @@ export function Header({
 
   return content;
 }
+
+Header.displayName = 'Header';

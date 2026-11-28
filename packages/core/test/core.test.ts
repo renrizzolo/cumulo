@@ -3,7 +3,17 @@ import { describe, expect, it } from 'vitest';
 import { checkboxRecipe } from '../src/components/Checkbox.js';
 import { radioRecipe } from '../src/components/Radio.js';
 import { switchRecipe } from '../src/components/Switch.js';
+import * as core from '../src/index.js';
 import { vars } from '../src/index.js';
+
+function hasDisplayName(value: unknown): value is { displayName: string } {
+  return (
+    (typeof value === 'function' || (typeof value === 'object' && value !== null)) &&
+    'displayName' in value &&
+    typeof value.displayName === 'string' &&
+    value.displayName.length > 0
+  );
+}
 
 describe('@cumulo/core', () => {
   it('exports theme contract dynamically matching CSS variables in theme.css', () => {
@@ -49,5 +59,31 @@ describe('@cumulo/core', () => {
     expect(switchRecipe({ checked: true, intent: 'error' })).toContain(switchCvClass);
     expect(switchRecipe({ checked: true, intent: 'default' })).not.toContain(switchCvClass);
     expect(switchRecipe({ checked: false, intent: 'error' })).not.toContain(switchCvClass);
+  });
+
+  it('sets explicit displayName on every exported component', () => {
+    const missing: string[] = [];
+
+    for (const [exportName, value] of Object.entries(core)) {
+      if (!/^[A-Z]/.test(exportName)) continue;
+
+      if (typeof value === 'function') {
+        if (!hasDisplayName(value)) {
+          missing.push(exportName);
+        }
+      } else if (typeof value === 'object' && value !== null) {
+        for (const [subName, subValue] of Object.entries(value)) {
+          if (
+            /^[A-Z]/.test(subName) &&
+            typeof subValue === 'function' &&
+            !hasDisplayName(subValue)
+          ) {
+            missing.push(`${exportName}.${subName}`);
+          }
+        }
+      }
+    }
+
+    expect(missing).toEqual([]);
   });
 });
