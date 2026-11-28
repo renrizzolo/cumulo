@@ -151,3 +151,5 @@ export function Text({
     children,
   );
 }
+
+Text.displayName = 'Text';

@@ -38,3 +38,5 @@ export function Label({
     </label>
   );
 }
+
+Label.displayName = 'Label';

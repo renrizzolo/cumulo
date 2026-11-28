@@ -75,3 +75,5 @@ export function Code({
     </code>
   );
 }
+
+Code.displayName = 'Code';

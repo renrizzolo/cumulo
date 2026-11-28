@@ -106,3 +106,5 @@ export function Heading({
     children,
   );
 }
+
+Heading.displayName = 'Heading';

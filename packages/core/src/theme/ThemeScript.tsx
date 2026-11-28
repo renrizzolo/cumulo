@@ -53,3 +53,5 @@ export function ThemeScript({
     />
   );
 }
+
+ThemeScript.displayName = 'ThemeScript';

@@ -62,3 +62,5 @@ export function Flow({
     children,
   );
 }
+
+Flow.displayName = 'Flow';

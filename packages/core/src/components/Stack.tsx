@@ -142,3 +142,7 @@ export function HStack({ direction, align, ...props }: StackProps): React.JSX.El
 export function VStack({ direction, ...props }: StackProps): React.JSX.Element {
   return <Stack direction={withInitialDefault(direction, 'column')} {...props} />;
 }
+
+Stack.displayName = 'Stack';
+HStack.displayName = 'HStack';
+VStack.displayName = 'VStack';
